@@ -34,22 +34,8 @@ class GenerateTwitter extends RSSGenerator
         return 'twitter';
     }
 
-    protected function convertResponseToItems(ZttpResponse $response): Collection
-    {
-        $xml = $response->body();
-        $xml = simplexml_load_string($xml, \SimpleXMLElement::class, LIBXML_NOCDATA)->children()->children();
-        $xml = json_decode(json_encode($xml), true);
-
-        return collect($xml)->recursive()->get('item');
-    }
-
     protected function getServiceUrl(string $group): string
     {
         return 'http://fetchrss.com/rss/5ec916af8a93f8a9418b45685ec9169d8a93f853408b4567.xml';
-    }
-
-    protected function getCachePrefix(): string
-    {
-        return 'twitter';
     }
 }

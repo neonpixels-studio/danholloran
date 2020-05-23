@@ -5,6 +5,7 @@ namespace App\Support;
 use Zttp\Zttp;
 use Carbon\Carbon;
 use Zttp\ZttpResponse;
+use Illuminate\Support\Str;
 use TightenCo\Jigsaw\Jigsaw;
 use Illuminate\Support\Collection;
 use League\HTMLToMarkdown\HtmlConverter;
@@ -20,12 +21,7 @@ abstract class RSSGenerator
 
     abstract protected function collectionName(): string;
 
-    abstract protected function convertResponseToItems(ZttpResponse $response): Collection;
-
     abstract protected function getServiceUrl(string $group): string;
-
-    abstract protected function getCachePrefix(): string;
-
 
     protected function setJigsaw(Jigsaw $jigsaw): RSSGenerator
     {
@@ -53,9 +49,16 @@ abstract class RSSGenerator
 
             $this->jigsaw->writeSourceFile(
                 $path,
-                $this->convertItemToMarkdown($item)
+                trim($this->removeAdds($this->convertItemToMarkdown($item)))
             );
         });
+    }
+
+    protected function removeAdds(string $content)
+    {
+        return str_replace([
+            '<span style="font-size:12px; color: gray;">(Feed generated with [FetchRSS](http://fetchrss.com))</span>',
+        ], '', $content);
     }
 
     protected function convertItemToMarkdown(RSSItem $item): string
@@ -146,7 +149,7 @@ abstract class RSSGenerator
 
     protected function getCachePath(string $group): string
     {
-        return ".cache/{$this->getCachePrefix()}-{$group}.json";
+        return ".cache/{$this->collectionName()}-{$group}.json";
     }
 
     protected function formatItems(Collection $items, string $group): Collection
@@ -154,5 +157,26 @@ abstract class RSSGenerator
         return $items->map(function ($item) use ($group) {
             return $this->formatItem($item, $group);
         });
+    }
+
+    protected function isMultiLevel($item)
+    {
+        return $item->keys()->reject(function ($key) {
+            return is_numeric($key);
+        })->isEmpty();
+    }
+
+    protected function convertResponseToItems(ZttpResponse $response): Collection
+    {
+        $xml = $response->body();
+        $xml = simplexml_load_string($xml, \SimpleXMLElement::class, LIBXML_NOCDATA)->children()->children();
+        $xml = json_decode(json_encode($xml), true);
+
+        $item = collect($xml)->recursive()->get('item', collect([]));
+        if ($this->isMultiLevel($item)) {
+            return $item;
+        }
+
+        return collect([$item])->recursive();
     }
 }

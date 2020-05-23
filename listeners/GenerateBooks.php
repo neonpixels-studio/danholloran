@@ -42,31 +42,9 @@ class GenerateBooks extends RSSGenerator
         return 'books';
     }
 
-    protected function convertResponseToItems(ZttpResponse $response): Collection
-    {
-        $xml = $response->body();
-        $xml = simplexml_load_string($xml, \SimpleXMLElement::class, LIBXML_NOCDATA)->children()->children();
-        $xml = json_decode(json_encode($xml), true);
-
-        $items = collect($xml)->recursive()->get('item', collect([]));
-        $areMultiLevel = $items->keys()->reject(function ($key) {
-            return is_numeric($key);
-        })->isEmpty();
-        if ($areMultiLevel) {
-            return $items;
-        }
-
-        return collect([$items])->recursive();
-    }
-
     protected function getServiceUrl(string $group): string
     {
         $key = 'REDACTED';
         return "https://www.goodreads.com/review/list_rss/51747901?key={$key}&shelf={$group}";
-    }
-
-    protected function getCachePrefix(): string
-    {
-        return 'goodreads';
     }
 }
