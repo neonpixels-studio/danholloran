@@ -231,7 +231,7 @@
 
 {{-- Books --}}
 <div class="container max-w-4xl px-6 pt-10 mx-auto py-10">
-    <h2>Books</h2>
+    <h2>What I'm Reading</h2>
     @include('_partials.currently-reading')
 
     <div class="text-center">

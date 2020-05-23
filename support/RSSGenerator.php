@@ -68,7 +68,7 @@ abstract class RSSGenerator
     protected function convertItemToMarkdown(RSSItem $item): string
     {
         $frontmatter = $item->frontmatter()->map(function ($value, $key) {
-            $value = preg_replace('/"/u', '\\\\\"', $value);
+            $value = preg_replace('/"/u', '&quot;', $value);
 
             return "{$key}: \"{$value}\"";
         })

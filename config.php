@@ -35,15 +35,15 @@ return [
         'books' => [
             'sort' => 'title',
         ],
-        // 'instagram' => [
-        //     'sort' => '-date',
-        // ],
-        // 'youtube' => [
-        //     'sort' => '-date',
-        // ],
-        // 'twitter' => [
-        //     'sort' => '-date',
-        // ],
+        'instagram' => [
+            'sort' => '-date',
+        ],
+        'youtube' => [
+            'sort' => '-date',
+        ],
+        'twitter' => [
+            'sort' => '-date',
+        ],
         'categories' => [
             'path' => '/blog/categories/{filename}',
             'posts' => function ($page, $allPosts) {
