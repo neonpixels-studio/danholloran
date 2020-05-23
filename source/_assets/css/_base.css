@@ -190,6 +190,16 @@ svg {
   }
 }
 
+.button-secondary {
+  @apply shadow-none bg-transparent text-indigo-800 bg-transparent border-indigo-800 border;
+
+  &:hover,
+  &:focus,
+  &:active {
+    @apply text-indigo-500 border-indigo-500;
+  }
+}
+
 [v-cloak] {
   opacity: 0;
 }

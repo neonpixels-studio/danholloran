@@ -32,6 +32,9 @@ return [
         'skills' => [
             'sort' => 'sort_order',
         ],
+        'books' => [
+            'sort' => 'title',
+        ],
         'categories' => [
             'path' => '/blog/categories/{filename}',
             'posts' => function ($page, $allPosts) {

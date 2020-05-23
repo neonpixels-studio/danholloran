@@ -8,8 +8,8 @@
             Hello, I'm <span class="text-indigo-500">Dan Holloran</span>. I'm a Full Stack Developer.
         </h1>
     </div>
-    <img loading="lazy" src="/assets/img/about.jpg"
-        src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=36' }}" width="256" height="256"
+    <img loading="lazy"
+        src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256" height="256"
         alt="About image" class="w-24 h-24 mr-4 bg-contain rounded-full md:h-64 md:w-64 md:my-6 md:ml-10 md:mr-0">
 </div>
 
@@ -229,32 +229,44 @@
     </div>
 </div>
 
-{{-- Blog --}}
-<div class="container max-w-4xl px-6 pt-10 mx-auto">
-    <h2>Blog</h2>
+{{-- Books --}}
+<div class="container max-w-4xl px-6 pt-10 mx-auto py-10">
+    <h2>Books</h2>
+    @include('_partials.currently-reading')
 
-    @foreach ($posts->where('featured', false)->reject(function ($post) {
-    return $post->hidden ?? false;
-    })->take(4)->chunk(2) as $row)
-    <div class="flex flex-col md:flex-row md:-mx-6">
-        @foreach ($row as $post)
-        <div class="w-full md:w-1/2 md:mx-6">
-            @include('_components.post-preview-inline')
+    <div class="text-center">
+        <a href="/books" class="button button-primary button-large">View All</a>
+    </div>
+</div>
+
+{{-- Blog --}}
+<div class="py-10 bg-gray-100">
+    <div class="container max-w-4xl px-6 pt-10 mx-auto">
+        <h2>Blog</h2>
+
+        @foreach ($posts->where('featured', false)->reject(function ($post) {
+        return $post->hidden ?? false;
+        })->take(4)->chunk(2) as $row)
+        <div class="flex flex-col md:flex-row md:-mx-6">
+            @foreach ($row as $post)
+            <div class="w-full md:w-1/2 md:mx-6">
+                @include('_components.post-preview-inline')
+            </div>
+
+            @if (! $loop->last)
+            <hr class="block w-full mt-2 mb-6 border-b md:hidden">
+            @endif
+            @endforeach
         </div>
 
         @if (! $loop->last)
-        <hr class="block w-full mt-2 mb-6 border-b md:hidden">
+        <hr class="w-full mt-2 mb-6 border-b">
         @endif
         @endforeach
-    </div>
 
-    @if (! $loop->last)
-    <hr class="w-full mt-2 mb-6 border-b">
-    @endif
-    @endforeach
-
-    <div class="pt-12 text-center">
-        <a href="/blog/" class="button button-primary">More Posts</a>
+        <div class="pt-12 text-center">
+            <a href="/blog/" class="button button-primary">More Posts</a>
+        </div>
     </div>
 </div>
 @stop

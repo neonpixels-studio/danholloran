@@ -14,5 +14,15 @@
  * });
  */
 
+\Illuminate\Support\Collection::macro('recursive', function () {
+    return $this->map(function ($value) {
+        if (is_array($value) || is_object($value)) {
+            return collect($value)->recursive();
+        }
+        return $value;
+    });
+});
+
 $events->afterBuild(App\Listeners\GenerateSitemap::class);
 $events->afterBuild(App\Listeners\GenerateIndex::class);
+$events->beforeBuild(App\Listeners\GenerateGoodReads::class);
