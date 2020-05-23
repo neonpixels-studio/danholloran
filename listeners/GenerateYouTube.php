@@ -11,6 +11,8 @@ class GenerateYouTube extends RSSGenerator
 {
     protected function formatItem(Collection $item, string $group): RSSItem
     {
+        parse_str(parse_url($item->get('link'), PHP_URL_QUERY), $queryVars);
+
         return new RSSItem(
             $item->get('title'),
             $item->get('description'),
@@ -18,7 +20,9 @@ class GenerateYouTube extends RSSGenerator
                 'link' => $item->get('link'),
                 'date' => $item->get('pubDate'),
                 'guid' => $item->get('guid'),
-            ]
+                'id' => $queryVars['v'],
+            ],
+            $this->collectionName()
         );
     }
 

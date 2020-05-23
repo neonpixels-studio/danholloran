@@ -10,12 +10,14 @@ class RSSItem
     protected $title;
     protected $body;
 
-    public function __construct(string $title, string $body, array $frontmatter)
+    public function __construct(string $title, string $body, array $frontmatter, string $collectionName)
     {
         $this->title = $title;
         $this->body = $body;
+        $this->collectionName = $collectionName;
         $this->frontmatter = collect($frontmatter)->recursive()
             ->put('title', $title)
+            ->put('collectionName', $collectionName)
             ->put('slug', Str::slug($this->title));
     }
 
@@ -39,10 +41,16 @@ class RSSItem
         return $this->frontmatter;
     }
 
+    public function collectionName()
+    {
+        return $this->collectionName;
+    }
+
     public function toArray()
     {
         return [
             'frontmatter' => $this->frontmatter(),
+            'collectionName' => $this->collectionName(),
             'body' => $this->body(),
         ];
     }

@@ -33,7 +33,8 @@ class GenerateBooks extends RSSGenerator
                 'slug' => Str::slug($item->get('title')),
                 'date' => $item->get('pubDate'),
                 'group' => $group,
-            ]
+            ],
+            $this->collectionName()
         );
     }
 

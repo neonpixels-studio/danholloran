@@ -94,7 +94,8 @@ abstract class RSSGenerator
                     return new RSSItem(
                         $frontmatter->get('title'),
                         $item->get('body'),
-                        $frontmatter->toArray()
+                        $frontmatter->toArray(),
+                        $item->get('collectionName')
                     );
                 });
         } catch (\Exception $e) {

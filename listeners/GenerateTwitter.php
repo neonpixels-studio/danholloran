@@ -18,7 +18,8 @@ class GenerateTwitter extends RSSGenerator
                 'link' => $item->get('link'),
                 'date' => $item->get('pubDate'),
                 'guid' => $item->get('guid'),
-            ]
+            ],
+            $this->collectionName()
         );
     }
 
