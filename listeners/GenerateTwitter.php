@@ -9,13 +9,6 @@ use Illuminate\Support\Collection;
 
 class GenerateTwitter extends RSSGenerator
 {
-    protected function groups(): Collection
-    {
-        return collect([
-            'all',
-        ]);
-    }
-
     protected function formatItem(Collection $item, string $group): RSSItem
     {
         return new RSSItem(

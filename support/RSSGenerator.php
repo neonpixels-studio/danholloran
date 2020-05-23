@@ -13,9 +13,6 @@ use League\HTMLToMarkdown\HtmlConverter;
 abstract class RSSGenerator
 {
     protected $jigsaw;
-    // Requires: Collection Name, Jigsaw,Group
-
-    abstract protected function groups(): Collection;
 
     abstract protected function formatItem(Collection $item, string $group): RSSItem;
 
@@ -27,6 +24,13 @@ abstract class RSSGenerator
     {
         $this->jigsaw = $jigsaw;
         return $this;
+    }
+
+    protected function groups(): Collection
+    {
+        return collect([
+            'all',
+        ]);
     }
 
     public function handle(Jigsaw $jigsaw)
