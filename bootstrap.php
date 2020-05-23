@@ -25,4 +25,7 @@
 
 $events->afterBuild(App\Listeners\GenerateSitemap::class);
 $events->afterBuild(App\Listeners\GenerateIndex::class);
-$events->beforeBuild(App\Listeners\GenerateGoodReads::class);
+$events->beforeBuild([
+    App\Listeners\GenerateBooks::class,
+    App\Listeners\GenerateTwitter::class,
+]);
