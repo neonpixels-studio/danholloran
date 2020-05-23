@@ -16,7 +16,7 @@ abstract class RSSGenerator
 
     abstract protected function groups(): Collection;
 
-    abstract protected function formatItem(Collection $item, string $group): Collection;
+    abstract protected function formatItem(Collection $item, string $group): RSSItem;
 
     abstract protected function collectionName(): string;
 
@@ -44,8 +44,9 @@ abstract class RSSGenerator
 
     protected function generateMarkdownForItems(Collection $items): void
     {
-        $items->each(function ($item) {
-            $path = "_{$this->collectionName()}/{$item->get('slug')}.md";
+        $items->each(function (RSSItem $item) {
+            $filename = substr($item->slug(), 0, 200);
+            $path = "_{$this->collectionName()}/{$filename}.md";
             if (file_exists("{$this->jigsaw->getSourcePath()}/{$path}")) {
                 return;
             }
@@ -57,9 +58,9 @@ abstract class RSSGenerator
         });
     }
 
-    protected function convertItemToMarkdown(Collection $item): string
+    protected function convertItemToMarkdown(RSSItem $item): string
     {
-        $frontMatter = $item->except(['body'])->map(function ($value, $key) {
+        $frontmatter = $item->frontmatter()->map(function ($value, $key) {
             $value = preg_replace('/"/u', '\\\\\"', $value);
 
             return "{$key}: \"{$value}\"";
@@ -68,8 +69,8 @@ abstract class RSSGenerator
             ->push('---')
             ->implode("\n");
         return collect([
-            $frontMatter,
-            (new HtmlConverter())->convert($item->get('body', '')),
+            $frontmatter,
+            (new HtmlConverter())->convert($item->body()),
         ])->implode("\n");
     }
 
@@ -79,7 +80,16 @@ abstract class RSSGenerator
 
         try {
             $file = $this->jigsaw->readSourceFile($this->getCachePath($group));
-            return collect(json_decode($file, true))->recursive()->get('items', collect());
+            return collect(json_decode($file, true))->recursive()
+                ->get('items', collect())
+                ->map(function ($item) {
+                    $frontmatter = $item->get('frontmatter', collect());
+                    return new RSSItem(
+                        $frontmatter->get('title'),
+                        $item->get('body'),
+                        $frontmatter->toArray()
+                    );
+                });
         } catch (\Exception $e) {
             return collect();
         }
@@ -93,7 +103,7 @@ abstract class RSSGenerator
 
         try {
             $this->jigsaw->writeSourceFile($this->getCachePath($group), collect([
-                'items' => $this->getItems($group),
+                'items' => $this->getItems($group)->map->toArray(),
                 'lastUpdatedAt' => Carbon::now(),
                 ]));
         } catch (\Exception $e) {
