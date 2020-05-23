@@ -8,8 +8,8 @@ $currentlyReading = $books->where('group', 'currently-reading');
 <div class="mb-6">
 @endif
     @foreach ($currentlyReading as $book)
-        <div class="flex -mx-6">
-            <div class="w-1/3 px-6">
+        <div class="flex -mx-6 flex-wrap">
+            <div class="lg:w-1/3 sm:w-1/2 px-6">
                 <img
                     src="{{ $book->large_image_url }}"
                     alt="{{ $book->title }} cover"
@@ -17,12 +17,14 @@ $currentlyReading = $books->where('group', 'currently-reading');
                     loading="lazy"
                 >
             </div>
-            <div class="w-2/3">
+            <div class="lg:w-2/3 sm:w-1/2 px-6">
                 <h3>{{ $book->title }}</h3>
                 <div class="mb-4">
                     {!! $book->getExcerpt() !!}
                 </div>
-                <a href="{{ $book->link }}" class="button-small button-secondary">View on Goodreads</a>
+                <div class="text-center sm:text-left">
+                    <a href="{{ $book->link }}" class="button-small button-secondary">View on Goodreads</a>
+                </div>
             </div>
         </div>
     @endforeach
