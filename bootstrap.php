@@ -29,4 +29,5 @@ $events->beforeBuild([
     App\Listeners\GenerateBooks::class,
     App\Listeners\GenerateTwitter::class,
     App\Listeners\GenerateYouTube::class,
+    App\Listeners\GenerateInstagram::class,
 ]);
