@@ -258,33 +258,31 @@
 </div>
 
 {{-- Blog --}}
-<div class="py-10 bg-gray-100">
-    <div class="container max-w-4xl px-6 pt-10 mx-auto">
-        <h2>Blog</h2>
+<div class="container max-w-4xl px-6 pt-10 mx-auto">
+    <h2>Blog</h2>
 
-        @foreach ($posts->where('featured', false)->reject(function ($post) {
-        return $post->hidden ?? false;
-        })->take(4)->chunk(2) as $row)
-        <div class="flex flex-col md:flex-row md:-mx-6">
-            @foreach ($row as $post)
-            <div class="w-full md:w-1/2 md:mx-6">
-                @include('_components.post-preview-inline')
-            </div>
-
-            @if (! $loop->last)
-            <hr class="block w-full mt-2 mb-6 border-b md:hidden">
-            @endif
-            @endforeach
+    @foreach ($posts->where('featured', false)->reject(function ($post) {
+    return $post->hidden ?? false;
+    })->take(4)->chunk(2) as $row)
+    <div class="flex flex-col md:flex-row md:-mx-6">
+        @foreach ($row as $post)
+        <div class="w-full md:w-1/2 md:mx-6">
+            @include('_components.post-preview-inline')
         </div>
 
         @if (! $loop->last)
-        <hr class="w-full mt-2 mb-6 border-b">
+        <hr class="block w-full mt-2 mb-6 border-b md:hidden">
         @endif
         @endforeach
+    </div>
 
-        <div class="pt-12 text-center">
-            <a href="/blog/" class="button button-primary">More Posts</a>
-        </div>
+    @if (! $loop->last)
+    <hr class="w-full mt-2 mb-6 border-b">
+    @endif
+    @endforeach
+
+    <div class="pt-12 text-center">
+        <a href="/blog/" class="button button-primary">More Posts</a>
     </div>
 </div>
 @stop
