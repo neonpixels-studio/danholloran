@@ -9,6 +9,14 @@ module.exports = {
             }
         },
         extend: {
+            colors: {
+                twitter: "#1da1f2",
+                facebook: "#088bf0",
+                youtube: "#ff0000",
+                github: "#252a2e",
+                instagram: "#23201e",
+                gitlab: "#e2432a"
+            },
             fontFamily: {
                 sans: ["Inter"],
                 mono: ["Fira Code", "monospace"]

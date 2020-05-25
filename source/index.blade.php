@@ -239,20 +239,23 @@
     </div>
 </div>
 
-{{-- <div class="py-10 text-white bg-indigo-800">
+{{-- Around the Web --}}
+<div class="py-10 text-white bg-indigo-800">
     <div class="container max-w-4xl px-6 mx-auto">
         <h2 class="text-white">Around the Web</h2>
-        <div class="flex flex-wrap -mx-6">
-            @foreach ($twitter->concat($youtube)->concat($instagram)->sortBy(function () {
+        <div class="flex flex-wrap -mx-2">
+            @foreach ($twitter->filter(function ($item) {
+                return !str_contains($item->getContent(), 'instagram.com');
+            })->concat($youtube)->concat($instagram)->sortBy(function () {
                 return rand(1, 1000);
             }) as $item)
-            <div class="w-1/2 px-6">
+            <div class="w-full md:w-1/2 p-2">
                 @include('_partials.social-preview', ['item' => $item])
             </div>
             @endforeach
         </div>
     </div>
-</div> --}}
+</div>
 
 {{-- Blog --}}
 <div class="py-10 bg-gray-100">

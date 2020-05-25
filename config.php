@@ -10,6 +10,30 @@ return [
     'siteDescription' => 'My adventures on and off of the internetz.',
     'siteAuthor' => 'Dan Holloran',
     'resumeUrl' => '/files/danholloran-resume.pdf?v=4',
+    'instagram' => collect([
+        'link' => 'https://www.instagram.com/dholloran85/',
+        'username' => 'dholloran85',
+    ]),
+    'twitter' => collect([
+        'link' => 'https://twitter.com/dholloran',
+        'username' => 'dholloran',
+    ]),
+    'youTube' => collect([
+        'link' => 'https://www.youtube.com/c/DannyHolloran1',
+        'username' => 'DannyHolloran1',
+    ]),
+    'gitlab' => collect([
+        'link' => 'https://gitlab.com/DHolloran',
+        'username' => 'DHolloran',
+    ]),
+    'github' => collect([
+        'link' => 'https://github.com/dholloran',
+        'username' => 'dholloran',
+    ]),
+    'linkedIn' => collect([
+        'link' => 'https://www.linkedin.com/in/dan-holloran/',
+        'username' => 'dan-holloran',
+    ]),
     // collections
     'collections' => [
         'posts' => [

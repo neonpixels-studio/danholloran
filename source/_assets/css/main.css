@@ -1,18 +1,18 @@
-@import './_inter';
-@import './../../../node_modules/tailwindcss/base';
-@import './../../../node_modules/tailwindcss/components';
+@import "./_inter";
+@import "./../../../node_modules/tailwindcss/base";
+@import "./../../../node_modules/tailwindcss/components";
 
 /* Code syntax highlighting, */
 /* powered by https://highlightjs.org */
-@import './../../../node_modules/highlight.js/styles/a11y-light.css';
+@import "./../../../node_modules/highlight.js/styles/a11y-light.css";
 
-@import './_base';
-@import './_navigation';
-@import './_agile-slider';
-@import './_resume.css';
-/* @import './_mailchimp'; */
+@import "./_base";
+@import "./_navigation";
+@import "./_agile-slider";
+@import "./_resume.css";
+@import "./_social-preview.css";
 
-@import './../../../node_modules/tailwindcss/utilities';
-@import './_utilities.css';
+@import "./../../../node_modules/tailwindcss/utilities";
+@import "./_utilities.css";
 
-@import './_print.css';
+@import "./_print.css";
