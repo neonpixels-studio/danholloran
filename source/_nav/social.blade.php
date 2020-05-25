@@ -31,7 +31,7 @@
         </li>
 
         <li class="mr-2">
-            <a href="https://www.instagram.com/dholloran2/" title="Instagram" class="block h-6 text-indigo-700">
+            <a href="https://www.instagram.com/dholloran85/" title="Instagram" class="block h-6 text-indigo-700">
                 @include('_partials.icon-instagram')
                 <span class="sr-only">Instagram</span>
             </a>
