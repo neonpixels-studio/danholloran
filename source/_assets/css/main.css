@@ -11,6 +11,7 @@
 @import "./_agile-slider";
 @import "./_resume.css";
 @import "./_social-preview.css";
+@import "./_skills-tools.css";
 
 @import "./../../../node_modules/tailwindcss/utilities";
 @import "./_utilities.css";

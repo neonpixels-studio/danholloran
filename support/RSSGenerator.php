@@ -5,7 +5,6 @@ namespace App\Support;
 use Zttp\Zttp;
 use Carbon\Carbon;
 use Zttp\ZttpResponse;
-use Illuminate\Support\Str;
 use TightenCo\Jigsaw\Jigsaw;
 use Illuminate\Support\Collection;
 use League\HTMLToMarkdown\HtmlConverter;
@@ -113,7 +112,7 @@ abstract class RSSGenerator
             $this->jigsaw->writeSourceFile($this->getCachePath($group), collect([
                 'items' => $this->getItems($group)->map->toArray(),
                 'lastUpdatedAt' => Carbon::now(),
-                ]));
+            ]));
         } catch (\Exception $e) {
             return;
         }

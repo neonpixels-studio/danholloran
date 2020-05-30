@@ -15,17 +15,17 @@
 
 {{-- Projects --}}
 <div class="py-10 bg-gray-100">
-    <div class="container max-w-4xl px-6 mx-auto">
+    <div class="container px-6 mx-auto">
         <h2>Projects</h2>
         <ul class="flex flex-wrap justify-center -mx-4 -mb-6">
             @foreach ($projects->reject(function($project) {
             return (bool) $project->draft ?? false;
             }) as $project)
-            <li class="px-4 mb-6 md:w-1/2">
+            <li class="px-4 mb-6 lg:w-1/3 sm:w-1/2 w-full">
                 <div class="flex flex-col w-full h-full overflow-hidden bg-white rounded-lg shadow">
-                    <a href="{{ $project->getUrl() }}" class="block">
+                    <a href="{{ $project->getUrl() }}" class="block w-full">
                         <img loading="lazy" src="{{ $project->thumbnail_image }}" alt="{{ $project->title }} thumbnail"
-                            class="object-cover" width="408" height="189">
+                            class="object-cover w-full" width="408" height="189">
                     </a>
                     <div class="px-6 py-6 mb-auto">
                         <h3 class="mb-0 text-lg">
@@ -60,25 +60,20 @@
 </div>
 
 {{-- Skills &amp; Tools --}}
-<div class="container max-w-4xl px-6 mx-auto my-16">
-    <h2>Skills &amp; Tools</h2>
+<div class="skills-tools container px-6 mx-auto my-16">
     <ul class="flex flex-wrap -mx-1">
         @foreach ($skills->reject(function($item) {
         return (bool) $item->draft ?? false;
         }) as $item)
-        <li class="flex items-center justify-center w-1/2 px-4 py-6 md:w-1/4 sm:w-1/3">
+        <li class="flex items-center justify-center w-1/2 px-4 py-6 md:w-1/4 lg:w-1/5 sm:w-1/3">
             @if($item->url ?? null)
-            <a href="{{ $item->url }}" target="blank" class="flex max-h-24" rel="noopener noreferrer">
-                <div>
-                    {!! $item->getContent() !!}
-                </div>
+            <a href="{{ $item->url }}" target="blank" rel="noopener noreferrer">
+                {!! $item->getContent() !!}
                 <span class="sr-only">{{ $item->title }}</span>
             </a>
             @else
-            <div class="flex max-h-24">
-                <div>
-                    {!! $item->getContent() !!}
-                </div>
+            <div class="flex">
+                {!! $item->getContent() !!}
                 <span class="sr-only">{{ $item->title }}</span>
             </div>
             @endif
@@ -95,7 +90,6 @@
 {{-- Experience --}}
 <div class="py-10 bg-gray-100">
     <div class="container max-w-4xl px-6 mx-auto" v-cloak>
-        <h2>Experience</h2>
         <agile class="mb-6" :options="{
                     fade: true,
                 }">
@@ -159,69 +153,62 @@
 
 {{-- Podcasts --}}
 <div class="py-10 bg-gray-100" id="podcasts">
-    <div class="container max-w-4xl px-6 mx-auto">
+    <div class="container px-6 mx-auto">
         <h2>Podcasts</h2>
         <ul class="flex flex-wrap">
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://www.dancarlin.com/hardcore-history-series/" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/hardcore-history.jpeg" alt="Hardcore History" width="255"
                         height="255" class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://t.co/DDLcgLLHwD?amp=1" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/nptm.jpg" alt="No Plans to Merge" width="255" height="255"
                         class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://softskills.audio/" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/soft-skills.png" alt="Soft Skills Engineering" width="255"
                         height="255" class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://samharris.org/podcast/" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/making-sense.png" alt="Making Sense With Sam Harris"
                         width="255" height="255" class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="http://www.fullstackradio.com/" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/fullstack-radio.jpeg" alt="Fullstack Radio" width="255"
                         height="255" class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://laravel-news.com/podcast/" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/laravel-news-podcast.png" alt="Laravel News Podcast"
                         width="255" height="255" class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://www.redhat.com/en/command-line-heroes" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/commandline-heros.jpeg" alt="Commandline Heros" width="255"
                         height="255" class="object-cover w-full h-full">
                 </a>
             </li>
-            <li class="w-1/2 md:w-1/3">
+            <li class="w-1/2 md:w-1/3 lg:w-1/4">
                 <a href="https://shoptalkshow.com/" target="_blank" rel="noopener noreferrer"
                     class="block w-full h-full">
                     <img loading="lazy" src="/assets/img/shoptalk-show.png" alt="Shoptalk Show" width="255" height="255"
-                        class="object-cover w-full h-full">
-                </a>
-            </li>
-            <li class="w-1/2 md:w-1/3">
-                <a href="http://www.dadsindev.com/" target="_blank" rel="noopener noreferrer"
-                    class="block w-full h-full">
-                    <img loading="lazy" src="/assets/img/dads-in-dev.png" alt="Dads In Dev" width="255" height="255"
                         class="object-cover w-full h-full">
                 </a>
             </li>
@@ -240,16 +227,15 @@
 </div>
 
 {{-- Around the Web --}}
-<div class="py-10 text-white bg-indigo-800">
-    <div class="container max-w-4xl px-6 mx-auto">
-        <h2 class="text-white">Around the Web</h2>
+<div class="py-10 text-white bg-gray-100">
+    <div class="container px-6 mx-auto">
         <div class="flex flex-wrap -mx-2">
             @foreach ($twitter->filter(function ($item) {
                 return !str_contains($item->getContent(), 'instagram.com');
             })->concat($youtube)->concat($instagram)->sortBy(function () {
                 return rand(1, 1000);
-            }) as $item)
-            <div class="w-full md:w-1/2 p-2">
+            })->take(12) as $item)
+            <div class="w-full md:w-1/2 lg:w-1/3 p-2">
                 @include('_partials.social-preview', ['item' => $item])
             </div>
             @endforeach
@@ -258,9 +244,7 @@
 </div>
 
 {{-- Blog --}}
-<div class="container max-w-4xl px-6 pt-10 mx-auto">
-    <h2>Blog</h2>
-
+<div class="container px-6 pt-10 mx-auto">
     @foreach ($posts->where('featured', false)->reject(function ($post) {
     return $post->hidden ?? false;
     })->take(4)->chunk(2) as $row)
@@ -270,15 +254,8 @@
             @include('_components.post-preview-inline')
         </div>
 
-        @if (! $loop->last)
-        <hr class="block w-full mt-2 mb-6 border-b md:hidden">
-        @endif
         @endforeach
     </div>
-
-    @if (! $loop->last)
-    <hr class="w-full mt-2 mb-6 border-b">
-    @endif
     @endforeach
 
     <div class="pt-12 text-center">
