@@ -13,17 +13,18 @@ pagination:
 @endpush
 
 @section('body')
+<div class="max-w-6xl mx-auto px-6">
     <h1>Blog</h1>
 
     <hr class="border-b my-6">
 
+    <div class="flex -mx-6 flex-wrap">
     @foreach ($pagination->items as $post)
-        @include('_components.post-preview-inline')
-
-        @if ($post != $pagination->items->last())
-            <hr class="border-b my-6">
-        @endif
+        <div class="md:w-1/2 px-6">
+            @include('_components.post-preview-inline')
+        </div>
     @endforeach
+    </div>
 
     @include('_components.newsletter-signup')
 
@@ -54,4 +55,5 @@ pagination:
             @endif
         </nav>
     @endif
+</div>
 @stop

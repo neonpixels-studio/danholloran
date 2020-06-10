@@ -1,13 +1,10 @@
 <template>
   <div class="flex flex-1 justify-end items-center text-right px-4">
     <div
-      class="absolute md:relative w-full justify-end bg-white left-0 top-0 z-10 mt-7 md:mt-0 px-4 md:px-0"
-      :class="{'hidden md:flex': ! searching}"
+      class="absolute md:relative w-full justify-end left-0 top-0 z-10 mt-7 md:mt-0 px-4 md:px-0"
+      :class="{ 'hidden md:flex': !searching }"
     >
-      <label
-        for="search"
-        class="sr-only"
-      >Search</label>
+      <label for="search" class="sr-only">Search</label>
 
       <input
         id="search"
@@ -21,24 +18,28 @@
         type="text"
         @keyup.esc="reset"
         @blur="reset"
-      >
+      />
 
       <button
         v-if="query || searching"
         class="absolute top-0 right-0 leading-snug font-400 text-3xl text-indigo-500 hover:text-indigo-600 focus:outline-none pr-7 md:pr-3"
         @click="reset"
-      >&times;</button>
+      >
+        &times;
+      </button>
 
       <transition name="fade">
         <div
           v-if="query"
           class="absolute left-0 right-0 md:inset-auto w-full lg:w-3/4 text-left mb-4 md:mt-10"
         >
-          <div class="flex flex-col bg-white border border-b-0 border-t-0 border-indigo-400 rounded-b-lg shadow-lg mx-4 md:mx-0">
+          <div
+            class="flex flex-col bg-white border border-b-0 border-t-0 border-indigo-400 rounded-b-lg shadow-lg mx-4 md:mx-0"
+          >
             <a
               v-for="(result, index) in results"
               class="bg-white hover:bg-indigo-100 border-b border-indigo-400 text-xl cursor-pointer p-4"
-              :class="{ 'rounded-b-lg' : (index === results.length - 1) }"
+              :class="{ 'rounded-b-lg': index === results.length - 1 }"
               :href="result.link"
               :title="result.title"
               :key="result.link"
@@ -53,10 +54,12 @@
             </a>
 
             <div
-              v-if="! results.length"
+              v-if="!results.length"
               class="bg-white w-full hover:bg-indigo-100 border-b border-indigo-400 rounded-b-lg shadow cursor-pointer p-4"
             >
-              <p class="my-0">No results for <strong>{{ query }}</strong></p>
+              <p class="my-0">
+                No results for <strong>{{ query }}</strong>
+              </p>
             </div>
           </div>
         </div>
@@ -73,7 +76,7 @@
         src="/assets/img/magnifying-glass.svg"
         alt="search icon"
         class="h-4 w-4 max-w-none"
-      >
+      />
     </button>
   </div>
 </template>
@@ -116,31 +119,31 @@ export default {
 </script>
 
 <style>
-  input[name="search"] {
-    background-image: url("/assets/img/magnifying-glass.svg");
-    background-position: 0.8em;
-    background-repeat: no-repeat;
-    border-radius: 25px;
-    text-indent: 1.2em;
-  }
+input[name="search"] {
+  background-image: url("/assets/img/magnifying-glass.svg");
+  background-position: 0.8em;
+  background-repeat: no-repeat;
+  border-radius: 25px;
+  text-indent: 1.2em;
+}
 
-  input[name="search"].transition-border {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-  }
+input[name="search"].transition-border {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
 
-  .fade-enter-active {
-    transition: opacity 0.5s;
-  }
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
 
-  .fade-leave-active {
-    transition: opacity 0s;
-  }
+.fade-leave-active {
+  transition: opacity 0s;
+}
 
-  .fade-enter,
-  .fade-leave-to {
-    opacity: 0;
-  }
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

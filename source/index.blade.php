@@ -5,7 +5,7 @@
 <div class="container flex flex-row-reverse justify-center max-w-4xl px-6 mx-auto mb-10 md:items-center md:flex-row">
     <div>
         <h1>
-            Hello, I'm <span class="text-indigo-500">Dan Holloran</span>. I'm a Full Stack Developer.
+            Hello, I'm <span class="text-indigo-500">Dan Holloran</span>. I'm a <span class="text-indigo-500">Full Stack Developer</span>.
         </h1>
     </div>
     <img loading="lazy"
@@ -81,7 +81,7 @@
         @endforeach
     </ul>
     <div class="pt-8 text-center">
-        <a href="/badges/" class="inline-flex button button-primary">
+        <a href="/badges/" class="inline-flex button button-secondary button-large">
             Development Merit Badges
         </a>
     </div>
@@ -113,7 +113,7 @@
         </agile>
 
         <div class="text-center">
-            <a href="{{ $page->resumeUrl }}" class="inline-flex button button-primary" target="_blank"
+            <a href="{{ $page->resumeUrl }}" class="inline-flex button button-primary button-large" target="_blank"
                 rel="noopener noreferrer">
                 My Resume
                 <span class="h-5 ml-2">
@@ -222,7 +222,7 @@
     @include('_partials.currently-reading')
 
     <div class="text-center">
-        <a href="/books" class="button button-primary button-large">View All</a>
+        <a href="/books" class="button button-secondary button-large">View All</a>
     </div>
 </div>
 
@@ -259,7 +259,7 @@
     @endforeach
 
     <div class="pt-12 text-center">
-        <a href="/blog/" class="button button-primary">More Posts</a>
+        <a href="/blog/" class="button button-secondary button-large">More Posts</a>
     </div>
 </div>
 @stop

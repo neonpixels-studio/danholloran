@@ -1,11 +1,7 @@
 <?php
 
-use Illuminate\Support\Carbon;
-
 return [
-    'baseUrl' => 'https://danholloran.test',
     'production' => false,
-    'siteDescription' => 'Generate an elegant blog with Jigsaw',
     'siteName' => 'DanHolloran',
     'siteDescription' => 'My adventures on and off of the internetz.',
     'siteAuthor' => 'Dan Holloran',

@@ -56,7 +56,7 @@ $full_width = in_array($page->getPath(), ['', '/resume']);
     </head>
 
     <body>
-        <div id="app" class="flex flex-col justify-between min-h-screen bg-white text-gray-800 leading-normal font-sans antialiased">
+        <div id="app" class="flex flex-col justify-between min-h-screen bg-topographic leading-normal font-sans antialiased">
             <header class="flex items-center h-24 py-4 print-hidden" role="banner">
                 <div class="container flex items-center max-w-8xl mx-auto px-4 lg:px-8">
                     <div class="flex items-center">
