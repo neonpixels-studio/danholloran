@@ -50,6 +50,9 @@ return [
             'path' => '/',
             'sort' => 'sort_order',
         ],
+        'badges' => [
+            'sort' => '-earned',
+        ],
         'experience' => [
             'sort' => 'sort_order',
         ],

@@ -1,3 +1,8 @@
+---
+title: Rocked the Checkbox Hack on a project
+earned: true
+---
+
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="86px" height="86px" viewBox="0 0 86 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->

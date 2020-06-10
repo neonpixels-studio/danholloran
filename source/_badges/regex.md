@@ -1,3 +1,8 @@
+---
+title: Comprehended someone else's RegEx
+earned: true
+---
+
 <svg width="86" height="86" viewBox="0 0 86 86" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0)">
 <rect width="85.8" height="85.8" fill="white"/>

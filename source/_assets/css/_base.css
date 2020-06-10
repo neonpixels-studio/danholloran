@@ -222,3 +222,10 @@ svg {
     @apply list-decimal;
   }
 }
+
+.merit-badge {
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}
