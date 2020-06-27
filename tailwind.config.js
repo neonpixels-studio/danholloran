@@ -15,7 +15,18 @@ module.exports = {
                 youtube: "#ff0000",
                 github: "#252a2e",
                 instagram: "#23201e",
-                gitlab: "#e2432a"
+                gitlab: "#e2432a",
+                "theme-1": {
+                    100: "--theme-1-100",
+                    200: "--theme-1-200",
+                    300: "--theme-1-300",
+                    400: "--theme-1-400",
+                    500: "--theme-1-500",
+                    600: "--theme-1-600",
+                    700: "--theme-1-700",
+                    800: "--theme-1-800",
+                    900: "--theme-1-900"
+                }
             },
             fontFamily: {
                 sans: ["Inter"],

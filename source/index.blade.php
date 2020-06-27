@@ -5,16 +5,18 @@
 <div class="container flex flex-row-reverse justify-center max-w-4xl px-6 mx-auto mb-10 md:items-center md:flex-row">
     <div>
         <h1>
-            Hello, I'm <span class="text-indigo-500">Dan Holloran</span>. I'm a <span class="text-indigo-500">Full Stack Developer</span>.
+            Hello, I'm <span class="text-theme-1-500">Dan Holloran</span>. I'm a <span class="text-theme-1-500">Full
+                Stack
+                Developer</span>.
         </h1>
     </div>
-    <img loading="lazy"
-        src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256" height="256"
-        alt="About image" class="w-24 h-24 mr-4 bg-contain rounded-full md:h-64 md:w-64 md:my-6 md:ml-10 md:mr-0">
+    <img loading="lazy" src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256"
+        height="256" alt="About image"
+        class="w-24 h-24 mr-4 bg-contain rounded-full md:h-64 md:w-64 md:my-6 md:ml-10 md:mr-0">
 </div>
 
 {{-- Projects --}}
-<div class="py-10 bg-gray-100">
+<div class="py-10">
     <div class="container px-6 mx-auto">
         <h2>Projects</h2>
         <ul class="flex flex-wrap justify-center -mx-4 -mb-6">
@@ -125,7 +127,7 @@
 </div>
 
 {{-- Get in touch --}}
-<div id="contact" class="py-10 text-white bg-indigo-800">
+<div id="contact" class="py-10 text-white bg-theme-1-800">
     <div class="container max-w-4xl px-6 mx-auto">
         <h2 class="text-white">Get in touch</h2>
         @include('_partials.contact-form')
@@ -136,23 +138,18 @@
 <div class="container flex flex-wrap max-w-4xl px-6 py-10 mx-auto">
     @foreach ($pages->where('featured', true)->whereNotNull('cover_image') as $featuredPage)
     <a href="{{ $featuredPage->getUrl() }}" class="relative block h-64 md:w-1/2">
-    <h3
-        class="absolute inset-0 flex items-center justify-center m-0 text-white bg-indigo-400 bg-opacity-75 hover:bg-indigo-700 hover:bg-opacity-75"
-    >
-        {{ $featuredPage->title }}
-    </h3>
-    <img
-        loading="lazy"
-        src="{{ $featuredPage->cover_image }}"
-        alt="{{ $featuredPage->title }} image"
-        class="object-cover w-full h-full max-h-full"
-    >
-</a>
-@endforeach
+        <h3
+            class="absolute inset-0 flex items-center justify-center m-0 text-white bg-theme-1-400 bg-opacity-75 hover:bg-theme-1-700 hover:bg-opacity-75">
+            {{ $featuredPage->title }}
+        </h3>
+        <img loading="lazy" src="{{ $featuredPage->cover_image }}" alt="{{ $featuredPage->title }} image"
+            class="object-cover w-full h-full max-h-full">
+    </a>
+    @endforeach
 </div>
 
 {{-- Podcasts --}}
-<div class="py-10 bg-gray-100" id="podcasts">
+<div class="py-10" id="podcasts">
     <div class="container px-6 mx-auto">
         <h2>Podcasts</h2>
         <ul class="flex flex-wrap">
@@ -227,13 +224,13 @@
 </div>
 
 {{-- Around the Web --}}
-<div class="py-10 text-white bg-gray-100">
+<div class="py-10 text-white">
     <div class="container px-6 mx-auto">
         <div class="flex flex-wrap -mx-2">
             @foreach ($twitter->filter(function ($item) {
-                return !str_contains($item->getContent(), 'instagram.com');
+            return !str_contains($item->getContent(), 'instagram.com');
             })->concat($youtube)->concat($instagram)->sortBy(function () {
-                return rand(1, 1000);
+            return rand(1, 1000);
             })->take(12) as $item)
             <div class="w-full md:w-1/2 lg:w-1/3 p-2">
                 @include('_partials.social-preview', ['item' => $item])

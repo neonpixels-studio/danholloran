@@ -17,6 +17,11 @@
 .sp-instagram {
   font-size: 0;
 
+  .sp-instagram-content,
+  .sp-instagram-content * {
+    @apply .h-full .w-full;
+  }
+
   img {
     @apply .object-cover h-full w-full;
   }

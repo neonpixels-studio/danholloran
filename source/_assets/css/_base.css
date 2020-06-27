@@ -8,15 +8,15 @@ body {
 }
 
 a {
-  @apply font-semibold text-indigo-600 no-underline;
+  @apply font-semibold text-theme-1-600 no-underline;
 
   &:hover {
-    @apply text-indigo-800;
+    @apply text-theme-1-800;
   }
 }
 
 blockquote {
-  @apply pl-6 my-8 text-lg italic font-normal text-gray-800 border-l-4 border-indigo-400;
+  @apply pl-6 my-8 text-lg italic font-normal text-gray-800 border-l-4 border-theme-1-400;
 }
 
 code {
@@ -91,7 +91,7 @@ h6 {
 }
 
 hr {
-  @apply my-12 border-b border-indigo-200 rounded-full;
+  @apply my-12 border-b border-theme-1-200 rounded-full;
 }
 
 li {
@@ -129,7 +129,7 @@ svg {
 }
 
 ::selection {
-  @apply text-white bg-indigo-500;
+  @apply text-white bg-theme-1-500;
 }
 
 .alert {
@@ -137,7 +137,7 @@ svg {
 }
 
 .alert-info {
-  @apply text-indigo-900 bg-indigo-100 border-indigo-500;
+  @apply text-theme-1-900 bg-theme-1-100 border-theme-1-500;
 }
 
 .alert-danger {
@@ -176,32 +176,32 @@ svg {
 }
 
 .button-primary {
-  @apply text-white bg-indigo-800;
+  @apply text-white bg-theme-1-800;
 
   &:hover,
   &:focus,
   &:active {
-    @apply text-white bg-indigo-600;
+    @apply text-white bg-theme-1-600;
   }
 }
 
 .button-primary-inverted {
-  @apply text-indigo-800 bg-white;
+  @apply text-theme-1-800 bg-white;
 
   &:hover,
   &:focus,
   &:active {
-    @apply text-white bg-indigo-500;
+    @apply text-white bg-theme-1-500;
   }
 }
 
 .button-secondary {
-  @apply shadow-none bg-transparent text-indigo-800 bg-transparent border-indigo-800 border;
+  @apply shadow-none bg-transparent text-theme-1-800 bg-transparent border-theme-1-800 border;
 
   &:hover,
   &:focus,
   &:active {
-    @apply text-indigo-500 border-indigo-500;
+    @apply text-theme-1-500 border-theme-1-500;
   }
 }
 
