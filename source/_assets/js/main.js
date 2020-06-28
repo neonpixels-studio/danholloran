@@ -3,7 +3,6 @@ window.fuse = require("fuse.js");
 window.Vue = require("vue");
 
 import Search from "./components/Search.vue";
-import ScrollTo from "./components/ScrollTo.vue";
 import hljs from "highlight.js/lib/highlight";
 import VueAgile from "vue-agile";
 
@@ -38,7 +37,6 @@ Vue.config.productionTip = false;
 
 new Vue({
     components: {
-        Search,
-        ScrollTo
+        Search
     }
 }).$mount("#app");
