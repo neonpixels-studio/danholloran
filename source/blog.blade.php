@@ -28,7 +28,7 @@ perPage: 10
 
     @include('_components.newsletter-signup')
 
-    @if ($pagination->pages->count() > 1)
+    @if ($pagination->pages && $pagination->pages->count() > 1)
     <nav class="flex text-base my-8">
         @if ($previous = $pagination->previous)
         <a href="{{ $previous }}" title="Previous Page"
