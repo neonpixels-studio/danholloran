@@ -5,9 +5,7 @@
 <div class="container flex flex-row-reverse justify-center max-w-4xl px-6 mx-auto mb-10 md:items-center md:flex-row">
     <div>
         <h1>
-            Hello, I'm <span class="text-theme-1-500">Dan Holloran</span>. I'm a <span class="text-theme-1-500">Full
-                Stack
-                Developer</span>.
+            Hello, I'm&nbsp;<span class="text-theme-1-500">Dan Holloran</span>. I'm a&nbsp;<span class="text-theme-1-500">Full Stack Developer</span>.
         </h1>
     </div>
     <img loading="lazy" src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256"
