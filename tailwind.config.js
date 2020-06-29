@@ -1,13 +1,12 @@
 module.exports = {
-    theme: {
-        purge: {
-            content: ["./source"],
+    purge: {
+        content: ["./source/**/*{.html,.md,.vue,.js,.php}"],
 
-            options: {
-                extensions: ["html", "md", "js", "php", "vue"],
-                whitelistPatterns: [/language/, /hljs/]
-            }
-        },
+        options: {
+            whitelistPatterns: [/language/, /hljs/]
+        }
+    },
+    theme: {
         extend: {
             colors: {
                 twitter: "#1da1f2",
