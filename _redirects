@@ -1,2 +1,2 @@
 # Redirect default Netlify subdomain to primary domain
-https://priceless-banach-981229.netlify.com/* https://danholloran.me/:splat 301!
+https://danholloran.netlify.app/* https://danholloran.me/:splat 301!
