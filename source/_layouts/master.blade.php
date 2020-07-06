@@ -39,7 +39,6 @@ $full_width = in_array($page->getPath(), ['', '/resume']);
     @stack('meta')
 
     @if ($page->production)
-    <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
     {{-- Start - Global site tag (gtag.js) - Google Analytics --}}
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64998225-1"></script>
     <script>
