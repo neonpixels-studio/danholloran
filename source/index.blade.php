@@ -222,7 +222,7 @@
 </div>
 
 {{-- Around the Web --}}
-<div class="py-10 text-white">
+{{-- <div class="py-10 text-white">
     <div class="container px-6 mx-auto">
         <div class="flex flex-wrap -mx-2">
             @foreach ($twitter->filter(function ($item) {
@@ -236,7 +236,7 @@
             @endforeach
         </div>
     </div>
-</div>
+</div> --}}
 
 {{-- Blog --}}
 <div class="container px-6 pt-10 mx-auto">
