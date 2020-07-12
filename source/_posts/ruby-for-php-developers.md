@@ -2,7 +2,6 @@
 extends: _layouts.post
 section: content
 title: Ruby for PHP Developers
-# date: 2020-09-02
 categories: []
 cover_image: /assets/img/ruby-for-php-developers.jpg
 published: false
@@ -327,13 +326,25 @@ object2 = OpenStruct.new({
 
 ```php
 // Ternary (?:, ?=, ??)
+$ifTrue ? 'Yes' : 'No';
+// Null coalescing
+$unlessNull ?? 'Default';
 // Equal To
+$value1 == $value2;
 // Strict Equal To
+$value1 === $value2;
+// Not Equal To
+$value1 != $value2;
+// Strict Not Equal To
+$value1 !== $value2;
 // Greater Than
+$value1 > $value2;
 // Greater than or Equal to
+$value1 >= $value2;
 // Less Than
+$value1 < $value2;
 // Less than or Equal to
-// Other?
+$value1 <= $value2;
 ```
 
 ```ruby
