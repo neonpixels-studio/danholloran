@@ -2,7 +2,6 @@
 extends: _layouts.post
 section: content
 title: Ruby for PHP Developers
-# date: 2020-09-02
 categories: []
 cover_image: /assets/img/ruby-for-php-developers.jpg
 published: false
