@@ -326,13 +326,25 @@ object2 = OpenStruct.new({
 
 ```php
 // Ternary (?:, ?=, ??)
+$ifTrue ? 'Yes' : 'No';
+// Null coalescing
+$unlessNull ?? 'Default';
 // Equal To
+$value1 == $value2;
 // Strict Equal To
+$value1 === $value2;
+// Not Equal To
+$value1 != $value2;
+// Strict Not Equal To
+$value1 !== $value2;
 // Greater Than
+$value1 > $value2;
 // Greater than or Equal to
+$value1 >= $value2;
 // Less Than
+$value1 < $value2;
 // Less than or Equal to
-// Other?
+$value1 <= $value2;
 ```
 
 ```ruby
