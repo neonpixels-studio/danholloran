@@ -14,6 +14,7 @@ Vue.use(VueAgile);
 
 // Syntax highlighting
 hljs.registerLanguage("bash", require("highlight.js/lib/languages/bash"));
+hljs.registerLanguage("ruby", require("highlight.js/lib/languages/ruby"));
 hljs.registerLanguage("css", require("highlight.js/lib/languages/css"));
 hljs.registerLanguage("html", require("highlight.js/lib/languages/xml"));
 hljs.registerLanguage(
