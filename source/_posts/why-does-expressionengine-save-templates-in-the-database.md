@@ -4,6 +4,7 @@ section: content
 title:  Why Does ExpressionEngine Save Templates in the Database?
 date: 2016-01-16
 categories: []
+published: true
 ---
 
 This is a little bit of a rant and a large amount of it may be a result of my inexperience. This is in no way saying ExpressionEngine is bad and something like WordPress is better. I feel it is more a surprise from using CodeIgniter before and CodeIgniter is used to build ExpressionEngine. Maybe things have changed in the way CodeIgniter handles MVC. Also maybe this is just a situation of a large user base needing access to more tools in your views.

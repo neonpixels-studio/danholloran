@@ -4,6 +4,7 @@ section: content
 title:  Installing Linters Atom
 date: 2015-09-13
 categories: []
+published: true
 ---
 Atom is an awesome new editor built by Github it has some really good linter plugins. So we will go through the steps to get them setup and configured for Atom. The linter plugins all have some requirements you can check out [Linting Your Code: Installing the Linters](/2015/08/27/linting-your-code-installing-the-linters/) to get all of the requirements installed.
 

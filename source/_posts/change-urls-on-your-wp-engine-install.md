@@ -4,6 +4,7 @@ section: content
 title: Change URLs On Your WP Engine Install
 date: 2015-08-04
 categories: []
+published: true
 ---
 We recently switched to [WP Engine](http://wpengine.com) which is an excellent choice for WordPress hosting. Managed hosting I believe is the best way to host a WordPress site. However it does have some quirks compared to our old host.
 

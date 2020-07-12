@@ -4,6 +4,7 @@ section: content
 title:  St Louis WordCamp 2016
 date: 2016-05-16
 categories: []
+published: true
 ---
 
 WordCamp St. Louis was held this year again at Washington University St. Louis on May 14-15 2016. Over all it was a good time I always enjoy going to WordCamps. I figured I would post my notes here [like I did last year](http://danholloran.me/2015/03/15/st-louis-wordcamp-2015/) just cause. I have added the slides that where available as of this posting you can checkout the full listing [here](https://2016.stlouis.wordcamp.org/2016/05/16/speaker-slides-round-up/). Some of the later notes on Saturday kind of trailed off because I decided to fix my blog after a few issues with Github Pages and Jekyll 3. One of the downfalls to Jekyll being so easy to write with being Markdown at its core and all makes it sometimes difficult to upgrade.

@@ -4,6 +4,7 @@ section: content
 title:  Why Would You Use a Fixed Header?
 date: 2015-12-24
 categories: []
+published: true
 ---
 It seems like I receive a request for a fixed header fairly regularly more than I should. I don’t really understand why you would want to fix the header of your site. So I figured I would layout some of my opinions on the matter I may be wrong but this is just my point of view. Full disclosure this sites header is sticky on Firefox purely to use the sticky CSS property since I use my site to try things out on I believe this is okay. So yes there is an exception to every rule and opinion.
 

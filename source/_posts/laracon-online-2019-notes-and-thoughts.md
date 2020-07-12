@@ -4,6 +4,7 @@ section: content
 title:  Laracon Online 2019 Notes and Thoughts
 date: 2019-03-07
 categories: []
+published: true
 ---
 
 These are my notes from Laracon 2019 was an interesting conference and a lot of fun. I think you may still be able to buy tickets to access the recordings at [https://laracon.net/](https://laracon.net/). It is nice being online not having to travel makes it easier to go.

@@ -4,6 +4,7 @@ section: content
 title:  Setting Up a Jekyll Blog - Part 5
 date: 2015-08-10
 categories: []
+published: true
 ---
 
 So now we have setup, tweaked, and styled our new Jekyll site. Now it is time for the whole world to see and admire our work, at least we hope they will. There is a large range of options in the [Jekyll Documentation about Deployments](http://jekyllrb.com/docs/deployment-methods/) but I am going to focus on [Github Pages](https://pages.github.com/) since it is extremely easy to get started. The one caveat is that Github rightfully so restricts you to a few [plugins](https://help.github.com/articles/using-jekyll-plugins-with-github-pages/) so if you need some more control you will need to move to a new hosting provider. Which moving a static site compared to a traditional CMS is relatively easier since everything is just a static file in a Git repository.

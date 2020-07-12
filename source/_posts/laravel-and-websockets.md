@@ -4,6 +4,7 @@ section: content
 title:  Laravel and WebSockets
 date: 2016-03-25
 categories: []
+published: true
 ---
 
 Working with WebSockets and Larvel is extremely easy! If you are new to Laravel it has an event system that you can use to dispatch events for other parts of your PHP code to use. As well as Laravel supports Redis and [Pusher](https://pusher.com/) for dispatching events via WebSockets. Pusher is a fully hosted service that will handle the Node.js side of things for you. I hover will cover using Laravel events with Redis to broadcast events to [Socket.io](http://socket.io/) and using [Supervisor](http://supervisord.org/) to keep all the processes needed running by default. The current version of Laravel as of this writing is 5.2 which you should already have installed and I will be assuming you are using Laravel Homstead.

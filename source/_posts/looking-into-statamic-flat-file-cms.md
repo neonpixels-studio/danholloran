@@ -4,6 +4,7 @@ section: content
 title:  Looking Into Statamic Flat File CMS
 date: 2016-06-14
 categories: []
+published: true
 ---
 I still have not built anything with [Statamic](https://statamic.com/) but it seems really promising. Even at $200 a license I believe it would be worth it. Well at least if you are working on a site for a business. I would like to use it for my personal site with the static file caching mode so it would be much like the static site I have now with Jekyll. In that case $200 may be a little too much since as a developer I am fine compiling my blog and deploying it.
 

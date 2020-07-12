@@ -5,6 +5,7 @@ title:  WP Better Attachments
 date: 2015-03-08
 categories: []
 alert_message: This project is no longer maintained.
+published: true
 ---
 
 **Description:** WordPress plugin that allows you to add/edit/attach/un-attach/sort the files attached to your WordPress posts all from the post editor. Integrates seamlessly with WordPress using the default WordPress attachments type and no configuration needed to add WP Better Attachments to custom post types. You can now also have full control over cropping of the different attachment image sizes through the media editor.

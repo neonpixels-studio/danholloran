@@ -4,6 +4,7 @@ section: content
 title:  Setting Up Your Shell Configuration and OHMyZSH
 date: 2016-07-03
 categories: []
+published: true
 ---
 A while ago I wrote  a post on [Setting Up Your Shell](/2015/09/29/setting-up-your-shell/). I wanted to follow up with more information about ZShell and OHMyZSH. Since both have really made using the terminal a lot easier and more enjoyable. So check out [Setting Up Your Shell](/2015/09/29/setting-up-your-shell/) to get up to speed. This will be a very high overview of configuring ZSHell and OHMyZSH.
 

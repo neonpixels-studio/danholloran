@@ -4,6 +4,7 @@ section: content
 title: A minute with a Ghost...
 date: 2015-03-12
 categories: []
+published: true
 ---
 I finally decided to take a look at [Ghost](https://ghost.org/), I primarily use [WordPress](https://wordpress.org/) in my day to day work and my blog has been on WordPress forever.  I was looking for a change WordPress has become a little to much for just simple blog writing.  I honestly love it as a CMS and for any one who wants as much control as possible WordPress, with out learning to code, it is the way to go.
 

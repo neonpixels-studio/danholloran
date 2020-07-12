@@ -4,6 +4,7 @@ section: content
 title:  "Linting Your Code: Installing the Linters"
 date: 2015-08-27
 categories: []
+published: true
 ---
 Linting is basically the act of running your code through a tool that catches syntax issues, common pitfalls, and helps enforce a general coding style among other things. This does not actually test the code like a unit test or integration test. How ever it helps stop you from shooting yourself in the foot with simple typos.
 

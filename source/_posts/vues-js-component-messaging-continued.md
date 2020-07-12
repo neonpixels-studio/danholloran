@@ -4,6 +4,7 @@ section: content
 title:  Vue.js Component Messaging Continued
 date: 2015-12-8
 categories: []
+published: true
 ---
 
 So yesterday I posted about Vue.js component messaging. This is in a way a continuation so you will want to read that first "[Vue.js Component Messaging](/2015/12/07/vues-js-component-messaging/)".

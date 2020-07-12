@@ -7,6 +7,7 @@ categories: []
 series:
   url: "/2015/08/09/setting-up-a-jekyll-blog-part-4/"
   label: "Setting Up a Jekyll Blog - Part 4"
+published: true
 ---
 
 ### Jekyll + Liquid

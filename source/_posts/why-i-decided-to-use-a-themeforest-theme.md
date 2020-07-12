@@ -4,6 +4,7 @@ section: content
 title:  Why I Decided to Use a Themeforest Theme
 date: 2015-04-01
 categories: []
+published: true
 ---
 
 I usually get the itch to revamp my personal website every 6 months to a year.  I tend to spend a weekend hacking away at my theme and I get about 85% done before feeling stuck.  This in turn makes viewing the site a chore which in turn makes it hard to blog. So the majority of the posts I have written in the past are about the redesign of the site. Honestly I no longer feel like my website has to have a theme built by myself.

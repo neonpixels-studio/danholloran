@@ -4,6 +4,7 @@ section: content
 title:  What I Miss From WordPress & What Ghost Does Better
 date: 2015-03-22
 categories: []
+published: true
 ---
 
 I started compiling this list when I first decided to switch from WordPress to Ghost for my personal blog.  Just a short list of what I do and do not miss from WordPres, might help if you are trying to make the decision on which to use.

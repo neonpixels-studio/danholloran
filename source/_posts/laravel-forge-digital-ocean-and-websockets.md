@@ -4,6 +4,7 @@ section: content
 title:  Laravel Forge, Digital Ocean and WebSockets
 date: 2016-03-05
 categories: []
+published: true
 ---
 I recently posted an overview of how to setup Web Sockets using [Laravel and Socket.io](/2016/01/30/laravel-and-websockets/). I wanted to follow it up with a quick post on how to get the Web Sockets functioning correctly on a [Digital Ocean](https://www.digitalocean.com/) server using [Laravel Forge](https://forge.laravel.com/). I a going to assume that you have already gone through the setup process to provision a new server. Also that you have read the first post since the largest amount of work will lie there. I believe these steps should be identically for all hosting providers not Just Digital Ocean but do not quote me on that.
 

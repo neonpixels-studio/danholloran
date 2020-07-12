@@ -240,9 +240,7 @@
 
 {{-- Blog --}}
 <div class="container px-6 pt-10 mx-auto">
-    @foreach ($posts->where('featured', false)->reject(function ($post) {
-    return $post->hidden ?? false;
-    })->take(4)->chunk(2) as $row)
+    @foreach ($posts->where('featured', false)->take(4)->chunk(2) as $row)
     <div class="flex flex-col md:flex-row md:-mx-6">
         @foreach ($row as $post)
         <div class="w-full md:w-1/2 md:mx-6">

@@ -4,6 +4,7 @@ section: content
 title: Check Out Hyperpolygot
 date: 2015-04-04
 categories: []
+published: true
 ---
 If you've been curious how one programming languages syntax matches with another then you should check out [Hyperpolygot](http://hyperpolyglot.org).
 

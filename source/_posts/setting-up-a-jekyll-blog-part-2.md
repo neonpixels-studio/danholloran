@@ -7,6 +7,7 @@ categories: []
 series:
   url: "/2015/07/29/setting-up-a-jekyll-blog-part-3/"
   label: "Setting Up a Jekyll Blog - Part 3"
+published: true
 ---
 
 ### Adding Your First Post.

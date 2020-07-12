@@ -5,7 +5,7 @@ title:  Sync Google Tasks With IFTTT
 date: 2016-12-17
 categories: [laravel]
 alert_message: This project is no longer online or maintained.
-hidden: true
+published: false
 ---
 So I recently purchased an Amazon Echo and I wanted to be able to add todos to my list via my voice. However the built in task manager is extremely simple and I did not have any interest in the two options that can directly integrate with Echo. So I needed to find a better solution.
 

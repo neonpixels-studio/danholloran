@@ -4,6 +4,7 @@ section: content
 title: Check Out Ghost Inspector
 date: 2015-07-18
 categories: []
+published: true
 ---
 I saw this cool tool the other day on Twitter [Ghost Inspector ](https://ghostinspector.com) which allows your to record your actions or setup by drag/drop website regression testing. I've done some work with [Nightwatch.js](http://nightwatchjs.org) which helps writing tests for [Selenium](http://www.seleniumhq.org) which allows you test across all the major browsers.
 
