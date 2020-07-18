@@ -33,7 +33,7 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
     <title>{{ $page->siteName }}{{ $page->title ? ' | ' . $page->title : '' }}</title>
 
     <link rel="home" href="{{ $page->baseUrl }}">
-    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/{{ $page->theme }}.svg?v=1">
     <link rel="alternate" type="application/rss+xml" title="DanHolloran" href="https://danholloran.me/feed.xml">
 
     @stack('meta')
@@ -56,7 +56,7 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
     <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}">
 </head>
 
-<body>
+<body class="theme-{{ $page->theme }}">
     <div id="app"
         class="flex flex-col justify-between min-h-screen bg-topographic leading-normal font-sans antialiased">
         <header class="flex items-center md:h-24 py-4 print-hidden" role="banner">

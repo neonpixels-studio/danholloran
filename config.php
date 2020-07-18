@@ -1,11 +1,23 @@
 <?php
 
+function chooseTheme()
+{
+    return collect([
+        'blue',
+        'indigo',
+        'teal',
+        'green',
+        'gray',
+    ])->random();
+}
+
 return [
     'production' => false,
     'siteName' => 'DanHolloran',
     'siteDescription' => 'My adventures on and off of the internetz.',
     'siteAuthor' => 'Dan Holloran',
     'resumeUrl' => '/files/danholloran-resume.pdf?v=4',
+    'theme' => chooseTheme(),
     'instagram' => collect([
         'link' => 'https://www.instagram.com/dholloran85/',
         'username' => 'dholloran85',
