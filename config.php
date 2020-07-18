@@ -18,29 +18,42 @@ return [
     'siteAuthor' => 'Dan Holloran',
     'resumeUrl' => '/files/danholloran-resume.pdf?v=4',
     'theme' => chooseTheme(),
-    'instagram' => collect([
-        'link' => 'https://www.instagram.com/dholloran85/',
-        'username' => 'dholloran85',
-    ]),
-    'twitter' => collect([
-        'link' => 'https://twitter.com/dholloran',
-        'username' => 'dholloran',
-    ]),
-    'youTube' => collect([
-        'link' => 'https://www.youtube.com/c/DannyHolloran1',
-        'username' => 'DannyHolloran1',
-    ]),
-    'gitlab' => collect([
-        'link' => 'https://gitlab.com/DHolloran',
-        'username' => 'DHolloran',
-    ]),
-    'github' => collect([
-        'link' => 'https://github.com/dholloran',
-        'username' => 'dholloran',
-    ]),
-    'linkedIn' => collect([
-        'link' => 'https://www.linkedin.com/in/dan-holloran/',
-        'username' => 'dan-holloran',
+    'social' => collect([
+        'gitlab' => collect([
+            'link' => 'https://gitlab.com/DHolloran',
+            'username' => 'DHolloran',
+            'name' => 'Gitlab',
+        ]),
+        'github' => collect([
+            'link' => 'https://github.com/dholloran',
+            'username' => 'dholloran',
+            'name' => 'GitHub',
+        ]),
+        'twitter' => collect([
+            'link' => 'https://twitter.com/dholloran',
+            'username' => 'dholloran',
+            'name' => 'Twitter',
+        ]),
+        'linkedIn' => collect([
+            'link' => 'https://www.linkedin.com/in/dan-holloran/',
+            'username' => 'dan-holloran',
+            'name' => 'LinkedIn',
+        ]),
+        'youTube' => collect([
+            'link' => 'https://www.youtube.com/c/DannyHolloran1',
+            'username' => 'DannyHolloran1',
+            'name' => 'YouTube',
+        ]),
+        'instagram' => collect([
+            'link' => 'https://www.instagram.com/dholloran85/',
+            'username' => 'dholloran85',
+            'name' => 'Instagram',
+        ]),
+        'unsplash' => collect([
+            'link' => 'https://unsplash.com/@dholloran',
+            'username' => 'dholloran',
+            'name' => 'Unsplash',
+        ]),
     ]),
     // collections
     'collections' => [
