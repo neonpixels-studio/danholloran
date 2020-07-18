@@ -3,6 +3,7 @@ window.fuse = require("fuse.js");
 window.Vue = require("vue");
 
 import Search from "./components/Search.vue";
+import Banner from "./components/Banner.vue";
 import hljs from "highlight.js/lib/highlight";
 import VueAgile from "vue-agile";
 
@@ -38,6 +39,7 @@ Vue.config.productionTip = false;
 
 new Vue({
     components: {
-        Search
+        Search,
+        Banner
     }
 }).$mount("#app");

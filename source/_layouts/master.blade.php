@@ -1,5 +1,5 @@
 @php
-$full_width = in_array($page->getPath(), ['', '/resume']);
+$full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
 @endphp
 <!DOCTYPE html>
 <html lang="en">
