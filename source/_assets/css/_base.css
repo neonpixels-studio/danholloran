@@ -95,6 +95,7 @@ hr {
 }
 
 li {
+
   ul,
   ol {
     @apply my-0;
@@ -205,11 +206,20 @@ svg {
   }
 }
 
+.button-link {
+  @apply .shadow-none .p-0 font-semibold text-theme-1-600 no-underline;
+
+  &:hover {
+    @apply text-theme-1-800;
+  }
+}
+
 [v-cloak] {
   opacity: 0;
 }
 
 .content {
+
   ul,
   ol {
     @apply ml-5;

@@ -33,7 +33,7 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
     <title>{{ $page->siteName }}{{ $page->title ? ' | ' . $page->title : '' }}</title>
 
     <link rel="home" href="{{ $page->baseUrl }}">
-    <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/{{ $page->theme }}.svg?v=1">
+    <link rel="icon" type="image/svg+xml" href="/assets/img/favicons/{{ $page->theme }}.svg?v=1" id="theme_favicon">
     <link rel="alternate" type="application/rss+xml" title="DanHolloran" href="https://danholloran.me/feed.xml">
 
     @stack('meta')
@@ -84,7 +84,7 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
             @yield('body')
         </main>
 
-        <footer class="bg-white text-center text-sm mt-12 py-4 print-hidden" role="contentinfo">
+        <footer class="text-center text-sm mt-12 py-4 print-hidden" role="contentinfo">
             <ul class="flex flex-col md:flex-row justify-center list-reset">
                 <li class="md:mr-2">
                     &copy; Dan Holloran {{ date('Y') }}.
@@ -98,6 +98,9 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
                         target="_blank" rel="noopener noreferrer">Tailwind CSS</a>.
                 </li>
             </ul>
+            <div>
+                <theme-switcher />
+            </div>
         </footer>
     </div>
 

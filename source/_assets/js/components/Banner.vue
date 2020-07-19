@@ -38,6 +38,29 @@
           <span class="bg-gray-200 px-4 flex items-center">px</span>
         </div>
 
+        <!-- Theme -->
+        <div class="mx-4">
+          <label
+            for="theme"
+            class="sr-only"
+          >Theme</label>
+          <div class="border py-2 px-4 h-full bg-white">
+            <select
+              class="h-full"
+              name="theme"
+              id="theme"
+              v-model="theme"
+            >
+              <option
+                :value="option.value"
+                v-for="option in themeOptions"
+                :key="option.value"
+                v-text="option.label"
+              ></option>
+            </select>
+          </div>
+        </div>
+
         <!-- Background -->
         <div class="mx-4">
           <label
@@ -121,6 +144,8 @@
 </template>
 
 <script>
+import { themes, setTheme, themeOptions, getTheme } from "../theme";
+
 const storageKey = "dh:banner-data";
 
 export default {
@@ -130,7 +155,10 @@ export default {
       height: this.getItemFromStorage("height", 500),
       background: this.getItemFromStorage("background", "bg-theme-1-800"),
       message: this.getItemFromStorage("message", ""),
-      fontSize: this.getItemFromStorage("fontSize", 2.625)
+      fontSize: this.getItemFromStorage("fontSize", 2.625),
+      theme: getTheme(),
+      themes,
+      themeOptions
     };
   },
   computed: {
@@ -152,10 +180,15 @@ export default {
       const items = this.getItemsFromStorage();
       return items[key] ? items[key] : defaultValue;
     },
+
     setItemInStorage(key, value) {
       const items = this.getItemsFromStorage();
       items[key] = value;
       window.localStorage.setItem(storageKey, JSON.stringify(items));
+    },
+
+    setTheme() {
+      return setTheme(this.theme);
     }
   },
 
@@ -174,7 +207,14 @@ export default {
     },
     fontSize(value) {
       this.setItemInStorage("fontSize", value);
+    },
+    theme(value) {
+      this.setTheme();
     }
+  },
+
+  mounted() {
+    this.setTheme();
   }
 };
 </script>

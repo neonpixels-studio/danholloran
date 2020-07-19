@@ -4,6 +4,7 @@ window.Vue = require("vue");
 
 import Search from "./components/Search.vue";
 import Banner from "./components/Banner.vue";
+import ThemeSwitcher from "./components/ThemeSwitcher.vue";
 import hljs from "highlight.js/lib/highlight";
 import VueAgile from "vue-agile";
 
@@ -40,6 +41,7 @@ Vue.config.productionTip = false;
 new Vue({
     components: {
         Search,
-        Banner
+        Banner,
+        ThemeSwitcher
     }
 }).$mount("#app");
