@@ -34,7 +34,7 @@ This is what I currently use to get work done. Inspired by [https://uses.tech/](
 
 - [IKEA Bekant Sit/Stand Desk](https://www.ikea.com/us/en/p/bekant-desk-sit-stand-white-s49022538/)
 - [IKEA Markus Chair](https://www.ikea.com/us/en/p/markus-office-chair-vissle-dark-gray-90289172/)
-- [IKEA Alex Drawer unit](https://www.ikea.com/us/en/p/alex-drawer-unit-on-casters-white-40196241/)
+- [IKEA Alex Drawer unit](https://www.ikea.com/us/en/p/alex-drawer-unit-on-casters-blue-40410439/)
 - [Heater/Fan](https://www.amazon.com/gp/product/B07FPCYJP9/)
 - [Corsair Extended Mouse Mat](https://www.amazon.com/gp/product/B01798VS4C/)
 
