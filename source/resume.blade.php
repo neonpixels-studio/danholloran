@@ -27,7 +27,7 @@
                     </li>
                     <li class="flex items-center">
                         <span class="block w-4 h-4 mr-2 text-gray-500">@include('_partials.icon-phone')</span> <span
-                            class="sr-only">Phone:</span> 314-368-5819
+                            class="sr-only">Phone:</span> 314-882-8326
                     </li>
                     <li class="flex items-center leading-none">
                         <span class="block w-4 h-4 mr-2 text-gray-500">@include('_partials.icon-link')</span>
