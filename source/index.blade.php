@@ -5,7 +5,7 @@
 <div class="container flex flex-row-reverse justify-center max-w-4xl px-6 mx-auto mb-10 md:items-center md:flex-row">
     <div>
         <h1>
-            Hello, I'm&nbsp;<span class="text-theme-1-500">Dan Holloran</span>. I'm a&nbsp;<span class="text-theme-1-500">Full Stack Developer</span>.
+            Hello, I'm&nbsp;<span class="text-primary-500">Dan Holloran</span>. I'm a&nbsp;<span class="text-primary-500">Full Stack Developer</span>.
         </h1>
     </div>
     <img loading="lazy" src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256"
@@ -125,7 +125,7 @@
 </div>
 
 {{-- Get in touch --}}
-<div id="contact" class="py-10 text-white bg-theme-1-800">
+<div id="contact" class="py-10 text-white bg-primary-800">
     <div class="container max-w-4xl px-6 mx-auto">
         <h2 class="text-white">Get in touch</h2>
         @include('_partials.contact-form')
@@ -139,7 +139,7 @@
         <h3 class="absolute inset-0 flex items-center justify-center m-0 text-white z-10">
             {{ $featuredPage->title }}
         </h3>
-        <div class="absolute bg-theme-1-400 inset-0 opacity-75 z-0"></div>
+        <div class="absolute bg-primary-400 inset-0 opacity-75 z-0"></div>
         <img loading="lazy" src="{{ $featuredPage->cover_image }}" alt="{{ $featuredPage->title }} image"
             class="object-cover w-full h-full max-h-full">
     </a>

@@ -37,7 +37,7 @@ pagination:
 
         @foreach ($pagination->pages as $pageNumber => $path)
         <a href="{{ $path }}" title="Go to Page {{ $pageNumber }}"
-            class="bg-gray-200 hover:bg-gray-400 text-theme-1-700 rounded mr-3 px-5 py-3 {{ $pagination->currentPage == $pageNumber ? 'text-theme-1-600' : '' }}">{{ $pageNumber }}</a>
+            class="bg-gray-200 hover:bg-gray-400 text-primary-700 rounded mr-3 px-5 py-3 {{ $pagination->currentPage == $pageNumber ? 'text-primary-600' : '' }}">{{ $pageNumber }}</a>
         @endforeach
 
         @if ($next = $pagination->next)

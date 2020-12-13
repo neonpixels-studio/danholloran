@@ -15,7 +15,7 @@
         <div class="w-1/3 px-8 py-12 bg-gray-100">
             <div class="mb-8">
                 <h1 class="mb-1 text-2xl leading-none">Dan Holloran</h1>
-                <h2 class="mt-0 mb-0 text-lg leading-none text-theme-1-500">Full Stack Developer</h2>
+                <h2 class="mt-0 mb-0 text-lg leading-none text-primary-500">Full Stack Developer</h2>
             </div>
             <div class="mb-8">
                 <h3 class="mt-0 mb-1 text-lg font-semibold leading-none text-gray-700">Contact Information</h3>
@@ -59,7 +59,7 @@
                 }) as $item)
                 <div class="mb-4">
                     <h3 class="mb-1 text-xl">{{ $item->title }}</h3>
-                    <h4 class="mt-0 mb-0 text-lg text-theme-1-500">
+                    <h4 class="mt-0 mb-0 text-lg text-primary-500">
                         <a href="{{ $item->company_url }}" target="_blank"
                             rel="noopener noreferrer">{{ $item->company }}</a>
                     </h4>
@@ -77,7 +77,7 @@
                 }) as $item)
                 <div class="mb-4">
                     <h3 class="mb-1 text-xl">{{ $item->title }}</h3>
-                    <h4 class="mt-0 mb-0 text-lg text-theme-1-500">
+                    <h4 class="mt-0 mb-0 text-lg text-primary-500">
                         <a href="{{ $item->company_url }}" target="_blank"
                             rel="noopener noreferrer">{{ $item->company }}</a>
                     </h4>

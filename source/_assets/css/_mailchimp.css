@@ -41,10 +41,10 @@
 }
 
 #mc-embedded-subscribe {
-  @apply bg-theme-1-500 cursor-pointer leading-normal px-6 py-2 rounded-r text-white w-1/3;
+  @apply bg-primary-500 cursor-pointer leading-normal px-6 py-2 rounded-r text-white w-1/3;
 
   &:hover {
-    @apply bg-theme-1-600;
+    @apply bg-primary-600;
   }
 
   @screen md {

@@ -42,7 +42,7 @@
 {{ $page->alert_message ?? null }}
 @endcomponent
 
-<div class="pb-4 mb-10 border-b border-theme-1-200 content" v-pre>
+<div class="pb-4 mb-10 border-b border-primary-200 content" v-pre>
     @yield('content')
 </div>
 

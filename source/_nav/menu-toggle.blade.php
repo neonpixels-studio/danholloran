@@ -1,5 +1,5 @@
 <button
-    class="flex justify-center items-center bg-theme-1-500 border border-theme-1-500 h-10 px-5 rounded-full lg:hidden focus:outline-none"
+    class="flex justify-center items-center bg-primary-500 border border-primary-500 h-10 px-5 rounded-full lg:hidden focus:outline-none"
     onclick="navMenu.toggle()">
     <svg id="js-nav-menu-show" xmlns="http://www.w3.org/2000/svg" class="fill-current text-white h-9 w-4"
         viewBox="0 0 32 32">

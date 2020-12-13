@@ -3,7 +3,7 @@
     <ul class="flex items-center">
         @foreach ($page->social as $social)
             <li class="{{ $loop->last ? '' : 'mr-2' }}">
-                <a href="{{ $social->get('link') }}" title="{{ $social->get('name') }}" class="block h-6 text-theme-1-700">
+                <a href="{{ $social->get('link') }}" title="{{ $social->get('name') }}" class="block h-6 text-primary-700">
                     @php
                     $slug = str_slug($social->get('name'));
                     $template = "_partials.icon-{$slug}";

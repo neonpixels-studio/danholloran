@@ -1,5 +1,5 @@
 .social-preview {
-  @apply .h-full .rounded-lg .shadow .overflow-hidden .flex .flex-col;
+  @apply h-full rounded-lg shadow overflow-hidden flex flex-col;
 
   p {
     @apply mt-0;
@@ -7,10 +7,10 @@
 }
 
 .sp-twitter {
-  @apply .bg-white .px-6 .pt-4 .text-gray-800;
+  @apply bg-white px-6 pt-4 text-gray-800;
 
   a {
-    @apply .text-twitter;
+    @apply text-twitter;
   }
 }
 
@@ -19,28 +19,28 @@
 
   .sp-instagram-content,
   .sp-instagram-content * {
-    @apply .h-full .w-full;
+    @apply h-full w-full;
   }
 
   img {
-    @apply .object-cover h-full w-full;
+    @apply object-cover h-full w-full;
   }
 
   p {
-    @apply .m-0;
+    @apply m-0;
   }
 
   a {
-    @apply .text-instagram;
+    @apply text-instagram;
   }
 }
 
 .sp-youtube {
   img {
-    @apply .object-cover h-full w-full;
+    @apply object-cover h-full w-full;
   }
 
   a {
-    @apply .text-youtube;
+    @apply text-youtube;
   }
 }

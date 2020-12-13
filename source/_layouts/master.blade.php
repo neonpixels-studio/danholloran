@@ -60,10 +60,10 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
     <div id="app"
         class="flex flex-col justify-between min-h-screen bg-topographic leading-normal font-sans antialiased">
         <header class="flex items-center md:h-24 py-4 print-hidden" role="banner">
-            <div class="container flex flex-wrap items-center max-w-8xl mx-auto px-4 lg:px-8">
+            <div class="container flex flex-wrap items-center max-w-7xl mx-auto px-4 lg:px-8">
                 <div class="w-full sm:w-1/3 md:w-auto justify-center flex mb-4 md:mb-0">
                     <a href="/" title="{{ $page->siteName }} home"
-                        class="inline-flex items-center text-theme-1-800 font-semibold hover:text-theme-1-700 text-lg md:text-2xl">
+                        class="inline-flex items-center text-primary-800 font-semibold hover:text-primary-700 text-lg md:text-2xl">
                         <span class="sr-only">{{ $page->siteName }}</span>
                         @include('_partials.logo')
                     </a>

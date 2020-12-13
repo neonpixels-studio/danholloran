@@ -1,17 +1,16 @@
-<template>
+<template hidden>
   <div class="flex items-center justify-center">
     <button
       class="button button-link"
       type="button"
-      @click="() => displaySelect = !displaySelect"
+      @click="() => (displaySelect = !displaySelect)"
       v-show="!displaySelect"
-    >Change Theme</button>
+    >
+      Change Theme
+    </button>
 
     <div v-show="displaySelect">
-      <label
-        for="theme_switcher"
-        class="sr-only"
-      >Theme</label>
+      <label for="theme_switcher" class="sr-only">Theme</label>
       <div class="bg-white">
         <select
           @input="handleInput"
@@ -66,5 +65,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

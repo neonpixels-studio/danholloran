@@ -1,5 +1,5 @@
 .skills-tools {
   svg {
-    @apply .max-h-24;
+    @apply max-h-24;
   }
 }

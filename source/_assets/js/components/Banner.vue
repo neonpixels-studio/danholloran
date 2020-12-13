@@ -1,13 +1,14 @@
-<template>
-  <div :class="`flex items-center justify-center w-full ${outerBackground} border p-16 flex-col`">
+<template hidden>
+  <div
+    :class="
+      `flex items-center justify-center w-full ${outerBackground} border p-16 flex-col`
+    "
+  >
     <div class="mb-16">
       <div class="flex justify-center mb-8 -mx-4">
         <!-- Width -->
         <div class="border flex mx-4">
-          <label
-            for="width"
-            class="sr-only"
-          >Width</label>
+          <label for="width" class="sr-only">Width</label>
           <input
             type="number"
             min="0"
@@ -16,16 +17,13 @@
             id="width"
             class="py-2 px-4"
             v-model="width"
-          >
+          />
           <span class="bg-gray-200 px-4 flex items-center">px</span>
         </div>
 
         <!-- Height -->
         <div class="border flex mx-4">
-          <label
-            for="height"
-            class="sr-only"
-          >Height</label>
+          <label for="height" class="sr-only">Height</label>
           <input
             type="number"
             min="0"
@@ -34,23 +32,15 @@
             id="height"
             class="py-2 px-4"
             v-model="height"
-          >
+          />
           <span class="bg-gray-200 px-4 flex items-center">px</span>
         </div>
 
         <!-- Theme -->
         <div class="mx-4">
-          <label
-            for="theme"
-            class="sr-only"
-          >Theme</label>
+          <label for="theme" class="sr-only">Theme</label>
           <div class="border py-2 px-4 h-full bg-white">
-            <select
-              class="h-full"
-              name="theme"
-              id="theme"
-              v-model="theme"
-            >
+            <select class="h-full" name="theme" id="theme" v-model="theme">
               <option
                 :value="option.value"
                 v-for="option in themeOptions"
@@ -63,10 +53,7 @@
 
         <!-- Background -->
         <div class="mx-4">
-          <label
-            for="background"
-            class="sr-only"
-          >Background Color</label>
+          <label for="background" class="sr-only">Background Color</label>
           <div class="border py-2 px-4 h-full bg-white">
             <select
               class="h-full"
@@ -76,23 +63,20 @@
             >
               <option value="bg-white">White</option>
               <option value="bg-black">Black</option>
-              <option value="bg-theme-1-300">Theme 1 (300)</option>
-              <option value="bg-theme-1-400">Theme 1 (400)</option>
-              <option value="bg-theme-1-500">Theme 1 (500)</option>
-              <option value="bg-theme-1-600">Theme 1 (600)</option>
-              <option value="bg-theme-1-700">Theme 1 (700)</option>
-              <option value="bg-theme-1-800">Theme 1 (800)</option>
-              <option value="bg-theme-1-900">Theme 1 (900)</option>
+              <option value="bg-primary-300">Theme 1 (300)</option>
+              <option value="bg-primary-400">Theme 1 (400)</option>
+              <option value="bg-primary-500">Theme 1 (500)</option>
+              <option value="bg-primary-600">Theme 1 (600)</option>
+              <option value="bg-primary-700">Theme 1 (700)</option>
+              <option value="bg-primary-800">Theme 1 (800)</option>
+              <option value="bg-primary-900">Theme 1 (900)</option>
             </select>
           </div>
         </div>
 
         <!-- Font Size -->
         <div class="border flex mx-4">
-          <label
-            for="font_size"
-            class="sr-only"
-          >Font Size</label>
+          <label for="font_size" class="sr-only">Font Size</label>
           <input
             type="number"
             min="0"
@@ -101,15 +85,12 @@
             id="font_size"
             class="py-2 px-4"
             v-model="fontSize"
-          >
+          />
           <span class="bg-gray-200 px-4 flex items-center">rem</span>
         </div>
       </div>
       <div class="flex justify-center">
-        <label
-          for="message"
-          class="sr-only"
-        >Message</label>
+        <label for="message" class="sr-only">Message</label>
         <textarea
           name="message"
           id="message"
@@ -121,7 +102,9 @@
       </div>
     </div>
     <div
-      :class="`bg-topographic ${textColor} flex items-end justify-end p-8 ${background} relative`"
+      :class="
+        `bg-topographic ${textColor} flex items-end justify-end p-8 ${background} relative`
+      "
       :style="{
         width: `${this.width}px`,
         height: `${this.height}px`
@@ -131,10 +114,12 @@
         class="absolute inset-0 flex items-end justify-end px-8 pb-32 pt-8"
         v-if="message"
       >
-        <div class="hover:bg-gray-500 hover:bg-opacity-50 h-full w-full font-extrabold leading-tight flex items-center justify-center whitespace-pre-wrap">
+        <div
+          class="hover:bg-gray-500 hover:bg-opacity-50 h-full w-full font-extrabold leading-tight flex items-center justify-center whitespace-pre-wrap"
+        >
           <div
             v-html="message"
-            :style="{'font-size': `${fontSize}rem`}"
+            :style="{ 'font-size': `${fontSize}rem` }"
           ></div>
         </div>
       </div>
@@ -153,7 +138,7 @@ export default {
     return {
       width: this.getItemFromStorage("width", 1000),
       height: this.getItemFromStorage("height", 500),
-      background: this.getItemFromStorage("background", "bg-theme-1-800"),
+      background: this.getItemFromStorage("background", "bg-primary-800"),
       message: this.getItemFromStorage("message", ""),
       fontSize: this.getItemFromStorage("fontSize", 2.625),
       theme: getTheme(),
@@ -163,7 +148,7 @@ export default {
   },
   computed: {
     textColor() {
-      return this.background === "bg-white" ? "text-theme-1-800" : "text-white";
+      return this.background === "bg-white" ? "text-primary-800" : "text-white";
     },
 
     outerBackground() {
@@ -219,5 +204,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
