@@ -25,7 +25,6 @@ const setThemeFavicon = theme => {
 export const setTheme = theme => {
     setThemeClass(theme);
     setThemeFavicon(theme);
-    console.log(theme);
     window.localStorage.setItem(storageKey, theme);
 };
 
