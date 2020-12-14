@@ -4,7 +4,9 @@ window.Vue = require("vue");
 
 import Search from "./components/Search.vue";
 import Banner from "./components/Banner.vue";
+import Quote from "./components/Quote/Quote.vue";
 import ThemeSwitcher from "./components/ThemeSwitcher.vue";
+import Copy from "./components/Copy.vue";
 import hljs from "highlight.js/lib/core";
 import VueAgile from "vue-agile";
 
@@ -42,6 +44,8 @@ new Vue({
     components: {
         Search,
         Banner,
-        ThemeSwitcher
+        ThemeSwitcher,
+        Quote,
+        Copy
     }
 }).$mount("#app");
