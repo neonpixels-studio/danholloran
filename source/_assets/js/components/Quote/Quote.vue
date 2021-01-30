@@ -1,17 +1,39 @@
 <template>
-  <div class="">
-    <blockquote class="w-100">
-      <div class="mb-2">
+  <div>
+    <!-- Quote -->
+    <blockquote
+      class="w-100"
+      :class="{
+        'w-100 mt-0 mb-2 p-0 border-0 bg-transparent shadow-none text-primary-500 font-semibold': dataIsForExternal
+      }"
+    >
+      <div
+        class="mb-2"
+        :class="{
+          'text-2xl': dataIsForExternal
+        }"
+      >
         "{{ quote.text }}"
       </div>
-      <span class="ml-4">- {{ quote.author }}</span>
+      <span
+        class="ml-4"
+        :class="{
+          'text-lg': dataIsForExternal
+        }"
+      >- {{ quote.author }}</span>
     </blockquote>
-    <div class="flex">
+
+    <div class="flex border-l-2 border-transparent">
+      <!-- Refresh -->
       <button
         type="button"
         @click="refreshQuote"
         title="Refresh"
-        class="flex items-center mr-4 button-small button-primary"
+        class="flex items-center mr-4"
+        :class="{
+          'button-link text-gray-500 text-sm': dataIsForExternal,
+          'button-small button-primary': dataIsForExternal
+        }"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
           <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
@@ -19,11 +41,12 @@
         Refresh
       </button>
 
+      <!-- Mark as used -->
       <button
         type="button"
         title="Mark as used."
         class="flex items-center mr-4 button-small button-primary"
-        v-if="displayMarkAsUsed"
+        v-if="displayMarkAsUsed && !dataIsForExternal"
         @click="markAsUsed"
       >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 mr-2">
@@ -32,7 +55,14 @@
         Mark as used.
       </button>
 
-      <copy :dataText="copyQuote" class="button-small button-primary">Copy</copy>
+      <!-- Copy -->
+      <copy
+        :dataText="copyQuote"
+        :class="{
+          'button-link text-gray-500 text-sm': dataIsForExternal,
+          'button-small button-primary': dataIsForExternal
+        }"
+      >Copy</copy>
     </div>
   </div>
 </template>
@@ -44,6 +74,13 @@ import sha1 from 'sha1'
 import copy from "./../Copy";
 
 export default {
+  props: {
+    dataIsForExternal: {
+      default: false,
+      type: Boolean
+    }
+  },
+
   components: {copy},
 
   data() {

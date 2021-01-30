@@ -2,15 +2,28 @@
 
 @section('body')
 {{-- Hero --}}
-<div class="container flex flex-row-reverse justify-center max-w-4xl px-6 mx-auto mb-10 md:items-center md:flex-row">
+<div
+    class="container flex flex-row-reverse justify-center max-w-6xl px-6 mx-auto mb-10 leading-3 md:items-center md:flex-row">
     <div>
-        <h1>
-            Hello, I'm&nbsp;<span class="text-primary-500">Dan Holloran</span>. I'm a&nbsp;<span class="text-primary-500">Full Stack Developer</span>.
+        <h1 class="leading-snug">
+            Hello, I'm <span class="text-primary-500">Dan Holloran</span>.
         </h1>
+        <div class="leading-snug h1">
+            I'm a <span class="text-primary-500">Full Stack Developer</span>, <span
+                class="text-primary-500">Photographer</span> and <span class="text-primary-500">life long
+                learner</span>.
+        </div>
     </div>
     <img loading="lazy" src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256"
         height="256" alt="About image"
         class="w-24 h-24 mr-4 bg-contain rounded-full md:h-64 md:w-64 md:my-6 md:ml-10 md:mr-0">
+</div>
+
+{{-- Quote --}}
+<div class="py-5 bg-gray-100 bg-opacity-50">
+    <div class="max-w-6xl px-6 mx-auto">
+        <quote :data-is-for-external="true"></quote>
+    </div>
 </div>
 
 {{-- Projects --}}
@@ -21,7 +34,7 @@
             @foreach ($projects->reject(function($project) {
             return (bool) $project->draft ?? false;
             }) as $project)
-            <li class="px-4 mb-6 lg:w-1/3 sm:w-1/2 w-full">
+            <li class="w-full px-4 mb-6 lg:w-1/3 sm:w-1/2">
                 <div class="flex flex-col w-full h-full overflow-hidden bg-white rounded-lg shadow">
                     <a href="{{ $project->getUrl() }}" class="block w-full">
                         <img loading="lazy" src="{{ $project->thumbnail_image }}" alt="{{ $project->title }} thumbnail"
@@ -60,7 +73,7 @@
 </div>
 
 {{-- Skills &amp; Tools --}}
-<div class="skills-tools container px-6 mx-auto my-16">
+<div class="container px-6 mx-auto my-16 skills-tools">
     <ul class="flex flex-wrap -mx-1">
         @foreach ($skills->reject(function($item) {
         return (bool) $item->draft ?? false;
@@ -136,10 +149,10 @@
 <div class="container flex flex-wrap max-w-4xl px-6 py-10 mx-auto">
     @foreach ($pages->where('featured', true)->whereNotNull('cover_image') as $featuredPage)
     <a href="{{ $featuredPage->getUrl() }}" class="relative block h-64 md:w-1/2">
-        <h3 class="absolute inset-0 flex items-center justify-center m-0 text-white z-10">
+        <h3 class="absolute inset-0 z-10 flex items-center justify-center m-0 text-white">
             {{ $featuredPage->title }}
         </h3>
-        <div class="absolute bg-primary-400 inset-0 opacity-75 z-0"></div>
+        <div class="absolute inset-0 z-0 opacity-75 bg-primary-400"></div>
         <img loading="lazy" src="{{ $featuredPage->cover_image }}" alt="{{ $featuredPage->title }} image"
             class="object-cover w-full h-full max-h-full">
     </a>
@@ -212,7 +225,7 @@
 </div>
 
 {{-- Books --}}
-<div class="container max-w-4xl px-6 pt-10 mx-auto py-10">
+<div class="container max-w-4xl px-6 py-10 pt-10 mx-auto">
     <h2>What I'm Reading</h2>
     @include('_partials.currently-reading')
 
@@ -230,7 +243,7 @@
             })->concat($youtube)->concat($instagram)->sortBy(function () {
             return rand(1, 1000);
             })->take(12) as $item)
-            <div class="w-full md:w-1/2 lg:w-1/3 p-2">
+            <div class="w-full p-2 md:w-1/2 lg:w-1/3">
                 @include('_partials.social-preview', ['item' => $item])
             </div>
             @endforeach

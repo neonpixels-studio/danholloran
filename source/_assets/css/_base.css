@@ -38,7 +38,13 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
   @apply mt-8 mb-4 leading-tight text-gray-900;
 
   &:first-child {
@@ -46,7 +52,8 @@ h6 {
   }
 }
 
-h1 {
+h1,
+.h1 {
   @apply text-3xl font-extrabold;
 
   @screen md {
@@ -54,7 +61,8 @@ h1 {
   }
 }
 
-h2 {
+h2,
+.h2 {
   @apply text-2xl font-bold;
 
   @screen md {
@@ -62,7 +70,8 @@ h2 {
   }
 }
 
-h3 {
+h3,
+.h3 {
   @apply text-xl font-bold;
 
   @screen md {
@@ -70,7 +79,8 @@ h3 {
   }
 }
 
-h4 {
+h4,
+.h4 {
   @apply text-lg font-normal;
 
   @screen md {
@@ -78,7 +88,8 @@ h4 {
   }
 }
 
-h5 {
+h5,
+.h5 {
   @apply text-lg font-normal;
 
   @screen md {
@@ -86,7 +97,8 @@ h5 {
   }
 }
 
-h6 {
+h6,
+.h6 {
   @apply text-lg font-light;
 }
 
@@ -206,10 +218,12 @@ svg {
 }
 
 .button-link {
-  @apply p-0 font-semibold no-underline shadow-none text-primary-600;
+  @apply p-0 font-semibold no-underline bg-transparent shadow-none text-primary-600;
 
-  &:hover {
-    @apply text-primary-800;
+  &:hover,
+  &:focus,
+  &:active {
+    @apply bg-transparent text-primary-800;
   }
 }
 
