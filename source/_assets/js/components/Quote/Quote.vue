@@ -12,9 +12,8 @@
         :class="{
           'text-2xl': dataIsForExternal
         }"
-      >
-        "{{ quote.text }}"
-      </div>
+        v-text="quote.text"
+      ></div>
       <span
         class="ml-4"
         :class="{
@@ -105,6 +104,11 @@ export default {
     },
 
     usedQuotes() {
+      // We want to display all quotes no matter if then have been marked as used.
+      if (this.dataIsForExternal) {
+        return collect([]);
+      }
+
       const usedQuotes = window.localStorage.getItem(this.storageKey);
 
       return usedQuotes ? collect(JSON.parse(usedQuotes)) : collect([]);
