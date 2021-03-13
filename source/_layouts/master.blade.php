@@ -54,25 +54,26 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
     <link rel="preload" href="https://fonts.googleapis.com/css?family=Fira+Code&display=swap" rel="stylesheet"
         as="style" onload="this.rel='stylesheet'">
     <link rel="stylesheet" href="{{ mix('css/main.css', 'assets/build') }}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body class="theme-{{ $page->theme }}">
     <div id="app"
-        class="flex flex-col justify-between min-h-screen bg-topographic leading-normal font-sans antialiased">
-        <header class="flex items-center md:h-24 py-4 print-hidden" role="banner">
-            <div class="container flex flex-wrap items-center max-w-7xl mx-auto px-4 lg:px-8">
-                <div class="w-full sm:w-1/3 md:w-auto justify-center flex mb-4 md:mb-0">
+        class="flex flex-col justify-between min-h-screen font-sans antialiased leading-normal bg-topographic">
+        <header class="flex items-center py-4 md:h-24 print-hidden" role="banner">
+            <div class="container flex flex-wrap items-center px-4 mx-auto max-w-7xl lg:px-8">
+                <div class="flex justify-center w-full mb-4 sm:w-1/3 md:w-auto md:mb-0">
                     <a href="/" title="{{ $page->siteName }} home"
-                        class="inline-flex items-center text-primary-800 font-semibold hover:text-primary-700 text-lg md:text-2xl">
+                        class="inline-flex items-center text-lg font-semibold text-primary-800 hover:text-primary-700 md:text-2xl">
                         <span class="sr-only">{{ $page->siteName }}</span>
                         @include('_partials.logo')
                     </a>
                 </div>
                 <div id="vue-search"
-                    class="flex flex-1 md:justify-end sm:justify-start justify-center items-center w-full md:w-auto sm:w-1/3 sm:px-4">
+                    class="flex items-center justify-center flex-1 w-full md:justify-end sm:justify-start md:w-auto sm:w-1/3 sm:px-4">
                     <search></search>
                 </div>
-                <div class="w-full md:w-auto flex justify-center sm:justify-end items-center sm:w-1/3">
+                <div class="flex items-center justify-center w-full md:w-auto sm:justify-end sm:w-1/3">
                     @include('_nav.social')
                 </div>
             </div>
@@ -84,8 +85,8 @@ $full_width = in_array($page->getPath(), ['', '/resume', '/banner']);
             @yield('body')
         </main>
 
-        <footer class="text-center text-sm mt-12 py-4 print-hidden" role="contentinfo">
-            <ul class="flex flex-col md:flex-row justify-center list-reset">
+        <footer class="py-4 mt-12 text-sm text-center print-hidden" role="contentinfo">
+            <ul class="flex flex-col justify-center md:flex-row list-reset">
                 <li class="md:mr-2">
                     &copy; Dan Holloran {{ date('Y') }}.
                 </li>
