@@ -36,15 +36,19 @@
                     </li>
                 </ul>
             </div>
-            <div class="mb-8">
-                <h3 class="mt-0 mb-1 text-lg font-semibold leading-none text-gray-700">Skills &amp; Tools</h3>
+            <div class="mb-8 skills-tools">
+                <h3 class="mt-0 mb-1 text-lg font-semibold leading-none text-gray-700">Skills &amp; Tools
+                </h3>
                 <ul class="flex flex-wrap -mx-1">
                     @foreach ($skills->reject(function($item) {
                     return (bool) $item->draft ?? false;
                     }) as $item)
                     <li
-                        class="inline-block px-3 pt-px mb-2 mr-2 text-xs font-semibold leading-loose tracking-wide text-gray-800 bg-gray-300 rounded">
+                        class="inline-flex px-3 pt-px mb-2 mr-2 text-xs font-semibold leading-loose tracking-wide text-gray-800 bg-gray-300 rounded">
                         {{ $item->title }}
+                        @if(!$loop->last)
+                        <span class="print-display">, </span>
+                        @endif
                     </li>
                     @endforeach
                 </ul>
@@ -52,72 +56,44 @@
         </div>
 
         <div class="w-2/3 px-8 py-12">
-            <div class="pb-4 mb-8 border-b-2">
+            <div class="pb-4 mb-8 border-b-2 experience">
                 <h2 class="mb-6 text-2xl leading-none text-gray-700">Experience</h2>
                 @foreach ($experience->whereNotIn('category', ['education'])->reject(function($item) {
                 return (bool) $item->draft ?? false;
                 }) as $item)
                 <div class="mb-4">
-                    <h3 class="mb-1 text-xl">{{ $item->title }}</h3>
-                    <h4 class="mt-0 mb-0 text-lg text-primary-500">
-                        <a href="{{ $item->company_url }}" target="_blank"
-                            rel="noopener noreferrer">{{ $item->company }}</a>
-                    </h4>
-                    <span class="text-gray-700">{{ $item->start }} - {{ $item->end }}</span>
+                    <div class="experience-header">
+                        <div class="experience-company-title">
+                            <h3 class="mb-1 text-xl experience-title">{{ $item->title }}</h3>
+
+                            <h4 class="mt-0 mb-0 text-lg text-primary-500 experience-company">
+                                <a href="{{ $item->company_url }}" target="_blank"
+                                    rel="noopener noreferrer">{{ $item->company }}</a>
+                            </h4>
+                        </div>
+
+                        <span class="text-gray-700 experience-span">{{ $item->start }} - {{ $item->end }}</span>
+                    </div>
                     <div>
                         {!! $item->getContent() !!}
                     </div>
                 </div>
                 @endforeach
             </div>
-            <div class="pb-4 mb-8 border-b-2">
+            <div class="pb-4 mb-8 border-b-2 education">
                 <h2 class="mb-6 text-2xl leading-none text-gray-700">Education</h2>
                 @foreach ($experience->whereIn('category', 'education')->reject(function($item) {
                 return (bool) $item->draft ?? false;
                 }) as $item)
                 <div class="mb-4">
-                    <h3 class="mb-1 text-xl">{{ $item->title }}</h3>
-                    <h4 class="mt-0 mb-0 text-lg text-primary-500">
+                    <h3 class="mb-1 text-xl education-title">{{ $item->title }}</h3>
+                    <h4 class="mt-0 mb-0 text-lg text-primary-500 education-school">
                         <a href="{{ $item->company_url }}" target="_blank"
                             rel="noopener noreferrer">{{ $item->company }}</a>
                     </h4>
                     <span class="text-gray-700">{{ $item->start }} - {{ $item->end }}</span>
                 </div>
                 @endforeach
-            </div>
-            <div>
-                <h2 class="mb-6 text-2xl leading-none text-gray-700">Projects</h2>
-                <ul class="flex flex-wrap -mx-4 -mb-6">
-                    @foreach ($projects->reject(function($project) {
-                    $isDraft = (bool) $project->draft ?? false;
-                    $isFeatured = (bool) $project->featured ?? false;
-                    return $isDraft or !$isFeatured;
-                    }) as $project)
-                    <li class="px-4 mb-4 md:w-1/2">
-                        <div class="flex flex-col">
-                            <h3 class="mb-0 text-xl">
-                                <a class="text-gray-900" href="{{ $project->getUrl() }}">
-                                    {{ $project->title }}
-                                </a>
-                                <span class="block text-sm font-normal text-gray-600">
-                                    Launched: {{ $project->getDate()->format('F Y') }}
-                                </span>
-                            </h3>
-
-                            <div class="mb-4">
-                                @include('_partials.production-url', [
-                                'page' => $project,
-                                ])
-                            </div>
-
-                            @include('_partials.categories', [
-                            'page' => $project,
-                            'wrap_class' => 'mb-0',
-                            ])
-                        </div>
-                    </li>
-                    @endforeach
-                </ul>
             </div>
         </div>
     </div>

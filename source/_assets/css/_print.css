@@ -1,6 +1,14 @@
+.print-display {
+  display: none !important;
+}
+
 @media print {
   .print-hidden {
     display: none !important;
+  }
+
+  .print-display {
+    display: initial !important;
   }
 
   .main {

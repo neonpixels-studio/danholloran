@@ -27,7 +27,7 @@
 </div>
 
 {{-- Projects --}}
-<div class="py-10">
+<div class="py-10 content-visibility-auto">
     <div class="container px-6 mx-auto">
         <h2>Projects</h2>
         <ul class="flex flex-wrap justify-center -mx-4 -mb-6">
@@ -73,7 +73,7 @@
 </div>
 
 {{-- Skills &amp; Tools --}}
-<div class="container px-6 mx-auto my-16 skills-tools">
+<div class="container px-6 mx-auto my-16 skills-tools content-visibility-auto">
     <ul class="flex flex-wrap -mx-1">
         @foreach ($skills->reject(function($item) {
         return (bool) $item->draft ?? false;
@@ -101,7 +101,7 @@
 </div>
 
 {{-- Experience --}}
-<div class="py-10 bg-gray-100">
+<div class="py-10 bg-gray-100 content-visibility-auto">
     <div class="container max-w-4xl px-6 mx-auto" v-cloak>
         <agile class="mb-6" :options="{
                     fade: true,
@@ -138,7 +138,7 @@
 </div>
 
 {{-- Get in touch --}}
-<div id="contact" class="py-10 text-white bg-primary-800">
+<div id="contact" class="py-10 text-white bg-primary-800 content-visibility-auto">
     <div class="container max-w-4xl px-6 mx-auto">
         <h2 class="text-white">Get in touch</h2>
         @include('_partials.contact-form')
@@ -146,7 +146,7 @@
 </div>
 
 {{-- Featured Pages --}}
-<div class="container flex flex-wrap max-w-4xl px-6 py-10 mx-auto">
+<div class="container flex flex-wrap max-w-4xl px-6 py-10 mx-auto content-visibility-auto">
     @foreach ($pages->where('featured', true)->whereNotNull('cover_image') as $featuredPage)
     <a href="{{ $featuredPage->getUrl() }}" class="relative block h-64 md:w-1/2">
         <h3 class="absolute inset-0 z-10 flex items-center justify-center m-0 text-white">
@@ -160,7 +160,7 @@
 </div>
 
 {{-- Podcasts --}}
-<div class="py-10" id="podcasts">
+<div class="py-10 content-visibility-auto" id="podcasts">
     <div class="container px-6 mx-auto">
         <h2>Podcasts</h2>
         <ul class="flex flex-wrap">
@@ -225,7 +225,7 @@
 </div>
 
 {{-- Books --}}
-<div class="container max-w-4xl px-6 py-10 pt-10 mx-auto">
+<div class="container max-w-4xl px-6 py-10 pt-10 mx-auto content-visibility-auto">
     <h2>What I'm Reading</h2>
     @include('_partials.currently-reading')
 
@@ -252,7 +252,7 @@
 </div> --}}
 
 {{-- Blog --}}
-<div class="container px-6 pt-10 mx-auto">
+<div class="container px-6 pt-10 mx-auto content-visibility-auto">
     @foreach ($posts->where('featured', false)->take(4)->chunk(2) as $row)
     <div class="flex flex-col md:flex-row md:-mx-6">
         @foreach ($row as $post)

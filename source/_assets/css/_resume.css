@@ -2,4 +2,63 @@
   p {
     @apply my-2;
   }
+
+  @media print {
+    @apply h-full -mb-8;
+    font-size: 12px;
+
+    h2 {
+      @apply mb-2;
+    }
+
+    .skills-tools {
+      ul {
+        @apply mx-0;
+      }
+
+      li {
+        @apply p-0 m-0 mr-1 bg-transparent;
+      }
+    }
+
+    .experience {
+      @apply pb-0 mb-4 border-b-0;
+    }
+
+    .experience-header {
+      @apply flex;
+    }
+
+    .experience-company-title {
+      @apply mr-4;
+    }
+
+    .experience-title {
+      @apply text-base;
+    }
+
+    .experience-company {
+      @apply text-sm leading-none;
+    }
+
+    .experience-span {
+      @apply ml-auto leading-6;
+    }
+
+    .education {
+      @apply pb-0 mb-4 border-b-0;
+    }
+
+    .education-title {
+      @apply text-base;
+    }
+
+    .education-school {
+      @apply text-sm leading-none;
+    }
+
+    .category {
+      @apply p-0 m-0 mr-1 bg-transparent;
+    }
+  }
 }
