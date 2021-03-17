@@ -374,5 +374,152 @@ export default collect([
         text:
             "If you live long enough, you will witness the death of everyone you love. At some point the phone ringing will be bad news.",
         author: "Sam Harris"
+    },
+    {
+        text:
+            "Everything will be okay in the end. If it’s not okay, it’s not the end",
+        author: "John Lennon."
+    },
+    {
+        text:
+            "Remember that sometimes not getting what you want is a wonderful stroke of luck",
+        author: "Dalai Lama."
+    },
+    {
+        text:
+            "When everything seems to be going against you, remember that the airplane takes off against the wind, not with it",
+        author: "Henry Ford."
+    },
+    {
+        text:
+            "In the cycle of nature, there is no such thing as victory or defeat; there is only movement.",
+        author: "Paulo Coelho, Manuscript Found in Accra."
+    },
+    {
+        text:
+            "Embrace the seasons and cycles of your life. There is magic in change",
+        author: "Bronnie Ware."
+    },
+    {
+        text:
+            "There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle",
+        author: "Albert Einstein."
+    },
+    {
+        text:
+            "Courage doesn’t always roar. Sometimes courage is the little voice at the end of the day that says I’ll try again tomorrow",
+        author: "Mary Anne Radmacher."
+    },
+    {
+        text:
+            "The moment you’re ready to quit is usually the moment right before a miracle happens",
+        author: "Unknown."
+    },
+    {
+        text:
+            "When you feel like giving up, remember why you held on for so long in the first place",
+        author: "Unknown."
+    },
+    {
+        text:
+            "Sunsets are proof that no matter what happens, every day can end beautifully",
+        author: "Kristen Butler."
+    },
+    {
+        text:
+            "There is one great truth on this planet: whoever you are, or whatever it is that you do, when you really want something, it’s because that desire originated in the soul of the universe. It’s your mission on earth",
+        author: "Paulo Coelho, The Alchemist."
+    },
+    {
+        text: "Just like the moon, we go through stages",
+        author: "Dulce Ruby."
+    },
+    {
+        text:
+            "If you watch how nature deals with adversity, continually renewing itself, you can’t help but learn",
+        author: "Bernie Siegel."
+    },
+    {
+        text:
+            "Defeat means that we lose a particular battle or war. Failure does not allow us to go on fighting. Defeat comes when we fail to get something we very much want. Defeat ends when we launch into another battle. Failure has no end: it is a lifetime choice",
+        author: "Paulo Coelho, Manuscript Found in Accra."
+    },
+    {
+        text:
+            "A river cuts through rock, not because of its power, but because of its persistence",
+        author: "Jim Watkins."
+    },
+    {
+        text:
+            "You have to trust that the universe knows what to put you through to get you closer to what’s meant for you",
+        author: "Vex King."
+    },
+    {
+        text:
+            "And once the storm is over, you won’t remember how you made it through, how you managed to survive. You won’t even be sure whether the storm is really over. But one thing is certain. When you come out of the storm, you won’t be the same person who walked in. That’s what this storm’s all about",
+        author: "Haruki Murakami."
+    },
+    {
+        text:
+            "Just like the lotus flower, we too have the ability to rise from the mud, bloom out of the darkness and radiate into the world",
+        author: "Unknown."
+    },
+    {
+        text:
+            "When things do not go your way, remember that every challenge, every adversity, contains within it the seeds of opportunity and growth",
+        author: "Roy T. Bennett."
+    },
+    {
+        text:
+            "She was never quite ready. But she was brave. And the universe listens to brave​",
+        author: "Rebecca Ray."
+    },
+    {
+        text: "Have patience. All things are difficult before they become easy",
+        author: "Saadi."
+    },
+    {
+        text:
+            "Courage is not having the strength to go on; it is going on when you don’t have the strength",
+        author: "Theodore Roosevelt."
+    },
+    {
+        text:
+            "If you can’t fly then run, if you can’t run then walk, if you can’t walk then crawl, but whatever you do you have to keep moving forward",
+        author: "Martin Luther King Jr."
+    },
+    {
+        text:
+            "An entire sea of water can’t sink a ship unless it gets inside the ship. Similarly, the negativity of the world can’t put you down unless you allow it to get inside you",
+        author: "Goi Nasu."
+    },
+    {
+        text:
+            "Travel isn’t always pretty. It isn’t always comfortable. Sometimes it hurts, it even breaks your heart. But that’s okay. The journey changes you; it should change you. It leaves marks on your memory, on your consciousness, on your heart, and on your body. You take something with you. Hopefully, you leave something good behind",
+        author: "Anthony Bourdain,"
+    },
+    {
+        text:
+            "Remember you are half water. If you can’t go through an obstacle, go around it. Water does",
+        author: "Margaret Atwood."
+    },
+    {
+        text: "It does not matter how slowly you go as long as you do not stop",
+        author: "Confucius."
+    },
+    {
+        text:
+            "We ourselves feel that what we are doing is just a drop in the ocean. But if that drop was not in the ocean, I think the ocean would be less because of the missing drop",
+        author: "Mother Teresa."
+    },
+    {
+        text:
+            "Losing a battle or losing everything we thought we possessed will bring us moments of sadness. But when those moments pass, we will discover the hidden strength that exists in each of us, a strength that will surprise us and increase our self-respect",
+        author: "Paulo Coelho, Manuscript Found in Accra."
+    },
+    {
+        text:
+            "Never give up, for that is just the place and time that the tide will turn",
+        author: "Harriet Beecher Stow."
     }
 ]).unique(({ text }) => text);
