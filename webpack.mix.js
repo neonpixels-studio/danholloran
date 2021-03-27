@@ -1,6 +1,5 @@
 let mix = require("laravel-mix");
 let build = require("./tasks/build.js");
-require("laravel-mix-alias");
 
 mix.disableSuccessNotifications();
 mix.setPublicPath("source/assets/build/");
@@ -18,18 +17,15 @@ mix.webpackConfig({
 });
 
 mix.js("source/_assets/js/main.js", "js")
-    .alias({
-        "~": "/node_modules"
-    })
+    .vue({ extractStyles: true })
     .sourceMaps()
     .postCss("source/_assets/css/main.css", "css/main.css", [
         require("postcss-import"),
-        require("tailwindcss"),
+        require("@tailwindcss/jit"),
         require("postcss-nested")
     ])
     .sourceMaps()
     .options({
-        processCssUrls: false,
-        extractVueStyles: true
+        processCssUrls: false
     })
     .version();

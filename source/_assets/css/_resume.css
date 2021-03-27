@@ -3,7 +3,10 @@
     @apply my-2;
   }
 
-  @media print {
+}
+
+@media print {
+  .resume {
     @apply h-full -mb-8;
     font-size: 12px;
 

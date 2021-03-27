@@ -54,47 +54,27 @@ h6,
 
 h1,
 .h1 {
-  @apply text-3xl font-extrabold;
-
-  @screen md {
-    @apply text-5xl;
-  }
+  @apply text-3xl font-extrabold md:text-5xl;
 }
 
 h2,
 .h2 {
-  @apply text-2xl font-bold;
-
-  @screen md {
-    @apply text-4xl;
-  }
+  @apply text-2xl font-bold md:text-4xl;
 }
 
 h3,
 .h3 {
-  @apply text-xl font-bold;
-
-  @screen md {
-    @apply text-3xl;
-  }
+  @apply text-xl font-bold md:text-3xl;
 }
 
 h4,
 .h4 {
-  @apply text-lg font-normal;
-
-  @screen md {
-    @apply text-2xl;
-  }
+  @apply text-lg font-normal md:text-2xl;
 }
 
 h5,
 .h5 {
-  @apply text-lg font-normal;
-
-  @screen md {
-    @apply text-xl;
-  }
+  @apply text-lg font-normal md:text-xl;
 }
 
 h6,
@@ -119,11 +99,7 @@ ul {
 }
 
 p {
-  @apply my-3;
-
-  @screen md {
-    @apply my-6;
-  }
+  @apply my-3 md:my-6;
 }
 
 pre {

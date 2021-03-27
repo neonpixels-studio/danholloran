@@ -9,6 +9,7 @@ module.exports = {
             safelistPatterns: [/language/, /hljs/]
         }
     },
+    darkMode: false,
     theme: {
         colors: {
             twitter: "#1da1f2",
