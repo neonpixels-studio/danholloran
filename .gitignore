@@ -19,3 +19,5 @@
 # Local Netlify folder
 .netlify
 /package-lock.json
+/source/assets/build/css/main.css.map
+/source/assets/build/js/main.js.LICENSE.txt
