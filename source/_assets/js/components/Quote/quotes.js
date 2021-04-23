@@ -521,5 +521,242 @@ export default collect([
         text:
             "Never give up, for that is just the place and time that the tide will turn",
         author: "Harriet Beecher Stow."
+    },
+    {
+        text: "It always seems impossible until it’s done",
+        author: "Nelson Mandela"
+    },
+    {
+        text: "Today is your opportunity to build the tomorrow you want",
+        author: "Ken Poirot"
+    },
+    {
+        text: "You never know what you can do until you try",
+        author: "William Cobbett"
+    },
+    {
+        text:
+            "Success is the sum of small efforts, repeated day in and day out",
+        author: "Robert Collier"
+    },
+    {
+        text: "There are no shortcuts to any place worth going",
+        author: "Beverly Sills"
+    },
+    {
+        text:
+            "Ninety-nine percent of the failures come from people who have the habit of making excuses",
+        author: "George Washington Carver"
+    },
+    {
+        text:
+            "Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing or learning to do",
+        author: "Pele"
+    },
+    {
+        text:
+            "Your talents and abilities will improve over time, but for that, you have to start",
+        author: "Martin Luther King"
+    },
+    {
+        text:
+            "The greatest amount of wasted time is the time not getting started",
+        author: "Dawson Trotman"
+    },
+    {
+        text:
+            "Winners embrace hard work. They love the discipline of it, the trade-off they’re making to win. Losers, on the other hand, see it as punishment. And that’s the difference",
+        author: "Lou Holtz"
+    },
+    {
+        text:
+            "My advice is, never do tomorrow what you can do today. Procrastination is the thief of time",
+        author: "Charles Dickens’ David Copperfield"
+    },
+    {
+        text:
+            "Success is not final; failure is not fatal: it is the courage to continue that counts",
+        author: "Winston Churchill"
+    },
+    {
+        text:
+            "Successful people begin where failures leave off. Never settle for ‘just getting the job done.’ Excel!",
+        author: "Tom Hopkins"
+    },
+    {
+        text:
+            "Motivation is what sets you in motion; habit is what keeps you going",
+        author: "Jim Ryun"
+    },
+    {
+        text: "Start where you are. Use what you have. Do what you can",
+        author: "Arthur Ashe"
+    },
+    {
+        text: "Failure is the opportunity to begin again more intelligently",
+        author: "Henry Ford"
+    },
+    {
+        text:
+            "Procrastination is like a credit card: it’s a lot of fun until you get the bill",
+        author: "Christopher Parker"
+    },
+    {
+        text:
+            "If a person will spend one hour a day on the same subject for five years, that person will be an expert on that subject",
+        author: "Earl Nightingale"
+    },
+    {
+        text:
+            "You’ve got to get up every morning with determination if you’re going to go to bed with satisfaction",
+        author: "George Lorimer"
+    },
+    {
+        text:
+            "The day you take complete responsibility for yourself, the day you stop making any excuses, that’s the day you start to the top",
+        author: "O.J. Simpson"
+    },
+    {
+        text:
+            "Learning is the only thing the mind never exhausts, never fears, and never regrets.",
+        author: "Leonardo da Vinci"
+    },
+    {
+        text:
+            "Successful and unsuccessful people do not vary greatly in their abilities. They vary in their desires to reach their potential",
+        author: "John Maxwell"
+    },
+    {
+        text:
+            "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice",
+        author: "Brian Herbert"
+    },
+    {
+        text:
+            "Many of life’s failures are people who did not realize how close they were to success when they gave up",
+        author: "Thomas Edison"
+    },
+    {
+        text:
+            "Education is the passport to the future, for tomorrow belongs to those who prepare for it today",
+        author: "Malcolm X"
+    },
+    {
+        text:
+            "Talent is cheaper than table salt. What separates the talented individual from the successful one is a lot of hard work",
+        author: "Stephen King"
+    },
+    {
+        text:
+            "No thief, however skillful, can rob one of knowledge, and that is why knowledge is the best and safest treasure to acquire",
+        author: "L. Frank Baum"
+    },
+    {
+        text:
+            "That which we persist in doing becomes easier for us to do. Not that the nature of the thing itself has changed, but that our power to do it has increased",
+        author: "Ralph Waldo Emerson"
+    },
+    {
+        text: "Nothing is impossible. The word itself says ‘I’m Possible",
+        author: "Audrey Hepburn"
+    },
+    {
+        text: "Do what you can, with what you have, where you are",
+        author: "Theodore Roosevelt"
+    },
+    {
+        text: "Hard work beats talent when talent doesn’t work hard",
+        author: "Tim Notke"
+    },
+    {
+        text:
+            "Work hard for what you want because it won’t come to you without a fight. You have to be strong and courageous and know that you can do anything you put your mind to. If somebody puts you down or },criticizes you, just keep on believing in yourself and turn it into something positive",
+        author: "Leah LaBelle"
+    },
+    {
+        text:
+            "If you work on something a little bit every day, you end up with something that is massive",
+        author: "Kenneth Goldsmith"
+    },
+    {
+        text:
+            "You may be disappointed if you fail, but you’ll be doomed if you don’t try",
+        author: "Beverly Sills"
+    },
+    {
+        text:
+            "Successful people are not gifted; they just work hard, then succeed on purpose",
+        author: "G.K. Nielson"
+    },
+    {
+        text: "Don’t watch the clock; do what it does. Keep going",
+        author: "Sam Levenson"
+    },
+    {
+        text:
+            "A perfect method for adding drama to life is to wait until the deadline looms large",
+        author: "Alyce P. Cornyn-Selby"
+    },
+    {
+        text:
+            "Never give up on a dream just because of the time it will take to accomplish it. The time will pass anyway",
+        author: "Earl Nightingale"
+    },
+    {
+        text:
+            "The man who does not read has no advantage over the man who cannot read",
+        author: "Mark Twain."
+    },
+    {
+        text:
+            "Live as if you were to die tomorrow. Learn as if you were to live forever",
+        author: "Mahatma Gandhi"
+    },
+    {
+        text: "Do something today that your future self will thank you for",
+        author: "Unknown"
+    },
+    {
+        text:
+            "Success isn’t always about greatness. It’s about consistency. Consistent hard work leads to success. Greatness will come",
+        author: "Dwayne Johnson"
+    },
+    {
+        text:
+            "If today you are a little bit better than you were yesterday, then that’s enough",
+        author: "David A. Bednar"
+    },
+    {
+        text:
+            "You don’t drown by falling in the water; you drown by staying there",
+        author: "Ed Cole"
+    },
+    {
+        text:
+            "Challenges are what make life interesting. Overcoming them is what makes life meaningful",
+        author: "Joshua J. Marine"
+    },
+    {
+        text: "There is no substitute for hard work",
+        author: "Thomas Edison"
+    },
+    {
+        text:
+            "Study while others are sleeping; work while others are loafing; prepare while others are playing, and dream while others are wishing",
+        author: "William Arthur Ward"
+    },
+    {
+        text:
+            "Education is the most powerful weapon which you can use to change the world",
+        author: "Nelson Mandela"
+    },
+    {
+        text: "Trust yourself; you know more than you think you do",
+        author: "Benjamin Spock"
+    },
+    {
+        text:
+            "Keep your dreams alive. Understand that to achieve anything requires faith and belief in yourself, vision, hard work, determination, and dedication. Remember all things are possible for those who,believe",
+        author: "Gail Devers"
     }
 ]).unique(({ text }) => text);
