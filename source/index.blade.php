@@ -78,18 +78,8 @@
         @foreach ($skills->reject(function($item) {
         return (bool) $item->draft ?? false;
         }) as $item)
-        <li class="flex items-center justify-center w-1/2 px-4 py-6 md:w-1/4 lg:w-1/5 sm:w-1/3">
-            @if($item->url ?? null)
-            <a href="{{ $item->url }}" target="blank" rel="noopener noreferrer">
-                {!! $item->getContent() !!}
-                <span class="sr-only">{{ $item->title }}</span>
-            </a>
-            @else
-            <div class="flex">
-                {!! $item->getContent() !!}
-                <span class="sr-only">{{ $item->title }}</span>
-            </div>
-            @endif
+        <li class="flex items-center justify-center w-1/2 px-6 py-6 md:w-1/4 lg:w-1/5 sm:w-1/3">
+            @include('_partials.skill-image')
         </li>
         @endforeach
     </ul>

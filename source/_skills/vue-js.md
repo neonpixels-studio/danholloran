@@ -4,6 +4,6 @@ section: content
 title: Vue.js
 sort_order: 6
 draft: false
-url: https://vuejs.org/
+image:
+  src: /assets/img/skills/vue-js.svg
 ---
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261.76 226.69" height="226.69" width="261.76"><path d="M161.096.001l-30.224 52.35L100.647.002H-.005L130.872 226.69 261.749 0z" fill="#41b883"/><path d="M161.096.001l-30.224 52.35L100.647.002H52.346l78.526 136.01L209.398.001z" fill="#34495e"/></svg>
