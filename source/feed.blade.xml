@@ -12,7 +12,7 @@
 				<title>{{ htmlentities($post->title) }}</title>
 				<description>
 					<![CDATA[
-					Originally posted on <a href="{{ $page->baseUrl }}">{{ $page->baseUrl }}</a> {{ $post->getDate() }}.
+					Originally posted on <a href="{{ $page->baseUrl }}">{{ $page->baseUrl }}</a> {{ $post->getDate('r') }}.
 					<br><br><br>
 					{{ htmlentities($post->excerpt) }}
 					<br><br>
