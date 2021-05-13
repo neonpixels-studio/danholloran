@@ -32,6 +32,7 @@
         "postcss-nested": "^4.1.2",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
+        "slugify": "^1.5.3",
         "stylelint": "^10.1.0",
         "stylelint-config-recommended": "^2.2.0",
         "stylelint-order": "^3.0.1",
