@@ -3,8 +3,8 @@ const { Octokit } = require("@octokit/core");
 
 module.exports = class {
     constructor(
-        branch = "main",
-        repo = "social-post-saver-gh-test",
+        branch = "master",
+        repo = "danholloran-me",
         owner = "DHolloran"
     ) {
         this.owner = owner;
@@ -23,6 +23,7 @@ module.exports = class {
             owner: this.owner,
             repo: this.repo,
             ref: `heads/${this.branch}`,
+            branch: this.branch,
             accept: "application/vnd.github.v3+json",
             ...parameters
         });
@@ -64,69 +65,37 @@ module.exports = class {
     }
 
     /**
-     * Creates a GitHub file tree
+     * Gets a file.
      *
-     * @see https://docs.github.com/en/rest/reference/git#create-a-tree
+     * @see https://docs.github.com/en/rest/reference/repos#get-repository-content
      */
-    async createNewFileTree(filePath, content) {
-        return await this.post("/repos/{owner}/{repo}/git/trees", {
-            tree: [
+    async getFile(filePath) {
+        try {
+            const file = await this.get(
+                "/repos/{owner}/{repo}/contents/{path}",
                 {
-                    path: filePath,
-                    mode: "100644",
-                    type: "blob",
-                    content
+                    path: filePath
                 }
-            ]
-        });
-    }
-
-    /**
-     * Retrieves the most recent commit.
-     *
-     * @see https://docs.github.com/en/rest/reference/git#get-a-reference
-     */
-    async getMostRecentCommit() {
-        return await this.get("/repos/{owner}/{repo}/commits/{ref}");
-    }
-
-    /**
-     * Creates a new commit.
-     *
-     * @see https://docs.github.com/en/rest/reference/git#create-a-commit
-     */
-    async createNewCommit(message, treeSha, parentSha) {
-        return await this.post("/repos/{owner}/{repo}/git/commits", {
-            message,
-            tree: treeSha,
-            parents: [parentSha]
-        });
-    }
-
-    /**
-     * Updates the most recent commit.
-     *
-     * @see https://docs.github.com/en/rest/reference/git#update-a-reference
-     */
-    async updateMostRecentCommit(commitSha) {
-        // @todo How do you not overwrite all of the files?
-        return this.patch("/repos/{owner}/{repo}/git/refs/{ref}", {
-            sha: commitSha,
-            force: true
-        });
+            );
+            return file;
+        } catch (error) {
+            return {};
+        }
     }
 
     /**
      * Commits a file.
+     *
+     * @see https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
      */
     async commitFile(filePath, content, message) {
-        const fileTree = await this.createNewFileTree(filePath, content);
-        const mostRecentCommit = await this.getMostRecentCommit();
-        const newCommit = await this.createNewCommit(
+        const file = await this.getFile(filePath);
+
+        await this.put("/repos/{owner}/{repo}/contents/{path}", {
+            path: filePath,
             message,
-            fileTree.data.sha,
-            mostRecentCommit.data.sha
-        );
-        return await this.updateMostRecentCommit(newCommit.data.sha);
+            sha: file.data ? file.data.sha : undefined,
+            content: Buffer.from(content).toString("base64")
+        });
     }
 };
