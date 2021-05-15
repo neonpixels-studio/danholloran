@@ -42,6 +42,7 @@
         "yargs": "^4.6.0"
     },
     "dependencies": {
+        "@octokit/core": "^3.4.0",
         "autoprefixer": "^9.8.6",
         "clipboard": "^2.0.6",
         "collect.js": "^4.28.6",

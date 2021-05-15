@@ -1,6 +1,6 @@
 const logError = console.error;
-const crypto = require("crypto");
 const slugify = require("slugify");
+const GitHubApi = require("./github-api");
 
 const getBody = ({ body }) => {
     try {
@@ -44,11 +44,14 @@ const generatePageData = body => {
     }
 };
 
-const persistPage = body => {
-    const pageData = generatePageData(body);
-    const fileName = generateFileName(pageData);
-
+const persistPage = async body => {
     // @todo Some how save the data to GitHub
+    // const pageData = generatePageData(body);
+    // const fileName = generateFileName(pageData);
+    // const github = new GitHubApi();
+    // - Create a Tree: https://docs.github.com/en/rest/reference/git#create-a-tree
+    // - Create a Blob: https://docs.github.com/en/rest/reference/git#create-a-blob
+    // - Create a Commit: https://docs.github.com/en/rest/reference/git#create-a-commit
 };
 
 const getDirectory = type => {
@@ -80,7 +83,7 @@ exports.handler = async function(event) {
         return { statusCode: 401 };
     }
 
-    persistPage(body);
+    await persistPage(body);
 
     return {
         statusCode: 200,
