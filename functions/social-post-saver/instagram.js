@@ -4,7 +4,7 @@ module.exports = class Instagram {
     }
 
     getDirectory() {
-        return "_instagram";
+        return "source/_instagram";
     }
 
     getData() {
@@ -14,7 +14,9 @@ module.exports = class Instagram {
             url,
             sourceUrl,
             embedCode,
-            createdAt
+            createdAt,
+            thumbnailUrl,
+            mediaType
         } = this.requestBody;
 
         // @todo Handle videos?
@@ -25,7 +27,10 @@ module.exports = class Instagram {
                 caption,
                 url,
                 sourceUrl,
-                type
+                type,
+                mediaType,
+                collectionName: "instagram",
+                thumbnailUrl: thumbnailUrl ? thumbnailUrl : ""
             },
             body: embedCode
         };

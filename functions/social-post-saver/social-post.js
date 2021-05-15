@@ -26,9 +26,11 @@ module.exports = class SocialPost {
     }
 
     convertFrontmatterData(frontmatter) {
-        return Object.entries(frontmatter).map(([key, value]) => {
-            return `${key}: "${value.replace(/"/g, '\\\\"')}"`;
-        });
+        return Object.entries(frontmatter)
+            .filter(([_key, value]) => value !== undefined && value !== "")
+            .map(([key, value]) => {
+                return `${key}: "${value.replace(/"/g, '\\\\"')}"`;
+            });
     }
 
     getContent() {
