@@ -3,8 +3,8 @@ const { Octokit } = require("@octokit/core");
 
 module.exports = class {
     constructor(
-        branch = "main",
-        repo = "social-post-saver-gh-test",
+        branch = "master",
+        repo = "danholloran-me",
         owner = "DHolloran"
     ) {
         this.owner = owner;
