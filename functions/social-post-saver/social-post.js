@@ -1,6 +1,8 @@
-const slugify = require("slugify");
+const { slugify } = require("./helpers");
 const GitHubApi = require("./github-api");
 const Instagram = require("./instagram");
+const YouTube = require("./youtube");
+const Twitter = require("./twitter");
 
 module.exports = class SocialPost {
     constructor(requestBody) {
@@ -11,17 +13,12 @@ module.exports = class SocialPost {
         switch (this.requestBody.type) {
             case "instagram":
                 return new Instagram(this.requestBody);
-
+            case "youtube":
+                return new YouTube(this.requestBody);
+            case "twitter":
+                return new Twitter(this.requestBody);
             default:
-                return class {
-                    getDirectory() {
-                        return "_social-post";
-                    }
-
-                    handle() {
-                        return {};
-                    }
-                };
+                return;
         }
     }
 
@@ -36,6 +33,10 @@ module.exports = class SocialPost {
     getContent() {
         const { body, frontmatter } = this.getService().getData();
 
+        if (!frontmatter.slug) {
+            frontmatter.slug = slugify(frontmatter.title);
+        }
+
         return [
             "---",
             ...this.convertFrontmatterData(frontmatter),
@@ -48,11 +49,9 @@ module.exports = class SocialPost {
     getFilePath() {
         const { frontmatter } = this.getService().getData();
         const directory = this.getService().getDirectory();
-        const slug = slugify(frontmatter.title, {
-            lower: true,
-            string: true,
-            remove: /[^0-9a-zA-Z-\s]/gm
-        });
+        const slug = frontmatter.slug
+            ? frontmatter.slug
+            : slugify(frontmatter.title);
 
         return `${directory}/${slug}.md`;
     }
@@ -62,6 +61,10 @@ module.exports = class SocialPost {
     }
 
     async persist() {
+        if (!this.getService()) {
+            return;
+        }
+
         return await new GitHubApi().commitFile(
             this.getFilePath(),
             this.getContent(),

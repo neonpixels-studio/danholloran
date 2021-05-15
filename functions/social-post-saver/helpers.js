@@ -1,3 +1,5 @@
+const slugify = require("slugify");
+
 const logError = console.error;
 
 const validApiKey = key => key === process.env.API_KEY;
@@ -47,5 +49,12 @@ module.exports = {
     getRequestBody,
     errorResponseNotFound,
     errorResponseUnauthorized,
-    successResponse
+    successResponse,
+    slugify(content) {
+        return slugify(content, {
+            lower: true,
+            string: true,
+            remove: /[^0-9a-zA-Z-\s]/gm
+        });
+    }
 };
