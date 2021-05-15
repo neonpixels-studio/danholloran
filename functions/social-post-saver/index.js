@@ -44,15 +44,32 @@ const generatePageData = body => {
     }
 };
 
-const persistPage = async body => {
-    // @todo Some how save the data to GitHub
-    // const pageData = generatePageData(body);
-    // const fileName = generateFileName(pageData);
-    // const github = new GitHubApi();
-    // - Create a Tree: https://docs.github.com/en/rest/reference/git#create-a-tree
-    // - Create a Blob: https://docs.github.com/en/rest/reference/git#create-a-blob
-    // - Create a Commit: https://docs.github.com/en/rest/reference/git#create-a-commit
+const pageContent = body => {
+    const pageData = generatePageData(body);
+    const frontmatter = Object.entries(pageData.frontmatter).map(
+        ([key, value]) => {
+            return `${key}: "${value.replace(/"/g, '\\\\"')}"`;
+        }
+    );
+
+    return ["---", ...frontmatter, "---", pageData.body, ""].join("\n");
 };
+
+const persistPage = async body => {
+    const filePath = generateFilePath(body);
+
+    return await new GitHubApi().commitFile(
+        filePath,
+        pageContent(body),
+        `[Social Post Saver] ${filePath}`
+    );
+};
+
+// class SocialPage {
+//     persist() {
+
+//     }
+// }
 
 const getDirectory = type => {
     switch (type) {
@@ -64,7 +81,10 @@ const getDirectory = type => {
     }
 };
 
-const generateFileName = ({ frontmatter: { title, type } }) => {
+const generateFilePath = body => {
+    const {
+        frontmatter: { title, type }
+    } = generatePageData(body);
     return `${getDirectory(type)}/${slugify(title, {
         lower: true,
         string: true,
@@ -91,7 +111,8 @@ exports.handler = async function(event) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            fileName: generateFileName(generatePageData(body)),
+            filePath: generateFilePath(body),
+            content: pageContent(body),
             message: "Post saved successfully!"
         })
     };
