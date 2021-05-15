@@ -109,6 +109,7 @@ module.exports = class {
      * @see https://docs.github.com/en/rest/reference/git#update-a-reference
      */
     async updateMostRecentCommit(commitSha) {
+        // @todo How do you not overwrite all of the files?
         return this.patch("/repos/{owner}/{repo}/git/refs/{ref}", {
             sha: commitSha,
             force: true

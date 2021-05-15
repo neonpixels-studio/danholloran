@@ -19,8 +19,6 @@ module.exports = class Instagram {
             mediaType
         } = this.requestBody;
 
-        // @todo Handle videos?
-
         return {
             frontmatter: {
                 title: `Instagram: ${createdAt}`,
