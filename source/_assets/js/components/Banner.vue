@@ -1,45 +1,47 @@
 <template hidden>
   <div
-    :class="
-      `flex items-center justify-center w-full ${outerBackground} border p-16 flex-col`
-    "
+    :class="`flex items-center justify-center w-full ${outerBackground} border p-16 flex-col`"
   >
-    <div class="mb-16">
-      <div class="flex justify-center mb-8 -mx-4">
+    <div class="mb-8">
+      <div class="flex flex-wrap justify-center -mx-4">
         <!-- Width -->
-        <div class="border flex mx-4">
-          <label for="width" class="sr-only">Width</label>
-          <input
-            type="number"
-            min="0"
-            step="10"
-            placeholder="Width"
-            id="width"
-            class="py-2 px-4"
-            v-model="width"
-          />
-          <span class="bg-gray-200 px-4 flex items-center">px</span>
+        <div class="mx-4 mb-8">
+          <label for="width" class="block font-bold">Width</label>
+          <div class="flex border">
+            <input
+              type="number"
+              min="0"
+              step="10"
+              placeholder="Width"
+              id="width"
+              class="px-4 py-2"
+              v-model="width"
+            />
+            <span class="flex items-center px-4 bg-gray-200">px</span>
+          </div>
         </div>
 
         <!-- Height -->
-        <div class="border flex mx-4">
-          <label for="height" class="sr-only">Height</label>
-          <input
-            type="number"
-            min="0"
-            step="10"
-            placeholder="Height"
-            id="height"
-            class="py-2 px-4"
-            v-model="height"
-          />
-          <span class="bg-gray-200 px-4 flex items-center">px</span>
+        <div class="mx-4 mb-8">
+          <label for="height" class="block font-bold">Height</label>
+          <div class="flex border">
+            <input
+              type="number"
+              min="0"
+              step="10"
+              placeholder="Height"
+              id="height"
+              class="px-4 py-2"
+              v-model="height"
+            />
+            <span class="flex items-center px-4 bg-gray-200">px</span>
+          </div>
         </div>
 
         <!-- Theme -->
-        <div class="mx-4">
-          <label for="theme" class="sr-only">Theme</label>
-          <div class="border py-2 px-4 h-full bg-white">
+        <div class="mx-4 mb-8">
+          <label for="theme" class="block font-bold">Theme</label>
+          <div class="px-4 py-2 bg-white border">
             <select class="h-full" name="theme" id="theme" v-model="theme">
               <option
                 :value="option.value"
@@ -52,9 +54,11 @@
         </div>
 
         <!-- Background -->
-        <div class="mx-4">
-          <label for="background" class="sr-only">Background Color</label>
-          <div class="border py-2 px-4 h-full bg-white">
+        <div class="mx-4 mb-8">
+          <label for="background" class="block font-bold"
+            >Background Color</label
+          >
+          <div class="px-4 py-2 bg-white border">
             <select
               class="h-full"
               name="background"
@@ -75,47 +79,97 @@
         </div>
 
         <!-- Font Size -->
-        <div class="border flex mx-4">
-          <label for="font_size" class="sr-only">Font Size</label>
-          <input
-            type="number"
-            min="0"
-            step=".25"
-            placeholder="Font Size"
-            id="font_size"
-            class="py-2 px-4"
-            v-model="fontSize"
-          />
-          <span class="bg-gray-200 px-4 flex items-center">rem</span>
+        <div class="mx-4 mb-8">
+          <label for="font_size" class="block font-bold">Font Size</label>
+          <div class="flex border">
+            <input
+              type="number"
+              min="0"
+              step=".25"
+              placeholder="Font Size"
+              id="font_size"
+              class="px-4 py-2"
+              v-model="fontSize"
+            />
+            <span class="flex items-center px-4 bg-gray-200">rem</span>
+          </div>
+        </div>
+
+        <!-- Logo Width -->
+        <div class="mx-4 mb-8">
+          <label for="logo_width" class="block font-bold">Logo Width</label>
+          <div class="flex border">
+            <input
+              type="number"
+              min="0"
+              step=".25"
+              placeholder="Logo Width"
+              id="logo_width"
+              class="px-4 py-2"
+              v-model="logoWidth"
+            />
+            <span class="flex items-center px-4 bg-gray-200">rem</span>
+          </div>
+        </div>
+
+        <!-- Logo Position -->
+        <div class="mx-4 mb-8">
+          <label for="logo_position" class="block font-bold"
+            >Logo Position</label
+          >
+          <div class="px-4 py-2 bg-white border">
+            <select
+              class="h-full"
+              name="logo_position"
+              id="logo_position"
+              v-model="logoPosition"
+            >
+              <option
+                :value="option.value"
+                v-for="option in logoPositionOptions"
+                :key="option.value"
+                v-text="option.label"
+              ></option>
+            </select>
+          </div>
         </div>
       </div>
-      <div class="flex justify-center">
-        <label for="message" class="sr-only">Message</label>
+      <!-- Message -->
+      <div>
+        <label for="message" class="block font-bold">Message</label>
         <textarea
           name="message"
           id="message"
-          rows="10"
+          rows="3"
           v-model="message"
           placeholder="message"
-          class="border w-full py-2 px-4"
+          class="w-full px-4 py-2 border"
         ></textarea>
       </div>
     </div>
+
+    <HtmlDownloader
+      v-if="downloadNode"
+      v-model="downloadFiletype"
+      :data-node="downloadNode"
+      data-filename="banner"
+      class="mb-16"
+    ></HtmlDownloader>
+
     <div
-      :class="
-        `bg-topographic ${textColor} flex items-end justify-end p-8 ${background} relative`
-      "
+      ref="banner"
+      :class="`bg-topographic ${textColor} flex  p-8 ${background} ${logoPositionClasses} relative`"
       :style="{
         width: `${this.width}px`,
-        height: `${this.height}px`
+        height: `${this.height}px`,
       }"
     >
       <div
-        class="absolute inset-0 flex items-end justify-end px-8 pb-32 pt-8"
+        class="absolute inset-0 flex items-end justify-end px-8 pt-8 pb-32"
         v-if="message"
       >
         <div
-          class="hover:bg-gray-500 hover:bg-opacity-50 h-full w-full font-extrabold leading-tight flex items-center justify-center whitespace-pre-wrap"
+          class="flex items-center justify-center w-full h-full font-extrabold leading-tight whitespace-pre-wrap hover:bg-gray-500 hover:bg-opacity-50"
         >
           <div
             v-html="message"
@@ -123,17 +177,25 @@
           ></div>
         </div>
       </div>
-      <slot></slot>
+      <div :style="{ width: `${logoWidth}rem`, maxWidth: '100%' }">
+        <slot name="logo"></slot>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { themes, setTheme, themeOptions, getTheme } from "../theme";
+import collect from "collect.js";
+import HtmlDownloader from "./HtmlDownloader";
 
 const storageKey = "dh:banner-data";
 
 export default {
+  components: {
+    HtmlDownloader,
+  },
+
   data() {
     return {
       width: this.getItemFromStorage("width", 1000),
@@ -141,9 +203,13 @@ export default {
       background: this.getItemFromStorage("background", "bg-primary-800"),
       message: this.getItemFromStorage("message", ""),
       fontSize: this.getItemFromStorage("fontSize", 2.625),
+      logoWidth: this.getItemFromStorage("logoWidth", 12),
+      logoPosition: this.getItemFromStorage("logoPosition", "bottom-right"),
       theme: getTheme(),
+      downloadFiletype: this.getItemFromStorage("downloadFiletype", "toPng"),
       themes,
-      themeOptions
+      themeOptions,
+      downloadNode: undefined,
     };
   },
   computed: {
@@ -153,7 +219,65 @@ export default {
 
     outerBackground() {
       return this.background === "bg-white" ? "bg-gray-500" : "bg-white";
-    }
+    },
+
+    logoPositionClasses() {
+      const option = collect(this.logoPositionOptions)
+        .where("value", this.logoPosition)
+        .first();
+
+      return option ? option.classes : "";
+    },
+
+    logoPositionOptions() {
+      return [
+        {
+          value: "top-left",
+          label: "Top Left",
+          classes: "items-start justify-start",
+        },
+        {
+          value: "top-center",
+          label: "Top Center",
+          classes: "items-start justify-center",
+        },
+        {
+          value: "top-right",
+          label: "Top Right",
+          classes: "items-start justify-end",
+        },
+        {
+          value: "center-left",
+          label: "Center Left",
+          classes: "items-center justify-start",
+        },
+        {
+          value: "center-center",
+          label: "Center Center",
+          classes: "items-center justify-center",
+        },
+        {
+          value: "center-right",
+          label: "Center Right",
+          classes: "items-center justify-end",
+        },
+        {
+          value: "bottom-left",
+          label: "Bottom Left",
+          classes: "items-end justify-start",
+        },
+        {
+          value: "bottom-center",
+          label: "Bottom Center",
+          classes: "items-end justify-center",
+        },
+        {
+          value: "bottom-right",
+          label: "Bottom Right",
+          classes: "items-end justify-end",
+        },
+      ];
+    },
   },
   methods: {
     getItemsFromStorage() {
@@ -174,7 +298,7 @@ export default {
 
     setTheme() {
       return setTheme(this.theme);
-    }
+    },
   },
 
   watch: {
@@ -193,14 +317,24 @@ export default {
     fontSize(value) {
       this.setItemInStorage("fontSize", value);
     },
-    theme(value) {
+    logoWidth(value) {
+      this.setItemInStorage("logoWidth", value);
+    },
+    logoPosition(value) {
+      this.setItemInStorage("logoPosition", value);
+    },
+    downloadFiletype(value) {
+      this.setItemInStorage("downloadFiletype", value);
+    },
+    theme() {
       this.setTheme();
-    }
+    },
   },
 
   mounted() {
     this.setTheme();
-  }
+    this.downloadNode = this.$refs.banner;
+  },
 };
 </script>
 

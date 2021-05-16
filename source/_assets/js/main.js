@@ -4,6 +4,8 @@ window.Vue = require("vue");
 
 import Search from "./components/Search.vue";
 import Banner from "./components/Banner.vue";
+import LogoEditor from "./components/LogoEditor.vue";
+import HtmlDownloader from "./components/HtmlDownloader.vue";
 import Quote from "./components/Quote/Quote.vue";
 import ThemeSwitcher from "./components/ThemeSwitcher.vue";
 import Copy from "./components/Copy.vue";
@@ -46,6 +48,8 @@ new Vue({
         Banner,
         ThemeSwitcher,
         Quote,
-        Copy
+        Copy,
+        HtmlDownloader,
+        LogoEditor
     }
 }).$mount("#app");

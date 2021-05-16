@@ -6,7 +6,9 @@ $height = 640;
 @endphp
 
 @section('body')
-    <banner>
-        @include('_partials.logo')
-    </banner>
+<banner>
+    <template slot="logo">
+        @include('_partials.logo', ['widthClass' => 'w-full'])
+    </template>
+</banner>
 @endsection
