@@ -152,7 +152,7 @@
       v-if="downloadNode"
       v-model="downloadFiletype"
       :data-node="downloadNode"
-      data-filename="banner"
+      data-filename="danholloran-banner"
       class="mb-16"
     ></HtmlDownloader>
 
