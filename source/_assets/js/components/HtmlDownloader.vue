@@ -1,20 +1,22 @@
 <template>
   <div class="flex items-center">
-    <label for="download_filetype" class="sr-only">Download Filetype</label>
-    <div class="px-4 py-2 mr-4 bg-white border">
-      <select
-        name="download_filetype"
-        id="download_filetype"
-        v-model="currentValue"
-        :disabled="downloading"
-      >
-        <option
-          :value="option.value"
-          v-for="option in filetypeOptions"
-          :key="option.value"
-          v-text="option.label"
-        ></option>
-      </select>
+    <div v-if="!dataHideSelect">
+      <label for="download_filetype" class="sr-only">Download Filetype</label>
+      <div class="px-4 py-2 mr-4 bg-white border">
+        <select
+          name="download_filetype"
+          id="download_filetype"
+          v-model="currentValue"
+          :disabled="downloading"
+        >
+          <option
+            :value="option.value"
+            v-for="option in filetypeOptions"
+            :key="option.value"
+            v-text="option.label"
+          ></option>
+        </select>
+      </div>
     </div>
     <button
       type="button"
@@ -22,7 +24,7 @@
       @click="download"
       :disabled="downloading"
     >
-      Download
+      {{ downloading ? "Downloading..." : "Download" }}
       <span class="h-5 ml-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +43,7 @@
 </template>
 
 <script>
+import html2pdf from "html2pdf.js";
 import download from "downloadjs";
 import { toPng, toSvg, toJpeg } from "html-to-image";
 
@@ -50,18 +53,23 @@ export default {
       type: String,
       default: "png",
       validator: function (value) {
-        return ["png", "svg", "jpg"].indexOf(value) !== -1;
+        return ["png", "svg", "jpg", "pdf"].indexOf(value) !== -1;
       },
     },
 
     dataNode: {
-      type: Node,
+      type: [Node, String],
       required: true,
     },
 
     dataFilename: {
       type: String,
       default: "download",
+    },
+
+    dataHideSelect: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -87,18 +95,15 @@ export default {
           value: "jpg",
           label: ".jpg",
         },
+        {
+          value: "pdf",
+          label: ".pdf",
+        },
       ];
     },
 
     extension() {
-      switch (this.currentValue) {
-        case "png":
-          return "png";
-        case "svg":
-          return "svg";
-        case "jpg":
-          return "jpg";
-      }
+      return this.currentValue;
     },
 
     filetypeHandler() {
@@ -109,6 +114,17 @@ export default {
           return toSvg;
         case "jpg":
           return toJpeg;
+        case "pdf":
+          return (node) => {
+            return html2pdf(node, {
+              filename: this.filename,
+              jsPDF: {
+                format: "letter",
+                orientation: "portrait",
+                unit: "in",
+              },
+            });
+          };
       }
     },
 
@@ -124,7 +140,18 @@ export default {
       }
 
       this.downloading = true;
-      this.filetypeHandler(this.dataNode)
+      let node = this.dataNode;
+
+      if (typeof node === "string") {
+        node = document.querySelector(node);
+      }
+
+      if (!node) {
+        this.downloading = false;
+        return;
+      }
+
+      this.filetypeHandler(node)
         .then(this.successHandler)
         .catch((error) => {
           this.downloading = false;

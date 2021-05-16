@@ -15,3 +15,14 @@
     @apply p-0;
   }
 }
+
+.faux-print {
+  .print-hidden {
+    display: none !important;
+  }
+
+  .print-display {
+    display: initial !important;
+  }
+
+}

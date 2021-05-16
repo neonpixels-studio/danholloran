@@ -50,6 +50,7 @@
         "collect.js": "^4.28.6",
         "downloadjs": "^1.4.7",
         "html-to-image": "^1.6.1",
+        "html2pdf.js": "^0.9.3",
         "postcss": "^8.2.10",
         "sha1": "^1.1.1",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"

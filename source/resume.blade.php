@@ -10,9 +10,12 @@
                 @include('_partials.icon-download-outline')
             </span>
         </a>
+
+        {{-- <html-downloader data-node="#resume" :data-hide-select="true" data-filename="dan-holloran-resume" value="pdf">
+        </html-downloader> --}}
     </div>
-    <div class="container flex max-w-6xl mx-auto bg-white resume">
-        <div class="w-1/3 px-8 py-12 bg-gray-100">
+    <div class="container flex max-w-6xl mx-auto bg-white resume faux-print" id="resume">
+        <div class="w-1/3 px-8 py-12 ">
             <div class="mb-8">
                 <h1 class="mb-1 text-2xl leading-none">Dan Holloran</h1>
                 <h2 class="mt-0 mb-0 text-lg leading-none text-primary-500">Full Stack Developer</h2>
@@ -61,6 +64,10 @@
                 @foreach ($experience->whereNotIn('category', ['education'])->reject(function($item) {
                 return (bool) $item->draft ?? false;
                 }) as $item)
+                @if ($item->company === 'Freeman Marketing')
+                <div class="html2pdf__page-break"></div>
+                <div class="pt-12"></div>
+                @endif
                 <div class="mb-4">
                     <div class="experience-header">
                         <div class="experience-company-title">
