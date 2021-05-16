@@ -18,11 +18,24 @@
     </div>
     <button
       type="button"
-      class="button button-primary"
+      class="inline-flex items-center button button-primary"
       @click="download"
       :disabled="downloading"
     >
       Download
+      <span class="h-5 ml-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          class="fill-current"
+        >
+          <path
+            d="M14 2l6 6v12c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h8m4 18V9h-5V4H6v16h12m-6-1l-4-4h2.5v-3h3v3H16l-4 4z"
+          />
+        </svg>
+      </span>
     </button>
   </div>
 </template>
