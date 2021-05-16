@@ -8,7 +8,8 @@
         "staging": "cross-env NODE_ENV=staging node_modules/webpack/bin/webpack.js --progress --hide-modules --env=staging --config=node_modules/laravel-mix/setup/webpack.config.js",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --env=production --config=node_modules/laravel-mix/setup/webpack.config.js",
         "dev": "npm run local",
-        "watch": "npm run local -- --watch"
+        "watch": "npm run local -- --watch",
+        "tailwind-config-viewer": "tailwind-config-viewer -o"
     },
     "devDependencies": {
         "axios": "^0.21.1",
@@ -36,6 +37,7 @@
         "stylelint": "^10.1.0",
         "stylelint-config-recommended": "^2.2.0",
         "stylelint-order": "^3.0.1",
+        "tailwind-config-viewer": "^1.5.1",
         "vue": "^2.5.21",
         "vue-agile": "^1.0.11",
         "vue-template-compiler": "^2.5.21",

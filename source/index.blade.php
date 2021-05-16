@@ -10,7 +10,7 @@
         </h1>
         <div class="leading-snug h1">
             I'm a <span class="text-primary-500">Full Stack Developer</span>, <span
-                class="text-primary-500">Photographer</span> and <span class="text-primary-500">life long
+                class="text-primary-500">Photographer</span>, and <span class="text-primary-500">lifelong
                 learner</span>.
         </div>
     </div>
