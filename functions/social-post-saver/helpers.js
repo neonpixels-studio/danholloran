@@ -31,14 +31,15 @@ const errorResponseUnauthorized = () => {
     };
 };
 
-const successResponse = (message = "Post saved successfully!") => {
+const successResponse = (data = {}, message = "Post saved successfully!") => {
     return {
         statusCode: 200,
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            message
+            message,
+            data
         })
     };
 };

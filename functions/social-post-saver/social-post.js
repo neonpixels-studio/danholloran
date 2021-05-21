@@ -26,7 +26,9 @@ module.exports = class SocialPost {
         return Object.entries(frontmatter)
             .filter(([_key, value]) => value !== undefined && value !== "")
             .map(([key, value]) => {
-                return `${key}: "${value.replace(/"/g, '\\\\"')}"`;
+                value = typeof value === "string" ? value.trim() : value;
+                value = value.replace(/"/g, '\\\\"');
+                return `${key}: "${value}"`;
             });
     }
 
@@ -41,6 +43,7 @@ module.exports = class SocialPost {
             "---",
             ...this.convertFrontmatterData(frontmatter),
             "---",
+            "",
             body,
             ""
         ].join("\n");
@@ -62,13 +65,18 @@ module.exports = class SocialPost {
 
     async persist() {
         if (!this.getService()) {
-            return;
+            return {};
         }
 
-        return await new GitHubApi().commitFile(
+        const response = await new GitHubApi().commitFile(
             this.getFilePath(),
             this.getContent(),
             this.getCommitMessage()
         );
+
+        return {
+            response,
+            data: this.getService().getData()
+        };
     }
 };

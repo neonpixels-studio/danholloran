@@ -91,11 +91,13 @@ module.exports = class {
     async commitFile(filePath, content, message) {
         const file = await this.getFile(filePath);
 
-        await this.put("/repos/{owner}/{repo}/contents/{path}", {
+        const response = await this.put("/repos/{owner}/{repo}/contents/{path}", {
             path: filePath,
             message,
             sha: file.data ? file.data.sha : undefined,
             content: Buffer.from(content).toString("base64")
         });
+
+        return response;
     }
 };

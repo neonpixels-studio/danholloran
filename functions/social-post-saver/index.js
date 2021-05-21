@@ -18,7 +18,7 @@ exports.handler = async function(event) {
         return errorResponseUnauthorized();
     }
 
-    await new SocialPost(requestBody).persist();
-
-    return successResponse();
+    const data = await new SocialPost(requestBody).persist();
+console.log(data);
+    return successResponse(data);
 };
