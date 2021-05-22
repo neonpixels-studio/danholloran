@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use Zttp\ZttpResponse;
 use App\Support\RSSItem;
 use Illuminate\Support\Str;
 use App\Support\RSSGenerator;
