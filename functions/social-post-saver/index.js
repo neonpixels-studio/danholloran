@@ -19,6 +19,6 @@ exports.handler = async function(event) {
     }
 
     const data = await new SocialPost(requestBody).persist();
-console.log(data);
+
     return successResponse(data);
 };

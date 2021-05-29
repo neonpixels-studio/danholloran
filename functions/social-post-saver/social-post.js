@@ -3,6 +3,7 @@ const GitHubApi = require("./github-api");
 const Instagram = require("./instagram");
 const YouTube = require("./youtube");
 const Twitter = require("./twitter");
+const Goodreads = require("./goodreads");
 
 module.exports = class SocialPost {
     constructor(requestBody) {
@@ -17,6 +18,8 @@ module.exports = class SocialPost {
                 return new YouTube(this.requestBody);
             case "twitter":
                 return new Twitter(this.requestBody);
+            case "goodreads":
+                return new Goodreads(this.requestBody);
             default:
                 return;
         }
