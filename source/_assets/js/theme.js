@@ -1,6 +1,12 @@
 const storageKey = "dh:theme";
 
-export const themes = ["Indigo", "Blue", "Teal", "Green", "Gray"];
+export const themes = [
+    "Indigo",
+    "Blue",
+    "Teal",
+    //"Green",
+    "Gray"
+];
 export const themeOptions = themes.map(theme => {
     return {
         label: theme,

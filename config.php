@@ -6,7 +6,7 @@ function chooseTheme()
         'blue',
         'indigo',
         'teal',
-        'green',
+        // 'green',
         'gray',
     ])->random();
 }
