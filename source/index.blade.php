@@ -8,11 +8,22 @@
         <h1 class="leading-snug">
             Hello, I'm <span class="text-primary-500">Dan Holloran</span>.
         </h1>
-        <div class="leading-snug h1">
+        <div class="mb-6 leading-normal h2">
             I'm a <span class="text-primary-500">Full Stack Developer</span>, <span
                 class="text-primary-500">Photographer</span>, and <span class="text-primary-500">lifelong
                 learner</span>.
+
+            Hello, I'm Dan Holloran!
+
+            I'm a <span class="text-primary-500">Full Stack Developer</span>, <span
+                class="text-primary-500">photographer</span>, and <span class="text-primary-500">traveler</span> based
+            in <span class="text-primary-500">St. Louis, MO</span>. I have a passion for <span
+                class="text-primary-500">learning</span>, <span class="text-primary-500">building</span>,
+            <span class="text-primary-500">exploring</span>, and helping others succeed through <span
+                class="text-primary-500">mentorship</span>.
         </div>
+
+        <a href="#contact" class="button button-primary">Let's Chat!</a>
     </div>
     <img loading="lazy" src="{{ '//www.gravatar.com/avatar/' . md5("dtholloran@gmail.com") . '?s=256' }}" width="256"
         height="256" alt="About image"
