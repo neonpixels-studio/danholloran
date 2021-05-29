@@ -28,3 +28,7 @@ $events->afterBuild(App\Listeners\GenerateIndex::class);
 $events->beforeBuild([
     App\Listeners\GenerateBooks::class,
 ]);
+
+$events->afterBuild(function ($jigsaw) {
+    copy("{$jigsaw->getDestinationPath()}/../_redirects", "{$jigsaw->getDestinationPath()}/_redirects");
+});
