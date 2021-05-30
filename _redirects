@@ -2,4 +2,4 @@
 https://danholloran.netlify.app/* https://danholloran.me/:splat 301!
 /uses /uses/work 301!
 /calendly https://calendly.com/dan-holloran 301!
-/admin/* http://prose.io/#DHolloran/:splat 200!
+/admin http://prose.io/#DHolloran 301!

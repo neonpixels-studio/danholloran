@@ -25,10 +25,4 @@
 
 $events->afterBuild(App\Listeners\GenerateSitemap::class);
 $events->afterBuild(App\Listeners\GenerateIndex::class);
-$events->beforeBuild([
-    App\Listeners\GenerateBooks::class,
-]);
-
-$events->afterBuild(function ($jigsaw) {
-    copy("{$jigsaw->getDestinationPath()}/../_redirects", "{$jigsaw->getDestinationPath()}/_redirects");
-});
+$events->afterBuild(\App\Listeners\MoveFiles::class);
