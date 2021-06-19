@@ -40,8 +40,8 @@ return [
             'name' => 'LinkedIn',
         ]),
         'youTube' => collect([
-            'link' => 'https://www.youtube.com/c/DannyHolloran1',
-            'username' => 'DannyHolloran1',
+            'link' => 'https://www.youtube.com/c/DanHolloran',
+            'username' => 'DanHolloran',
             'name' => 'YouTube',
         ]),
         'instagram' => collect([
