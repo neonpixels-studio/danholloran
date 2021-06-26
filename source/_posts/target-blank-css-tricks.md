@@ -3,7 +3,7 @@ extends: _layouts.post
 section: content
 title: target=blank (CSS-Tricks)
 date: 2021-06-13
-categories: [Community]
+categories: [Community, Link]
 published: true
 ---
 

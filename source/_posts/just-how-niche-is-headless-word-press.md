@@ -3,7 +3,7 @@ extends: _layouts.post
 section: content
 title: Just How Niche is Headless WordPress?
 date: 2021-06-19
-categories: [Community]
+categories: [Community, Link]
 published: true
 ---
 
