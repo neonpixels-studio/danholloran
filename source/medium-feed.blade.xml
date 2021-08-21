@@ -1,30 +1,32 @@
 <xml version="1.0" encoding="UTF-8">
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>{{ htmlentities($page->siteTitle) }}</title>
-		<description>{{ htmlentities($page->siteDescription) }}</description>
-		<link>{{ $page->baseUrl }}</link>
-		<atom:link href="{{ $page->baseUrl }}/feed.xml" rel="self" type="application/rss+xml"/>
-		<pubDate>{{ date('r') }}</pubDate>
-		<lastBuildDate>{{ date('r') }}</lastBuildDate>
+    <rss version="2.0"
+        xmlns:atom="http://www.w3.org/2005/Atom">
+        <channel>
+            <title>{{ htmlentities($page->siteTitle) }}</title>
+            <description>{{ htmlentities($page->siteDescription) }}</description>
+            <link>{{ $page->baseUrl }}</link>
+            <atom:link href="{{ $page->baseUrl }}/feed.xml" rel="self" type="application/rss+xml"/>
+            <pubDate>{{ date('r') }}</pubDate>
+            <lastBuildDate>{{ date('r') }}</lastBuildDate>
 		@foreach($posts as $post)
-			<item>
-				<title>{{ htmlentities($post->title) }}</title>
-				<description>
-					<![CDATA[
+            <item>
+                <title>{{ htmlentities($post->title) }}</title>
+                <description>
+                    <![CDATA[
 					{{ $post->getContent() }}
 					]]>
-				</description>
-				<pubDate>{{ $post->getDate('r') }}</pubDate>
-				<link>{{ $post->getUrl() }}</link>
-				<guid isPermaLink="true">{{ $post->getUrl() }}</guid>
+                </description>
+                <pubDate>{{ $post->getDate('r') }}</pubDate>
+                <link>{{ $post->getUrl() }}</link>
+                <guid isPermaLink="true">{{ $post->getUrl() }}</guid>
 				@foreach($post->tags ?? [] as $tag)
-     <category>{{ htmlentities($tag) }}</category>
+                <category>{{ htmlentities($tag) }}</category>
 				@endforeach
 				@foreach($post->categories ?? [] as $category)
-     <category>{{ htmlentities($category) }}</category>
+                <category>{{ htmlentities($category) }}</category>
 				@endforeach
-			</item>
+            </item>
 		@endforeach
-	</channel>
-</rss>
+        </channel>
+    </rss>
+</xml>
