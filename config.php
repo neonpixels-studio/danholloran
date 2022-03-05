@@ -16,7 +16,7 @@ return [
     'siteName' => 'DanHolloran',
     'siteDescription' => 'My adventures on and off of the internetz.',
     'siteAuthor' => 'Dan Holloran',
-    'resumeUrl' => '/files/dan-holloran-resume.pdf?v=5',
+    'resumeUrl' => '/files/dan-holloran-resume.pdf?v=6',
     'theme' => chooseTheme(),
     'social' => collect([
         'gitlab' => collect([

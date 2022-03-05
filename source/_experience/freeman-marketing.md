@@ -2,7 +2,7 @@
 extends: _layouts.post
 section: content
 title: Web Developer
-sort_order: 4
+sort_order: 5
 company: Freeman Marketing
 company_url: http://www.freemanhelp.com/
 start: May 2012

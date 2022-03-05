@@ -2,7 +2,7 @@
 extends: _layouts.post
 section: content
 title: Mentor
-sort_order: 3
+sort_order: 4
 company: LaunchCode
 company_url: https://www.launchcode.org/
 start: May 2016

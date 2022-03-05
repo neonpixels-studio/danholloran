@@ -2,7 +2,7 @@
 extends: _layouts.post
 section: content
 title: Bachelors - Web Design & Development
-sort_order: 5
+sort_order: 6
 company: Full Sail University
 company_url: https://www.fullsail.edu/degrees/web-design-and-development-bachelor
 start: November 2009

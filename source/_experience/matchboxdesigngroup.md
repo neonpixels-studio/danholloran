@@ -2,7 +2,7 @@
 extends: _layouts.post
 section: content
 title: Lead Developer (Full-Stack Developer)
-sort_order: 2
+sort_order: 3
 company: Matchbox Design Group
 company_url: https://matchboxdesigngroup.com/
 start: November 2012
