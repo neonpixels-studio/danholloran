@@ -1,6 +1,6 @@
 ---
 title: "Twitter: April 09, 2022 at 07:17PM"
-text: "RT @SeaRyanC: \\"Do senior devs still have to look up stuff on StackOverflow?\\"
+text: "RT @SeaRyanC: \"Do senior devs still have to look up stuff on StackOverflow?\"
 
 Gentle reader, I have gone to StackOverflow to read answers that I wrote about behavior that I myself designed and implemented."
 createdAt: "April 09, 2022 at 07:17PM"
@@ -19,4 +19,3 @@ Gentle reader, I have gone to StackOverflow to read answers that I wrote about b
   <a href="https://twitter.com/DHolloran/status/1512947902246760453">Apr 10, 2022</a>
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
