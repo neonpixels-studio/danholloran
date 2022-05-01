@@ -30,7 +30,7 @@ module.exports = class SocialPost {
             .filter(([_key, value]) => value !== undefined && value !== "")
             .map(([key, value]) => {
                 value = typeof value === "string" ? value.trim() : value;
-                value = value.replace(/"/g, '\\\\"');
+                value = value.replace(/"/g, '\\\"');
                 return `${key}: "${value}"`;
             });
     }
