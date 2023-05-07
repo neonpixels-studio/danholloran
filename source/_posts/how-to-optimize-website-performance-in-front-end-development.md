@@ -1,12 +1,11 @@
-- - - -
+---
 extends: _layouts.post
 section: content
 title: How to Optimize Website Performance in Front-End Development
 date: 2023-05-07
 categories: [Front-End, Performance]
 published: true
-- - - -
-#Drafts
+---
 Website performance is a critical factor in ensuring a positive user experience. Slow-loading pages, broken links, and errors can drive users away and hurt your website’s search engine rankings. As a front-end developer, it is your responsibility to optimize website performance. This blog post will explore tips and techniques for optimizing website performance as part of the front-end development process, including clean code, image and asset optimization, and more. We will also provide some code examples to help you get started.
 ## 1. Write Clean and Efficient Code
 Clean and efficient code is critical to website performance. Bloated and poorly written code can slow page load times and increase server requests. Here are some tips for writing clean and efficient code:

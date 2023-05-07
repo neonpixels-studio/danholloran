@@ -1,13 +1,11 @@
-- - - -
+---
 extends: _layouts.post
 section: content
 title: The Evolution of Front-End Development: Past, Present, and Future
 date: 2023-05-07
 categories: [Front-End]
 published: true
-- - - -
-#Drafts
-
+---
 ##  The Evolution of Front-End Development: Past, Present, and Future
 As a front-end developer, getting caught up in the latest trends and technologies is easy. But let’s take a step back and appreciate how far front-end development has come. From the days of table-based layouts and inline styles to the modern world of responsive design and dynamic web applications, front-end development has evolved significantly.
 ## The Past: Tables and Inline Styles
