@@ -22,7 +22,10 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/dholloran' }
+      { icon: 'github', link: 'https://github.com/dholloran' },
+      { icon: 'twitter', link: 'https://twitter.com/dholloran' },
+      { icon: 'instagram', link: 'https://instagram.com/dholloran85/' },
+      { icon: 'linkedin', link: 'https://linkedin.com/dholloran85/' },
     ]
   }
 })

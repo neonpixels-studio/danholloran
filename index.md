@@ -20,7 +20,7 @@ import { data as posts } from './loaders/posts.data.ts'
 </script>
 
 <div class="container mx-auto mb-12">
-  <div class="prose">
+  <div class="prose dark:prose-invert">
     <h1>
       Hello, I'm <span class="title">Dan Holloran.</span>
     </h1>
