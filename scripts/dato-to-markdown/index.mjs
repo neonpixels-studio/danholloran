@@ -1,7 +1,6 @@
 #!/usr/bin/node
 
 import fs, { existsSync } from "fs";
-// import { emptyDir } from "fs-extra";
 import { getModels } from "./dato.mjs";
 import { cwd } from "process";
 import { join } from "path";
@@ -82,8 +81,6 @@ const writeModels = async (
   info(`Writing ${modelName} models...`);
 
   await maybeMakeDirectory(path);
-  // @todo Enable this once blog posts have been added to Dato
-  // await emptyDir(getFullPath(path));
   await Promise.all(
     models.map(async (data) => {
       return await writeMarkdown({
