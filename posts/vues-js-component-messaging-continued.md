@@ -1,13 +1,13 @@
 ---
 extends: _layouts.post
 section: content
-title:  Vue.js Component Messaging Continued
+title: Vue.js Component Messaging Continued
 date: 2015-12-8
 categories: []
 published: true
 ---
 
-So yesterday I posted about Vue.js component messaging. This is in a way a continuation so you will want to read that first "[Vue.js Component Messaging](/2015/12/07/vues-js-component-messaging/)".
+So yesterday I posted about Vue.js component messaging. This is in a way a continuation so you will want to read that first "[Vue.js Component Messaging](/vues-js-component-messaging)".
 
 I had suggested that firing an event off of a common element wether that is the body or the main Vue.js instance really does not matter. However I kind of got to thinking more about it and that would work but there may be a problem if there are multiple instances of the same component on the same page. In the example of an Alert component if for some reason there was one Alert component in the header and one in the footer an alert message would be added to both.
 
@@ -15,37 +15,31 @@ I did have an idea I thought may solve that issue allow for something like an ev
 
 ```html
 // Full event
-<alert
-	:messages.sync="messages"
-	:event="event-name-2"
-></alert>
+<alert :messages.sync="messages" :event="event-name-2"></alert>
 
 // Event suffix
-<alert
-	:messages.sync="messages"
-	:event-suffix="event-name-2"
-></alert>
+<alert :messages.sync="messages" :event-suffix="event-name-2"></alert>
 ```
 
 Then you could listen for the event following the example I used in the previous post using the proposed helper functions. Feel free to listen to these events however since there is nothing magical happening here.
 
 ```javascript
 // In component 1 (full event)
-componentFireEvent('event-name-2', 'event-details');
+componentFireEvent("event-name-2", "event-details");
 
 // In component 2 (full event)
 // this.even = 'event-name-2'
-componentSubscribe(this.event, function( eventDetails ) {
-	// Do whatever you need to do now.
+componentSubscribe(this.event, function (eventDetails) {
+  // Do whatever you need to do now.
 });
 
 // In component 1 (event suffix)
-componentFireEvent('event-name-2', 'event-details');
+componentFireEvent("event-name-2", "event-details");
 
 // In component 2 (event suffix)
 // this.even = 'event-name-2'
-componentSubscribe('event-name/' + this.event, function( eventDetails ) {
-	// Do whatever you need to do now.
+componentSubscribe("event-name/" + this.event, function (eventDetails) {
+  // Do whatever you need to do now.
 });
 ```
 

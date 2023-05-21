@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.{html,js,md}"],
+  content: ["./**/*.{html,md}", "./.vitepress/theme/**/*.{ts,vue}"],
   darkMode: "class",
   theme: {
     extend: {},

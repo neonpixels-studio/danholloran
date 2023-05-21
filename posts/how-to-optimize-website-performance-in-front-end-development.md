@@ -6,6 +6,7 @@ date: 2023-05-07
 categories: [Front-End, Performance]
 published: true
 ---
+
 Website performance is a critical factor in ensuring a positive user experience. Slow-loading pages, broken links, and errors can drive users away and hurt your website's search engine rankings. As a front-end developer, it is your responsibility to optimize website performance. This blog post will explore tips and techniques for optimizing website performance as part of the front-end development process, including clean code, image and asset optimization, and more. We will also provide some code examples to help you get started.
 
 ## 1. Write Clean and Efficient Code
@@ -69,16 +70,15 @@ Here's an example of using responsive images:
 
 ```html
 <picture>
-  <source media=“(min-width: 800px)” srcset=“large.jpg”>
-  <source media=“(min-width: 500px)” srcset=“medium.jpg”>
-  <img src=“small.jpg” alt=“An image”>
+  <source media="“(min-width:" 800px)” srcset="“large.jpg”" />
+  <source media="“(min-width:" 500px)” srcset="“medium.jpg”" />
+  <img src="“small.jpg”" alt="“An" image” />
 </picture>
-1 Use Caching and Compression
-Caching and compression can significantly improve website performance. To enable caching and compression, you can:
-- Set the correct HTTP caching headers to allow browsers to cache static assets
-- Use gzip compression to reduce the file size
-- Minify CSS and JavaScript files to reduce the file size
-Here's an example of setting caching headers:
+1 Use Caching and Compression Caching and compression can significantly improve
+website performance. To enable caching and compression, you can: - Set the
+correct HTTP caching headers to allow browsers to cache static assets - Use gzip
+compression to reduce the file size - Minify CSS and JavaScript files to reduce
+the file size Here's an example of setting caching headers:
 ```
 
 ## 3. Use Caching and Compression
