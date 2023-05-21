@@ -1,13 +1,14 @@
 #!/usr/bin/node
 
 import fs, { existsSync } from "fs";
+// import { emptyDir } from "fs-extra";
 import { getModels } from "./dato.mjs";
 import { cwd } from "process";
 import { join } from "path";
 import { info, danger, success } from "./cli.mjs";
 import YAML from "json-to-pretty-yaml";
+import { DateTime } from "luxon";
 
-const { posts, site } = await getModels();
 const { mkdir, writeFile } = fs.promises;
 
 const getFullPath = (path) => {
@@ -24,9 +25,14 @@ const writeJson = async ({ data, path } = { data, path }) => {
 };
 
 const writeMarkdown = async ({ data, path } = { data, path }) => {
-  const { content } = data;
-  const frontmatter = { ...data };
+  const { content, publishedAt } = data;
+  const frontmatter = {
+    ...data,
+    date: new DateTime(publishedAt).toFormat("MM-dd-yyyy"),
+    published: true,
+  };
   delete frontmatter.content;
+  delete frontmatter.id;
 
   const markdown = [
     "---",
@@ -64,7 +70,6 @@ const writeSiteConfig = async (data) => {
     data,
     path: "site.json",
   });
-  success("Writing Site Configuration complete");
 };
 
 const writeModels = async (
@@ -77,17 +82,24 @@ const writeModels = async (
   info(`Writing ${modelName} models...`);
 
   await maybeMakeDirectory(path);
+  // @todo Enable this once blog posts have been added to Dato
+  // await emptyDir(getFullPath(path));
   await Promise.all(
-    posts.map(async (data) => {
+    models.map(async (data) => {
       return await writeMarkdown({
         data,
         path: join(path, `${data.slug}.md`),
       });
     })
   );
-
-  success(`Writing ${modelName} models complete...`);
 };
 
-await writeSiteConfig(site);
-await writeModels({ models: posts, path: "posts" });
+// == Start ===========================
+try {
+  const models = await getModels();
+  await writeSiteConfig(models.site);
+  await writeModels({ models: models.posts, path: "posts", modelName: "Post" });
+  success("Dato to Markdown completed!");
+} catch (error) {
+  danger(error);
+}
