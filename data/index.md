@@ -1,7 +1,6 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 layout: home
-
 # hero:
 #   name: "Dan Holloran"
 #   text: "My personal blog"
@@ -16,7 +15,9 @@ layout: home
 ---
 
 <script setup>
-import { data as posts } from './loaders/posts.data.ts'
+import { data as posts } from '../loaders/posts.data.ts'
+
+const getPostUrl = ({url}) => url?.replace(/^\/data/g, "")
 </script>
 
 <div class="container mx-auto mb-12">
@@ -36,7 +37,7 @@ import { data as posts } from './loaders/posts.data.ts'
     :key="post.title"
     class="prose max-w-full mb-6 title"
   >
-    <a :href="post.url" class="block">
+    <a :href="getPostUrl(post)" class="block">
       <h2 class="m-0" v-text="post.title"></h2>
       <span v-text="post?.date?.string"></span>
     </a>
