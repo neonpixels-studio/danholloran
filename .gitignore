@@ -3,7 +3,7 @@
 .DS_Store
 node_modules
 .envrc
-data/posts/**/*
+data/**/*
 !data/.gitkeep
 
 # Old blog posts

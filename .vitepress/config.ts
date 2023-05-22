@@ -5,7 +5,6 @@ export default defineConfig({
   title: "Dan Holloran",
   description: "My Personal Blog",
   ignoreDeadLinks: true,
-  srcDir: 'data',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
