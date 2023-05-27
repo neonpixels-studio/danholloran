@@ -62,3 +62,6 @@ data/posts/**/*
 !data/base-environment-setup.md
 !data/avoid-using-else.md
 !data/a-minute-with-a-ghost.md
+
+# Local Netlify folder
+.netlify

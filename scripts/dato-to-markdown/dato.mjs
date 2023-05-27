@@ -1,4 +1,4 @@
-import { success, danger, info } from "./cli.mjs";
+import { danger, info } from "./../shared/cli.mjs";
 
 const ResponsiveImageAttributes = `fragment ResponsiveImageAttributes on ResponsiveImage {
   src

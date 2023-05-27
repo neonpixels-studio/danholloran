@@ -4,8 +4,8 @@ import fs, { existsSync } from "fs";
 import { getModels } from "./dato.mjs";
 import { cwd } from "process";
 import { join } from "path";
-import { info, danger, success } from "./cli.mjs";
-import YAML from "json-to-pretty-yaml";
+import { info, danger, success } from "../shared/cli.mjs";
+import yaml from "js-yaml";
 import { DateTime } from "luxon";
 
 const { mkdir, writeFile } = fs.promises;
@@ -33,12 +33,9 @@ const writeMarkdown = async ({ data, path } = { data, path }) => {
   delete frontmatter.content;
   delete frontmatter.id;
 
-  const markdown = [
-    "---",
-    YAML.stringify(frontmatter).trim(),
-    "---",
-    content,
-  ].join("\n");
+  const markdown = ["---", yaml.dump(frontmatter).trim(), "---", content].join(
+    "\n"
+  );
   try {
     await writeFile(getFullPath(path), markdown);
   } catch (error) {
