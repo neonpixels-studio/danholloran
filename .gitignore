@@ -1,5 +1,6 @@
 .vitepress/cache
-.vitepress/dist
+.vitepress/dist/*
+!.vitepress/dist/_redirects
 .DS_Store
 node_modules
 .envrc
