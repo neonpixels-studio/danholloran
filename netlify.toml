@@ -1,7 +1,6 @@
 [[redirects]]
-from = "/cms/*"
-to = "https://danhollloran-me.admin.datocms.com/:splat"
-status = 200
+from = "/cms"
+to = "https://danhollloran-me.admin.datocms.com"
 force = true
 
 [[redirects]]
