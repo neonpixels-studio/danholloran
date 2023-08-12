@@ -6,5 +6,4 @@ force = true
 [[redirects]]
 from = "/todo"
 to = "https://docs.google.com/forms/d/1uCFU7gqBW7UuGv_NiI3pMBABbWawR414e958dJi28bg/viewform?edit_requested=true"
-status = 200
 force = true
