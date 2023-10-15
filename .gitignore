@@ -66,3 +66,4 @@ data/posts/**/*
 
 # Local Netlify folder
 .netlify
+_sketch.md
