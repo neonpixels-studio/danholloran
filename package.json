@@ -21,7 +21,7 @@
     "js-yaml": "^4.1.0",
     "luxon": "^3.3.0",
     "netlify-cli": "^15.2.0",
-    "openai": "^3.2.1",
+    "openai": "^4.17.4",
     "remark-frontmatter": "^4.0.1",
     "remark-parse": "^10.0.2",
     "remark-stringify": "^10.0.3",
