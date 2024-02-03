@@ -1,0 +1,6 @@
+---
+title: "Education is the passport to the future, for tomorrow belongs to those who prepare for it today - Malcolm X"
+author: "Malcolm X"
+---
+
+Education is the passport to the future, for tomorrow belongs to those who prepare for it today
