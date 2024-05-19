@@ -29,7 +29,7 @@ describe("useWebhookPoster", () => {
     const response = await handleWebhook(payload);
 
     expect(githubApiMock.commitFile).toHaveBeenCalledWith({
-      filePath: `content/posts/${slugify(payload.title, { lower: true })}.md`,
+      filePath: `content/posts/${slugify(payload.title, { lower: true, strict: true })}.md`,
       content:
         "===\n" +
         `title: ${payload.title}\n` +

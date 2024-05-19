@@ -6,7 +6,11 @@ export default ({ token, githubApi = undefined }) => {
   const { commitFile } = githubApi ?? useGithubApi({ token });
 
   const getFilePath = ({ group, title }) => {
-    return join("content", group, `${slugify(title, { lower: true })}.md`);
+    return join(
+      "content",
+      group,
+      `${slugify(title, { lower: true, strict: true })}.md`,
+    );
   };
 
   const handleWebhook = async ({
