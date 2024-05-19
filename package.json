@@ -5,11 +5,13 @@
     "dev": "yarn docs:dev",
     "build": "yarn docs:build",
     "docs:build": "tinacms build --datalayer-port 9002 && vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "test:unit": "vitest"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.6",
-    "@tailwindcss/typography": "^0.5.10",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vitest/ui": "^1.6.0",
+    "@vue/test-utils": "^2.4.6",
     "@vueuse/components": "^10.5.0",
     "@vueuse/core": "^10.5.0",
     "autoprefixer": "^10.4.16",
@@ -17,19 +19,27 @@
     "postcss-import": "^15.1.0",
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
-    "tailwindcss": "^3.3.3",
     "vite": "^4.5.0",
+    "vite-plugin-vue-devtools": "^7.0.25",
     "vite-svg-loader": "^4.0.0",
-    "vitepress": "^1.0.0-rc.22",
-    "vue": "^3.3.4"
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
+    "@netlify/functions": "^2.6.3",
+    "@octokit/core": "^6.1.2",
+    "@octokit/plugin-create-or-update-text-file": "^5.1.0",
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
     "@tinacms/cli": "^1.5.31",
     "canvas-confetti": "^1.9.0",
     "collect.js": "^4.36.1",
+    "jsdom": "^24.0.0",
     "lodash.debounce": "^4.0.8",
     "slugify": "^1.6.6",
-    "tinacms": "^1.5.22"
+    "tailwindcss": "^3.3.3",
+    "tinacms": "^1.5.22",
+    "vitepress": "^1.0.0-rc.22",
+    "vue": "^3.3.4"
   }
 }
