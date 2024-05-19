@@ -32,7 +32,7 @@ export default ({ token, githubApi = undefined }) => {
       Object.entries(metadata).map(([key, value]) => {
         return `${key}: ${value}`;
       }),
-      `---`,
+      `---\n`,
       content,
     ]
       .filter((item) => !!item)
