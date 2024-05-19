@@ -31,13 +31,13 @@ describe("useWebhookPoster", () => {
     expect(githubApiMock.commitFile).toHaveBeenCalledWith({
       filePath: `content/posts/${slugify(payload.title, { lower: true, strict: true })}.md`,
       content:
-        "===\n" +
+        "---\n" +
         `title: ${payload.title}\n` +
         `tags: ${payload.tags.join(",")}\n` +
         `published: ${payload.published}\n` +
         `created_at: ${payload.created_at}\n` +
         `original_url: ${payload.metadata.original_url}\n` +
-        "===\n" +
+        "---\n" +
         "My awesome blog post content!",
       message: "[Webhook Poster] posts/my-awesome-blog-post.md",
     });

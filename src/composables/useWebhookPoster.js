@@ -24,7 +24,7 @@ export default ({ token, githubApi = undefined }) => {
   }) => {
     const filePath = getFilePath({ group, title });
     const fileContent = [
-      `===`,
+      `---`,
       title === undefined ? undefined : `title: ${title}`,
       tags === undefined ? undefined : `tags: ${tags?.join(",")}`,
       published === undefined ? undefined : `published: ${published}`,
@@ -32,7 +32,7 @@ export default ({ token, githubApi = undefined }) => {
       Object.entries(metadata).map(([key, value]) => {
         return `${key}: ${value}`;
       }),
-      "===",
+      `---`,
       content,
     ]
       .filter((item) => !!item)
