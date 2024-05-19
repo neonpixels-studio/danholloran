@@ -4,9 +4,9 @@ import { createOrUpdateTextFile } from "@octokit/plugin-create-or-update-text-fi
 export default ({
   token,
   owner = "dholloran",
-  repo = "webhook-poster",
+  repo = "danholloran-me",
   octokit = undefined,
-  branch = "main",
+  branch = "master",
 }) => {
   const MyOctokit = Octokit.plugin(createOrUpdateTextFile);
   octokit = octokit ?? new MyOctokit({ auth: token });
