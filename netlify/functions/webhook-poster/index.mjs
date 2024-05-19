@@ -17,7 +17,7 @@ export default async (req, _context) => {
         ),
       )
     : {};
-  console.log("body", body?.token, process.env.WEBHOOK_POSTER_API_KEY);
+
   if (body?.token !== process.env.WEBHOOK_POSTER_API_KEY) {
     return error404Response;
   }

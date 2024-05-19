@@ -663,7 +663,6 @@ const quotes = collect([
 ]);
 
 const quote = ref(quotes.random());
-console.log({ quote });
 </script>
 
 <template>
