@@ -677,6 +677,5 @@ import { write, writeFileSync } from "fs";
   const slug = slugify(title.substring(0, 200), { lower: true, strict: true });
   const filename = `${slug}.md`;
   const path = join(cwd(), "./content/quotes", filename);
-  console.log(path);
   writeFileSync(path, markdown);
 });
