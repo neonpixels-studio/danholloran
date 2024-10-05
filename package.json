@@ -4,7 +4,8 @@
     "serve": "yarn docs:dev",
     "dev": "yarn docs:dev",
     "build": "yarn docs:build",
-    "docs:build": "tinacms build --datalayer-port 9002 && vitepress build",
+    "docs:build": "vitepress build",
+    "docs:build:old": "tinacms build --datalayer-port 9002 && vitepress build",
     "docs:preview": "vitepress preview",
     "test:unit": "vitest"
   },
