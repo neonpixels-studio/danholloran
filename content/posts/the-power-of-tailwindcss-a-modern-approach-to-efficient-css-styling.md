@@ -1,5 +1,5 @@
 ---
-title: The Power of Tailwind.css: A Modern Approach to Efficient CSS Styling
+title: "The Power of Tailwind.css: A Modern Approach to Efficient CSS Styling"
 tags: Tailwind.css
 published: false
 created_at: May 19, 2024 at 03:06PM
