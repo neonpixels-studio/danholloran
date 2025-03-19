@@ -58,12 +58,12 @@ const useNavigation = () => {
       },
       {
         label: "Github",
-        link: "https://github.com/DHolloran/",
+        link: "https://github.com/grimicorn/",
         icon: GithubIcon,
       },
       {
         label: "X",
-        link: "https://twitter.com/DHolloran",
+        link: "https://twitter.com/grimicorn/",
         icon: XIcon,
       },
       {
@@ -73,12 +73,12 @@ const useNavigation = () => {
       },
       {
         label: "Instagram",
-        link: "https://www.instagram.com/dholloran85/",
+        link: "https://www.instagram.com/grimicorn/",
         icon: InstagramIcon,
       },
       {
         label: "YouTube",
-        link: "https://www.youtube.com/DanHolloran",
+        link: "https://www.youtube.com/@Grimicorn",
         icon: YoutubeIcon,
       },
     ];
