@@ -1,9 +1,0 @@
-# Local Netlify folder
-.netlify
-_sketch.md
-.DS_Store
-.vitepress/cache
-.vitepress/dist
-node_modules
-.envrc
-.env
