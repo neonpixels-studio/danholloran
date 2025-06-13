@@ -1,0 +1,892 @@
+<xml version="1.0" encoding="UTF-8">
+    <rss version="2.0"
+        xmlns:atom="http://www.w3.org/2005/Atom">
+        <channel>
+            <title></title>
+            <description>My adventures on and off of the internetz.</description>
+            <link>https://danholloran.me</link>
+            <atom:link href="https://danholloran.me/feed.xml" rel="self" type="application/rss+xml"/>
+            <pubDate>Tue, 06 Sep 2022 18:31:38 +0000</pubDate>
+            <lastBuildDate>Tue, 06 Sep 2022 18:31:38 +0000</lastBuildDate>
+		            <item>
+                <title>Avoid Using Else</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2022/03/26/avoid-using-else">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2022/03/26/avoid-using-else</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2022/03/26/avoid-using-else</guid>
+								                <category>Community</category>
+				                <category>Link</category>
+				            </item>
+		            <item>
+                <title>Questions to ask before choosing a static site generator</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2021/06/26/questions-to-ask-before-choosing-a-static-site-generator">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2021/06/26/questions-to-ask-before-choosing-a-static-site-generator</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2021/06/26/questions-to-ask-before-choosing-a-static-site-generator</guid>
+								                <category>Link</category>
+				            </item>
+		            <item>
+                <title>Just How Niche is Headless WordPress?</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2021/06/19/just-how-niche-is-headless-word-press">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2021/06/19/just-how-niche-is-headless-word-press</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2021/06/19/just-how-niche-is-headless-word-press</guid>
+								                <category>Community</category>
+				                <category>Link</category>
+				            </item>
+		            <item>
+                <title>target=blank (CSS-Tricks)</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2021/06/13/target-blank-css-tricks">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2021/06/13/target-blank-css-tricks</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2021/06/13/target-blank-css-tricks</guid>
+								                <category>Community</category>
+				                <category>Link</category>
+				            </item>
+		            <item>
+                <title>No, Utility Classes Aren&#039;t the Same As Inline Styles (by Sarah Dayan)</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2021/05/30/no-utility-classes-aren-t-the-same-as-inline-styles">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2021/05/30/no-utility-classes-aren-t-the-same-as-inline-styles</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2021/05/30/no-utility-classes-aren-t-the-same-as-inline-styles</guid>
+								                <category>Community</category>
+				                <category>Link</category>
+				            </item>
+		            <item>
+                <title>VisBug (Dev Tools for Designers)</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2019/09/02/visbug">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2019/09/02/visbug</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2019/09/02/visbug</guid>
+								            </item>
+		            <item>
+                <title>Laracon Online 2019 Notes and Thoughts</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2019/03/07/laracon-online-2019-notes-and-thoughts">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2019/03/07/laracon-online-2019-notes-and-thoughts</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2019/03/07/laracon-online-2019-notes-and-thoughts</guid>
+								            </item>
+		            <item>
+                <title>Testing mocked email in WordPress with PHPUnit</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2018/12/15/testing-mocked-email-in-word-press-with-php-unit">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2018/12/15/testing-mocked-email-in-word-press-with-php-unit</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2018/12/15/testing-mocked-email-in-word-press-with-php-unit</guid>
+								            </item>
+		            <item>
+                <title>Setting Up Your Shell Configuration and OHMyZSH</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/07/03/setting-up-your-shell-configuration-and-ohmyzsh">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/07/03/setting-up-your-shell-configuration-and-ohmyzsh</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/07/03/setting-up-your-shell-configuration-and-ohmyzsh</guid>
+								            </item>
+		            <item>
+                <title>Setting up Mailhog on MAMP</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/06/26/setting-up-mailhog-on-mamp">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/06/26/setting-up-mailhog-on-mamp</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/06/26/setting-up-mailhog-on-mamp</guid>
+								            </item>
+		            <item>
+                <title>Launchcode Mentorship</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/06/25/launchcode-mentorship">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/06/25/launchcode-mentorship</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/06/25/launchcode-mentorship</guid>
+								            </item>
+		            <item>
+                <title>Looking Into Statamic Flat File CMS</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/06/14/looking-into-statamic-flat-file-cms">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/06/14/looking-into-statamic-flat-file-cms</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/06/14/looking-into-statamic-flat-file-cms</guid>
+								            </item>
+		            <item>
+                <title>St Louis WordCamp 2016</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/05/16/st-louis-wordcamp-2016">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/05/16/st-louis-wordcamp-2016</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/05/16/st-louis-wordcamp-2016</guid>
+								            </item>
+		            <item>
+                <title>Laravel and WebSockets</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/03/25/laravel-and-websockets">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/03/25/laravel-and-websockets</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/03/25/laravel-and-websockets</guid>
+								            </item>
+		            <item>
+                <title>Laravel Forge, Digital Ocean and WebSockets</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/03/05/laravel-forge-digital-ocean-and-websockets">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/03/05/laravel-forge-digital-ocean-and-websockets</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/03/05/laravel-forge-digital-ocean-and-websockets</guid>
+								            </item>
+		            <item>
+                <title>Why Does ExpressionEngine Save Templates in the Database?</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/01/16/why-does-expressionengine-save-templates-in-the-database">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/01/16/why-does-expressionengine-save-templates-in-the-database</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/01/16/why-does-expressionengine-save-templates-in-the-database</guid>
+								            </item>
+		            <item>
+                <title>Quickly Install Applications on Your Mac With Homebrew and Cask</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2016/01/12/quickly-install-applications-on-your-mac-with-homebrew-and-cask">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2016/01/12/quickly-install-applications-on-your-mac-with-homebrew-and-cask</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2016/01/12/quickly-install-applications-on-your-mac-with-homebrew-and-cask</guid>
+								            </item>
+		            <item>
+                <title>Why Would You Use a Fixed Header?</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/12/24/why-would-you-use-a-fixed-header">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/12/24/why-would-you-use-a-fixed-header</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/12/24/why-would-you-use-a-fixed-header</guid>
+								            </item>
+		            <item>
+                <title>Vue.js Component Messaging Continued</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/12/08/vues-js-component-messaging-continued">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/12/08/vues-js-component-messaging-continued</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/12/08/vues-js-component-messaging-continued</guid>
+								            </item>
+		            <item>
+                <title>Vue.js Component Messaging</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/12/07/vues-js-component-messaging">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/12/07/vues-js-component-messaging</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/12/07/vues-js-component-messaging</guid>
+								            </item>
+		            <item>
+                <title>Experimenting With Laravel and Vue.js</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/12/05/if-youve-ever-wondered">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/12/05/if-youve-ever-wondered</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/12/05/if-youve-ever-wondered</guid>
+								            </item>
+		            <item>
+                <title>Experimenting With Laravel and Vue.js</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/12/05/experimenting-with-laravel-and-vue-js">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/12/05/experimenting-with-laravel-and-vue-js</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/12/05/experimenting-with-laravel-and-vue-js</guid>
+								            </item>
+		            <item>
+                <title>Setting Up Your Shell</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/09/29/setting-up-your-shell">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/09/29/setting-up-your-shell</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/09/29/setting-up-your-shell</guid>
+								            </item>
+		            <item>
+                <title>Don&#039;t Fear The Shell</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/09/20/dont-fear-the-shell">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/09/20/dont-fear-the-shell</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/09/20/dont-fear-the-shell</guid>
+								            </item>
+		            <item>
+                <title>Installing Linters Atom</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/09/13/installing-linters-atom">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/09/13/installing-linters-atom</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/09/13/installing-linters-atom</guid>
+								            </item>
+		            <item>
+                <title>Installing Linters Sublime Text 3</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/30/installing-linters-sublime-text-3">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/30/installing-linters-sublime-text-3</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/30/installing-linters-sublime-text-3</guid>
+								            </item>
+		            <item>
+                <title>Linting Your Code: Installing the Linters</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/27/linting-your-code-installing-the-linters">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/27/linting-your-code-installing-the-linters</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/27/linting-your-code-installing-the-linters</guid>
+								            </item>
+		            <item>
+                <title>Base Environment Setup</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/26/base-environment-setup">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/26/base-environment-setup</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/26/base-environment-setup</guid>
+								            </item>
+		            <item>
+                <title>Has WP_Query Abstracted To Much?</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/18/has-wp-query-abstracted-to-much">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/18/has-wp-query-abstracted-to-much</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/18/has-wp-query-abstracted-to-much</guid>
+								            </item>
+		            <item>
+                <title>Setting Up a Jekyll Blog - Part 5</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/10/setting-up-a-jekyll-blog-part-5">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/10/setting-up-a-jekyll-blog-part-5</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/10/setting-up-a-jekyll-blog-part-5</guid>
+								            </item>
+		            <item>
+                <title>Setting Up a Jekyll Blog - Part 4</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/09/setting-up-a-jekyll-blog-part-4">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/09/setting-up-a-jekyll-blog-part-4</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/09/setting-up-a-jekyll-blog-part-4</guid>
+								            </item>
+		            <item>
+                <title>Using Trello to Manage Your Blog Posts</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/06/using-trello-to-manage-your-blog-posts">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/06/using-trello-to-manage-your-blog-posts</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/06/using-trello-to-manage-your-blog-posts</guid>
+								            </item>
+		            <item>
+                <title>Change URLs On Your WP Engine Install</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/04/change-urls-on-your-wp-engine-install">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/04/change-urls-on-your-wp-engine-install</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/04/change-urls-on-your-wp-engine-install</guid>
+								            </item>
+		            <item>
+                <title>Is Apple Pay, Coin, etc. Helpful?</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/08/02/is-apple-pay-coin-etc-helpful">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/08/02/is-apple-pay-coin-etc-helpful</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/08/02/is-apple-pay-coin-etc-helpful</guid>
+								            </item>
+		            <item>
+                <title>Setting Up a Jekyll Blog - Part 3</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/29/setting-up-a-jekyll-blog-part-3">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/29/setting-up-a-jekyll-blog-part-3</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/29/setting-up-a-jekyll-blog-part-3</guid>
+								            </item>
+		            <item>
+                <title>Shortcode API You&#039;re Doing It Wrong</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/25/shortcode-api-youre-doing-it-wrong">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/25/shortcode-api-youre-doing-it-wrong</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/25/shortcode-api-youre-doing-it-wrong</guid>
+								            </item>
+		            <item>
+                <title>WordCamp USA City Chosen</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/23/wordcamp-usa-city-chosen">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/23/wordcamp-usa-city-chosen</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/23/wordcamp-usa-city-chosen</guid>
+								            </item>
+		            <item>
+                <title>My 5ish Favorite Atom Plugins</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/19/my-5ish-favorite-atom-plugins">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/19/my-5ish-favorite-atom-plugins</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/19/my-5ish-favorite-atom-plugins</guid>
+								            </item>
+		            <item>
+                <title>WP Better Attachments v1.3.11 Released</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/18/wp-better-attachments-released">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/18/wp-better-attachments-released</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/18/wp-better-attachments-released</guid>
+								            </item>
+		            <item>
+                <title>WPBA Thoughts and Road Map</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/18/wpba-thoughts-and-road-map">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/18/wpba-thoughts-and-road-map</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/18/wpba-thoughts-and-road-map</guid>
+								            </item>
+		            <item>
+                <title>Check Out Ghost Inspector</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/18/check-out-ghost-inspector">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/18/check-out-ghost-inspector</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/18/check-out-ghost-inspector</guid>
+								            </item>
+		            <item>
+                <title>Setting Up a Jekyll Blog - Part 2</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/17/setting-up-a-jekyll-blog-part-2">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/17/setting-up-a-jekyll-blog-part-2</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/17/setting-up-a-jekyll-blog-part-2</guid>
+								            </item>
+		            <item>
+                <title>Setup Vhosts in MAMP</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/16/setup-vhosts-in-mamp">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/16/setup-vhosts-in-mamp</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/16/setup-vhosts-in-mamp</guid>
+								            </item>
+		            <item>
+                <title>Display PHP Errors in MAMP</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/15/display-php-errors-in-mamp">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/15/display-php-errors-in-mamp</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/15/display-php-errors-in-mamp</guid>
+								            </item>
+		            <item>
+                <title>Setting Up a Jekyll Blog - Part 1</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/14/setting-up-a-jekyll-blog-part-1">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/14/setting-up-a-jekyll-blog-part-1</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/14/setting-up-a-jekyll-blog-part-1</guid>
+								            </item>
+		            <item>
+                <title>Moving From Sublime to Atom</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/12/moving-from-sublime-to-atom">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/12/moving-from-sublime-to-atom</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/12/moving-from-sublime-to-atom</guid>
+								            </item>
+		            <item>
+                <title>Moving From WordPress to Ghost to Jekyll</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/07/10/moving-from-wordpress-to-ghost-to-jekyll">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/07/10/moving-from-wordpress-to-ghost-to-jekyll</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/07/10/moving-from-wordpress-to-ghost-to-jekyll</guid>
+								            </item>
+		            <item>
+                <title>Check Out Hyperpolygot</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/04/04/check-out-hyperpolygot">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/04/04/check-out-hyperpolygot</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/04/04/check-out-hyperpolygot</guid>
+								            </item>
+		            <item>
+                <title>Why I Decided to Use a Themeforest Theme</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/04/01/why-i-decided-to-use-a-themeforest-theme">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/04/01/why-i-decided-to-use-a-themeforest-theme</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/04/01/why-i-decided-to-use-a-themeforest-theme</guid>
+								            </item>
+		            <item>
+                <title>Easily Retrieve Browser Information</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/28/easily-get-your-clients-browser-information">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/28/easily-get-your-clients-browser-information</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/28/easily-get-your-clients-browser-information</guid>
+								            </item>
+		            <item>
+                <title>What I Miss From WordPress &amp;amp; What Ghost Does Better</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/22/what-i-miss-from-wordpress">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/22/what-i-miss-from-wordpress</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/22/what-i-miss-from-wordpress</guid>
+								            </item>
+		            <item>
+                <title>How I (Almost...) Setup My Ghost Pro Custom Domain Name</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/20/setup-ghost-pro-custom-domain-name">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/20/setup-ghost-pro-custom-domain-name</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/20/setup-ghost-pro-custom-domain-name</guid>
+								            </item>
+		            <item>
+                <title>St. Louis WordCamp 2015 Notes</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/15/st-louis-wordcamp-2015">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/15/st-louis-wordcamp-2015</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/15/st-louis-wordcamp-2015</guid>
+								            </item>
+		            <item>
+                <title>A minute with a Ghost...</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/12/a-minute-with-a-ghost">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/12/a-minute-with-a-ghost</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/12/a-minute-with-a-ghost</guid>
+								            </item>
+		            <item>
+                <title>WP Multi File Uploader</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/10/new-plugin-wp-multi-file-uploader">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/10/new-plugin-wp-multi-file-uploader</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/10/new-plugin-wp-multi-file-uploader</guid>
+								            </item>
+		            <item>
+                <title>WP Github Recent Commit Widget</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/10/wp-github-recent-commit-widget">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/10/wp-github-recent-commit-widget</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/10/wp-github-recent-commit-widget</guid>
+								            </item>
+		            <item>
+                <title>Missing Content</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/10/missing-content">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/10/missing-content</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/10/missing-content</guid>
+								            </item>
+		            <item>
+                <title>WP Better Attachments</title>
+                <description>
+                    <![CDATA[
+					Originally posted on <a href="https://danholloran.me">https://danholloran.me</a> .
+					<br><br><br>
+					
+					<br><br>
+					<a href="https://danholloran.me/blog/2015/03/08/wp-better-attachments">Continue reading...</a>
+					]]>
+                </description>
+                <pubDate></pubDate>
+                <link>https://danholloran.me/blog/2015/03/08/wp-better-attachments</link>
+                <guid isPermaLink="true">https://danholloran.me/blog/2015/03/08/wp-better-attachments</guid>
+								            </item>
+		        </channel>
+    </rss>
+</xml>
