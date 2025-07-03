@@ -2,7 +2,7 @@ export default [
   {
     company: `Tradier`,
     location: `Charlotte, North Carolina`,
-    remote: true,
+    isRemote: true,
     url: `https://tradier.com`,
     startDate: `February 2021`,
     endDate: `March 2025`,
@@ -18,7 +18,7 @@ export default [
   {
     company: `Ample`,
     location: `Cincinnati, Ohio`,
-    remote: true,
+    isRemote: true,
     url: `https://www.ample.co`,
     startDate: `October 2019`,
     endDate: `February 2021`,
@@ -34,7 +34,7 @@ export default [
   {
     company: `Matchbox Design Group`,
     location: `Saint Louis, MO`,
-    remote: false,
+    isRemote: false,
     url: `https://matchboxdesigngroup.com/`,
     startDate: `November 2012`,
     endDate: `October 2019`,

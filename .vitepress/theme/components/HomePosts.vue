@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="container">@todo Posts</div>
+  <div class="mx-auto container">@todo Posts</div>
 </template>

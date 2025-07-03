@@ -4,7 +4,7 @@ import TheFooter from "./components/TheFooter.vue";
 </script>
 
 <template>
-  <div class="flex flex-col bg-topographic h-full bg-white text-gray-800">
+  <div class="flex flex-col h-full text-gray-800">
     <TheHeader />
     <main class="mb-auto">
       <Content />

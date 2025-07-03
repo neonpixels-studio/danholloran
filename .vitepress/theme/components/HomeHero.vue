@@ -43,11 +43,12 @@ const scrollToContact = () => {
         </div>
       </div>
 
-      <div>
+      <!-- @todo Link -->
+      <!-- <div>
         <a href="#contact" class="button" @click.prevent="scrollToContact"
           >Let's Chat</a
         >
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

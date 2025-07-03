@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import quotes from "../../content/quotes.js";
+import quotes from "../../content/quotes";
 import {
   ArrowPathIcon,
   CheckIcon,
