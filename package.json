@@ -29,6 +29,7 @@
     "@heroicons/vue": "^2.2.0",
     "@tailwindcss/vite": "^4.1.11",
     "http-server": "^14.1.1",
+    "marked": "^16.0.0",
     "tailwindcss": "^4.1.11"
   }
 }

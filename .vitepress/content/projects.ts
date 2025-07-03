@@ -6,7 +6,7 @@ export default [
     slug: "dash",
     tags: [`Vue.js`],
     title: `Tradier Web`,
-    content: `@todo Content`,
+    content: `Tradier Web was our main Trading platform and my primary responsibility at Tradier. It was built using [Vue.js](https://vuejs.org) and [Tailwind.css](https://tailwindcss.com)`,
   },
   {
     company: `Matchbox Design Group`,
