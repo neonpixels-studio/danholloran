@@ -22,7 +22,7 @@ export default [
     url: `https://www.ample.co`,
     startDate: `October 2019`,
     endDate: `February 2021`,
-    title: `Lead Developer`,
+    title: `Engineering Director`,
     listItems: [
       `Maximized reach by assisting the church to transition to online services and content during the COVID pandemic, resulting in a 35% bump in usage of web properties`,
       `Directed engineering operations for a team of 10 developers to provide technical decision-making, driving project success and efficiency improvements through strategic leadership and collaboration`,

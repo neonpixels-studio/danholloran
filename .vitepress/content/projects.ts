@@ -5,7 +5,7 @@ export default [
     url: `https://dash.tradier.com`,
     slug: "dash",
     tags: [`Vue.js`],
-    title: `Tradier Web aka Dash`,
+    title: `Tradier Web`,
     content: `@todo Content`,
   },
   {

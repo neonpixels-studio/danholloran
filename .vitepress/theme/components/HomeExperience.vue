@@ -12,7 +12,7 @@ const cleanUrl = (url: string) => {
 
 <template>
   <div class="container mb-12">
-    <h3>Professional Experience</h3>
+    <h2>Professional Experience</h2>
     <div v-for="item in experience" class="mb-6 last:mb-0">
       <h3 class="mb-0!">
         <span v-text="item.title" />
