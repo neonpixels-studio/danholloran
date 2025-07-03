@@ -1,16 +1,34 @@
 {
-  "name": "dholloran",
+  "name": "danholloran-me",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "serve": "http-server . -a localhost",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "live:serve": "http-server ./live -a localhost"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grimicorn/danholloran-me.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/grimicorn/danholloran-me/issues"
+  },
+  "homepage": "https://github.com/grimicorn/danholloran-me#readme",
   "description": "",
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "vitepress": "^1.6.3"
+  },
   "dependencies": {
-    "http-server": "^14.1.1"
+    "@heroicons/vue": "^2.2.0",
+    "@tailwindcss/vite": "^4.1.11",
+    "http-server": "^14.1.1",
+    "tailwindcss": "^4.1.11"
   }
 }

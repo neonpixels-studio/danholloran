@@ -1,2 +1,5 @@
+.vitepress/dist
+.vitepress/cache
 .DS_Store
-/node_modules
+live
+node_modules
