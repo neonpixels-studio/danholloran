@@ -1,6 +1,23 @@
 @import "tailwindcss";
 
 @theme {
+  --color-red-50: #fef2f2;
+  --color-red-500: #fb2c36;
+  --color-yellow-50: #fefce8;
+  --color-green-50: #f0fdf4;
+  --color-green-500: #00c950;
+  --color-blue-50: #eff6ff;
+  --color-purple-50: #faf5ff;
+  --color-purple-500: #ad46ff;
+  --color-purple-700: #8200db;
+  --color-purple-800: #6e11b0;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5dc;
+  --color-gray-400: #99a1af;
+  --color-gray-500: #6a7282;
+  --color-gray-800: #1e2939;
+
+
   /* Primary */
   --color-primary-50: var(--color-purple-50);
   --color-primary-100:var( --color-purple-100);
@@ -169,9 +186,14 @@ input[type="text"] {
       }
     }
   }
+
+  .intro-triangle {
+    @apply border border-t-0 border-r-[48px] border-b-[48px] border-l-0 w-0 h-0 inline-block border-t-transparent border-r-gray-400 border-b-transparent border-l-transparent;
+  }
 }
 
 /* Skill Pill */
 .skill-pill {
-  @apply bg-primary-500 inline-block text-white text-xs px-2 py-1 rounded-xl;
+  @apply h-0 w-0 opacity-0 overflow-hidden;
+  /* @apply bg-primary-500 inline-block text-white text-xs px-2 py-1 rounded-xl; */
 }

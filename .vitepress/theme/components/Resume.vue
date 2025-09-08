@@ -11,12 +11,12 @@ const $resume = ref(null);
 <template>
   <div class="container mb-6">
     <ResumeDownload :element="$resume" v-if="$resume" />
-    <div class="w-[1536px] outline-5 outline-gray-300 max-w-full">
+    <div class="outline-5 outline-gray-300 max-w-full">
       <div
         ref="$resume"
-        class="flex flex-row-reverse md:flex-row items-start resume bg-white"
+        class="flex flex-row-reverse md:flex-row items-start resume bg-gray-200"
       >
-        <div class="w-1/3 px-18 py-36 flex-col items-center h-full">
+        <div class="w-1/3 px-18 py-18 flex-col items-center h-full">
           <div class="px-6">
             <img
               :src="resume.photo.url"
@@ -70,7 +70,7 @@ const $resume = ref(null);
             </ul>
           </div>
         </div>
-        <div class="bg-gray-200 w-2/3 px-12 py-36 h-full">
+        <div class="w-2/3 px-12 py-18 h-full bg-white">
           <h1 class="font-normal! text-center text-8xl! leading-none! mb-18!">
             <span v-text="resume.firstName" class="text-black block" />
             <span v-text="resume.lastName" />
@@ -80,9 +80,7 @@ const $resume = ref(null);
             class="bg-primary-700 text-white -mr-12 pr-12 py-6 -ml-24 pl-24 relative mb-6"
           >
             <p v-text="resume.intro" class="text-lg font-semibold" />
-            <div class="w-12 h-12 absolute left-0 mt-6 overflow-hidden">
-              <div class="rotate-45 bg-gray-400 w-24 h-24 -mt-12 ml-5"></div>
-            </div>
+            <div class="intro-triangle absolute left-0 mt-6"></div>
           </div>
 
           <!-- Experience -->
@@ -97,7 +95,7 @@ const $resume = ref(null);
           </div>
 
           <!-- Education -->
-          <div v-if="resume.educations?.length > 0">
+          <div v-if="resume.educations?.length > 0" class="page2el">
             <h2>Education</h2>
 
             <ul>
