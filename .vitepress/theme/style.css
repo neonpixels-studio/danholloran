@@ -134,7 +134,17 @@ p {
 
 .button,
 a.button {
-  @apply px-6 bg-primary-500 text-white no-underline font-bold py-4 rounded-md inline-flex;
+  @apply px-6 bg-primary-500 text-white no-underline font-bold py-4 rounded-md inline-flex cursor-pointer items-center;
+
+  &:hover,
+  &:focus,
+  &:active {
+    @apply bg-primary-700;
+  }
+
+  &:disabled {
+    @apply bg-gray-300 cursor-not-allowed;
+  }
 }
 
 /* @todo All the forms */
