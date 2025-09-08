@@ -1,222 +1,192 @@
-export default [
-  {
+export const SKILLS = {
+  ACTION_SCRIPT: {
+    imageUrl: `as3.svg`,
+    name: `ActionScript 3`,
+    url: `https://apache.github.io/royale-docs/features/as3`,
+  },
+  ALGOLIA: {
     imageUrl: `algolia.svg`,
-    title: `Algolia`,
+    name: `Algolia`,
     url: `https://www.algolia.com/`,
   },
-  {
+  BOOTSTRAP: {
     imageUrl: `bootstrap.svg`,
-    title: `Bootstrap`,
+    name: `Bootstrap`,
     url: `https://getbootstrap.com/`,
   },
-  {
-    imageUrl: `composer.svg`,
-    title: `Composer`,
-    url: `https://getcomposer.org/`,
-  },
-  {
+  CSS: {
     imageUrl: `css.svg`,
-    title: `CSS`,
+    name: `CSS`,
     url: `https://developer.mozilla.org/en-US/docs/Web/CSS`,
   },
-  {
-    imageUrl: `digital-ocean.svg`,
-    title: `Digital Ocean`,
-    url: `https://www.digitalocean.com/`,
+  CYPRESS: {
+    imageUrl: `cypress.svg`,
+    name: "Cypress",
+    url: `https://www.cypress.io/`,
   },
-  {
-    imageUrl: `flywheel.svg`,
-    title: `Flywheel`,
-    url: `https://getflywheel.com/`,
-  },
-  {
+  GATSBY: {
     imageUrl: `gatsby.svg`,
-    title: `Gatsby`,
+    name: `Gatsby`,
     url: `https://www.gatsbyjs.org/`,
   },
-  {
+  GIT: {
     imageUrl: `git.svg`,
-    title: `Git`,
+    name: `Git`,
     url: `https://git-scm.com/`,
   },
-  {
+  GITHUB: {
     imageUrl: `github.svg`,
-    title: `Github`,
+    name: `Github`,
     url: `https://github.com/`,
   },
-  {
-    imageUrl: `gitlab.svg`,
-    title: `Gitlab`,
-    url: `https://gitlab.com/`,
-  },
-  {
+  GRAPHQL: {
     imageUrl: `graphql.svg`,
-    title: `GraphQL`,
+    name: `GraphQL`,
     url: `https://graphql.org/`,
   },
-  {
-    imageUrl: `gulp.svg`,
-    title: `Gulp`,
-    url: `https://gulpjs.com/`,
-  },
-  {
+  HTML: {
     imageUrl: `html.svg`,
-    title: `HTML`,
+    name: `HTML`,
     url: `https://developer.mozilla.org/en-US/docs/Web/HTML`,
   },
-  {
+  JAMSTACK: {
+    imageUrl: `jamstack.svg`,
+    name: "Jamstack",
+    url: `https://jamstack.org/`,
+  },
+  JAVASCRIPT: {
     imageUrl: `javascript.svg`,
-    title: `Javascript`,
+    name: `Javascript`,
     url: `https://developer.mozilla.org/en-US/docs/Web/Javascript`,
   },
-  {
+  JEKYLL: {
     imageUrl: `jekyll.svg`,
-    title: `Jekyll`,
+    name: `Jekyll`,
     url: `https://jekyllrb.com/`,
   },
-  {
+  JEST: {
+    imageUrl: `jest.svg`,
+    name: "Jest",
+    url: `https://jestjs.io/`,
+  },
+  JIGSAW: {
     imageUrl: `jigsaw.svg`,
-    title: `Jigsaw`,
+    name: `Jigsaw`,
     url: `https://jigsaw.tighten.co/`,
   },
-  {
+  JQUERY: {
     imageUrl: `jquery.svg`,
-    title: `jQuery`,
+    name: `jQuery`,
     url: `https://jquery.org/`,
   },
-  {
-    imageUrl: `laravel-envoyer.svg`,
-    title: `Laravel Envoyer`,
-    url: `https://envoyer.io/`,
-  },
-  {
-    imageUrl: `laravel-forge.svg`,
-    title: `Laravel Forge`,
-    url: `http://forge.laravel.com/`,
-  },
-  {
+  LARAVEL: {
     imageUrl: `laravel.svg`,
-    title: `Laravel`,
+    name: `Laravel`,
     url: `https://laravel.com/`,
   },
-  {
+  LEADERSHIP: {
+    imageUrl: `leadership.svg`,
+    name: "Leadership",
+  },
+  MENTORSHIP: {
+    imageUrl: `mentorship.svg`,
+    name: "Mentorship",
+  },
+  MYSQL: {
     imageUrl: `mysql.svg`,
-    title: `MySQL`,
+    name: `MySQL`,
     url: `https://www.mysql.com/`,
   },
-  {
-    imageUrl: `netlify.svg`,
-    title: `Netlify`,
-    url: `https://www.netlify.com`,
-  },
-  {
+  NEXT_JS: {
     imageUrl: `next-js.svg`,
-    title: `Next.js`,
+    name: `Next.js`,
     url: `https://nextjs.org/`,
   },
-  {
+  NODE_JS: {
     imageUrl: `node.svg`,
-    title: `node.js`,
+    name: `node.js`,
     url: `https://nodejs.org/`,
   },
-  {
-    imageUrl: `npm.svg`,
-    title: `NPM`,
-    url: `https://www.npmjs.com/`,
+  NUXT: {
+    imageUrl: `nuxt.svg`,
+    name: "Nuxt",
+    url: `https://nuxt.com/`,
   },
-  {
-    imageUrl: `pantheon.svg`,
-    title: `Pantheon`,
-    url: `https://pantheon.io/`,
+  PHOTOGRAPHY: {
+    imageUrl: `photography.svg`,
+    name: `Photography`,
   },
-  {
+  PHP: {
     imageUrl: `php.svg`,
-    title: `PHP`,
+    name: `PHP`,
     url: `https://www.php.net/`,
   },
-  {
-    imageUrl: `post-css.svg`,
-    title: `PostCSS`,
-    url: `https://postcss.org/`,
-  },
-  {
+  POSTGRESQL: {
     imageUrl: `postgresql.svg`,
-    title: `PostgreSQL`,
+    name: `PostgreSQL`,
     url: `https://www.postgresql.org/`,
   },
-  {
+  REACT: {
     imageUrl: `react.svg`,
-    title: `React`,
+    name: `React`,
     url: `https://reactjs.org/`,
   },
-  {
+  REDIS: {
     imageUrl: `redis.svg`,
-    title: `Redis`,
+    name: `Redis`,
     url: `https://redis.io/`,
   },
-  {
+  REST_API: {
+    imageUrl: `rest-api.svg`,
+    name: "REST APIs",
+  },
+  RUBY: {
     imageUrl: `ruby.svg`,
-    title: `Ruby`,
+    name: `Ruby`,
     url: `https://www.ruby-lang.org`,
   },
-  {
+  SASS: {
     imageUrl: `sass.svg`,
-    title: `Sass`,
+    name: `Sass`,
     url: `https://sass-lang.com/`,
   },
-  {
+  SOFTWARE_ARCHITECTURE: {
+    imageUrl: `software-architecture.svg`,
+    name: "Software Architecture",
+  },
+  STATAMIC: {
     imageUrl: `statamic.svg`,
-    title: `Statamic`,
+    name: `Statamic`,
     url: `https://statamic.com/`,
   },
-  {
-    imageUrl: `sublime-text.svg`,
-    title: `Sublime Text`,
-    url: `https://www.sublimetext.com/`,
-  },
-  {
+  TAILWIND_CSS: {
     imageUrl: `tailwind-css.svg`,
-    title: `Tailwind.css`,
+    name: `Tailwind.css`,
     url: `https://tailwindcss.com/`,
   },
-  {
-    imageUrl: `vercel.svg`,
-    title: `Vercel`,
-    url: `https://vercel.com/`,
+  VITE: {
+    imageUrl: `vite.svg`,
+    name: "Vite",
+    url: `https://vite.dev/`,
   },
-  {
-    imageUrl: `visual-studio-code.svg`,
-    title: `Visual Studio Code`,
-    url: `https://code.visualstudio.com/`,
+  VITEST: {
+    imageUrl: `vitest.svg`,
+    name: "Vitest",
+    url: `https://vitest.dev/`,
   },
-  {
+  VUE_JS: {
     imageUrl: `vue-js.svg`,
-    title: `Vue.js`,
+    name: `Vue.js`,
     url: `https://vuejs.org/`,
   },
-  {
-    imageUrl: `webpack.svg`,
-    title: `Webpack`,
-    url: `https://webpack.js.org`,
-  },
-  {
+  WOOCOMMERCE: {
     imageUrl: `woocommerce.svg`,
-    title: `WooCommerce`,
+    name: `WooCommerce`,
     url: `https://woocommerce.com/`,
   },
-  {
+  WORDPRESS: {
     imageUrl: `wordpress.svg`,
-    title: `WordPress`,
+    name: `WordPress`,
     url: `https://wordpress.org/`,
   },
-  {
-    imageUrl: `wpengine.svg`,
-    title: `WP Engine`,
-    url: `https://wpengine.com/`,
-  },
-  {
-    imageUrl: `yarn.svg`,
-    title: `Yarn`,
-    url: `https://yarnpkg.com/`,
-  },
-];
+};

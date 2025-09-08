@@ -14,7 +14,7 @@ import { LinkIcon } from "@heroicons/vue/16/solid";
       >
         <a
           :href="`/projects/${project.slug}`"
-          class="flex flex-col border-solid border-gray-300 border-1 rounded-lg no-underline! text-gray-800! overflow-hidden h-full bg-white/25 hover:bg-white/75"
+          class="flex flex-col border-solid border-gray-300 border-1 rounded-lg no-underline! text-gray-800! overflow-hidden h-full bg-white/50 hover:bg-white"
         >
           <div>
             <img :src="`/images/projects/${project.imageUrl}`" />
@@ -36,10 +36,10 @@ import { LinkIcon } from "@heroicons/vue/16/solid";
             </div>
             <ul class="flex -mx-2 mt-4 mb-2 flex-wrap">
               <li
-                v-for="tag in project.tags ?? []"
+                v-for="skill in project.skills ?? []"
                 class="rounded-md px-3 py-2 bg-gray-300 mx-2 font-bold inline mb-2 text-sm"
               >
-                {{ tag }}
+                {{ skill.name }}
               </li>
             </ul>
           </div>

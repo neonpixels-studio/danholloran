@@ -141,3 +141,27 @@ a.button {
 input[type="text"] {
   @apply border-gray-800 border-2 rounded-md px-6 py-4 focus:border-primary-500;
 }
+
+/* Resume */
+.resume {
+  @apply text-gray-500;
+
+  h2 {
+    @apply text-gray-800! font-semibold! text-4xl! ;
+  }
+
+  .styled-list {
+    li {
+      @apply pl-6 relative;
+
+      &::before {
+        @apply content-['-'] inline-block mr-4 font-bold text-primary-500 absolute left-0 top-0;
+      }
+    }
+  }
+}
+
+/* Skill Pill */
+.skill-pill {
+  @apply bg-primary-500 inline-block text-white text-xs px-2 py-1 rounded-xl;
+}

@@ -30,10 +30,10 @@ const project = projects.filter(({ slug }) => params.value.slug === slug)[0];
         <div>Built @ <span class="font-bold" v-text="project.company" /></div>
         <ul class="flex -mx-2 mt-4 mb-2 flex-wrap">
           <li
-            v-for="tag in project.tags ?? []"
+            v-for="skill in project.skills ?? []"
             class="rounded-md px-3 py-2 bg-gray-300 mx-2 font-bold inline mb-2 text-sm"
           >
-            {{ tag }}
+            {{ skill.name }}
           </li>
         </ul>
       </div>
