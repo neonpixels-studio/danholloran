@@ -194,6 +194,5 @@ input[type="text"] {
 
 /* Skill Pill */
 .skill-pill {
-  @apply h-0 w-0 opacity-0 overflow-hidden;
-  /* @apply bg-primary-500 inline-block text-white text-xs px-2 py-1 rounded-xl; */
+  @apply bg-primary-500 inline-block text-white text-xs px-2 py-1 rounded-xl;
 }
