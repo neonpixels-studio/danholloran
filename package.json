@@ -28,7 +28,6 @@
     "@heroicons/vue": "^2.2.0",
     "@tailwindcss/vite": "^4.1.11",
     "dayjs": "^1.11.13",
-    "html2pdf.js": "^0.12.0",
     "jspdf-html2canvas": "^1.5.2",
     "marked": "^16.0.0",
     "tailwindcss": "^4.1.11",
