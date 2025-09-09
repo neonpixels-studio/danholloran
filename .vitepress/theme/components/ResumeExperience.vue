@@ -3,10 +3,18 @@ import { ResumeExperienceInterface } from "../../../types/resume";
 import { PaperClipIcon } from "@heroicons/vue/16/solid";
 import { titleCase } from "title-case";
 import dayjs from "dayjs";
+import SkillPills from "./SkillPills.vue";
 
-defineProps<{
-  experience: ResumeExperienceInterface;
-}>();
+withDefaults(
+  defineProps<{
+    experience: ResumeExperienceInterface;
+    downloading?: boolean;
+  }>(),
+  {
+    experience: undefined,
+    downloading: false,
+  }
+);
 
 const formatUrl = (unformatted?: string): string => {
   if (!unformatted) {
@@ -48,9 +56,15 @@ const formatDate = (
       <span v-text="experience.end ? formatDate(experience.end) : 'Present'" />
     </div>
     <div class="flex items-center group mb-4">
-      <PaperClipIcon
-        class="h-4 w-auto text-primary-500 group-hover:text-primary-800"
-      />
+      <div
+        :class="{
+          'pt-4': downloading,
+        }"
+      >
+        <PaperClipIcon
+          class="h-4 w-auto text-primary-500 group-hover:text-primary-800"
+        />
+      </div>
       <a :href="experience.url" v-text="formatUrl(experience.url)" />
       <span class="text-primary-500 font-bold mx-1">/</span>
       <span v-text="experience.location.formatted" />
@@ -66,7 +80,7 @@ const formatDate = (
         <li
           v-text="skill.name"
           v-for="skill in experience.skills"
-          class="skill-pill m-1"
+          class="skill-pill pb-2"
         />
       </ul>
     </div>

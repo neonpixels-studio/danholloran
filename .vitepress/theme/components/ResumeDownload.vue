@@ -2,26 +2,35 @@
 import { ArrowDownTrayIcon } from "@heroicons/vue/16/solid";
 import jspdf from "jspdf-html2canvas";
 import resume from "../../content/resume.ts";
+import { ref } from "vue";
 // import html2pdf from "html2pdf.js";
 
 const props = defineProps<{
   element: HTMLElement;
 }>();
 
-const handleClick = () => {
-  // @todo Write test to make sure download always works
+const emit = defineEmits<{
+  start: [];
+  end: [];
+}>();
 
-  // html2pdf(props.element, {
-  //   filename: `${resume.firstName}-${resume.lastName}-resume.pdf`,
-  //   pagebreak: { mode: "avoid-all", before: ".page2el" },
-  //   jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-  // });
-  jspdf(props.element, {
-    jsPDF: {
-      format: "letter",
-    },
-    output: `./${resume.firstName}-${resume.lastName}-resume.pdf`,
-  });
+const downloading = ref(false);
+
+const handleClick = () => {
+  emit("start");
+  downloading.value = true;
+  // @todo Write test to make sure download always works
+  setTimeout(() => {
+    jspdf(props.element, {
+      jsPDF: {
+        format: [props.element.offsetWidth, props.element.offsetHeight + 1],
+      },
+      output: `./${resume.firstName}-${resume.lastName}-resume.pdf`,
+    });
+
+    downloading.value = false;
+    emit("end");
+  }, 500);
 };
 </script>
 
@@ -29,7 +38,7 @@ const handleClick = () => {
   <div class="mb-12 flex justify-end">
     <button
       type="button"
-      :disabled="!props.element"
+      :disabled="!props.element || downloading"
       class="button"
       @click="handleClick"
     >

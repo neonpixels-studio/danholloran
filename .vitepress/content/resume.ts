@@ -50,7 +50,6 @@ export default {
       ),
     ].sort((a, b) => a.name.localeCompare(b.name));
   },
-  hobbies: Object.values(HOBBIES),
   experiences: [
     {
       role: "Exploring",
@@ -106,7 +105,7 @@ export default {
         SKILLS.CYPRESS,
         SKILLS.LEADERSHIP,
         SKILLS.MENTORSHIP,
-        SKILLS.SOFTWARE_ARCHITECTURE,
+        SKILLS.ARCHITECTURE,
       ],
     },
     {
@@ -145,7 +144,7 @@ export default {
         SKILLS.CYPRESS,
         SKILLS.LEADERSHIP,
         SKILLS.MENTORSHIP,
-        SKILLS.SOFTWARE_ARCHITECTURE,
+        SKILLS.ARCHITECTURE,
       ],
     },
     {
@@ -182,7 +181,7 @@ export default {
         SKILLS.REDIS,
         SKILLS.REST_API,
         SKILLS.SASS,
-        SKILLS.SOFTWARE_ARCHITECTURE,
+        SKILLS.ARCHITECTURE,
         SKILLS.STATAMIC,
         SKILLS.TAILWIND_CSS,
         SKILLS.VUE_JS,

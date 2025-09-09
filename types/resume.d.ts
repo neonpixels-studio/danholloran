@@ -46,10 +46,6 @@ export interface ResumeSkillInterface {
   url?: string;
 }
 
-export interface ResumeHobbyInterface {
-  name: string;
-}
-
 export interface ResumeInterface {
   firstName: string;
   lastName: string;
@@ -57,7 +53,6 @@ export interface ResumeInterface {
   intro: string;
   contacts: Array<ResumeContactInterface>;
   skills: Function;
-  hobbies: Array<ResumeHobbyInterface>;
   experiences: Array<ResumeExperienceInterface>;
   educations: Array<ResumeEducationInterface>;
 }

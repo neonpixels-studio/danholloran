@@ -194,5 +194,10 @@ input[type="text"] {
 
 /* Skill Pill */
 .skill-pill {
-  @apply bg-primary-500 inline-block text-white text-xs px-2 py-1 rounded-xl;
+  @apply leading-[1em] px-2 py-1 inline-block rounded-full text-xs bg-primary-500 text-white m-1;
+}
+
+.downloading .skill-pill {
+  /* When downloading via jsPDF the skill pills get weird without this */
+  @apply pb-4 pt-0;
 }

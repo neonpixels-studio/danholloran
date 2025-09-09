@@ -32,13 +32,11 @@ import { LinkIcon } from "@heroicons/vue/16/solid";
             </a>
             <span v-else>&nbsp;</span>
             <div>
-              Built @ <span class="font-bold" v-text="project.company" />
+              <span class="text-primary-500 mr-1 font-bold">@</span>
+              <span class="font-bold" v-text="project.company" />
             </div>
             <ul class="flex -mx-2 mt-4 mb-2 flex-wrap">
-              <li
-                v-for="skill in project.skills ?? []"
-                class="rounded-md px-3 py-2 bg-gray-300 mx-2 font-bold inline mb-2 text-sm"
-              >
+              <li v-for="skill in project.skills ?? []" class="skill-pill">
                 {{ skill.name }}
               </li>
             </ul>

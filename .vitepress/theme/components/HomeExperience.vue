@@ -73,7 +73,7 @@ const formatDate = (
             <li
               v-text="skill.name"
               v-for="skill in experience.skills"
-              class="skill-pill m-1"
+              class="skill-pill"
             />
           </ul>
         </div>

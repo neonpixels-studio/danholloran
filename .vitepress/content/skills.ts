@@ -104,7 +104,7 @@ export const SKILLS = {
   },
   NODE_JS: {
     imageUrl: `node.svg`,
-    name: `node.js`,
+    name: `Node.js`,
     url: `https://nodejs.org/`,
   },
   NUXT: {
@@ -150,9 +150,9 @@ export const SKILLS = {
     name: `Sass`,
     url: `https://sass-lang.com/`,
   },
-  SOFTWARE_ARCHITECTURE: {
-    imageUrl: `software-architecture.svg`,
-    name: "Software Architecture",
+  ARCHITECTURE: {
+    imageUrl: `architecture.svg`,
+    name: "Architecture",
   },
   STATAMIC: {
     imageUrl: `statamic.svg`,

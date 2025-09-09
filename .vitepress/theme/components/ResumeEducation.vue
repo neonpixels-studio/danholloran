@@ -19,7 +19,7 @@ defineProps<{
         <li
           v-text="skill.name"
           v-for="skill in education.skills"
-          class="skill-pill m-1"
+          class="skill-pill"
         />
       </ul>
     </div>
