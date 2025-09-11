@@ -6,7 +6,8 @@ import {
 } from "@heroicons/vue/16/solid";
 import { ResumeInterface } from "../../types/resume";
 import { SKILLS } from "./skills";
-import { HOBBIES } from "./hobbies";
+import GithubIcon from "../theme/components/GithubIcon.vue";
+import LinkedinIcon from "../theme/components/LinkedinIcon.vue";
 
 export const LOCATION = {
   unformatted: "Reno, NV 89504",
@@ -37,6 +38,16 @@ export default {
       unformatted: "https://danholloran.me",
       formatted: "danholloran.me",
       icon: UserIcon,
+    },
+    {
+      unformatted: "https://danholloran.me/social/github/",
+      formatted: "github.com/grimicorn",
+      icon: GithubIcon,
+    },
+    {
+      unformatted: "https://danholloran.me/social/linkedin/",
+      formatted: "linkedin.com/in/dan-holloran/",
+      icon: LinkedinIcon,
     },
     LOCATION,
   ],
