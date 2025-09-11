@@ -46,7 +46,7 @@ export default {
     },
     {
       unformatted: "https://danholloran.me/social/linkedin/",
-      formatted: "linkedin.com/in/dan-holloran/",
+      formatted: "linkedin.com/in/dan-holloran",
       icon: LinkedinIcon,
     },
     LOCATION,
