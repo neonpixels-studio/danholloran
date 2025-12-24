@@ -17,7 +17,7 @@ import TheLogo from "./TheLogo.vue";
         <!-- @todo Search -->
         <!-- <div class="mr-6">@todo Search</div> -->
 
-        <nav>
+        <!-- <nav>
           <ul class="flex">
             <li v-for="link in socialLinks" class="mr-2 last:mr-0">
               <a
@@ -31,7 +31,7 @@ import TheLogo from "./TheLogo.vue";
               </a>
             </li>
           </ul>
-        </nav>
+        </nav> -->
       </div>
     </div>
   </header>
