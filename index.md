@@ -14,10 +14,10 @@ import HomeSkills from  './.vitepress/theme/components/HomeSkills.vue'
 
 <HomeHero />
 <HomeQuotes />
-<!-- <HomeProjects /> -->
-<!-- <HomeExperience /> -->
-<!-- <HomeEducation /> -->
-<!-- <HomeSkills /> -->
+<HomeProjects />
+<HomeExperience />
+<HomeEducation />
+<HomeSkills />
 <!-- @todo Contact Form -->
 <!-- <ContactForm /> -->
 <!-- @todo Posts -->
