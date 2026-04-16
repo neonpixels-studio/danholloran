@@ -29,7 +29,8 @@ const scrollToContact = () => {
           <p class="font-bold text-4xl">
             I'm a <span class="text-gray-400">Full Stack Developer</span>,
             <span class="text-gray-400">Photographer</span>, and
-            <span class="text-gray-400">Traveler</span>. I have a passion for
+            <span class="text-gray-400">Traveler</span> based in
+            <span class="text-gray-400">Reno, NV</span>. I have a passion for
             <span class="text-gray-400">learning</span>,
             <span class="text-gray-400">building</span>,
             <span class="text-gray-400">exploring</span>, and helping others
