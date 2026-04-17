@@ -77,15 +77,6 @@ const downloading = ref(false);
                 </li>
               </ul>
             </div>
-
-            <!-- Skills -->
-            <div v-if="resume.skills()?.length > 0" class="mb-6">
-              <h2>Skills</h2>
-
-              <ul class="styled-list text-lg">
-                <li v-text="skill.name" v-for="skill in resume.skills()" />
-              </ul>
-            </div>
           </div>
           <div class="w-2/3 px-12 py-18 h-full bg-white">
             <h1 class="font-normal! text-center text-8xl! leading-none! mb-18!">

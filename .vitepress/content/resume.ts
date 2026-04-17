@@ -15,14 +15,17 @@ export const LOCATION = {
   icon: MapPinIcon,
 };
 
+const getExperienceLength = () => {
+  return new Date().getFullYear() - 2012;
+};
+
 export default {
   firstName: "Dan",
   lastName: "Holloran",
   photo: {
     url: "/images/headshot.png",
   },
-  intro:
-    "Dynamic Frontend Developer with 12+ years of experience in web development and project management, specializing in building responsive user interfaces with Vue and React. Proven leadership in mentoring developers, overseeing team growth, and enhancing collaboration and technical skills. Successfully improved frontend performance and user experience while managing complex projects across multiple platforms. Seeking to leverage expertise in a mid-sized team focused on innovative Web3 or AI projects.",
+  intro: `Dynamic Frontend Developer with ${getExperienceLength()}+ years of experience in web development and project management, specializing in building responsive user interfaces with Vue and React. Proven leadership in mentoring developers, overseeing team growth, and enhancing collaboration and technical skills. Successfully improved frontend performance and user experience while managing complex projects across multiple platforms. Seeking to leverage expertise in a mid-sized team focused on innovative Web3 or AI projects.`,
   contacts: [
     {
       unformatted: "3148828326",
@@ -57,7 +60,7 @@ export default {
       ...new Set(
         [...this.experiences, ...this.educations]
           .map(({ skills }) => skills)
-          .flat()
+          .flat(),
       ),
     ].sort((a, b) => a.name.localeCompare(b.name));
   },
@@ -74,9 +77,9 @@ export default {
       },
       remote: true,
       details: [
-        "Working on consolidating data transfer between a static website and Contentful",
+        "Mainlining crossroads.net",
         "Pairing with other developers to help them",
-        "Just started more to come",
+        "Working with AI to build new features",
       ],
       skills: [
         SKILLS.HTML,
