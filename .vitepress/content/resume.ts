@@ -45,17 +45,17 @@ export default {
       icon: UserIcon,
     },
     {
-      unformatted: "https://danholloran.me/social/github/",
+      unformatted: "https://danholloran.me/social/github",
       formatted: "github.com/grimicorn",
       icon: GithubIcon,
     },
     {
-      unformatted: "https://danholloran.me/social/instagram/",
+      unformatted: "https://danholloran.me/social/instagram",
       formatted: "@grimicornsparkles",
       icon: InstagramIcon,
     },
     {
-      unformatted: "https://danholloran.me/social/linkedin/",
+      unformatted: "https://danholloran.me/social/linkedin",
       formatted: "linkedin.com/in/dan-holloran",
       icon: LinkedinIcon,
     },
