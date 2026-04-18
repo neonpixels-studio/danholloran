@@ -7,6 +7,7 @@ import {
 import { ResumeInterface } from "../../types/resume";
 import { SKILLS } from "./skills";
 import GithubIcon from "../theme/components/GithubIcon.vue";
+import InstagramIcon from "../theme/components/InstagramIcon.vue";
 import LinkedinIcon from "../theme/components/LinkedinIcon.vue";
 
 export const LOCATION = {
@@ -47,6 +48,11 @@ export default {
       unformatted: "https://danholloran.me/social/github/",
       formatted: "github.com/grimicorn",
       icon: GithubIcon,
+    },
+    {
+      unformatted: "https://danholloran.me/social/instagram/",
+      formatted: "@grimicornsparkles",
+      icon: InstagramIcon,
     },
     {
       unformatted: "https://danholloran.me/social/linkedin/",
