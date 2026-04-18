@@ -10,4 +10,11 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  head: [
+    [
+      "link",
+      { rel: "icon", type: "image/svg+xml", href: "/images/favicon.svg" },
+    ],
+    ["link", { rel: "icon", type: "image/png", href: "/images/favicon.png" }],
+  ],
 });
