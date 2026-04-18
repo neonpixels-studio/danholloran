@@ -88,7 +88,7 @@ const downloading = ref(false);
               <span v-text="resume.lastName" />
             </h1>
 
-            <div class="mb-12 text-2xl text-center">
+            <div class="mb-12 text-xl text-center tracking-normal">
               {{ resume.headline }}
             </div>
 
