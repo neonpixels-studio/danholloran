@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   title: "Dan Holloran",
   description:
-    "I'm a Full Stack Developer and Photographer currently based in St. Louis. I love traveling and enjoy mentoring others. Let's create something amazing together!",
+    "I'm a Full Stack Developer and Photographer currently based in Reno, NV. I love traveling and enjoy mentoring others. Let's create something amazing together!",
   vite: {
     plugins: [tailwindcss()],
   },

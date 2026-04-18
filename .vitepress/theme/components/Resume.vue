@@ -55,9 +55,13 @@ const downloading = ref(false);
               <h2>Contact</h2>
               <ul class="text-lg">
                 <li v-for="contact in resume.contacts">
-                  <a
-                    :href="`tel:${contact.unformatted}`"
-                    class="flex items-center no-underline! group"
+                  <component
+                    :href="`${contact.unformatted}`"
+                    class="flex items-center no-underline!"
+                    :class="{
+                      group: !!contact.unformatted,
+                    }"
+                    :is="contact.unformatted ? 'a' : 'div'"
                   >
                     <div
                       class="mr-2"
@@ -73,16 +77,20 @@ const downloading = ref(false);
                       v-text="contact.formatted"
                       class="text-gray-500 group-hover:text-primary-800 group-hover:underline!"
                     />
-                  </a>
+                  </component>
                 </li>
               </ul>
             </div>
           </div>
           <div class="w-2/3 px-12 py-18 h-full bg-white">
-            <h1 class="font-normal! text-center text-8xl! leading-none! mb-18!">
+            <h1 class="font-normal! text-center text-8xl! leading-none! mb-6!">
               <span v-text="resume.firstName" class="text-black block" />
               <span v-text="resume.lastName" />
             </h1>
+
+            <div class="mb-12 text-2xl text-center">
+              {{ resume.headline }}
+            </div>
 
             <div
               class="bg-primary-700 text-white -mr-12 pr-12 py-6 -ml-24 pl-24 relative mb-6"

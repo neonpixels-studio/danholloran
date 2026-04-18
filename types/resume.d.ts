@@ -50,6 +50,7 @@ export interface ResumeInterface {
   firstName: string;
   lastName: string;
   photo: ResumePhotoInterface;
+  headline: string;
   intro: string;
   contacts: Array<ResumeContactInterface>;
   skills: Function;

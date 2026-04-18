@@ -128,7 +128,7 @@ export const SKILLS = {
   },
   REACT: {
     imageUrl: `react.svg`,
-    name: `React`,
+    name: `React.js`,
     url: `https://reactjs.org/`,
   },
   REDIS: {
