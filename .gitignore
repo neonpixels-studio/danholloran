@@ -1,5 +1,0 @@
-.vitepress/dist
-.vitepress/cache
-.DS_Store
-live
-node_modules
