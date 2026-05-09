@@ -1,7 +1,7 @@
 ---
 created_at: '2026-05-09T02:09:09.000+00:00'
 tags: ['css', 'web-apis']
-draft: true
+draft: false
 title: 'CSS Anchor Positioning: Stop Using JavaScript for Tooltips'
 ---
 
