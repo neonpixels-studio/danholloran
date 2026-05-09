@@ -1,0 +1,5 @@
+https://danholloran.netlify.app/* https://danholloran.me/:splat 301!
+/blog/* /posts/:splat 301!
+/social/github https://github.com/grimicorn
+/social/linkedin https://www.linkedin.com/in/dan-holloran/
+/social/instagram https://www.instagram.com/grimicornsparkles/
