@@ -1,9 +1,9 @@
 ---
-created_at: '2026-05-09T02:09:09.000+00:00'
-tags: ['css', 'web-apis']
-draft: true
+created_at: "2026-05-09T02:09:09.000+00:00"
+tags: ["css", "web-apis"]
+draft: false
 image: "/images/posts/css-anchor-positioning-stop-using-javascript-for-tooltips.jpg"
-title: 'CSS Anchor Positioning: Stop Using JavaScript for Tooltips'
+title: "CSS Anchor Positioning: Stop Using JavaScript for Tooltips"
 ---
 
 If you've ever built a tooltip, a floating dropdown, or a context menu, you've probably reached for a library like Floating UI or Popper.js. Not because the logic is hard to understand, but because getting a floating element to reliably follow its trigger — and flip positions when it hits the viewport edge — requires a non-trivial amount of JavaScript. The browser just didn't give you the primitives. Until now.
@@ -53,7 +53,10 @@ Here's where anchor positioning goes from "neat" to genuinely great. One of the 
   position: absolute;
   position-anchor: --my-trigger;
   position-area: top center;
-  position-try-fallbacks: bottom center, left center, right center;
+  position-try-fallbacks:
+    bottom center,
+    left center,
+    right center;
 }
 ```
 
@@ -64,7 +67,10 @@ The browser tries each option in order and uses the first one that doesn't overf
   position: absolute;
   position-anchor: --my-trigger;
   position-area: top center;
-  position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+  position-try-fallbacks:
+    flip-block,
+    flip-inline,
+    flip-block flip-inline;
 }
 ```
 
