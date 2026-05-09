@@ -1,9 +1,9 @@
 ---
 image: "/images/posts/taming-the-winds-of-web-design-with-tailwindcss.jpg"
 title: Taming the Winds of Web Design with Tailwind.css!
-tags: Tailwind.css
-published: false
-created_at: May 19, 2024 at 03:03PM
+tags: ['Tailwind.css']
+created_at: '2024-05-19T15:03:00.000+00:00'
+draft: true
 ---
 
 Hey there fellow web designers and developers! Are you tired of wrestling with CSS to make your designs come to life? Well, fear not, because I've come across a game-changer that's blowing in from the web design horizon - Tailwind.css! Yes, you heard me right - taming the winds of web design with Tailwind.css is like sailing smoothly through a storm of styling challenges. Gone are the days of wrangling with complex class names and tangled stylesheets. With Tailwind.css, it's like having a breeze at your back as you effortlessly craft stunning, responsive designs.

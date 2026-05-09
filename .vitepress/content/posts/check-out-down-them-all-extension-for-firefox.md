@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/check-out-down-them-all-extension-for-firefox.jpg"
 title: Check Out Down Them All Extension for Firefox
-
 ---
 Quick tip I figured I would share. If you ever need to download a larger amount of images and you do not have FTP access and you know the URLs. [Down Them All](http://www.downthemall.net) extension for Firefox is great.
 

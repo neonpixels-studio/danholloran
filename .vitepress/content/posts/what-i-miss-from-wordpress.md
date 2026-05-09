@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/what-i-miss-from-wordpress.jpg"
 title: What I Miss From WordPress & What Ghost Does Better
-
 ---
 I started compiling this list when I first decided to switch from WordPress to Ghost for my personal blog.  Just a short list of what I do and do not miss from WordPres, might help if you are trying to make the decision on which to use.
 

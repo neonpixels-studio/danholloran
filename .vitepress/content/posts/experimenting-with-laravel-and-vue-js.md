@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/experimenting-with-laravel-and-vue-js.jpg"
 title: Experimenting With Laravel and Vue.js
-
 ---
 So I've been playing with [Laravel](http://laravel.com/) and [Vue.js](http://vuejs.org/) which I have really started to like. It seems every time I have to write boring repetitive code there's already something that handles it for you.
 

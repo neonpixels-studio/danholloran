@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/check-out-hyperpolygot.jpg"
 title: Check Out Hyperpolygot
-
 ---
 If you've been curious how one programming languages syntax matches with another then you should check out [Hyperpolygot](http://hyperpolyglot.org).
 

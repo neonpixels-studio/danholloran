@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/base-environment-setup.jpg"
 title: Base Environment Setup
-
 ---
 I have a few posts in mind that require a few of the same steps so I figured I would catalog them here. These should be things every developer regardless of wether you are more of a front end or backend developer. They are extremely easy to get setup now more than ever. There was once a point where I have to fight and wrangle some of these tools I'm looking at you PHP. The upside to having these few base things installed is adding tools like [Bower](http://bower.io/) front end package management, [Grunt](http://gruntjs.com/)/[Gulp](http://gulpjs.com/)/[Broccoli](http://broccolijs.com/) for task running and [Sass](http://sass-lang.com/) for making CSS more fun. So here we go lets install all the things!!!
 

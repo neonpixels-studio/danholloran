@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/testing-mocked-email-in-word-press-with-php-unit.jpg"
 title: Testing mocked email in WordPress with PHPUnit
-
 ---
 <div class="alert alert-info">
     <p>Before we get started this post assumes the following.</p>

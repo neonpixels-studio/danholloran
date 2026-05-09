@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/a-minute-with-a-ghost.jpg"
 title: A minute with a Ghost...
-
 ---
 I finally decided to take a look at [Ghost](https://ghost.org/), I primarily use [WordPress](https://wordpress.org/) in my day to day work and my blog has been on WordPress forever.  I was looking for a change WordPress has become a little to much for just simple blog writing.  I honestly love it as a CMS and for any one who wants as much control as possible WordPress, with out learning to code, it is the way to go.
 

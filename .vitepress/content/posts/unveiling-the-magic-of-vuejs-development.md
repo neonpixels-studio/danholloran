@@ -1,9 +1,9 @@
 ---
 image: "/images/posts/unveiling-the-magic-of-vuejs-development.jpg"
 title: Unveiling the Magic of Vue.js Development
-tags: Vue.js
-published: false
-created_at: May 19, 2024 at 03:03PM
+tags: ['Vue.js']
+created_at: '2024-05-19T15:03:00.000+00:00'
+draft: true
 ---
 
 Hey there, fellow tech enthusiasts! If you're ready to delve into the wonderful world of Vue.js development, you're in for a treat. In this blog post, we're going to unravel the enchanting aura of Vue.js and discover why it's casting a spell on developers everywhere. So grab your wands—ahem, I mean, keyboards—and let's embark on this mystical journey together!

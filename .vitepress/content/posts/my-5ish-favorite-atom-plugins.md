@@ -1,5 +1,6 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/my-5ish-favorite-atom-plugins.jpg"
 title: My 5ish Favorite Atom Plugins

@@ -1,5 +1,6 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/laracon-online-2019-notes-and-thoughts.jpg"
 title: Laracon Online 2019 Notes and Thoughts

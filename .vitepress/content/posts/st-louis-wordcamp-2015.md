@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/st-louis-wordcamp-2015.jpg"
 title: St. Louis WordCamp 2015 Notes
-
 ---
 In all WordCamp 2015 was definetly interesting. I thought that the Cain and Obeland in the Morning! "show" was pretty funny.  I think my favorite talk of the day was Atomic Design Principles, I've read about it before and semi-practice it even though I could do something like that better.  I also like the podcasting panel as well it was rather informative and a nice change of pace usually I just attened the full on developer talks.
 

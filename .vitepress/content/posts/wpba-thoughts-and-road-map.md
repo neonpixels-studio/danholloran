@@ -1,10 +1,10 @@
 ---
 alert_message: This project is no longer maintained.
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/wpba-thoughts-and-road-map.jpg"
 title: WPBA Thoughts and Road Map
-
 ---
 ### Update (7/18/2015) Survey Responses
 

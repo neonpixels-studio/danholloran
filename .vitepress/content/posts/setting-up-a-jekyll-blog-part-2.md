@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/setting-up-a-jekyll-blog-part-2.jpg"
 title: Setting Up a Jekyll Blog - Part 2
-
 ---
 ### Adding Your First Post.
 

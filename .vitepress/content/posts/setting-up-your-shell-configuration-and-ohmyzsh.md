@@ -1,5 +1,6 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/setting-up-your-shell-configuration-and-ohmyzsh.jpg"
 title: Setting Up Your Shell Configuration and OHMyZSH

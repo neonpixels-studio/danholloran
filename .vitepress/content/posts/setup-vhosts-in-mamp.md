@@ -1,9 +1,9 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
+draft: false
 tags: []
 image: "/images/posts/setup-vhosts-in-mamp.jpg"
 title: Setup Vhosts in MAMP
-
 ---
 Setting up Vhosts in MAMP is really easy. VHost is short for Virtual Host which is basically just a way to access multiple "sites" on a server. Instead of changing MAMP to point at the site you want and then accessing it through `http://localhost/` you can access it from a custom domain. So lets get started.
 
