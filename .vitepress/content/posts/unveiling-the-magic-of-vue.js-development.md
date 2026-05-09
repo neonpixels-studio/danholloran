@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/unveiling-the-magic-of-vue.js-development.jpg"
 title: Unveiling the Magic of Vue.js Development
 tags: Vue.js
 published: false

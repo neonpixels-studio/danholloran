@@ -3,6 +3,7 @@ created_at: '2022-09-04T15:42:00.000-05:00'
 tags:
   - Front-End
   - Performance
+image: "/images/posts/how-to-optimize-website-performance-in-front-end-development.jpg"
 title: How to Optimize Website Performance in Front-End Development
 
 ---

@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/the-adventures-of-javascript-a-code-comedy.jpg"
 title: "The Adventures of JavaScript: A Code Comedy"
 tags: Javascript
 published: false

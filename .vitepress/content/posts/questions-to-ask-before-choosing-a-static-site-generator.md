@@ -2,6 +2,7 @@
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags:
   - Link
+image: "/images/posts/questions-to-ask-before-choosing-a-static-site-generator.jpg"
 title: Questions to ask before choosing a static site generator
 
 ---

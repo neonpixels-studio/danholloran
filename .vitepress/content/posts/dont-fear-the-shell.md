@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/dont-fear-the-shell.jpg"
 title: Don't Fear The Shell
 
 ---

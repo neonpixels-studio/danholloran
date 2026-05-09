@@ -3,6 +3,7 @@ created_at: '2022-09-04T15:42:00.000-05:00'
 tags:
   - Community
   - Link
+image: "/images/posts/just-how-niche-is-headless-word-press.jpg"
 title: Just How Niche is Headless WordPress?
 
 ---

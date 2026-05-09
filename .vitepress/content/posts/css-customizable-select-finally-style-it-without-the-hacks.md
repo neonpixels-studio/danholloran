@@ -2,6 +2,7 @@
 created_at: '2026-05-08T22:20:59.000+00:00'
 tags: ['css', 'accessibility', 'web-apis']
 draft: true
+image: "/images/posts/css-customizable-select-finally-style-it-without-the-hacks.jpg"
 title: 'CSS Customizable Select: Finally Style It Without the Hacks'
 ---
 

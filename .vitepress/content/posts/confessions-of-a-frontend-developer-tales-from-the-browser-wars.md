@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/confessions-of-a-frontend-developer-tales-from-the-browser-wars.jpg"
 title: "Confessions of a Frontend Developer: Tales from the Browser Wars"
 tags: Frontend Development
 published: false

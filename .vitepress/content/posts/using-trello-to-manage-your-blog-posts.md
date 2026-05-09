@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/using-trello-to-manage-your-blog-posts.jpg"
 title: Using Trello to Manage Your Blog Posts
 
 ---

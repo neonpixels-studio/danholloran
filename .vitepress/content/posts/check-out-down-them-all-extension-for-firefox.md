@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/check-out-down-them-all-extension-for-firefox.jpg"
 title: Check Out Down Them All Extension for Firefox
 
 ---

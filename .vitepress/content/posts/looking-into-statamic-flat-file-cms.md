@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/looking-into-statamic-flat-file-cms.jpg"
 title: Looking Into Statamic Flat File CMS
 
 ---

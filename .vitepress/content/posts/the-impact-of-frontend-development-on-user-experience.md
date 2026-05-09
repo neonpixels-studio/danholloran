@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/the-impact-of-frontend-development-on-user-experience.jpg"
 title: The Impact of Frontend Development on User Experience
 tags: Frontend Development
 published: false

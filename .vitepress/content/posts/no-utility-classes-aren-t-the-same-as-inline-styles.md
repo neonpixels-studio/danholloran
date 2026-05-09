@@ -3,6 +3,7 @@ created_at: '2022-09-04T15:42:00.000-05:00'
 tags:
   - Community
   - Link
+image: "/images/posts/no-utility-classes-aren-t-the-same-as-inline-styles.jpg"
 title: No, Utility Classes Aren't the Same As Inline Styles (by Sarah Dayan)
 
 ---

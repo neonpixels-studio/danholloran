@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/moving-from-wordpress-to-ghost-to-jekyll.jpg"
 title: Moving From WordPress to Ghost to Jekyll
 
 ---

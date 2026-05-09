@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/experimenting-with-laravel-and-vue-js.jpg"
 title: Experimenting With Laravel and Vue.js
 
 ---

@@ -1,6 +1,6 @@
 ---
 created_at: "2022-09-04T15:42:00.000-05:00"
-image_url: /images/posts/visbug.png
+image: /images/posts/visbug.png
 tags: []
 title: VisBug (Dev Tools for Designers)
 ---

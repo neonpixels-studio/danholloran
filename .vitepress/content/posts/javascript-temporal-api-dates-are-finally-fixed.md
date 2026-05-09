@@ -2,6 +2,7 @@
 created_at: '2026-05-03T19:54:56.000+00:00'
 tags: ['javascript', 'web-apis', 'typescript']
 draft: true
+image: "/images/posts/javascript-temporal-api-dates-are-finally-fixed.jpg"
 title: 'JavaScript Temporal API: Dates Are Finally Fixed'
 ---
 

@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/the-power-of-javascript-unlocking-the-potential-of-web-development.jpg"
 title: "The Power of Javascript: Unlocking the Potential of Web Development"
 tags: Javascript
 published: false

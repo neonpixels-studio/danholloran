@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/why-does-expressionengine-save-templates-in-the-database.jpg"
 title: Why Does ExpressionEngine Save Templates in the Database?
 
 ---

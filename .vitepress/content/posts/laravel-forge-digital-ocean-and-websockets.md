@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/laravel-forge-digital-ocean-and-websockets.jpg"
 title: Laravel Forge, Digital Ocean and WebSockets
 
 ---

@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/quickly-install-applications-on-your-mac-with-homebrew-and-cask.jpg"
 title: Quickly Install Applications on Your Mac With Homebrew and Cask
 
 ---

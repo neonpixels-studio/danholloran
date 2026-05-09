@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/mastering-vuejs-development-a-guide-for-beginners.jpg"
 title: "Mastering Vue.js Development: A Guide for Beginners"
 tags: Vue.js
 published: false

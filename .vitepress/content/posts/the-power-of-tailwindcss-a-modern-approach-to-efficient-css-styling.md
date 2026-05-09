@@ -1,4 +1,5 @@
 ---
+image: "/images/posts/the-power-of-tailwindcss-a-modern-approach-to-efficient-css-styling.jpg"
 title: "The Power of Tailwind.css: A Modern Approach to Efficient CSS Styling"
 tags: Tailwind.css
 published: false

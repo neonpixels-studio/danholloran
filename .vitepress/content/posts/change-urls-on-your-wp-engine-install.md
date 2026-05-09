@@ -1,6 +1,7 @@
 ---
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags: []
+image: "/images/posts/change-urls-on-your-wp-engine-install.jpg"
 title: Change URLs On Your WP Engine Install
 
 ---

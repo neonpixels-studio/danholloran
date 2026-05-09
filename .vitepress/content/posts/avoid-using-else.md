@@ -3,6 +3,7 @@ created_at: '2022-09-04T15:42:00.000-05:00'
 tags:
   - Community
   - Link
+image: "/images/posts/avoid-using-else.jpg"
 title: Avoid Using Else
 
 ---

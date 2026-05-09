@@ -3,6 +3,7 @@ alert_message: This project is no longer online or maintained.
 created_at: '2022-09-04T15:42:00.000-05:00'
 tags:
   - laravel
+image: "/images/posts/sync-google-tasks-with-ifttt.jpg"
 title: Sync Google Tasks With IFTTT
 
 ---
