@@ -242,7 +242,7 @@ html.dark img[src*="topography"] {
 
 /* Topography patterns */
 .bg-topography {
-  background-image: url("/topography.svg");
+  background-image: url("/images/topography.svg");
   background-size: 600px 600px;
   background-repeat: repeat;
 }
@@ -257,7 +257,7 @@ html.dark img[src*="topography"] {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: url("/topography.svg");
+  background-image: url("/images/topography.svg");
   background-size: 600px 600px;
   background-repeat: repeat;
   opacity: 0.55;
@@ -287,7 +287,7 @@ html.dark img[src*="topography"] {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: url("/topography.svg");
+  background-image: url("/images/topography.svg");
   background-size: 600px 600px;
   background-repeat: repeat;
   opacity: 0.5;
@@ -309,7 +309,7 @@ html.dark img[src*="topography"] {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: url("/topography-dark.svg");
+  background-image: url("/images/topography-dark.svg");
   background-size: 600px 600px;
   background-repeat: repeat;
   opacity: 0.18;
