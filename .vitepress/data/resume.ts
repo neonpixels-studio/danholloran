@@ -10,12 +10,6 @@ import GithubIcon from "@components/GithubIcon.vue";
 import InstagramIcon from "@components/InstagramIcon.vue";
 import LinkedinIcon from "@components/LinkedinIcon.vue";
 
-export const LOCATION = {
-  unformatted: "",
-  formatted: "Reno, NV 89504",
-  icon: MapPinIcon,
-};
-
 const getExperienceLength = () => {
   return new Date().getFullYear() - 2012;
 };
@@ -24,7 +18,7 @@ export default {
   firstName: "Dan",
   lastName: "Holloran",
   photo: {
-    url: "/images/headshot.png",
+    url: "/images/profile.png",
   },
   headline: "Senior Frontend & Fullstack Developer | Engineering Leader",
   intro: `Dynamic Senior Frontend & Fullstack Developer with ${getExperienceLength()}+ years of experience building responsive, performant web applications and leading engineering teams. Proven track record of reducing load times, improving user engagement, and directing cross-functional teams of 10+ developers. Equally comfortable owning complex frontend architecture with Vue.js and React, diving into Fullstack work with Laravel and PHP, or stepping into an engineering leadership role. Looking to bring deep technical expertise and a collaborative leadership style to an innovative startup or mid-sized product team — remotely.`,
@@ -59,7 +53,11 @@ export default {
       formatted: "linkedin.com/in/dan-holloran",
       icon: LinkedinIcon,
     },
-    LOCATION,
+    {
+      unformatted: "Reno, NV 89504",
+      formatted: "Reno, NV 89504",
+      icon: MapPinIcon,
+    },
   ],
   skills() {
     // @todo How to type the sort()?
@@ -78,10 +76,7 @@ export default {
       start: new Date("09/29/2019"),
       end: null,
       url: "https://ample.co",
-      location: {
-        formatted: "Cincinnati, OH",
-        unformatted: "Cincinnati, OH",
-      },
+      location: "Cincinnati, OH",
       remote: true,
       details: [
         "Architected and maintain crossroads.net, driving ongoing performance improvements and reducing technical debt across a modern JavaScript stack",
@@ -113,10 +108,7 @@ export default {
       start: new Date("03/15/2025"),
       end: new Date("09/28/2025"),
       url: "/instagram/",
-      location: {
-        formatted: "United States",
-        unformatted: "United States",
-      },
+      location: "United States",
       remote: true,
       details: [
         "My position was eliminated and decided to take it as a career sabbatical to travel, recharge, and return with a fresh perspective and renewed focus.",
@@ -129,10 +121,7 @@ export default {
       start: new Date("02/29/2021"),
       end: new Date("03/15/2025"),
       url: "https://tradier.com",
-      location: {
-        formatted: "Charlotte, NC",
-        unformatted: "Charlotte, NC",
-      },
+      location: "Charlotte, NC",
       remote: true,
       details: [
         "Redesigned frontend platform architecture, achieving a 25% improvement in load times and a measurable lift in user engagement metrics",
@@ -167,10 +156,7 @@ export default {
       start: new Date("10/31/2019"),
       end: new Date("02/29/2021"),
       url: "https://ample.co",
-      location: {
-        formatted: "Cincinnati, OH",
-        unformatted: "Cincinnati, OH",
-      },
+      location: "Cincinnati, OH",
       remote: true,
       details: [
         "Assisted a key client in transitioning to online services during COVID-19, resulting in a 35% increase in web property usage virtually overnight",
@@ -204,10 +190,7 @@ export default {
       start: new Date("11/01/2012"),
       end: new Date("10/31/2019"),
       url: "https://matchboxdesigngroup.com",
-      location: {
-        formatted: "St. Louis, MO",
-        unformatted: "St. Louis, MO",
-      },
+      location: "St. Louis, MO",
       remote: false,
       details: [
         "Optimized website performance across 50+ client projects, achieving 90+ scores on Google PageSpeed Insights and reducing average bounce rates by 25%",
@@ -248,10 +231,8 @@ export default {
       url: "https://hello.fullsail.edu/brand-1-technology",
       start: new Date("11/01/2009"),
       end: new Date("03/01/2012"),
-      location: {
-        formatted: "Winter Park, FL",
-        unformatted: "Winter Park, FL",
-      },
+      location: "Winter Park, FL",
+      remote: true,
       skills: [
         SKILLS.JAVASCRIPT,
         SKILLS.PHP,

@@ -4,8 +4,8 @@ export interface ProjectInterface {
   company: string;
   image: string;
   url?: string;
-  slug: string;
   skills: SkillInterface[];
   title: string;
   content: string;
+  featured: boolean;
 }

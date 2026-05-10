@@ -12,19 +12,13 @@ export interface ResumeContactInterface {
   icon?: Component;
 }
 
-export interface ResumeLocationInterface {
-  unformatted: string;
-  formatted: string;
-  icon?: Component;
-}
-
 export interface ResumeExperienceInterface {
   role: string;
   company: string;
   start: Date;
   end?: Date | null;
   url?: string;
-  location: ResumeLocationInterface;
+  location: string;
   remote: boolean;
   details: string[];
   skills: SkillInterface[];
@@ -37,7 +31,8 @@ export interface ResumeEducationInterface {
   url: string;
   start: Date;
   end: Date;
-  location: ResumeLocationInterface;
+  location: string;
+  remote: boolean;
   skills: SkillInterface[];
 }
 
