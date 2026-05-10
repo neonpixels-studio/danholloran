@@ -255,7 +255,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
               <div class="mb-1.5 flex flex-wrap items-center gap-2.5">
                 <span
                   class="tracking-tighter-2 font-mono text-[0.9rem] leading-snug font-bold"
-                  >{{ job.role || `${job.field} (${job.degree})` }}</span
+                  >{{ job.role || `${job.degree} in ${job.field}` }}</span
                 >
                 <span
                   v-if="job.end === null"

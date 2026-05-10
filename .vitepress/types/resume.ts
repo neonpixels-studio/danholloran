@@ -2,9 +2,9 @@ import type { Component } from "vue";
 import type { SkillInterface } from "./skills";
 
 export interface ResumeContactInterface {
-  unformatted: string;
-  formatted: string;
+  label: string;
   icon?: Component;
+  link?: boolean;
 }
 
 export interface ResumeExperienceInterface {
@@ -37,6 +37,7 @@ export interface ResumeInterface {
   photo: string;
   headline: string;
   intro: string;
+  summary: string;
   contacts: ResumeContactInterface[];
   skills(): SkillInterface[];
   experience: ResumeExperienceInterface[];
