@@ -398,6 +398,43 @@ html.dark img[src*="topography"] {
   pointer-events: none;
 }
 
+/* Drifting mountain animation */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.mountain-float {
+  animation: drift 6s ease-in-out infinite;
+}
+
+/* Glitch on hover */
+@keyframes glitch {
+  0%,
+  100% {
+    transform: none;
+  }
+  20% {
+    transform: translate(-2px, 1px);
+  }
+  40% {
+    transform: translate(2px, -1px);
+  }
+  60% {
+    transform: translate(-1px, -2px);
+  }
+  80% {
+    transform: translate(1px, 2px);
+  }
+}
+.glitch:hover {
+  animation: glitch 0.4s steps(2, end) infinite;
+}
+
 /* Print styles */
 @media print {
   @page {
