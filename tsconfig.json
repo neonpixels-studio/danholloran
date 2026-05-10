@@ -10,7 +10,23 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [".vitepress/*"],
+      "@": [".vitepress"],
+      "@components/*": [".vitepress/theme/components/*"],
+      "@components": [".vitepress/theme/components"],
+      "@theme/*": [".vitepress/theme/*"],
+      "@theme": [".vitepress/theme"],
+      "@types/*": [".vitepress/types/*"],
+      "@types": [".vitepress/types"],
+      "@data/*": [".vitepress/data/*"],
+      "@data": [".vitepress/data"],
+      "@content/*": [".vitepress/content/*"],
+      "@content": [".vitepress/content"]
+    }
   },
   "include": ["**/*.ts", "**/*.vue"],
   "exclude": ["node_modules", ".vitepress/dist", ".vitepress/cache"]

@@ -4,11 +4,11 @@ import {
   UserIcon,
   MapPinIcon,
 } from "@heroicons/vue/16/solid";
-import type { ResumeInterface } from "../types/resume";
+import type { ResumeInterface } from "@types/resume";
 import { SKILLS } from "./skills";
-import GithubIcon from "./../theme/components/GithubIcon.vue";
-import InstagramIcon from "./../theme/components/InstagramIcon.vue";
-import LinkedinIcon from "./../theme/components/LinkedinIcon.vue";
+import GithubIcon from "@components/GithubIcon.vue";
+import InstagramIcon from "@components/InstagramIcon.vue";
+import LinkedinIcon from "@components/LinkedinIcon.vue";
 
 export const LOCATION = {
   unformatted: "",

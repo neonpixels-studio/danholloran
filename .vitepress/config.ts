@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -6,6 +7,18 @@ export default defineConfig({
   description: "Full-stack developer and photographer based in Reno, NV.",
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL(".", import.meta.url)),
+        "@components": fileURLToPath(
+          new URL("./theme/components", import.meta.url),
+        ),
+        "@theme": fileURLToPath(new URL("./theme", import.meta.url)),
+        "@types": fileURLToPath(new URL("./types", import.meta.url)),
+        "@data": fileURLToPath(new URL("./data", import.meta.url)),
+        "@content": fileURLToPath(new URL("./content", import.meta.url)),
+      },
+    },
   },
   cleanUrls: true,
   ignoreDeadLinks: true, // @todo Fix the links
