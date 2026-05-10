@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-a-jekyll-blog-part-5.jpg"
 title: Setting Up a Jekyll Blog - Part 5
-category: development
+topic: development
 description: "Part five of the Jekyll setup series — deploying your Jekyll site to GitHub Pages, adding a custom domain, and configuring DNS so your blog is live at your own URL."
 ---
 

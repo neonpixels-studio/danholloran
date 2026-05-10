@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/launchcode-mentorship.jpg"
 title: Launchcode Mentorship
-category: development
+topic: development
 description: "Reflections on mentoring through LaunchCode — why passion and self-driven learning matter more than formal education, and what it means to help someone break into development the way you had to figure it out yourself."
 ---
 

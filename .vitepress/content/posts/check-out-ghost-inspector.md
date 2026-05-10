@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/check-out-ghost-inspector.jpg"
 title: Check Out Ghost Inspector
-category: development
+topic: development
 description: "An introduction to Ghost Inspector, a record-and-replay browser regression testing tool that makes automated UI testing more accessible for small teams without writing Selenium tests by hand."
 ---
 

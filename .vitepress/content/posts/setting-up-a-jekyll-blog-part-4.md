@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-a-jekyll-blog-part-4.jpg"
 title: Setting Up a Jekyll Blog - Part 4
-category: development
+topic: development
 description: "Part four of the Jekyll setup series — how to add Sass/SCSS to your Jekyll site the right way, and options for using other CSS preprocessors or plain CSS alongside the Jekyll build pipeline."
 ---
 

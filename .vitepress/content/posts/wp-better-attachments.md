@@ -5,7 +5,7 @@ draft: false
 tags: []
 image: "/images/posts/wp-better-attachments.jpg"
 title: WP Better Attachments
-category: development
+topic: development
 description: "An overview of WP Better Attachments, a WordPress plugin for adding, editing, sorting, and managing file attachments directly from the post editor — with full support for custom post types and image crop control."
 ---
 

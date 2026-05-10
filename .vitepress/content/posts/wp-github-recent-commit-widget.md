@@ -5,7 +5,7 @@ draft: false
 tags: []
 image: "/images/posts/wp-github-recent-commit-widget.jpg"
 title: WP Github Recent Commit Widget
-category: development
+topic: development
 description: "An announcement for the WP Github Recent Commit Widget — a WordPress sidebar widget that displays your most recent commits from a public GitHub repository, complete with a random Octocat for good measure."
 ---
 

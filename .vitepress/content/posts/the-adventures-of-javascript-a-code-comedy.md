@@ -4,7 +4,7 @@ title: "The Adventures of JavaScript: A Code Comedy"
 tags: ["Javascript"]
 date: "2024-05-19T15:03:00.000+00:00"
 draft: true
-category: development
+topic: development
 description: "A tongue-in-cheek look at JavaScript's quirks — the confusing + operator, the slippery this keyword, and the joys of debugging a language that insists on keeping things interesting."
 ---
 

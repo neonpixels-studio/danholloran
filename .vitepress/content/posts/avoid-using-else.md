@@ -4,7 +4,7 @@ draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/avoid-using-else.jpg"
 title: Avoid Using Else
-category: development
+topic: development
 description: "A case for eliminating else from your code — why it leads to cleaner refactors, pairs well with small named functions, and makes logic easier to read and understand."
 ---
 

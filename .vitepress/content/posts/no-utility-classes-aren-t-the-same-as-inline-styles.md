@@ -4,7 +4,7 @@ draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/no-utility-classes-aren-t-the-same-as-inline-styles.jpg"
 title: No, Utility Classes Aren't the Same As Inline Styles (by Sarah Dayan)
-category: development
+topic: development
 description: "A link to Sarah Dayan's post making the case that utility classes are fundamentally different from inline styles — and why the rise of Tailwind CSS has made this distinction more important than ever."
 ---
 

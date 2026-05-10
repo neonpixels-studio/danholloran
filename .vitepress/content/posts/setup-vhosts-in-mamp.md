@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setup-vhosts-in-mamp.jpg"
 title: Setup Vhosts in MAMP
-category: development
+topic: development
 description: "How to configure Apache Virtual Hosts in MAMP so each local project is accessible via its own custom .dev domain instead of navigating subdirectories of localhost."
 ---
 

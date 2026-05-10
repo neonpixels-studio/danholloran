@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/experimenting-with-laravel-and-vue-js.jpg"
 title: Experimenting With Laravel and Vue.js
-category: development
+topic: development
 description: "First impressions of Laravel and Vue.js coming from the WordPress world — covering Elixir, Homestead, Blade templates, and Vue's reactive data model, with thoughts on when each tool belongs."
 ---
 

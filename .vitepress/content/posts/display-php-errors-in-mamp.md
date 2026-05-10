@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/display-php-errors-in-mamp.jpg"
 title: Display PHP Errors in MAMP
-category: development
+topic: development
 description: "A quick tip for enabling PHP error display in MAMP by flipping display_errors to On in php.ini — so you get real error messages instead of the white screen of death."
 ---
 

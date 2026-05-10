@@ -5,7 +5,7 @@ draft: false
 tags: []
 image: "/images/posts/wpba-thoughts-and-road-map.jpg"
 title: WPBA Thoughts and Road Map
-category: development
+topic: development
 description: "A candid look at the WP Better Attachments rewrite — the settings architecture debt, the case for spinning off the crop editor as an add-on, and thoughts on how to sustainably support an open-source plugin with thousands of active installs."
 ---
 

@@ -5,7 +5,7 @@ draft: false
 tags: []
 image: "/images/posts/new-plugin-wp-multi-file-uploader.jpg"
 title: WP Multi File Uploader
-category: development
+topic: development
 description: "An announcement for WP Multi File Uploader, a WordPress plugin that lets users upload multiple files at once through a frontend form, automatically creating media library attachments for each upload."
 ---
 

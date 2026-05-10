@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/st-louis-wordcamp-2015.jpg"
 title: St. Louis WordCamp 2015 Notes
-category: development
+topic: development
 description: "Personal notes and session schedule from St. Louis WordCamp 2015 — highlights include a talk on Atomic Design Principles and a podcasting panel that made for a nice change of pace."
 ---
 

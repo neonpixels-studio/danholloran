@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/moving-from-sublime-to-atom.jpg"
 title: Moving From Sublime to Atom
-category: development
+topic: development
 description: "A comparison of Atom and Sublime Text after switching editors — where Atom shines with active development and HTML/CSS/JS extensibility, and where Sublime still wins on speed and search."
 ---
 

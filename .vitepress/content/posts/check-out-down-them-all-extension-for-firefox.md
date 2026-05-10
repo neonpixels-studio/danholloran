@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/check-out-down-them-all-extension-for-firefox.jpg"
 title: Check Out Down Them All Extension for Firefox
-category: development
+topic: development
 description: "A quick tip on using the DownThemAll Firefox extension to bulk-download images from a list of URLs — no FTP access required."
 ---
 

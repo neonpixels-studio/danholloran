@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/vues-js-component-messaging-continued.jpg"
 title: Vue.js Component Messaging Continued
-category: development
+topic: development
 description: "A follow-up to the Vue.js component messaging post — exploring a prop-based approach to namespaced events so multiple instances of the same component on a page can each respond to their own events independently."
 ---
 

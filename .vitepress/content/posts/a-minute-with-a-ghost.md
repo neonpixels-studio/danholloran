@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/a-minute-with-a-ghost.jpg"
 title: A minute with a Ghost...
-category: development
+topic: development
 description: "A first look at Ghost CMS after years on WordPress — covering its speed, built-in Markdown support, and writer-focused experience that makes blogging feel fresh again."
 ---
 

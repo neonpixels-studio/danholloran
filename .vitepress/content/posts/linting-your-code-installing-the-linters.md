@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/linting-your-code-installing-the-linters.jpg"
 title: "Linting Your Code: Installing the Linters"
-category: development
+topic: development
 description: "A guide to installing the prerequisite linters for your development workflow — PHPCS with WordPress Coding Standards, JSHint, JSCS, and SCSS-Lint — before wiring them into your editor."
 ---
 

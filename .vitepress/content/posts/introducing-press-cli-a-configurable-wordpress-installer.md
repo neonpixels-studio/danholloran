@@ -5,7 +5,7 @@ draft: false
 tags: []
 image: "/images/posts/introducing-press-cli-a-configurable-wordpress-installer.jpg"
 title: "Introducing Press CLI: A Configurable WordPress Installer"
-category: development
+topic: development
 description: "An introduction to Press CLI, a Symfony Console–based tool that automates WordPress installation by running WP CLI commands with saved configuration — so you stop repeating the same five-minute setup."
 ---
 

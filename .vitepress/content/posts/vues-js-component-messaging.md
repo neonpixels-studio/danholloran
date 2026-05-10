@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/vues-js-component-messaging.jpg"
 title: Vue.js Component Messaging
-category: development
+topic: development
 description: "A walkthrough of how to pass events between sibling Vue.js components — using the root Vue instance as a message bus to dispatch alerts from any component without creating tight parent-child coupling."
 ---
 

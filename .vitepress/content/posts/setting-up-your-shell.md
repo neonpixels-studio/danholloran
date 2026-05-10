@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-your-shell.jpg"
 title: Setting Up Your Shell
-category: development
+topic: development
 description: "A beginner-friendly guide to setting up a better terminal on Mac — installing iTerm2, switching to zsh, and customizing colors and fonts so the command line feels less intimidating and more powerful."
 ---
 

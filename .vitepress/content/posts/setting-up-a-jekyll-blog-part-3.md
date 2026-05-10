@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-a-jekyll-blog-part-3.jpg"
 title: Setting Up a Jekyll Blog - Part 3
-category: development
+topic: development
 description: "Part three of the Jekyll setup series — an introduction to the Liquid templating language and how to use it to build post excerpts, blog roll loops, and pagination in your Jekyll site."
 ---
 

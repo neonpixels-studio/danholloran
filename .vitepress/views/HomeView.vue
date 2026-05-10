@@ -321,7 +321,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         <div class="flex flex-col justify-center p-8">
           <div class="flex flex-wrap items-center gap-2">
             <span class="blog-tag-pill">{{
-              featuredPost.frontmatter.category
+              featuredPost.frontmatter.topic
             }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]"
               >{{ formatPostDate(featuredPost.frontmatter.date) }} ·
@@ -348,7 +348,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           class="border-line text-fg hover:border-accent block rounded border p-5 no-underline transition-[border-color,transform] duration-200 hover:-translate-y-0.5"
         >
           <div class="flex flex-wrap items-center gap-2">
-            <span class="blog-tag-pill">{{ post.frontmatter.category }}</span>
+            <span class="blog-tag-pill">{{ post.frontmatter.topic }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]">{{
               formatPostDate(post.frontmatter.date)
             }}</span>

@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/using-trello-to-manage-your-blog-posts.jpg"
 title: Using Trello to Manage Your Blog Posts
-category: development
+topic: development
 description: "How using Trello as a blog idea bank makes it easier to write consistently — capturing random ideas in a card-based format so you always have something to write about when you sit down."
 ---
 

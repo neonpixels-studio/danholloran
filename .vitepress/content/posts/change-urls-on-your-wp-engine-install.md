@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/change-urls-on-your-wp-engine-install.jpg"
 title: Change URLs On Your WP Engine Install
-category: development
+topic: development
 description: "A guide to all the places you need to update your site URL after migrating to WP Engine — the database, wp-config.php, and the WP Engine dashboard — and why settings alone won't cut it."
 ---
 

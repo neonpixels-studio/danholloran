@@ -4,7 +4,7 @@ title: Taming the Winds of Web Design with Tailwind.css!
 tags: ["Tailwind.css"]
 date: "2024-05-19T15:03:00.000+00:00"
 draft: true
-category: development
+topic: development
 description: "An enthusiastic introduction to Tailwind CSS — how its utility-first approach removes the pain of complex class names and specificity battles while staying fully customizable for any design system."
 ---
 

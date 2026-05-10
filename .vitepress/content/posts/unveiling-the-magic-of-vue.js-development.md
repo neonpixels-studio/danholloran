@@ -4,7 +4,7 @@ title: Unveiling the Magic of Vue.js Development
 tags: ["Vue.js"]
 date: "2024-05-19T14:41:00.000+00:00"
 draft: true
-category: development
+topic: development
 description: "A playful introduction to Vue.js — its reactive and component-based architecture, seamless integration with Vuex and Vue Router, and the welcoming community that makes it a joy to pick up for building web UIs."
 ---
 

@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/wordcamp-usa-city-chosen.jpg"
 title: WordCamp USA City Chosen
-category: development
+topic: development
 description: "Thoughts on Philadelphia being selected as the host city for the first WordCamp USA — and whether it's worth the trip when WordCamp San Francisco is already an annual tradition."
 ---
 

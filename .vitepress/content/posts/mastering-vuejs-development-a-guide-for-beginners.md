@@ -4,7 +4,7 @@ title: "Mastering Vue.js Development: A Guide for Beginners"
 tags: ["Vue.js"]
 date: "2024-05-19T15:06:00.000+00:00"
 draft: true
-category: development
+topic: development
 description: "A beginner's guide to Vue.js — covering the Vue instance, reactivity, components, Vuex state management, and Vue Router to build dynamic and interactive web applications."
 ---
 

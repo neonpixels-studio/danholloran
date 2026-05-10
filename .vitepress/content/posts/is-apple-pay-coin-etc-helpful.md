@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/is-apple-pay-coin-etc-helpful.jpg"
 title: Is Apple Pay, Coin, etc. Helpful?
-category: development
+topic: development
 description: "A practical look at card-consolidating payment tools like Apple Pay and Coin after months of daily use — weighing their convenience against real-world adoption gaps and the security tradeoffs between them."
 ---
 

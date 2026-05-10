@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/installing-linters-atom.jpg"
 title: Installing Linters Atom
-category: development
+topic: development
 description: "A walkthrough for setting up and configuring linter plugins in the Atom text editor — covering both the Preferences UI and the APM command-line tool for package installation."
 ---
 

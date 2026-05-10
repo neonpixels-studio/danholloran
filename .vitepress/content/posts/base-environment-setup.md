@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/base-environment-setup.jpg"
 title: Base Environment Setup
-category: development
+topic: development
 description: "A step-by-step Mac developer environment setup covering Node.js, Ruby, Git, Homebrew, PHP, and Composer — the foundation needed before adding tools like Sass, Grunt, or Bower."
 ---
 

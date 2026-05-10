@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/looking-into-statamic-flat-file-cms.jpg"
 title: Looking Into Statamic Flat File CMS
-category: development
+topic: development
 description: "First impressions of Statamic — a flat-file CMS built on Laravel that bridges the gap between WordPress, static site generators, and a full framework, with a Vue-powered admin that feels like WordPress without the baggage."
 ---
 

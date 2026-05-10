@@ -4,7 +4,7 @@ tags: ["css", "web-apis"]
 draft: false
 image: "/images/posts/css-anchor-positioning-stop-using-javascript-for-tooltips.jpg"
 title: "CSS Anchor Positioning: Stop Using JavaScript for Tooltips"
-category: development
+topic: development
 description: "A deep dive into the CSS Anchor Positioning API — how anchor-name, position-anchor, position-area, and position-try-fallbacks let you build tooltips and floating elements entirely in CSS, no JavaScript or Floating UI required."
 ---
 

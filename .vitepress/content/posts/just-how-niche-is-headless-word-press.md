@@ -4,7 +4,7 @@ draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/just-how-niche-is-headless-word-press.jpg"
 title: Just How Niche is Headless WordPress?
-category: development
+topic: development
 description: "Thoughts on a CSS-Tricks post about headless WordPress — when it makes sense, why the broader WordPress community may not benefit from it, and how tools like Strattic can bring Jamstack benefits without the developer overhead."
 ---
 

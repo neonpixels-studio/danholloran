@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/why-would-you-use-a-fixed-header.jpg"
 title: Why Would You Use a Fixed Header?
-category: development
+topic: development
 description: "A take on why fixed headers are almost never the right choice — how they cover content, frustrate users, and only make sense in the narrow case of single-page anchor navigation."
 ---
 

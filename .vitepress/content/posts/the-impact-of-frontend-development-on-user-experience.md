@@ -4,7 +4,7 @@ title: The Impact of Frontend Development on User Experience
 tags: ["Frontend Development"]
 date: "2024-05-19T15:06:00.000+00:00"
 draft: true
-category: development
+topic: development
 description: "An overview of how frontend development shapes user experience — from responsive layouts to performance optimization — and why keeping up with evolving tools is essential for building intuitive digital products."
 ---
 

@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/has-wp-query-abstracted-to-much.jpg"
 title: Has WP_Query Abstracted To Much?
-category: development
+topic: development
 description: "A look at whether WP_Query hides too much from WordPress developers — the performance blind spots that come from treating the database as a black box, and why using Query Monitor is eye-opening."
 ---
 

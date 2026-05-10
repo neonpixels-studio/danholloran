@@ -4,7 +4,7 @@ draft: false
 image: /images/posts/visbug.png
 tags: []
 title: VisBug (Dev Tools for Designers)
-category: development
+topic: development
 description: "A quick look at VisBug, the browser extension that gives designers and developers a visual layer on top of any site — inspecting accessibility, tweaking colors, and moving elements around without touching the inspector."
 ---
 

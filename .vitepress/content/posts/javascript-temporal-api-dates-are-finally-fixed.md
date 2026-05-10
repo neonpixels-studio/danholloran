@@ -4,7 +4,7 @@ tags: ["javascript", "web-apis", "typescript"]
 draft: false
 image: "/images/posts/javascript-temporal-api-dates-are-finally-fixed.jpg"
 title: "JavaScript Temporal API: Dates Are Finally Fixed"
-category: development
+topic: development
 description: "A practical introduction to the JavaScript Temporal API — the ES2026 replacement for Date that gets types right, handles timezones properly, and makes date arithmetic readable without moment.js or date-fns."
 ---
 

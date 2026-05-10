@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setup-ghost-pro-custom-domain-name.jpg"
 title: How I (Almost...) Setup My Ghost Pro Custom Domain Name
-category: development
+topic: development
 description: "A candid account of attempting to point a custom domain to Ghost Pro — the DNS rabbit hole, what almost worked with CloudFlare and Hover, and why sometimes forwarding the domain is good enough."
 ---
 

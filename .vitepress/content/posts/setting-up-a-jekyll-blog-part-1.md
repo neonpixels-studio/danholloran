@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-a-jekyll-blog-part-1.jpg"
 title: Setting Up a Jekyll Blog - Part 1
-category: development
+topic: development
 description: "Part one of a Jekyll setup series — installing Ruby, Jekyll, and optionally the GitHub Pages gem so you can get a static blog running locally and deploy it for free."
 ---
 

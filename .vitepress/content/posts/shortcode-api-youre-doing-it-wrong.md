@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/shortcode-api-youre-doing-it-wrong.jpg"
 title: Shortcode API You're Doing It Wrong
-category: development
+topic: development
 description: "A look at the WordPress shortcode API changes in the 4.2.3 security release — why some common patterns were never correct to begin with, and the right way to think about shortcode attributes and nesting."
 ---
 

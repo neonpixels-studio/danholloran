@@ -4,7 +4,7 @@ draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/target-blank-css-tricks.jpg"
 title: target=blank (CSS-Tricks)
-category: development
+topic: development
 description: 'A CSS-Tricks tip on the difference between target="blank" and target="_blank" — and how the version without the underscore lets you reuse the same tab across multiple link clicks.'
 ---
 

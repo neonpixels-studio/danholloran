@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-your-shell-configuration-and-ohmyzsh.jpg"
 title: Setting Up Your Shell Configuration and OHMyZSH
-category: development
+topic: development
 description: "A follow-up to the shell setup guide — how to configure your .zshrc with aliases and PATH entries, and use OhMyZSH plugins and themes to make your terminal faster and more enjoyable to work in."
 ---
 

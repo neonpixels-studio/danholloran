@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/quickly-install-applications-on-your-mac-with-homebrew-and-cask.jpg"
 title: Quickly Install Applications on Your Mac With Homebrew and Cask
-category: development
+topic: development
 description: "How to use Homebrew and Cask to bulk-install Mac applications from a script — a reliable way to get your machine back up and running quickly after a clean OS install."
 ---
 

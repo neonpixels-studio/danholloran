@@ -5,7 +5,7 @@ draft: false
 tags: ["laravel"]
 image: "/images/posts/sync-google-tasks-with-ifttt.jpg"
 title: Sync Google Tasks With IFTTT
-category: development
+topic: development
 description: "A self-built solution for syncing Amazon Alexa and Google Tasks via the IFTTT Maker Channel — so you can add todos by voice through Alexa or Siri without being locked into a supported task app."
 ---
 

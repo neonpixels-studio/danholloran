@@ -4,7 +4,7 @@ draft: false
 tags: ["Front-End", "Performance"]
 image: "/images/posts/how-to-optimize-website-performance-in-front-end-development.jpg"
 title: How to Optimize Website Performance in Front-End Development
-category: development
+topic: development
 description: "Practical tips for front-end performance optimization — from writing clean and efficient code to image and asset optimization, lazy loading, and reducing unnecessary server requests."
 ---
 

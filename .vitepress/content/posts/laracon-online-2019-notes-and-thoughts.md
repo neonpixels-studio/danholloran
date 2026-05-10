@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/laracon-online-2019-notes-and-thoughts.jpg"
 title: Laracon Online 2019 Notes and Thoughts
-category: development
+topic: development
 description: "Notes and takeaways from Laracon Online 2019 — covering event sourcing in Laravel, writing less complex code, Livewire, and other highlights from the conference sessions."
 ---
 

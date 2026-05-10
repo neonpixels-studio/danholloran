@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/what-i-miss-from-wordpress.jpg"
 title: What I Miss From WordPress & What Ghost Does Better
-category: development
+topic: development
 description: "An honest comparison list after switching from WordPress to Ghost — the features and familiarity left behind, and the things Ghost genuinely does better for a developer who just wants to write."
 ---
 

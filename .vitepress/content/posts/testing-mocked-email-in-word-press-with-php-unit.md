@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/testing-mocked-email-in-word-press-with-php-unit.jpg"
 title: Testing mocked email in WordPress with PHPUnit
-category: development
+topic: development
 description: "A quick tip on using WordPress's built-in MockPHPMailer in PHPUnit tests to intercept and assert against outgoing emails without sending anything to real recipients."
 ---
 

@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/easily-get-your-clients-browser-information.jpg"
 title: Easily Retrieve Browser Information
-category: development
+topic: development
 description: "A tip for getting exact browser and OS details from clients using yourbrowser.is — useful for reproducing cross-browser bugs with tools like Browserstack when you can't replicate the issue yourself."
 ---
 

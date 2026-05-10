@@ -4,7 +4,7 @@ tags: ["javascript", "svelte", "tooling", "frontend"]
 draft: true
 title: "Svelte 5 Runes: Reactive State That Actually Makes Sense"
 image: "/images/posts/svelte-5-runes-reactive-state-that-actually-makes-sense.jpg"
-category: development
+topic: development
 description: "An introduction to Svelte 5 runes — the explicit reactive primitives ($state, $derived, $effect, $props) that replace Svelte 4's magic $: syntax and make reactivity predictable, composable, and no longer limited to .svelte files."
 ---
 

@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/laravel-forge-digital-ocean-and-websockets.jpg"
 title: Laravel Forge, Digital Ocean and WebSockets
-category: development
+topic: development
 description: "A follow-up to the Laravel WebSockets setup guide — how to configure Redis and Socket.io daemons on a Digital Ocean server using Laravel Forge and open the right firewall port to make it all work in production."
 ---
 

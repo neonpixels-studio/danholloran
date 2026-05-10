@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/why-does-expressionengine-save-templates-in-the-database.jpg"
 title: Why Does ExpressionEngine Save Templates in the Database?
-category: development
+topic: development
 description: "A curious look at ExpressionEngine's decision to store templates in the database — the tradeoffs around version control, file-based overrides, and why allowing database queries in views feels uncomfortable."
 ---
 

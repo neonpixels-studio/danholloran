@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/setting-up-mailhog-on-mamp.jpg"
 title: Setting up Mailhog on MAMP
-category: development
+topic: development
 description: "How to install and configure Mailhog on MAMP so all outgoing mail is intercepted locally during development — preventing test emails from reaching real users while you build and debug."
 ---
 

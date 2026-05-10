@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/moving-from-wordpress-to-ghost-to-jekyll.jpg"
 title: Moving From WordPress to Ghost to Jekyll
-category: development
+topic: development
 description: "The journey from WordPress to Ghost to Jekyll — why each platform was a step closer to the ideal developer blogging setup, and what finally made a static site the right choice."
 ---
 

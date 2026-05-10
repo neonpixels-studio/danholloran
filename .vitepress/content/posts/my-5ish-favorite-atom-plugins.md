@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/my-5ish-favorite-atom-plugins.jpg"
 title: My 5ish Favorite Atom Plugins
-category: development
+topic: development
 description: "A roundup of the top Atom editor plugins worth installing — covering code beautification, docblock generation, linting integration, file icons, and a few other productivity boosters after switching from Sublime Text."
 ---
 

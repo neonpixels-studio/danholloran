@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/laravel-and-websockets.jpg"
 title: Laravel and WebSockets
-category: development
+topic: development
 description: "A step-by-step guide to setting up real-time WebSockets with Laravel using Redis, Socket.io, and Supervisor — broadcasting Laravel events to the browser without relying on a hosted service like Pusher."
 ---
 

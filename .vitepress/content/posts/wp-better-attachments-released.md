@@ -5,7 +5,7 @@ draft: false
 tags: []
 image: "/images/posts/wp-better-attachments-released.jpg"
 title: WP Better Attachments v1.3.11 Released
-category: development
+topic: development
 description: "Release notes for WP Better Attachments v1.3.11 — adding a use_caption_for_title option, a second attachments button at the bottom of the meta box, and a PHP warning fix."
 ---
 

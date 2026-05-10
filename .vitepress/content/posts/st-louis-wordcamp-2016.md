@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/st-louis-wordcamp-2016.jpg"
 title: St Louis WordCamp 2016
-category: development
+topic: development
 description: "Notes and session summaries from St. Louis WordCamp 2016 at Washington University — covering plugin development, security, REST API patterns, and other developer-focused talks."
 ---
 

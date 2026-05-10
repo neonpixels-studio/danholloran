@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/installing-linters-sublime-text-3.jpg"
 title: Installing Linters Sublime Text 3
-category: development
+topic: development
 description: "How to install and configure SublimeLinter and its language-specific plugins in Sublime Text 3 via Package Control — the right way to get real-time linting in your editor."
 ---
 

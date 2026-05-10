@@ -4,7 +4,7 @@ draft: false
 tags: ["Link"]
 image: "/images/posts/questions-to-ask-before-choosing-a-static-site-generator.jpg"
 title: Questions to ask before choosing a static site generator
-category: development
+topic: development
 description: "A link to an Ample blog post covering the key questions to ask when selecting a static site generator — comparing common SSGs to help you pick the right one for your next project."
 ---
 

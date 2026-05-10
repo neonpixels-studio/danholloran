@@ -3,7 +3,7 @@ export interface PostMeta {
   slug: string;
   image: string;
   draft: boolean;
-  category: string;
+  topic: string;
   date: string;
   description: string;
   tags: string[];

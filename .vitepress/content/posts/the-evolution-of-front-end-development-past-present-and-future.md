@@ -4,7 +4,7 @@ draft: false
 tags: ["Front-End"]
 image: "/images/posts/the-evolution-of-front-end-development-past-present-and-future.jpg"
 title: "The Evolution of Front-End Development: Past, Present, and Future"
-category: development
+topic: development
 description: "A look at how front-end development has evolved from table layouts and inline styles to responsive design, component frameworks, and the modern web — with a peek at where it might be heading next."
 ---
 

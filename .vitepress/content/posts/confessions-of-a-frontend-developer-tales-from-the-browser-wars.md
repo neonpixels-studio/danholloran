@@ -4,7 +4,7 @@ title: "Confessions of a Frontend Developer: Tales from the Browser Wars"
 tags: ["Frontend Development"]
 date: "2024-05-19T15:00:00.000+00:00"
 draft: true
-category: development
+topic: development
 description: "A lighthearted take on life as a frontend developer — juggling browser inconsistencies, hunting CSS bugs, and surviving the never-ending Browser Wars with humor intact."
 ---
 

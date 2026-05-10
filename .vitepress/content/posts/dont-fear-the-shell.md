@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/dont-fear-the-shell.jpg"
 title: Don't Fear The Shell
-category: development
+topic: development
 description: "An encouragement for developers intimidated by the command line — why the CLi isn't as scary as it looks, and how tools like zsh, iTerm2, and OhMyZSH can make it genuinely enjoyable to work in."
 ---
 

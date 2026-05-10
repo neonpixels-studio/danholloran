@@ -4,7 +4,7 @@ draft: false
 tags: []
 image: "/images/posts/why-i-decided-to-use-a-themeforest-theme.jpg"
 title: Why I Decided to Use a Themeforest Theme
-category: development
+topic: development
 description: "Why buying a Themeforest theme beat spending another weekend at 85% on a custom design — freeing up time and energy for writing and building things that actually matter."
 ---
 
