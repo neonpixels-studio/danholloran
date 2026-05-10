@@ -143,7 +143,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </button>
       <a
-        href="https://github.com/danholloran"
+        href="https://github.com/grimicorn"
         target="_blank"
         rel="noopener"
         aria-label="GitHub"
@@ -156,7 +156,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </a>
       <a
-        href="https://instagram.com/danholloran"
+        href="https://instagram.com/grimicornsparkles/"
         target="_blank"
         rel="noopener"
         aria-label="Instagram"
@@ -182,7 +182,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </a>
       <a
-        href="https://linkedin.com/in/danholloran"
+        href="https://linkedin.com/in/dan-holloran/"
         target="_blank"
         rel="noopener"
         aria-label="LinkedIn"
