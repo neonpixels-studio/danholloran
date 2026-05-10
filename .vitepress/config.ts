@@ -26,7 +26,6 @@ export default defineConfig({
     },
   },
   cleanUrls: true,
-  ignoreDeadLinks: true,
   head: [
     [
       "link",
