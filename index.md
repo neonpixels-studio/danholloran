@@ -7,9 +7,9 @@ description: Full-stack developer and photographer based in Reno, NV.
   import { ref } from 'vue'
 
 const count = ref(0)
-import { data as posts } from './.vitepress/content/posts/posts.data.ts'
-import projects from './.vitepress/data/projects.ts'
-import resume from './.vitepress/data/resume.ts'
+import { data as posts } from '@content/posts/posts.data.ts'
+import projects from '@data/projects.ts'
+import resume from '@data/resume.ts'
 </script>
 
 <h1>HomePage</h1>

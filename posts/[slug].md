@@ -4,7 +4,7 @@ description: "@todo Post Description"
 ---
 
 <script setup>
-import { data as posts } from './../.vitepress/content/posts/posts.data.ts'
+import { data as posts } from '@content/posts/posts.data.ts'
 import { useData } from 'vitepress'
 
 const { params } = useData()

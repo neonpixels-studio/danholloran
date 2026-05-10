@@ -4,7 +4,7 @@ description: My posts
 ---
 
 <script setup>
-import { data as posts } from './../.vitepress/content/posts/posts.data.ts'
+import { data as posts } from '@content/posts/posts.data.ts'
 </script>
 
 <h2>Posts</h2>
