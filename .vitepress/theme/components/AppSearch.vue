@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import { SearchItem } from "@typedefs";
 
-// @todo Move to types
-interface SearchItem {
-  type: "page" | "post" | "project";
-  title: string;
-  desc: string;
-  href: string;
-  kw: string;
-}
-
-// @todo Convert to a search index solution
+// @todo Convert to a search index solution + make dynamic
 const PAGES: SearchItem[] = [
   {
     type: "page",
@@ -30,63 +22,63 @@ const PAGES: SearchItem[] = [
     type: "page",
     title: "Blog",
     desc: "All posts, filterable by tag",
-    href: "/blog",
+    href: "/posts",
     kw: "blog posts writing articles",
   },
   {
     type: "post",
     title: "Building a High-Performance SPA with Vue 3 and Vite",
     desc: "development · Apr 28, 2026",
-    href: "/blog/building-a-high-performance-spa-with-vue-3-and-vite",
+    href: "/posts/building-a-high-performance-spa-with-vue-3-and-vite",
     kw: "vue vite spa performance frontend",
   },
   {
     type: "post",
     title: "What a Career Sabbatical Actually Feels Like",
     desc: "career · Mar 15, 2026",
-    href: "/blog/what-a-career-sabbatical-actually-feels-like",
+    href: "/posts/what-a-career-sabbatical-actually-feels-like",
     kw: "sabbatical career break travel",
   },
   {
     type: "post",
     title: "Photography in Patagonia",
     desc: "travel · Feb 20, 2026",
-    href: "/blog/photography-in-patagonia",
+    href: "/posts/photography-in-patagonia",
     kw: "patagonia photography travel landscape",
   },
   {
     type: "post",
     title: "GraphQL vs REST: After 8 Years in Production",
     desc: "development · Jan 30, 2026",
-    href: "/blog/graphql-vs-rest-after-8-years-in-production",
+    href: "/posts/graphql-vs-rest-after-8-years-in-production",
     kw: "graphql rest api backend",
   },
   {
     type: "post",
     title: "Mentorship Isn't About Having Answers",
     desc: "career · Jan 12, 2026",
-    href: "/blog/mentorship-isnt-about-having-answers",
+    href: "/posts/mentorship-isnt-about-having-answers",
     kw: "mentorship leadership career",
   },
   {
     type: "post",
     title: "Street Photography in Tokyo at 5am",
     desc: "photography · Dec 8, 2025",
-    href: "/blog/street-photography-in-tokyo-at-5am",
+    href: "/posts/street-photography-in-tokyo-at-5am",
     kw: "tokyo japan photography street",
   },
   {
     type: "post",
     title: "Why I'm Betting on Jamstack in 2026",
     desc: "development · Nov 22, 2025",
-    href: "/blog/why-im-betting-on-jamstack-in-2026",
+    href: "/posts/why-im-betting-on-jamstack-in-2026",
     kw: "jamstack static site generators",
   },
   {
     type: "post",
     title: "The Architecture Decision I Still Think About",
     desc: "career · Nov 5, 2025",
-    href: "/blog/the-architecture-decision-i-still-think-about",
+    href: "/posts/the-architecture-decision-i-still-think-about",
     kw: "architecture career decisions",
   },
   {

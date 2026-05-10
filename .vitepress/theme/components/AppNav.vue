@@ -6,7 +6,7 @@ const activeSection = ref("");
 const isScrolled = ref(false);
 
 const isHome = computed(() => window.location.pathname === "/");
-const isBlog = computed(() => window.location.pathname.startsWith("/blog"));
+const isBlog = computed(() => window.location.pathname.startsWith("/posts"));
 const isResume = computed(() => window.location.pathname === "/resume");
 
 function isSectionActive(id: string) {
@@ -109,7 +109,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         resume
       </a>
       <a
-        href="/blog"
+        href="/posts"
         class="text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
         :class="{ 'text-accent!': isBlog }"
       >

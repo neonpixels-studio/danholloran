@@ -1,11 +1,6 @@
 import type { Component } from "vue";
 import type { SkillInterface } from "./skills";
 
-export interface ResumePhotoInterface {
-  url: string;
-  alt?: string;
-}
-
 export interface ResumeContactInterface {
   unformatted: string;
   formatted: string;
@@ -39,11 +34,11 @@ export interface ResumeEducationInterface {
 export interface ResumeInterface {
   firstName: string;
   lastName: string;
-  photo: ResumePhotoInterface;
+  photo: string;
   headline: string;
   intro: string;
   contacts: ResumeContactInterface[];
   skills(): SkillInterface[];
-  experiences: ResumeExperienceInterface[];
-  educations: ResumeEducationInterface[];
+  experience: ResumeExperienceInterface[];
+  education: ResumeEducationInterface[];
 }

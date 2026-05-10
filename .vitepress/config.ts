@@ -16,7 +16,12 @@ export default defineConfig({
         "@theme": fileURLToPath(new URL("./theme", import.meta.url)),
         "@typedefs": fileURLToPath(new URL("./types", import.meta.url)),
         "@data": fileURLToPath(new URL("./data", import.meta.url)),
+        "@composables": fileURLToPath(
+          new URL("./composables", import.meta.url),
+        ),
         "@content": fileURLToPath(new URL("./content", import.meta.url)),
+        "@utils": fileURLToPath(new URL("./utils", import.meta.url)),
+        "@views": fileURLToPath(new URL("./views", import.meta.url)),
       },
     },
   },

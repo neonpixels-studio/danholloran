@@ -2,7 +2,7 @@ export interface FrontmatterResult<T = Record<string, unknown>> {
   data: T;
   content: string;
 }
-
+// @todo Remove this since Vitepress does this for us
 export function parseFrontmatter<T = Record<string, unknown>>(
   raw: string,
 ): FrontmatterResult<T> {

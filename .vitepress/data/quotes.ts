@@ -1,6 +1,6 @@
 import { QuoteInterface } from "@typedefs";
 
-export const QUOTES = [
+export default [
   {
     content: `A perfect method for adding drama to life is to wait until the deadline looms large`,
     author: `Alyce P. Cornyn-Selby`,

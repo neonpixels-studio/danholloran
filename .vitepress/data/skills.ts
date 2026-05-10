@@ -1,6 +1,6 @@
 import { SkillsMap } from "../types";
 
-export const SKILLS = {
+export default {
   ACTION_SCRIPT: {
     image: `as3.svg`,
     name: `ActionScript 3`,
