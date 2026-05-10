@@ -1,4 +1,4 @@
-import { ProjectInterface } from "@types";
+import { ProjectInterface } from "@typedefs";
 import { SKILLS } from "./skills";
 export default [
   {

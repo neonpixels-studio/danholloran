@@ -4,7 +4,7 @@ import {
   UserIcon,
   MapPinIcon,
 } from "@heroicons/vue/16/solid";
-import type { ResumeInterface } from "@types/resume";
+import type { ResumeInterface } from "@typedefs";
 import { SKILLS } from "./skills";
 import GithubIcon from "@components/GithubIcon.vue";
 import InstagramIcon from "@components/InstagramIcon.vue";

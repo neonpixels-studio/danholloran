@@ -1,4 +1,4 @@
-import { QuoteInterface } from "@types";
+import { QuoteInterface } from "@typedefs";
 
 export const QUOTES = [
   {

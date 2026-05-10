@@ -14,7 +14,7 @@ export default defineConfig({
           new URL("./theme/components", import.meta.url),
         ),
         "@theme": fileURLToPath(new URL("./theme", import.meta.url)),
-        "@types": fileURLToPath(new URL("./types", import.meta.url)),
+        "@typedefs": fileURLToPath(new URL("./types", import.meta.url)),
         "@data": fileURLToPath(new URL("./data", import.meta.url)),
         "@content": fileURLToPath(new URL("./content", import.meta.url)),
       },
