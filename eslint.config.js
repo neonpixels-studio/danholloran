@@ -36,6 +36,7 @@ export default [
         "error",
         { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
+      "vue/no-v-html": "off",
     },
   },
   prettier,

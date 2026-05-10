@@ -1,0 +1,199 @@
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import ThemeToggle from "./ThemeToggle.vue";
+
+const activeSection = ref("");
+const isScrolled = ref(false);
+
+const isHome = computed(() => window.location.pathname === "/");
+const isBlog = computed(() => window.location.pathname.startsWith("/blog"));
+const isResume = computed(() => window.location.pathname === "/resume");
+
+function isSectionActive(id: string) {
+  return isHome.value && activeSection.value === id;
+}
+
+function onScroll() {
+  isScrolled.value = window.scrollY > 8;
+
+  if (isHome.value) {
+    const sections = ["about", "projects", "experience"];
+    let active = "";
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      if (
+        r.top < window.innerHeight * 0.4 &&
+        r.bottom > window.innerHeight * 0.4
+      )
+        active = id;
+    }
+    activeSection.value = active;
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+});
+onUnmounted(() => window.removeEventListener("scroll", onScroll));
+</script>
+
+<template>
+  <nav
+    id="siteNav"
+    class="bg-bg/85 no-print fixed inset-x-0 top-0 z-100 flex h-[60px] items-center justify-between border-b border-transparent px-8 backdrop-blur-md transition-[border-color,background] duration-300 max-md:px-4"
+    :class="{ '!border-line !bg-bg/95': isScrolled }"
+  >
+    <a
+      href="/"
+      class="group text-fg inline-flex items-center gap-2 font-mono text-[0.85rem] font-semibold tracking-[-0.02em] no-underline"
+    >
+      <svg
+        width="22"
+        height="16"
+        viewBox="0 0 22 16"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="shrink-0 -translate-y-px transition-transform duration-300 group-hover:-translate-y-0.5"
+        aria-hidden="true"
+      >
+        <path d="M7 14 L13 3 L19 14 Z" fill="#111110" />
+        <path
+          d="M11.4 6 L13 3 L14.6 6 L13.7 5.6 L13 6.2 L12.3 5.6 Z"
+          fill="#ad46ff"
+        />
+        <path d="M1 14 L7 5.5 L13 14 Z" fill="#ad46ff" />
+        <path
+          d="M5.6 8 L7 5.5 L8.4 8 L7.6 7.6 L7 8.1 L6.4 7.6 Z"
+          fill="#ffffff"
+        />
+        <path
+          d="M0 14.5 H22"
+          stroke="#111110"
+          stroke-width="0.8"
+          stroke-linecap="round"
+        />
+      </svg>
+      <span>dan<span class="text-accent">.</span>holloran</span>
+    </a>
+
+    <div class="flex items-center gap-6 max-md:gap-3">
+      <a
+        href="/#about"
+        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
+        :class="{ 'text-accent!': isSectionActive('about') }"
+      >
+        about
+      </a>
+      <a
+        href="/#projects"
+        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
+        :class="{ 'text-accent!': isSectionActive('projects') }"
+      >
+        projects
+      </a>
+      <a
+        href="/#experience"
+        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
+        :class="{ 'text-accent!': isSectionActive('experience') }"
+      >
+        experience
+      </a>
+      <a
+        href="/resume"
+        class="text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
+        :class="{ 'text-accent!': isResume }"
+      >
+        resume
+      </a>
+      <a
+        href="/blog"
+        class="text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
+        :class="{ 'text-accent!': isBlog }"
+      >
+        blog
+      </a>
+    </div>
+
+    <div class="flex items-center gap-2 max-md:gap-1">
+      <ThemeToggle />
+      <button
+        id="searchToggle"
+        type="button"
+        aria-label="Search"
+        title="Search (⌘K)"
+        class="text-fg-subtle hover:text-accent inline-flex cursor-pointer items-center justify-center border-0 bg-transparent p-2 transition-colors"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle
+            cx="7"
+            cy="7"
+            r="5"
+            stroke="currentColor"
+            stroke-width="1.5"
+          />
+          <path
+            d="M11 11L14 14"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+      <a
+        href="https://github.com/danholloran"
+        target="_blank"
+        rel="noopener"
+        aria-label="GitHub"
+        class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+          />
+        </svg>
+      </a>
+      <a
+        href="https://instagram.com/danholloran"
+        target="_blank"
+        rel="noopener"
+        aria-label="Instagram"
+        class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <rect x="1.5" y="1.5" width="13" height="13" rx="3.5" />
+          <circle cx="8" cy="8" r="3.2" />
+          <circle
+            cx="11.8"
+            cy="4.2"
+            r="0.7"
+            fill="currentColor"
+            stroke="none"
+          />
+        </svg>
+      </a>
+      <a
+        href="https://linkedin.com/in/danholloran"
+        target="_blank"
+        rel="noopener"
+        aria-label="LinkedIn"
+        class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+          <path
+            d="M13.63 13.63h-2.37V9.92c0-.88-.02-2.02-1.23-2.02-1.23 0-1.42.96-1.42 1.96v3.77H6.24V6h2.27v1.04h.03c.32-.6 1.09-1.23 2.24-1.23 2.4 0 2.85 1.58 2.85 3.63v4.19zM3.56 4.96a1.37 1.37 0 1 1 0-2.74 1.37 1.37 0 0 1 0 2.74zm1.19 8.67H2.37V6h2.38v7.63zM14.82 0H1.18C.53 0 0 .51 0 1.15v13.7C0 15.49.53 16 1.18 16h13.64c.65 0 1.18-.51 1.18-1.15V1.15C16 .51 15.47 0 14.82 0z"
+          />
+        </svg>
+      </a>
+    </div>
+  </nav>
+</template>
