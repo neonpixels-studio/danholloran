@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const isDark = ref(document.documentElement.classList.contains("dark"));
+const isDark = ref(
+  typeof document === "undefined"
+    ? false
+    : document.documentElement.classList.contains("dark"),
+);
 
 function toggle() {
   isDark.value = !isDark.value;

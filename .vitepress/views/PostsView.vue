@@ -1,41 +1,67 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { Post } from "@typedefs";
+import { useRouter } from "vitepress";
+
+const router = useRouter();
 
 const { allPosts } = defineProps<{
   allPosts: Post[];
 }>();
 
+const params = computed<URLSearchParams>(() => {
+  if (typeof window === "undefined") {
+    return new URLSearchParams("");
+  }
+
+  return new URLSearchParams(window.location.search);
+});
 const ALL_TOPIC = "all";
 const topics = [
   ALL_TOPIC,
   ...new Set(allPosts.map((post) => post.frontmatter.topic)),
 ];
-const PER_PAGE = 6;
-const currentFilter = ref(ALL_TOPIC);
-const currentPage = ref(1);
+const PER_PAGE = 10;
+const currentTopic = ref(params.value.get("topic") ?? ALL_TOPIC);
+const currentPage = ref<number>(parseInt(params.value.get("page") ?? "1"));
 
 const filtered = computed(() =>
-  currentFilter.value === ALL_TOPIC
+  currentTopic.value === ALL_TOPIC
     ? allPosts
-    : allPosts.filter((p) => p.topic === currentFilter.value),
+    : allPosts.filter((p) => p.frontmatter.topic === currentTopic.value),
 );
 
 const totalPages = computed(() => Math.ceil(filtered.value.length / PER_PAGE));
+
+const setUrlParams = (topic?: string, page?: number | string) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const url = new URL(window.location.href);
+  url.searchParams.set("topic", topic ?? "");
+  url.searchParams.set("page", (page ?? "") as string);
+  router.go(url.toString());
+};
 
 const pagePosts = computed(() => {
   const start = (currentPage.value - 1) * PER_PAGE;
   return filtered.value.slice(start, start + PER_PAGE);
 });
 
-function setFilter(f: string) {
-  currentFilter.value = f;
+function setTopic(f: string) {
+  currentTopic.value = f;
   currentPage.value = 1;
+
+  setUrlParams(currentTopic.value, currentPage.value);
 }
 
 function goPage(n: number) {
   if (n < 1 || n > totalPages.value) return;
   currentPage.value = n;
+
+  setUrlParams(currentTopic.value, currentPage.value);
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -99,14 +125,15 @@ onMounted(() => {
   </header>
 
   <div
+    v-if="topics.length > 2"
     class="fade-in mx-auto mb-12 flex max-w-275 flex-wrap items-center gap-2 px-8"
   >
     <button
       v-for="f in topics"
       :key="f"
       class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] transition-all"
-      :class="{ active: currentFilter === f }"
-      @click="setFilter(f)"
+      :class="{ active: currentTopic === f }"
+      @click="setTopic(f)"
     >
       {{ f }}
     </button>
@@ -123,14 +150,14 @@ onMounted(() => {
       class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5"
       :class="{
         'col-span-full flex-row! max-md:flex-col!':
-          currentPage === 1 && i === 0 && currentFilter === 'all',
+          currentPage === 1 && i === 0 && currentTopic === 'all',
       }"
       :style="`transition-delay:${i * 60}ms`"
     >
       <div
         class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1]"
         :class="
-          currentPage === 1 && i === 0 && currentFilter === 'all'
+          currentPage === 1 && i === 0 && currentTopic === 'all'
             ? 'aspect-auto w-[45%] max-md:aspect-video max-md:w-full'
             : ''
         "
@@ -157,7 +184,7 @@ onMounted(() => {
         <div
           class="mb-3 font-mono leading-[1.3] font-bold tracking-[-0.03em]"
           :class="
-            currentPage === 1 && i === 0 && currentFilter === 'all'
+            currentPage === 1 && i === 0 && currentTopic === 'all'
               ? 'text-[1.4rem]'
               : 'text-[1.05rem]'
           "

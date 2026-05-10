@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from "vue";
 import ThemeToggle from "./ThemeToggle.vue";
+import { useRoute } from "vitepress";
 
 const activeSection = ref("");
 const isScrolled = ref(false);
-
-const isHome = computed(() => window.location.pathname === "/");
-const isBlog = computed(() => window.location.pathname.startsWith("/posts"));
-const isResume = computed(() => window.location.pathname === "/resume");
+const route = useRoute();
+const isHome = computed(() => route.path === "/");
+const isBlog = computed(() => route.path.startsWith("/posts"));
+const isResume = computed(() => route.path === "/resume");
 
 function isSectionActive(id: string) {
   return isHome.value && activeSection.value === id;
