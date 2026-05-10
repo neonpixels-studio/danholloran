@@ -1,5 +1,5 @@
 ---
-date: "2022-09-04T15:42:00.000-05:00"
+date: "2023-05-07T00:00:00.000-05:00"
 draft: false
 tags: ["Front-End"]
 image: "/images/posts/the-evolution-of-front-end-development-past-present-and-future.jpg"

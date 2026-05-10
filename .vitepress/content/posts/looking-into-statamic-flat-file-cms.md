@@ -1,5 +1,5 @@
 ---
-date: "2022-09-04T15:42:00.000-05:00"
+date: "2016-06-14T00:00:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/looking-into-statamic-flat-file-cms.jpg"

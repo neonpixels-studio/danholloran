@@ -1,5 +1,5 @@
 ---
-date: "2022-09-04T15:42:00.000-05:00"
+date: "2019-09-02T00:00:00.000-05:00"
 draft: false
 image: /images/posts/visbug.png
 tags: []

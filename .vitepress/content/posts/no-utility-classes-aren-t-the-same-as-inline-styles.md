@@ -1,5 +1,5 @@
 ---
-date: "2022-09-04T15:42:00.000-05:00"
+date: "2021-05-30T00:00:00.000-05:00"
 draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/no-utility-classes-aren-t-the-same-as-inline-styles.jpg"

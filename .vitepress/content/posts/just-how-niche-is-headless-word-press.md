@@ -1,5 +1,5 @@
 ---
-date: "2022-09-04T15:42:00.000-05:00"
+date: "2021-06-19T00:00:00.000-05:00"
 draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/just-how-niche-is-headless-word-press.jpg"
