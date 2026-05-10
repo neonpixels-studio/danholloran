@@ -5,9 +5,7 @@ description: My posts
 
 <script setup>
 import { data as posts } from '@content/posts/posts.data.ts'
+import PostsView from '@views/PostsView.vue'
 </script>
 
-<h2>Posts</h2>
-<pre>
-  {{JSON.stringify(posts, null, 2)}}
-</pre>
+<PostsView :allPosts="posts" />

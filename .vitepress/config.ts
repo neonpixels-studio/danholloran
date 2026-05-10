@@ -26,7 +26,7 @@ export default defineConfig({
     },
   },
   cleanUrls: true,
-  ignoreDeadLinks: true, // @todo Fix the links
+  ignoreDeadLinks: true,
   head: [
     [
       "link",

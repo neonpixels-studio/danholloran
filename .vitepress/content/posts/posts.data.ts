@@ -2,6 +2,9 @@ import { createContentLoader } from "vitepress";
 import { calculateReadTime } from "../../utils/readTime.ts";
 
 export default createContentLoader(".vitepress/content/posts/*.md", {
+  includeSrc: true,
+  render: true,
+  excerpt: true,
   transform(data) {
     return data
       .filter(({ frontmatter }) => !frontmatter.draft)
@@ -15,7 +18,7 @@ export default createContentLoader(".vitepress/content/posts/*.md", {
           .replace(/\/.vitepress\/content\/posts\//g, "")
           .replace(/\/posts\//g, "");
         item.url = `/posts/${item.frontmatter.slug}`;
-        item.frontmatter.readTime = calculateReadTime(""); // @todo Make this work
+        item.frontmatter.readTime = calculateReadTime(item.src ?? "");
 
         return item;
       });

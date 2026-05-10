@@ -353,6 +353,10 @@ html.dark img[src*="topography"] {
   @apply bg-transparent p-0;
 }
 
+.post-body .lang {
+  display: none;
+}
+
 .post-body blockquote {
   @apply border-accent text-fg-muted my-8 border-l-2 pl-5 italic;
 }

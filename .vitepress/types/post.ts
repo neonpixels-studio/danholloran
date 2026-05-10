@@ -11,7 +11,9 @@ export interface PostMeta {
 }
 
 export interface Post {
+  src?: string;
+  html?: string;
   frontmatter: PostMeta;
+  excerpt?: string;
   url: string;
-  body: string; // @todo How to get this???
 }

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { SearchItem } from "@typedefs";
+import { useRouter } from "vitepress";
 
-// @todo Convert to a search index solution + make dynamic
+const router = useRouter();
+
 const PAGES: SearchItem[] = [
   {
     type: "page",
@@ -153,8 +155,7 @@ function toggle() {
 
 function navigate(href: string) {
   close();
-  // @todo Is there a better way to do this?
-  window.location.href = href;
+  router.go(href);
 }
 
 function onKeydown(e: KeyboardEvent) {

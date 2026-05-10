@@ -14,14 +14,13 @@ const getExperienceLength = () => {
   return new Date().getFullYear() - 2012;
 };
 
-// @todo Update this somehow with my real current location???
 export const CURRENT_LOCATION = "Reno, NV 89504";
 
 export default {
   firstName: "Dan",
   lastName: "Holloran",
   photo: "/images/profile.png",
-  headline: "Senior Frontend & Fullstack Developer | Engineering Leader",
+  headline: "Senior Frontend & Fullstack Developer",
   intro: `Senior Full Stack Developer with ${getExperienceLength()}+ years building performant, scalable web applications. Passionate about architecture, mentorship, and finding the right tool for the job.`,
   contacts: [
     {
