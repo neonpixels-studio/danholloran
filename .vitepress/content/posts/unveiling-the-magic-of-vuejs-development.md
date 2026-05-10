@@ -2,8 +2,10 @@
 image: "/images/posts/unveiling-the-magic-of-vuejs-development.jpg"
 title: Unveiling the Magic of Vue.js Development
 tags: ["Vue.js"]
-created_at: "2024-05-19T15:03:00.000+00:00"
+date: "2024-05-19T15:03:00.000+00:00"
 draft: true
+category: development
+description: "A whimsical take on Vue.js — its elegant syntax, effortless integration with Vuex and Vue Router, and the welcoming community that makes building reactive, component-driven UIs feel like a superpower."
 ---
 
 Hey there, fellow tech enthusiasts! If you're ready to delve into the wonderful world of Vue.js development, you're in for a treat. In this blog post, we're going to unravel the enchanting aura of Vue.js and discover why it's casting a spell on developers everywhere. So grab your wands—ahem, I mean, keyboards—and let's embark on this mystical journey together!

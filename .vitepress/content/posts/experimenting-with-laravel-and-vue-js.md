@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/experimenting-with-laravel-and-vue-js.jpg"
 title: Experimenting With Laravel and Vue.js
+category: development
+description: "First impressions of Laravel and Vue.js coming from the WordPress world — covering Elixir, Homestead, Blade templates, and Vue's reactive data model, with thoughts on when each tool belongs."
 ---
 
 So I've been playing with [Laravel](http://laravel.com/) and [Vue.js](http://vuejs.org/) which I have really started to like. It seems every time I have to write boring repetitive code there's already something that handles it for you.

@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 image: /images/posts/visbug.png
 tags: []
 title: VisBug (Dev Tools for Designers)
+category: development
+description: "A quick look at VisBug, the browser extension that gives designers and developers a visual layer on top of any site — inspecting accessibility, tweaking colors, and moving elements around without touching the inspector."
 ---
 
 I was listening to the [ShopTalk Show](https://shoptalkshow.com/) a little while ago and they had [Adam Argyle](https://twitter.com/argyleink) on talking about [VisBug](https://visbug.web.app/). It's a browser extension that is almost like Dev Tools for designers. I like the accessibility features that it has but it has a lot of other tools. Such as allowing you to update colors and move elements around the page without having to use the inspector. I think this is a good tool for designers who are not comfortable pushing HTML/CSS around but wants to be able to work with the actual site.

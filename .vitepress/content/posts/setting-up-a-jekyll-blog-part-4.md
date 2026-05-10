@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/setting-up-a-jekyll-blog-part-4.jpg"
 title: Setting Up a Jekyll Blog - Part 4
+category: development
+description: "Part four of the Jekyll setup series — how to add Sass/SCSS to your Jekyll site the right way, and options for using other CSS preprocessors or plain CSS alongside the Jekyll build pipeline."
 ---
 
 So now that we know how to get started with building the structure of our site we can start styling. Since Jekyll is based on Ruby it makes sense that the preprocessor of choice is [Sass/SCSS](http://sass-lang.com). I personally use SCSS but you could technically us [Less](http://lesscss.org), [Stylus](https://learnboost.github.io/stylus/), [PostCSS](https://github.com/postcss/postcss) or whatever suits your fancy.

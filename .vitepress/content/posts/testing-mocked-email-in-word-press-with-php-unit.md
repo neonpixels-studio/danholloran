@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/testing-mocked-email-in-word-press-with-php-unit.jpg"
 title: Testing mocked email in WordPress with PHPUnit
+category: development
+description: "A quick tip on using WordPress's built-in MockPHPMailer in PHPUnit tests to intercept and assert against outgoing emails without sending anything to real recipients."
 ---
 
 <div class="alert alert-info">

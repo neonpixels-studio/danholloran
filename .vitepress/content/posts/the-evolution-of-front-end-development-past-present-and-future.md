@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: ["Front-End"]
 image: "/images/posts/the-evolution-of-front-end-development-past-present-and-future.jpg"
 title: "The Evolution of Front-End Development: Past, Present, and Future"
+category: development
+description: "A look at how front-end development has evolved from table layouts and inline styles to responsive design, component frameworks, and the modern web — with a peek at where it might be heading next."
 ---
 
 As a front-end developer, getting caught up in the latest trends and technologies is easy. But let's take a step back and appreciate how far front-end development has come. From the days of table-based layouts and inline styles to the modern world of responsive design and dynamic web applications, front-end development has evolved significantly.

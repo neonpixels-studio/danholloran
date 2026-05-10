@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/launchcode-mentorship.jpg"
 title: Launchcode Mentorship
+category: development
+description: "Reflections on mentoring through LaunchCode — why passion and self-driven learning matter more than formal education, and what it means to help someone break into development the way you had to figure it out yourself."
 ---
 
 I was mentoring this month for Launchcode. it has been a pretty good experience so far it would have been a nice option when I was learning. Many people in the industry do not have a formal education background which is ok. I do not have a CS degree if I was younger when I decided to do this I would've. I did do a degree that was more based on web which I feel was helpful.

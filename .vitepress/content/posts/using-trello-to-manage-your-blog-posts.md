@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/using-trello-to-manage-your-blog-posts.jpg"
 title: Using Trello to Manage Your Blog Posts
+category: development
+description: "How using Trello as a blog idea bank makes it easier to write consistently — capturing random ideas in a card-based format so you always have something to write about when you sit down."
 ---
 
 So I have been trying to get in the habit of writing more but to do that it helps to have a bank of ideas. So I do not have to sit down and try to find something to write about. I've really liked using [Trello](https://trello.com) to catalog my possible ideas for posts to write. This has really been helping me keep up with at least writing a few times a week since I have a large range of ideas to write about.

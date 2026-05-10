@@ -1,10 +1,12 @@
 ---
 alert_message: This project is no longer online or maintained.
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: ["laravel"]
 image: "/images/posts/sync-google-tasks-with-ifttt.jpg"
 title: Sync Google Tasks With IFTTT
+category: development
+description: "A self-built solution for syncing Amazon Alexa and Google Tasks via the IFTTT Maker Channel — so you can add todos by voice through Alexa or Siri without being locked into a supported task app."
 ---
 
 So I recently purchased an Amazon Echo and I wanted to be able to add todos to my list via my voice. However the built in task manager is extremely simple and I did not have any interest in the two options that can directly integrate with Echo. So I needed to find a better solution.

@@ -2,8 +2,10 @@
 image: "/images/posts/mastering-vuejs-development-a-guide-for-beginners.jpg"
 title: "Mastering Vue.js Development: A Guide for Beginners"
 tags: ["Vue.js"]
-created_at: "2024-05-19T15:06:00.000+00:00"
+date: "2024-05-19T15:06:00.000+00:00"
 draft: true
+category: development
+description: "A beginner's guide to Vue.js — covering the Vue instance, reactivity, components, Vuex state management, and Vue Router to build dynamic and interactive web applications."
 ---
 
 In recent years, Vue.js has gained popularity as a progressive JavaScript framework for building user interfaces. With its simple and flexible nature, Vue.js has become a preferred choice for developers, especially those starting out in web development. This blog post aims to provide a comprehensive guide for beginners looking to master Vue.js development.

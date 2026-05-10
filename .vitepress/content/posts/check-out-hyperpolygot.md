@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/check-out-hyperpolygot.jpg"
 title: Check Out Hyperpolygot
+category: development
+description: "A recommendation for Hyperpolyglot, a site that puts JavaScript, PHP, Python, and Ruby side-by-side to show how similar languages really are at a syntax level — great for picking up a new language faster."
 ---
 
 If you've been curious how one programming languages syntax matches with another then you should check out [Hyperpolygot](http://hyperpolyglot.org).

@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/setup-ghost-pro-custom-domain-name.jpg"
 title: How I (Almost...) Setup My Ghost Pro Custom Domain Name
+category: development
+description: "A candid account of attempting to point a custom domain to Ghost Pro — the DNS rabbit hole, what almost worked with CloudFlare and Hover, and why sometimes forwarding the domain is good enough."
 ---
 
 I was going to do a writeup about how I setup a Ghost Pro custom domain the details below almost worked. I just love how DNS and the internetz works, you change something it changes something and everything works just nicely. Then you go and check it the next day and the whole world has exploded. So long story short I gave up and decided to just forward the domain but I wanted to post this for fun. Feel free to post a solution or ideas in the comments below.

@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/easily-get-your-clients-browser-information.jpg"
 title: Easily Retrieve Browser Information
+category: development
+description: "A tip for getting exact browser and OS details from clients using yourbrowser.is — useful for reproducing cross-browser bugs with tools like Browserstack when you can't replicate the issue yourself."
 ---
 
 As we all know not all browsers like to behave the same. Also many clients just click the Big Blue E and do not know what browser they use. Such and such is broken in IE, Firefox, etc. Obviously with the rise of the ever green browsers this is not always an issue but when it is http://yourbrowser.is/ is your best friend. It allows you to send your client a specific link to send you important information about your clients browser.

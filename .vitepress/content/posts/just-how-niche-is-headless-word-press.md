@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/just-how-niche-is-headless-word-press.jpg"
 title: Just How Niche is Headless WordPress?
+category: development
+description: "Thoughts on a CSS-Tricks post about headless WordPress — when it makes sense, why the broader WordPress community may not benefit from it, and how tools like Strattic can bring Jamstack benefits without the developer overhead."
 ---
 
 I thought this post [Just How Niche is Headless WordPress?](https://css-tricks.com/just-how-niche-is-headless-wordpress/) on CSS-Tricks does a great job at outlining how Headless WordPress can be utilized. I believe for certain situations headless WordPress is great if you like a certain tool or if you have multiple platforms you need to support.

@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/linting-your-code-installing-the-linters.jpg"
 title: "Linting Your Code: Installing the Linters"
+category: development
+description: "A guide to installing the prerequisite linters for your development workflow — PHPCS with WordPress Coding Standards, JSHint, JSCS, and SCSS-Lint — before wiring them into your editor."
 ---
 
 Linting is basically the act of running your code through a tool that catches syntax issues, common pitfalls, and helps enforce a general coding style among other things. This does not actually test the code like a unit test or integration test. How ever it helps stop you from shooting yourself in the foot with simple typos.

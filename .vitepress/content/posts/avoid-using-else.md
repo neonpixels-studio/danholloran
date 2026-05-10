@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: ["Community", "Link"]
 image: "/images/posts/avoid-using-else.jpg"
 title: Avoid Using Else
+category: development
+description: "A case for eliminating else from your code — why it leads to cleaner refactors, pairs well with small named functions, and makes logic easier to read and understand."
 ---
 
 I agree with this [post](https://freek.dev/2212-avoid-using-else) from [Freek Van der Herten](https://freek.dev). Avoiding `else` is one thing I feel makes for a quick win when refactoring code. I feel like if you want to add `else` you should leave a reason why as a comment. Try this you may find you no longer need `else` but can refactor to something cleaner.

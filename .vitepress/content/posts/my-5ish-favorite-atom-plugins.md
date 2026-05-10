@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/my-5ish-favorite-atom-plugins.jpg"
 title: My 5ish Favorite Atom Plugins
+category: development
+description: "A roundup of the top Atom editor plugins worth installing — covering code beautification, docblock generation, linting integration, file icons, and a few other productivity boosters after switching from Sublime Text."
 ---
 
 So I have been migrating from using [Sublime Text](http://www.sublimetext.com/3) lately after using it exclusively for the past 3 or so years to [Atom](https://atom.io/). So I figured I would document my current 5 or so favorite plugins. I am sure a lot of them have ended up on multiple top 5 lists but hopefully you will find a new one.

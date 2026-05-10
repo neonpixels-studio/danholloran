@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/dont-fear-the-shell.jpg"
 title: Don't Fear The Shell
+category: development
+description: "An encouragement for developers intimidated by the command line — why the CLi isn't as scary as it looks, and how tools like zsh, iTerm2, and OhMyZSH can make it genuinely enjoyable to work in."
 ---
 
 So, I have noticed a rather alarming aversion to the command line (CLi) for developers. If you really think about it the CLi is not much different from a normal text editor.

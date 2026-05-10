@@ -1,9 +1,11 @@
 ---
-created_at: "2026-05-09T02:09:09.000+00:00"
+date: "2026-05-09T02:09:09.000+00:00"
 tags: ["css", "web-apis"]
 draft: false
 image: "/images/posts/css-anchor-positioning-stop-using-javascript-for-tooltips.jpg"
 title: "CSS Anchor Positioning: Stop Using JavaScript for Tooltips"
+category: development
+description: "A deep dive into the CSS Anchor Positioning API — how anchor-name, position-anchor, position-area, and position-try-fallbacks let you build tooltips and floating elements entirely in CSS, no JavaScript or Floating UI required."
 ---
 
 If you've ever built a tooltip, a floating dropdown, or a context menu, you've probably reached for a library like Floating UI or Popper.js. Not because the logic is hard to understand, but because getting a floating element to reliably follow its trigger — and flip positions when it hits the viewport edge — requires a non-trivial amount of JavaScript. The browser just didn't give you the primitives. Until now.

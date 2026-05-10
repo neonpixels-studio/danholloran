@@ -1,10 +1,12 @@
 ---
 alert_message: This project is no longer maintained.
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/missing-content.jpg"
 title: Missing Content
+category: development
+description: "A showcase of the Missing Content WordPress plugin — a shortcode-based placeholder tool that generates lorem ipsum, bacon ipsum, hipster ipsum, Blokk font blocks, and placeholder images during development."
 ---
 
 ## Cache

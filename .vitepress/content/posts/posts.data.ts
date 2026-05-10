@@ -6,8 +6,8 @@ export default createContentLoader(".vitepress/content/posts/*.md", {
       .filter(({ frontmatter }) => !frontmatter.draft)
       .sort(
         (a, b) =>
-          new Date(b.frontmatter.created_at).getTime() -
-          new Date(a.frontmatter.created_at).getTime(),
+          new Date(b.frontmatter.date).getTime() -
+          new Date(a.frontmatter.date).getTime(),
       )
       .map((item) => {
         item.frontmatter.slug = item.url

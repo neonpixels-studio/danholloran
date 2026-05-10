@@ -1,9 +1,11 @@
 ---
-created_at: "2026-05-08T22:20:59.000+00:00"
+date: "2026-05-08T22:20:59.000+00:00"
 tags: ["css", "accessibility", "web-apis"]
 draft: false
 image: "/images/posts/css-customizable-select-finally-style-it-without-the-hacks.jpg"
 title: "CSS Customizable Select: Finally Style It Without the Hacks"
+category: development
+description: "A guide to the CSS customizable select — how appearance: base-select unlocks full styling of native dropdowns including custom icons, rich option content, and picker pseudo-elements, without sacrificing accessibility or dropping in a JS library."
 ---
 
 If you've ever had to match a `<select>` dropdown to a design system, you know the pain. The native element is essentially a black box — you can tweak font size and maybe a background color, but the moment a designer asks for a custom chevron, rounded options, or anything beyond the browser's defaults, you're reaching for a JavaScript-powered replacement. Libraries like Select2, Choices.js, or headless UI components exist almost entirely to paper over this one gap. That workaround era is ending.

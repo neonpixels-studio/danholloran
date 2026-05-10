@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/laravel-forge-digital-ocean-and-websockets.jpg"
 title: Laravel Forge, Digital Ocean and WebSockets
+category: development
+description: "A follow-up to the Laravel WebSockets setup guide — how to configure Redis and Socket.io daemons on a Digital Ocean server using Laravel Forge and open the right firewall port to make it all work in production."
 ---
 
 I recently posted an overview of how to setup Web Sockets using [Laravel and Socket.io](/2016/01/30/laravel-and-websockets/). I wanted to follow it up with a quick post on how to get the Web Sockets functioning correctly on a [Digital Ocean](https://www.digitalocean.com/) server using [Laravel Forge](https://forge.laravel.com/). I a going to assume that you have already gone through the setup process to provision a new server. Also that you have read the first post since the largest amount of work will lie there. I believe these steps should be identically for all hosting providers not Just Digital Ocean but do not quote me on that.

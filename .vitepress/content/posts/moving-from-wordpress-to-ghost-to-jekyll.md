@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/moving-from-wordpress-to-ghost-to-jekyll.jpg"
 title: Moving From WordPress to Ghost to Jekyll
+category: development
+description: "The journey from WordPress to Ghost to Jekyll — why each platform was a step closer to the ideal developer blogging setup, and what finally made a static site the right choice."
 ---
 
 So I had previously moved my blog from WordPress to Ghost. I really like the fact that ghost is a lot lighter and you can write your posts in markdown by default. For hosting a blog I almost feel for a developer WordPress is overkill obviously for a general user Jekyll would be way too difficult. I spend most of my day in a code editor and a large amount in a terminal. So it is not much of a stretch to use a static site generator like Jeykll for me.

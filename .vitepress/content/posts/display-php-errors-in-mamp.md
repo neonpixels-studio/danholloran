@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/display-php-errors-in-mamp.jpg"
 title: Display PHP Errors in MAMP
+category: development
+description: "A quick tip for enabling PHP error display in MAMP by flipping display_errors to On in php.ini — so you get real error messages instead of the white screen of death."
 ---
 
 Granted you never make any mistakes I am sure. However just in case you do you can easily enable error reporting on MAMP to help catch the obvious ones. All you have to do is edit the `php.ini` in the MAMP directory `/Applications/MAMP/conf/php{Version}/php.ini`. If you're not sure what PHP version you are using you can find it in the MAMP at Preferences>PHP.

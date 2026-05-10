@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/setting-up-your-shell-configuration-and-ohmyzsh.jpg"
 title: Setting Up Your Shell Configuration and OHMyZSH
+category: development
+description: "A follow-up to the shell setup guide — how to configure your .zshrc with aliases and PATH entries, and use OhMyZSH plugins and themes to make your terminal faster and more enjoyable to work in."
 ---
 
 A while ago I wrote a post on [Setting Up Your Shell](/2015/09/29/setting-up-your-shell/). I wanted to follow up with more information about ZShell and OHMyZSH. Since both have really made using the terminal a lot easier and more enjoyable. So check out [Setting Up Your Shell](/2015/09/29/setting-up-your-shell/) to get up to speed. This will be a very high overview of configuring ZSHell and OHMyZSH.

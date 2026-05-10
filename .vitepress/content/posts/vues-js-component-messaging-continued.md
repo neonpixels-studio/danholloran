@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/vues-js-component-messaging-continued.jpg"
 title: Vue.js Component Messaging Continued
+category: development
+description: "A follow-up to the Vue.js component messaging post — exploring a prop-based approach to namespaced events so multiple instances of the same component on a page can each respond to their own events independently."
 ---
 
 So yesterday I posted about Vue.js component messaging. This is in a way a continuation so you will want to read that first "[Vue.js Component Messaging](/2015/12/07/vues-js-component-messaging/)".

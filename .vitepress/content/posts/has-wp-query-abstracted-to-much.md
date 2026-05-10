@@ -1,9 +1,11 @@
 ---
-created_at: "2022-09-04T15:42:00.000-05:00"
+date: "2022-09-04T15:42:00.000-05:00"
 draft: false
 tags: []
 image: "/images/posts/has-wp-query-abstracted-to-much.jpg"
 title: Has WP_Query Abstracted To Much?
+category: development
+description: "A look at whether WP_Query hides too much from WordPress developers — the performance blind spots that come from treating the database as a black box, and why using Query Monitor is eye-opening."
 ---
 
 I was working on a project recently where I ran into a situation where `WP_Query`, well actually it was `WP_User_Query`, just would not work. So I feel back to raw SQL through `wpdb` and to my astonishment PHPCS with WordPress coding standards discourages the use of `wpdb`. I know it is not a total outright do not use but still. It got me to thinking maybe `WP_Query` abstracts too much away from the developer.
