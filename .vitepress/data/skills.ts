@@ -53,7 +53,7 @@ export default {
     image: `graphql.svg`,
     name: `GraphQL`,
     url: `https://graphql.org/`,
-    featured: true,
+    featured: false,
   },
   HTML: {
     image: `html.svg`,

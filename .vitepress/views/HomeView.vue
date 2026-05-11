@@ -5,6 +5,7 @@ import projects from "@data/projects";
 import resume, { CURRENT_LOCATION } from "@data/resume";
 import quotes from "@data/quotes";
 import { SkillInterface, Post } from "@typedefs";
+import skills from "@data/skills.ts";
 
 const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
@@ -130,17 +131,18 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           <div
             class="text-fg-subtle mb-3 font-mono text-[0.65rem] tracking-[0.08em] uppercase"
           >
-            featured skills
+            Featured Skills
           </div>
           <div class="stagger flex flex-wrap gap-1.5">
-            <span class="tag tag-hover">Vue.js</span>
-            <span class="tag tag-hover">React.js</span>
-            <span class="tag tag-hover">Node.js</span>
-            <span class="tag tag-hover">TypeScript</span>
-            <span class="tag tag-hover">GraphQL</span>
-            <span class="tag tag-hover">Architecture</span>
-            <span class="tag tag-hover">Leadership</span>
-            <span class="tag tag-hover">Mentorship</span>
+            <span
+              v-for="skill in (
+                Object.values(skills) as SkillInterface[]
+              ).filter((skill) => skill.featured)"
+              :key="skill.name"
+              class="tag"
+            >
+              {{ skill.name }}
+            </span>
           </div>
         </div>
       </div>
