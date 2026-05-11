@@ -24,6 +24,8 @@ export default [
     image: `/images/projects/crossroads.png`,
     url: `https://www.crossroads.net/`,
     skills: [
+      skills.REACT,
+      skills.NEXT_JS,
       skills.JEKYLL,
       skills.JAMSTACK,
       skills.HTML,
