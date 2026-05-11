@@ -1,14 +1,5 @@
-import {
-  PhoneIcon,
-  EnvelopeOpenIcon,
-  UserIcon,
-  MapPinIcon,
-} from "@heroicons/vue/16/solid";
 import type { ResumeInterface } from "@typedefs";
 import skills from "./skills";
-import GithubIcon from "@components/GithubIcon.vue";
-import InstagramIcon from "@components/InstagramIcon.vue";
-import LinkedinIcon from "@components/LinkedinIcon.vue";
 import location from "./location.json";
 
 export const getExperienceLength = () => {
@@ -30,36 +21,29 @@ export default {
     {
       link: "tel:3148828326",
       label: "(314) 882-8326",
-      icon: PhoneIcon,
     },
     {
       link: "mailto:hello@danholloran.me",
       label: "hello@danholloran.me",
-      icon: EnvelopeOpenIcon,
     },
     {
       link: "https://danholloran.me",
       label: "danholloran.me",
-      icon: UserIcon,
     },
     {
       link: "https://github.com/grimicorn",
       label: "github.com/grimicorn",
-      icon: GithubIcon,
     },
     {
       link: "https://instagram.com/grimicornsparkles/",
       label: "@grimicornsparkles",
-      icon: InstagramIcon,
     },
     {
       link: "https://linkedin.com/in/dan-holloran/",
       label: "linkedin.com/in/dan-holloran",
-      icon: LinkedinIcon,
     },
     {
       label: CURRENT_LOCATION,
-      icon: MapPinIcon,
     },
   ],
   skills() {
