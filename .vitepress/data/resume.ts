@@ -11,7 +11,7 @@ import InstagramIcon from "@components/InstagramIcon.vue";
 import LinkedinIcon from "@components/LinkedinIcon.vue";
 import location from "./location.json";
 
-const getExperienceLength = () => {
+export const getExperienceLength = () => {
   return new Date().getFullYear() - 2012;
 };
 

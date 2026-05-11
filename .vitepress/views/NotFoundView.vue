@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRevealAnimations } from "@composables/useRevealAnimations";
 import { useRoute } from "vitepress";
+import { getExperienceLength } from "@data/resume";
 
 useRevealAnimations();
 
@@ -218,7 +219,7 @@ const route = useRoute();
               resume
             </div>
             <div class="text-fg-subtle mt-0.5 font-mono text-[0.65rem]">
-              14+ yrs of work
+              {{ getExperienceLength() }}+ yrs of work
             </div>
           </a>
           <a
@@ -246,10 +247,12 @@ const route = useRoute();
         style="transition-delay: 540ms"
       >
         <span class="text-accent">$</span> curl
-        <span id="requested-path" class="text-fg-muted">{{ route.path }}</span>
-        <span class="text-fg-muted">→</span>
-        <span class="text-fg-muted">HTTP/1.1</span>
-        <span class="text-accent">404</span>
+        <span id="requested-path" class="text-fg-muted mr-1">
+          {{ route.path }}
+        </span>
+        <span class="text-fg-muted mr-1">→</span>
+        <span class="text-fg-muted mr-1">HTTP/1.1</span>
+        <span class="text-accent mr-1">404</span>
         <span class="text-fg-muted">Not Found</span>
       </div>
     </div>
