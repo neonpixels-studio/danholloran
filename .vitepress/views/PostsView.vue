@@ -1,29 +1,19 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { Post } from "@typedefs";
-import { useRouter } from "vitepress";
-
-const router = useRouter();
 
 const { allPosts } = defineProps<{
   allPosts: Post[];
 }>();
 
-const params = computed<URLSearchParams>(() => {
-  if (typeof window === "undefined") {
-    return new URLSearchParams("");
-  }
-
-  return new URLSearchParams(window.location.search);
-});
 const ALL_TOPIC = "all";
 const topics = [
   ALL_TOPIC,
   ...new Set(allPosts.map((post) => post.frontmatter.topic)),
 ];
 const PER_PAGE = 10;
-const currentTopic = ref(params.value.get("topic") ?? ALL_TOPIC);
-const currentPage = ref<number>(parseInt(params.value.get("page") ?? "1"));
+const currentTopic = ref<string>(ALL_TOPIC);
+const currentPage = ref<number>(1);
 
 const filtered = computed(() =>
   currentTopic.value === ALL_TOPIC
@@ -34,14 +24,11 @@ const filtered = computed(() =>
 const totalPages = computed(() => Math.ceil(filtered.value.length / PER_PAGE));
 
 const setUrlParams = (topic?: string, page?: number | string) => {
-  if (typeof window === "undefined") {
-    return;
-  }
-
+  if (typeof window === "undefined") return;
   const url = new URL(window.location.href);
-  url.searchParams.set("topic", topic ?? "");
-  url.searchParams.set("page", (page ?? "") as string);
-  router.go(url.toString());
+  url.searchParams.set("topic", topic ?? ALL_TOPIC);
+  url.searchParams.set("page", String(page ?? 1));
+  history.pushState({}, "", url.toString());
 };
 
 const pagePosts = computed(() => {
@@ -89,19 +76,49 @@ const pageNumbers = computed(() => {
   return [...new Set(numbers)];
 });
 
+const syncFromUrl = () => {
+  if (typeof window === "undefined") return;
+  const p = new URLSearchParams(window.location.search);
+  currentTopic.value = p.get("topic") || ALL_TOPIC;
+  currentPage.value = parseInt(p.get("page") || "1") || 1;
+};
+
+let fadeObserver: IntersectionObserver | null = null;
+
+const observeFadeIns = () => {
+  if (!fadeObserver) return;
+  document
+    .querySelectorAll(".fade-in:not(.visible)")
+    .forEach((el) => fadeObserver!.observe(el));
+};
+
+// Re-observe after every pagePosts change so new cards get the fade-in treatment
+watch(pagePosts, observeFadeIns, { flush: "post" });
+
 onMounted(() => {
-  const io = new IntersectionObserver(
+  syncFromUrl();
+  window.addEventListener("popstate", syncFromUrl);
+
+  fadeObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) {
           e.target.classList.add("visible");
-          io.unobserve(e.target);
+          fadeObserver?.unobserve(e.target);
         }
       });
     },
     { threshold: 0.1 },
   );
-  document.querySelectorAll(".fade-in").forEach((el) => io.observe(el));
+
+  // nextTick ensures syncFromUrl's reactive updates have been applied to the DOM
+  nextTick(observeFadeIns);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("popstate", syncFromUrl);
+  fadeObserver?.disconnect();
+  fadeObserver = null;
 });
 </script>
 
