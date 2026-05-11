@@ -111,7 +111,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </button> -->
       <a
         href="https://github.com/grimicorn"
-        target="_blank"
+        target="blank"
         rel="noopener"
         aria-label="GitHub"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
@@ -124,7 +124,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </a>
       <a
         href="https://instagram.com/grimicornsparkles/"
-        target="_blank"
+        target="blank"
         rel="noopener"
         aria-label="Instagram"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
@@ -150,7 +150,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </a>
       <a
         href="https://linkedin.com/in/dan-holloran/"
-        target="_blank"
+        target="blank"
         rel="noopener"
         aria-label="LinkedIn"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"

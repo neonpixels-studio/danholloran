@@ -31,7 +31,7 @@ function formatPeriod(start: string, end: string | null): string {
       </div>
       <div class="flex gap-2">
         <button
-          target="_blank"
+          target="blank"
           rel="noopener"
           class="group text-accent border-accent/40 hover:bg-accent hover:border-accent inline-flex items-center gap-2 rounded-xs border px-3 py-2 font-mono text-[0.72rem] tracking-[0.02em] no-underline transition-all hover:text-white"
         >
@@ -174,7 +174,7 @@ function formatPeriod(start: string, end: string | null): string {
                 v-if="job.url"
                 :href="job.url"
                 class="text-accent no-underline hover:underline"
-                target="_blank"
+                target="blank"
               >
                 {{ job.url.replace("https://", "") }}
               </a>
