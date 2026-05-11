@@ -11,7 +11,8 @@ const topics = [
   ALL_TOPIC,
   ...new Set(allPosts.map((post) => post.frontmatter.topic)),
 ];
-const PER_PAGE = 10;
+const FIRST_PAGE_SIZE = 10;
+const REST_PAGE_SIZE = 9;
 const currentTopic = ref<string>(ALL_TOPIC);
 const currentPage = ref<number>(1);
 
@@ -21,7 +22,11 @@ const filtered = computed(() =>
     : allPosts.filter((p) => p.frontmatter.topic === currentTopic.value),
 );
 
-const totalPages = computed(() => Math.ceil(filtered.value.length / PER_PAGE));
+const totalPages = computed(() => {
+  const n = filtered.value.length;
+  if (n <= FIRST_PAGE_SIZE) return 1;
+  return 1 + Math.ceil((n - FIRST_PAGE_SIZE) / REST_PAGE_SIZE);
+});
 
 const setUrlParams = (topic?: string, page?: number | string) => {
   if (typeof window === "undefined") return;
@@ -32,8 +37,11 @@ const setUrlParams = (topic?: string, page?: number | string) => {
 };
 
 const pagePosts = computed(() => {
-  const start = (currentPage.value - 1) * PER_PAGE;
-  return filtered.value.slice(start, start + PER_PAGE);
+  if (currentPage.value === 1) {
+    return filtered.value.slice(0, FIRST_PAGE_SIZE);
+  }
+  const start = FIRST_PAGE_SIZE + (currentPage.value - 2) * REST_PAGE_SIZE;
+  return filtered.value.slice(start, start + REST_PAGE_SIZE);
 });
 
 function setTopic(f: string) {

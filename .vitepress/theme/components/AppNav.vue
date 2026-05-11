@@ -89,7 +89,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
 
     <div class="flex items-center gap-2 max-md:gap-1">
       <ThemeToggle />
-      <!-- <button
+      <button
         id="searchToggle"
         type="button"
         aria-label="Search"
@@ -111,7 +111,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
             stroke-linecap="round"
           />
         </svg>
-      </button> -->
+      </button>
       <a
         :href="socialLinks.GITHUB"
         target="blank"
