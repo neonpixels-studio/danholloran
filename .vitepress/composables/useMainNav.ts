@@ -2,7 +2,7 @@ import { NavItem } from "@typedef";
 import { useRoute } from "vitepress";
 import { computed, ref } from "vue";
 
-export function useNav() {
+export function useMainNav() {
   const route = useRoute();
   const activeSection = ref("");
   function cleanPath(path: string) {

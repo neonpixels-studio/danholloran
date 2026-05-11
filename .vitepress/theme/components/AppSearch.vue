@@ -2,8 +2,10 @@
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { SearchItem } from "@typedefs";
 import { useRouter } from "vitepress";
+import { useNavPanels } from "@composables/useNavPanels.ts";
 
 const router = useRouter();
+const { isSearchOpen, openSearch, closeAll } = useNavPanels();
 
 const PAGES: SearchItem[] = [
   {
@@ -113,7 +115,6 @@ const PAGES: SearchItem[] = [
   },
 ];
 
-const isOpen = ref(false);
 const query = ref("");
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -139,18 +140,18 @@ function highlight(str: string, q: string): string {
 }
 
 async function open() {
-  isOpen.value = true;
+  openSearch();
   await nextTick();
   inputRef.value?.focus();
 }
 
 function close() {
-  isOpen.value = false;
+  closeAll();
   query.value = "";
 }
 
 function toggle() {
-  isOpen.value ? close() : open();
+  isSearchOpen.value ? close() : open();
 }
 
 function navigate(href: string) {
@@ -159,14 +160,14 @@ function navigate(href: string) {
 }
 
 function onKeydown(e: KeyboardEvent) {
-  if (e.key === "Escape" && isOpen.value) {
+  if (e.key === "Escape" && isSearchOpen.value) {
     close();
   } else if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
     e.preventDefault();
     toggle();
   } else if (
     e.key === "/" &&
-    !isOpen.value &&
+    !isSearchOpen.value &&
     document.activeElement === document.body
   ) {
     e.preventDefault();
@@ -196,7 +197,7 @@ onUnmounted(() => {
     <div
       class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-300"
       :class="
-        isOpen
+        isSearchOpen
           ? 'visible translate-y-0 opacity-100'
           : 'invisible -translate-y-[120%] opacity-0'
       "
@@ -297,7 +298,7 @@ onUnmounted(() => {
 
     <div
       class="no-print bg-fg/20 fixed inset-0 z-80 transition-[opacity,visibility] duration-300"
-      :class="isOpen ? 'visible opacity-100' : 'invisible opacity-0'"
+      :class="isSearchOpen ? 'visible opacity-100' : 'invisible opacity-0'"
       @click="close"
     ></div>
   </Teleport>

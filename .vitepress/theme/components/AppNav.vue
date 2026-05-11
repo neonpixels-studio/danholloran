@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import ThemeToggle from "./ThemeToggle.vue";
-import { useNav } from "@composables/useMainNav.ts";
+import { useMainNav } from "@composables/useMainNav.ts";
+import { useNavPanels } from "@composables/useNavPanels.ts";
+import socialLinks from "@data/socialLinks";
 
-const { isPathActive, activeSection, navItems } = useNav();
+const { isPathActive, activeSection, navItems } = useMainNav();
+const { isMobileMenuOpen } = useNavPanels();
 const isScrolled = ref(false);
 
 function onScroll() {
@@ -77,7 +80,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         v-for="navItem in navItems"
         :key="navItem.link"
         :href="navItem.link"
-        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] lowercase no-underline transition-colors duration-200"
+        class="nav-link text-fg-muted hover:text-accent hidden font-mono text-[0.75rem] tracking-[0.02em] lowercase no-underline transition-colors duration-200 md:block"
         :class="{ 'text-accent!': navItem.isActive() }"
       >
         {{ navItem.label }}
@@ -110,7 +113,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </button> -->
       <a
-        href="https://github.com/grimicorn"
+        :href="socialLinks.GITHUB"
         target="blank"
         rel="noopener"
         aria-label="GitHub"
@@ -123,7 +126,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </a>
       <a
-        href="https://instagram.com/grimicornsparkles/"
+        :href="socialLinks.INSTAGRAM"
         target="blank"
         rel="noopener"
         aria-label="Instagram"
@@ -149,7 +152,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </a>
       <a
-        href="https://linkedin.com/in/dan-holloran/"
+        :href="socialLinks.LINKEDIN"
         target="blank"
         rel="noopener"
         aria-label="LinkedIn"
@@ -161,6 +164,40 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           />
         </svg>
       </a>
+
+      <button
+        id="mobileMenuToggle"
+        type="button"
+        :aria-label="isMobileMenuOpen ? 'Close menu' : 'Open menu'"
+        :aria-expanded="isMobileMenuOpen"
+        aria-controls="mobileMenu"
+        class="text-fg-subtle hover:text-accent inline-flex cursor-pointer items-center justify-center border-0 bg-transparent p-2 transition-colors md:hidden"
+      >
+        <svg
+          v-if="!isMobileMenuOpen"
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        >
+          <path d="M2 5h14M2 9h14M2 13h14" />
+        </svg>
+        <svg
+          v-else
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        >
+          <path d="M4 4l10 10M14 4L4 14" />
+        </svg>
+      </button>
     </div>
   </nav>
 </template>
