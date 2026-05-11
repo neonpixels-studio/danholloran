@@ -123,7 +123,7 @@ export default {
     image: `next-js.svg`,
     name: `Next.js`,
     url: `https://nextjs.org/`,
-    featured: false,
+    featured: true,
   },
   NODE_JS: {
     image: `node.svg`,
