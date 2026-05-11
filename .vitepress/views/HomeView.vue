@@ -189,7 +189,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           <div class="text-fg-subtle mb-2.5 font-mono text-[0.65rem]">
             {{ project.company }}
           </div>
-          <div class="flex flex-wrap gap-1.5">
+          <div class="mb-2.5 flex flex-wrap gap-1.5">
             <span
               v-for="skill in project.skills.filter(
                 (skill: SkillInterface) => skill.featured,
@@ -199,6 +199,13 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
               >{{ skill.name }}</span
             >
           </div>
+          <a
+            class="text-accent font-mono text-[0.72rem]"
+            :href="project.url"
+            target="blank"
+          >
+            view →
+          </a>
         </div>
       </div>
     </div>
