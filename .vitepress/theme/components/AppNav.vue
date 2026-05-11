@@ -1,23 +1,15 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import ThemeToggle from "./ThemeToggle.vue";
-import { useRoute } from "vitepress";
+import { useNav } from "@composables/useMainNav.ts";
 
-const activeSection = ref("");
+const { isPathActive, activeSection, navItems } = useNav();
 const isScrolled = ref(false);
-const route = useRoute();
-const isHome = computed(() => route.path === "/");
-const isBlog = computed(() => route.path.startsWith("/posts"));
-const isResume = computed(() => route.path === "/resume");
-
-function isSectionActive(id: string) {
-  return isHome.value && activeSection.value === id;
-}
 
 function onScroll() {
   isScrolled.value = window.scrollY > 8;
 
-  if (isHome.value) {
+  if (isPathActive("/")) {
     const sections = ["about", "projects", "experience"];
     let active = "";
     for (const id of sections) {
@@ -44,8 +36,8 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
 <template>
   <nav
     id="siteNav"
-    class="bg-bg/85 no-print fixed inset-x-0 top-0 z-100 flex h-[60px] items-center justify-between border-b border-transparent px-8 backdrop-blur-md transition-[border-color,background] duration-300 max-md:px-4"
-    :class="{ '!border-line !bg-bg/95': isScrolled }"
+    class="bg-bg/85 no-print fixed inset-x-0 top-0 z-100 flex h-15 items-center justify-between border-b border-transparent px-8 backdrop-blur-md transition-[border-color,background] duration-300 max-md:px-4"
+    :class="{ 'border-line! bg-bg/95!': isScrolled }"
   >
     <a
       href="/"
@@ -82,39 +74,13 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
 
     <div class="flex items-center gap-6 max-md:gap-3">
       <a
-        href="/#about"
-        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
-        :class="{ 'text-accent!': isSectionActive('about') }"
+        v-for="navItem in navItems"
+        :key="navItem.link"
+        :href="navItem.link"
+        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] lowercase no-underline transition-colors duration-200"
+        :class="{ 'text-accent!': navItem.isActive() }"
       >
-        about
-      </a>
-      <a
-        href="/#projects"
-        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
-        :class="{ 'text-accent!': isSectionActive('projects') }"
-      >
-        projects
-      </a>
-      <a
-        href="/#experience"
-        class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
-        :class="{ 'text-accent!': isSectionActive('experience') }"
-      >
-        experience
-      </a>
-      <a
-        href="/resume"
-        class="text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
-        :class="{ 'text-accent!': isResume }"
-      >
-        resume
-      </a>
-      <a
-        href="/posts"
-        class="text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors duration-200"
-        :class="{ 'text-accent!': isBlog }"
-      >
-        blog
+        {{ navItem.label }}
       </a>
     </div>
 
