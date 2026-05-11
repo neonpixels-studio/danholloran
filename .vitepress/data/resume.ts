@@ -9,12 +9,13 @@ import skills from "./skills";
 import GithubIcon from "@components/GithubIcon.vue";
 import InstagramIcon from "@components/InstagramIcon.vue";
 import LinkedinIcon from "@components/LinkedinIcon.vue";
+import location from "./location.json";
 
 const getExperienceLength = () => {
   return new Date().getFullYear() - 2012;
 };
 
-export const CURRENT_LOCATION = "Reno, NV 89504";
+export const CURRENT_LOCATION = `${location.city}, ${location.state}`;
 
 export const PHONE_NUMBER = "(314) 882-8326";
 
