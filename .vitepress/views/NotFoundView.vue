@@ -9,12 +9,12 @@ const route = useRoute();
 </script>
 <template>
   <div
-    class="bg-topography-edge relative flex min-h-screen items-center justify-center px-8 pt-[60px] pb-16"
+    class="bg-topography-edge relative flex min-h-screen items-center justify-center px-8 pt-15 pb-16"
   >
-    <div class="w-full max-w-[680px] text-center">
+    <div class="max-w-max-w-170 w-full text-center">
       <!-- crumb -->
       <div
-        class="reveal text-accent mb-8 flex items-center justify-center gap-3 font-mono text-[0.7rem] tracking-[0.1em] uppercase"
+        class="reveal text-accent mb-8 flex items-center justify-center gap-3 font-mono text-[0.7rem] tracking-widest uppercase"
       >
         <span class="bg-accent inline-block h-px w-6"></span>
         // error 404 — page not found
@@ -113,7 +113,7 @@ const route = useRoute();
 
       <!-- Body -->
       <p
-        class="reveal text-fg-muted mx-auto mb-10 max-w-[440px] text-[0.95rem] leading-[1.75]"
+        class="reveal text-fg-muted mx-auto mb-10 max-w-110 text-[0.95rem] leading-[1.75]"
         style="transition-delay: 280ms"
       >
         The page you're looking for either moved, got renamed, or was a typo in
@@ -128,7 +128,7 @@ const route = useRoute();
       >
         <a
           href="/"
-          class="bg-accent border-accent inline-flex items-center gap-2 rounded-[2px] border-2 px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] text-white no-underline transition-all hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(173,70,255,0.25)]"
+          class="bg-accent border-accent inline-flex items-center gap-2 rounded-xs border-2 px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] text-white no-underline transition-all hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(173,70,255,0.25)]"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
@@ -143,7 +143,7 @@ const route = useRoute();
         </a>
         <!-- <button
           onclick="document.getElementById('searchToggle').click()"
-          class="border-fg text-fg hover:bg-fg hover:text-bg inline-flex cursor-pointer items-center gap-2 rounded-[2px] border-2 bg-transparent px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] transition-all"
+          class="border-fg text-fg hover:bg-fg hover:text-bg inline-flex cursor-pointer items-center gap-2 rounded-xs border-2 bg-transparent px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] transition-all"
         >
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <circle
@@ -167,16 +167,14 @@ const route = useRoute();
       <!-- Quick links grid -->
       <div class="reveal" style="transition-delay: 440ms">
         <div
-          class="text-fg-subtle mb-4 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
+          class="text-fg-subtle mb-4 font-mono text-[0.65rem] tracking-widest uppercase"
         >
           // or try one of these
         </div>
-        <div
-          class="mx-auto grid max-w-[560px] grid-cols-2 gap-3 md:grid-cols-4"
-        >
+        <div class="mx-auto grid max-w-140 grid-cols-2 gap-3 md:grid-cols-4">
           <a
             href="/#projects"
-            class="group border-line hover:border-accent block rounded-[2px] border p-4 text-left no-underline transition-all hover:-translate-y-px"
+            class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px"
           >
             <div
               class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"
@@ -192,7 +190,7 @@ const route = useRoute();
           </a>
           <a
             href="/posts"
-            class="group border-line hover:border-accent block rounded-[2px] border p-4 text-left no-underline transition-all hover:-translate-y-px"
+            class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px"
           >
             <div
               class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"
@@ -208,7 +206,7 @@ const route = useRoute();
           </a>
           <a
             href="/resume"
-            class="group border-line hover:border-accent block rounded-[2px] border p-4 text-left no-underline transition-all hover:-translate-y-px"
+            class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px"
           >
             <div
               class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"
@@ -224,7 +222,7 @@ const route = useRoute();
           </a>
           <a
             href="mailto:hello@danholloran.me"
-            class="group border-line hover:border-accent block rounded-[2px] border p-4 text-left no-underline transition-all hover:-translate-y-px"
+            class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px"
           >
             <div
               class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"
@@ -243,7 +241,7 @@ const route = useRoute();
 
       <!-- Tech footer trace -->
       <div
-        class="reveal text-fg-subtle mt-16 font-mono text-[0.62rem] tracking-[0.04em]"
+        class="reveal text-fg-subtle -tracking-tighter-2 mt-16 font-mono text-[0.62rem]"
         style="transition-delay: 540ms"
       >
         <span class="text-accent">$</span> curl
