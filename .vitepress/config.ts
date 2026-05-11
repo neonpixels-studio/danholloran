@@ -49,5 +49,21 @@ export default defineConfig({
         rel: "stylesheet",
       },
     ],
+    [
+      "meta",
+      {
+        name: "theme-color",
+        content: "#fafaf9",
+        media: "(prefers-color-scheme: light)",
+      },
+    ],
+    [
+      "meta",
+      {
+        name: "theme-color",
+        content: "#0e0e10",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
   ],
 });
