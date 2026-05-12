@@ -10,3 +10,4 @@ export type { QuoteInterface } from "./quotes";
 export type { PostMeta, Post } from "./post.ts";
 export type { SearchItem } from "./search.ts";
 export type { NavItem } from "./nav.ts";
+export type { InstagramPost } from "./instagram.ts";
