@@ -202,6 +202,18 @@ export default defineConfig({
     ["meta", { property: "og:site_name", content: "Dan Holloran" }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
     [
+      "script",
+      {
+        async: "",
+        src: "https://www.googletagmanager.com/gtag/js?id=G-HRDP48J1X5",
+      },
+    ],
+    [
+      "script",
+      {},
+      "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-HRDP48J1X5');",
+    ],
+    [
       "link",
       {
         rel: "alternate",
