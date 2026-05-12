@@ -425,7 +425,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
             From the Feed
           </h2>
           <p
-            class="reveal text-fg-muted in max-w-[440px] font-mono text-[0.72rem] leading-[1.7]"
+            class="reveal text-fg-muted in max-w-110 font-mono text-[0.72rem] leading-[1.7]"
             data-om-id="7734590d:295"
           >
             A visual sketchbook — photography, travel, and the occasional
@@ -434,7 +434,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </div>
         <a
           :href="socialLinks.INSTAGRAM"
-          target="_blank"
+          target="blank"
           rel="noopener"
           class="reveal group text-accent border-accent/40 hover:bg-accent hover:border-accent in inline-flex items-center gap-2 rounded-xs border px-3 py-2 font-mono text-[0.72rem] tracking-[0.02em] no-underline transition-all hover:text-white"
           data-om-id="7734590d:296"
@@ -494,16 +494,23 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         data-om-id="7734590d:303"
       >
         <a
-          :href="socialLinks.INSTAGRAM"
-          target="_blank"
+          v-for="(post, index) in instagramPosts.slice(0, 6)"
+          :key="post.frontmatter.url"
+          :href="post.frontmatter.url"
+          target="blank"
           rel="noopener"
           class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
           data-om-id="7734590d:304"
         >
           <div
-            class="checker-bg absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
+            class="absolute inset-0 bg-red-500 transition-transform duration-500 group-hover:scale-[1.04]"
             data-om-id="7734590d:305"
-          ></div>
+          >
+            <img
+              :src="`${post.frontmatter.images[Math.floor(Math.random() * post.frontmatter.images.length)]}`"
+              :alt="post.frontmatter.caption"
+            />
+          </div>
           <div
             class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             data-om-id="7734590d:306"
@@ -511,8 +518,9 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
             <span
               class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase"
               data-om-id="7734590d:307"
-              >01</span
             >
+              {{ ((index as number) + 1).toString().padStart(2, "0") }}
+            </span>
             <div
               class="flex items-center gap-1 font-mono text-[0.6rem] text-white"
               data-om-id="7734590d:308"
@@ -539,321 +547,22 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
             >photo</span
           >
         </a>
-        <a
-          :href="socialLinks.INSTAGRAM"
-          target="_blank"
-          rel="noopener"
-          class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
-          data-om-id="7734590d:313"
-        >
-          <div
-            class="checker-bg absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
-            data-om-id="7734590d:314"
-          ></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            data-om-id="7734590d:315"
-          >
-            <span
-              class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase"
-              data-om-id="7734590d:316"
-              >02</span
-            >
-            <div
-              class="flex items-center gap-1 font-mono text-[0.6rem] text-white"
-              data-om-id="7734590d:317"
-            >
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                aria-hidden="true"
-                data-om-id="7734590d:318"
-              >
-                <path
-                  d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"
-                  data-om-id="7734590d:319"
-                ></path>
-              </svg>
-              <span data-om-id="7734590d:320">view</span>
-            </div>
-          </div>
-          <span
-            class="text-fg-subtle bg-bg/80 absolute top-2 left-2 rounded-xs px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.08em] uppercase backdrop-blur-sm"
-            data-om-id="7734590d:321"
-            >carousel</span
-          >
-          <span
-            class="text-fg-subtle bg-bg/80 absolute top-2 right-2 inline-flex h-5 w-5 items-center justify-center rounded-xs backdrop-blur-sm"
-            aria-hidden="true"
-            data-om-id="7734590d:322"
-          >
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.4"
-              data-om-id="7734590d:323"
-            >
-              <rect
-                x="4"
-                y="4"
-                width="9"
-                height="9"
-                rx="1.2"
-                data-om-id="7734590d:324"
-              ></rect>
-              <path
-                d="M3 11V4a1 1 0 0 1 1-1h7"
-                data-om-id="7734590d:325"
-              ></path>
-            </svg>
-          </span>
-        </a>
-        <a
-          :href="socialLinks.INSTAGRAM"
-          target="_blank"
-          rel="noopener"
-          class="ig-tile group border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
-          data-om-id="7734590d:326"
-        >
-          <div
-            class="checker-bg absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
-            data-om-id="7734590d:327"
-          ></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            data-om-id="7734590d:328"
-          >
-            <span
-              class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase"
-              data-om-id="7734590d:329"
-              >03</span
-            >
-            <div
-              class="flex items-center gap-1 font-mono text-[0.6rem] text-white"
-              data-om-id="7734590d:330"
-            >
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                aria-hidden="true"
-                data-om-id="7734590d:331"
-              >
-                <path
-                  d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"
-                  data-om-id="7734590d:332"
-                ></path>
-              </svg>
-              <span data-om-id="7734590d:333">view</span>
-            </div>
-          </div>
-          <span
-            class="text-accent bg-bg/80 absolute top-2 left-2 rounded-xs px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.08em] uppercase backdrop-blur-sm"
-            data-om-id="7734590d:334"
-            >reel</span
-          >
-          <span
-            class="text-accent bg-bg/80 absolute top-2 right-2 inline-flex h-5 w-5 items-center justify-center rounded-xs backdrop-blur-sm"
-            aria-hidden="true"
-            data-om-id="7734590d:335"
-          >
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              data-om-id="7734590d:336"
-            >
-              <path d="M5 3l8 5-8 5V3z" data-om-id="7734590d:337"></path>
-            </svg>
-          </span>
-        </a>
-        <a
-          :href="socialLinks.INSTAGRAM"
-          target="_blank"
-          rel="noopener"
-          class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
-          data-om-id="7734590d:338"
-        >
-          <div
-            class="checker-bg absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
-            data-om-id="7734590d:339"
-          ></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            data-om-id="7734590d:340"
-          >
-            <span
-              class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase"
-              data-om-id="7734590d:341"
-              >04</span
-            >
-            <div
-              class="flex items-center gap-1 font-mono text-[0.6rem] text-white"
-              data-om-id="7734590d:342"
-            >
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                aria-hidden="true"
-                data-om-id="7734590d:343"
-              >
-                <path
-                  d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"
-                  data-om-id="7734590d:344"
-                ></path>
-              </svg>
-              <span data-om-id="7734590d:345">view</span>
-            </div>
-          </div>
-          <span
-            class="text-fg-subtle bg-bg/80 absolute top-2 left-2 rounded-xs px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.08em] uppercase backdrop-blur-sm"
-            data-om-id="7734590d:346"
-            >photo</span
-          >
-        </a>
-        <a
-          :href="socialLinks.INSTAGRAM"
-          target="_blank"
-          rel="noopener"
-          class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
-          data-om-id="7734590d:347"
-        >
-          <div
-            class="checker-bg absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
-            data-om-id="7734590d:348"
-          ></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            data-om-id="7734590d:349"
-          >
-            <span
-              class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase"
-              data-om-id="7734590d:350"
-              >05</span
-            >
-            <div
-              class="flex items-center gap-1 font-mono text-[0.6rem] text-white"
-              data-om-id="7734590d:351"
-            >
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                aria-hidden="true"
-                data-om-id="7734590d:352"
-              >
-                <path
-                  d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"
-                  data-om-id="7734590d:353"
-                ></path>
-              </svg>
-              <span data-om-id="7734590d:354">view</span>
-            </div>
-          </div>
-          <span
-            class="text-fg-subtle bg-bg/80 absolute top-2 left-2 rounded-xs px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.08em] uppercase backdrop-blur-sm"
-            data-om-id="7734590d:355"
-            >photo</span
-          >
-        </a>
-        <a
-          :href="socialLinks.INSTAGRAM"
-          target="_blank"
-          rel="noopener"
-          class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
-          data-om-id="7734590d:356"
-        >
-          <div
-            class="checker-bg absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
-            data-om-id="7734590d:357"
-          ></div>
-          <div
-            class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            data-om-id="7734590d:358"
-          >
-            <span
-              class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase"
-              data-om-id="7734590d:359"
-              >06</span
-            >
-            <div
-              class="flex items-center gap-1 font-mono text-[0.6rem] text-white"
-              data-om-id="7734590d:360"
-            >
-              <svg
-                width="10"
-                height="10"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                aria-hidden="true"
-                data-om-id="7734590d:361"
-              >
-                <path
-                  d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"
-                  data-om-id="7734590d:362"
-                ></path>
-              </svg>
-              <span data-om-id="7734590d:363">view</span>
-            </div>
-          </div>
-          <span
-            class="text-fg-subtle bg-bg/80 absolute top-2 left-2 rounded-xs px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.08em] uppercase backdrop-blur-sm"
-            data-om-id="7734590d:364"
-            >carousel</span
-          >
-          <span
-            class="text-fg-subtle bg-bg/80 absolute top-2 right-2 inline-flex h-5 w-5 items-center justify-center rounded-xs backdrop-blur-sm"
-            aria-hidden="true"
-            data-om-id="7734590d:365"
-          >
-            <svg
-              width="10"
-              height="10"
-              viewBox="0 0 16 16"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.4"
-              data-om-id="7734590d:366"
-            >
-              <rect
-                x="4"
-                y="4"
-                width="9"
-                height="9"
-                rx="1.2"
-                data-om-id="7734590d:367"
-              ></rect>
-              <path
-                d="M3 11V4a1 1 0 0 1 1-1h7"
-                data-om-id="7734590d:368"
-              ></path>
-            </svg>
-          </span>
-        </a>
       </div>
 
       <div
         class="reveal text-fg-subtle in mt-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[0.62rem] tracking-[0.08em] uppercase"
         data-om-id="7734590d:369"
       >
-        <span data-om-id="7734590d:370">// snapshots between commits</span>
-        <span class="inline-flex items-center gap-2" data-om-id="7734590d:371"
-          ><span
+        <span data-om-id="7734590d:370">// 🦄 snapshots between commits</span>
+        <span class="inline-flex items-center gap-2" data-om-id="7734590d:371">
+          <span
             class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"
             data-om-id="7734590d:372"
-          ></span
-          >updated weekly</span
-        >
+          >
+          </span>
+
+          Updated {{ formatPostDate(instagramPosts[0].frontmatter.created_at) }}
+        </span>
       </div>
     </div>
   </section>
