@@ -94,6 +94,25 @@ export default defineConfig({
           return { ...item, lastmod: new Date() };
         }),
   },
+  markdown: {
+    theme: {
+      light: "synthwave-84",
+      dark: "tokyo-night",
+    },
+    // Inject theme background CSS vars — VitePress doesn't emit them for dual themes
+    codeTransformers: [
+      {
+        name: "inject-theme-bg",
+        pre(node) {
+          const existing =
+            typeof node.properties.style === "string"
+              ? node.properties.style
+              : "";
+          node.properties.style = `--shiki-light-bg:#262335;--shiki-dark-bg:#1A1B26;${existing}`;
+        },
+      },
+    ],
+  },
   vite: {
     plugins: [tailwindcss()],
     resolve: {

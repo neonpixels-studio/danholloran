@@ -346,11 +346,30 @@ html.dark img[src*="topography"] {
 }
 
 .post-body pre {
-  @apply my-8 overflow-x-auto rounded bg-[#1a1a18] p-6 font-mono text-[0.82rem] leading-[1.6] text-[#e8e6e1];
+  @apply my-8 overflow-x-auto rounded p-6 font-mono text-[0.82rem] leading-[1.6];
 }
 
 .post-body pre code {
   @apply bg-transparent p-0;
+}
+
+/* Apply Shiki dual-theme CSS variables (not injected by custom themes) */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
 }
 
 .post-body .lang {
