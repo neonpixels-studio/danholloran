@@ -1,6 +1,4 @@
 ---
-title: Dan Holloran
-description: Full-stack developer and photographer based in Reno, NV.
 ---
 
 <script setup lang="ts">

@@ -1,15 +1,97 @@
 import { fileURLToPath, URL } from "node:url";
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, statSync } from "fs";
 import { join } from "path";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { generateFeed } from "./utils/generateFeed";
+import matter from "gray-matter";
+import resume from "./data/resume";
+
+const SITE_URL = "https://danholloran.me";
+
+function pageMeta(opts: {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  type?: "website" | "article";
+  jsonLd?: Record<string, unknown>;
+}): any[] {
+  const { title, description, url, image, type = "website", jsonLd } = opts;
+  const imageUrl = image ? `${SITE_URL}${image}` : undefined;
+  const meta: any[] = [
+    ["meta", { property: "og:type", content: type }],
+    ["meta", { property: "og:title", content: title }],
+    ["meta", { property: "og:description", content: description }],
+    ["meta", { property: "og:url", content: url }],
+    ["meta", { name: "twitter:title", content: title }],
+    ["meta", { name: "twitter:description", content: description }],
+  ];
+  if (imageUrl) {
+    meta.push(
+      ["meta", { property: "og:image", content: imageUrl }],
+      ["meta", { name: "twitter:image", content: imageUrl }],
+    );
+  }
+  if (jsonLd) {
+    meta.push([
+      "script",
+      { type: "application/ld+json" },
+      JSON.stringify(jsonLd),
+    ]);
+  }
+  return meta;
+}
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: `${resume.firstName} ${resume.lastName}`,
+  url: SITE_URL,
+  image: `${SITE_URL}${resume.photo}`,
+  jobTitle: resume.headline,
+  description: resume.intro,
+  sameAs: resume.contacts
+    .filter((c) => c.link?.startsWith("https://") && c.link !== SITE_URL)
+    .map((c) => c.link as string),
+};
 
 export default defineConfig({
   title: "Dan Holloran",
   description: "Full-stack developer and photographer based in Reno, NV.",
   sitemap: {
-    hostname: "https://danholloran.me",
+    hostname: SITE_URL,
+    transformItems: (items) =>
+      items
+        .filter((item) => item.url !== "README")
+        .map((item) => {
+          const url = item.url.replace(/\/$/, "");
+
+          // Posts: use frontmatter date
+          const postSlug = url.match(/^posts\/(.+)$/)?.[1];
+          if (postSlug) {
+            const postPath = join(
+              process.cwd(),
+              ".vitepress/content/posts",
+              `${postSlug}.md`,
+            );
+            if (existsSync(postPath)) {
+              const { data } = matter(readFileSync(postPath, "utf-8"));
+              if (data.date) return { ...item, lastmod: new Date(data.date) };
+            }
+          }
+
+          // Other pages: use file mtime
+          const base = url || "index";
+          for (const candidate of [`${base}.md`, join(base, "index.md")]) {
+            const fullPath = join(process.cwd(), candidate);
+            if (existsSync(fullPath)) {
+              return { ...item, lastmod: statSync(fullPath).mtime };
+            }
+          }
+
+          return { ...item, lastmod: new Date() };
+        }),
   },
   vite: {
     plugins: [tailwindcss()],
@@ -31,11 +113,93 @@ export default defineConfig({
       },
     },
   },
+  transformPageData(pageData) {
+    if (pageData.filePath === "index.md") {
+      const title = `${resume.firstName} ${resume.lastName} - ${resume.headline}`;
+      pageData.title = title;
+      pageData.description = resume.intro;
+      pageData.frontmatter.title = title;
+      pageData.frontmatter.description = resume.intro;
+      pageData.frontmatter.head = [
+        ...(pageData.frontmatter.head ?? []),
+        ...pageMeta({
+          title,
+          description: resume.intro,
+          url: `${SITE_URL}/`,
+          image: resume.photo,
+          jsonLd: personJsonLd,
+        }),
+      ];
+    } else if (pageData.filePath === "resume.md") {
+      const title = `Resume – ${resume.firstName} ${resume.lastName} | ${resume.headline}`;
+      pageData.title = title;
+      pageData.description = resume.intro;
+      pageData.frontmatter.title = title;
+      pageData.frontmatter.description = resume.intro;
+      pageData.frontmatter.head = [
+        ...(pageData.frontmatter.head ?? []),
+        ...pageMeta({
+          title,
+          description: resume.intro,
+          url: `${SITE_URL}/resume`,
+          image: resume.photo,
+          jsonLd: personJsonLd,
+        }),
+      ];
+    } else if (pageData.filePath === "posts/[slug].md") {
+      const slug = pageData.params?.slug;
+      if (slug) {
+        const postPath = join(
+          process.cwd(),
+          ".vitepress/content/posts",
+          `${slug}.md`,
+        );
+        if (existsSync(postPath)) {
+          const { data } = matter(readFileSync(postPath, "utf-8"));
+          const title = data.title ?? "";
+          const description = data.description ?? "";
+          const url = `${SITE_URL}/posts/${slug}`;
+          pageData.title = title;
+          pageData.description = description;
+          pageData.frontmatter.title = title;
+          pageData.frontmatter.description = description;
+          pageData.frontmatter.head = [
+            ...(pageData.frontmatter.head ?? []),
+            ...pageMeta({
+              title,
+              description,
+              url,
+              image: data.image,
+              type: "article",
+              jsonLd: {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                headline: title,
+                description,
+                datePublished: data.date,
+                url,
+                ...(data.image && {
+                  image: `${SITE_URL}${data.image}`,
+                }),
+                author: {
+                  "@type": "Person",
+                  name: `${resume.firstName} ${resume.lastName}`,
+                  url: SITE_URL,
+                },
+              },
+            }),
+          ];
+        }
+      }
+    }
+  },
   buildEnd(siteConfig) {
     writeFileSync(join(siteConfig.outDir, "feed.xml"), generateFeed());
   },
   cleanUrls: true,
   head: [
+    ["meta", { property: "og:site_name", content: "Dan Holloran" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
     [
       "link",
       {

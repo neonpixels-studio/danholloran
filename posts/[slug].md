@@ -1,13 +1,12 @@
 ---
-title: "@todo Post Title"
-description: "@todo Post Description"
 ---
 
 <script setup>
 import { data as posts } from '@content/posts/posts.data.ts'
 import { useData } from 'vitepress'
 import PostView from '@views/PostView.vue'
-const { page, params } = useData()
+
+const { params } = useData()
 const post = posts.filter(item => {
   return item.frontmatter.slug === params.value.slug
 })[0]
