@@ -42,6 +42,9 @@ export default {
       link: "https://linkedin.com/in/dan-holloran/",
       label: "linkedin.com/in/dan-holloran",
     },
+    {
+      label: CURRENT_LOCATION,
+    },
   ],
   skills() {
     return [
