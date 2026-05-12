@@ -1,11 +1,11 @@
 ---
-created_at: '2026-05-12T10:29:54.000+00:00'
-tags: ['react', 'javascript', 'performance', 'tooling']
+created_at: "2026-05-12T10:29:54.000+00:00"
+tags: ["react", "javascript", "performance", "tooling"]
 draft: true
-title: 'React Compiler v1.0: Automatic Memoization Without the Headache'
-image: '/images/posts/react-compiler-v1-automatic-memoization-without-the-headache.jpg'
-topic: 'React.js'
-description: 'React Compiler v1.0 landed in production-ready form and it automatically handles the memoization patterns you used to write by hand — here's what changed, how to set it up, and what it means for your day-to-day React code.'
+title: "React Compiler v1.0: Automatic Memoization Without the Headache"
+image: "/images/posts/react-compiler-v1-automatic-memoization-without-the-headache.jpg"
+topic: "React.js"
+description: "React Compiler v1.0 landed in production-ready form and it automatically handles the memoization patterns you used to write by hand — here's what changed, how to set it up, and what it means for your day-to-day React code."
 ---
 
 If you've spent any time tuning a React app for performance, you know the ritual: wrap callbacks in `useCallback`, memoize expensive calculations with `useMemo`, slap `React.memo` on child components that keep re-rendering for no good reason. It works — but it's also brittle, easy to get wrong, and clutters your components with optimization noise that has nothing to do with what the component is actually supposed to do.
@@ -14,19 +14,23 @@ React Compiler v1.0 shipped in October 2025, and it tackles this problem at the 
 
 ## What the Compiler Actually Does
 
-React Compiler is a Babel (or SWC) plugin that runs at build time and transforms your component code. It classifies every expression in a component as either static — values that never change between renders — or dynamic — values that may change. From there it automatically injects the memoization equivalents of `useMemo`, `useCallback`, and `React.memo` exactly where they're needed, including in places where you *can't* manually memoize, like conditionally computed values.
+React Compiler is a Babel (or SWC) plugin that runs at build time and transforms your component code. It classifies every expression in a component as either static — values that never change between renders — or dynamic — values that may change. From there it automatically injects the memoization equivalents of `useMemo`, `useCallback`, and `React.memo` exactly where they're needed, including in places where you _can't_ manually memoize, like conditionally computed values.
 
 The result is that components you write as plain, idiomatic React get compiled into components that behave as if a very careful engineer went through and added memoization in all the right places.
 
 Here's a before/after to make it concrete. Before the compiler, you might write something like this to avoid unnecessary re-renders:
 
 ```jsx
-import { useCallback, useMemo, memo } from 'react';
+import { useCallback, useMemo, memo } from "react";
 
 const ProductCard = memo(({ product, onAddToCart }) => {
   const formattedPrice = useMemo(
-    () => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price),
-    [product.price]
+    () =>
+      new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(product.price),
+    [product.price],
   );
 
   const handleClick = useCallback(() => {
@@ -48,7 +52,10 @@ With React Compiler, you write the plain version and the compiler handles the me
 ```jsx
 // No memo(), no useMemo, no useCallback — the compiler adds the equivalent automatically
 const ProductCard = ({ product, onAddToCart }) => {
-  const formattedPrice = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.price);
+  const formattedPrice = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(product.price);
 
   const handleClick = () => {
     onAddToCart(product.id);
@@ -89,14 +96,14 @@ npm install --save-dev babel-plugin-react-compiler
 
 ```js
 // vite.config.js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [
     react({
       babel: {
-        plugins: ['babel-plugin-react-compiler'],
+        plugins: ["babel-plugin-react-compiler"],
       },
     }),
   ],
