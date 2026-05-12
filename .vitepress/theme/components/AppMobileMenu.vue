@@ -7,14 +7,10 @@ import socialLinks from "@data/socialLinks";
 
 const router = useRouter();
 const { navItems } = useMainNav();
-const { isMobileMenuOpen, closeAll, toggleMobileMenu } = useNavPanels();
+const { isMobileMenuOpen, closeAll } = useNavPanels();
 
 function close() {
   closeAll();
-}
-
-function toggle() {
-  toggleMobileMenu();
 }
 
 function navigate(href: string) {
@@ -28,21 +24,12 @@ function onKeydown(e: KeyboardEvent) {
   }
 }
 
-function onMobileMenuToggleClick(e: MouseEvent) {
-  if ((e.target as Element).closest("#mobileMenuToggle")) {
-    e.preventDefault();
-    toggle();
-  }
-}
-
 onMounted(() => {
   document.addEventListener("keydown", onKeydown);
-  document.addEventListener("click", onMobileMenuToggleClick);
 });
 
 onUnmounted(() => {
   document.removeEventListener("keydown", onKeydown);
-  document.removeEventListener("click", onMobileMenuToggleClick);
 });
 </script>
 

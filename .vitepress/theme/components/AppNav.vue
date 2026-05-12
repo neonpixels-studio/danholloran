@@ -6,7 +6,7 @@ import { useNavPanels } from "@composables/useNavPanels.ts";
 import socialLinks from "@data/socialLinks";
 
 const { isPathActive, activeSection, navItems } = useMainNav();
-const { isMobileMenuOpen } = useNavPanels();
+const { isMobileMenuOpen, toggleMobileMenu } = useNavPanels();
 const isScrolled = ref(false);
 
 function onScroll() {
@@ -172,6 +172,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         :aria-expanded="isMobileMenuOpen"
         aria-controls="mobileMenu"
         class="text-fg-subtle hover:text-accent inline-flex cursor-pointer items-center justify-center border-0 bg-transparent p-2 transition-colors md:hidden"
+        @click="toggleMobileMenu"
       >
         <svg
           v-if="!isMobileMenuOpen"
