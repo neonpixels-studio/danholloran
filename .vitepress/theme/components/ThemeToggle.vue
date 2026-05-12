@@ -7,10 +7,23 @@ const isDark = ref(
     : document.documentElement.classList.contains("dark"),
 );
 
+function updateThemeColor(dark: boolean) {
+  let meta = document.querySelector<HTMLMetaElement>(
+    'meta[name="theme-color"]:not([media])',
+  );
+  if (!meta) {
+    meta = document.createElement("meta");
+    meta.name = "theme-color";
+    document.head.appendChild(meta);
+  }
+  meta.content = dark ? "#0e0e10" : "#fafaf9";
+}
+
 function toggle() {
   isDark.value = !isDark.value;
   document.documentElement.classList.toggle("dark", isDark.value);
   localStorage.setItem("theme", isDark.value ? "dark" : "light");
+  updateThemeColor(isDark.value);
 }
 </script>
 
