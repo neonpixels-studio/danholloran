@@ -2,14 +2,14 @@
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { Post } from "@typedefs";
 
-const { allPosts } = defineProps<{
-  allPosts: Post[];
+const { posts } = defineProps<{
+  posts: Post[];
 }>();
 
 const ALL_TOPIC = "all";
 const topics = [
   ALL_TOPIC,
-  ...new Set(allPosts.map((post) => post.frontmatter.topic)),
+  ...new Set(posts.map((post) => post.frontmatter.topic)),
 ];
 const FIRST_PAGE_SIZE = 10;
 const REST_PAGE_SIZE = 9;
@@ -18,8 +18,8 @@ const currentPage = ref<number>(1);
 
 const filtered = computed(() =>
   currentTopic.value === ALL_TOPIC
-    ? allPosts
-    : allPosts.filter((p) => p.frontmatter.topic === currentTopic.value),
+    ? posts
+    : posts.filter((p) => p.frontmatter.topic === currentTopic.value),
 );
 
 const totalPages = computed(() => {

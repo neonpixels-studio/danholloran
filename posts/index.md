@@ -8,4 +8,4 @@ import { data as posts } from '@content/posts/posts.data.ts'
 import PostsView from '@views/PostsView.vue'
 </script>
 
-<PostsView :allPosts="posts" />
+<PostsView :posts="posts" />

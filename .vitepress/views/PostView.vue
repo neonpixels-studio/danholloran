@@ -3,21 +3,21 @@ import { computed } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 
-const { post, allPosts } = defineProps<{
+const { post, posts } = defineProps<{
   post: Post;
-  allPosts: Post[];
+  posts: Post[];
 }>();
 
 const postIndex = computed(() =>
-  allPosts.findIndex((p) => p.frontmatter.slug === post.frontmatter.slug),
+  posts.findIndex((p) => p.frontmatter.slug === post.frontmatter.slug),
 );
 
 const prevPost = computed(() =>
-  postIndex.value < allPosts.length - 1 ? allPosts[postIndex.value + 1] : null,
+  postIndex.value < posts.length - 1 ? posts[postIndex.value + 1] : null,
 );
 
 const nextPost = computed(() =>
-  postIndex.value > 0 ? allPosts[postIndex.value - 1] : null,
+  postIndex.value > 0 ? posts[postIndex.value - 1] : null,
 );
 
 function formatDate(d: string) {

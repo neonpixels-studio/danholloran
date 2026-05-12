@@ -9,8 +9,8 @@ import skills from "@data/skills.ts";
 
 const quote = quotes[Math.floor(Math.random() * quotes.length)];
 
-const { allPosts } = defineProps<{
-  allPosts: Post[];
+const { posts } = defineProps<{
+  posts: Post[];
 }>();
 
 useRevealAnimations();
@@ -18,8 +18,8 @@ useRevealAnimations();
 const experience = [...resume.experience, ...resume.education].sort((a, b) => {
   return new Date(b.start).getTime() - new Date(a.start).getTime();
 });
-const featuredPost = allPosts[0];
-const recentPosts = allPosts.slice(1, 9);
+const featuredPost = posts[0];
+const recentPosts = posts.slice(1, 9);
 
 function formatPostDate(d: string) {
   return new Date(d).toLocaleDateString("en-US", {

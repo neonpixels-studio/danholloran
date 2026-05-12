@@ -11,4 +11,4 @@ import resume from '@data/resume.ts'
 import HomeView from '@views/HomeView.vue'
 </script>
 
-<HomeView :allPosts="posts" />
+<HomeView :posts="posts" />

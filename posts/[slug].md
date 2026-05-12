@@ -12,4 +12,4 @@ const post = posts.filter(item => {
 })[0]
 </script>
 
-<PostView :post="post" :allPosts="posts" />
+<PostView :post="post" :posts="posts" />
