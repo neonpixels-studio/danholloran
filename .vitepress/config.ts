@@ -1,10 +1,16 @@
 import { fileURLToPath, URL } from "node:url";
+import { writeFileSync } from "fs";
+import { join } from "path";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
+import { generateFeed } from "./utils/generateFeed";
 
 export default defineConfig({
   title: "Dan Holloran",
   description: "Full-stack developer and photographer based in Reno, NV.",
+  sitemap: {
+    hostname: "https://danholloran.me",
+  },
   vite: {
     plugins: [tailwindcss()],
     resolve: {
@@ -25,8 +31,20 @@ export default defineConfig({
       },
     },
   },
+  buildEnd(siteConfig) {
+    writeFileSync(join(siteConfig.outDir, "feed.xml"), generateFeed());
+  },
   cleanUrls: true,
   head: [
+    [
+      "link",
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "DanHolloran",
+        href: "https://danholloran.me",
+      },
+    ],
     [
       "link",
       { rel: "icon", type: "image/svg+xml", href: "/images/favicon.svg" },

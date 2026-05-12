@@ -35,7 +35,9 @@
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "collect.js": "^4.36.1",
+    "feed": "^5.2.1",
     "globals": "^17.6.0",
+    "gray-matter": "^4.0.3",
     "minisearch": "^7.2.0"
   }
 }
