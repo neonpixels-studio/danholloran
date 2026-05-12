@@ -141,7 +141,7 @@ const route = useRoute();
           </svg>
           back to home
         </a>
-        <!-- <button
+        <button
           onclick="document.getElementById('searchToggle').click()"
           class="border-fg text-fg hover:bg-fg hover:text-bg inline-flex cursor-pointer items-center gap-2 rounded-xs border-2 bg-transparent px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] transition-all"
         >
@@ -161,7 +161,7 @@ const route = useRoute();
             />
           </svg>
           search the site
-        </button> -->
+        </button>
       </div>
 
       <!-- Quick links grid -->

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import MiniSearch from "minisearch";
 import { SearchItem } from "@typedefs";
+import { data as postItems } from "../../content/posts/search.data.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
 
 const router = useRouter();
 const { isSearchOpen, openSearch, closeAll } = useNavPanels();
 
-const PAGES: SearchItem[] = [
+const STATIC_ITEMS: SearchItem[] = [
   {
     type: "page",
     title: "Home",
@@ -29,101 +31,28 @@ const PAGES: SearchItem[] = [
     href: "/posts",
     kw: "blog posts writing articles",
   },
-  {
-    type: "post",
-    title: "Building a High-Performance SPA with Vue 3 and Vite",
-    desc: "development · Apr 28, 2026",
-    href: "/posts/building-a-high-performance-spa-with-vue-3-and-vite",
-    kw: "vue vite spa performance frontend",
-  },
-  {
-    type: "post",
-    title: "What a Career Sabbatical Actually Feels Like",
-    desc: "career · Mar 15, 2026",
-    href: "/posts/what-a-career-sabbatical-actually-feels-like",
-    kw: "sabbatical career break travel",
-  },
-  {
-    type: "post",
-    title: "Photography in Patagonia",
-    desc: "travel · Feb 20, 2026",
-    href: "/posts/photography-in-patagonia",
-    kw: "patagonia photography travel landscape",
-  },
-  {
-    type: "post",
-    title: "GraphQL vs REST: After 8 Years in Production",
-    desc: "development · Jan 30, 2026",
-    href: "/posts/graphql-vs-rest-after-8-years-in-production",
-    kw: "graphql rest api backend",
-  },
-  {
-    type: "post",
-    title: "Mentorship Isn't About Having Answers",
-    desc: "career · Jan 12, 2026",
-    href: "/posts/mentorship-isnt-about-having-answers",
-    kw: "mentorship leadership career",
-  },
-  {
-    type: "post",
-    title: "Street Photography in Tokyo at 5am",
-    desc: "photography · Dec 8, 2025",
-    href: "/posts/street-photography-in-tokyo-at-5am",
-    kw: "tokyo japan photography street",
-  },
-  {
-    type: "post",
-    title: "Why I'm Betting on Jamstack in 2026",
-    desc: "development · Nov 22, 2025",
-    href: "/posts/why-im-betting-on-jamstack-in-2026",
-    kw: "jamstack static site generators",
-  },
-  {
-    type: "post",
-    title: "The Architecture Decision I Still Think About",
-    desc: "career · Nov 5, 2025",
-    href: "/posts/the-architecture-decision-i-still-think-about",
-    kw: "architecture career decisions",
-  },
-  {
-    type: "project",
-    title: "Tradier Dash",
-    desc: "@Tradier · Vue, Vite, Tailwind",
-    href: "/#projects",
-    kw: "tradier vue vite tailwind dashboard",
-  },
-  {
-    type: "project",
-    title: "Crossroads Church",
-    desc: "@Ample · Gatsby, GraphQL, React",
-    href: "/#projects",
-    kw: "crossroads gatsby graphql react",
-  },
-  {
-    type: "project",
-    title: "Mike Albert Fleet",
-    desc: "@Ample · React, Gatsby, GraphQL",
-    href: "/#projects",
-    kw: "mike albert fleet react",
-  },
-  {
-    type: "project",
-    title: "EHG Gear",
-    desc: "@Matchbox · Vue, WooCommerce, WordPress",
-    href: "/#projects",
-    kw: "ehg gear ecommerce vue wordpress",
-  },
 ];
+
+const ALL_ITEMS: SearchItem[] = [...STATIC_ITEMS, ...postItems];
+
+const ms = new MiniSearch<SearchItem & { id: number }>({
+  fields: ["title", "desc", "kw"],
+  storeFields: ["type", "title", "desc", "href"],
+  searchOptions: {
+    boost: { title: 3, kw: 2 },
+    fuzzy: 0.2,
+    prefix: true,
+  },
+});
+ms.addAll(ALL_ITEMS.map((item, id) => ({ ...item, id })));
 
 const query = ref("");
 const inputRef = ref<HTMLInputElement | null>(null);
 
-const filteredResults = computed(() => {
-  const q = query.value.trim().toLowerCase();
-  if (!q) return PAGES.slice(0, 8);
-  return PAGES.filter((p) =>
-    (p.title + " " + p.desc + " " + p.kw).toLowerCase().includes(q),
-  ).slice(0, 8);
+const filteredResults = computed((): SearchItem[] => {
+  const q = query.value.trim();
+  if (!q) return ALL_ITEMS.slice(0, 8);
+  return ms.search(q).slice(0, 8) as unknown as SearchItem[];
 });
 
 function highlight(str: string, q: string): string {
