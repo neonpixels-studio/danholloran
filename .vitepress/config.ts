@@ -24,6 +24,7 @@ function pageMeta(opts: {
     ["meta", { property: "og:title", content: title }],
     ["meta", { property: "og:description", content: description }],
     ["meta", { property: "og:url", content: url }],
+    ["meta", { property: "og:locale", content: "en_US" }],
     ["meta", { name: "twitter:title", content: title }],
     ["meta", { name: "twitter:description", content: description }],
   ];
@@ -206,7 +207,7 @@ export default defineConfig({
         rel: "alternate",
         type: "application/rss+xml",
         title: "DanHolloran",
-        href: "https://danholloran.me",
+        href: "https://danholloran.me/feed.xml",
       },
     ],
     [
