@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
 import MiniSearch from "minisearch";
 import { SearchItem } from "@typedefs";
 import { data as postItems } from "../../content/posts/search.data.ts";
@@ -48,11 +48,24 @@ ms.addAll(ALL_ITEMS.map((item, id) => ({ ...item, id })));
 
 const query = ref("");
 const inputRef = ref<HTMLInputElement | null>(null);
+const activeIndex = ref(-1);
+const resultRefs = ref<HTMLElement[]>([]);
 
 const filteredResults = computed((): SearchItem[] => {
   const q = query.value.trim();
   if (!q) return ALL_ITEMS.slice(0, 8);
   return ms.search(q).slice(0, 8) as unknown as SearchItem[];
+});
+
+watch(filteredResults, () => {
+  activeIndex.value = -1;
+  resultRefs.value = [];
+});
+
+watch(activeIndex, (i) => {
+  nextTick(() => {
+    resultRefs.value[i]?.scrollIntoView({ block: "nearest" });
+  });
 });
 
 function highlight(str: string, q: string): string {
@@ -77,6 +90,7 @@ async function open() {
 function close() {
   closeAll();
   query.value = "";
+  activeIndex.value = -1;
 }
 
 function toggle() {
@@ -101,6 +115,25 @@ function onKeydown(e: KeyboardEvent) {
   ) {
     e.preventDefault();
     open();
+  } else if (isSearchOpen.value) {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeIndex.value =
+        activeIndex.value >= filteredResults.value.length - 1
+          ? 0
+          : activeIndex.value + 1;
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (activeIndex.value === 0) {
+        activeIndex.value = -1;
+        nextTick(() => inputRef.value?.focus());
+      } else if (activeIndex.value > 0) {
+        activeIndex.value -= 1;
+      }
+    } else if (e.key === "Enter" && activeIndex.value >= 0) {
+      e.preventDefault();
+      navigate(filteredResults.value[activeIndex.value].href);
+    }
   }
 }
 
@@ -186,10 +219,21 @@ onUnmounted(() => {
             no results for "{{ query }}"
           </div>
           <a
-            v-for="item in filteredResults"
+            v-for="(item, index) in filteredResults"
             :key="item.href + item.title"
-            class="search-result hover:border-line hover:bg-accent-dim/30 group -mx-3 flex cursor-pointer items-center gap-4 rounded border border-transparent px-3 py-3 no-underline transition-colors"
+            :ref="
+              (el) => {
+                if (el) resultRefs[index] = el as HTMLElement;
+              }
+            "
+            class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors"
+            :class="
+              index === activeIndex
+                ? 'border-line bg-accent-dim/30'
+                : 'hover:border-line hover:bg-accent-dim/30 border-transparent'
+            "
             @click.prevent="navigate(item.href)"
+            @mousemove="activeIndex = index"
           >
             <span
               class="text-accent bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase"
