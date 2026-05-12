@@ -11,6 +11,6 @@ tags:
     "reno",
   ]
 location: "Sand Harbor Beach"
-images: ["DHPmwDapHQb.jpg"]
+images: ["/images/instagram/DHPmwDapHQb.jpg"]
 url: "https://www.instagram.com/p/DHPmwDapHQb/"
 ---

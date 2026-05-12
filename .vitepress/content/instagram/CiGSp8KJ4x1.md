@@ -5,10 +5,10 @@ tags: []
 location: "Wind Point Lighthouse"
 images:
   [
-    "CiGSp8KJ4x1_1.jpg",
-    "CiGSp8KJ4x1_2.jpg",
-    "CiGSp8KJ4x1_3.jpg",
-    "CiGSp8KJ4x1_4.jpg",
+    "/images/instagram/CiGSp8KJ4x1_1.jpg",
+    "/images/instagram/CiGSp8KJ4x1_2.jpg",
+    "/images/instagram/CiGSp8KJ4x1_3.jpg",
+    "/images/instagram/CiGSp8KJ4x1_4.jpg",
   ]
 url: "https://www.instagram.com/p/CiGSp8KJ4x1/"
 ---

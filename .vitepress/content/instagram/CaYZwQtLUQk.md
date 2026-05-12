@@ -15,6 +15,11 @@ tags:
     "stlouisgram",
   ]
 location: "Columbia Bottom Conservation Area"
-images: ["CaYZwQtLUQk_1.jpg", "CaYZwQtLUQk_2.jpg", "CaYZwQtLUQk_3.jpg"]
+images:
+  [
+    "/images/instagram/CaYZwQtLUQk_1.jpg",
+    "/images/instagram/CaYZwQtLUQk_2.jpg",
+    "/images/instagram/CaYZwQtLUQk_3.jpg",
+  ]
 url: "https://www.instagram.com/p/CaYZwQtLUQk/"
 ---

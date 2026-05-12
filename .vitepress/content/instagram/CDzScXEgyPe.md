@@ -15,6 +15,6 @@ tags:
     "landscapephotography",
   ]
 location: "Line Creek Trail"
-images: ["CDzScXEgyPe.jpg"]
+images: ["/images/instagram/CDzScXEgyPe.jpg"]
 url: "https://www.instagram.com/p/CDzScXEgyPe/"
 ---

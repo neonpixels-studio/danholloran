@@ -15,6 +15,6 @@ tags:
     "missouri",
   ]
 location: "Rocky Falls Shut-in"
-images: ["CK2EcuEjXOD.jpg"]
+images: ["/images/instagram/CK2EcuEjXOD.jpg"]
 url: "https://www.instagram.com/p/CK2EcuEjXOD/"
 ---

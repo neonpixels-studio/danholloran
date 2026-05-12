@@ -13,6 +13,6 @@ tags:
     "springinstlouis",
   ]
 location: "City Garden Downtown Stl"
-images: ["CAvrGOEDENz.jpg"]
+images: ["/images/instagram/CAvrGOEDENz.jpg"]
 url: "https://www.instagram.com/p/CAvrGOEDENz/"
 ---

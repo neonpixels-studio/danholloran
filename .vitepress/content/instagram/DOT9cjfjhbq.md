@@ -5,10 +5,10 @@ tags: ["nevada", "nationalparks", "greatbasinnationalpark", "landscapes"]
 location: "Great Basin National Park"
 images:
   [
-    "DOT9cjfjhbq_1.jpg",
-    "DOT9cjfjhbq_2.jpg",
-    "DOT9cjfjhbq_3.jpg",
-    "DOT9cjfjhbq_4.jpg",
+    "/images/instagram/DOT9cjfjhbq_1.jpg",
+    "/images/instagram/DOT9cjfjhbq_2.jpg",
+    "/images/instagram/DOT9cjfjhbq_3.jpg",
+    "/images/instagram/DOT9cjfjhbq_4.jpg",
   ]
 url: "https://www.instagram.com/p/DOT9cjfjhbq/"
 ---

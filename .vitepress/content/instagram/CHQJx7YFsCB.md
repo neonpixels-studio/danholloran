@@ -15,6 +15,6 @@ tags:
     "outdoorphotography",
   ]
 location: "Red Rocks Park and Amphitheatre"
-images: ["CHQJx7YFsCB.jpg"]
+images: ["/images/instagram/CHQJx7YFsCB.jpg"]
 url: "https://www.instagram.com/p/CHQJx7YFsCB/"
 ---

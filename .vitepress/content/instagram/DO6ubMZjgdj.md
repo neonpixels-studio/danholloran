@@ -11,6 +11,7 @@ tags:
     "utahisbeautiful",
   ]
 location: "Arches National Park"
-images: ["DO6ubMZjgdj_1.jpg", "DO6ubMZjgdj_2.jpg"]
+images:
+  ["/images/instagram/DO6ubMZjgdj_1.jpg", "/images/instagram/DO6ubMZjgdj_2.jpg"]
 url: "https://www.instagram.com/p/DO6ubMZjgdj/"
 ---

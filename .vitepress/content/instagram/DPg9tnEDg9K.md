@@ -12,12 +12,12 @@ tags:
 location: "Grand Canyon of the Yellowstone"
 images:
   [
-    "DPg9tnEDg9K_1.jpg",
-    "DPg9tnEDg9K_2.jpg",
-    "DPg9tnEDg9K_3.jpg",
-    "DPg9tnEDg9K_4.jpg",
-    "DPg9tnEDg9K_5.jpg",
-    "DPg9tnEDg9K_6.jpg",
+    "/images/instagram/DPg9tnEDg9K_1.jpg",
+    "/images/instagram/DPg9tnEDg9K_2.jpg",
+    "/images/instagram/DPg9tnEDg9K_3.jpg",
+    "/images/instagram/DPg9tnEDg9K_4.jpg",
+    "/images/instagram/DPg9tnEDg9K_5.jpg",
+    "/images/instagram/DPg9tnEDg9K_6.jpg",
   ]
 url: "https://www.instagram.com/p/DPg9tnEDg9K/"
 ---

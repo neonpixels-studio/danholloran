@@ -15,6 +15,6 @@ tags:
     "denvertography",
   ]
 location: "Inspiration Point Park"
-images: ["CFK0h8DlauV.jpg"]
+images: ["/images/instagram/CFK0h8DlauV.jpg"]
 url: "https://www.instagram.com/p/CFK0h8DlauV/"
 ---

@@ -11,6 +11,6 @@ tags:
     "forest",
   ]
 location: "Castor River Shut Ins"
-images: ["CBO6gP7DV5F.jpg"]
+images: ["/images/instagram/CBO6gP7DV5F.jpg"]
 url: "https://www.instagram.com/p/CBO6gP7DV5F/"
 ---

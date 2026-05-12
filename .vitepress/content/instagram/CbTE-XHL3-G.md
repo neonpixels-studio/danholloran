@@ -17,10 +17,10 @@ tags:
 location: "Kinkaid Spillway"
 images:
   [
-    "CbTE-XHL3-G_1.jpg",
-    "CbTE-XHL3-G_2.jpg",
-    "CbTE-XHL3-G_3.jpg",
-    "CbTE-XHL3-G_4.jpg",
+    "/images/instagram/CbTE-XHL3-G_1.jpg",
+    "/images/instagram/CbTE-XHL3-G_2.jpg",
+    "/images/instagram/CbTE-XHL3-G_3.jpg",
+    "/images/instagram/CbTE-XHL3-G_4.jpg",
   ]
 url: "https://www.instagram.com/p/CbTE-XHL3-G/"
 ---

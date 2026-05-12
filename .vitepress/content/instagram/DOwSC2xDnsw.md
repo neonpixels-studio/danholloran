@@ -5,10 +5,10 @@ tags: ["toketeefalls", "oregon", "waterfall", "travelling"]
 location: "Toketee Falls"
 images:
   [
-    "DOwSC2xDnsw_1.jpg",
-    "DOwSC2xDnsw_2.jpg",
-    "DOwSC2xDnsw_3.jpg",
-    "DOwSC2xDnsw_4.jpg",
+    "/images/instagram/DOwSC2xDnsw_1.jpg",
+    "/images/instagram/DOwSC2xDnsw_2.jpg",
+    "/images/instagram/DOwSC2xDnsw_3.jpg",
+    "/images/instagram/DOwSC2xDnsw_4.jpg",
   ]
 url: "https://www.instagram.com/p/DOwSC2xDnsw/"
 ---

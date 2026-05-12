@@ -15,6 +15,6 @@ tags:
     "stlouisgram",
   ]
 location: "Creve Coeur Lake Memorial Park"
-images: ["CFup43cnkf4.jpg"]
+images: ["/images/instagram/CFup43cnkf4.jpg"]
 url: "https://www.instagram.com/p/CFup43cnkf4/"
 ---

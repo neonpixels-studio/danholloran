@@ -13,6 +13,11 @@ tags:
     "vegasfantasy",
   ]
 location: "Las Vegas Strip"
-images: ["CtKG59cPh3e_1.jpg", "CtKG59cPh3e_2.jpg", "CtKG59cPh3e_3.jpg"]
+images:
+  [
+    "/images/instagram/CtKG59cPh3e_1.jpg",
+    "/images/instagram/CtKG59cPh3e_2.jpg",
+    "/images/instagram/CtKG59cPh3e_3.jpg",
+  ]
 url: "https://www.instagram.com/p/CtKG59cPh3e/"
 ---

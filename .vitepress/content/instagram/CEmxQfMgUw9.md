@@ -15,6 +15,6 @@ tags:
     "landscapephotographer",
   ]
 location: ""
-images: ["CEmxQfMgUw9.jpg"]
+images: ["/images/instagram/CEmxQfMgUw9.jpg"]
 url: "https://www.instagram.com/p/CEmxQfMgUw9/"
 ---

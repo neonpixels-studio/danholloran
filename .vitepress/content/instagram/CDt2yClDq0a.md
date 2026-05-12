@@ -15,6 +15,6 @@ tags:
     "landscapephotographer",
   ]
 location: "Stephen Lake Park , Amphitheatre"
-images: ["CDt2yClDq0a.jpg"]
+images: ["/images/instagram/CDt2yClDq0a.jpg"]
 url: "https://www.instagram.com/p/CDt2yClDq0a/"
 ---

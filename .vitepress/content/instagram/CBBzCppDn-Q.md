@@ -12,6 +12,6 @@ tags:
     "forest",
   ]
 location: "Mina Sauk Falls"
-images: ["CBBzCppDn-Q.jpg"]
+images: ["/images/instagram/CBBzCppDn-Q.jpg"]
 url: "https://www.instagram.com/p/CBBzCppDn-Q/"
 ---

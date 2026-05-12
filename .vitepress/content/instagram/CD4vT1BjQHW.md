@@ -15,6 +15,6 @@ tags:
     "bestvideooftheday",
   ]
 location: "Horseshoe Lake"
-images: ["CD4vT1BjQHW.jpg"]
+images: ["/images/instagram/CD4vT1BjQHW.jpg"]
 url: "https://www.instagram.com/p/CD4vT1BjQHW/"
 ---

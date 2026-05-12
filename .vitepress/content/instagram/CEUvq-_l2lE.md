@@ -15,6 +15,6 @@ tags:
     "saintlouis",
   ]
 location: "Mississippi River Overlook"
-images: ["CEUvq-_l2lE.jpg"]
+images: ["/images/instagram/CEUvq-_l2lE.jpg"]
 url: "https://www.instagram.com/p/CEUvq-_l2lE/"
 ---

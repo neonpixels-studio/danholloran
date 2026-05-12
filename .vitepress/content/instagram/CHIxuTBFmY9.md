@@ -15,6 +15,6 @@ tags:
     "missouriphotographer",
   ]
 location: "Castor River Shut Ins"
-images: ["CHIxuTBFmY9.jpg"]
+images: ["/images/instagram/CHIxuTBFmY9.jpg"]
 url: "https://www.instagram.com/p/CHIxuTBFmY9/"
 ---

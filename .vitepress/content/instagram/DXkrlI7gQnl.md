@@ -5,10 +5,10 @@ tags: []
 location: "Diamond Lake, Oregon"
 images:
   [
-    "DXkrlI7gQnl_1.jpg",
-    "DXkrlI7gQnl_2.jpg",
-    "DXkrlI7gQnl_3.jpg",
-    "DXkrlI7gQnl_4.jpg",
+    "/images/instagram/DXkrlI7gQnl_1.jpg",
+    "/images/instagram/DXkrlI7gQnl_2.jpg",
+    "/images/instagram/DXkrlI7gQnl_3.jpg",
+    "/images/instagram/DXkrlI7gQnl_4.jpg",
   ]
 url: "https://www.instagram.com/p/DXkrlI7gQnl/"
 ---

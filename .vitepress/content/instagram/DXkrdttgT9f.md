@@ -5,11 +5,11 @@ tags: []
 location: "Toketee Falls"
 images:
   [
-    "DXkrdttgT9f_1.jpg",
-    "DXkrdttgT9f_2.jpg",
-    "DXkrdttgT9f_3.jpg",
-    "DXkrdttgT9f_4.jpg",
-    "DXkrdttgT9f_5.jpg",
+    "/images/instagram/DXkrdttgT9f_1.jpg",
+    "/images/instagram/DXkrdttgT9f_2.jpg",
+    "/images/instagram/DXkrdttgT9f_3.jpg",
+    "/images/instagram/DXkrdttgT9f_4.jpg",
+    "/images/instagram/DXkrdttgT9f_5.jpg",
   ]
 url: "https://www.instagram.com/p/DXkrdttgT9f/"
 ---

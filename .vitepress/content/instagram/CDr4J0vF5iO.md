@@ -15,6 +15,6 @@ tags:
     "landscapelovers",
   ]
 location: "Grand Falls"
-images: ["CDr4J0vF5iO.jpg"]
+images: ["/images/instagram/CDr4J0vF5iO.jpg"]
 url: "https://www.instagram.com/p/CDr4J0vF5iO/"
 ---

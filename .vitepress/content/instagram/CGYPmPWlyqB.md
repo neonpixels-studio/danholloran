@@ -15,6 +15,6 @@ tags:
     "naturephotography",
   ]
 location: "Taum Sauk Mountain"
-images: ["CGYPmPWlyqB.jpg"]
+images: ["/images/instagram/CGYPmPWlyqB.jpg"]
 url: "https://www.instagram.com/p/CGYPmPWlyqB/"
 ---

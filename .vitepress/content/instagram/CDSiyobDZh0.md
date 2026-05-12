@@ -14,6 +14,6 @@ tags:
     "missourioutdoors",
   ]
 location: "Castor River Shut Ins"
-images: ["CDSiyobDZh0.jpg"]
+images: ["/images/instagram/CDSiyobDZh0.jpg"]
 url: "https://www.instagram.com/p/CDSiyobDZh0/"
 ---

@@ -15,6 +15,6 @@ tags:
     "naturephotography",
   ]
 location: "Dillard Mill State Historic Site"
-images: ["CJHEUd8Awyb.jpg"]
+images: ["/images/instagram/CJHEUd8Awyb.jpg"]
 url: "https://www.instagram.com/p/CJHEUd8Awyb/"
 ---

@@ -12,13 +12,13 @@ tags:
 location: ""
 images:
   [
-    "DOltFv7Du5I_1.jpg",
-    "DOltFv7Du5I_2.jpg",
-    "DOltFv7Du5I_3.jpg",
-    "DOltFv7Du5I_4.jpg",
-    "DOltFv7Du5I_5.jpg",
-    "DOltFv7Du5I_6.jpg",
-    "DOltFv7Du5I_7.jpg",
+    "/images/instagram/DOltFv7Du5I_1.jpg",
+    "/images/instagram/DOltFv7Du5I_2.jpg",
+    "/images/instagram/DOltFv7Du5I_3.jpg",
+    "/images/instagram/DOltFv7Du5I_4.jpg",
+    "/images/instagram/DOltFv7Du5I_5.jpg",
+    "/images/instagram/DOltFv7Du5I_6.jpg",
+    "/images/instagram/DOltFv7Du5I_7.jpg",
   ]
 url: "https://www.instagram.com/p/DOltFv7Du5I/"
 ---

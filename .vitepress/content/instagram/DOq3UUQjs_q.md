@@ -12,10 +12,10 @@ tags:
 location: ""
 images:
   [
-    "DOq3UUQjs_q_1.jpg",
-    "DOq3UUQjs_q_2.jpg",
-    "DOq3UUQjs_q_3.jpg",
-    "DOq3UUQjs_q_4.jpg",
+    "/images/instagram/DOq3UUQjs_q_1.jpg",
+    "/images/instagram/DOq3UUQjs_q_2.jpg",
+    "/images/instagram/DOq3UUQjs_q_3.jpg",
+    "/images/instagram/DOq3UUQjs_q_4.jpg",
   ]
 url: "https://www.instagram.com/p/DOq3UUQjs_q/"
 ---

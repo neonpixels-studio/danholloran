@@ -5,10 +5,10 @@ tags: []
 location: "Salt Creek Falls"
 images:
   [
-    "DXNsZKECVmq_1.jpg",
-    "DXNsZKECVmq_2.jpg",
-    "DXNsZKECVmq_3.jpg",
-    "DXNsZKECVmq_4.jpg",
+    "/images/instagram/DXNsZKECVmq_1.jpg",
+    "/images/instagram/DXNsZKECVmq_2.jpg",
+    "/images/instagram/DXNsZKECVmq_3.jpg",
+    "/images/instagram/DXNsZKECVmq_4.jpg",
   ]
 url: "https://www.instagram.com/p/DXNsZKECVmq/"
 ---

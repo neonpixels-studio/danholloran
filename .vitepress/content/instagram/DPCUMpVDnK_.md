@@ -5,10 +5,10 @@ tags: ["oregon", "ocean", "beach", "landscapes", "travel"]
 location: "Face Rock State Scenic Viewpoint"
 images:
   [
-    "DPCUMpVDnK__1.jpg",
-    "DPCUMpVDnK__2.jpg",
-    "DPCUMpVDnK__3.jpg",
-    "DPCUMpVDnK__4.jpg",
+    "/images/instagram/DPCUMpVDnK__1.jpg",
+    "/images/instagram/DPCUMpVDnK__2.jpg",
+    "/images/instagram/DPCUMpVDnK__3.jpg",
+    "/images/instagram/DPCUMpVDnK__4.jpg",
   ]
 url: "https://www.instagram.com/p/DPCUMpVDnK_/"
 ---

@@ -11,6 +11,11 @@ tags:
     "utahisbeautiful",
   ]
 location: "Canyonlands National Park"
-images: ["DPR5ff2DvK-_1.jpg", "DPR5ff2DvK-_2.jpg", "DPR5ff2DvK-_3.jpg"]
+images:
+  [
+    "/images/instagram/DPR5ff2DvK-_1.jpg",
+    "/images/instagram/DPR5ff2DvK-_2.jpg",
+    "/images/instagram/DPR5ff2DvK-_3.jpg",
+  ]
 url: "https://www.instagram.com/p/DPR5ff2DvK-/"
 ---

@@ -15,6 +15,6 @@ tags:
     "visitcolorado",
   ]
 location: "Inspiration Point Park"
-images: ["CFc1-wqFHVK.jpg"]
+images: ["/images/instagram/CFc1-wqFHVK.jpg"]
 url: "https://www.instagram.com/p/CFc1-wqFHVK/"
 ---

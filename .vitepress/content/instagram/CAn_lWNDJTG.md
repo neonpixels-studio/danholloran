@@ -12,6 +12,6 @@ tags:
     "hike",
   ]
 location: "Lone Elk County Park"
-images: ["CAn_lWNDJTG.jpg"]
+images: ["/images/instagram/CAn_lWNDJTG.jpg"]
 url: "https://www.instagram.com/p/CAn_lWNDJTG/"
 ---

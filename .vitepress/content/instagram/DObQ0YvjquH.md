@@ -10,6 +10,7 @@ tags:
     "landscapes",
   ]
 location: "Pinnacles National Park"
-images: ["DObQ0YvjquH_1.jpg", "DObQ0YvjquH_2.jpg"]
+images:
+  ["/images/instagram/DObQ0YvjquH_1.jpg", "/images/instagram/DObQ0YvjquH_2.jpg"]
 url: "https://www.instagram.com/p/DObQ0YvjquH/"
 ---

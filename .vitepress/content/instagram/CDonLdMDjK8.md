@@ -15,6 +15,6 @@ tags:
     "pixelandlens",
   ]
 location: "Horseshoe Lake"
-images: ["CDonLdMDjK8.jpg"]
+images: ["/images/instagram/CDonLdMDjK8.jpg"]
 url: "https://www.instagram.com/p/CDonLdMDjK8/"
 ---

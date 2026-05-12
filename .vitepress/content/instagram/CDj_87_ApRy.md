@@ -15,6 +15,6 @@ tags:
     "missouri_photos",
   ]
 location: "Columbia Bottom Conservation Area"
-images: ["CDj_87_ApRy.jpg"]
+images: ["/images/instagram/CDj_87_ApRy.jpg"]
 url: "https://www.instagram.com/p/CDj_87_ApRy/"
 ---

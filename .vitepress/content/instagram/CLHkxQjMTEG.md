@@ -15,6 +15,6 @@ tags:
     "missouri",
   ]
 location: "Rocky Falls"
-images: ["CLHkxQjMTEG.jpg"]
+images: ["/images/instagram/CLHkxQjMTEG.jpg"]
 url: "https://www.instagram.com/p/CLHkxQjMTEG/"
 ---

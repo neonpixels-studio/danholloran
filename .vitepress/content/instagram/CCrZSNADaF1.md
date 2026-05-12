@@ -13,6 +13,6 @@ tags:
     "ocean",
   ]
 location: "St. Louis Aquarium at Union Station"
-images: ["CCrZSNADaF1.jpg"]
+images: ["/images/instagram/CCrZSNADaF1.jpg"]
 url: "https://www.instagram.com/p/CCrZSNADaF1/"
 ---

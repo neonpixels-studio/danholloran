@@ -10,6 +10,6 @@ tags:
     "landscapes",
   ]
 location: "Redwoods National Park"
-images: ["DOd9qQEjk2H.jpg"]
+images: ["/images/instagram/DOd9qQEjk2H.jpg"]
 url: "https://www.instagram.com/p/DOd9qQEjk2H/"
 ---

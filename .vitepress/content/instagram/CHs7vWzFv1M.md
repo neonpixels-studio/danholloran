@@ -15,6 +15,6 @@ tags:
     "naturephotography",
   ]
 location: "Alley Spring, Missouri"
-images: ["CHs7vWzFv1M.jpg"]
+images: ["/images/instagram/CHs7vWzFv1M.jpg"]
 url: "https://www.instagram.com/p/CHs7vWzFv1M/"
 ---

@@ -15,6 +15,6 @@ tags:
     "falls",
   ]
 location: "Line Creek Trail"
-images: ["CEP9GFMFGGM.jpg"]
+images: ["/images/instagram/CEP9GFMFGGM.jpg"]
 url: "https://www.instagram.com/p/CEP9GFMFGGM/"
 ---

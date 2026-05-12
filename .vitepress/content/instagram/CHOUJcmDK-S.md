@@ -15,6 +15,6 @@ tags:
     "outdoors",
   ]
 location: ""
-images: ["CHOUJcmDK-S.jpg"]
+images: ["/images/instagram/CHOUJcmDK-S.jpg"]
 url: "https://www.instagram.com/p/CHOUJcmDK-S/"
 ---

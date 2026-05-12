@@ -15,6 +15,6 @@ tags:
     "explorestlouis",
   ]
 location: "Downtown St. Louis"
-images: ["CIQ_mv3BTu9.jpg"]
+images: ["/images/instagram/CIQ_mv3BTu9.jpg"]
 url: "https://www.instagram.com/p/CIQ_mv3BTu9/"
 ---

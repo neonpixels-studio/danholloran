@@ -15,6 +15,6 @@ tags:
     "naturephotography",
   ]
 location: "Alley Spring State Park"
-images: ["CJZF5Odp5co.jpg"]
+images: ["/images/instagram/CJZF5Odp5co.jpg"]
 url: "https://www.instagram.com/p/CJZF5Odp5co/"
 ---

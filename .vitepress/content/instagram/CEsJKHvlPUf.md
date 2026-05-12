@@ -15,6 +15,6 @@ tags:
     "landscapephotographer",
   ]
 location: "Castor River Shut Ins"
-images: ["CEsJKHvlPUf.jpg"]
+images: ["/images/instagram/CEsJKHvlPUf.jpg"]
 url: "https://www.instagram.com/p/CEsJKHvlPUf/"
 ---

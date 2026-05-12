@@ -15,6 +15,6 @@ tags:
     "stlmo",
   ]
 location: "St. Louis Arch"
-images: ["CEw14vijGCs.jpg"]
+images: ["/images/instagram/CEw14vijGCs.jpg"]
 url: "https://www.instagram.com/p/CEw14vijGCs/"
 ---

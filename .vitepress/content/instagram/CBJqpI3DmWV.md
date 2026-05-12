@@ -11,6 +11,6 @@ tags:
     "hiking",
   ]
 location: "Castor River Shut Ins"
-images: ["CBJqpI3DmWV.jpg"]
+images: ["/images/instagram/CBJqpI3DmWV.jpg"]
 url: "https://www.instagram.com/p/CBJqpI3DmWV/"
 ---

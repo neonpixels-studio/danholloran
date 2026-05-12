@@ -5,11 +5,11 @@ tags: []
 location: "Crater Lake National Park"
 images:
   [
-    "DXkrqFagYx3_1.jpg",
-    "DXkrqFagYx3_2.jpg",
-    "DXkrqFagYx3_3.jpg",
-    "DXkrqFagYx3_4.jpg",
-    "DXkrqFagYx3_5.jpg",
+    "/images/instagram/DXkrqFagYx3_1.jpg",
+    "/images/instagram/DXkrqFagYx3_2.jpg",
+    "/images/instagram/DXkrqFagYx3_3.jpg",
+    "/images/instagram/DXkrqFagYx3_4.jpg",
+    "/images/instagram/DXkrqFagYx3_5.jpg",
   ]
 url: "https://www.instagram.com/p/DXkrqFagYx3/"
 ---

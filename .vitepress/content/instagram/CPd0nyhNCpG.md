@@ -11,6 +11,6 @@ tags:
     "explorearkansas",
   ]
 location: "Little Missouri Falls Recreation Area"
-images: ["CPd0nyhNCpG.jpg"]
+images: ["/images/instagram/CPd0nyhNCpG.jpg"]
 url: "https://www.instagram.com/p/CPd0nyhNCpG/"
 ---

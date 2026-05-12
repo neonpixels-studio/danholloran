@@ -13,10 +13,10 @@ tags:
 location: "Bryce Canyon National Park"
 images:
   [
-    "DPUe6P9joB7_1.jpg",
-    "DPUe6P9joB7_2.jpg",
-    "DPUe6P9joB7_3.jpg",
-    "DPUe6P9joB7_4.jpg",
+    "/images/instagram/DPUe6P9joB7_1.jpg",
+    "/images/instagram/DPUe6P9joB7_2.jpg",
+    "/images/instagram/DPUe6P9joB7_3.jpg",
+    "/images/instagram/DPUe6P9joB7_4.jpg",
   ]
 url: "https://www.instagram.com/p/DPUe6P9joB7/"
 ---

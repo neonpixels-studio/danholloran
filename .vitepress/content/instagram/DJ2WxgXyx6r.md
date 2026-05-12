@@ -5,10 +5,10 @@ tags: ["oregon", "landscape", "landscapephotography"]
 location: "Multnomah Falls - Columbia River Gorge, Oregon"
 images:
   [
-    "DJ2WxgXyx6r_1.jpg",
-    "DJ2WxgXyx6r_2.jpg",
-    "DJ2WxgXyx6r_3.jpg",
-    "DJ2WxgXyx6r_4.jpg",
+    "/images/instagram/DJ2WxgXyx6r_1.jpg",
+    "/images/instagram/DJ2WxgXyx6r_2.jpg",
+    "/images/instagram/DJ2WxgXyx6r_3.jpg",
+    "/images/instagram/DJ2WxgXyx6r_4.jpg",
   ]
 url: "https://www.instagram.com/p/DJ2WxgXyx6r/"
 ---

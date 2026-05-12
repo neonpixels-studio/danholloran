@@ -15,6 +15,6 @@ tags:
     "visitcolorado",
   ]
 location: "St Mary's Glacier"
-images: ["CFQMa6fAPrv.jpg"]
+images: ["/images/instagram/CFQMa6fAPrv.jpg"]
 url: "https://www.instagram.com/p/CFQMa6fAPrv/"
 ---

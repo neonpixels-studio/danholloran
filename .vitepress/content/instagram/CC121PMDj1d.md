@@ -13,6 +13,6 @@ tags:
     "lake",
   ]
 location: "Abandoned Castle - Ha Ha Tonka"
-images: ["CC121PMDj1d.jpg"]
+images: ["/images/instagram/CC121PMDj1d.jpg"]
 url: "https://www.instagram.com/p/CC121PMDj1d/"
 ---

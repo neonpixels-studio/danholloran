@@ -12,6 +12,6 @@ tags:
     "stlouis",
   ]
 location: "Chain of Rocks Bridge"
-images: ["CAqJf5Ojxv4.jpg"]
+images: ["/images/instagram/CAqJf5Ojxv4.jpg"]
 url: "https://www.instagram.com/p/CAqJf5Ojxv4/"
 ---

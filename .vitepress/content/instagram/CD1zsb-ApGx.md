@@ -15,6 +15,6 @@ tags:
     "pixelandlens",
   ]
 location: "Parkville Parks & Recreation"
-images: ["CD1zsb-ApGx.jpg"]
+images: ["/images/instagram/CD1zsb-ApGx.jpg"]
 url: "https://www.instagram.com/p/CD1zsb-ApGx/"
 ---

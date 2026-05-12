@@ -15,6 +15,6 @@ tags:
     "nature",
   ]
 location: "Rocky Falls"
-images: ["CIjBMUTJdsN.jpg"]
+images: ["/images/instagram/CIjBMUTJdsN.jpg"]
 url: "https://www.instagram.com/p/CIjBMUTJdsN/"
 ---

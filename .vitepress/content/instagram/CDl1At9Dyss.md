@@ -15,6 +15,6 @@ tags:
     "naturelovers",
   ]
 location: "Old Chain Of Rocks Bridge, Mississippi River"
-images: ["CDl1At9Dyss.jpg"]
+images: ["/images/instagram/CDl1At9Dyss.jpg"]
 url: "https://www.instagram.com/p/CDl1At9Dyss/"
 ---

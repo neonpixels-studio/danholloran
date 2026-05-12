@@ -14,6 +14,6 @@ tags:
     "missouriphotographer",
   ]
 location: "Mina Sauk Falls"
-images: ["CAigIu4jbgh.jpg"]
+images: ["/images/instagram/CAigIu4jbgh.jpg"]
 url: "https://www.instagram.com/p/CAigIu4jbgh/"
 ---

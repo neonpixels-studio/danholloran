@@ -6,10 +6,10 @@ tags:
 location: ""
 images:
   [
-    "DOoSg-jDsh2_1.jpg",
-    "DOoSg-jDsh2_2.jpg",
-    "DOoSg-jDsh2_3.jpg",
-    "DOoSg-jDsh2_4.jpg",
+    "/images/instagram/DOoSg-jDsh2_1.jpg",
+    "/images/instagram/DOoSg-jDsh2_2.jpg",
+    "/images/instagram/DOoSg-jDsh2_3.jpg",
+    "/images/instagram/DOoSg-jDsh2_4.jpg",
   ]
 url: "https://www.instagram.com/p/DOoSg-jDsh2/"
 ---

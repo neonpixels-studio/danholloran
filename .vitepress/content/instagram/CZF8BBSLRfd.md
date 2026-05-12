@@ -15,6 +15,11 @@ tags:
     "waterfallphotography",
   ]
 location: "Creve Coeur Lake Memorial Park"
-images: ["CZF8BBSLRfd_1.jpg", "CZF8BBSLRfd_2.jpg", "CZF8BBSLRfd_3.jpg"]
+images:
+  [
+    "/images/instagram/CZF8BBSLRfd_1.jpg",
+    "/images/instagram/CZF8BBSLRfd_2.jpg",
+    "/images/instagram/CZF8BBSLRfd_3.jpg",
+  ]
 url: "https://www.instagram.com/p/CZF8BBSLRfd/"
 ---

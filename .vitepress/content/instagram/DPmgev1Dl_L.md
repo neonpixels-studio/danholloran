@@ -11,6 +11,7 @@ tags:
     "utahisbeautiful",
   ]
 location: "Bryce Canyon National Park"
-images: ["DPmgev1Dl_L_1.jpg", "DPmgev1Dl_L_2.jpg"]
+images:
+  ["/images/instagram/DPmgev1Dl_L_1.jpg", "/images/instagram/DPmgev1Dl_L_2.jpg"]
 url: "https://www.instagram.com/p/DPmgev1Dl_L/"
 ---

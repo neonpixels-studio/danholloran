@@ -15,6 +15,6 @@ tags:
     "outdoors",
   ]
 location: "Taum Sauk Mountain State Park"
-images: ["CGuzKUmDfg-.jpg"]
+images: ["/images/instagram/CGuzKUmDfg-.jpg"]
 url: "https://www.instagram.com/p/CGuzKUmDfg-/"
 ---

@@ -5,10 +5,10 @@ tags: ["grandteton", "nationalspark", "mountains"]
 location: "Grand Teton National Park"
 images:
   [
-    "DPg9q5bDowe_1.jpg",
-    "DPg9q5bDowe_2.jpg",
-    "DPg9q5bDowe_3.jpg",
-    "DPg9q5bDowe_4.jpg",
+    "/images/instagram/DPg9q5bDowe_1.jpg",
+    "/images/instagram/DPg9q5bDowe_2.jpg",
+    "/images/instagram/DPg9q5bDowe_3.jpg",
+    "/images/instagram/DPg9q5bDowe_4.jpg",
   ]
 url: "https://www.instagram.com/p/DPg9q5bDowe/"
 ---

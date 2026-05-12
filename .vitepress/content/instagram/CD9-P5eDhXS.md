@@ -15,6 +15,11 @@ tags:
     "missouriphotographer",
   ]
 location: "Parkville Parks & Recreation"
-images: ["CD9-P5eDhXS_1.jpg", "CD9-P5eDhXS_2.jpg", "CD9-P5eDhXS_3.jpg"]
+images:
+  [
+    "/images/instagram/CD9-P5eDhXS_1.jpg",
+    "/images/instagram/CD9-P5eDhXS_2.jpg",
+    "/images/instagram/CD9-P5eDhXS_3.jpg",
+  ]
 url: "https://www.instagram.com/p/CD9-P5eDhXS/"
 ---

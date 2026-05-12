@@ -5,17 +5,17 @@ tags: []
 location: "Heceta Beach, Oregon"
 images:
   [
-    "DXNsnjeCdhH_1.jpg",
-    "DXNsnjeCdhH_2.jpg",
-    "DXNsnjeCdhH_3.jpg",
-    "DXNsnjeCdhH_4.jpg",
-    "DXNsnjeCdhH_5.jpg",
-    "DXNsnjeCdhH_6.jpg",
-    "DXNsnjeCdhH_7.jpg",
-    "DXNsnjeCdhH_8.jpg",
-    "DXNsnjeCdhH_9.jpg",
-    "DXNsnjeCdhH_10.jpg",
-    "DXNsnjeCdhH_11.jpg",
+    "/images/instagram/DXNsnjeCdhH_1.jpg",
+    "/images/instagram/DXNsnjeCdhH_2.jpg",
+    "/images/instagram/DXNsnjeCdhH_3.jpg",
+    "/images/instagram/DXNsnjeCdhH_4.jpg",
+    "/images/instagram/DXNsnjeCdhH_5.jpg",
+    "/images/instagram/DXNsnjeCdhH_6.jpg",
+    "/images/instagram/DXNsnjeCdhH_7.jpg",
+    "/images/instagram/DXNsnjeCdhH_8.jpg",
+    "/images/instagram/DXNsnjeCdhH_9.jpg",
+    "/images/instagram/DXNsnjeCdhH_10.jpg",
+    "/images/instagram/DXNsnjeCdhH_11.jpg",
   ]
 url: "https://www.instagram.com/p/DXNsnjeCdhH/"
 ---

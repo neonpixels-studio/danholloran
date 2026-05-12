@@ -17,10 +17,10 @@ tags:
 location: "St. Louis, Missouri"
 images:
   [
-    "CLu41tYjjQI_1.jpg",
-    "CLu41tYjjQI_2.jpg",
-    "CLu41tYjjQI_3.jpg",
-    "CLu41tYjjQI_4.jpg",
+    "/images/instagram/CLu41tYjjQI_1.jpg",
+    "/images/instagram/CLu41tYjjQI_2.jpg",
+    "/images/instagram/CLu41tYjjQI_3.jpg",
+    "/images/instagram/CLu41tYjjQI_4.jpg",
   ]
 url: "https://www.instagram.com/p/CLu41tYjjQI/"
 ---

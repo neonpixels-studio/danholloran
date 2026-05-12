@@ -12,11 +12,11 @@ tags:
 location: "Black Canyon of the Gunnison National Park"
 images:
   [
-    "DOt0I4UjiLY_1.jpg",
-    "DOt0I4UjiLY_2.jpg",
-    "DOt0I4UjiLY_3.jpg",
-    "DOt0I4UjiLY_4.jpg",
-    "DOt0I4UjiLY_5.jpg",
+    "/images/instagram/DOt0I4UjiLY_1.jpg",
+    "/images/instagram/DOt0I4UjiLY_2.jpg",
+    "/images/instagram/DOt0I4UjiLY_3.jpg",
+    "/images/instagram/DOt0I4UjiLY_4.jpg",
+    "/images/instagram/DOt0I4UjiLY_5.jpg",
   ]
 url: "https://www.instagram.com/p/DOt0I4UjiLY/"
 ---

@@ -12,6 +12,6 @@ tags:
     "naturephotography",
   ]
 location: ""
-images: ["CA3WjNUDwSo.jpg"]
+images: ["/images/instagram/CA3WjNUDwSo.jpg"]
 url: "https://www.instagram.com/p/CA3WjNUDwSo/"
 ---

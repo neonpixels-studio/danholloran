@@ -15,6 +15,6 @@ tags:
     "missouriadventure",
   ]
 location: "St. Louis, Missouri"
-images: ["CDhkLJ0DOgo.jpg"]
+images: ["/images/instagram/CDhkLJ0DOgo.jpg"]
 url: "https://www.instagram.com/p/CDhkLJ0DOgo/"
 ---

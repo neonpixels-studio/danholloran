@@ -12,6 +12,6 @@ tags:
     "springinstlouis",
   ]
 location: "The Gateway Arch St. Louis"
-images: ["CAlZO1RDnvB.jpg"]
+images: ["/images/instagram/CAlZO1RDnvB.jpg"]
 url: "https://www.instagram.com/p/CAlZO1RDnvB/"
 ---

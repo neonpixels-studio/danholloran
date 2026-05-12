@@ -15,6 +15,11 @@ tags:
     "landscapephotographer",
   ]
 location: "Hot Springs National Park"
-images: ["COnwkv6DVRj_1.jpg", "COnwkv6DVRj_2.jpg", "COnwkv6DVRj_3.jpg"]
+images:
+  [
+    "/images/instagram/COnwkv6DVRj_1.jpg",
+    "/images/instagram/COnwkv6DVRj_2.jpg",
+    "/images/instagram/COnwkv6DVRj_3.jpg",
+  ]
 url: "https://www.instagram.com/p/COnwkv6DVRj/"
 ---

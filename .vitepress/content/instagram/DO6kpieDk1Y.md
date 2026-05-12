@@ -5,10 +5,10 @@ tags: ["craterlakenationalpark", "craterlake", "nationalparksusa", "lake"]
 location: "Crater Lake National Park"
 images:
   [
-    "DO6kpieDk1Y_1.jpg",
-    "DO6kpieDk1Y_2.jpg",
-    "DO6kpieDk1Y_3.jpg",
-    "DO6kpieDk1Y_4.jpg",
+    "/images/instagram/DO6kpieDk1Y_1.jpg",
+    "/images/instagram/DO6kpieDk1Y_2.jpg",
+    "/images/instagram/DO6kpieDk1Y_3.jpg",
+    "/images/instagram/DO6kpieDk1Y_4.jpg",
   ]
 url: "https://www.instagram.com/p/DO6kpieDk1Y/"
 ---

@@ -6,11 +6,11 @@ tags:
 location: "Salt Creek Waterfall"
 images:
   [
-    "DO3_TdUjkP4_1.jpg",
-    "DO3_TdUjkP4_2.jpg",
-    "DO3_TdUjkP4_3.jpg",
-    "DO3_TdUjkP4_4.jpg",
-    "DO3_TdUjkP4_5.jpg",
+    "/images/instagram/DO3_TdUjkP4_1.jpg",
+    "/images/instagram/DO3_TdUjkP4_2.jpg",
+    "/images/instagram/DO3_TdUjkP4_3.jpg",
+    "/images/instagram/DO3_TdUjkP4_4.jpg",
+    "/images/instagram/DO3_TdUjkP4_5.jpg",
   ]
 url: "https://www.instagram.com/p/DO3_TdUjkP4/"
 ---

@@ -15,6 +15,6 @@ tags:
     "landscapelovers",
   ]
 location: "Boulder Falls"
-images: ["CGxmE9MDxWg.jpg"]
+images: ["/images/instagram/CGxmE9MDxWg.jpg"]
 url: "https://www.instagram.com/p/CGxmE9MDxWg/"
 ---

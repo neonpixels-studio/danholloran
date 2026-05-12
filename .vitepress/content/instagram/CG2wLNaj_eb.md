@@ -15,6 +15,6 @@ tags:
     "fallcolors",
   ]
 location: ""
-images: ["CG2wLNaj_eb.jpg"]
+images: ["/images/instagram/CG2wLNaj_eb.jpg"]
 url: "https://www.instagram.com/p/CG2wLNaj_eb/"
 ---

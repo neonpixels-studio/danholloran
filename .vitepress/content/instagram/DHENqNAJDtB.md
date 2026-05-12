@@ -13,13 +13,13 @@ tags:
 location: "Sand Harbor Beach"
 images:
   [
-    "DHENqNAJDtB_1.jpg",
-    "DHENqNAJDtB_2.jpg",
-    "DHENqNAJDtB_3.jpg",
-    "DHENqNAJDtB_4.jpg",
-    "DHENqNAJDtB_5.jpg",
-    "DHENqNAJDtB_6.jpg",
-    "DHENqNAJDtB_7.jpg",
+    "/images/instagram/DHENqNAJDtB_1.jpg",
+    "/images/instagram/DHENqNAJDtB_2.jpg",
+    "/images/instagram/DHENqNAJDtB_3.jpg",
+    "/images/instagram/DHENqNAJDtB_4.jpg",
+    "/images/instagram/DHENqNAJDtB_5.jpg",
+    "/images/instagram/DHENqNAJDtB_6.jpg",
+    "/images/instagram/DHENqNAJDtB_7.jpg",
   ]
 url: "https://www.instagram.com/p/DHENqNAJDtB/"
 ---

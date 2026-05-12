@@ -13,11 +13,11 @@ tags:
 location: ""
 images:
   [
-    "DOjISsoDn3t_1.jpg",
-    "DOjISsoDn3t_2.jpg",
-    "DOjISsoDn3t_3.jpg",
-    "DOjISsoDn3t_4.jpg",
-    "DOjISsoDn3t_5.jpg",
+    "/images/instagram/DOjISsoDn3t_1.jpg",
+    "/images/instagram/DOjISsoDn3t_2.jpg",
+    "/images/instagram/DOjISsoDn3t_3.jpg",
+    "/images/instagram/DOjISsoDn3t_4.jpg",
+    "/images/instagram/DOjISsoDn3t_5.jpg",
   ]
 url: "https://www.instagram.com/p/DOjISsoDn3t/"
 ---

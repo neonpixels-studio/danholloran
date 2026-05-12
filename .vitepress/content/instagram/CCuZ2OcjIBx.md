@@ -14,6 +14,6 @@ tags:
     "landscape",
   ]
 location: "Creve Coeur Lake Memorial Park"
-images: ["CCuZ2OcjIBx.jpg"]
+images: ["/images/instagram/CCuZ2OcjIBx.jpg"]
 url: "https://www.instagram.com/p/CCuZ2OcjIBx/"
 ---

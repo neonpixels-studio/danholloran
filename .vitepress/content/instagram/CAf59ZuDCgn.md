@@ -13,6 +13,6 @@ tags:
     "arch",
   ]
 location: "Downtown St. Louis"
-images: ["CAf59ZuDCgn.jpg"]
+images: ["/images/instagram/CAf59ZuDCgn.jpg"]
 url: "https://www.instagram.com/p/CAf59ZuDCgn/"
 ---

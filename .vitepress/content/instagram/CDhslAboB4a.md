@@ -15,6 +15,6 @@ tags:
     "missouri",
   ]
 location: "Saint Louis Zoo"
-images: ["CDhslAboB4a.jpg"]
+images: ["/images/instagram/CDhslAboB4a.jpg"]
 url: "https://www.instagram.com/p/CDhslAboB4a/"
 ---

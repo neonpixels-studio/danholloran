@@ -15,6 +15,6 @@ tags:
     "stlouisgram",
   ]
 location: "Horseshoe Lake"
-images: ["CEXfOFeDBtu.jpg"]
+images: ["/images/instagram/CEXfOFeDBtu.jpg"]
 url: "https://www.instagram.com/p/CEXfOFeDBtu/"
 ---

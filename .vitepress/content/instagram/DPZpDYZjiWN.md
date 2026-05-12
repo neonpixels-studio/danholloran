@@ -13,10 +13,10 @@ tags:
 location: "Zion National Park"
 images:
   [
-    "DPZpDYZjiWN_1.jpg",
-    "DPZpDYZjiWN_2.jpg",
-    "DPZpDYZjiWN_3.jpg",
-    "DPZpDYZjiWN_4.jpg",
+    "/images/instagram/DPZpDYZjiWN_1.jpg",
+    "/images/instagram/DPZpDYZjiWN_2.jpg",
+    "/images/instagram/DPZpDYZjiWN_3.jpg",
+    "/images/instagram/DPZpDYZjiWN_4.jpg",
   ]
 url: "https://www.instagram.com/p/DPZpDYZjiWN/"
 ---

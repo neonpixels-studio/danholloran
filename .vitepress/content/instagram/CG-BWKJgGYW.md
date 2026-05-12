@@ -15,6 +15,6 @@ tags:
     "314",
   ]
 location: "St. Louis Riverfront Arch"
-images: ["CG-BWKJgGYW.jpg"]
+images: ["/images/instagram/CG-BWKJgGYW.jpg"]
 url: "https://www.instagram.com/p/CG-BWKJgGYW/"
 ---

@@ -15,6 +15,6 @@ tags:
     "naturephotography",
   ]
 location: "Roosevelt National Forest"
-images: ["CHVrhbagzUb.jpg"]
+images: ["/images/instagram/CHVrhbagzUb.jpg"]
 url: "https://www.instagram.com/p/CHVrhbagzUb/"
 ---

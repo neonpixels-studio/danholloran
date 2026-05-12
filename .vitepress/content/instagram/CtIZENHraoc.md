@@ -17,13 +17,13 @@ tags:
 location: "Las Vegas, Nevada"
 images:
   [
-    "CtIZENHraoc_1.jpg",
-    "CtIZENHraoc_2.jpg",
-    "CtIZENHraoc_3.jpg",
-    "CtIZENHraoc_4.jpg",
-    "CtIZENHraoc_5.jpg",
-    "CtIZENHraoc_6.jpg",
-    "CtIZENHraoc_7.jpg",
+    "/images/instagram/CtIZENHraoc_1.jpg",
+    "/images/instagram/CtIZENHraoc_2.jpg",
+    "/images/instagram/CtIZENHraoc_3.jpg",
+    "/images/instagram/CtIZENHraoc_4.jpg",
+    "/images/instagram/CtIZENHraoc_5.jpg",
+    "/images/instagram/CtIZENHraoc_6.jpg",
+    "/images/instagram/CtIZENHraoc_7.jpg",
   ]
 url: "https://www.instagram.com/p/CtIZENHraoc/"
 ---

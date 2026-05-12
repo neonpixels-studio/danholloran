@@ -15,6 +15,6 @@ tags:
     "spring2020",
   ]
 location: "Creve Coeur Lake Memorial Park"
-images: ["CAxy3wNDzet.jpg"]
+images: ["/images/instagram/CAxy3wNDzet.jpg"]
 url: "https://www.instagram.com/p/CAxy3wNDzet/"
 ---

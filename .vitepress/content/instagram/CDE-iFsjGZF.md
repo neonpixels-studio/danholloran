@@ -15,6 +15,6 @@ tags:
     "missouri",
   ]
 location: "Grand Falls Plaza, Missouri"
-images: ["CDE-iFsjGZF.jpg"]
+images: ["/images/instagram/CDE-iFsjGZF.jpg"]
 url: "https://www.instagram.com/p/CDE-iFsjGZF/"
 ---

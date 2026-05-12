@@ -15,6 +15,6 @@ tags:
     "outdoors",
   ]
 location: "Ha Ha Tonka State Park"
-images: ["CDG6hJDjOvr.jpg"]
+images: ["/images/instagram/CDG6hJDjOvr.jpg"]
 url: "https://www.instagram.com/p/CDG6hJDjOvr/"
 ---

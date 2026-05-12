@@ -12,6 +12,6 @@ tags:
     "landscape",
   ]
 location: "Old Chain Of Rocks Bridge, Mississippi River"
-images: ["CA0zcCPjDq_.jpg"]
+images: ["/images/instagram/CA0zcCPjDq_.jpg"]
 url: "https://www.instagram.com/p/CA0zcCPjDq_/"
 ---

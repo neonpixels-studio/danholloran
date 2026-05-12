@@ -14,6 +14,6 @@ tags:
     "relaxing",
   ]
 location: "Horseshoe Lake"
-images: ["CDbv6rLDJFW.jpg"]
+images: ["/images/instagram/CDbv6rLDJFW.jpg"]
 url: "https://www.instagram.com/p/CDbv6rLDJFW/"
 ---

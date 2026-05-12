@@ -5,10 +5,10 @@ tags: ["mtranier", "mtraniernationalpark", "nationalpark", "mountains"]
 location: "Mt. Rainier"
 images:
   [
-    "DPe9extDh9V_1.jpg",
-    "DPe9extDh9V_2.jpg",
-    "DPe9extDh9V_3.jpg",
-    "DPe9extDh9V_4.jpg",
+    "/images/instagram/DPe9extDh9V_1.jpg",
+    "/images/instagram/DPe9extDh9V_2.jpg",
+    "/images/instagram/DPe9extDh9V_3.jpg",
+    "/images/instagram/DPe9extDh9V_4.jpg",
   ]
 url: "https://www.instagram.com/p/DPe9extDh9V/"
 ---
