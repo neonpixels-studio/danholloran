@@ -55,202 +55,213 @@ function formatPeriod(start: string, end: string | null): string {
       </div>
     </div>
 
-    <!-- HEADER -->
-    <header
-      class="reveal border-line mb-10 border-b pb-10 print:mb-6 print:pb-6"
-    >
-      <div
-        class="grid grid-cols-[auto_1fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-6"
+    <div id="resume">
+      <!-- HEADER -->
+      <header
+        class="reveal border-line mb-10 border-b pb-10 print:mb-6 print:pb-6"
       >
         <div
-          class="border-accent h-24 w-24 shrink-0 overflow-hidden rounded-full border-[3px] shadow-[0_8px_32px_rgba(173,70,255,0.15)] print:shadow-none"
+          class="grid grid-cols-[auto_1fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-6"
         >
-          <img
-            :src="resume.photo"
-            alt="Dan Holloran"
-            class="h-full w-full object-cover"
-          />
-        </div>
-        <div>
-          <h1
-            class="mb-2 font-mono leading-none font-bold"
-            style="
-              font-size: clamp(2.2rem, 5vw, 3.4rem);
-              letter-spacing: -0.05em;
-            "
+          <div
+            class="border-accent h-24 w-24 shrink-0 overflow-hidden rounded-full border-[3px] shadow-[0_8px_32px_rgba(173,70,255,0.15)] print:shadow-none"
           >
-            Dan
-            <span
+            <img
+              :src="resume.photo"
+              alt="Dan Holloran"
+              class="h-full w-full object-cover"
+            />
+          </div>
+          <div>
+            <h1
+              class="mb-2 font-mono leading-none font-bold"
               style="
-                -webkit-text-stroke: 2px var(--color-accent);
-                color: transparent;
+                font-size: clamp(2.2rem, 5vw, 3.4rem);
+                letter-spacing: -0.05em;
               "
             >
-              Holloran
-            </span>
-          </h1>
-          <p class="text-fg-muted mb-4 font-mono text-[0.85rem]">
-            {{ resume.headline }}
-          </p>
-          <div
-            class="text-fg-subtle flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.7rem]"
-          >
-            <component
-              :is="contact.link ? 'a' : 'span'"
-              v-for="contact in resume.contacts"
-              :key="contact.label"
-              :href="contact.link"
-              class="inline-flex items-center gap-1.5"
-              :class="{
-                'hover:text-accent no-underline transition-colors':
-                  contact.link,
-              }"
+              Dan
+              <span
+                style="
+                  -webkit-text-stroke: 2px var(--color-accent);
+                  color: transparent;
+                "
+              >
+                Holloran
+              </span>
+            </h1>
+            <p class="text-fg-muted mb-4 font-mono text-[0.85rem]">
+              {{ resume.headline }}
+            </p>
+            <div
+              class="text-fg-subtle flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.7rem]"
             >
-              <span class="text-accent">→</span> {{ contact.label }}
-            </component>
+              <component
+                :is="contact.link ? 'a' : 'span'"
+                v-for="contact in resume.contacts"
+                :key="contact.label"
+                :href="contact.link"
+                class="inline-flex items-center gap-1.5"
+                :class="{
+                  'hover:text-accent no-underline transition-colors':
+                    contact.link,
+                }"
+              >
+                <span class="text-accent">→</span> {{ contact.label }}
+              </component>
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <!-- SUMMARY -->
-    <section class="resume-section mb-12 print:mb-8">
-      <div class="accent-line mb-5"></div>
-      <div
-        class="grid grid-cols-[180px_1fr] items-start gap-12 max-md:grid-cols-1 max-md:gap-3"
-      >
-        <h2
-          class="reveal text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
-        >
-          // summary
-        </h2>
-        <p
-          class="reveal text-fg-muted text-[0.95rem] leading-[1.75]"
-          v-html="resume.summary"
-        ></p>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section class="resume-section mb-12 print:mb-8">
-      <div class="accent-line mb-5"></div>
-      <div
-        class="grid grid-cols-[180px_1fr] items-start gap-12 max-md:grid-cols-1 max-md:gap-3"
-      >
-        <h2
-          class="reveal text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
-        >
-          // experience
-        </h2>
-        <div class="flex flex-col gap-10">
-          <article
-            v-for="job in resume.experience"
-            :key="job.role + job.start"
-            class="exp-entry reveal"
-          >
-            <div
-              class="mb-1 flex flex-wrap items-baseline justify-between gap-4"
-            >
-              <div class="flex flex-wrap items-center gap-2.5">
-                <span
-                  class="font-mono text-[1rem] font-bold tracking-[-0.02em]"
-                  >{{ job.role }}</span
-                >
-                <span
-                  v-if="job.end === null"
-                  class="text-accent bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.6rem]"
-                  >current</span
-                >
-              </div>
-              <div
-                class="text-fg-subtle font-mono text-[0.7rem] whitespace-nowrap"
-              >
-                {{ formatPeriod(job.start, job.end) }}
-              </div>
-            </div>
-            <div class="text-fg-muted mb-3 font-mono text-[0.75rem]">
-              @{{ job.company }} ·
-              <a
-                v-if="job.url"
-                :href="job.url"
-                class="text-accent no-underline hover:underline"
-                target="blank"
-              >
-                {{ job.url.replace("https://", "") }}
-              </a>
-              · {{ job.location }}
-            </div>
-            <ul
-              class="text-fg-muted mb-4 flex list-none flex-col gap-1.5 pl-0 text-[0.9rem] leading-[1.7]"
-            >
-              <li
-                v-for="detail in job.details"
-                :key="detail"
-                class="flex gap-2.5"
-              >
-                <span
-                  class="text-accent mt-px shrink-0 font-mono text-[0.85rem]"
-                >
-                  ▸
-                </span>
-                <span
-                  v-html="
-                    detail
-                      .replace(
-                        /(\d+%)/g,
-                        '<strong class=\'text-fg font-semibold\'>$1</strong>',
-                      )
-                      .replace(
-                        /(50\+ \w+)/g,
-                        '<strong class=\'text-fg font-semibold\'>$1</strong>',
-                      )
-                  "
-                ></span>
-              </li>
-            </ul>
-            <div class="flex flex-wrap gap-1.5">
-              <span v-for="skill in job.skills" :key="skill.name" class="tag">{{
-                skill.name
-              }}</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- EDUCATION -->
-    <section class="resume-section mb-12 print:mb-0">
-      <div class="accent-line mb-5"></div>
-      <div class="flex flex-col gap-10">
+      <!-- SUMMARY -->
+      <section class="resume-section mb-12 print:mb-8">
+        <div class="accent-line mb-5"></div>
         <div
-          v-for="(education, index) in resume.education"
-          :key="education.school + education.field + education.degree"
           class="grid grid-cols-[180px_1fr] items-start gap-12 max-md:grid-cols-1 max-md:gap-3"
         >
           <h2
             class="reveal text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
           >
-            {{ index === 0 ? "// education" : "" }}
+            // summary
           </h2>
-          <div class="reveal">
-            <div
-              class="mb-1 flex flex-wrap items-baseline justify-between gap-4"
+          <p
+            class="reveal text-fg-muted text-[0.95rem] leading-[1.75]"
+            v-html="resume.summary"
+          ></p>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="resume-section mb-12 print:mb-8">
+        <div class="accent-line mb-5"></div>
+        <div
+          class="grid grid-cols-[180px_1fr] items-start gap-12 max-md:grid-cols-1 max-md:gap-3"
+        >
+          <h2
+            class="reveal text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
+          >
+            // experience
+          </h2>
+          <div class="flex flex-col gap-10">
+            <article
+              v-for="job in resume.experience"
+              :key="job.role + job.start"
+              class="exp-entry reveal"
             >
-              <span class="font-mono text-[1rem] font-bold tracking-[-0.02em]">
-                {{ `${education.degree} in ${education.field}` }}
-              </span>
-            </div>
-            <div class="text-fg-muted mb-3 font-mono text-[0.75rem]">
-              @{{ education.school }}
-            </div>
-            <div class="flex flex-wrap gap-1.5">
-              <span v-for="skill in education.skills" :key="skill" class="tag">
-                {{ skill.name }}
-              </span>
+              <div
+                class="mb-1 flex flex-wrap items-baseline justify-between gap-4"
+              >
+                <div class="flex flex-wrap items-center gap-2.5">
+                  <span
+                    class="font-mono text-[1rem] font-bold tracking-[-0.02em]"
+                    >{{ job.role }}</span
+                  >
+                  <span
+                    v-if="job.end === null"
+                    class="text-accent bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.6rem]"
+                    >current</span
+                  >
+                </div>
+                <div
+                  class="text-fg-subtle font-mono text-[0.7rem] whitespace-nowrap"
+                >
+                  {{ formatPeriod(job.start, job.end) }}
+                </div>
+              </div>
+              <div class="text-fg-muted mb-3 font-mono text-[0.75rem]">
+                @{{ job.company }} ·
+                <a
+                  v-if="job.url"
+                  :href="job.url"
+                  class="text-accent no-underline hover:underline"
+                  target="blank"
+                >
+                  {{ job.url.replace("https://", "") }}
+                </a>
+                · {{ job.location }}
+              </div>
+              <ul
+                class="text-fg-muted mb-4 flex list-none flex-col gap-1.5 pl-0 text-[0.9rem] leading-[1.7]"
+              >
+                <li
+                  v-for="detail in job.details"
+                  :key="detail"
+                  class="flex gap-2.5"
+                >
+                  <span
+                    class="text-accent mt-px shrink-0 font-mono text-[0.85rem]"
+                  >
+                    ▸
+                  </span>
+                  <span
+                    v-html="
+                      detail
+                        .replace(
+                          /(\d+%)/g,
+                          '<strong class=\'text-fg font-semibold\'>$1</strong>',
+                        )
+                        .replace(
+                          /(50\+ \w+)/g,
+                          '<strong class=\'text-fg font-semibold\'>$1</strong>',
+                        )
+                    "
+                  ></span>
+                </li>
+              </ul>
+              <div class="flex flex-wrap gap-1.5">
+                <span
+                  v-for="skill in job.skills"
+                  :key="skill.name"
+                  class="tag"
+                  >{{ skill.name }}</span
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- EDUCATION -->
+      <section class="resume-section mb-12 print:mb-0">
+        <div class="accent-line mb-5"></div>
+        <div class="flex flex-col gap-10">
+          <div
+            v-for="(education, index) in resume.education"
+            :key="education.school + education.field + education.degree"
+            class="grid grid-cols-[180px_1fr] items-start gap-12 max-md:grid-cols-1 max-md:gap-3"
+          >
+            <h2
+              class="reveal text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
+            >
+              {{ index === 0 ? "// education" : "" }}
+            </h2>
+            <div class="reveal">
+              <div
+                class="mb-1 flex flex-wrap items-baseline justify-between gap-4"
+              >
+                <span
+                  class="font-mono text-[1rem] font-bold tracking-[-0.02em]"
+                >
+                  {{ `${education.degree} in ${education.field}` }}
+                </span>
+              </div>
+              <div class="text-fg-muted mb-3 font-mono text-[0.75rem]">
+                @{{ education.school }}
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                <span
+                  v-for="skill in education.skills"
+                  :key="skill"
+                  class="tag"
+                >
+                  {{ skill.name }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 </template>
