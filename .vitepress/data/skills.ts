@@ -232,6 +232,6 @@ export default {
     image: `wordpress.svg`,
     name: `WordPress`,
     url: `https://wordpress.org/`,
-    featured: false,
+    featured: true,
   },
 } as SkillsMap;

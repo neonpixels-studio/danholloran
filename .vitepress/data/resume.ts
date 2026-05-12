@@ -208,6 +208,27 @@ export default {
         skills.JEST,
       ],
     },
+    {
+      role: "Web Developer",
+      company: "Freeman Marketing",
+      start: new Date("05/01/2012"),
+      end: new Date("10/31/2012"),
+      url: "https://freemanmarketinginc.com",
+      location: "St. Louis, MO",
+      remote: false,
+      details: [
+        "Built and launched 3–5 custom WordPress websites for local business clients, translating Photoshop designs into responsive, production-ready builds with on-page SEO implementation.",
+        "Mentored a web development intern, providing hands-on guidance and code feedback throughout the engagement.",
+      ],
+      skills: [
+        skills.WORDPRESS,
+        skills.JAVASCRIPT,
+        skills.PHP,
+        skills.CSS,
+        skills.HTML,
+        skills.SASS,
+      ],
+    },
   ],
   education: [
     {
