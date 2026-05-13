@@ -175,14 +175,14 @@ onUnmounted(() => {
       class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5"
       :class="{
         'col-span-full flex-row! max-md:flex-col!':
-          currentPage === 1 && i === 0 && currentTopic === 'all',
+          currentPage === 1 && i === 0,
       }"
       :style="`transition-delay:${i * 60}ms`"
     >
       <div
         class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1]"
         :class="
-          currentPage === 1 && i === 0 && currentTopic === 'all'
+          currentPage === 1 && i === 0
             ? 'aspect-auto w-[45%] max-md:aspect-video max-md:w-full'
             : ''
         "
@@ -209,9 +209,7 @@ onUnmounted(() => {
         <div
           class="mb-3 font-mono leading-[1.3] font-bold tracking-[-0.03em]"
           :class="
-            currentPage === 1 && i === 0 && currentTopic === 'all'
-              ? 'text-[1.4rem]'
-              : 'text-[1.05rem]'
+            currentPage === 1 && i === 0 ? 'text-[1.4rem]' : 'text-[1.05rem]'
           "
         >
           {{ post.frontmatter.title }}
