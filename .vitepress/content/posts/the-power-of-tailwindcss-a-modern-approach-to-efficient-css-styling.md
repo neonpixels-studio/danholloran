@@ -1,7 +1,7 @@
 ---
 image: "/images/posts/the-power-of-tailwindcss-a-modern-approach-to-efficient-css-styling.jpg"
 title: "The Power of Tailwind.css: A Modern Approach to Efficient CSS Styling"
-tags: ["Tailwind.css"]
+tags: ["tailwind.css"]
 date: "2024-05-19T15:06:00.000+00:00"
 draft: false
 topic: development

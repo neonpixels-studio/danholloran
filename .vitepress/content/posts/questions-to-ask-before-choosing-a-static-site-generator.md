@@ -1,7 +1,7 @@
 ---
 date: "2021-06-26T00:00:00.000-05:00"
 draft: false
-tags: ["Link"]
+tags: ["link"]
 image: "/images/posts/questions-to-ask-before-choosing-a-static-site-generator.jpg"
 title: Questions to ask before choosing a static site generator
 topic: development

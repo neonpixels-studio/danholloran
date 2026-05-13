@@ -1,7 +1,7 @@
 ---
 date: "2023-05-07T00:00:00.000-05:00"
 draft: false
-tags: ["Front-End"]
+tags: ["frontend"]
 image: "/images/posts/the-evolution-of-front-end-development-past-present-and-future.jpg"
 title: "The Evolution of Front-End Development: Past, Present, and Future"
 topic: development

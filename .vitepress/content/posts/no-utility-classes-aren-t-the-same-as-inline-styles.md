@@ -1,7 +1,7 @@
 ---
 date: "2021-05-30T00:00:00.000-05:00"
 draft: false
-tags: ["Community", "Link"]
+tags: ["community", "link"]
 image: "/images/posts/no-utility-classes-aren-t-the-same-as-inline-styles.jpg"
 title: No, Utility Classes Aren't the Same As Inline Styles (by Sarah Dayan)
 topic: development

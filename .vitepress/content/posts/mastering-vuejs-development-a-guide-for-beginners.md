@@ -1,7 +1,7 @@
 ---
 image: "/images/posts/mastering-vuejs-development-a-guide-for-beginners.jpg"
 title: "Mastering Vue.js Development: A Guide for Beginners"
-tags: ["Vue.js"]
+tags: ["vue.js"]
 date: "2024-05-19T15:06:00.000+00:00"
 draft: false
 topic: development

@@ -1,7 +1,7 @@
 ---
 date: "2021-06-13T00:00:00.000-05:00"
 draft: false
-tags: ["Community", "Link"]
+tags: ["community", "link"]
 image: "/images/posts/target-blank-css-tricks.jpg"
 title: target=blank (CSS-Tricks)
 topic: development

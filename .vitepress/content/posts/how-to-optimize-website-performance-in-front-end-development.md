@@ -1,7 +1,7 @@
 ---
 date: "2023-05-07T00:00:00.000-05:00"
 draft: false
-tags: ["Front-End", "Performance"]
+tags: ["frontend", "performance"]
 image: "/images/posts/how-to-optimize-website-performance-in-front-end-development.jpg"
 title: How to Optimize Website Performance in Front-End Development
 topic: development

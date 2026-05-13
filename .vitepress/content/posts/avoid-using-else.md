@@ -1,7 +1,7 @@
 ---
 date: "2022-03-26T00:00:00.000-05:00"
 draft: false
-tags: ["Community", "Link"]
+tags: ["community", "link"]
 image: "/images/posts/avoid-using-else.jpg"
 title: Avoid Using Else
 topic: development

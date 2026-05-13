@@ -1,7 +1,7 @@
 ---
 date: "2021-06-19T00:00:00.000-05:00"
 draft: false
-tags: ["Community", "Link"]
+tags: ["community", "link"]
 image: "/images/posts/just-how-niche-is-headless-word-press.jpg"
 title: Just How Niche is Headless WordPress?
 topic: development

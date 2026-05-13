@@ -1,7 +1,7 @@
 ---
 image: "/images/posts/taming-the-winds-of-web-design-with-tailwindcss.jpg"
 title: Taming the Winds of Web Design with Tailwind.css!
-tags: ["Tailwind.css"]
+tags: ["tailwind.css"]
 date: "2024-05-19T15:03:00.000+00:00"
 draft: false
 topic: development

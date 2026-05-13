@@ -1,7 +1,7 @@
 ---
 image: "/images/posts/unveiling-the-magic-of-vuejs-development.jpg"
 title: Unveiling the Magic of Vue.js Development
-tags: ["Vue.js"]
+tags: ["vue.js"]
 date: "2024-05-19T15:03:00.000+00:00"
 draft: false
 topic: development

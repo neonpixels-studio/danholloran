@@ -1,7 +1,7 @@
 ---
 image: "/images/posts/the-power-of-javascript-unlocking-the-potential-of-web-development.jpg"
 title: "The Power of Javascript: Unlocking the Potential of Web Development"
-tags: ["Javascript"]
+tags: ["javascript"]
 date: "2024-05-19T15:06:00.000+00:00"
 draft: false
 topic: development
