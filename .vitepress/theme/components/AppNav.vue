@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import ThemeToggle from "./ThemeToggle.vue";
 import { useMainNav } from "@composables/useMainNav.ts";
 import { useNavPanels } from "@composables/useNavPanels.ts";
 import socialLinks from "@data/socialLinks";
@@ -88,7 +87,6 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
     </div>
 
     <div class="flex items-center gap-2 max-md:gap-1">
-      <ThemeToggle />
       <button
         id="searchToggle"
         type="button"

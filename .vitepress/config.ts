@@ -264,11 +264,6 @@ export default defineConfig({
       },
     ],
     [
-      "script",
-      {},
-      `(function(){try{var t=localStorage.getItem('theme');if(!t)return;if(t==='dark')document.documentElement.classList.add('dark');var m=document.createElement('meta');m.name='theme-color';m.content=t==='dark'?'#0e0e10':'#fafaf9';document.head.appendChild(m);}catch(e){}})();`,
-    ],
-    [
       "meta",
       {
         name: "theme-color",
