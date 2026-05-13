@@ -1,7 +1,7 @@
 ---
 created_at: "2026-05-12T10:29:54.000+00:00"
 tags: ["react", "javascript", "performance", "tooling"]
-draft: true
+draft: false
 title: "React Compiler v1.0: Automatic Memoization Without the Headache"
 image: "/images/posts/react-compiler-v1-automatic-memoization-without-the-headache.jpg"
 topic: "React.js"

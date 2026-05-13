@@ -1,7 +1,7 @@
 ---
 date: "2026-05-09T15:22:55.000+00:00"
 tags: ["javascript", "svelte", "tooling", "frontend"]
-draft: true
+draft: false
 title: "Svelte 5 Runes: Reactive State That Actually Makes Sense"
 image: "/images/posts/svelte-5-runes-reactive-state-that-actually-makes-sense.jpg"
 topic: development

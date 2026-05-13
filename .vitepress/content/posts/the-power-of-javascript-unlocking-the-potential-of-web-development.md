@@ -3,7 +3,7 @@ image: "/images/posts/the-power-of-javascript-unlocking-the-potential-of-web-dev
 title: "The Power of Javascript: Unlocking the Potential of Web Development"
 tags: ["Javascript"]
 date: "2024-05-19T15:06:00.000+00:00"
-draft: true
+draft: false
 topic: development
 description: "An overview of JavaScript's role in modern web development — from cross-browser compatibility and async programming to the React, Angular, and Vue ecosystem that makes building interactive applications more productive."
 ---

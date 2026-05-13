@@ -3,7 +3,7 @@ image: "/images/posts/unveiling-the-magic-of-vuejs-development.jpg"
 title: Unveiling the Magic of Vue.js Development
 tags: ["Vue.js"]
 date: "2024-05-19T15:03:00.000+00:00"
-draft: true
+draft: false
 topic: development
 description: "A whimsical take on Vue.js — its elegant syntax, effortless integration with Vuex and Vue Router, and the welcoming community that makes building reactive, component-driven UIs feel like a superpower."
 ---
