@@ -22,7 +22,11 @@ function updateThemeColor(dark: boolean) {
 function toggle() {
   isDark.value = !isDark.value;
   document.documentElement.classList.toggle("dark", isDark.value);
-  localStorage.setItem("theme", isDark.value ? "dark" : "light");
+  try {
+    localStorage.setItem("theme", isDark.value ? "dark" : "light");
+  } catch {
+    // Left intentionally blank
+  }
   updateThemeColor(isDark.value);
 }
 </script>
