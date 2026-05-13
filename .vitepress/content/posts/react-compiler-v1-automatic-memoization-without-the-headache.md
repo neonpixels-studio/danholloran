@@ -1,10 +1,10 @@
 ---
-created_at: "2026-05-12T10:29:54.000+00:00"
-tags: ["react", "javascript", "performance", "tooling"]
+date: "2026-05-12T10:29:54.000+00:00"
+tags: ["react", "javascript", "performance", "tooling", "react.js"]
 draft: false
 title: "React Compiler v1.0: Automatic Memoization Without the Headache"
 image: "/images/posts/react-compiler-v1-automatic-memoization-without-the-headache.jpg"
-topic: "React.js"
+topic: "development"
 description: "React Compiler v1.0 landed in production-ready form and it automatically handles the memoization patterns you used to write by hand — here's what changed, how to set it up, and what it means for your day-to-day React code."
 ---
 

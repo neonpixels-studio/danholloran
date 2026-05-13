@@ -156,7 +156,7 @@ onUnmounted(() => {
     <button
       v-for="f in topics"
       :key="f"
-      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] transition-all"
+      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all"
       :class="{ active: currentTopic === f }"
       @click="setTopic(f)"
     >
