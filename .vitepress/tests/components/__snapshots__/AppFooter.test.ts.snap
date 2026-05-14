@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AppFooter > renders correctly 1`] = `
+"<footer class="border-line no-print border-t px-8 py-8 text-center">
+  <p class="text-fg-subtle font-mono text-[0.7rem]"> © Dan Holloran 2026 · <a href="/posts" class="text-fg-subtle hover:text-accent no-underline"> blog </a> · Built with Vue.js + Tailwind CSS </p>
+</footer>"
+`;

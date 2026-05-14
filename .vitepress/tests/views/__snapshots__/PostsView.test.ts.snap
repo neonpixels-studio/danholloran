@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PostsView > renders correctly 1`] = `
+"<header class="fade-in bg-topography-edge mx-auto max-w-275 px-8 pt-35 pb-12">
+  <div class="text-accent mb-4 font-mono text-[0.7rem] -tracking-widest uppercase"> // writing </div>
+  <h1 class="mb-4 font-mono leading-[1.1] font-bold" style="letter-spacing: -0.04em;"> Thoughts on code,<br>craft &amp; exploration. </h1>
+  <p class="text-fg-muted max-w-120 text-base"> A mix of technical deep-dives, career reflections, and dispatches from the road. </p>
+</header>
+<div class="fade-in mx-auto mb-12 flex max-w-275 flex-wrap items-center gap-2 px-8"><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all active">all</button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development</button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">career</button></div>
+<div class="mx-auto grid max-w-275 gap-6 px-8" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));"><a href="/posts/first-post" class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5 col-span-full flex-row! max-md:flex-col!" style="transition-delay: 0ms;">
+    <div class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1] aspect-auto w-[45%] max-md:aspect-video max-md:w-full"><img src="/images/posts/first-post.jpg" class="object.fit h-full w-full" alt="First Post thumbnail"></div>
+    <div class="flex flex-1 flex-col p-6">
+      <div class="mb-3 flex flex-wrap items-center gap-3"><span class="text-accent bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase">development</span><span class="text-fg-subtle font-mono text-[0.68rem]">Dec 31, 2024</span><span class="text-fg-subtle font-mono text-[0.68rem]">· 5 min</span></div>
+      <div class="mb-3 font-mono leading-[1.3] font-bold tracking-[-0.03em] text-[1.4rem]">First Post</div>
+      <div class="text-fg-muted mb-4 flex-1 text-[0.88rem] leading-[1.65]">The first post description.</div>
+      <div class="mt-auto flex items-center justify-between"><span class="text-accent font-mono text-[0.72rem]">read more →</span></div>
+    </div>
+  </a><a href="/posts/second-post" class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5" style="transition-delay: 60ms;">
+    <div class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1]"><img src="/images/posts/second-post.jpg" class="object.fit h-full w-full" alt="Second Post thumbnail"></div>
+    <div class="flex flex-1 flex-col p-6">
+      <div class="mb-3 flex flex-wrap items-center gap-3"><span class="text-accent bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase">career</span><span class="text-fg-subtle font-mono text-[0.68rem]">Jan 31, 2025</span><span class="text-fg-subtle font-mono text-[0.68rem]">· 3 min</span></div>
+      <div class="mb-3 font-mono leading-[1.3] font-bold tracking-[-0.03em] text-[1.05rem]">Second Post</div>
+      <div class="text-fg-muted mb-4 flex-1 text-[0.88rem] leading-[1.65]">The second post description.</div>
+      <div class="mt-auto flex items-center justify-between"><span class="text-accent font-mono text-[0.72rem]">read more →</span></div>
+    </div>
+  </a></div>
+<div class="mb-24"></div>"
+`;
+
+exports[`PostsView > renders with empty posts list 1`] = `
+"<header class="fade-in bg-topography-edge mx-auto max-w-275 px-8 pt-35 pb-12">
+  <div class="text-accent mb-4 font-mono text-[0.7rem] -tracking-widest uppercase"> // writing </div>
+  <h1 class="mb-4 font-mono leading-[1.1] font-bold" style="letter-spacing: -0.04em;"> Thoughts on code,<br>craft &amp; exploration. </h1>
+  <p class="text-fg-muted max-w-120 text-base"> A mix of technical deep-dives, career reflections, and dispatches from the road. </p>
+</header>
+<!--v-if-->
+<div class="mx-auto grid max-w-275 gap-6 px-8" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));"></div>
+<div class="mb-24"></div>"
+`;

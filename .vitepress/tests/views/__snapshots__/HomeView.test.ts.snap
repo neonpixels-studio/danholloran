@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`HomeView > renders correctly 1`] = `
+"<home-hero-stub></home-hero-stub>
+<home-projects-stub></home-projects-stub>
+<home-experience-stub></home-experience-stub>
+<home-contact-stub></home-contact-stub>
+<home-blog-stub></home-blog-stub>
+<home-instagram-stub></home-instagram-stub>"
+`;

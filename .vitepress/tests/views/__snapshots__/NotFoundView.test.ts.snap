@@ -1,0 +1,54 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NotFoundView > renders correctly 1`] = `
+"<div class="bg-topography-edge relative flex min-h-screen items-center justify-center px-8 pt-15 pb-16">
+  <div class="max-w-max-w-170 w-full text-center">
+    <!-- crumb -->
+    <div class="reveal text-accent mb-8 flex items-center justify-center gap-3 font-mono text-[0.7rem] tracking-widest uppercase"><span class="bg-accent inline-block h-px w-6"></span> // error 404 — page not found <span class="bg-accent inline-block h-px w-6"></span></div><!-- Mountain illustration -->
+    <div class="reveal mountain-float mb-6 flex justify-center" style="transition-delay:60ms;"><svg width="180" height="100" viewBox="0 0 180 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- Sun/moon disc -->
+        <circle cx="140" cy="30" r="12" fill="#ad46ff" opacity="0.25"></circle>
+        <circle cx="140" cy="30" r="6" fill="#ad46ff"></circle><!-- Back ridge -->
+        <path d="M0 88 L40 50 L70 70 L110 38 L150 65 L180 55 L180 92 L0 92 Z" fill="#111110" opacity="0.18"></path><!-- Mid ridge -->
+        <path d="M-10 92 L25 60 L55 78 L90 50 L130 75 L165 65 L185 78 L185 95 L-10 95 Z" fill="#ad46ff" opacity="0.6"></path><!-- Front peak with snow cap -->
+        <path d="M20 95 L60 35 L100 95 Z" fill="#111110" class="dark-flip-fill"></path>
+        <path d="M52 50 L60 35 L68 50 L65 47 L60 52 L55 47 Z" fill="#ffffff"></path><!-- Second peak -->
+        <path d="M75 95 L110 50 L145 95 Z" fill="#ad46ff"></path>
+        <path d="M104 60 L110 50 L116 60 L114 58 L110 62 L106 58 Z" fill="#ffffff"></path><!-- baseline -->
+        <path d="M0 95 H180" stroke="#111110" stroke-width="0.8" stroke-linecap="round" class="dark-flip-stroke"></path><!-- small flag/marker -->
+        <line x1="60" y1="35" x2="60" y2="20" stroke="#111110" stroke-width="1" class="dark-flip-stroke"></line>
+        <path d="M60 20 L70 24 L60 28 Z" fill="#ad46ff"></path>
+      </svg></div><!-- Big 404 -->
+    <h1 class="reveal glitch mb-6 font-mono leading-none font-bold select-none" style="letter-spacing: -0.06em; transition-delay: 120ms;"><span class="text-outline">404</span></h1><!-- Headline -->
+    <h2 class="reveal mb-5 font-mono leading-[1.15] font-bold" style="letter-spacing: -0.03em; transition-delay: 200ms;"> You wandered<br>off the map. </h2><!-- Body -->
+    <p class="reveal text-fg-muted mx-auto mb-10 max-w-110 text-[0.95rem] leading-[1.75]" style="transition-delay: 280ms;"> The page you're looking for either moved, got renamed, or was a typo in someone's browser bar. No big deal — pick a trail below and you'll be back on solid ground. </p><!-- Actions -->
+    <div class="reveal mb-14 flex flex-wrap justify-center gap-3" style="transition-delay: 360ms;"><a href="/" class="bg-accent border-accent inline-flex items-center gap-2 rounded-xs border-2 px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] text-white no-underline transition-all hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(173,70,255,0.25)]"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1 6L6 1L11 6M2.5 5V10.5H9.5V5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg> back to home </a><button onclick="document.getElementById('searchToggle').click()" class="border-fg text-fg hover:bg-fg hover:text-bg inline-flex cursor-pointer items-center gap-2 rounded-xs border-2 bg-transparent px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] transition-all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M8 8L11 11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+        </svg> search the site </button></div><!-- Quick links grid -->
+    <div class="reveal" style="transition-delay: 440ms;">
+      <div class="text-fg-subtle mb-4 font-mono text-[0.65rem] tracking-widest uppercase"> // or try one of these </div>
+      <div class="mx-auto grid max-w-140 grid-cols-2 gap-3 md:grid-cols-4"><a href="/#projects" class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px">
+          <div class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"> 01 </div>
+          <div class="text-fg font-mono text-[0.78rem] font-semibold"> projects </div>
+          <div class="text-fg-subtle mt-0.5 font-mono text-[0.65rem]"> selected work </div>
+        </a><a href="/posts" class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px">
+          <div class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"> 02 </div>
+          <div class="text-fg font-mono text-[0.78rem] font-semibold"> blog </div>
+          <div class="text-fg-subtle mt-0.5 font-mono text-[0.65rem]"> writing &amp; notes </div>
+        </a><a href="/resume" class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px">
+          <div class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"> 03 </div>
+          <div class="text-fg font-mono text-[0.78rem] font-semibold"> resume </div>
+          <div class="text-fg-subtle mt-0.5 font-mono text-[0.65rem]">14+ yrs of work </div>
+        </a><a href="mailto:hello@danholloran.me" class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px">
+          <div class="text-accent mb-1 font-mono text-[0.62rem] tracking-[0.08em] uppercase"> 04 </div>
+          <div class="text-fg font-mono text-[0.78rem] font-semibold"> contact </div>
+          <div class="text-fg-subtle mt-0.5 font-mono text-[0.65rem]"> say hello </div>
+        </a></div>
+    </div><!-- Tech footer trace -->
+    <div class="reveal text-fg-subtle -tracking-tighter-2 mt-16 font-mono text-[0.62rem]" style="transition-delay: 540ms;"><span class="text-accent">$</span> curl <span id="requested-path" class="text-fg-muted mr-1">/missing-page</span><span class="text-fg-muted mr-1">→</span><span class="text-fg-muted mr-1">HTTP/1.1</span><span class="text-accent mr-1">404</span><span class="text-fg-muted">Not Found</span></div>
+  </div>
+</div>"
+`;
