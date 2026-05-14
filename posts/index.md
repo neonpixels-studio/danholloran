@@ -1,6 +1,6 @@
 ---
-title: Blog Posts
-description: My posts
+title: "Thoughts on code, craft & exploration."
+description: "A mix of technical deep-dives, career reflections, and dispatches from the road."
 ---
 
 <script setup>
