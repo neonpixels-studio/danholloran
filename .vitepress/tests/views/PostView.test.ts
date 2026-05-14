@@ -42,4 +42,20 @@ describe("PostView", () => {
     });
     expect(wrapper.html()).toMatchSnapshot();
   });
+
+  it("links each tag to /posts?tag=TAG", () => {
+    const wrapper = shallowMount(PostView, {
+      props: {
+        post: mockPosts[0],
+        posts: mockPosts,
+      },
+    });
+    const tagLinks = wrapper.findAll("a[href^='/posts?tag=']");
+    expect(tagLinks).toHaveLength(mockPosts[0].frontmatter.tags.length);
+    tagLinks.forEach((link, i) => {
+      expect(link.attributes("href")).toBe(
+        `/posts?tag=${mockPosts[0].frontmatter.tags[i]}`,
+      );
+    });
+  });
 });

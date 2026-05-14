@@ -114,13 +114,14 @@ function formatDate(d: string) {
     ></article>
 
     <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8">
-      <span
+      <a
         v-for="tag in post.frontmatter.tags"
         :key="tag"
-        class="text-fg-muted border-line rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"
+        :href="`/posts?tag=${tag}`"
+        class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"
       >
-        {{ tag }}
-      </span>
+        #{{ tag }}
+      </a>
     </div>
 
     <nav

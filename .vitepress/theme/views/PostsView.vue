@@ -7,6 +7,7 @@ const { posts } = defineProps<{
 }>();
 
 const ALL_TOPIC = "all";
+const ALL_TAG = "all";
 const topics = [
   ALL_TOPIC,
   ...new Set(posts.map((post) => post.frontmatter.topic)),
@@ -14,13 +15,21 @@ const topics = [
 const FIRST_PAGE_SIZE = 10;
 const REST_PAGE_SIZE = 9;
 const currentTopic = ref<string>(ALL_TOPIC);
+const currentTag = ref<string>(ALL_TAG);
 const currentPage = ref<number>(1);
 
-const filtered = computed(() =>
-  currentTopic.value === ALL_TOPIC
-    ? posts
-    : posts.filter((p) => p.frontmatter.topic === currentTopic.value),
-);
+const filtered = computed(() => {
+  let result = posts;
+  if (currentTopic.value !== ALL_TOPIC) {
+    result = result.filter((p) => p.frontmatter.topic === currentTopic.value);
+  }
+  if (currentTag.value !== ALL_TAG) {
+    result = result.filter((p) =>
+      p.frontmatter.tags.includes(currentTag.value),
+    );
+  }
+  return result;
+});
 
 const totalPages = computed(() => {
   const n = filtered.value.length;
@@ -28,10 +37,11 @@ const totalPages = computed(() => {
   return 1 + Math.ceil((n - FIRST_PAGE_SIZE) / REST_PAGE_SIZE);
 });
 
-const setUrlParams = (topic?: string, page?: number | string) => {
+const setUrlParams = (topic?: string, page?: number | string, tag?: string) => {
   if (typeof window === "undefined") return;
   const url = new URL(window.location.href);
   url.searchParams.set("topic", topic ?? ALL_TOPIC);
+  url.searchParams.set("tag", tag ?? ALL_TAG);
   url.searchParams.set("page", String(page ?? 1));
   history.pushState({}, "", url.toString());
 };
@@ -47,16 +57,19 @@ const pagePosts = computed(() => {
 function setTopic(f: string) {
   currentTopic.value = f;
   currentPage.value = 1;
+  setUrlParams(currentTopic.value, currentPage.value, currentTag.value);
+}
 
-  setUrlParams(currentTopic.value, currentPage.value);
+function setTag(t: string) {
+  currentTag.value = t;
+  currentPage.value = 1;
+  setUrlParams(currentTopic.value, currentPage.value, currentTag.value);
 }
 
 function goPage(n: number) {
   if (n < 1 || n > totalPages.value) return;
   currentPage.value = n;
-
-  setUrlParams(currentTopic.value, currentPage.value);
-
+  setUrlParams(currentTopic.value, currentPage.value, currentTag.value);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -88,6 +101,7 @@ const syncFromUrl = () => {
   if (typeof window === "undefined") return;
   const p = new URLSearchParams(window.location.search);
   currentTopic.value = p.get("topic") || ALL_TOPIC;
+  currentTag.value = p.get("tag") || ALL_TAG;
   currentPage.value = parseInt(p.get("page") || "1") || 1;
 };
 
@@ -151,20 +165,58 @@ onUnmounted(() => {
 
   <div
     v-if="topics.length > 2"
-    class="fade-in mx-auto mb-12 flex max-w-275 flex-wrap items-center gap-2 px-8"
+    class="fade-in mx-auto mb-4 flex max-w-275 flex-wrap items-center gap-2 px-8"
   >
+    <span class="text-fg-subtle font-mono text-[0.72rem] lowercase"
+      >topic:</span
+    >
     <button
       v-for="f in topics"
       :key="f"
-      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent cursor-pointer rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all"
+      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all"
       :class="{ active: currentTopic === f }"
-      @click="setTopic(f)"
+      @click="setTopic(currentTopic === f && f !== ALL_TOPIC ? ALL_TOPIC : f)"
     >
-      {{ f }}
+      {{ f
+      }}<span v-if="currentTopic === f && f !== ALL_TOPIC" aria-hidden="true"
+        >×</span
+      >
     </button>
   </div>
 
   <div
+    v-if="currentTag !== ALL_TAG"
+    class="fade-in mx-auto mb-12 flex max-w-275 flex-wrap items-center gap-2 px-8"
+  >
+    <span class="text-fg-subtle font-mono text-[0.72rem] lowercase">tag:</span>
+    <button
+      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent active inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all"
+      @click="setTag(ALL_TAG)"
+    >
+      #{{ currentTag }} <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div
+    v-if="filtered.length === 0"
+    class="mx-auto max-w-275 px-8 pt-8 pb-24 text-center"
+  >
+    <p class="text-fg-muted font-mono text-[0.9rem]">
+      No posts found for the current filters.
+    </p>
+    <button
+      class="text-accent mt-4 cursor-pointer bg-transparent font-mono text-[0.8rem] underline"
+      @click="
+        setTopic(ALL_TOPIC);
+        setTag(ALL_TAG);
+      "
+    >
+      clear all filters
+    </button>
+  </div>
+
+  <div
+    v-else
     class="mx-auto grid max-w-275 gap-6 px-8"
     style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))"
   >
