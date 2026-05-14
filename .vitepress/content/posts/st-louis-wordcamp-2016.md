@@ -1,5 +1,5 @@
 ---
-date: "2016-05-16T00:00:00.000-05:00"
+date: "2016-05-16T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/st-louis-wordcamp-2016.jpg"

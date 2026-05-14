@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-22T17:28:23.000+00:00'
-tags: ['downtown-st-louis', 'travel', 'city', 'history']
-draft: true
-title: "Visiting Downtown St. Louis"
-image: '/images/posts/travel-downtown-st-louis.jpg'
-topic: 'travel'
-travel_location: 'downtown st. louis'
+date: "2020-05-22T17:28:23.000+00:00"
+tags: ["downtown-st-louis", "travel", "city", "history"]
+draft: false
+title: "Downtown St. Louis"
+image: "/images/posts/travel-downtown-st-louis.jpg"
+topic: "travel"
+travel_location: "downtown st. louis"
 description: "Downtown St. Louis anchors a city with more depth than most people expect — the riverfront, the Arch, the old buildings, and an energy that rewards walking."
 ---
 

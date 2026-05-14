@@ -1,11 +1,18 @@
 ---
-created_at: '2025-10-07T16:40:00.000+00:00'
-tags: ['grand-teton-national-park', 'travel', 'national-park', 'nature', 'photography']
-draft: true
+date: "2025-10-07T16:40:00.000+00:00"
+tags:
+  [
+    "grand-teton-national-park",
+    "travel",
+    "national-park",
+    "nature",
+    "photography",
+  ]
+draft: false
 title: "Grand Teton: Mountains That Don't Wait to Impress You"
-image: '/images/posts/travel-grand-teton-national-park.jpg'
-topic: 'travel'
-travel_location: 'grand teton national park'
+image: "/images/posts/travel-grand-teton-national-park.jpg"
+topic: "travel"
+travel_location: "grand teton national park"
 description: "Grand Teton National Park in northwestern Wyoming rises abruptly from the valley floor without foothills — the jagged Teton peaks just appear, reflected in glacial lakes, with wildlife grazing in the meadows below."
 ---
 

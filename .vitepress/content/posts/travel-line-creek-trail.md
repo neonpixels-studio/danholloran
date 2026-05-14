@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-12T21:42:19.000+00:00'
-tags: ['line-creek-trail', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Line Creek Trail"
-image: '/images/posts/travel-line-creek-trail.jpg'
-topic: 'travel'
-travel_location: 'line creek trail'
+date: "2020-08-12T21:42:19.000+00:00"
+tags: ["line-creek-trail", "travel", "nature", "hiking"]
+draft: false
+title: "Line Creek Trail"
+image: "/images/posts/travel-line-creek-trail.jpg"
+topic: "travel"
+travel_location: "line creek trail"
 description: "A paved multi-use greenway through the Kansas City Northland, following Line Creek through wooded corridors with a small waterfall tucked inside."
 ---
 

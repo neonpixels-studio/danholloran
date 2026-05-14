@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-28T20:26:22.000+00:00'
-tags: ['city-garden-downtown-stl', 'travel', 'art', 'city']
-draft: true
-title: "Visiting City Garden Downtown Stl"
-image: '/images/posts/travel-city-garden-downtown-stl.jpg'
-topic: 'travel'
-travel_location: 'city garden downtown stl'
+date: "2020-05-28T20:26:22.000+00:00"
+tags: ["city-garden-downtown-stl", "travel", "art", "city"]
+draft: false
+title: "City Garden Downtown Stl"
+image: "/images/posts/travel-city-garden-downtown-stl.jpg"
+topic: "travel"
+travel_location: "city garden downtown stl"
 description: "A free, two-block sculpture park in the heart of downtown St. Louis with 24 international artists, 102 water jets, and a remarkably welcoming vibe."
 ---
 

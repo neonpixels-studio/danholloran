@@ -1,5 +1,5 @@
 ---
-date: "2021-06-26T00:00:00.000-05:00"
+date: "2021-06-26T05:00:00.000+00:00"
 draft: false
 tags: ["link"]
 image: "/images/posts/questions-to-ask-before-choosing-a-static-site-generator.jpg"

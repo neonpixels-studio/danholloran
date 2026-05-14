@@ -1,11 +1,11 @@
 ---
-created_at: '2020-11-24T18:40:32.000+00:00'
-tags: ['rocky-falls', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Rocky Falls"
-image: '/images/posts/travel-rocky-falls.jpg'
-topic: 'travel'
-travel_location: 'rocky falls'
+date: "2020-11-24T18:40:32.000+00:00"
+tags: ["rocky-falls", "travel", "nature", "hiking"]
+draft: false
+title: "Rocky Falls"
+image: "/images/posts/travel-rocky-falls.jpg"
+topic: "travel"
+travel_location: "rocky falls"
 description: "An Ozark shut-in where Rocky Creek cascades 40 feet over billion-year-old rhyolite — one of Missouri's best natural swimming holes and an Ozark Trail trailhead."
 ---
 

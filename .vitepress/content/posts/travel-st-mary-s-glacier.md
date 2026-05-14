@@ -1,11 +1,11 @@
 ---
-created_at: '2020-09-17T21:38:52.000+00:00'
-tags: ['st-mary-s-glacier', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting St Mary's Glacier"
-image: '/images/posts/travel-st-mary-s-glacier.jpg'
-topic: 'travel'
-travel_location: 'st mary's glacier'
+date: "2020-09-17T21:38:52.000+00:00"
+tags: ["st-mary-s-glacier", "travel", "nature", "hiking"]
+draft: false
+title: "St Mary's Glacier"
+image: "/images/posts/travel-st-mary-s-glacier.jpg"
+topic: "travel"
+travel_location: "st mary's glacier"
 description: "A year-round ice field near Idaho Springs, Colorado — a 1.5-mile hike at 11,000 feet where people ski in August and the alpine lake below is impossibly clear."
 ---
 

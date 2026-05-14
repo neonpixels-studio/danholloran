@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-05T22:31:18.000+00:00'
-tags: ['st-louis-missouri', 'travel', 'city', 'culture']
-draft: true
-title: "Visiting St. Louis, Missouri"
-image: '/images/posts/travel-st-louis-missouri.jpg'
-topic: 'travel'
-travel_location: 'st. louis, missouri'
+date: "2020-08-05T22:31:18.000+00:00"
+tags: ["st-louis-missouri", "travel", "city", "culture"]
+draft: false
+title: "St. Louis, Missouri"
+image: "/images/posts/travel-st-louis-missouri.jpg"
+topic: "travel"
+travel_location: "st. louis, missouri"
 description: "St. Louis is a city of deep history, free world-class institutions, and a riverfront identity that rewards time spent actually looking."
 ---
 

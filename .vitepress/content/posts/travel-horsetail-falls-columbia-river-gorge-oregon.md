@@ -1,11 +1,12 @@
 ---
-created_at: '2025-05-18T17:40:00.000+00:00'
-tags: ['horsetail-falls-columbia-river-gorge-oregon', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Horsetail Falls, Columbia River Gorge, Oregon"
-image: '/images/posts/travel-horsetail-falls-columbia-river-gorge-oregon.jpg'
-topic: 'travel'
-travel_location: 'horsetail falls, columbia river gorge, oregon'
+date: "2025-05-18T17:40:00.000+00:00"
+tags:
+  ["horsetail-falls-columbia-river-gorge-oregon", "travel", "nature", "hiking"]
+draft: false
+title: "Horsetail Falls, Columbia River Gorge, Oregon"
+image: "/images/posts/travel-horsetail-falls-columbia-river-gorge-oregon.jpg"
+topic: "travel"
+travel_location: "horsetail falls, columbia river gorge, oregon"
 description: "A 176-foot waterfall right next to the Historic Columbia River Highway, with a short trail to Ponytail Falls where you walk directly behind the cascade."
 ---
 

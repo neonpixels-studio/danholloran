@@ -1,11 +1,11 @@
 ---
-created_at: '2020-07-15T21:36:32.000+00:00'
-tags: ['st-louis-aquarium-at-union-station', 'travel', 'city', 'culture']
-draft: true
-title: "Visiting St. Louis Aquarium at Union Station"
-image: '/images/posts/travel-st-louis-aquarium-at-union-station.jpg'
-topic: 'travel'
-travel_location: 'st. louis aquarium at union station'
+date: "2020-07-15T21:36:32.000+00:00"
+tags: ["st-louis-aquarium-at-union-station", "travel", "city", "culture"]
+draft: false
+title: "St. Louis Aquarium at Union Station"
+image: "/images/posts/travel-st-louis-aquarium-at-union-station.jpg"
+topic: "travel"
+travel_location: "st. louis aquarium at union station"
 description: "Inside a restored historic train station, the St. Louis Aquarium packs sharks, stingrays, and river creatures into an unexpected downtown destination."
 ---
 

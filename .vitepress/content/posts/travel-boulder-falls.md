@@ -1,11 +1,11 @@
 ---
-created_at: '2020-09-19T17:25:41.000+00:00'
-tags: ['boulder-falls', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Boulder Falls"
-image: '/images/posts/travel-boulder-falls.jpg'
-topic: 'travel'
-travel_location: 'boulder falls'
+date: "2020-09-19T17:25:41.000+00:00"
+tags: ["boulder-falls", "travel", "nature", "hiking"]
+draft: false
+title: "Boulder Falls"
+image: "/images/posts/travel-boulder-falls.jpg"
+topic: "travel"
+travel_location: "boulder falls"
 description: "A 70-foot waterfall in Boulder Canyon just 11 miles from Boulder — a 100-yard walk to something genuinely dramatic tucked into the canyon walls."
 ---
 

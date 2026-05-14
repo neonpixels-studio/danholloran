@@ -1,11 +1,11 @@
 ---
-created_at: '2025-01-04T01:59:56.000+00:00'
-tags: ['minnehaha-falls', 'travel', 'nature', 'waterfall', 'minnesota']
-draft: true
-title: "Visiting Minnehaha Falls"
-image: '/images/posts/travel-minnehaha-falls.jpg'
-topic: 'travel'
-travel_location: 'minnehaha falls'
+date: "2025-01-04T01:59:56.000+00:00"
+tags: ["minnehaha-falls", "travel", "nature", "waterfall", "minnesota"]
+draft: false
+title: "Minnehaha Falls"
+image: "/images/posts/travel-minnehaha-falls.jpg"
+topic: "travel"
+travel_location: "minnehaha falls"
 description: "A 53-foot waterfall tucked inside a park in the middle of Minneapolis — an unexpected natural landmark in an urban setting, with a creek gorge trail that makes you forget you're in a city."
 ---
 

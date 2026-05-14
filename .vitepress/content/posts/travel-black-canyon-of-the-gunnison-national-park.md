@@ -1,11 +1,17 @@
 ---
-created_at: '2025-09-17T19:55:00.000+00:00'
-tags: ['black-canyon-of-the-gunnison-national-park', 'travel', 'national-park', 'nature']
-draft: true
-title: "Visiting Black Canyon of the Gunnison National Park"
-image: '/images/posts/travel-black-canyon-of-the-gunnison-national-park.jpg'
-topic: 'travel'
-travel_location: 'black canyon of the gunnison national park'
+date: "2025-09-17T19:55:00.000+00:00"
+tags:
+  [
+    "black-canyon-of-the-gunnison-national-park",
+    "travel",
+    "national-park",
+    "nature",
+  ]
+draft: false
+title: "Black Canyon of the Gunnison National Park"
+image: "/images/posts/travel-black-canyon-of-the-gunnison-national-park.jpg"
+topic: "travel"
+travel_location: "black canyon of the gunnison national park"
 description: "A 2,000-foot-deep canyon of 1.7-billion-year-old Precambrian rock in western Colorado — one of the most dramatic and least visited national parks."
 ---
 

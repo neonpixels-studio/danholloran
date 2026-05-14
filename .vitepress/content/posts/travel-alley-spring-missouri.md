@@ -1,11 +1,11 @@
 ---
-created_at: '2020-07-05T20:53:24.000+00:00'
-tags: ['alley-spring-missouri', 'travel', 'nature', 'history']
-draft: true
-title: "Visiting Alley Spring, Missouri"
-image: '/images/posts/travel-alley-spring-missouri.jpg'
-topic: 'travel'
-travel_location: 'alley spring, missouri'
+date: "2020-07-05T20:53:24.000+00:00"
+tags: ["alley-spring-missouri", "travel", "nature", "history"]
+draft: false
+title: "Alley Spring, Missouri"
+image: "/images/posts/travel-alley-spring-missouri.jpg"
+topic: "travel"
+travel_location: "alley spring, missouri"
 description: "A bright red mill beside impossibly blue spring water in the Ozarks — Alley Spring is a perfect summer afternoon in Missouri."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-11T16:10:00.000+00:00'
-tags: ['redwoods-national-park', 'travel', 'national-park', 'nature']
-draft: true
-title: "Visiting Redwoods National Park"
-image: '/images/posts/travel-redwoods-national-park.jpg'
-topic: 'travel'
-travel_location: 'redwoods national park'
+date: "2025-09-11T16:10:00.000+00:00"
+tags: ["redwoods-national-park", "travel", "national-park", "nature"]
+draft: false
+title: "Redwoods National Park"
+image: "/images/posts/travel-redwoods-national-park.jpg"
+topic: "travel"
+travel_location: "redwoods national park"
 description: "The tallest trees on earth along 37 miles of pristine California coastline — a place that requires standing still and looking up for several minutes before it makes sense."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2025-05-03T01:01:17.000+00:00'
-tags: ['bass-pro-shops-at-the-pyramid', 'travel', 'city', 'adventure']
-draft: true
-title: "Visiting Bass Pro Shops at the Pyramid"
-image: '/images/posts/travel-bass-pro-shops-at-the-pyramid.jpg'
-topic: 'travel'
-travel_location: 'bass pro shops at the pyramid'
+date: "2025-05-03T01:01:17.000+00:00"
+tags: ["bass-pro-shops-at-the-pyramid", "travel", "city", "adventure"]
+draft: false
+title: "Bass Pro Shops at the Pyramid"
+image: "/images/posts/travel-bass-pro-shops-at-the-pyramid.jpg"
+topic: "travel"
+travel_location: "bass pro shops at the pyramid"
 description: "A 32-story steel pyramid on the Memphis riverfront that now holds a Bass Pro megastore, a cypress swamp, a bowling alley, live alligators, and a hotel inside the apex."
 ---
 

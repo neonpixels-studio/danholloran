@@ -1,11 +1,11 @@
 ---
-created_at: '2021-04-28T20:05:58.000+00:00'
-tags: ['triple-falls-productions', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Triple Falls Productions"
-image: '/images/posts/travel-triple-falls-productions.jpg'
-topic: 'travel'
-travel_location: 'triple falls productions'
+date: "2021-04-28T20:05:58.000+00:00"
+tags: ["triple-falls-productions", "travel", "nature", "photography"]
+draft: false
+title: "Triple Falls Productions"
+image: "/images/posts/travel-triple-falls-productions.jpg"
+topic: "travel"
+travel_location: "triple falls productions"
 description: "Triple Falls in DuPont State Forest — three tiers of Little River waterfalls, a Hunger Games filming location, and some of the best hiking in western North Carolina."
 ---
 

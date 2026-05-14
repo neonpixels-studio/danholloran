@@ -1,11 +1,11 @@
 ---
-created_at: '2020-09-10T21:37:10.000+00:00'
-tags: ['st-louis-riverfront-arch', 'travel', 'city', 'photography']
-draft: true
-title: "Visiting St. Louis Riverfront Arch"
-image: '/images/posts/travel-st-louis-riverfront-arch.jpg'
-topic: 'travel'
-travel_location: 'st. louis riverfront arch'
+date: "2020-09-10T21:37:10.000+00:00"
+tags: ["st-louis-riverfront-arch", "travel", "city", "photography"]
+draft: false
+title: "St. Louis Riverfront Arch"
+image: "/images/posts/travel-st-louis-riverfront-arch.jpg"
+topic: "travel"
+travel_location: "st. louis riverfront arch"
 description: "The Gateway Arch from the St. Louis riverfront — a walk along the Mississippi that puts one of America's great monuments directly overhead."
 ---
 

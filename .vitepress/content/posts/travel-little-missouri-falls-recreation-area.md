@@ -1,11 +1,11 @@
 ---
-created_at: '2021-05-17T22:03:51.000+00:00'
-tags: ['little-missouri-falls-recreation-area', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Little Missouri Falls Recreation Area"
-image: '/images/posts/travel-little-missouri-falls-recreation-area.jpg'
-topic: 'travel'
-travel_location: 'little missouri falls recreation area'
+date: "2021-05-17T22:03:51.000+00:00"
+tags: ["little-missouri-falls-recreation-area", "travel", "nature", "hiking"]
+draft: false
+title: "Little Missouri Falls Recreation Area"
+image: "/images/posts/travel-little-missouri-falls-recreation-area.jpg"
+topic: "travel"
+travel_location: "little missouri falls recreation area"
 description: "A series of cascading rock shelves on the Little Missouri River deep in Arkansas Ouachita National Forest — quiet, beautiful, and the start of the Eagle Rock Loop."
 ---
 

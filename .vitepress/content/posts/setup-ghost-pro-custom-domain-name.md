@@ -1,5 +1,5 @@
 ---
-date: "2015-03-20T00:00:00.000-05:00"
+date: "2015-03-20T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/setup-ghost-pro-custom-domain-name.jpg"

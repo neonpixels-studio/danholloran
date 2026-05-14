@@ -1,5 +1,5 @@
 ---
-date: "2016-01-12T00:00:00.000-05:00"
+date: "2016-01-12T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/quickly-install-applications-on-your-mac-with-homebrew-and-cask.jpg"

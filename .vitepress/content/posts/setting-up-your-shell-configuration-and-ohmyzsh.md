@@ -1,5 +1,5 @@
 ---
-date: "2016-07-03T00:00:00.000-05:00"
+date: "2016-07-03T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/setting-up-your-shell-configuration-and-ohmyzsh.jpg"

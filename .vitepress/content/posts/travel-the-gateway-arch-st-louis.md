@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-24T20:37:51.000+00:00'
-tags: ['the-gateway-arch-st-louis', 'travel', 'history', 'city']
-draft: true
-title: "Visiting The Gateway Arch St. Louis"
-image: '/images/posts/travel-the-gateway-arch-st-louis.jpg'
-topic: 'travel'
-travel_location: 'the gateway arch st. louis'
+date: "2020-05-24T20:37:51.000+00:00"
+tags: ["the-gateway-arch-st-louis", "travel", "history", "city"]
+draft: false
+title: "The Gateway Arch St. Louis"
+image: "/images/posts/travel-the-gateway-arch-st-louis.jpg"
+topic: "travel"
+travel_location: "the gateway arch st. louis"
 description: "The Gateway Arch is 630 feet of stainless steel and ambition — an icon of American design that earns its place in the landscape."
 ---
 

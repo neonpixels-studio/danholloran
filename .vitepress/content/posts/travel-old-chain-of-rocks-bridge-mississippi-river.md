@@ -1,11 +1,17 @@
 ---
-created_at: '2020-05-30T20:15:27.000+00:00'
-tags: ['old-chain-of-rocks-bridge-mississippi-river', 'travel', 'history', 'photography']
-draft: true
-title: "Visiting Old Chain Of Rocks Bridge, Mississippi River"
-image: '/images/posts/travel-old-chain-of-rocks-bridge-mississippi-river.jpg'
-topic: 'travel'
-travel_location: 'old chain of rocks bridge, mississippi river'
+date: "2020-05-30T20:15:27.000+00:00"
+tags:
+  [
+    "old-chain-of-rocks-bridge-mississippi-river",
+    "travel",
+    "history",
+    "photography",
+  ]
+draft: false
+title: "Old Chain Of Rocks Bridge, Mississippi River"
+image: "/images/posts/travel-old-chain-of-rocks-bridge-mississippi-river.jpg"
+topic: "travel"
+travel_location: "old chain of rocks bridge, mississippi river"
 description: "The Route 66 bridge with a legendary bend in the middle, golden in late afternoon light over the Mississippi — a walk you won't forget."
 ---
 

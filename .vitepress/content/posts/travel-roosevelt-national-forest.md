@@ -1,11 +1,11 @@
 ---
-created_at: '2020-09-24T21:37:43.000+00:00'
-tags: ['roosevelt-national-forest', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Roosevelt National Forest"
-image: '/images/posts/travel-roosevelt-national-forest.jpg'
-topic: 'travel'
-travel_location: 'roosevelt national forest'
+date: "2020-09-24T21:37:43.000+00:00"
+tags: ["roosevelt-national-forest", "travel", "nature", "hiking"]
+draft: false
+title: "Roosevelt National Forest"
+image: "/images/posts/travel-roosevelt-national-forest.jpg"
+topic: "travel"
+travel_location: "roosevelt national forest"
 description: "1.5 million acres of north-central Colorado mountains, wilderness areas, and alpine trails — one of the most-visited national forests in the country."
 ---
 

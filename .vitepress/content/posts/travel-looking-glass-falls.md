@@ -1,11 +1,11 @@
 ---
-created_at: '2021-04-07T20:06:03.000+00:00'
-tags: ['looking-glass-falls', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Looking Glass Falls"
-image: '/images/posts/travel-looking-glass-falls.jpg'
-topic: 'travel'
-travel_location: 'looking glass falls'
+date: "2021-04-07T20:06:03.000+00:00"
+tags: ["looking-glass-falls", "travel", "nature", "photography"]
+draft: false
+title: "Looking Glass Falls"
+image: "/images/posts/travel-looking-glass-falls.jpg"
+topic: "travel"
+travel_location: "looking glass falls"
 description: "A 60-foot roadside waterfall in Pisgah National Forest near Brevard, NC — most accessible and most beautiful, no hike required."
 ---
 

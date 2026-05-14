@@ -1,5 +1,5 @@
 ---
-date: "2015-08-06T00:00:00.000-05:00"
+date: "2015-08-06T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/using-trello-to-manage-your-blog-posts.jpg"

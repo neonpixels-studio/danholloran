@@ -1,11 +1,12 @@
 ---
-created_at: '2020-09-20T22:53:32.000+00:00'
-tags: ['red-rocks-park-and-amphitheatre', 'travel', 'nature', 'city', 'photography']
-draft: true
+date: "2020-09-20T22:53:32.000+00:00"
+tags:
+  ["red-rocks-park-and-amphitheatre", "travel", "nature", "city", "photography"]
+draft: false
 title: "Red Rocks: Where the Geology Steals the Show"
-image: '/images/posts/travel-red-rocks-park-and-amphitheatre.jpg'
-topic: 'travel'
-travel_location: 'red rocks park and amphitheatre'
+image: "/images/posts/travel-red-rocks-park-and-amphitheatre.jpg"
+topic: "travel"
+travel_location: "red rocks park and amphitheatre"
 description: "Red Rocks Park and Amphitheatre near Morrison, Colorado is one of the most striking natural formations in the country — towering sandstone monoliths that happen to double as one of the world's best concert venues."
 ---
 

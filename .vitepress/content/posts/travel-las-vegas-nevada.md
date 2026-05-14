@@ -1,11 +1,11 @@
 ---
-created_at: '2023-06-06T01:51:09.000+00:00'
-tags: ['las-vegas-nevada', 'travel', 'city', 'adventure']
-draft: true
-title: "Visiting Las Vegas, Nevada"
-image: '/images/posts/travel-las-vegas-nevada.jpg'
-topic: 'travel'
-travel_location: 'las vegas, nevada'
+date: "2023-06-06T01:51:09.000+00:00"
+tags: ["las-vegas-nevada", "travel", "city", "adventure"]
+draft: false
+title: "Las Vegas, Nevada"
+image: "/images/posts/travel-las-vegas-nevada.jpg"
+topic: "travel"
+travel_location: "las vegas, nevada"
 description: "Las Vegas in June — the Strip at night, the desert heat, the casinos, and the particular energy of a city that operates at full volume around the clock."
 ---
 

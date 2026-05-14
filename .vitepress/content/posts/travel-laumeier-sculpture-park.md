@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-16T21:23:51.000+00:00'
-tags: ['laumeier-sculpture-park', 'travel', 'art', 'city']
-draft: true
-title: "Visiting Laumeier Sculpture Park"
-image: '/images/posts/travel-laumeier-sculpture-park.jpg'
-topic: 'travel'
-travel_location: 'laumeier sculpture park'
+date: "2020-05-16T21:23:51.000+00:00"
+tags: ["laumeier-sculpture-park", "travel", "art", "city"]
+draft: false
+title: "Laumeier Sculpture Park"
+image: "/images/posts/travel-laumeier-sculpture-park.jpg"
+topic: "travel"
+travel_location: "laumeier sculpture park"
 description: "A 105-acre open-air museum where giant sculptures live among the trees — Laumeier is one of St. Louis's best-kept secrets."
 ---
 

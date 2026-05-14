@@ -1,11 +1,18 @@
 ---
-created_at: '2025-09-22T18:50:00.000+00:00'
-tags: ['crater-lake-national-park', 'travel', 'national-park', 'nature', 'photography']
-draft: true
+date: "2025-09-22T18:50:00.000+00:00"
+tags:
+  [
+    "crater-lake-national-park",
+    "travel",
+    "national-park",
+    "nature",
+    "photography",
+  ]
+draft: false
 title: "Crater Lake: The Deepest Blue You've Ever Seen"
-image: '/images/posts/travel-crater-lake-national-park.jpg'
-topic: 'travel'
-travel_location: 'crater lake national park'
+image: "/images/posts/travel-crater-lake-national-park.jpg"
+topic: "travel"
+travel_location: "crater lake national park"
 description: "Crater Lake in Oregon is the deepest lake in the United States and one of the most pristine — a collapsed volcano filled over millennia by snowmelt, producing a shade of blue that seems almost artificially saturated."
 ---
 

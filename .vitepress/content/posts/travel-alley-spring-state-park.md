@@ -1,11 +1,11 @@
 ---
-created_at: '2020-12-12T18:53:53.000+00:00'
-tags: ['alley-spring-state-park', 'travel', 'nature', 'history']
-draft: true
-title: "Visiting Alley Spring State Park"
-image: '/images/posts/travel-alley-spring-state-park.jpg'
-topic: 'travel'
-travel_location: 'alley spring state park'
+date: "2020-12-12T18:53:53.000+00:00"
+tags: ["alley-spring-state-park", "travel", "nature", "history"]
+draft: false
+title: "Alley Spring State Park"
+image: "/images/posts/travel-alley-spring-state-park.jpg"
+topic: "travel"
+travel_location: "alley spring state park"
 description: "The beloved red mill and turquoise spring waters in December — a quieter, colder side of this Ozarks classic that rewards the off-season visit."
 ---
 

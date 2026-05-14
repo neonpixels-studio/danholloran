@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-23T18:50:00.000+00:00'
-tags: ['hay-stack-rock-cannon-beach-oregon', 'travel', 'beach', 'nature']
-draft: true
-title: "Visiting Hay Stack Rock Cannon Beach, Oregon"
-image: '/images/posts/travel-hay-stack-rock-cannon-beach-oregon.jpg'
-topic: 'travel'
-travel_location: 'hay stack rock cannon beach, oregon'
+date: "2025-09-23T18:50:00.000+00:00"
+tags: ["hay-stack-rock-cannon-beach-oregon", "travel", "beach", "nature"]
+draft: false
+title: "Hay Stack Rock Cannon Beach, Oregon"
+image: "/images/posts/travel-hay-stack-rock-cannon-beach-oregon.jpg"
+topic: "travel"
+travel_location: "hay stack rock cannon beach, oregon"
 description: "A 235-foot basalt sea stack on Cannon Beach, home to nesting tufted puffins in spring and summer and some of the best tide pools on the Oregon Coast."
 ---
 

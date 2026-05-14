@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-02T19:20:42.000+00:00'
-tags: ['columbia-bottom-conservation-area', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Columbia Bottom Conservation Area"
-image: '/images/posts/travel-columbia-bottom-conservation-area.jpg'
-topic: 'travel'
-travel_location: 'columbia bottom conservation area'
+date: "2020-08-02T19:20:42.000+00:00"
+tags: ["columbia-bottom-conservation-area", "travel", "nature", "photography"]
+draft: false
+title: "Columbia Bottom Conservation Area"
+image: "/images/posts/travel-columbia-bottom-conservation-area.jpg"
+topic: "travel"
+travel_location: "columbia bottom conservation area"
 description: "Where the Missouri meets the Mississippi — a 4,000-acre conservation area at one of North America's great river confluences, with 285 bird species recorded."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2025-05-17T18:16:33.000+00:00'
-tags: ['shoshone-falls', 'travel', 'nature', 'waterfall', 'idaho']
-draft: true
-title: "Visiting Shoshone Falls"
-image: '/images/posts/travel-shoshone-falls-state-park.jpg'
-topic: 'travel'
-travel_location: 'shoshone falls state park'
+date: "2025-05-17T18:16:33.000+00:00"
+tags: ["shoshone-falls", "travel", "nature", "waterfall", "idaho"]
+draft: false
+title: "Shoshone Falls"
+image: "/images/posts/travel-shoshone-falls-state-park.jpg"
+topic: "travel"
+travel_location: "shoshone falls state park"
 description: "Idaho's Niagara — a 212-foot waterfall on the Snake River that's wider than Niagara Falls, hidden in plain sight in the middle of southern Idaho's high desert."
 ---
 

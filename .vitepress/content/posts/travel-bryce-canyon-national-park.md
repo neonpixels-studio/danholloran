@@ -1,11 +1,18 @@
 ---
-created_at: '2025-09-19T05:00:00.000+00:00'
-tags: ['bryce-canyon-national-park', 'travel', 'national-park', 'nature', 'photography']
-draft: true
+date: "2025-09-19T05:00:00.000+00:00"
+tags:
+  [
+    "bryce-canyon-national-park",
+    "travel",
+    "national-park",
+    "nature",
+    "photography",
+  ]
+draft: false
 title: "Bryce Canyon: The Park That Looks Like a Dream"
-image: '/images/posts/travel-bryce-canyon-national-park.jpg'
-topic: 'travel'
-travel_location: 'bryce canyon national park'
+image: "/images/posts/travel-bryce-canyon-national-park.jpg"
+topic: "travel"
+travel_location: "bryce canyon national park"
 description: "Bryce Canyon National Park in southern Utah holds the largest concentration of hoodoos on Earth — thousands of tall, narrow rock spires in shades of red, orange, and white that fill the amphitheater like a frozen crowd."
 ---
 

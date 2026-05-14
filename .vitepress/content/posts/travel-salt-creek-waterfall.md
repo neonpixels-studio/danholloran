@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-21T18:45:00.000+00:00'
-tags: ['salt-creek-waterfall', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Salt Creek Waterfall"
-image: '/images/posts/travel-salt-creek-waterfall.jpg'
-topic: 'travel'
-travel_location: 'salt creek waterfall'
+date: "2025-09-21T18:45:00.000+00:00"
+tags: ["salt-creek-waterfall", "travel", "nature", "photography"]
+draft: false
+title: "Salt Creek Waterfall"
+image: "/images/posts/travel-salt-creek-waterfall.jpg"
+topic: "travel"
+travel_location: "salt creek waterfall"
 description: "A 286-foot plunge waterfall in the Willamette National Forest near Willamette Pass — one of the tallest and most accessible waterfalls in Oregon."
 ---
 

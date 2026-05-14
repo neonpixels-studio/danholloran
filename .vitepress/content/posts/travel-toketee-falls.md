@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-18T18:55:00.000+00:00'
-tags: ['toketee-falls', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Toketee Falls"
-image: '/images/posts/travel-toketee-falls.jpg'
-topic: 'travel'
-travel_location: 'toketee falls'
+date: "2025-09-18T18:55:00.000+00:00"
+tags: ["toketee-falls", "travel", "nature", "photography"]
+draft: false
+title: "Toketee Falls"
+image: "/images/posts/travel-toketee-falls.jpg"
+topic: "travel"
+travel_location: "toketee falls"
 description: "A two-tiered 113-foot waterfall framed by perfect columnar basalt in Oregon's Umpqua National Forest — one of the most photographed waterfalls in the Pacific Northwest."
 ---
 

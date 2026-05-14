@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-10T19:35:39.000+00:00'
-tags: ['glacier-national-park', 'travel', 'national-park', 'hiking', 'nature']
-draft: true
+date: "2025-09-10T19:35:39.000+00:00"
+tags: ["glacier-national-park", "travel", "national-park", "hiking", "nature"]
+draft: false
 title: "Glacier National Park: The Crown of the Continent"
-image: '/images/posts/travel-glacier-national-park.jpg'
-topic: 'travel'
-travel_location: 'glacier national park'
+image: "/images/posts/travel-glacier-national-park.jpg"
+topic: "travel"
+travel_location: "glacier national park"
 description: "Glacier National Park in northwestern Montana is one of the most dramatic landscapes in North America — alpine meadows, ancient glaciers, turquoise lakes, and wildlife around every bend on the Going-to-the-Sun Road."
 ---
 

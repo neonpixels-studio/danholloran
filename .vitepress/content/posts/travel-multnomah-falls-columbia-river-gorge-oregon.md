@@ -1,11 +1,18 @@
 ---
-created_at: '2025-05-19T20:55:00.000+00:00'
-tags: ['multnomah-falls-columbia-river-gorge-oregon', 'travel', 'nature', 'hiking', 'photography']
-draft: true
-title: "Multnomah Falls and the Columbia River Gorge"
-image: '/images/posts/travel-multnomah-falls-columbia-river-gorge-oregon.jpg'
-topic: 'travel'
-travel_location: 'multnomah falls - columbia river gorge, oregon'
+date: "2025-05-19T20:55:00.000+00:00"
+tags:
+  [
+    "multnomah-falls-columbia-river-gorge-oregon",
+    "travel",
+    "nature",
+    "hiking",
+    "photography",
+  ]
+draft: false
+title: "Columbia River Gorge"
+image: "/images/posts/travel-multnomah-falls-columbia-river-gorge-oregon.jpg"
+topic: "travel"
+travel_location: "multnomah falls - columbia river gorge, oregon"
 description: "Multnomah Falls drops 620 feet through two tiers in the Columbia River Gorge east of Portland, making it Oregon's tallest waterfall and the most visited natural site in the Pacific Northwest."
 ---
 

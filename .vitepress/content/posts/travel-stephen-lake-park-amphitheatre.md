@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-10T17:04:13.000+00:00'
-tags: ['stephen-lake-park-amphitheatre', 'travel', 'city', 'culture']
-draft: true
-title: "Visiting Stephen Lake Park , Amphitheatre"
-image: '/images/posts/travel-stephen-lake-park-amphitheatre.jpg'
-topic: 'travel'
-travel_location: 'stephen lake park , amphitheatre'
+date: "2020-08-10T17:04:13.000+00:00"
+tags: ["stephen-lake-park-amphitheatre", "travel", "city", "culture"]
+draft: false
+title: "Stephen Lake Park , Amphitheatre"
+image: "/images/posts/travel-stephen-lake-park-amphitheatre.jpg"
+topic: "travel"
+travel_location: "stephen lake park , amphitheatre"
 description: "A 116-acre Columbia, Missouri park with a lake, ArbNet-certified arboretum, and an outdoor amphitheater that hosts summer concerts above the water."
 ---
 

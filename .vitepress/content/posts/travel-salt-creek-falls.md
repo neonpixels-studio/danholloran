@@ -1,11 +1,11 @@
 ---
-created_at: '2026-04-17T01:14:48.000+00:00'
-tags: ['salt-creek-falls', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Salt Creek Falls"
-image: '/images/posts/travel-salt-creek-falls.jpg'
-topic: 'travel'
-travel_location: 'salt creek falls'
+date: "2026-04-17T01:14:48.000+00:00"
+tags: ["salt-creek-falls", "travel", "nature", "photography"]
+draft: false
+title: "Salt Creek Falls"
+image: "/images/posts/travel-salt-creek-falls.jpg"
+topic: "travel"
+travel_location: "salt creek falls"
 description: "A 286-foot plunge waterfall in the Oregon Cascades near Willamette Pass — one of the tallest in the state, with a viewing deck, rim trail, and winter snowshoeing season."
 ---
 

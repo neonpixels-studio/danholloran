@@ -1,11 +1,11 @@
 ---
-created_at: '2022-03-19T20:02:09.000+00:00'
-tags: ['kinkaid-spillway', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Kinkaid Spillway"
-image: '/images/posts/travel-kinkaid-spillway.jpg'
-topic: 'travel'
-travel_location: 'kinkaid spillway'
+date: "2022-03-19T20:02:09.000+00:00"
+tags: ["kinkaid-spillway", "travel", "nature", "photography"]
+draft: false
+title: "Kinkaid Spillway"
+image: "/images/posts/travel-kinkaid-spillway.jpg"
+topic: "travel"
+travel_location: "kinkaid spillway"
 description: "A Shawnee National Forest spillway in southern Illinois where river otters, beavers, and pileated woodpeckers appear with surprising regularity."
 ---
 

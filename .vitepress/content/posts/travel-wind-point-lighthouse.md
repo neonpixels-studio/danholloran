@@ -1,11 +1,11 @@
 ---
-created_at: '2022-09-04T20:31:20.000+00:00'
-tags: ['wind-point-lighthouse', 'travel', 'history', 'photography']
-draft: true
-title: "Visiting Wind Point Lighthouse"
-image: '/images/posts/travel-wind-point-lighthouse.jpg'
-topic: 'travel'
-travel_location: 'wind point lighthouse'
+date: "2022-09-04T20:31:20.000+00:00"
+tags: ["wind-point-lighthouse", "travel", "history", "photography"]
+draft: false
+title: "Wind Point Lighthouse"
+image: "/images/posts/travel-wind-point-lighthouse.jpg"
+topic: "travel"
+travel_location: "wind point lighthouse"
 description: "One of the oldest and tallest active lighthouses on the Great Lakes, built in 1880 on Lake Michigan north of Racine — tours available and the grounds are always open."
 ---
 

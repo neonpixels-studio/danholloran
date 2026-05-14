@@ -1,11 +1,12 @@
 ---
-created_at: '2025-10-07T16:40:00.000+00:00'
-tags: ['grand-canyon-of-the-yellowstone', 'travel', 'national-park', 'photography']
-draft: true
-title: "Visiting Grand Canyon of the Yellowstone"
-image: '/images/posts/travel-grand-canyon-of-the-yellowstone.jpg'
-topic: 'travel'
-travel_location: 'grand canyon of the yellowstone'
+date: "2025-10-07T16:40:00.000+00:00"
+tags:
+  ["grand-canyon-of-the-yellowstone", "travel", "national-park", "photography"]
+draft: false
+title: "Grand Canyon of the Yellowstone"
+image: "/images/posts/travel-grand-canyon-of-the-yellowstone.jpg"
+topic: "travel"
+travel_location: "grand canyon of the yellowstone"
 description: "A 20-mile canyon of hydrothermally altered rock in brilliant yellows, oranges, and reds, with the 308-foot Lower Falls of the Yellowstone River at its head."
 ---
 

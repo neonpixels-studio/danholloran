@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-07T18:56:42.000+00:00'
-tags: ['great-basin-national-park', 'travel', 'national-park', 'nature']
-draft: true
-title: "Visiting Great Basin National Park"
-image: '/images/posts/travel-great-basin-national-park.jpg'
-topic: 'travel'
-travel_location: 'great basin national park'
+date: "2025-09-07T18:56:42.000+00:00"
+tags: ["great-basin-national-park", "travel", "national-park", "nature"]
+draft: false
+title: "Great Basin National Park"
+image: "/images/posts/travel-great-basin-national-park.jpg"
+topic: "travel"
+travel_location: "great basin national park"
 description: "Nevada's remote national park with 5,000-year-old bristlecone pines, Lehman Caves with 300 shield formations, and Wheeler Peak rising to 13,063 feet."
 ---
 

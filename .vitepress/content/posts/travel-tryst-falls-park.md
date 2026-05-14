@@ -1,11 +1,11 @@
 ---
-created_at: '2020-11-01T16:49:20.000+00:00'
-tags: ['tryst-falls-park', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Tryst Falls Park"
-image: '/images/posts/travel-tryst-falls-park.jpg'
-topic: 'travel'
-travel_location: 'tryst falls park'
+date: "2020-11-01T16:49:20.000+00:00"
+tags: ["tryst-falls-park", "travel", "nature", "hiking"]
+draft: false
+title: "Tryst Falls Park"
+image: "/images/posts/travel-tryst-falls-park.jpg"
+topic: "travel"
+travel_location: "tryst falls park"
 description: "One of the few natural waterfalls near Kansas City, tucked into a Clay County park between Excelsior Springs and Kearney — small and beautiful and worth finding."
 ---
 

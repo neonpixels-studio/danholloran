@@ -1,11 +1,11 @@
 ---
-created_at: '2021-05-15T17:53:58.000+00:00'
-tags: ['natural-falls-state-park', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Natural Falls State Park"
-image: '/images/posts/travel-natural-falls-state-park.jpg'
-topic: 'travel'
-travel_location: 'natural falls state park'
+date: "2021-05-15T17:53:58.000+00:00"
+tags: ["natural-falls-state-park", "travel", "nature", "hiking"]
+draft: false
+title: "Natural Falls State Park"
+image: "/images/posts/travel-natural-falls-state-park.jpg"
+topic: "travel"
+travel_location: "natural falls state park"
 description: "A 77-foot waterfall in the Oklahoma Ozarks, filming location for Where the Red Fern Grows, with lamp posts from the 1920s still lining the trail."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2020-07-25T20:03:02.000+00:00'
-tags: ['grand-falls-plaza-missouri', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Grand Falls Plaza, Missouri"
-image: '/images/posts/travel-grand-falls-plaza-missouri.jpg'
-topic: 'travel'
-travel_location: 'grand falls plaza, missouri'
+date: "2020-07-25T20:03:02.000+00:00"
+tags: ["grand-falls-plaza-missouri", "travel", "nature", "photography"]
+draft: false
+title: "Grand Falls Plaza, Missouri"
+image: "/images/posts/travel-grand-falls-plaza-missouri.jpg"
+topic: "travel"
+travel_location: "grand falls plaza, missouri"
 description: "Missouri's largest continuously running waterfall — 163 feet wide and 12 feet tall over solid chert, just outside Joplin."
 ---
 

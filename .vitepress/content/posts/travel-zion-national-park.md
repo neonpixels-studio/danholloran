@@ -1,11 +1,11 @@
 ---
-created_at: '2025-10-04T20:25:00.000+00:00'
-tags: ['zion-national-park', 'travel', 'national-park', 'hiking', 'history']
-draft: true
+date: "2025-10-04T20:25:00.000+00:00"
+tags: ["zion-national-park", "travel", "national-park", "hiking", "history"]
+draft: false
 title: "Zion National Park: Standing at the Bottom of the Sky"
-image: '/images/posts/travel-zion-national-park.jpg'
-topic: 'travel'
-travel_location: 'zion national park'
+image: "/images/posts/travel-zion-national-park.jpg"
+topic: "travel"
+travel_location: "zion national park"
 description: "Zion National Park in southwestern Utah is a landscape of towering sandstone canyon walls, ancient cultural history, and hikes that range from gentle riverside strolls to vertiginous ridgeline scrambles above the clouds."
 ---
 

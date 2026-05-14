@@ -1,5 +1,5 @@
 ---
-date: "2015-07-18T00:00:00.000-05:00"
+date: "2015-07-18T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/check-out-ghost-inspector.jpg"

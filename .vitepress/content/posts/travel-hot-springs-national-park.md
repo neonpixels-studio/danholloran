@@ -1,11 +1,12 @@
 ---
-created_at: '2021-05-08T17:59:49.000+00:00'
-tags: ['hot-springs-national-park', 'travel', 'national-park', 'history', 'culture']
-draft: true
+date: "2021-05-08T17:59:49.000+00:00"
+tags:
+  ["hot-springs-national-park", "travel", "national-park", "history", "culture"]
+draft: false
 title: "Hot Springs, Arkansas: Gangsters, Geothermal Water, and a National Park in a City"
-image: '/images/posts/travel-hot-springs-national-park.jpg'
-topic: 'travel'
-travel_location: 'hot springs national park'
+image: "/images/posts/travel-hot-springs-national-park.jpg"
+topic: "travel"
+travel_location: "hot springs national park"
 description: "Hot Springs National Park in Arkansas is unlike any other national park — it sits inside a small city, and the park's thermal springs have drawn everyone from Native American tribes to 1930s gangsters to baseball players looking for a soak."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-19T21:06:35.000+00:00'
-tags: ['st-louis-arch', 'travel', 'city', 'history']
-draft: true
-title: "Visiting St. Louis Arch"
-image: '/images/posts/travel-st-louis-arch.jpg'
-topic: 'travel'
-travel_location: 'st. louis arch'
+date: "2020-08-19T21:06:35.000+00:00"
+tags: ["st-louis-arch", "travel", "city", "history"]
+draft: false
+title: "St. Louis Arch"
+image: "/images/posts/travel-st-louis-arch.jpg"
+topic: "travel"
+travel_location: "st. louis arch"
 description: "The Gateway Arch at dusk, seen from the riverfront — 630 feet of stainless steel that earns its place as the most successful public monument in the country."
 ---
 

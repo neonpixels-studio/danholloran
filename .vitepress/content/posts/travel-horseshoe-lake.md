@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-03T16:19:22.000+00:00'
-tags: ['horseshoe-lake', 'travel', 'nature', 'wildlife']
-draft: true
-title: "Visiting Horseshoe Lake"
-image: '/images/posts/travel-horseshoe-lake.jpg'
-topic: 'travel'
-travel_location: 'horseshoe lake'
+date: "2020-08-03T16:19:22.000+00:00"
+tags: ["horseshoe-lake", "travel", "nature", "wildlife"]
+draft: false
+title: "Horseshoe Lake"
+image: "/images/posts/travel-horseshoe-lake.jpg"
+topic: "travel"
+travel_location: "horseshoe lake"
 description: "A 1927 Canada goose sanctuary near St. Louis that grew into one of Illinois most important wildlife refuges, now hosting up to 150,000 geese each winter."
 ---
 

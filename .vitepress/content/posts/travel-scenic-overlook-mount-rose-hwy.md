@@ -1,11 +1,11 @@
 ---
-created_at: '2025-05-16T14:29:44.000+00:00'
-tags: ['scenic-overlook-mount-rose-hwy', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Scenic Overlook, Mount Rose Hwy"
-image: '/images/posts/travel-scenic-overlook-mount-rose-hwy.jpg'
-topic: 'travel'
-travel_location: 'scenic overlook, mount rose hwy'
+date: "2025-05-16T14:29:44.000+00:00"
+tags: ["scenic-overlook-mount-rose-hwy", "travel", "nature", "photography"]
+draft: false
+title: "Scenic Overlook, Mount Rose Hwy"
+image: "/images/posts/travel-scenic-overlook-mount-rose-hwy.jpg"
+topic: "travel"
+travel_location: "scenic overlook, mount rose hwy"
 description: "A roadside pull-off at 7,562 feet on Nevada Highway 431 with one of the best panoramic views of Lake Tahoe — two dozen parking spots, zero admission, infinite sky."
 ---
 

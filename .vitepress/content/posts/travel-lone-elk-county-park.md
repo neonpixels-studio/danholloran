@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-25T20:51:27.000+00:00'
-tags: ['lone-elk-county-park', 'travel', 'nature', 'wildlife']
-draft: true
-title: "Visiting Lone Elk County Park"
-image: '/images/posts/travel-lone-elk-county-park.jpg'
-topic: 'travel'
-travel_location: 'lone elk county park'
+date: "2020-05-25T20:51:27.000+00:00"
+tags: ["lone-elk-county-park", "travel", "nature", "wildlife"]
+draft: false
+title: "Lone Elk County Park"
+image: "/images/posts/travel-lone-elk-county-park.jpg"
+topic: "travel"
+travel_location: "lone elk county park"
 description: "A 546-acre wildlife park west of St. Louis where elk and bison roam free — you drive a loop through their territory, not the other way around."
 ---
 

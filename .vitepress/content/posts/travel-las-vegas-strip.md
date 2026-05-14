@@ -1,11 +1,11 @@
 ---
-created_at: '2023-06-06T17:50:57.000+00:00'
-tags: ['las-vegas-strip', 'travel', 'city', 'photography']
-draft: true
-title: "Visiting Las Vegas Strip"
-image: '/images/posts/travel-las-vegas-strip.jpg'
-topic: 'travel'
-travel_location: 'las vegas strip'
+date: "2023-06-06T17:50:57.000+00:00"
+tags: ["las-vegas-strip", "travel", "city", "photography"]
+draft: false
+title: "Las Vegas Strip"
+image: "/images/posts/travel-las-vegas-strip.jpg"
+topic: "travel"
+travel_location: "las vegas strip"
 description: "Four miles of iconic casino hotels, Cirque shows, rooftop pools, and the Bellagio fountains — the Strip distilled into one long walk you will not forget."
 ---
 

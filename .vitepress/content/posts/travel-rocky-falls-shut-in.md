@@ -1,11 +1,11 @@
 ---
-created_at: '2021-02-03T21:17:16.000+00:00'
-tags: ['rocky-falls-shut-in', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Rocky Falls Shut-in"
-image: '/images/posts/travel-rocky-falls-shut-in.jpg'
-topic: 'travel'
-travel_location: 'rocky falls shut-in'
+date: "2021-02-03T21:17:16.000+00:00"
+tags: ["rocky-falls-shut-in", "travel", "nature", "hiking"]
+draft: false
+title: "Rocky Falls Shut-in"
+image: "/images/posts/travel-rocky-falls-shut-in.jpg"
+topic: "travel"
+travel_location: "rocky falls shut-in"
 description: "Rocky Creek shutdown in winter — the billion-year-old rhyolite geology is all there, the crowds are not, and the Ozark Trail runs in both directions from here."
 ---
 

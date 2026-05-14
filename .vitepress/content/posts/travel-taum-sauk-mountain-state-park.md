@@ -1,11 +1,11 @@
 ---
-created_at: '2020-10-24T15:26:00.000+00:00'
-tags: ['taum-sauk-mountain-state-park', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Taum Sauk Mountain State Park"
-image: '/images/posts/travel-taum-sauk-mountain-state-park.jpg'
-topic: 'travel'
-travel_location: 'taum sauk mountain state park'
+date: "2020-10-24T15:26:00.000+00:00"
+tags: ["taum-sauk-mountain-state-park", "travel", "nature", "hiking"]
+draft: false
+title: "Taum Sauk Mountain State Park"
+image: "/images/posts/travel-taum-sauk-mountain-state-park.jpg"
+topic: "travel"
+travel_location: "taum sauk mountain state park"
 description: "Missouri's highest point wrapped in 7,448 acres of Ozark wilderness — ancient volcanic rock, a reservoir, and the trail to Mina Sauk Falls."
 ---
 

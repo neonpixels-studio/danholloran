@@ -1,11 +1,11 @@
 ---
-created_at: '2020-10-18T16:49:39.000+00:00'
-tags: ['saint-mary-s-glacier', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Saint Mary's Glacier"
-image: '/images/posts/travel-saint-mary-s-glacier.jpg'
-topic: 'travel'
-travel_location: 'saint mary's glacier'
+date: "2020-10-18T16:49:39.000+00:00"
+tags: ["saint-mary-s-glacier", "travel", "nature", "photography"]
+draft: false
+title: "Saint Mary's Glacier"
+image: "/images/posts/travel-saint-mary-s-glacier.jpg"
+topic: "travel"
+travel_location: "saint mary's glacier"
 description: "Colorado's year-round ice field near Idaho Springs — back for the alpine lake, the snowboarders in August, and a hike that earns its views."
 ---
 

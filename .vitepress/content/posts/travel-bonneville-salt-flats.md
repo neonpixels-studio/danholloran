@@ -1,11 +1,11 @@
 ---
-created_at: '2025-05-07T00:47:43.000+00:00'
-tags: ['bonneville-salt-flats', 'travel', 'nature', 'utah', 'landscape']
-draft: true
-title: "Visiting Bonneville Salt Flats"
-image: '/images/posts/travel-bonneville-salt-flats.jpg'
-topic: 'travel'
-travel_location: 'bonneville salt flats, utah'
+date: "2025-05-07T00:47:43.000+00:00"
+tags: ["bonneville-salt-flats", "travel", "nature", "utah", "landscape"]
+draft: false
+title: "Bonneville Salt Flats"
+image: "/images/posts/travel-bonneville-salt-flats.jpg"
+topic: "travel"
+travel_location: "bonneville salt flats, utah"
 description: "A perfectly flat expanse of salt stretching to the horizon in every direction — one of the most surreal landscapes in North America, where the ground looks like snow and the sky reflects in the surface like water."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2026-04-25T23:30:14.000+00:00'
-tags: ['diamond-lake-oregon', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Diamond Lake, Oregon"
-image: '/images/posts/travel-diamond-lake-oregon.jpg'
-topic: 'travel'
-travel_location: 'diamond lake, oregon'
+date: "2026-04-25T23:30:14.000+00:00"
+tags: ["diamond-lake-oregon", "travel", "nature", "photography"]
+draft: false
+title: "Diamond Lake, Oregon"
+image: "/images/posts/travel-diamond-lake-oregon.jpg"
+topic: "travel"
+travel_location: "diamond lake, oregon"
 description: "A 3,000-acre alpine lake at 5,138 feet in the Oregon Cascades, flanked by Mount Thielsen and Mount Bailey, stocked with 300,000 rainbow trout annually."
 ---
 

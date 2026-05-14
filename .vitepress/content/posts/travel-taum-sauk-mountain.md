@@ -1,11 +1,11 @@
 ---
-created_at: '2020-10-15T21:11:57.000+00:00'
-tags: ['taum-sauk-mountain', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Taum Sauk Mountain"
-image: '/images/posts/travel-taum-sauk-mountain.jpg'
-topic: 'travel'
-travel_location: 'taum sauk mountain'
+date: "2020-10-15T21:11:57.000+00:00"
+tags: ["taum-sauk-mountain", "travel", "nature", "hiking"]
+draft: false
+title: "Taum Sauk Mountain"
+image: "/images/posts/travel-taum-sauk-mountain.jpg"
+topic: "travel"
+travel_location: "taum sauk mountain"
 description: "The highest point in Missouri at 1,772 feet, reached by an easy paved trail through the ancient St. Francois Mountains."
 ---
 

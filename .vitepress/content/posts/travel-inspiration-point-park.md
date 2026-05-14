@@ -1,11 +1,11 @@
 ---
-created_at: '2020-09-15T19:33:53.000+00:00'
-tags: ['inspiration-point-park', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Inspiration Point Park"
-image: '/images/posts/travel-inspiration-point-park.jpg'
-topic: 'travel'
-travel_location: 'inspiration point park'
+date: "2020-09-15T19:33:53.000+00:00"
+tags: ["inspiration-point-park", "travel", "nature", "hiking"]
+draft: false
+title: "Inspiration Point Park"
+image: "/images/posts/travel-inspiration-point-park.jpg"
+topic: "travel"
+travel_location: "inspiration point park"
 description: "A quiet overlook park in the Kansas City area with river views and trails through cedar bluffs — one of those places locals keep to themselves."
 ---
 

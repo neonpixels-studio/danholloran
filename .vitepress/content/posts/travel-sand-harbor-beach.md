@@ -1,11 +1,11 @@
 ---
-created_at: '2025-03-11T16:30:00.000+00:00'
-tags: ['sand-harbor-beach', 'lake-tahoe', 'travel', 'nature', 'nevada', 'lake']
-draft: true
-title: "Visiting Sand Harbor Beach, Lake Tahoe"
-image: '/images/posts/travel-sand-harbor-beach.jpg'
-topic: 'travel'
-travel_location: 'sand harbor beach'
+date: "2025-03-11T16:30:00.000+00:00"
+tags: ["sand-harbor-beach", "lake-tahoe", "travel", "nature", "nevada", "lake"]
+draft: false
+title: "Sand Harbor Beach, Lake Tahoe"
+image: "/images/posts/travel-sand-harbor-beach.jpg"
+topic: "travel"
+travel_location: "sand harbor beach"
 description: "On the Nevada side of Lake Tahoe, Sand Harbor is a boulder-strewn beach with water so clear you can see the bottom at 20 feet — the kind of lake view that makes you question every other lake you've ever seen."
 ---
 

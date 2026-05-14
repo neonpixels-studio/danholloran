@@ -1,11 +1,11 @@
 ---
-created_at: '2020-11-05T22:10:58.000+00:00'
-tags: ['alley-spring', 'travel', 'nature', 'history']
-draft: true
-title: "Visiting Alley Spring"
-image: '/images/posts/travel-alley-spring.jpg'
-topic: 'travel'
-travel_location: 'alley spring'
+date: "2020-11-05T22:10:58.000+00:00"
+tags: ["alley-spring", "travel", "nature", "history"]
+draft: false
+title: "Alley Spring"
+image: "/images/posts/travel-alley-spring.jpg"
+topic: "travel"
+travel_location: "alley spring"
 description: "The iconic red mill and turquoise spring waters of the Ozark National Scenic Riverways — a place that rewards returning through every season."
 ---
 

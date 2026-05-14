@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-25T19:32:27.000+00:00'
-tags: ['mississippi-river-overlook', 'travel', 'photography', 'city']
-draft: true
-title: "Visiting Mississippi River Overlook"
-image: '/images/posts/travel-mississippi-river-overlook.jpg'
-topic: 'travel'
-travel_location: 'mississippi river overlook'
+date: "2020-08-25T19:32:27.000+00:00"
+tags: ["mississippi-river-overlook", "travel", "photography", "city"]
+draft: false
+title: "Mississippi River Overlook"
+image: "/images/posts/travel-mississippi-river-overlook.jpg"
+topic: "travel"
+travel_location: "mississippi river overlook"
 description: "A five-tiered observation platform in East St. Louis with the best straight-on view of the Gateway Arch and the St. Louis skyline across the Mississippi."
 ---
 

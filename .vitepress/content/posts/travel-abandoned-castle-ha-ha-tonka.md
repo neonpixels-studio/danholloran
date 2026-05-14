@@ -1,11 +1,11 @@
 ---
-created_at: '2020-07-19T23:07:08.000+00:00'
-tags: ['abandoned-castle-ha-ha-tonka', 'travel', 'history', 'nature']
-draft: true
-title: "Visiting Abandoned Castle - Ha Ha Tonka"
-image: '/images/posts/travel-abandoned-castle-ha-ha-tonka.jpg'
-topic: 'travel'
-travel_location: 'abandoned castle - ha ha tonka'
+date: "2020-07-19T23:07:08.000+00:00"
+tags: ["abandoned-castle-ha-ha-tonka", "travel", "history", "nature"]
+draft: false
+title: "Abandoned Castle - Ha Ha Tonka"
+image: "/images/posts/travel-abandoned-castle-ha-ha-tonka.jpg"
+topic: "travel"
+travel_location: "abandoned castle - ha ha tonka"
 description: "A ruined stone castle on a bluff above the Lake of the Ozarks — one of Missouri's most dramatic and surprising landmarks."
 ---
 

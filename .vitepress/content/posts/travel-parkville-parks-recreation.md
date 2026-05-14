@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-13T21:11:26.000+00:00'
-tags: ['parkville-parks-recreation', 'travel', 'city', 'nature']
-draft: true
-title: "Visiting Parkville Parks & Recreation"
-image: '/images/posts/travel-parkville-parks-recreation.jpg'
-topic: 'travel'
-travel_location: 'parkville parks & recreation'
+date: "2020-08-13T21:11:26.000+00:00"
+tags: ["parkville-parks-recreation", "travel", "city", "nature"]
+draft: false
+title: "Parkville Parks & Recreation"
+image: "/images/posts/travel-parkville-parks-recreation.jpg"
+topic: "travel"
+travel_location: "parkville parks & recreation"
 description: "A charming historic town on the Missouri River with riverfront parks, a nature sanctuary, and a downtown that actually delivers on its small-town character promise."
 ---
 

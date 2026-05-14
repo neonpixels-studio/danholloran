@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-10T15:00:00.000+00:00'
-tags: ['pinnacles-national-park', 'travel', 'national-park', 'nature']
-draft: true
-title: "Visiting Pinnacles National Park"
-image: '/images/posts/travel-pinnacles-national-park.jpg'
-topic: 'travel'
-travel_location: 'pinnacles national park'
+date: "2025-09-10T15:00:00.000+00:00"
+tags: ["pinnacles-national-park", "travel", "national-park", "nature"]
+draft: false
+title: "Pinnacles National Park"
+image: "/images/posts/travel-pinnacles-national-park.jpg"
+topic: "travel"
+travel_location: "pinnacles national park"
 description: "California's volcanic spire park with California condors overhead, talus caves, and rock climbing on ancient lava formations moved by the San Andreas Fault."
 ---
 

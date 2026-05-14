@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-25T19:00:00.000+00:00'
-tags: ['face-rock-state-scenic-viewpoint', 'travel', 'beach', 'nature']
-draft: true
-title: "Visiting Face Rock State Scenic Viewpoint"
-image: '/images/posts/travel-face-rock-state-scenic-viewpoint.jpg'
-topic: 'travel'
-travel_location: 'face rock state scenic viewpoint'
+date: "2025-09-25T19:00:00.000+00:00"
+tags: ["face-rock-state-scenic-viewpoint", "travel", "beach", "nature"]
+draft: false
+title: "Face Rock State Scenic Viewpoint"
+image: "/images/posts/travel-face-rock-state-scenic-viewpoint.jpg"
+topic: "travel"
+travel_location: "face rock state scenic viewpoint"
 description: "A Bandon, Oregon headland with a Native American legend, dramatic sea stacks named Cat and Kitten Rocks, and a stairway trail down to a wild stretch of protected beach."
 ---
 

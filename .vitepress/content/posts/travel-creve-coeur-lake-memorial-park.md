@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-29T16:12:46.000+00:00'
-tags: ['creve-coeur-lake-memorial-park', 'travel', 'nature', 'adventure']
-draft: true
-title: "Visiting Creve Coeur Lake Memorial Park"
-image: '/images/posts/travel-creve-coeur-lake-memorial-park.jpg'
-topic: 'travel'
-travel_location: 'creve coeur lake memorial park'
+date: "2020-05-29T16:12:46.000+00:00"
+tags: ["creve-coeur-lake-memorial-park", "travel", "nature", "adventure"]
+draft: false
+title: "Creve Coeur Lake Memorial Park"
+image: "/images/posts/travel-creve-coeur-lake-memorial-park.jpg"
+topic: "travel"
+travel_location: "creve coeur lake memorial park"
 description: "The largest county park in St. Louis, built around an oxbow lake where you can kayak, bike, and watch the Missouri River bend past."
 ---
 

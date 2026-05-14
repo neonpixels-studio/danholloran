@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-18T23:32:23.000+00:00'
-tags: ['bee-tree-county-park', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Bee Tree County Park"
-image: '/images/posts/travel-bee-tree-county-park.jpg'
-topic: 'travel'
-travel_location: 'bee tree county park'
+date: "2020-05-18T23:32:23.000+00:00"
+tags: ["bee-tree-county-park", "travel", "nature", "hiking"]
+draft: false
+title: "Bee Tree County Park"
+image: "/images/posts/travel-bee-tree-county-park.jpg"
+topic: "travel"
+travel_location: "bee tree county park"
 description: "A quiet 199-acre county park on the Mississippi bluffs where wildflowers bloom in spring and great blue herons stalk the shallows."
 ---
 

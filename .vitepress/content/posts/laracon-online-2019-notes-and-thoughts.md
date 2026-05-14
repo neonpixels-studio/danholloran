@@ -1,5 +1,5 @@
 ---
-date: "2019-03-07T00:00:00.000-05:00"
+date: "2019-03-07T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/laracon-online-2019-notes-and-thoughts.jpg"

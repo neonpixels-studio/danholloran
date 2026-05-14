@@ -1,11 +1,11 @@
 ---
-created_at: '2020-05-26T16:56:34.000+00:00'
-tags: ['chain-of-rocks-bridge', 'travel', 'history', 'road-trip']
-draft: true
-title: "Visiting Chain of Rocks Bridge"
-image: '/images/posts/travel-chain-of-rocks-bridge.jpg'
-topic: 'travel'
-travel_location: 'chain of rocks bridge'
+date: "2020-05-26T16:56:34.000+00:00"
+tags: ["chain-of-rocks-bridge", "travel", "history", "road-trip"]
+draft: false
+title: "Chain of Rocks Bridge"
+image: "/images/posts/travel-chain-of-rocks-bridge.jpg"
+topic: "travel"
+travel_location: "chain of rocks bridge"
 description: "A Route 66 bridge over the Mississippi, now open only to walkers and cyclists — the bend in the middle is real and worth the trip."
 ---
 

@@ -1,11 +1,11 @@
 ---
-created_at: '2025-09-11T18:34:19.000+00:00'
-tags: ['neskowin-beach', 'travel', 'beach', 'nature']
-draft: true
-title: "Visiting Neskowin Beach"
-image: '/images/posts/travel-neskowin-beach.jpg'
-topic: 'travel'
-travel_location: 'neskowin beach'
+date: "2025-09-11T18:34:19.000+00:00"
+tags: ["neskowin-beach", "travel", "beach", "nature"]
+draft: false
+title: "Neskowin Beach"
+image: "/images/posts/travel-neskowin-beach.jpg"
+topic: "travel"
+travel_location: "neskowin beach"
 description: "A quiet Oregon Coast town with a 2,000-year-old ghost forest of buried sitka spruce stumps emerging from the surf at low tide."
 ---
 

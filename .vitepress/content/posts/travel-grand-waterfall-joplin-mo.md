@@ -1,11 +1,11 @@
 ---
-created_at: '2021-05-01T17:54:05.000+00:00'
-tags: ['grand-waterfall-joplin-mo', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Grand Waterfall Joplin Mo"
-image: '/images/posts/travel-grand-waterfall-joplin-mo.jpg'
-topic: 'travel'
-travel_location: 'grand waterfall joplin mo'
+date: "2021-05-01T17:54:05.000+00:00"
+tags: ["grand-waterfall-joplin-mo", "travel", "nature", "photography"]
+draft: false
+title: "Grand Waterfall Joplin Mo"
+image: "/images/posts/travel-grand-waterfall-joplin-mo.jpg"
+topic: "travel"
+travel_location: "grand waterfall joplin mo"
 description: "Missouri's widest continuously running waterfall outside Joplin — 163 feet across solid chert, a local favorite for fishing and swimming for generations."
 ---
 

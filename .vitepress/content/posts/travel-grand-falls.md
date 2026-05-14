@@ -1,11 +1,11 @@
 ---
-created_at: '2020-08-09T22:37:42.000+00:00'
-tags: ['grand-falls', 'travel', 'nature', 'photography']
-draft: true
-title: "Visiting Grand Falls"
-image: '/images/posts/travel-grand-falls.jpg'
-topic: 'travel'
-travel_location: 'grand falls'
+date: "2020-08-09T22:37:42.000+00:00"
+tags: ["grand-falls", "travel", "nature", "photography"]
+draft: false
+title: "Grand Falls"
+image: "/images/posts/travel-grand-falls.jpg"
+topic: "travel"
+travel_location: "grand falls"
 description: "Missouri's largest continuously running waterfall, a 163-foot wide chert ledge just outside Joplin that locals have swum and fished below for generations."
 ---
 

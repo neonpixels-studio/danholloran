@@ -1,11 +1,19 @@
 ---
-created_at: '2025-09-30T20:15:00.000+00:00'
-tags: ['canyonlands-national-park', 'travel', 'nature', 'national-park', 'desert', 'utah']
-draft: true
-title: "Visiting Canyonlands National Park"
-image: '/images/posts/travel-canyonlands-national-park.jpg'
-topic: 'travel'
-travel_location: 'canyonlands national park'
+date: "2025-09-30T20:15:00.000+00:00"
+tags:
+  [
+    "canyonlands-national-park",
+    "travel",
+    "nature",
+    "national-park",
+    "desert",
+    "utah",
+  ]
+draft: false
+title: "Canyonlands National Park"
+image: "/images/posts/travel-canyonlands-national-park.jpg"
+topic: "travel"
+travel_location: "canyonlands national park"
 description: "Utah's largest national park is a vast plateau carved into three separate districts by the Colorado and Green rivers — a landscape of mesas, canyons, and buttes that requires real commitment to see properly."
 ---
 

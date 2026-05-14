@@ -1,5 +1,5 @@
 ---
-date: "2016-06-26T00:00:00.000-05:00"
+date: "2016-06-26T05:00:00.000+00:00"
 draft: false
 tags: []
 image: "/images/posts/setting-up-mailhog-on-mamp.jpg"

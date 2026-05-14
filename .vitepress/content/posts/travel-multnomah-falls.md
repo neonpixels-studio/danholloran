@@ -1,11 +1,11 @@
 ---
-created_at: '2025-05-19T20:55:00.000+00:00'
-tags: ['multnomah-falls', 'travel', 'nature', 'waterfall', 'oregon']
-draft: true
-title: "Visiting Multnomah Falls"
-image: '/images/posts/travel-multnomah-falls.jpg'
-topic: 'travel'
-travel_location: 'multnomah falls - columbia river gorge, oregon'
+date: "2025-05-19T20:55:00.000+00:00"
+tags: ["multnomah-falls", "travel", "nature", "waterfall", "oregon"]
+draft: false
+title: "Multnomah Falls"
+image: "/images/posts/travel-multnomah-falls.jpg"
+topic: "travel"
+travel_location: "multnomah falls - columbia river gorge, oregon"
 description: "Oregon's tallest waterfall drops 620 feet in two tiers along the Historic Columbia River Highway — the most visited natural site in the Pacific Northwest, and for good reason."
 ---
 

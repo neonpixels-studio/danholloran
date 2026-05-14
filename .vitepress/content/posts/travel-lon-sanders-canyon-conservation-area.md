@@ -1,11 +1,11 @@
 ---
-created_at: '2021-03-04T22:50:29.000+00:00'
-tags: ['lon-sanders-canyon-conservation-area', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Lon Sanders Canyon Conservation Area"
-image: '/images/posts/travel-lon-sanders-canyon-conservation-area.jpg'
-topic: 'travel'
-travel_location: 'lon sanders canyon conservation area'
+date: "2021-03-04T22:50:29.000+00:00"
+tags: ["lon-sanders-canyon-conservation-area", "travel", "nature", "hiking"]
+draft: false
+title: "Lon Sanders Canyon Conservation Area"
+image: "/images/posts/travel-lon-sanders-canyon-conservation-area.jpg"
+topic: "travel"
+travel_location: "lon sanders canyon conservation area"
 description: "A short Ozark hike through a rocky gorge with hand-cut stone steps, small waterfalls, and the alleged hideout of the Jesse James gang after the Gads Hill robbery."
 ---
 

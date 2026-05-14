@@ -1,5 +1,5 @@
 ---
-date: "2023-05-07T00:00:00.000-05:00"
+date: "2023-05-07T05:00:00.000+00:00"
 draft: false
 tags: ["frontend", "performance"]
 image: "/images/posts/how-to-optimize-website-performance-in-front-end-development.jpg"

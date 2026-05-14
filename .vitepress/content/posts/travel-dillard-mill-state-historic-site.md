@@ -1,11 +1,11 @@
 ---
-created_at: '2020-11-26T22:50:59.000+00:00'
-tags: ['dillard-mill-state-historic-site', 'travel', 'history', 'nature']
-draft: true
-title: "Visiting Dillard Mill State Historic Site"
-image: '/images/posts/travel-dillard-mill-state-historic-site.jpg'
-topic: 'travel'
-travel_location: 'dillard mill state historic site'
+date: "2020-11-26T22:50:59.000+00:00"
+tags: ["dillard-mill-state-historic-site", "travel", "history", "nature"]
+draft: false
+title: "Dillard Mill State Historic Site"
+image: "/images/posts/travel-dillard-mill-state-historic-site.jpg"
+topic: "travel"
+travel_location: "dillard mill state historic site"
 description: "Missouri best-preserved water-powered gristmill, built in 1908 on Huzzah Creek — the red building, blue water, and intact original machinery make it unforgettable."
 ---
 

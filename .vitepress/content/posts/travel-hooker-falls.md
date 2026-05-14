@@ -1,11 +1,11 @@
 ---
-created_at: '2021-04-10T17:53:54.000+00:00'
-tags: ['hooker-falls', 'travel', 'nature', 'hiking']
-draft: true
-title: "Visiting Hooker Falls"
-image: '/images/posts/travel-hooker-falls.jpg'
-topic: 'travel'
-travel_location: 'hooker falls'
+date: "2021-04-10T17:53:54.000+00:00"
+tags: ["hooker-falls", "travel", "nature", "hiking"]
+draft: false
+title: "Hooker Falls"
+image: "/images/posts/travel-hooker-falls.jpg"
+topic: "travel"
+travel_location: "hooker falls"
 description: "A 14-foot waterfall in DuPont State Forest with one of the best swimming holes in western North Carolina — short hike, big payoff."
 ---
 
