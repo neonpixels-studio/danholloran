@@ -1,10 +1,10 @@
 ---
-created_at: '2025-12-02T18:47:00.000-08:00'
-tags: ['css', 'javascript']
-draft: true
+created_at: "2025-12-02T18:47:00.000-08:00"
+tags: ["css", "javascript"]
+draft: false
 title: "CSS Container Queries: A Practical Guide for Component-Based Layouts"
-image: '/images/posts/css-container-queries-practical-guide.jpg'
-topic: 'development'
+image: "/images/posts/css-container-queries-practical-guide.jpg"
+topic: "development"
 description: "Container queries finally give us components that adapt to their context, not just the viewport. Here's how to use them effectively in real projects."
 ---
 
@@ -12,7 +12,7 @@ Media queries have been the backbone of responsive design for over a decade, but
 
 ## The Core Concept: Containment First
 
-Before a container query can work, you need to declare a *containment context* on the parent element. This tells the browser to track the size of that element so its children can query against it:
+Before a container query can work, you need to declare a _containment context_ on the parent element. This tells the browser to track the size of that element so its children can query against it:
 
 ```css
 .card-wrapper {
@@ -84,6 +84,7 @@ There's a bonus feature that's easy to miss: container query length units. These
 ```
 
 The available units are:
+
 - `cqi` — 1% of the container's inline size (usually width)
 - `cqb` — 1% of the container's block size (usually height)
 - `cqw` / `cqh` — container width / height (not relative to writing mode)

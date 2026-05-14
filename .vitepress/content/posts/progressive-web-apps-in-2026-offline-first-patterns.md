@@ -1,10 +1,10 @@
 ---
-created_at: '2026-04-18T10:44:00.000-08:00'
-tags: ['javascript', 'performance', 'web-apis', 'tooling']
-draft: true
+created_at: "2026-04-18T10:44:00.000-08:00"
+tags: ["javascript", "performance", "web-apis", "tooling"]
+draft: false
 title: "Progressive Web Apps in 2026: Offline-First Patterns That Actually Work"
-image: '/images/posts/progressive-web-apps-in-2026-offline-first-patterns.jpg'
-topic: 'development'
+image: "/images/posts/progressive-web-apps-in-2026-offline-first-patterns.jpg"
+topic: "development"
 description: "PWAs have matured significantly. Between Workbox's caching strategies, the Background Sync API, and the Web App Manifest improvements, building offline-capable apps is more practical than ever."
 ---
 
@@ -16,25 +16,27 @@ A service worker is a JavaScript file that runs in the background, independent o
 
 ```js
 // sw.js — your service worker
-const CACHE_NAME = 'app-v1';
-const PRECACHE_URLS = ['/', '/index.html', '/app.css', '/app.js'];
+const CACHE_NAME = "app-v1";
+const PRECACHE_URLS = ["/", "/index.html", "/app.css", "/app.js"];
 
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS)),
   );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (event) => {
+self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) =>
-      Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      )
-    )
+    caches
+      .keys()
+      .then((cacheNames) =>
+        Promise.all(
+          cacheNames
+            .filter((name) => name !== CACHE_NAME)
+            .map((name) => caches.delete(name)),
+        ),
+      ),
   );
   self.clients.claim();
 });
@@ -48,36 +50,43 @@ Workbox provides tested, composable caching strategies that cover the most commo
 
 ```js
 // sw.js with Workbox
-import { registerRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
-import { CacheableResponsePlugin } from 'workbox-cacheable-response';
-import { ExpirationPlugin } from 'workbox-expiration';
+import { registerRoute } from "workbox-routing";
+import {
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+} from "workbox-strategies";
+import { CacheableResponsePlugin } from "workbox-cacheable-response";
+import { ExpirationPlugin } from "workbox-expiration";
 
 // Static assets: serve from cache, update in background
 registerRoute(
-  ({ request }) => request.destination === 'image',
+  ({ request }) => request.destination === "image",
   new CacheFirst({
-    cacheName: 'images',
+    cacheName: "images",
     plugins: [
       new CacheableResponsePlugin({ statuses: [0, 200] }),
-      new ExpirationPlugin({ maxEntries: 60, maxAgeSeconds: 30 * 24 * 60 * 60 }),
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60,
+      }),
     ],
-  })
+  }),
 );
 
 // API responses: try network first, fall back to cache
 registerRoute(
-  ({ url }) => url.pathname.startsWith('/api/'),
+  ({ url }) => url.pathname.startsWith("/api/"),
   new NetworkFirst({
-    cacheName: 'api-responses',
+    cacheName: "api-responses",
     networkTimeoutSeconds: 3,
-  })
+  }),
 );
 
 // App shell: serve from cache, revalidate in background
 registerRoute(
-  ({ request }) => request.mode === 'navigate',
-  new StaleWhileRevalidate({ cacheName: 'pages' })
+  ({ request }) => request.mode === "navigate",
+  new StaleWhileRevalidate({ cacheName: "pages" }),
 );
 ```
 
@@ -87,32 +96,32 @@ The `vite-plugin-pwa` package generates your service worker, web app manifest, a
 
 ```ts
 // vite.config.ts
-import { VitePWA } from 'vite-plugin-pwa';
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
   plugins: [
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: "autoUpdate",
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\.example\.com\//,
-            handler: 'NetworkFirst',
+            handler: "NetworkFirst",
             options: {
-              cacheName: 'api-cache',
+              cacheName: "api-cache",
               networkTimeoutSeconds: 5,
             },
           },
         ],
       },
       manifest: {
-        name: 'My App',
-        short_name: 'MyApp',
-        theme_color: '#ffffff',
+        name: "My App",
+        short_name: "MyApp",
+        theme_color: "#ffffff",
         icons: [
-          { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          { src: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+          { src: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
         ],
       },
     }),
@@ -126,18 +135,18 @@ The Background Sync API queues failed requests and retries them when connectivit
 
 ```js
 // In your service worker
-import { BackgroundSyncPlugin } from 'workbox-background-sync';
-import { registerRoute } from 'workbox-routing';
-import { NetworkOnly } from 'workbox-strategies';
+import { BackgroundSyncPlugin } from "workbox-background-sync";
+import { registerRoute } from "workbox-routing";
+import { NetworkOnly } from "workbox-strategies";
 
-const bgSync = new BackgroundSyncPlugin('mutations-queue', {
+const bgSync = new BackgroundSyncPlugin("mutations-queue", {
   maxRetentionTime: 24 * 60, // 24 hours in minutes
 });
 
 registerRoute(
-  ({ url }) => url.pathname.startsWith('/api/submit'),
+  ({ url }) => url.pathname.startsWith("/api/submit"),
   new NetworkOnly({ plugins: [bgSync] }),
-  'POST'
+  "POST",
 );
 ```
 

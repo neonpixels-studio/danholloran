@@ -1,10 +1,10 @@
 ---
-created_at: '2026-03-17T09:01:00.000-08:00'
-tags: ['javascript', 'react', 'typescript', 'tooling']
-draft: true
+created_at: "2026-03-17T09:01:00.000-08:00"
+tags: ["javascript", "react", "typescript", "tooling"]
+draft: false
 title: "TanStack Query v5: Data Fetching Done Right"
-image: '/images/posts/tanstack-query-v5-data-fetching-done-right.jpg'
-topic: 'development'
+image: "/images/posts/tanstack-query-v5-data-fetching-done-right.jpg"
+topic: "development"
 description: "TanStack Query v5 cleaned up the API, unified the mental model, and added first-class support for infinite queries and streaming. Here's what changed and why the library remains the standard."
 ---
 
@@ -16,15 +16,13 @@ The most visible change in v5 is that all hooks now require an options object. I
 
 ```ts
 // v4 — positional arguments
-const { data } = useQuery(
-  ['user', userId],
-  () => fetchUser(userId),
-  { staleTime: 5 * 60 * 1000 }
-);
+const { data } = useQuery(["user", userId], () => fetchUser(userId), {
+  staleTime: 5 * 60 * 1000,
+});
 
 // v5 — single options object
 const { data } = useQuery({
-  queryKey: ['user', userId],
+  queryKey: ["user", userId],
   queryFn: () => fetchUser(userId),
   staleTime: 5 * 60 * 1000,
 });
@@ -46,7 +44,7 @@ v5 ships `useSuspenseQuery` and `useSuspenseInfiniteQuery` as stable, dedicated 
 // useSuspenseQuery guarantees data is defined — no undefined check needed
 function UserProfile({ userId }: { userId: string }) {
   const { data: user } = useSuspenseQuery({
-    queryKey: ['user', userId],
+    queryKey: ["user", userId],
     queryFn: () => fetchUser(userId),
   });
 
@@ -73,17 +71,13 @@ The non-suspense `useQuery` still returns `data: T | undefined` and requires you
 `useInfiniteQuery` got significant ergonomic improvements. The `initialPageParam` is now required (no more implicit `undefined` first page), and `getNextPageParam` has clearer typing:
 
 ```ts
-const {
-  data,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-} = useInfiniteQuery({
-  queryKey: ['posts', filters],
-  queryFn: ({ pageParam }) => fetchPosts({ cursor: pageParam, ...filters }),
-  initialPageParam: null as string | null,
-  getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
-});
+const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  useInfiniteQuery({
+    queryKey: ["posts", filters],
+    queryFn: ({ pageParam }) => fetchPosts({ cursor: pageParam, ...filters }),
+    initialPageParam: null as string | null,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
+  });
 
 // data.pages is an array of each page's result
 const allPosts = data?.pages.flatMap((page) => page.items) ?? [];
@@ -104,10 +98,10 @@ useInfiniteQuery({
 
 ```ts
 const mutation = useMutation({
-  mutationKey: ['update-user'],
+  mutationKey: ["update-user"],
   mutationFn: (data: UpdateUserInput) => updateUser(data),
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['user'] });
+    queryClient.invalidateQueries({ queryKey: ["user"] });
   },
 });
 ```

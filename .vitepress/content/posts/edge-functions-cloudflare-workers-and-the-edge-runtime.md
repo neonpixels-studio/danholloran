@@ -1,10 +1,10 @@
 ---
-created_at: '2026-04-19T08:48:00.000-08:00'
-tags: ['javascript', 'performance', 'web-apis', 'tooling']
-draft: true
+created_at: "2026-04-19T08:48:00.000-08:00"
+tags: ["javascript", "performance", "web-apis", "tooling"]
+draft: false
 title: "Edge Functions: Running Code Where Your Users Are"
-image: '/images/posts/edge-functions-cloudflare-workers-and-the-edge-runtime.jpg'
-topic: 'development'
+image: "/images/posts/edge-functions-cloudflare-workers-and-the-edge-runtime.jpg"
+topic: "development"
 description: "Edge functions run your code in data centers close to users, eliminating the latency of a centralized origin server. Here's what they're good for and how to build with them."
 ---
 
@@ -21,7 +21,7 @@ export default {
     const url = new URL(request.url);
 
     // Route requests without a round-trip to origin
-    if (url.pathname === '/api/geo') {
+    if (url.pathname === "/api/geo") {
       return Response.json({
         country: request.cf.country,
         city: request.cf.city,
@@ -46,7 +46,7 @@ Edge functions aren't universally better than traditional serverless — they ex
 export default {
   async fetch(request: Request, env: Env) {
     const url = new URL(request.url);
-    const variant = Math.random() < 0.5 ? 'a' : 'b';
+    const variant = Math.random() < 0.5 ? "a" : "b";
 
     // Rewrite the URL to serve different content
     url.pathname = `/experiments/button-${variant}${url.pathname}`;
@@ -54,7 +54,7 @@ export default {
 
     // Clone and add a header so analytics can track it
     const modified = new Response(response.body, response);
-    modified.headers.set('X-Experiment-Variant', variant);
+    modified.headers.set("X-Experiment-Variant", variant);
     return modified;
   },
 };
@@ -62,17 +62,17 @@ export default {
 
 ```ts
 // 2. Authentication at the edge — validate JWT before hitting origin
-import { jwtVerify } from 'jose';
+import { jwtVerify } from "jose";
 
 export default {
   async fetch(request: Request, env: Env) {
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) return new Response('Unauthorized', { status: 401 });
+    const token = request.headers.get("Authorization")?.replace("Bearer ", "");
+    if (!token) return new Response("Unauthorized", { status: 401 });
 
     try {
       await jwtVerify(token, new TextEncoder().encode(env.JWT_SECRET));
     } catch {
-      return new Response('Invalid token', { status: 401 });
+      return new Response("Invalid token", { status: 401 });
     }
 
     return fetch(request); // Forward authenticated request to origin
@@ -87,7 +87,7 @@ export default {
     const userId = getUserId(request);
     const cacheKey = `preferences:${userId}`;
 
-    let prefs = await env.KV.get(cacheKey, { type: 'json' });
+    let prefs = await env.KV.get(cacheKey, { type: "json" });
     if (!prefs) {
       const res = await fetch(`${env.ORIGIN}/api/preferences/${userId}`);
       prefs = await res.json();

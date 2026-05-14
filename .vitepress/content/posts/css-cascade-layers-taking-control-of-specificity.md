@@ -1,10 +1,10 @@
 ---
-created_at: '2026-04-26T13:38:00.000-08:00'
-tags: ['css', 'tooling']
-draft: true
+created_at: "2026-04-26T13:38:00.000-08:00"
+tags: ["css", "tooling"]
+draft: false
 title: "CSS Cascade Layers: Finally Taking Control of Specificity"
-image: '/images/posts/css-cascade-layers-taking-control-of-specificity.jpg'
-topic: 'development'
+image: "/images/posts/css-cascade-layers-taking-control-of-specificity.jpg"
+topic: "development"
 description: "The @layer rule gives you explicit control over which CSS wins when rules conflict. Here's how cascade layers work and how they change the way you structure stylesheets."
 ---
 
@@ -20,7 +20,9 @@ A layer is a named bucket for CSS rules. Layers are ordered at declaration, and 
 
 /* Rules in each layer */
 @layer reset {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -57,9 +59,15 @@ A layer is a named bucket for CSS rules. Layers are ordered at declaration, and 
 }
 
 @layer utilities {
-  .text-center { text-align: center; }
-  .mt-4 { margin-top: 1rem; }
-  .hidden { display: none !important; }
+  .text-center {
+    text-align: center;
+  }
+  .mt-4 {
+    margin-top: 1rem;
+  }
+  .hidden {
+    display: none !important;
+  }
 }
 ```
 
@@ -72,7 +80,7 @@ The real power of `@layer` becomes clear when integrating third-party styles. Pr
 ```css
 /* Import a UI library into a low-priority layer */
 @layer third-party {
-  @import url('some-ui-library.css');
+  @import url("some-ui-library.css");
 }
 
 /* Your layer is declared later, so it wins */
@@ -94,11 +102,15 @@ An important gotcha: styles written outside any layer are treated as the highest
 
 ```css
 @layer components {
-  .card { background: white; }
+  .card {
+    background: white;
+  }
 }
 
 /* Not in any layer — beats everything in @layer */
-.card { background: gray; } /* This wins */
+.card {
+  background: gray;
+} /* This wins */
 ```
 
 The practical rule: once you start using `@layer`, put everything in a layer to avoid surprises.

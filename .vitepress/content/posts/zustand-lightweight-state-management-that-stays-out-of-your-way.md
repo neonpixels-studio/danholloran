@@ -1,10 +1,10 @@
 ---
-created_at: '2026-04-01T18:44:00.000-08:00'
-tags: ['react', 'javascript', 'typescript']
-draft: true
+created_at: "2026-04-01T18:44:00.000-08:00"
+tags: ["react", "javascript", "typescript"]
+draft: false
 title: "Zustand: Lightweight State Management That Stays Out of Your Way"
-image: '/images/posts/zustand-lightweight-state-management-that-stays-out-of-your-way.jpg'
-topic: 'development'
+image: "/images/posts/zustand-lightweight-state-management-that-stays-out-of-your-way.jpg"
+topic: "development"
 description: "Zustand is a minimal global state library for React that skips the boilerplate entirely. Here's how it works, when to reach for it, and patterns that scale well."
 ---
 
@@ -15,7 +15,7 @@ Global state in React has a complicated history. Redux introduced rigorous patte
 The core concept in Zustand is simple — a store is a custom hook that holds state and actions together:
 
 ```ts
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface CartStore {
   items: CartItem[];
@@ -61,7 +61,11 @@ function CartSummary() {
 function AddToCartButton({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
   return (
-    <button onClick={() => addItem({ id: product.id, price: product.price, name: product.name })}>
+    <button
+      onClick={() =>
+        addItem({ id: product.id, price: product.price, name: product.name })
+      }
+    >
       Add to Cart
     </button>
   );
@@ -88,7 +92,7 @@ Selectors are functions, so you can derive computed values inline:
 ```ts
 const itemCount = useCartStore((state) => state.items.length);
 const hasItem = useCartStore((state) =>
-  state.items.some((i) => i.id === productId)
+  state.items.some((i) => i.id === productId),
 );
 ```
 
@@ -97,15 +101,15 @@ const hasItem = useCartStore((state) =>
 Zustand ships with middleware for persistence, devtools integration, and Immer-style mutations:
 
 ```ts
-import { create } from 'zustand';
-import { persist, devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+import { create } from "zustand";
+import { persist, devtools } from "zustand/middleware";
+import { immer } from "zustand/middleware/immer";
 
 export const useSettingsStore = create<SettingsStore>()(
   devtools(
     persist(
       immer((set) => ({
-        theme: 'light' as 'light' | 'dark',
+        theme: "light" as "light" | "dark",
         fontSize: 16,
 
         setTheme: (theme) =>
@@ -119,9 +123,9 @@ export const useSettingsStore = create<SettingsStore>()(
             state.fontSize = Math.min(state.fontSize + 2, 24);
           }),
       })),
-      { name: 'settings-store' } // localStorage key
-    )
-  )
+      { name: "settings-store" }, // localStorage key
+    ),
+  ),
 );
 ```
 

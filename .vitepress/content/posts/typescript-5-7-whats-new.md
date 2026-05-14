@@ -1,10 +1,10 @@
 ---
-created_at: '2025-11-18T09:13:00.000-08:00'
-tags: ['typescript', 'javascript', 'tooling']
-draft: true
+created_at: "2025-11-18T09:13:00.000-08:00"
+tags: ["typescript", "javascript", "tooling"]
+draft: false
 title: "TypeScript 5.7: What's New and Why It Matters"
-image: '/images/posts/typescript-5-7-whats-new.jpg'
-topic: 'development'
+image: "/images/posts/typescript-5-7-whats-new.jpg"
+topic: "development"
 description: "TypeScript 5.7 landed with some genuinely useful additions — from stricter initialization checks to path rewriting in emit. Here's what you need to know."
 ---
 
@@ -29,7 +29,7 @@ The fix is straightforward: initialize at the declaration site or add a definite
 
 ```typescript
 // Option A: initialize at declaration
-let result: string = '';
+let result: string = "";
 
 // Option B: if you're sure it's always set before use
 let result!: string;
@@ -63,7 +63,7 @@ TypeScript 5.7 adds `ES2024` as a valid `--target` option, and with it comes upd
 // Works out of the box with --target es2024
 const { promise, resolve, reject } = Promise.withResolvers<string>();
 
-const grouped = Object.groupBy(items, item => item.category);
+const grouped = Object.groupBy(items, (item) => item.category);
 ```
 
 If you're shipping to environments that support these natively (recent Node.js, modern browsers), updating your target lets TypeScript verify you're using these APIs correctly without any extra configuration.

@@ -1,10 +1,10 @@
 ---
-created_at: '2026-03-07T14:02:00.000-08:00'
-tags: ['javascript', 'performance', 'web-apis']
-draft: true
+created_at: "2026-03-07T14:02:00.000-08:00"
+tags: ["javascript", "performance", "web-apis"]
+draft: false
 title: "Web Workers: Keeping Your UI Smooth When the Work Gets Heavy"
-image: '/images/posts/web-workers-offloading-heavy-computation-from-the-main-thread.jpg'
-topic: 'development'
+image: "/images/posts/web-workers-offloading-heavy-computation-from-the-main-thread.jpg"
+topic: "development"
 description: "JavaScript is single-threaded, but that doesn't mean your UI has to freeze during heavy computation. Web Workers give you real parallel execution — here's how to use them well."
 ---
 
@@ -17,10 +17,7 @@ JavaScript runs on a single thread. When you block that thread — even briefly 
 ```js
 // This will block the UI for however long it takes
 function processLargeDataset(records) {
-  return records
-    .filter(isValid)
-    .map(transform)
-    .reduce(aggregate, {});
+  return records.filter(isValid).map(transform).reduce(aggregate, {});
 }
 
 // Called on the main thread — bad for large datasets
@@ -39,16 +36,13 @@ self.onmessage = function ({ data }) {
 };
 
 function processLargeDataset(records) {
-  return records
-    .filter(isValid)
-    .map(transform)
-    .reduce(aggregate, {});
+  return records.filter(isValid).map(transform).reduce(aggregate, {});
 }
 ```
 
 ```js
 // main.js — runs on the main thread
-const worker = new Worker('./worker.js');
+const worker = new Worker("./worker.js");
 
 worker.postMessage({ records: tenThousandRecords });
 
@@ -65,7 +59,7 @@ In a Vite project, you get module workers with proper TypeScript support using t
 
 ```ts
 // src/workers/csv-parser.worker.ts
-import Papa from 'papaparse';
+import Papa from "papaparse";
 
 self.onmessage = ({ data: { csvText } }: MessageEvent<{ csvText: string }>) => {
   const result = Papa.parse(csvText, { header: true, skipEmptyLines: true });
@@ -75,7 +69,7 @@ self.onmessage = ({ data: { csvText } }: MessageEvent<{ csvText: string }>) => {
 
 ```ts
 // src/components/CsvUploader.vue (or any component)
-import CsvParserWorker from '@/workers/csv-parser.worker.ts?worker';
+import CsvParserWorker from "@/workers/csv-parser.worker.ts?worker";
 
 const worker = new CsvParserWorker();
 
@@ -98,16 +92,18 @@ The `postMessage` API gets verbose for complex interactions. Comlink from Google
 
 ```ts
 // worker.ts
-import { expose } from 'comlink';
+import { expose } from "comlink";
 
 const api = {
   async searchRecords(query: string, records: Record[]) {
-    return records.filter(r =>
-      Object.values(r).some(v => String(v).toLowerCase().includes(query))
+    return records.filter((r) =>
+      Object.values(r).some((v) => String(v).toLowerCase().includes(query)),
     );
   },
   async sortByField(field: string, records: Record[]) {
-    return [...records].sort((a, b) => String(a[field]).localeCompare(String(b[field])));
+    return [...records].sort((a, b) =>
+      String(a[field]).localeCompare(String(b[field])),
+    );
   },
 };
 
@@ -116,13 +112,13 @@ expose(api);
 
 ```ts
 // main.ts
-import { wrap } from 'comlink';
-import DataWorker from './worker?worker';
+import { wrap } from "comlink";
+import DataWorker from "./worker?worker";
 
 const worker = wrap<typeof api>(new DataWorker());
 
 // Feels like a regular async function call
-const results = await worker.searchRecords('react', allPosts);
+const results = await worker.searchRecords("react", allPosts);
 ```
 
 Comlink handles the message passing and serialization automatically. The worker feels like a local async module, and TypeScript infers the return types correctly.

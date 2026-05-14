@@ -1,10 +1,10 @@
 ---
-created_at: '2026-02-08T17:17:00.000-08:00'
-tags: ['javascript', 'tooling', 'performance']
-draft: true
+created_at: "2026-02-08T17:17:00.000-08:00"
+tags: ["javascript", "tooling", "performance"]
+draft: false
 title: "Astro 5: Content Collections v2 and Server Islands Explained"
-image: '/images/posts/astro-5-content-collections-and-server-islands.jpg'
-topic: 'development'
+image: "/images/posts/astro-5-content-collections-and-server-islands.jpg"
+topic: "development"
 description: "Astro 5 ships a redesigned Content Layer and a powerful Server Islands feature that brings dynamic personalization to static sites. Here's what changed and why it matters."
 ---
 
@@ -16,8 +16,8 @@ The original Content Collections API was a great improvement over managing markd
 
 ```ts
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
-import { glob } from 'astro/loaders';
+import { defineConfig } from "astro/config";
+import { glob } from "astro/loaders";
 
 export default defineConfig({
   // Config-level collections (no src/content/ required)
@@ -26,12 +26,12 @@ export default defineConfig({
 
 ```ts
 // src/content/config.ts
-import { defineCollection, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { defineCollection, z } from "astro:content";
+import { glob, file } from "astro/loaders";
 
 const blog = defineCollection({
   // Load from local markdown
-  loader: glob({ pattern: '**/*.md', base: './src/blog' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/blog" }),
   schema: z.object({
     title: z.string(),
     published: z.date(),
@@ -42,7 +42,7 @@ const blog = defineCollection({
 const products = defineCollection({
   // Load from a remote API
   loader: async () => {
-    const res = await fetch('https://api.example.com/products');
+    const res = await fetch("https://api.example.com/products");
     return res.json();
   },
   schema: z.object({
@@ -67,6 +67,7 @@ const posts = await getCollection('blog');
 ## Server Islands: Dynamic in a Static World
 
 Server Islands are the architectural headline of Astro 5. The problem they solve: you have a mostly static page (fast, cacheable, great for CDN) but a few dynamic sections — a personalized recommendation block, a user's cart count, a live inventory number. Previously you'd either:
+
 - Make the whole page dynamic (killing cache benefits)
 - Hydrate a client component and fetch from the browser (causing a layout shift)
 

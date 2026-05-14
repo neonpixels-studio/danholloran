@@ -1,10 +1,10 @@
 ---
-created_at: '2026-02-03T13:17:00.000-08:00'
-tags: ['javascript', 'tooling', 'node']
-draft: true
+created_at: "2026-02-03T13:17:00.000-08:00"
+tags: ["javascript", "tooling", "node"]
+draft: false
 title: "Bun vs Node.js: Should You Actually Switch?"
-image: '/images/posts/bun-vs-nodejs-should-you-switch.jpg'
-topic: 'development'
+image: "/images/posts/bun-vs-nodejs-should-you-switch.jpg"
+topic: "development"
 description: "Bun is fast, ships with a bundler and test runner, and is Node-compatible. But is it actually worth switching your production backend or toolchain? Here's an honest take."
 ---
 
@@ -44,12 +44,12 @@ Bun implements the Node.js API surface intentionally, and most packages just wor
 
 ```ts
 // This works in Bun unchanged
-import { createServer } from 'http';
-import { readFileSync } from 'fs';
-import express from 'express';
+import { createServer } from "http";
+import { readFileSync } from "fs";
+import express from "express";
 
 const app = express();
-app.get('/', (req, res) => res.send('Hello from Bun'));
+app.get("/", (req, res) => res.send("Hello from Bun"));
 app.listen(3000);
 ```
 
@@ -62,7 +62,7 @@ For new projects or internal tooling, three scenarios make Bun a clear winner:
 ```ts
 // 1. Script runner — no compilation step, just run TypeScript
 // scripts/migrate.ts
-import { db } from './db';
+import { db } from "./db";
 await db.migrate();
 
 // bun run scripts/migrate.ts — works without ts-node or tsx

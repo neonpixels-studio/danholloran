@@ -1,10 +1,10 @@
 ---
-created_at: '2026-01-25T09:22:00.000-08:00'
-tags: ['react', 'javascript', 'typescript']
-draft: true
+created_at: "2026-01-25T09:22:00.000-08:00"
+tags: ["react", "javascript", "typescript"]
+draft: false
 title: "React 19: The Stable Features You Should Actually Be Using"
-image: '/images/posts/react-19-stable-features-you-should-be-using.jpg'
-topic: 'development'
+image: "/images/posts/react-19-stable-features-you-should-be-using.jpg"
+topic: "development"
 description: "React 19 went stable in December 2024. Actions, the use() API, new hooks, and document metadata support are all production-ready. Here's what's worth adopting first."
 ---
 
@@ -12,7 +12,7 @@ React 19 went stable in December 2024, and the announcement was notable for how 
 
 ## Actions: Async State Without the Boilerplate
 
-The old pattern for handling form submissions or async mutations in React involved manually managing pending, error, and success states. React 19 formalizes the "async function that updates state" concept into *Actions*, which the new hooks integrate with:
+The old pattern for handling form submissions or async mutations in React involved manually managing pending, error, and success states. React 19 formalizes the "async function that updates state" concept into _Actions_, which the new hooks integrate with:
 
 ```tsx
 // Before React 19: manual state management
@@ -24,7 +24,7 @@ function UpdateNameForm() {
     e.preventDefault();
     setPending(true);
     try {
-      await updateName(new FormData(e.target).get('name'));
+      await updateName(new FormData(e.target).get("name"));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -38,19 +38,17 @@ function UpdateNameForm() {
 function UpdateNameForm() {
   const [error, submitAction, isPending] = useActionState(
     async (prevState, formData) => {
-      const error = await updateName(formData.get('name'));
+      const error = await updateName(formData.get("name"));
       if (error) return error;
       return null;
     },
-    null
+    null,
   );
 
   return (
     <form action={submitAction}>
       <input name="name" />
-      <button disabled={isPending}>
-        {isPending ? 'Saving...' : 'Save'}
-      </button>
+      <button disabled={isPending}>{isPending ? "Saving..." : "Save"}</button>
       {error && <p className="error">{error}</p>}
     </form>
   );
@@ -64,7 +62,7 @@ The `action` prop on `<form>` is now a first-class React concept. You can pass a
 `use()` is a new hook-like function that can read a promise or context inside render — including conditionally, which regular hooks can't do:
 
 ```tsx
-import { use, Suspense } from 'react';
+import { use, Suspense } from "react";
 
 // Read a promise in render — component suspends until resolved
 function UserProfile({ userPromise }) {
@@ -100,18 +98,18 @@ function ThemedButton({ showTheme }) {
 function TodoList({ todos, addTodo }) {
   const [optimisticTodos, addOptimisticTodo] = useOptimistic(
     todos,
-    (state, newTodo) => [...state, { ...newTodo, pending: true }]
+    (state, newTodo) => [...state, { ...newTodo, pending: true }],
   );
 
   async function handleAdd(formData) {
-    const newTodo = { text: formData.get('text'), id: crypto.randomUUID() };
+    const newTodo = { text: formData.get("text"), id: crypto.randomUUID() };
     addOptimisticTodo(newTodo); // Updates UI immediately
-    await addTodo(newTodo);     // Real server call
+    await addTodo(newTodo); // Real server call
   }
 
   return (
     <ul>
-      {optimisticTodos.map(todo => (
+      {optimisticTodos.map((todo) => (
         <li key={todo.id} style={{ opacity: todo.pending ? 0.5 : 1 }}>
           {todo.text}
         </li>
@@ -131,7 +129,10 @@ function ProductPage({ product }) {
     <>
       <title>{product.name} | My Shop</title>
       <meta name="description" content={product.description} />
-      <link rel="canonical" href={`https://shop.example.com/products/${product.slug}`} />
+      <link
+        rel="canonical"
+        href={`https://shop.example.com/products/${product.slug}`}
+      />
       <h1>{product.name}</h1>
     </>
   );

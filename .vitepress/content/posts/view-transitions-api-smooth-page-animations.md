@@ -1,10 +1,10 @@
 ---
-created_at: '2025-12-28T16:38:00.000-08:00'
-tags: ['css', 'javascript', 'web-apis', 'animation']
-draft: true
+created_at: "2025-12-28T16:38:00.000-08:00"
+tags: ["css", "javascript", "web-apis", "animation"]
+draft: false
 title: "The View Transitions API: Smooth Page Animations Without a Framework"
-image: '/images/posts/view-transitions-api-smooth-page-animations.jpg'
-topic: 'development'
+image: "/images/posts/view-transitions-api-smooth-page-animations.jpg"
+topic: "development"
 description: "The View Transitions API lets you animate between page states with just a few lines of CSS and JavaScript. Here's how it works and where it shines."
 ---
 
@@ -21,7 +21,7 @@ document.startViewTransition(() => {
 });
 ```
 
-Without any extra CSS, you get a smooth cross-fade for free. That alone is a significant upgrade for most SPAs. But the real power comes when you name elements to create *matched* transitions.
+Without any extra CSS, you get a smooth cross-fade for free. That alone is a significant upgrade for most SPAs. But the real power comes when you name elements to create _matched_ transitions.
 
 ## Named Elements and Matched Transitions
 

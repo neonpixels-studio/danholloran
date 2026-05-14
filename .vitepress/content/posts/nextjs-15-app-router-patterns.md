@@ -1,10 +1,10 @@
 ---
-created_at: '2025-11-18T16:12:00.000-08:00'
-tags: ['javascript', 'react', 'tooling']
-draft: true
+created_at: "2025-11-18T16:12:00.000-08:00"
+tags: ["javascript", "react", "tooling"]
+draft: false
 title: "Next.js 15 App Router: Patterns Worth Adopting Now"
-image: '/images/posts/nextjs-15-app-router-patterns.jpg'
-topic: 'development'
+image: "/images/posts/nextjs-15-app-router-patterns.jpg"
+topic: "development"
 description: "Next.js 15 shipped with a stabilized App Router and a cleaner async model. Here are the patterns that actually improve your day-to-day development."
 ---
 
@@ -16,20 +16,20 @@ The biggest mental shift in Next.js 15 is that `cookies()`, `headers()`, `search
 
 ```tsx
 // Next.js 14 — synchronous (deprecated)
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export default function Page() {
   const cookieStore = cookies();
-  const token = cookieStore.get('token');
+  const token = cookieStore.get("token");
   // ...
 }
 
 // Next.js 15 — properly async
-import { cookies } from 'next/headers';
+import { cookies } from "next/headers";
 
 export default async function Page() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('token');
+  const token = cookieStore.get("token");
   // ...
 }
 ```
@@ -44,17 +44,17 @@ Now the default is uncached — `fetch` behaves like it does in every other Java
 
 ```tsx
 // Cache this data for 60 seconds
-const data = await fetch('https://api.example.com/products', {
+const data = await fetch("https://api.example.com/products", {
   next: { revalidate: 60 },
 });
 
 // Cache indefinitely until manually revalidated
-const config = await fetch('https://api.example.com/config', {
-  next: { tags: ['config'] },
+const config = await fetch("https://api.example.com/config", {
+  next: { tags: ["config"] },
 });
 
 // Default: no cache (fresh on every request)
-const user = await fetch('https://api.example.com/me');
+const user = await fetch("https://api.example.com/me");
 ```
 
 This model is far more predictable. The rule is simple: if you want caching, you ask for it. If you're not sure, the default is safe.
@@ -85,7 +85,7 @@ async function ProductCard({ id }: { id: string }) {
 }
 
 // 'use client': only the interactive shell
-'use client';
+("use client");
 function ProductCardClient({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
   return (

@@ -1,10 +1,10 @@
 ---
-created_at: '2025-12-26T10:47:00.000-08:00'
-tags: ['javascript', 'web-apis', 'ai-ml-in-the-browser']
-draft: true
+created_at: "2025-12-26T10:47:00.000-08:00"
+tags: ["javascript", "web-apis", "ai-ml-in-the-browser"]
+draft: false
 title: "AI in the Browser: Running Real Models with Transformers.js"
-image: '/images/posts/ai-in-the-browser-transformers-js.jpg'
-topic: 'development'
+image: "/images/posts/ai-in-the-browser-transformers-js.jpg"
+topic: "development"
 description: "You don't need a backend to run AI anymore. Transformers.js lets you run Hugging Face models directly in the browser or Node.js — here's how to get started."
 ---
 
@@ -23,16 +23,16 @@ npm install @huggingface/transformers
 The `pipeline` function is the highest-level API — you give it a task and optionally a model, and it handles everything:
 
 ```js
-import { pipeline } from '@huggingface/transformers';
+import { pipeline } from "@huggingface/transformers";
 
 // Models are downloaded from Hugging Face Hub on first run
 // and cached in IndexedDB for subsequent visits
 const classifier = await pipeline(
-  'sentiment-analysis',
-  'Xenova/distilbert-base-uncased-finetuned-sst-2-english'
+  "sentiment-analysis",
+  "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
 );
 
-const result = await classifier('The new API is surprisingly elegant.');
+const result = await classifier("The new API is surprisingly elegant.");
 // [{ label: 'POSITIVE', score: 0.9987 }]
 ```
 
@@ -44,35 +44,38 @@ Model inference can block the main thread, which will freeze your UI. The correc
 
 ```js
 // worker.js
-import { pipeline } from '@huggingface/transformers';
+import { pipeline } from "@huggingface/transformers";
 
 let classifier;
 
 self.onmessage = async ({ data: { text } }) => {
   if (!classifier) {
     classifier = await pipeline(
-      'sentiment-analysis',
-      'Xenova/distilbert-base-uncased-finetuned-sst-2-english',
-      { progress_callback: (p) => self.postMessage({ type: 'progress', payload: p }) }
+      "sentiment-analysis",
+      "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+      {
+        progress_callback: (p) =>
+          self.postMessage({ type: "progress", payload: p }),
+      },
     );
   }
 
   const result = await classifier(text);
-  self.postMessage({ type: 'result', payload: result });
+  self.postMessage({ type: "result", payload: result });
 };
 ```
 
 ```js
 // main.js
-const worker = new Worker('./worker.js', { type: 'module' });
+const worker = new Worker("./worker.js", { type: "module" });
 
 worker.onmessage = ({ data }) => {
-  if (data.type === 'result') {
+  if (data.type === "result") {
     console.log(data.payload);
   }
 };
 
-worker.postMessage({ text: 'This library is genuinely impressive.' });
+worker.postMessage({ text: "This library is genuinely impressive." });
 ```
 
 The `progress_callback` lets you show a progress bar during the initial model download, which is essential UX for larger models.
@@ -84,25 +87,25 @@ Sentiment analysis is just the beginning. Transformers.js supports a wide range 
 ```js
 // Zero-shot image classification
 const visionClassifier = await pipeline(
-  'zero-shot-image-classification',
-  'Xenova/clip-vit-base-patch32'
+  "zero-shot-image-classification",
+  "Xenova/clip-vit-base-patch32",
 );
 const imageResult = await visionClassifier(imageUrl, [
-  'a photo of a cat',
-  'a photo of a dog',
-  'a photo of a car',
+  "a photo of a cat",
+  "a photo of a dog",
+  "a photo of a car",
 ]);
 
 // Text generation (small LLMs)
 const generator = await pipeline(
-  'text-generation',
-  'Xenova/Phi-3-mini-4k-instruct'
+  "text-generation",
+  "Xenova/Phi-3-mini-4k-instruct",
 );
 
 // Speech recognition
 const transcriber = await pipeline(
-  'automatic-speech-recognition',
-  'Xenova/whisper-tiny.en'
+  "automatic-speech-recognition",
+  "Xenova/whisper-tiny.en",
 );
 ```
 

@@ -1,10 +1,10 @@
 ---
-created_at: '2026-01-03T20:02:00.000-08:00'
-tags: ['javascript', 'typescript', 'web-apis']
-draft: true
+created_at: "2026-01-03T20:02:00.000-08:00"
+tags: ["javascript", "typescript", "web-apis"]
+draft: false
 title: "JavaScript Signals: The New Reactivity Primitive Coming to the Platform"
-image: '/images/posts/javascript-signals-the-new-reactivity-primitive.jpg'
-topic: 'development'
+image: "/images/posts/javascript-signals-the-new-reactivity-primitive.jpg"
+topic: "development"
 description: "Signals are already powering reactivity in Solid, Preact, and Angular. Now there's a TC39 proposal to bring them to the JavaScript language itself — here's what that means."
 ---
 
@@ -12,17 +12,17 @@ If you've used SolidJS, Preact Signals, Vue's Composition API, or Angular's new 
 
 ## The Problem Signals Solve
 
-In any sufficiently interactive UI, you have state that multiple parts of the app care about. The traditional approaches — manual event emitters, global stores with selectors, React's re-render cascade — all work, but they all require the framework to figure out what changed and what needs to update. Signals flip this: the reactivity graph is *explicit* and fine-grained.
+In any sufficiently interactive UI, you have state that multiple parts of the app care about. The traditional approaches — manual event emitters, global stores with selectors, React's re-render cascade — all work, but they all require the framework to figure out what changed and what needs to update. Signals flip this: the reactivity graph is _explicit_ and fine-grained.
 
 ```js
 // Without signals: re-render everything, let the diff sort it out
 function Counter() {
   const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
 }
 
 // With signals: only the text node updates, nothing else re-renders
-import { signal } from '@preact/signals';
+import { signal } from "@preact/signals";
 
 const count = signal(0);
 
@@ -38,7 +38,7 @@ The Preact example above doesn't re-render the component at all on click — onl
 The Signals proposal (currently Stage 1) defines a minimal standard API:
 
 ```js
-import { Signal } from 'signal-polyfill';
+import { Signal } from "signal-polyfill";
 
 // A writable signal
 const temperature = new Signal.State(72);
@@ -65,7 +65,7 @@ The Signals proposal is explicitly designed as framework infrastructure. If it s
 
 ```js
 // Framework-agnostic signal created from the platform
-const sharedState = new Signal.State({ user: null, theme: 'dark' });
+const sharedState = new Signal.State({ user: null, theme: "dark" });
 
 // Any framework can read/write this
 // React wrapper:

@@ -1,10 +1,10 @@
 ---
-created_at: '2026-05-05T16:05:00.000-08:00'
-tags: ['tooling', 'javascript', 'typescript']
-draft: true
+created_at: "2026-05-05T16:05:00.000-08:00"
+tags: ["tooling", "javascript", "typescript"]
+draft: false
 title: "Biome: The Fast All-in-One ESLint and Prettier Replacement"
-image: '/images/posts/biome-the-fast-eslint-and-prettier-replacement.jpg'
-topic: 'development'
+image: "/images/posts/biome-the-fast-eslint-and-prettier-replacement.jpg"
+topic: "development"
 description: "Biome is a Rust-based toolchain that replaces ESLint and Prettier with a single fast binary. Here's what it does well, where it falls short, and how to migrate."
 ---
 

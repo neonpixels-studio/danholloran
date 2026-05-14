@@ -1,10 +1,10 @@
 ---
-created_at: '2026-01-17T09:05:00.000-08:00'
-tags: ['vue', 'javascript', 'tooling']
-draft: true
+created_at: "2026-01-17T09:05:00.000-08:00"
+tags: ["vue", "javascript", "tooling"]
+draft: false
 title: "Nuxt 4: What's Changing and How to Prepare Your App"
-image: '/images/posts/nuxt-4-upgrade-guide-and-new-features.jpg'
-topic: 'development'
+image: "/images/posts/nuxt-4-upgrade-guide-and-new-features.jpg"
+topic: "development"
 description: "Nuxt 4 brings a restructured project layout, improved data fetching, and a cleaner compatibility layer. Here's what to expect and how to migrate without pain."
 ---
 
@@ -45,12 +45,12 @@ Nuxt 4 refines how `useAsyncData` and `useFetch` handle deduplication. In Nuxt 3
 ```ts
 // The key is now required and must be unique per logical request
 const { data: user } = await useAsyncData(
-  'user-profile',
+  "user-profile",
   () => $fetch(`/api/users/${userId}`),
   {
     // New: control deduplication behavior
-    dedupe: 'defer', // or 'cancel'
-  }
+    dedupe: "defer", // or 'cancel'
+  },
 );
 ```
 
@@ -62,10 +62,10 @@ The `defer` strategy (default) holds the second caller until the first resolves 
 
 ```ts
 // The init function is now strongly typed and required
-const theme = useState<'light' | 'dark'>('theme', () => 'light');
+const theme = useState<"light" | "dark">("theme", () => "light");
 
 // Access from any component or composable
-const currentTheme = useState<'light' | 'dark'>('theme');
+const currentTheme = useState<"light" | "dark">("theme");
 ```
 
 The state is keyed globally, so any component that calls `useState('theme')` reads and writes the same value — no prop drilling, no external store required for simple shared state.

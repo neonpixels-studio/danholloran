@@ -1,10 +1,10 @@
 ---
-created_at: '2025-12-13T11:48:00.000-08:00'
-tags: ['tooling', 'javascript', 'bundlers']
-draft: true
+created_at: "2025-12-13T11:48:00.000-08:00"
+tags: ["tooling", "javascript", "bundlers"]
+draft: false
 title: "Vite 6: What's New and Why the Environment API Changes Everything"
-image: '/images/posts/vite-6-whats-new.jpg'
-topic: 'development'
+image: "/images/posts/vite-6-whats-new.jpg"
+topic: "development"
 description: "Vite 6 arrived in late 2024 with the new Environment API at its core. Here's what changed, what it means for framework authors, and what you need to update in your projects."
 ---
 
@@ -18,7 +18,7 @@ The Environment API fixes this by letting you configure multiple distinct enviro
 
 ```ts
 // vite.config.ts
-import { defineConfig } from 'vite';
+import { defineConfig } from "vite";
 
 export default defineConfig({
   environments: {
@@ -27,12 +27,12 @@ export default defineConfig({
     },
     ssr: {
       resolve: {
-        conditions: ['node', 'require'],
+        conditions: ["node", "require"],
       },
     },
     edge: {
       resolve: {
-        conditions: ['workerd', 'worker'],
+        conditions: ["workerd", "worker"],
       },
     },
   },
@@ -60,9 +60,9 @@ Plugin authors gain access to the current environment context inside hooks. This
 
 ```ts
 const myPlugin = {
-  name: 'my-plugin',
+  name: "my-plugin",
   transform(code, id) {
-    if (this.environment.name === 'ssr') {
+    if (this.environment.name === "ssr") {
       // SSR-specific transform
       return transformForSSR(code);
     }

@@ -1,10 +1,10 @@
 ---
-created_at: '2026-02-26T14:14:00.000-08:00'
-tags: ['testing', 'tooling', 'javascript', 'typescript']
-draft: true
+created_at: "2026-02-26T14:14:00.000-08:00"
+tags: ["testing", "tooling", "javascript", "typescript"]
+draft: false
 title: "Vitest: Modern Unit Testing That Doesn't Fight Your Toolchain"
-image: '/images/posts/vitest-modern-testing-for-vite-projects.jpg'
-topic: 'development'
+image: "/images/posts/vitest-modern-testing-for-vite-projects.jpg"
+topic: "development"
 description: "Vitest brings Jest-compatible testing to Vite projects with native TypeScript support, in-source tests, and a dramatically faster watch mode. Here's how to get started."
 ---
 
@@ -20,20 +20,20 @@ npm install -D vitest
 
 ```ts
 // vite.config.ts — Vitest reads this directly
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig({
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src'),
+      "@": resolve(__dirname, "./src"),
     },
   },
   test: {
     // Vitest config lives alongside Vite config
-    environment: 'jsdom',
+    environment: "jsdom",
     globals: true,
-    setupFiles: ['./src/test/setup.ts'],
+    setupFiles: ["./src/test/setup.ts"],
   },
 });
 ```
@@ -54,30 +54,30 @@ export default defineConfig({
 Migration from Jest is mostly search-and-replace on imports. The core APIs (`describe`, `it`, `expect`, `vi`) work identically:
 
 ```ts
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { formatCurrency } from '@/utils/currency';
-import { fetchProduct } from '@/api/products';
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { formatCurrency } from "@/utils/currency";
+import { fetchProduct } from "@/api/products";
 
-vi.mock('@/api/products');
+vi.mock("@/api/products");
 
-describe('formatCurrency', () => {
-  it('formats USD correctly', () => {
-    expect(formatCurrency(1234.5, 'USD')).toBe('$1,234.50');
+describe("formatCurrency", () => {
+  it("formats USD correctly", () => {
+    expect(formatCurrency(1234.5, "USD")).toBe("$1,234.50");
   });
 
-  it('handles zero', () => {
-    expect(formatCurrency(0, 'USD')).toBe('$0.00');
+  it("handles zero", () => {
+    expect(formatCurrency(0, "USD")).toBe("$0.00");
   });
 });
 
-describe('fetchProduct', () => {
+describe("fetchProduct", () => {
   beforeEach(() => {
-    vi.mocked(fetchProduct).mockResolvedValue({ id: '1', name: 'Widget' });
+    vi.mocked(fetchProduct).mockResolvedValue({ id: "1", name: "Widget" });
   });
 
-  it('returns a product', async () => {
-    const product = await fetchProduct('1');
-    expect(product.name).toBe('Widget');
+  it("returns a product", async () => {
+    const product = await fetchProduct("1");
+    expect(product.name).toBe("Widget");
   });
 });
 ```
@@ -99,9 +99,9 @@ export function clamp(value: number, min: number, max: number): number {
 if (import.meta.vitest) {
   const { it, expect } = import.meta.vitest;
 
-  it('clamps to min', () => expect(clamp(-5, 0, 10)).toBe(0));
-  it('clamps to max', () => expect(clamp(15, 0, 10)).toBe(10));
-  it('passes through in range', () => expect(clamp(5, 0, 10)).toBe(5));
+  it("clamps to min", () => expect(clamp(-5, 0, 10)).toBe(0));
+  it("clamps to max", () => expect(clamp(15, 0, 10)).toBe(10));
+  it("passes through in range", () => expect(clamp(5, 0, 10)).toBe(5));
 }
 ```
 
