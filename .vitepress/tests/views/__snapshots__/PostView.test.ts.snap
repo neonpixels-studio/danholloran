@@ -4,7 +4,7 @@ exports[`PostView > renders correctly 1`] = `
 "<div class="mx-auto max-w-180 px-8 pt-35 pb-24"><a href="/posts" class="group text-fg-muted hover:text-accent mb-12 inline-flex items-center gap-1.5 font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:-translate-x-1">
       <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg> back to blog </a>
-  <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-accent bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">development</span><span class="text-fg-subtle font-mono text-[0.72rem]">December 31, 2024</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 5 min read </span></div>
+  <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-accent bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">development</span><span class="text-fg-subtle font-mono text-[0.72rem]">January 1, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 5 min read </span></div>
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
@@ -30,7 +30,7 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
 "<div class="mx-auto max-w-180 px-8 pt-35 pb-24"><a href="/posts" class="group text-fg-muted hover:text-accent mb-12 inline-flex items-center gap-1.5 font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" class="transition-transform group-hover:-translate-x-1">
       <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg> back to blog </a>
-  <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-accent bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">career</span><span class="text-fg-subtle font-mono text-[0.72rem]">January 31, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 3 min read </span></div>
+  <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-accent bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">career</span><span class="text-fg-subtle font-mono text-[0.72rem]">February 1, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 3 min read </span></div>
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">Second Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The second post description.</p>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">

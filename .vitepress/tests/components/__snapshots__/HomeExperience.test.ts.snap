@@ -17,7 +17,7 @@ exports[`HomeExperience > renders correctly 1`] = `
             <div class="text-fg-muted mb-2.5 font-mono text-[0.72rem]"> @Acme Corp · Remote</div>
             <div class="flex flex-wrap gap-1.5"><span class="tag">Vue.js</span></div>
           </div>
-          <div class="text-fg-subtle text-right font-mono text-[0.68rem] whitespace-nowrap">Dec 2021 – Present</div>
+          <div class="text-fg-subtle text-right font-mono text-[0.68rem] whitespace-nowrap">Jan 2022 – Present</div>
         </div>
         <div class="grid grid-cols-[1fr_auto] gap-4 py-5">
           <div>
@@ -27,7 +27,7 @@ exports[`HomeExperience > renders correctly 1`] = `
             <div class="text-fg-muted mb-2.5 font-mono text-[0.72rem]"> @State University · Springfield</div>
             <div class="flex flex-wrap gap-1.5"><span class="tag">Vue.js</span></div>
           </div>
-          <div class="text-fg-subtle text-right font-mono text-[0.68rem] whitespace-nowrap">Aug 2007 – May 2011</div>
+          <div class="text-fg-subtle text-right font-mono text-[0.68rem] whitespace-nowrap">Sep 2007 – May 2011</div>
         </div>
       </div>
     </div>
