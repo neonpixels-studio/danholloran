@@ -197,9 +197,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           </div>
           <div class="mb-2.5 flex flex-wrap gap-1.5">
             <span
-              v-for="skill in project.skills.filter(
-                (skill: SkillInterface) => skill.featured,
-              )"
+              v-for="skill in project.skills"
               :key="skill.name"
               class="tag"
               >{{ skill.name }}</span
@@ -284,9 +282,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
               </div>
               <div class="flex flex-wrap gap-1.5">
                 <span
-                  v-for="skill in job.skills.filter(
-                    (skill: SkillInterface) => skill.featured || !!job.school,
-                  )"
+                  v-for="skill in job.skills"
                   :key="skill.name"
                   class="tag"
                   >{{ skill.name }}</span

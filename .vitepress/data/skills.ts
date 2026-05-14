@@ -13,6 +13,11 @@ export default {
     url: `https://www.algolia.com/`,
     featured: false,
   },
+  ARCHITECTURE: {
+    image: `architecture.svg`,
+    name: "Architecture",
+    featured: true,
+  },
   BOOTSTRAP: {
     image: `bootstrap.svg`,
     name: `Bootstrap`,
@@ -23,7 +28,7 @@ export default {
     image: `contentful.svg`,
     name: `Contentful`,
     url: `https://www.contentful.com/`,
-    featured: true,
+    featured: false,
   },
   CSS: {
     image: `css.svg`,
@@ -41,7 +46,7 @@ export default {
     image: `dato.svg`,
     name: `Dato CMS`,
     url: `https://www.datocms.com/`,
-    featured: true,
+    featured: false,
   },
   GATSBY: {
     image: `gatsby.svg`,
@@ -65,7 +70,7 @@ export default {
     image: `graphql.svg`,
     name: `GraphQL`,
     url: `https://graphql.org/`,
-    featured: true,
+    featured: false,
   },
   HTML: {
     image: `html.svg`,
@@ -158,6 +163,7 @@ export default {
   PHOTOGRAPHY: {
     image: `photography.svg`,
     name: `Photography`,
+    featured: true,
   },
   PHP: {
     image: `php.svg`,
@@ -165,17 +171,17 @@ export default {
     url: `https://www.php.net/`,
     featured: false,
   },
-  PUSHER: {
-    image: ``,
-    name: `Pusher`,
-    url: `https://pusher.com/`,
-    featured: false,
-  },
   POSTGRESQL: {
     image: `postgresql.svg`,
     name: `PostgreSQL`,
     url: `https://www.postgresql.org/`,
     featured: true,
+  },
+  PUSHER: {
+    image: ``,
+    name: `Pusher`,
+    url: `https://pusher.com/`,
+    featured: false,
   },
   REACT: {
     image: `react.svg`,
@@ -204,11 +210,6 @@ export default {
     name: `Sass`,
     url: `https://sass-lang.com/`,
     featured: false,
-  },
-  ARCHITECTURE: {
-    image: `architecture.svg`,
-    name: "Architecture",
-    featured: true,
   },
   STATAMIC: {
     image: `statamic.svg`,
@@ -250,7 +251,7 @@ export default {
     image: ``,
     name: `Websockets`,
     url: `https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API`,
-    featured: true,
+    featured: false,
   },
   WOOCOMMERCE: {
     image: `woocommerce.svg`,
