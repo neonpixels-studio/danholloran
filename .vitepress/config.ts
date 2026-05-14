@@ -135,7 +135,7 @@ export default defineConfig({
   },
   transformPageData(pageData) {
     if (pageData.filePath === "index.md") {
-      const title = `${resume.firstName} ${resume.lastName} - ${resume.headline}`;
+      const title = resume.headline;
       pageData.title = title;
       pageData.description = resume.intro;
       pageData.frontmatter.title = title;
