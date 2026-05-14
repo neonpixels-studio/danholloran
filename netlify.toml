@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = ".vitepress/dist"
+  ignore = "bash netlify-ignore.sh"
 
 [build.environment]
   NODE_VERSION = "24"
