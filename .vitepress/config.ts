@@ -139,7 +139,8 @@ export default defineConfig({
       pageData.title = title;
       pageData.description = resume.intro;
       pageData.frontmatter.title = title;
-      pageData.frontmatter.description = resume.intro;
+      pageData.frontmatter.description =
+        "Experienced Senior Frontend Developer specializing in Vue.js, React, Nuxt, and Jamstack architecture. 14+ years building scalable web applications, leading cross-functional teams, and mentoring developers. Available for remote work.";
       pageData.frontmatter.head = [
         ...(pageData.frontmatter.head ?? []),
         ...pageMeta({
