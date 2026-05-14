@@ -19,6 +19,12 @@ export default {
     url: `https://getbootstrap.com/`,
     featured: false,
   },
+  CONTENTFUL: {
+    image: `contentful.svg`,
+    name: `Contentful`,
+    url: `https://www.contentful.com/`,
+    featured: true,
+  },
   CSS: {
     image: `css.svg`,
     name: `CSS`,
@@ -30,6 +36,12 @@ export default {
     name: "Cypress",
     url: `https://www.cypress.io/`,
     featured: false,
+  },
+  DATO_CMS: {
+    image: `dato.svg`,
+    name: `Dato CMS`,
+    url: `https://www.datocms.com/`,
+    featured: true,
   },
   GATSBY: {
     image: `gatsby.svg`,
@@ -53,7 +65,7 @@ export default {
     image: `graphql.svg`,
     name: `GraphQL`,
     url: `https://graphql.org/`,
-    featured: false,
+    featured: true,
   },
   HTML: {
     image: `html.svg`,
@@ -117,6 +129,12 @@ export default {
     image: `mysql.svg`,
     name: `MySQL`,
     url: `https://www.mysql.com/`,
+    featured: true,
+  },
+  NEON_DB: {
+    image: `neon-db.svg`,
+    name: `Neon DB`,
+    url: `https://neon.com/`,
     featured: false,
   },
   NEXT_JS: {
@@ -147,11 +165,17 @@ export default {
     url: `https://www.php.net/`,
     featured: false,
   },
+  PUSHER: {
+    image: ``,
+    name: `Pusher`,
+    url: `https://pusher.com/`,
+    featured: false,
+  },
   POSTGRESQL: {
     image: `postgresql.svg`,
     name: `PostgreSQL`,
     url: `https://www.postgresql.org/`,
-    featured: false,
+    featured: true,
   },
   REACT: {
     image: `react.svg`,
@@ -220,6 +244,12 @@ export default {
     image: `vue-js.svg`,
     name: `Vue.js`,
     url: `https://vuejs.org/`,
+    featured: true,
+  },
+  WEBSOCKETS: {
+    image: ``,
+    name: `Websockets`,
+    url: `https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API`,
     featured: true,
   },
   WOOCOMMERCE: {
