@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run test:ci && npm run build"
   publish = ".vitepress/dist"
   ignore = "bash netlify-ignore.sh"
 
