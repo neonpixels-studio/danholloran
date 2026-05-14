@@ -1,5 +1,5 @@
 import { createContentLoader } from "vitepress";
-import { calculateReadTime } from "../../utils/readTime.ts";
+import { calculateReadTime } from "../../theme/utils/readTime.ts";
 
 export default createContentLoader(".vitepress/content/posts/*.md", {
   includeSrc: true,

@@ -2,7 +2,7 @@
 // ================================================
 // Update via Claude skill resume-pdf-export
 // ================================================
-import { useRevealAnimations } from "@/composables/useRevealAnimations";
+import { useRevealAnimations } from "@composables/useRevealAnimations";
 import resume from "@data/resume.ts";
 
 useRevealAnimations();

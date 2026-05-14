@@ -3,7 +3,7 @@ import { writeFileSync, readFileSync, existsSync, statSync } from "fs";
 import { join } from "path";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
-import { generateFeed } from "./utils/generateFeed";
+import { generateFeed } from "./theme/utils/generateFeed";
 import matter from "gray-matter";
 import resume from "./data/resume";
 
@@ -125,11 +125,11 @@ export default defineConfig({
         "@typedefs": fileURLToPath(new URL("./types", import.meta.url)),
         "@data": fileURLToPath(new URL("./data", import.meta.url)),
         "@composables": fileURLToPath(
-          new URL("./composables", import.meta.url),
+          new URL("./theme/composables", import.meta.url),
         ),
         "@content": fileURLToPath(new URL("./content", import.meta.url)),
-        "@utils": fileURLToPath(new URL("./utils", import.meta.url)),
-        "@views": fileURLToPath(new URL("./views", import.meta.url)),
+        "@utils": fileURLToPath(new URL("./theme/utils", import.meta.url)),
+        "@views": fileURLToPath(new URL("./theme/views", import.meta.url)),
       },
     },
   },

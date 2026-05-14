@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { createApp, defineComponent } from "vue";
-import { useRevealAnimations } from "../../composables/useRevealAnimations";
+import { useRevealAnimations } from "../../theme/composables/useRevealAnimations";
 
 const mockObserve = vi.fn();
 const mockUnobserve = vi.fn();

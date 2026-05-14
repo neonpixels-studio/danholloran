@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { calculateReadTime } from "../../utils/readTime";
+import { calculateReadTime } from "../../theme/utils/readTime";
 
 function makeWords(count: number): string {
   return Array.from({ length: count }, (_, i) => `word${i}`).join(" ");

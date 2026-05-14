@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { useNavPanels } from "../../composables/useNavPanels";
+import { useNavPanels } from "../../theme/composables/useNavPanels";
 
 describe("useNavPanels", () => {
   let nav: ReturnType<typeof useNavPanels>;

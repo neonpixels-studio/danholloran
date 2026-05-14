@@ -24,14 +24,14 @@
       "@typedefs": [".vitepress/types"],
       "@data/*": [".vitepress/data/*"],
       "@data": [".vitepress/data"],
-      "@composables/*": [".vitepress/composables/*"],
-      "@composables": [".vitepress/composables"],
+      "@composables/*": [".vitepress/theme/composables/*"],
+      "@composables": [".vitepress/theme/composables"],
       "@content/*": [".vitepress/content/*"],
       "@content": [".vitepress/content"],
-      "@utils/*": [".vitepress/utils/*"],
-      "@utils": [".vitepress/utils"],
-      "@views/*": [".vitepress/views/*"],
-      "@views": [".vitepress/views"]
+      "@utils/*": [".vitepress/theme/utils/*"],
+      "@utils": [".vitepress/theme/utils"],
+      "@views/*": [".vitepress/theme/views/*"],
+      "@views": [".vitepress/theme/views"]
     }
   },
   "include": ["**/*.ts", "**/*.vue"],

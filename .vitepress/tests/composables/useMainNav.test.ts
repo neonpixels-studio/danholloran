@@ -6,7 +6,7 @@ vi.mock("vitepress", () => ({
   useRoute: () => routeState,
 }));
 
-import { useMainNav } from "../../composables/useMainNav";
+import { useMainNav } from "../../theme/composables/useMainNav";
 
 describe("useMainNav", () => {
   beforeEach(() => {
