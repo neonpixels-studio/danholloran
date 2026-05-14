@@ -166,6 +166,17 @@ export default defineConfig({
           jsonLd: personJsonLd,
         }),
       ];
+    } else if (pageData.filePath === "posts/index.md") {
+      const title = pageData.frontmatter.title as string;
+      const description = pageData.frontmatter.description as string;
+      pageData.frontmatter.head = [
+        ...(pageData.frontmatter.head ?? []),
+        ...pageMeta({
+          title,
+          description,
+          url: `${SITE_URL}/posts`,
+        }),
+      ];
     } else if (pageData.filePath === "posts/[slug].md") {
       const slug = pageData.params?.slug;
       if (slug) {
