@@ -185,6 +185,7 @@ export default defineConfig({
           pageData.frontmatter.description = description;
           pageData.frontmatter.head = [
             ...(pageData.frontmatter.head ?? []),
+            ["link", { rel: "canonical", href: url }],
             ...pageMeta({
               title,
               description,
