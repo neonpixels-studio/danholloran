@@ -1,5 +1,5 @@
 ---
-created_at: "2026-04-18T10:44:00.000-08:00"
+date: "2026-04-18T10:44:00.000-08:00"
 tags: ["javascript", "performance", "web-apis", "tooling"]
 draft: false
 title: "Progressive Web Apps in 2026: Offline-First Patterns That Actually Work"

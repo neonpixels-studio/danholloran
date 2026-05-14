@@ -1,5 +1,5 @@
 ---
-created_at: "2026-04-19T08:48:00.000-08:00"
+date: "2026-04-19T08:48:00.000-08:00"
 tags: ["javascript", "performance", "web-apis", "tooling"]
 draft: false
 title: "Edge Functions: Running Code Where Your Users Are"

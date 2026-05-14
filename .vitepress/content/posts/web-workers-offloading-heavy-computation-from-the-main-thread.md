@@ -1,5 +1,5 @@
 ---
-created_at: "2026-03-07T14:02:00.000-08:00"
+date: "2026-03-07T14:02:00.000-08:00"
 tags: ["javascript", "performance", "web-apis"]
 draft: false
 title: "Web Workers: Keeping Your UI Smooth When the Work Gets Heavy"

@@ -1,5 +1,5 @@
 ---
-created_at: "2026-01-17T09:05:00.000-08:00"
+date: "2026-01-17T09:05:00.000-08:00"
 tags: ["vue", "javascript", "tooling"]
 draft: false
 title: "Nuxt 4: What's Changing and How to Prepare Your App"

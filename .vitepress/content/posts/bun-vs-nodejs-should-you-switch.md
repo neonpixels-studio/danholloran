@@ -1,5 +1,5 @@
 ---
-created_at: "2026-02-03T13:17:00.000-08:00"
+date: "2026-02-03T13:17:00.000-08:00"
 tags: ["javascript", "tooling", "node"]
 draft: false
 title: "Bun vs Node.js: Should You Actually Switch?"

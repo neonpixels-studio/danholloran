@@ -1,5 +1,5 @@
 ---
-created_at: "2026-04-26T13:38:00.000-08:00"
+date: "2026-04-26T13:38:00.000-08:00"
 tags: ["css", "tooling"]
 draft: false
 title: "CSS Cascade Layers: Finally Taking Control of Specificity"

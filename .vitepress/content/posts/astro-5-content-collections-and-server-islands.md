@@ -1,5 +1,5 @@
 ---
-created_at: "2026-02-08T17:17:00.000-08:00"
+date: "2026-02-08T17:17:00.000-08:00"
 tags: ["javascript", "tooling", "performance"]
 draft: false
 title: "Astro 5: Content Collections v2 and Server Islands Explained"

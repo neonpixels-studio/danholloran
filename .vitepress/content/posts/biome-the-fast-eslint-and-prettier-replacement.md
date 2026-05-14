@@ -1,5 +1,5 @@
 ---
-created_at: "2026-05-05T16:05:00.000-08:00"
+date: "2026-05-05T16:05:00.000-08:00"
 tags: ["tooling", "javascript", "typescript"]
 draft: false
 title: "Biome: The Fast All-in-One ESLint and Prettier Replacement"

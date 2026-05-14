@@ -1,5 +1,5 @@
 ---
-created_at: "2025-12-28T16:38:00.000-08:00"
+date: "2025-12-28T16:38:00.000-08:00"
 tags: ["css", "javascript", "web-apis", "animation"]
 draft: false
 title: "The View Transitions API: Smooth Page Animations Without a Framework"

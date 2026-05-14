@@ -1,5 +1,5 @@
 ---
-created_at: "2026-03-17T09:01:00.000-08:00"
+date: "2026-03-17T09:01:00.000-08:00"
 tags: ["javascript", "react", "typescript", "tooling"]
 draft: false
 title: "TanStack Query v5: Data Fetching Done Right"

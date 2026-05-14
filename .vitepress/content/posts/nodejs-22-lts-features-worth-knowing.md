@@ -1,5 +1,5 @@
 ---
-created_at: "2026-04-05T12:15:00.000-08:00"
+date: "2026-04-05T12:15:00.000-08:00"
 tags: ["javascript", "tooling", "node"]
 draft: false
 title: "Node.js 22 LTS: The Features Worth Knowing About"

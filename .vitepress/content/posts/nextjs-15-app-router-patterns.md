@@ -1,5 +1,5 @@
 ---
-created_at: "2025-11-18T16:12:00.000-08:00"
+date: "2025-11-18T16:12:00.000-08:00"
 tags: ["javascript", "react", "tooling"]
 draft: false
 title: "Next.js 15 App Router: Patterns Worth Adopting Now"

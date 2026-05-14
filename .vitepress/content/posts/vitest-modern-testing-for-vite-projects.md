@@ -1,5 +1,5 @@
 ---
-created_at: "2026-02-26T14:14:00.000-08:00"
+date: "2026-02-26T14:14:00.000-08:00"
 tags: ["testing", "tooling", "javascript", "typescript"]
 draft: false
 title: "Vitest: Modern Unit Testing That Doesn't Fight Your Toolchain"

@@ -1,5 +1,5 @@
 ---
-created_at: "2025-12-13T11:48:00.000-08:00"
+date: "2025-12-13T11:48:00.000-08:00"
 tags: ["tooling", "javascript", "bundlers"]
 draft: false
 title: "Vite 6: What's New and Why the Environment API Changes Everything"

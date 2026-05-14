@@ -1,5 +1,5 @@
 ---
-created_at: "2025-11-18T09:13:00.000-08:00"
+date: "2025-11-18T09:13:00.000-08:00"
 tags: ["typescript", "javascript", "tooling"]
 draft: false
 title: "TypeScript 5.7: What's New and Why It Matters"

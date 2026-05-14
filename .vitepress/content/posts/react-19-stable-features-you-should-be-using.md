@@ -1,5 +1,5 @@
 ---
-created_at: "2026-01-25T09:22:00.000-08:00"
+date: "2026-01-25T09:22:00.000-08:00"
 tags: ["react", "javascript", "typescript"]
 draft: false
 title: "React 19: The Stable Features You Should Actually Be Using"

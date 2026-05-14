@@ -1,5 +1,5 @@
 ---
-created_at: "2026-01-03T20:02:00.000-08:00"
+date: "2026-01-03T20:02:00.000-08:00"
 tags: ["javascript", "typescript", "web-apis"]
 draft: false
 title: "JavaScript Signals: The New Reactivity Primitive Coming to the Platform"

@@ -1,5 +1,5 @@
 ---
-created_at: "2025-12-02T18:47:00.000-08:00"
+date: "2025-12-02T18:47:00.000-08:00"
 tags: ["css", "javascript"]
 draft: false
 title: "CSS Container Queries: A Practical Guide for Component-Based Layouts"

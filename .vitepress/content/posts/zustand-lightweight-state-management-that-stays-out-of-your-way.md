@@ -1,5 +1,5 @@
 ---
-created_at: "2026-04-01T18:44:00.000-08:00"
+date: "2026-04-01T18:44:00.000-08:00"
 tags: ["react", "javascript", "typescript"]
 draft: false
 title: "Zustand: Lightweight State Management That Stays Out of Your Way"

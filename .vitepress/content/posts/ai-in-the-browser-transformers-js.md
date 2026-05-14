@@ -1,5 +1,5 @@
 ---
-created_at: "2025-12-26T10:47:00.000-08:00"
+date: "2025-12-26T10:47:00.000-08:00"
 tags: ["javascript", "web-apis", "ai-ml-in-the-browser"]
 draft: false
 title: "AI in the Browser: Running Real Models with Transformers.js"
