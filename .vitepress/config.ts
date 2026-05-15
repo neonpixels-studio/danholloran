@@ -256,10 +256,32 @@ export default defineConfig({
     ],
     [
       "link",
-      { rel: "icon", type: "image/svg+xml", href: "/images/favicon.svg" },
+      {
+        rel: "icon",
+        type: "image/png",
+        href: "/images/favicon-96x96.png?v=20260515",
+        sizes: "96x96",
+      },
     ],
-    ["link", { rel: "icon", type: "image/png", href: "/images/favicon.png" }],
-
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/images/favicon.svg?v=20260515",
+      },
+    ],
+    ["link", { rel: "shortcut icon", href: "/images/favicon.ico?v=20260515" }],
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/images/apple-touch-icon.png?v=20260515",
+      },
+    ],
+    ["meta", { name: "apple-mobile-web-app-title", content: "MyWebSite" }],
+    ["link", { rel: "manifest", href: "/images/site.webmanifest?v=20260515" }],
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     [
       "link",
