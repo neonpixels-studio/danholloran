@@ -1,6 +1,6 @@
 ---
 date: "2026-04-17T01:16:46.000+00:00"
-tags: ["heceta-beach-oregon", "travel", "beach", "coastal"]
+tags: ["heceta-beach", "oregon", "travel", "beach", "coastal"]
 draft: false
 title: "Heceta Beach, Oregon"
 image: "/images/posts/travel-heceta-beach-oregon.jpg"

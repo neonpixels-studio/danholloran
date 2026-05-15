@@ -1,6 +1,6 @@
 ---
 date: "2020-07-05T20:53:24.000+00:00"
-tags: ["alley-spring-missouri", "travel", "nature", "history"]
+tags: ["alley-spring", "missouri", "travel", "nature", "history"]
 draft: false
 title: "Alley Spring, Missouri"
 image: "/images/posts/travel-alley-spring-missouri.jpg"

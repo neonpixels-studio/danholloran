@@ -1,7 +1,14 @@
 ---
 date: "2025-05-18T17:40:00.000+00:00"
 tags:
-  ["horsetail-falls-columbia-river-gorge-oregon", "travel", "nature", "hiking"]
+  [
+    "horsetail-falls",
+    "columbia-river-gorge",
+    "oregon",
+    "travel",
+    "nature",
+    "hiking",
+  ]
 draft: false
 title: "Horsetail Falls, Columbia River Gorge, Oregon"
 image: "/images/posts/travel-horsetail-falls-columbia-river-gorge-oregon.jpg"

@@ -1,6 +1,6 @@
 ---
 date: "2020-08-05T22:31:18.000+00:00"
-tags: ["st-louis-missouri", "travel", "city", "culture"]
+tags: ["st-louis", "missouri", "travel", "city", "culture"]
 draft: false
 title: "St. Louis, Missouri"
 image: "/images/posts/travel-st-louis-missouri.jpg"

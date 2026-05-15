@@ -1,6 +1,6 @@
 ---
 date: "2026-04-17T01:11:42.000+00:00"
-tags: ["arcadia-beach-oregon", "travel", "beach", "coastal"]
+tags: ["arcadia-beach", "oregon", "travel", "beach", "coastal"]
 draft: false
 title: "Arcadia beach, Oregon"
 image: "/images/posts/travel-arcadia-beach-oregon.jpg"

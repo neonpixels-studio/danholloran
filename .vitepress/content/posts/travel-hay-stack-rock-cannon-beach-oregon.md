@@ -1,6 +1,6 @@
 ---
 date: "2025-09-23T18:50:00.000+00:00"
-tags: ["hay-stack-rock-cannon-beach-oregon", "travel", "beach", "nature"]
+tags: ["hay-stack-rock-cannon-beach", "oregon", "travel", "beach", "nature"]
 draft: false
 title: "Hay Stack Rock Cannon Beach, Oregon"
 image: "/images/posts/travel-hay-stack-rock-cannon-beach-oregon.jpg"

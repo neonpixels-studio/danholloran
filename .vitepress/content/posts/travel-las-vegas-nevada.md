@@ -1,6 +1,6 @@
 ---
 date: "2023-06-06T01:51:09.000+00:00"
-tags: ["las-vegas-nevada", "travel", "city", "adventure"]
+tags: ["las-vegas", "nevada", "travel", "city", "adventure"]
 draft: false
 title: "Las Vegas, Nevada"
 image: "/images/posts/travel-las-vegas-nevada.jpg"

@@ -1,6 +1,6 @@
 ---
 date: "2026-04-25T23:30:14.000+00:00"
-tags: ["diamond-lake-oregon", "travel", "nature", "photography"]
+tags: ["diamond-lake", "oregon", "travel", "nature", "photography"]
 draft: false
 title: "Diamond Lake, Oregon"
 image: "/images/posts/travel-diamond-lake-oregon.jpg"
