@@ -1,7 +1,7 @@
 ---
 created_at: "2026-04-17T01:17:53.000+00:00"
 caption: ""
-tags: []
+tags: ["heceta-beach", "oregon", "travel", "beach", "lighthouse", "ocean"]
 location: "Heceta Head Lighthouse"
 images:
   [
