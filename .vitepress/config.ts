@@ -12,8 +12,22 @@ import tailwindcss from "@tailwindcss/vite";
 import { generateFeed } from "./theme/utils/generateFeed";
 import matter from "gray-matter";
 import resume from "./data/resume";
+import { parse as parsePlist } from "plist";
 
 const SITE_URL = "https://danholloran.me";
+
+const darkTheme = parsePlist(
+  readFileSync(
+    new URL("./themes/grimicorn-dark.tmTheme", import.meta.url),
+    "utf-8",
+  ),
+);
+const lightTheme = parsePlist(
+  readFileSync(
+    new URL("./themes/grimicorn-light.tmTheme", import.meta.url),
+    "utf-8",
+  ),
+);
 
 function getLatestPostImage(): string | undefined {
   const postsDir = join(process.cwd(), ".vitepress/content/posts");
@@ -112,8 +126,8 @@ export default defineConfig({
   },
   markdown: {
     theme: {
-      light: "synthwave-84",
-      dark: "tokyo-night",
+      light: lightTheme as any,
+      dark: darkTheme as any,
     },
     // Inject theme background CSS vars — VitePress doesn't emit them for dual themes
     codeTransformers: [
@@ -124,7 +138,7 @@ export default defineConfig({
             typeof node.properties.style === "string"
               ? node.properties.style
               : "";
-          node.properties.style = `--shiki-light-bg:#262335;--shiki-dark-bg:#1A1B26;${existing}`;
+          node.properties.style = `--shiki-light-bg:#FDFDFD;--shiki-dark-bg:#3C4C55;${existing}`;
         },
       },
     ],

@@ -346,7 +346,11 @@ html.dark img[src*="topography"] {
 }
 
 .post-body pre {
-  @apply my-8 overflow-x-auto rounded p-6 font-mono text-[0.82rem] leading-[1.6];
+  @apply my-8 overflow-x-auto rounded border border-gray-200 p-6 font-mono text-[0.82rem] leading-[1.6];
+
+  .dark & {
+    @apply border-0;
+  }
 }
 
 .post-body pre code {
