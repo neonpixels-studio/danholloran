@@ -1,10 +1,10 @@
 ---
-date: '2026-05-16T09:02:57.000+00:00'
-tags: ['typescript', 'tooling', 'javascript']
-draft: true
+date: "2026-05-16T09:02:57.000+00:00"
+tags: ["typescript", "tooling", "javascript"]
+draft: false
 title: "TypeScript 7.0: The Go Compiler That Makes TS 10x Faster"
-image: '/images/posts/typescript-7-go-compiler-10x-faster.jpg'
-topic: 'development'
+image: "/images/posts/typescript-7-go-compiler-10x-faster.jpg"
+topic: "development"
 description: "TypeScript 7.0 rewrites the compiler in Go, cutting build times by up to 10x. Here's what changed, what it means for your projects, and how to try it right now."
 ---
 
