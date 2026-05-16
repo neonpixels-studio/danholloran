@@ -1,5 +1,11 @@
 import { fileURLToPath, URL } from "node:url";
-import { writeFileSync, readFileSync, existsSync, statSync } from "fs";
+import {
+  writeFileSync,
+  readFileSync,
+  readdirSync,
+  existsSync,
+  statSync,
+} from "fs";
 import { join } from "path";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
@@ -8,6 +14,16 @@ import matter from "gray-matter";
 import resume from "./data/resume";
 
 const SITE_URL = "https://danholloran.me";
+
+function getLatestPostImage(): string | undefined {
+  const postsDir = join(process.cwd(), ".vitepress/content/posts");
+  const posts = readdirSync(postsDir)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => matter(readFileSync(join(postsDir, f), "utf-8")).data)
+    .filter((d) => !d.draft && d.date && d.image)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return posts[0]?.image;
+}
 
 function pageMeta(opts: {
   title: string;
@@ -140,9 +156,10 @@ export default defineConfig({
       pageData.description = resume.intro;
       pageData.frontmatter.title = title;
       pageData.frontmatter.description =
-        "Experienced Senior Frontend Developer specializing in Vue.js, React, Nuxt, and Jamstack architecture. 14+ years building scalable web applications, leading cross-functional teams, and mentoring developers. Available for remote work.";
+        "Frontend developer, writer, and explorer. Dan Holloran shares deep-dives on modern web dev, travel photography, and the tools he actually uses at work.";
       pageData.frontmatter.head = [
         ...(pageData.frontmatter.head ?? []),
+        ["link", { rel: "canonical", href: `${SITE_URL}/` }],
         ...pageMeta({
           title,
           description: resume.intro,
@@ -152,13 +169,14 @@ export default defineConfig({
         }),
       ];
     } else if (pageData.filePath === "resume.md") {
-      const title = `Resume – ${resume.firstName} ${resume.lastName} | ${resume.headline}`;
+      const title = `Resume – ${resume.headline}`;
       pageData.title = title;
       pageData.description = resume.intro;
       pageData.frontmatter.title = title;
       pageData.frontmatter.description = resume.intro;
       pageData.frontmatter.head = [
         ...(pageData.frontmatter.head ?? []),
+        ["link", { rel: "canonical", href: `${SITE_URL}/resume` }],
         ...pageMeta({
           title,
           description: resume.intro,
@@ -172,10 +190,12 @@ export default defineConfig({
       const description = pageData.frontmatter.description as string;
       pageData.frontmatter.head = [
         ...(pageData.frontmatter.head ?? []),
+        ["link", { rel: "canonical", href: `${SITE_URL}/posts` }],
         ...pageMeta({
           title,
           description,
           url: `${SITE_URL}/posts`,
+          image: getLatestPostImage(),
         }),
       ];
     } else if (pageData.filePath === "posts/[slug].md") {
