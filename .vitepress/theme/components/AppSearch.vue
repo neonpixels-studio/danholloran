@@ -31,6 +31,13 @@ const STATIC_ITEMS: SearchItem[] = [
     href: "/posts",
     kw: "blog posts writing articles",
   },
+  {
+    type: "page",
+    title: "Grimicorn Theme Examples",
+    desc: "Light & Dark VS Code Theme Examples",
+    href: "/grimicorn-themes",
+    kw: "themes vs code",
+  },
 ];
 
 const ALL_ITEMS: SearchItem[] = [...STATIC_ITEMS, ...postItems];
