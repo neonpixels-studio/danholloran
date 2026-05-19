@@ -1,10 +1,10 @@
 ---
-date: '2026-05-19T14:36:03.000+00:00'
-tags: ['javascript', 'typescript', 'web-apis', 'crypto-web3']
+date: "2026-05-19T14:36:03.000+00:00"
+tags: ["javascript", "typescript", "web-apis", "crypto-web3"]
 draft: false
 title: "Connecting Wallets the Right Way: wagmi v2 and EIP-6963"
-image: '/images/posts/wagmi-v2-eip-6963-multi-wallet-dapps.jpg'
-topic: 'development'
+image: "/images/posts/wagmi-v2-eip-6963-multi-wallet-dapps.jpg"
+topic: "development"
 description: "The old window.ethereum trick breaks when users have multiple wallets installed. Here's how EIP-6963 and wagmi v2 solve multi-wallet discovery cleanly, with real TypeScript examples."
 ---
 
@@ -18,20 +18,20 @@ The original EIP-1193 standard gave wallets a single attachment point: `window.e
 
 EIP-6963 introduces an event-based discovery protocol instead. On page load, your dApp fires a `eip6963:requestProvider` event. Each installed wallet extension that supports the spec responds by emitting an `eip6963:announceProvider` event carrying its own provider object and metadata (icon, name, RDNS identifier). Your app collects the responses and builds a list — every wallet, no conflicts.
 
-You *can* implement this yourself, but the raw event wiring is boilerplate you don't need to own:
+You _can_ implement this yourself, but the raw event wiring is boilerplate you don't need to own:
 
 ```ts
 // Low-level EIP-6963 — illustrative only, use wagmi instead
 const providers: EIP6963ProviderDetail[] = [];
 
-window.addEventListener('eip6963:announceProvider', (event: CustomEvent) => {
+window.addEventListener("eip6963:announceProvider", (event: CustomEvent) => {
   providers.push(event.detail);
 });
 
-window.dispatchEvent(new Event('eip6963:requestProvider'));
+window.dispatchEvent(new Event("eip6963:requestProvider"));
 ```
 
-The real-world issue is that you also need to handle providers announced *after* your request, de-duplicate by RDNS, manage lifecycle — it adds up. wagmi v2 handles all of it.
+The real-world issue is that you also need to handle providers announced _after_ your request, de-duplicate by RDNS, manage lifecycle — it adds up. wagmi v2 handles all of it.
 
 ## Setting Up wagmi v2 with Multi-Wallet Support
 
@@ -47,33 +47,33 @@ Create your config:
 
 ```ts
 // lib/wagmi.ts
-import { createConfig, http } from 'wagmi'
-import { mainnet, sepolia } from 'wagmi/chains'
-import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
+import { createConfig, http } from "wagmi";
+import { mainnet, sepolia } from "wagmi/chains";
+import { injected, walletConnect, coinbaseWallet } from "wagmi/connectors";
 
 export const config = createConfig({
   chains: [mainnet, sepolia],
   connectors: [
-    injected(),           // discovers ALL EIP-6963 wallets automatically
+    injected(), // discovers ALL EIP-6963 wallets automatically
     walletConnect({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
-    coinbaseWallet({ appName: 'My dApp' }),
+    coinbaseWallet({ appName: "My dApp" }),
   ],
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),
   },
-})
+});
 ```
 
 Wrap your app with the providers:
 
 ```tsx
 // main.tsx
-import { WagmiProvider } from 'wagmi'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { config } from './lib/wagmi'
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { config } from "./lib/wagmi";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export function App() {
   return (
@@ -82,7 +82,7 @@ export function App() {
         <YourApp />
       </QueryClientProvider>
     </WagmiProvider>
-  )
+  );
 }
 ```
 
@@ -94,14 +94,14 @@ With the config in place, wagmi's hooks give you everything you need. Here's a m
 
 ```tsx
 // components/WalletConnect.tsx
-import { useConnect, useAccount, useDisconnect, useBalance } from 'wagmi'
-import { formatEther } from 'viem'
+import { useConnect, useAccount, useDisconnect, useBalance } from "wagmi";
+import { formatEther } from "viem";
 
 export function WalletConnect() {
-  const { connectors, connect, isPending } = useConnect()
-  const { address, isConnected, chain } = useAccount()
-  const { disconnect } = useDisconnect()
-  const { data: balance } = useBalance({ address })
+  const { connectors, connect, isPending } = useConnect();
+  const { address, isConnected, chain } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { data: balance } = useBalance({ address });
 
   if (isConnected && address) {
     return (
@@ -114,7 +114,7 @@ export function WalletConnect() {
         )}
         <button onClick={() => disconnect()}>Disconnect</button>
       </div>
-    )
+    );
   }
 
   return (
@@ -129,7 +129,7 @@ export function WalletConnect() {
         </button>
       ))}
     </div>
-  )
+  );
 }
 ```
 
@@ -138,15 +138,15 @@ A few things worth noting here. `connectors` is populated at runtime based on wh
 For sending transactions, viem's type-safe primitives plug directly into wagmi's `useSendTransaction` hook:
 
 ```ts
-import { useSendTransaction } from 'wagmi'
-import { parseEther } from 'viem'
+import { useSendTransaction } from "wagmi";
+import { parseEther } from "viem";
 
-const { sendTransaction } = useSendTransaction()
+const { sendTransaction } = useSendTransaction();
 
 sendTransaction({
-  to: '0xRecipientAddress',
-  value: parseEther('0.01'),
-})
+  to: "0xRecipientAddress",
+  value: parseEther("0.01"),
+});
 ```
 
 ## Where This Lands in Practice
