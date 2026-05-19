@@ -1,7 +1,7 @@
 ---
 date: '2026-05-19T14:36:03.000+00:00'
 tags: ['javascript', 'typescript', 'web-apis', 'crypto-web3']
-draft: true
+draft: false
 title: "Connecting Wallets the Right Way: wagmi v2 and EIP-6963"
 image: '/images/posts/wagmi-v2-eip-6963-multi-wallet-dapps.jpg'
 topic: 'development'
