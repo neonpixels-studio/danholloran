@@ -1,0 +1,35 @@
+import { existsSync, readFileSync, statSync } from "fs";
+import { join } from "path";
+import matter from "gray-matter";
+import type { SitemapItem } from "vitepress";
+
+export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
+  return items
+    .filter((item) => item.url !== "README")
+    .map((item) => {
+      const url = item.url.replace(/\/$/, "");
+
+      const postSlug = url.match(/^posts\/(.+)$/)?.[1];
+      if (postSlug) {
+        const postPath = join(
+          process.cwd(),
+          ".vitepress/content/posts",
+          `${postSlug}.md`,
+        );
+        if (existsSync(postPath)) {
+          const { data } = matter(readFileSync(postPath, "utf-8"));
+          if (data.date) return { ...item, lastmod: new Date(data.date) };
+        }
+      }
+
+      const base = url || "index";
+      for (const candidate of [`${base}.md`, join(base, "index.md")]) {
+        const fullPath = join(process.cwd(), candidate);
+        if (existsSync(fullPath)) {
+          return { ...item, lastmod: statSync(fullPath).mtime };
+        }
+      }
+
+      return { ...item, lastmod: new Date() };
+    });
+}

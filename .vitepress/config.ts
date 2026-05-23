@@ -1,20 +1,14 @@
 import { fileURLToPath, URL } from "node:url";
-import {
-  writeFileSync,
-  readFileSync,
-  readdirSync,
-  existsSync,
-  statSync,
-} from "fs";
+import { writeFileSync, readFileSync } from "fs";
 import { join } from "path";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { generateFeed } from "./theme/utils/generateFeed";
-import matter from "gray-matter";
-import resume from "./data/resume";
 import { parse as parsePlist } from "plist";
-
-const SITE_URL = "https://danholloran.me";
+import { transformSitemapItems } from "./theme/utils/sitemap";
+import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
+import { transformPageData } from "./theme/utils/pageTransform";
+import { SITE_URL } from "./theme/utils/constants";
 
 const darkTheme = parsePlist(
   readFileSync(
@@ -29,119 +23,19 @@ const lightTheme = parsePlist(
   ),
 );
 
-function getLatestPostImage(): string | undefined {
-  const postsDir = join(process.cwd(), ".vitepress/content/posts");
-  const posts = readdirSync(postsDir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => matter(readFileSync(join(postsDir, f), "utf-8")).data)
-    .filter((d) => !d.draft && d.date && d.image)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  return posts[0]?.image;
-}
-
-function pageMeta(opts: {
-  title: string;
-  description: string;
-  url: string;
-  image?: string;
-  type?: "website" | "article";
-  jsonLd?: Record<string, unknown>;
-}): any[] {
-  const { title, description, url, image, type = "website", jsonLd } = opts;
-  const imageUrl = image ? `${SITE_URL}${image}` : undefined;
-  const meta: any[] = [
-    ["meta", { property: "og:type", content: type }],
-    ["meta", { property: "og:title", content: title }],
-    ["meta", { property: "og:description", content: description }],
-    ["meta", { property: "og:url", content: url }],
-    ["meta", { property: "og:locale", content: "en_US" }],
-    ["meta", { name: "twitter:title", content: title }],
-    ["meta", { name: "twitter:description", content: description }],
-  ];
-  if (imageUrl) {
-    meta.push(
-      ["meta", { property: "og:image", content: imageUrl }],
-      ["meta", { name: "twitter:image", content: imageUrl }],
-    );
-  }
-  if (jsonLd) {
-    meta.push([
-      "script",
-      { type: "application/ld+json" },
-      JSON.stringify(jsonLd),
-    ]);
-  }
-  return meta;
-}
-
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: `${resume.firstName} ${resume.lastName}`,
-  url: SITE_URL,
-  image: `${SITE_URL}${resume.photo}`,
-  jobTitle: resume.headline,
-  description: resume.intro,
-  sameAs: resume.contacts
-    .filter((c) => c.link?.startsWith("https://") && c.link !== SITE_URL)
-    .map((c) => c.link as string),
-};
-
 export default defineConfig({
   title: "Dan Holloran",
   description: "Full-stack developer and photographer based in Reno, NV.",
   sitemap: {
     hostname: SITE_URL,
-    transformItems: (items) =>
-      items
-        .filter((item) => item.url !== "README")
-        .map((item) => {
-          const url = item.url.replace(/\/$/, "");
-
-          // Posts: use frontmatter date
-          const postSlug = url.match(/^posts\/(.+)$/)?.[1];
-          if (postSlug) {
-            const postPath = join(
-              process.cwd(),
-              ".vitepress/content/posts",
-              `${postSlug}.md`,
-            );
-            if (existsSync(postPath)) {
-              const { data } = matter(readFileSync(postPath, "utf-8"));
-              if (data.date) return { ...item, lastmod: new Date(data.date) };
-            }
-          }
-
-          // Other pages: use file mtime
-          const base = url || "index";
-          for (const candidate of [`${base}.md`, join(base, "index.md")]) {
-            const fullPath = join(process.cwd(), candidate);
-            if (existsSync(fullPath)) {
-              return { ...item, lastmod: statSync(fullPath).mtime };
-            }
-          }
-
-          return { ...item, lastmod: new Date() };
-        }),
+    transformItems: transformSitemapItems,
   },
   markdown: {
     theme: {
       light: lightTheme as any,
       dark: darkTheme as any,
     },
-    // Inject theme background CSS vars — VitePress doesn't emit them for dual themes
-    codeTransformers: [
-      {
-        name: "inject-theme-bg",
-        pre(node) {
-          const existing =
-            typeof node.properties.style === "string"
-              ? node.properties.style
-              : "";
-          node.properties.style = `--shiki-light-bg:#FDFDFD;--shiki-dark-bg:#3C4C55;${existing}`;
-        },
-      },
-    ],
+    codeTransformers: [injectThemeBgTransformer],
   },
   vite: {
     plugins: [tailwindcss()],
@@ -163,103 +57,7 @@ export default defineConfig({
       },
     },
   },
-  transformPageData(pageData) {
-    if (pageData.filePath === "index.md") {
-      const title = resume.headline;
-      pageData.title = title;
-      pageData.description = resume.intro;
-      pageData.frontmatter.title = title;
-      pageData.frontmatter.description =
-        "Frontend developer, writer, and explorer. Dan Holloran shares deep-dives on modern web dev, travel photography, and the tools he actually uses at work.";
-      pageData.frontmatter.head = [
-        ...(pageData.frontmatter.head ?? []),
-        ["link", { rel: "canonical", href: `${SITE_URL}/` }],
-        ...pageMeta({
-          title,
-          description: resume.intro,
-          url: `${SITE_URL}/`,
-          image: resume.photo,
-          jsonLd: personJsonLd,
-        }),
-      ];
-    } else if (pageData.filePath === "resume.md") {
-      const title = `Resume – ${resume.headline}`;
-      pageData.title = title;
-      pageData.description = resume.intro;
-      pageData.frontmatter.title = title;
-      pageData.frontmatter.description = resume.intro;
-      pageData.frontmatter.head = [
-        ...(pageData.frontmatter.head ?? []),
-        ["link", { rel: "canonical", href: `${SITE_URL}/resume` }],
-        ...pageMeta({
-          title,
-          description: resume.intro,
-          url: `${SITE_URL}/resume`,
-          image: resume.photo,
-          jsonLd: personJsonLd,
-        }),
-      ];
-    } else if (pageData.filePath === "posts/index.md") {
-      const title = pageData.frontmatter.title as string;
-      const description = pageData.frontmatter.description as string;
-      pageData.frontmatter.head = [
-        ...(pageData.frontmatter.head ?? []),
-        ["link", { rel: "canonical", href: `${SITE_URL}/posts` }],
-        ...pageMeta({
-          title,
-          description,
-          url: `${SITE_URL}/posts`,
-          image: getLatestPostImage(),
-        }),
-      ];
-    } else if (pageData.filePath === "posts/[slug].md") {
-      const slug = pageData.params?.slug;
-      if (slug) {
-        const postPath = join(
-          process.cwd(),
-          ".vitepress/content/posts",
-          `${slug}.md`,
-        );
-        if (existsSync(postPath)) {
-          const { data } = matter(readFileSync(postPath, "utf-8"));
-          const title = data.title ?? "";
-          const description = data.description ?? "";
-          const url = `${SITE_URL}/posts/${slug}`;
-          pageData.title = title;
-          pageData.description = description;
-          pageData.frontmatter.title = title;
-          pageData.frontmatter.description = description;
-          pageData.frontmatter.head = [
-            ...(pageData.frontmatter.head ?? []),
-            ["link", { rel: "canonical", href: url }],
-            ...pageMeta({
-              title,
-              description,
-              url,
-              image: data.image,
-              type: "article",
-              jsonLd: {
-                "@context": "https://schema.org",
-                "@type": "Article",
-                headline: title,
-                description,
-                datePublished: data.date,
-                url,
-                ...(data.image && {
-                  image: `${SITE_URL}${data.image}`,
-                }),
-                author: {
-                  "@type": "Person",
-                  name: `${resume.firstName} ${resume.lastName}`,
-                  url: SITE_URL,
-                },
-              },
-            }),
-          ];
-        }
-      }
-    }
-  },
+  transformPageData,
   buildEnd(siteConfig) {
     writeFileSync(join(siteConfig.outDir, "feed.xml"), generateFeed());
   },

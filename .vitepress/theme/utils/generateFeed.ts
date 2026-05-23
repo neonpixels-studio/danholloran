@@ -2,8 +2,8 @@ import { Feed } from "feed";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
+import { SITE_URL } from "./constants";
 
-const SITE_URL = "https://danholloran.me";
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 
 export function generateFeed(): string {
