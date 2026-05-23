@@ -167,3 +167,109 @@ function formatDate(d: string) {
     <div class="progress-bar"></div>
   </Teleport>
 </template>
+
+<style>
+@reference "../style.css";
+
+.post-body p {
+  @apply mb-6;
+}
+
+.post-body h2 {
+  @apply mt-12 mb-4 font-mono text-[1.4rem] font-bold;
+  letter-spacing: -0.03em;
+}
+
+.post-body h3 {
+  @apply text-fg-muted mt-8 mb-3 font-mono text-[1.1rem] font-semibold;
+  letter-spacing: -0.02em;
+}
+
+.post-body a {
+  @apply text-accent border-accent/30 hover:border-accent border-b no-underline transition-colors;
+}
+
+.post-body .lang {
+  display: none;
+}
+
+.post-body [class*="language-"] {
+  position: relative;
+}
+
+.post-body [class*="language-"] > button.copy {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  background-color: var(--color-bg);
+  opacity: 0;
+  cursor: pointer;
+  background-image: var(--icon-copy);
+  background-position: 50%;
+  background-size: 18px;
+  background-repeat: no-repeat;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    opacity 0.2s;
+}
+
+.post-body [class*="language-"]:hover > button.copy,
+.post-body [class*="language-"] > button.copy:focus {
+  opacity: 1;
+}
+
+.post-body [class*="language-"] > button.copy:hover,
+.post-body [class*="language-"] > button.copy.copied {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-dim);
+}
+
+.post-body [class*="language-"] > button.copy.copied {
+  border-radius: 0 4px 4px 0;
+  background-image: var(--icon-copied);
+}
+
+.post-body [class*="language-"] > button.copy.copied::before,
+.post-body [class*="language-"] > button.copy:hover.copied::before {
+  content: "Copied";
+  position: absolute;
+  right: 100%;
+  top: -1px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-accent);
+  border-right: 0;
+  border-radius: 4px 0 0 4px;
+  padding: 0 10px;
+  height: calc(100% + 2px);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-accent);
+  background-color: var(--color-accent-dim);
+  white-space: nowrap;
+}
+
+.post-body blockquote {
+  @apply border-accent text-fg-muted my-8 border-l-2 pl-5 italic;
+}
+
+.post-body ul,
+.post-body ol {
+  @apply mb-6 pl-6;
+}
+
+.post-body li {
+  @apply mb-2;
+}
+
+.post-body hr {
+  @apply border-line my-12 border-t;
+  border-style: solid;
+}
+</style>
