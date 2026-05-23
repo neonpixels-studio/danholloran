@@ -112,7 +112,7 @@ export default defineConfig({
         href: "/images/apple-touch-icon.png?v=20260515",
       },
     ],
-    ["meta", { name: "apple-mobile-web-app-title", content: "MyWebSite" }],
+    ["meta", { name: "apple-mobile-web-app-title", content: "Dan Holloran" }],
     ["link", { rel: "manifest", href: "/images/site.webmanifest?v=20260515" }],
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     [
