@@ -162,4 +162,8 @@ function formatDate(d: string) {
       </a>
     </nav>
   </div>
+
+  <Teleport to="body">
+    <div class="progress-bar"></div>
+  </Teleport>
 </template>

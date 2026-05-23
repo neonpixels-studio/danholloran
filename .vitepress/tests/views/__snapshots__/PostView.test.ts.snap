@@ -23,7 +23,8 @@ exports[`PostView > renders correctly 1`] = `
     </a>
     <!--v-if-->
   </nav>
-</div>"
+</div>
+<teleport-stub to="body"></teleport-stub>"
 `;
 
 exports[`PostView > renders with prev and next navigation when post is mid-list 1`] = `
@@ -50,5 +51,6 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
       <div class="text-fg-subtle mb-1.5 font-mono text-[0.65rem] tracking-[0.08em] uppercase"> Next → </div>
       <div class="text-fg font-mono text-[0.85rem] leading-[1.3] font-semibold">First Post</div>
     </a></nav>
-</div>"
+</div>
+<teleport-stub to="body"></teleport-stub>"
 `;

@@ -322,6 +322,26 @@ html.dark img[src*="topography"] {
   mask-image: linear-gradient(to bottom, black 0%, black 15%, transparent 50%);
 }
 
+/* Progress Bar */
+@supports (animation-timeline: scroll()) {
+  @keyframes grow-bar {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .progress-bar {
+    @apply bg-accent fixed top-15 left-0 h-1 w-full;
+    transform-origin: left;
+    animation: grow-bar linear;
+    animation-timeline: scroll(root block);
+    animation-fill-mode: both;
+  }
+}
+
 /* Blog post body */
 .post-body p {
   @apply mb-6;
