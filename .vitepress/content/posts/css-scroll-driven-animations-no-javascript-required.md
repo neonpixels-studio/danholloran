@@ -1,10 +1,10 @@
 ---
-date: '2026-05-22T22:59:50.000+00:00'
-tags: ['css', 'javascript', 'web-apis', 'frontend']
-draft: true
+date: "2026-05-22T22:59:50.000+00:00"
+tags: ["css", "javascript", "web-apis", "frontend"]
+draft: false
 title: "CSS Scroll-Driven Animations: No JavaScript Required"
-image: '/images/posts/css-scroll-driven-animations-no-javascript-required.jpg'
-topic: 'development'
+image: "/images/posts/css-scroll-driven-animations-no-javascript-required.jpg"
+topic: "development"
 description: "CSS scroll-driven animations let you create silky-smooth scroll effects — progress bars, reveal animations, parallax — using pure CSS with zero JavaScript."
 ---
 
@@ -20,8 +20,12 @@ The core of the API is the `animation-timeline` property, which replaces the def
 
 ```css
 @keyframes grow-bar {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .progress-bar {
@@ -70,7 +74,10 @@ There's a newer addition worth knowing about: **scroll-triggered animations**. U
 
 ```css
 @keyframes highlight-nav {
-  to { background: oklch(25% 0 0); box-shadow: 0 2px 12px oklch(0% 0 0 / 30%); }
+  to {
+    background: oklch(25% 0 0);
+    box-shadow: 0 2px 12px oklch(0% 0 0 / 30%);
+  }
 }
 
 header {
