@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import type { PageData } from "vitepress";
 import { SITE_URL } from "./constants";
 import { pageMeta, personJsonLd } from "./seo";
-import resume, { getExperienceLength } from "@data/resume";
+import resume, { getExperienceLength } from "../../data/resume.ts";
 
 function transformHome(pageData: PageData): void {
   const title = resume.headline;
