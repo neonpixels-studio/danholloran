@@ -1,10 +1,10 @@
 ---
-date: '2026-05-23T13:53:50.000+00:00'
-tags: ['tooling', 'javascript', 'bundlers', 'performance']
-draft: true
+date: "2026-05-23T13:53:50.000+00:00"
+tags: ["tooling", "javascript", "bundlers", "performance"]
+draft: false
 title: "Vite 8 + Rolldown: Rust-Powered Builds That Are 10–30x Faster"
-image: '/images/posts/vite-8-rolldown-rust-powered-builds.jpg'
-topic: 'development'
+image: "/images/posts/vite-8-rolldown-rust-powered-builds.jpg"
+topic: "development"
 description: "Vite 8 replaces its dual esbuild/Rollup pipeline with Rolldown, a Rust-based bundler that delivers 10–30x faster production builds — and real teams are already seeing dramatic results."
 ---
 
@@ -52,7 +52,7 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true, // reads paths from tsconfig automatically
   },
-})
+});
 ```
 
 If your project depends on a meta-framework like Nuxt, Astro, or uses Vitest, you'll need to override Vite in your package manager until those frameworks ship their own updates:
