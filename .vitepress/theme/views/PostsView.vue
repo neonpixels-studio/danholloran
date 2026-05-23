@@ -312,3 +312,29 @@ onUnmounted(() => {
   </div>
   <div v-else class="mb-24"></div>
 </template>
+
+<style>
+@reference "../style.css";
+
+.filter-btn.active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-dim);
+}
+
+.page-btn {
+  @apply border-line text-fg-muted hover:border-accent hover:text-accent flex h-9 w-9 cursor-pointer items-center justify-center rounded-xs border bg-transparent font-mono text-[0.78rem] transition-all;
+}
+
+.page-btn.active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-accent-dim);
+}
+
+.page-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+</style>
