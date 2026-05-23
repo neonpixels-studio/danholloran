@@ -3,7 +3,13 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 vi.mock("fs", () => {
   const existsSync = vi.fn();
   const readFileSync = vi.fn();
-  return { default: { existsSync, readFileSync }, existsSync, readFileSync };
+  const readdirSync = vi.fn();
+  return {
+    default: { existsSync, readFileSync, readdirSync },
+    existsSync,
+    readFileSync,
+    readdirSync,
+  };
 });
 
 vi.mock("gray-matter", () => {
@@ -11,13 +17,14 @@ vi.mock("gray-matter", () => {
   return { default: matter };
 });
 
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, readdirSync } from "fs";
 import matter from "gray-matter";
 import { transformPageData } from "../../theme/utils/pageTransform";
 import { SITE_URL } from "../../theme/utils/constants";
 
 const mockExistsSync = vi.mocked(existsSync);
 const mockReadFileSync = vi.mocked(readFileSync);
+const mockReaddirSync = vi.mocked(readdirSync);
 const mockMatter = vi.mocked(matter);
 
 function makePageData(overrides: Record<string, unknown> = {}) {
@@ -96,6 +103,10 @@ describe("transformPageData – resume.md", () => {
 });
 
 describe("transformPageData – posts/index.md", () => {
+  beforeEach(() => {
+    mockReaddirSync.mockReturnValue([] as any);
+  });
+
   it("appends canonical and OG meta without overwriting existing head", () => {
     const existingTag = ["meta", { name: "existing" }];
     const pageData = makePageData({
@@ -112,6 +123,56 @@ describe("transformPageData – posts/index.md", () => {
     expect(
       findHead(pageData, "link", "href", `${SITE_URL}/posts`),
     ).toBeDefined();
+  });
+
+  it("includes a JSON-LD Blog script tag with blogPost items", () => {
+    mockReaddirSync.mockReturnValue(["post-a.md", "post-b.md"] as any);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockMatter
+      .mockReturnValueOnce({
+        data: {
+          title: "Post A",
+          description: "Desc A",
+          date: "2024-03-01",
+          draft: false,
+          image: "/images/a.jpg",
+        },
+      } as any)
+      .mockReturnValueOnce({
+        data: {
+          title: "Post B",
+          description: "Desc B",
+          date: "2024-02-01",
+          draft: false,
+        },
+      } as any);
+
+    const pageData = makePageData({
+      filePath: "posts/index.md",
+      frontmatter: { title: "Blog", description: "All posts" },
+    });
+    transformPageData(pageData);
+
+    const scriptTag = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" &&
+        tag[1]?.type === "application/ld+json" &&
+        tag[2]?.includes("Blog"),
+    );
+    expect(scriptTag).toBeDefined();
+
+    const ld = JSON.parse(scriptTag[2]);
+    expect(ld["@type"]).toBe("Blog");
+    expect(ld.url).toBe(`${SITE_URL}/posts`);
+    expect(ld.author["@type"]).toBe("Person");
+
+    expect(Array.isArray(ld.blogPost)).toBe(true);
+    expect(ld.blogPost).toHaveLength(2);
+    expect(ld.blogPost[0]["@type"]).toBe("BlogPosting");
+    expect(ld.blogPost[0].url).toBe(`${SITE_URL}/posts/post-a`);
+    expect(ld.blogPost[0].headline).toBe("Post A");
+    expect(ld.blogPost[0].image).toBe(`${SITE_URL}/images/a.jpg`);
+    expect(ld.blogPost[1].image).toBeUndefined();
   });
 });
 
