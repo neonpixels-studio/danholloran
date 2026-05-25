@@ -45,6 +45,10 @@ export function prepareContent(content, slug) {
   return header + resolved + footer;
 }
 
+export function shouldCrossPost(frontmatter) {
+  return frontmatter.topic === "development";
+}
+
 // ─── Dev.to ─────────────────────────────────────────────────────────────────
 
 export async function postToDevTo({ frontmatter, content, slug }) {
@@ -176,6 +180,13 @@ async function run(slugs) {
     } catch (err) {
       console.error(`❌ Could not read post "${slug}": ${err.message}`);
       hadError = true;
+      continue;
+    }
+
+    if (!shouldCrossPost(post.frontmatter)) {
+      console.log(
+        `   Skipping: topic is "${post.frontmatter.topic}", not "development"`,
+      );
       continue;
     }
 

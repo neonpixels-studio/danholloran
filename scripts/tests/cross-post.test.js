@@ -3,6 +3,7 @@ import fs from "fs";
 import {
   prepareContent,
   readPost,
+  shouldCrossPost,
   postToDevTo,
   postToHashnode,
 } from "../cross-post.mjs";
@@ -86,6 +87,22 @@ describe("readPost", () => {
     expect(result.frontmatter.title).toBe("Hello World");
     expect(result.frontmatter.tags).toEqual(["js"]);
     expect(result.content.trim()).toBe("Body content here.");
+  });
+});
+
+// ─── shouldCrossPost ─────────────────────────────────────────────────────────
+
+describe("shouldCrossPost", () => {
+  it("returns true when topic is 'development'", () => {
+    expect(shouldCrossPost({ topic: "development" })).toBe(true);
+  });
+
+  it("returns false when topic is something else", () => {
+    expect(shouldCrossPost({ topic: "travel" })).toBe(false);
+  });
+
+  it("returns false when topic is missing", () => {
+    expect(shouldCrossPost({})).toBe(false);
   });
 });
 
