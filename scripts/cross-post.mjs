@@ -46,7 +46,7 @@ export function prepareContent(content, slug) {
 }
 
 export function shouldCrossPost(frontmatter) {
-  return frontmatter.topic === "development";
+  return frontmatter.topic === "development" && frontmatter.draft === false;
 }
 
 // ─── Dev.to ─────────────────────────────────────────────────────────────────
@@ -95,7 +95,9 @@ export async function postToDevTo({ frontmatter, content, slug }) {
     const body = await res.json().catch(() => ({}));
     const waitMatch = String(body.error || "").match(/(\d+)\s*second/);
     const waitSec = waitMatch ? parseInt(waitMatch[1], 10) : 300;
-    console.log(`⏳ Dev.to rate limited — waiting ${waitSec}s then retrying...`);
+    console.log(
+      `⏳ Dev.to rate limited — waiting ${waitSec}s then retrying...`,
+    );
     await new Promise((resolve) => setTimeout(resolve, waitSec * 1000));
     res = await request();
   }

@@ -93,16 +93,24 @@ describe("readPost", () => {
 // ─── shouldCrossPost ─────────────────────────────────────────────────────────
 
 describe("shouldCrossPost", () => {
-  it("returns true when topic is 'development'", () => {
-    expect(shouldCrossPost({ topic: "development" })).toBe(true);
+  it("returns true when topic is 'development' and draft is false", () => {
+    expect(shouldCrossPost({ topic: "development", draft: false })).toBe(true);
   });
 
   it("returns false when topic is something else", () => {
-    expect(shouldCrossPost({ topic: "travel" })).toBe(false);
+    expect(shouldCrossPost({ topic: "travel", draft: false })).toBe(false);
   });
 
   it("returns false when topic is missing", () => {
-    expect(shouldCrossPost({})).toBe(false);
+    expect(shouldCrossPost({ draft: false })).toBe(false);
+  });
+
+  it("returns false when draft is true", () => {
+    expect(shouldCrossPost({ topic: "development", draft: true })).toBe(false);
+  });
+
+  it("returns false when draft is missing", () => {
+    expect(shouldCrossPost({ topic: "development" })).toBe(false);
   });
 });
 
@@ -182,7 +190,10 @@ describe("postToDevTo", () => {
       .mockResolvedValueOnce({
         ok: false,
         status: 429,
-        json: async () => ({ error: "Rate limit reached, try again in 10 seconds", status: 429 }),
+        json: async () => ({
+          error: "Rate limit reached, try again in 10 seconds",
+          status: 429,
+        }),
       })
       .mockResolvedValueOnce({
         ok: true,
@@ -213,7 +224,10 @@ describe("postToDevTo", () => {
       .mockResolvedValueOnce({
         ok: false,
         status: 429,
-        json: async () => ({ error: "Rate limit reached, try again in 300 seconds", status: 429 }),
+        json: async () => ({
+          error: "Rate limit reached, try again in 300 seconds",
+          status: 429,
+        }),
       })
       .mockResolvedValueOnce({
         ok: true,
@@ -238,17 +252,22 @@ describe("postToDevTo", () => {
     vi.stubEnv("DEVTO_API_KEY", "test-key");
     vi.useFakeTimers();
 
-    vi.stubGlobal("fetch", vi.fn()
-      .mockResolvedValueOnce({
-        ok: false,
-        status: 429,
-        json: async () => ({ error: "Rate limit reached, try again in 10 seconds" }),
-      })
-      .mockResolvedValueOnce({
-        ok: false,
-        status: 422,
-        text: async () => "Still failing",
-      }),
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 429,
+          json: async () => ({
+            error: "Rate limit reached, try again in 10 seconds",
+          }),
+        })
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 422,
+          text: async () => "Still failing",
+        }),
     );
 
     const promise = postToDevTo({
@@ -378,15 +397,22 @@ describe("postToHashnode", () => {
   it("throws a clear error when the response is HTML instead of JSON", async () => {
     vi.stubEnv("HASHNODE_PAT", "pat-token");
     vi.stubEnv("HASHNODE_PUBLICATION_ID", "pub-123");
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
-      ok: true,
-      status: 200,
-      headers: { get: () => "text/html; charset=utf-8" },
-      text: async () => "<!DOCTYPE html><html><body>Auth error</body></html>",
-    }));
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: true,
+        status: 200,
+        headers: { get: () => "text/html; charset=utf-8" },
+        text: async () => "<!DOCTYPE html><html><body>Auth error</body></html>",
+      }),
+    );
 
     await expect(
-      postToHashnode({ frontmatter: { title: "T", tags: [] }, content: "", slug: "s" }),
+      postToHashnode({
+        frontmatter: { title: "T", tags: [] },
+        content: "",
+        slug: "s",
+      }),
     ).rejects.toThrow("Hashnode returned non-JSON response");
   });
 
