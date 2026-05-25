@@ -29,6 +29,9 @@ export default defineConfig({
   test: {
     environment: "happy-dom",
     env: { TZ: "UTC" },
-    include: [".vitepress/tests/**/*.test.{js,ts}"],
+    include: [
+      ".vitepress/tests/**/*.test.{js,ts}",
+      "scripts/tests/**/*.test.{js,ts}",
+    ],
   },
 });

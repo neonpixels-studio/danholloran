@@ -6,26 +6,15 @@
 
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import matter from "gray-matter";
 
 const SITE_URL = process.env.SITE_URL || "https://danholloran.me";
 const POSTS_DIR = path.resolve(".vitepress/content/posts");
 
-// Comma-separated list of slugs from the workflow
-const slugsRaw = process.env.POST_SLUGS || "";
-const slugs = slugsRaw
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
-
-if (slugs.length === 0) {
-  console.log("No post slugs provided. Exiting.");
-  process.exit(0);
-}
-
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
-function readPost(slug) {
+export function readPost(slug) {
   const filePath = path.join(POSTS_DIR, `${slug}.md`);
   if (!fs.existsSync(filePath)) {
     throw new Error(`Post file not found: ${filePath}`);
@@ -41,13 +30,13 @@ function readPost(slug) {
  * - Prepend "Originally published on danholloran.me" header
  * - Append a CTA footer linking back
  */
-function prepareContent(content, slug, title) {
+export function prepareContent(content, slug) {
   const canonicalUrl = `${SITE_URL}/posts/${slug}`;
 
   // Resolve relative image paths
   const resolved = content.replace(
     /!\[([^\]]*)\]\((?!https?:\/\/)([^)]+)\)/g,
-    (_, alt, src) => `![${alt}](${SITE_URL}/${src.replace(/^\//, "")})`,
+    (_, alt, src) => `![${alt}](${SITE_URL}/${src.replace(/^\.?\//, "")})`,
   );
 
   const header = `> *Originally published on [danholloran.me](${canonicalUrl})*\n\n---\n\n`;
@@ -58,12 +47,12 @@ function prepareContent(content, slug, title) {
 
 // ─── Dev.to ─────────────────────────────────────────────────────────────────
 
-async function postToDevTo({ frontmatter, content, slug }) {
+export async function postToDevTo({ frontmatter, content, slug }) {
   const apiKey = process.env.DEVTO_API_KEY;
   if (!apiKey) throw new Error("DEVTO_API_KEY not set");
 
   const canonicalUrl = `${SITE_URL}/posts/${slug}`;
-  const body = prepareContent(content, slug, frontmatter.title);
+  const body = prepareContent(content, slug);
 
   // Dev.to accepts up to 4 tags as plain strings
   const tags = (frontmatter.tags || [])
@@ -107,14 +96,14 @@ async function postToDevTo({ frontmatter, content, slug }) {
 
 // ─── Hashnode ────────────────────────────────────────────────────────────────
 
-async function postToHashnode({ frontmatter, content, slug }) {
+export async function postToHashnode({ frontmatter, content, slug }) {
   const pat = process.env.HASHNODE_PAT;
   const publicationId = process.env.HASHNODE_PUBLICATION_ID;
   if (!pat) throw new Error("HASHNODE_PAT not set");
   if (!publicationId) throw new Error("HASHNODE_PUBLICATION_ID not set");
 
   const canonicalUrl = `${SITE_URL}/posts/${slug}`;
-  const body = prepareContent(content, slug, frontmatter.title);
+  const body = prepareContent(content, slug);
 
   // Hashnode tags need name + slug
   const tags = (frontmatter.tags || []).slice(0, 5).map((t) => ({
@@ -175,7 +164,7 @@ async function postToHashnode({ frontmatter, content, slug }) {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
-async function run() {
+async function run(slugs) {
   let hadError = false;
 
   for (const slug of slugs) {
@@ -212,4 +201,17 @@ async function run() {
   if (hadError) process.exit(1);
 }
 
-run();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const slugsRaw = process.env.POST_SLUGS || "";
+  const slugs = slugsRaw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (slugs.length === 0) {
+    console.log("No post slugs provided. Exiting.");
+    process.exit(0);
+  }
+
+  run(slugs);
+}

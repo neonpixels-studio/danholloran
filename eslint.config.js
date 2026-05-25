@@ -8,6 +8,14 @@ export default [
   js.configs.recommended,
   ...pluginVue.configs["flat/recommended"],
   {
+    files: ["scripts/**/*.{mjs,js}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
     files: ["**/*.ts"],
     languageOptions: {
       parser: tsParser,

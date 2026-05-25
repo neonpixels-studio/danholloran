@@ -11,33 +11,12 @@
 
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import matter from "gray-matter";
 import { TwitterApi } from "twitter-api-v2";
 
 const SITE_URL = process.env.SITE_URL || "https://danholloran.me";
 const POSTS_DIR = path.resolve(".vitepress/content/posts");
-
-const slugsRaw = process.env.POST_SLUGS || "";
-const slugs = slugsRaw
-  .split(",")
-  .map((s) => s.trim())
-  .filter(Boolean);
-
-if (slugs.length === 0) {
-  console.log("No post slugs provided. Exiting.");
-  process.exit(0);
-}
-
-// ─── X client (OAuth 1.0a — required for posting) ───────────────────────────
-
-const client = new TwitterApi({
-  appKey: process.env.X_APP_KEY,
-  appSecret: process.env.X_APP_SECRET,
-  accessToken: process.env.X_ACCESS_TOKEN,
-  accessSecret: process.env.X_ACCESS_SECRET,
-});
-
-const rwClient = client.readWrite;
 
 // ─── Tweet composer ──────────────────────────────────────────────────────────
 
@@ -50,7 +29,7 @@ const rwClient = client.readWrite;
  *
  *   {url} #{tag1} #{tag2} #{tag3}
  */
-function composeTweet(frontmatter, slug) {
+export function composeTweet(frontmatter, slug) {
   const url = `${SITE_URL}/posts/${slug}`;
   const title = frontmatter.title?.trim() || "New post";
   const description = frontmatter.description?.trim() || "";
@@ -79,7 +58,7 @@ function composeTweet(frontmatter, slug) {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
-async function run() {
+async function run(slugs, rwClient) {
   let hadError = false;
 
   for (const slug of slugs) {
@@ -111,4 +90,24 @@ async function run() {
   if (hadError) process.exit(1);
 }
 
-run();
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const slugsRaw = process.env.POST_SLUGS || "";
+  const slugs = slugsRaw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  if (slugs.length === 0) {
+    console.log("No post slugs provided. Exiting.");
+    process.exit(0);
+  }
+
+  const client = new TwitterApi({
+    appKey: process.env.X_APP_KEY,
+    appSecret: process.env.X_APP_SECRET,
+    accessToken: process.env.X_ACCESS_TOKEN,
+    accessSecret: process.env.X_ACCESS_SECRET,
+  });
+
+  run(slugs, client.readWrite);
+}
