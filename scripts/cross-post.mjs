@@ -79,14 +79,26 @@ export async function postToDevTo({ frontmatter, content, slug }) {
     },
   };
 
-  const res = await fetch("https://dev.to/api/articles", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "api-key": apiKey,
-    },
-    body: JSON.stringify(payload),
-  });
+  const request = () =>
+    fetch("https://dev.to/api/articles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "api-key": apiKey,
+      },
+      body: JSON.stringify(payload),
+    });
+
+  let res = await request();
+
+  if (res.status === 429) {
+    const body = await res.json().catch(() => ({}));
+    const waitMatch = String(body.error || "").match(/(\d+)\s*second/);
+    const waitSec = waitMatch ? parseInt(waitMatch[1], 10) : 300;
+    console.log(`⏳ Dev.to rate limited — waiting ${waitSec}s then retrying...`);
+    await new Promise((resolve) => setTimeout(resolve, waitSec * 1000));
+    res = await request();
+  }
 
   if (!res.ok) {
     const err = await res.text();
@@ -155,6 +167,14 @@ export async function postToHashnode({ frontmatter, content, slug }) {
   if (!res.ok) {
     const err = await res.text();
     throw new Error(`Hashnode error ${res.status}: ${err}`);
+  }
+
+  const contentType = res.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    const body = await res.text();
+    throw new Error(
+      `Hashnode returned non-JSON response (${res.status}). Check HASHNODE_PAT and HASHNODE_PUBLICATION_ID.\nBody: ${body.slice(0, 200)}`,
+    );
   }
 
   const { data, errors } = await res.json();

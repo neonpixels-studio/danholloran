@@ -173,6 +173,97 @@ describe("postToDevTo", () => {
     ).rejects.toThrow("Dev.to error 422");
   });
 
+  it("retries once after a 429 and succeeds", async () => {
+    vi.stubEnv("DEVTO_API_KEY", "test-key");
+    vi.useFakeTimers();
+
+    const mockFetch = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: "Rate limit reached, try again in 10 seconds", status: 429 }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ url: "https://dev.to/user/article-123" }),
+      });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const promise = postToDevTo({
+      frontmatter: { title: "T", tags: [] },
+      content: "",
+      slug: "s",
+    });
+
+    await vi.runAllTimersAsync();
+    const url = await promise;
+
+    expect(url).toBe("https://dev.to/user/article-123");
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
+  });
+
+  it("parses the wait time from the 429 response body", async () => {
+    vi.stubEnv("DEVTO_API_KEY", "test-key");
+    vi.useFakeTimers();
+
+    const mockFetch = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: "Rate limit reached, try again in 300 seconds", status: 429 }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ url: "https://dev.to/x" }),
+      });
+    vi.stubGlobal("fetch", mockFetch);
+
+    const promise = postToDevTo({
+      frontmatter: { title: "T", tags: [] },
+      content: "",
+      slug: "s",
+    });
+
+    await vi.advanceTimersByTimeAsync(300_000);
+    await promise;
+
+    expect(mockFetch).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
+  });
+
+  it("throws if the retry after a 429 also fails", async () => {
+    vi.stubEnv("DEVTO_API_KEY", "test-key");
+    vi.useFakeTimers();
+
+    vi.stubGlobal("fetch", vi.fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 429,
+        json: async () => ({ error: "Rate limit reached, try again in 10 seconds" }),
+      })
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 422,
+        text: async () => "Still failing",
+      }),
+    );
+
+    const promise = postToDevTo({
+      frontmatter: { title: "T", tags: [] },
+      content: "",
+      slug: "s",
+    });
+
+    // Attach the rejection handler before advancing timers to avoid unhandled rejection
+    const assertion = expect(promise).rejects.toThrow("Dev.to error 422");
+    await vi.runAllTimersAsync();
+    await assertion;
+    vi.useRealTimers();
+  });
+
   it("maps tags: lowercased, non-alphanumeric removed, max 4", async () => {
     vi.stubEnv("DEVTO_API_KEY", "test-key");
     const mockFetch = vi.fn().mockResolvedValue({
@@ -237,6 +328,7 @@ describe("postToHashnode", () => {
     vi.stubEnv("HASHNODE_PUBLICATION_ID", "pub-123");
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
+      headers: { get: () => "application/json" },
       json: async () => ({
         data: {
           publishPost: { post: { url: "https://hashnode.com/post/abc" } },
@@ -283,6 +375,21 @@ describe("postToHashnode", () => {
     ).rejects.toThrow("Hashnode error 500");
   });
 
+  it("throws a clear error when the response is HTML instead of JSON", async () => {
+    vi.stubEnv("HASHNODE_PAT", "pat-token");
+    vi.stubEnv("HASHNODE_PUBLICATION_ID", "pub-123");
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      headers: { get: () => "text/html; charset=utf-8" },
+      text: async () => "<!DOCTYPE html><html><body>Auth error</body></html>",
+    }));
+
+    await expect(
+      postToHashnode({ frontmatter: { title: "T", tags: [] }, content: "", slug: "s" }),
+    ).rejects.toThrow("Hashnode returned non-JSON response");
+  });
+
   it("throws when the GraphQL response contains errors", async () => {
     vi.stubEnv("HASHNODE_PAT", "pat-token");
     vi.stubEnv("HASHNODE_PUBLICATION_ID", "pub-123");
@@ -290,6 +397,7 @@ describe("postToHashnode", () => {
       "fetch",
       vi.fn().mockResolvedValue({
         ok: true,
+        headers: { get: () => "application/json" },
         json: async () => ({
           data: null,
           errors: [{ message: "Not authorized" }],
@@ -311,6 +419,7 @@ describe("postToHashnode", () => {
     vi.stubEnv("HASHNODE_PUBLICATION_ID", "pub-123");
     const mockFetch = vi.fn().mockResolvedValue({
       ok: true,
+      headers: { get: () => "application/json" },
       json: async () => ({
         data: { publishPost: { post: { url: "https://hashnode.com/post/x" } } },
         errors: null,
