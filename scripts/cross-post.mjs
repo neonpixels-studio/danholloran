@@ -207,7 +207,7 @@ async function run(slugs) {
 
     if (!shouldCrossPost(post.frontmatter)) {
       console.log(
-        `   Skipping: topic is "${post.frontmatter.topic}", not "development"`,
+        `Skipping "${slug}": topic is ${post.frontmatter.topic} and draft is ${JSON.stringify(post.frontmatter.draft)}`,
       );
       continue;
     }
