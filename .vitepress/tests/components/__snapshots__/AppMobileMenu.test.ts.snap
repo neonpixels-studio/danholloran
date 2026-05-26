@@ -12,6 +12,8 @@ exports[`AppMobileMenu > renders correctly 1`] = `
             <circle cx="11.8" cy="4.2" r="0.7" fill="currentColor" stroke="none"></circle>
           </svg></a><a href="https://linkedin.com/in/testuser/" target="blank" rel="noopener" aria-label="LinkedIn" class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M13.63 13.63h-2.37V9.92c0-.88-.02-2.02-1.23-2.02-1.23 0-1.42.96-1.42 1.96v3.77H6.24V6h2.27v1.04h.03c.32-.6 1.09-1.23 2.24-1.23 2.4 0 2.85 1.58 2.85 3.63v4.19zM3.56 4.96a1.37 1.37 0 1 1 0-2.74 1.37 1.37 0 0 1 0 2.74zm1.19 8.67H2.37V6h2.38v7.63zM14.82 0H1.18C.53 0 0 .51 0 1.15v13.7C0 15.49.53 16 1.18 16h13.64c.65 0 1.18-.51 1.18-1.15V1.15C16 .51 15.47 0 14.82 0z"></path>
+          </svg></a><a target="blank" rel="noopener" aria-label="X" class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M12.6 0h2.454l-5.36 6.155L16 16h-4.937l-3.867-5.07L2.771 16H.316l5.733-6.57L0 0h5.063l3.495 4.633L12.601 0zm-.86 14.376h1.36L4.323 1.394H2.865l8.875 12.982z"></path>
           </svg></a></div>
     </div>
   </div>

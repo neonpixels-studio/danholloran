@@ -117,6 +117,19 @@ onUnmounted(() => {
               />
             </svg>
           </a>
+          <a
+            :href="socialLinks.X"
+            target="blank"
+            rel="noopener"
+            aria-label="X"
+            class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path
+                d="M12.6 0h2.454l-5.36 6.155L16 16h-4.937l-3.867-5.07L2.771 16H.316l5.733-6.57L0 0h5.063l3.495 4.633L12.601 0zm-.86 14.376h1.36L4.323 1.394H2.865l8.875 12.982z"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </div>
