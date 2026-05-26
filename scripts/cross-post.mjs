@@ -223,12 +223,13 @@ async function run(slugs) {
     }
 
     // Hashnode
-    try {
-      await postToHashnode(post);
-    } catch (err) {
-      console.error(`❌ Hashnode failed for "${slug}": ${err.message}`);
-      hadError = true;
-    }
+    // @todo Figure out why Hashnode keeps failing
+    // try {
+    //   await postToHashnode(post);
+    // } catch (err) {
+    //   console.error(`❌ Hashnode failed for "${slug}": ${err.message}`);
+    //   hadError = true;
+    // }
   }
 
   if (hadError) process.exit(1);
