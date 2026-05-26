@@ -112,82 +112,6 @@ export async function postToDevTo({ frontmatter, content, slug }) {
   return data.url;
 }
 
-// ─── Hashnode ────────────────────────────────────────────────────────────────
-
-export async function postToHashnode({ frontmatter, content, slug }) {
-  const pat = process.env.HASHNODE_PAT;
-  const publicationId = process.env.HASHNODE_PUBLICATION_ID;
-  if (!pat) throw new Error("HASHNODE_PAT not set");
-  if (!publicationId) throw new Error("HASHNODE_PUBLICATION_ID not set");
-
-  const canonicalUrl = `${SITE_URL}/posts/${slug}`;
-  const body = prepareContent(content, slug);
-
-  // Hashnode tags need name + slug
-  const tags = (frontmatter.tags || []).slice(0, 5).map((t) => ({
-    name: t,
-    slug: t.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-  }));
-
-  const mutation = `
-    mutation PublishPost($input: PublishPostInput!) {
-      publishPost(input: $input) {
-        post {
-          url
-          title
-        }
-      }
-    }
-  `;
-
-  const variables = {
-    input: {
-      title: frontmatter.title,
-      contentMarkdown: body,
-      originalArticleURL: canonicalUrl,
-      publicationId,
-      tags,
-      ...(frontmatter.image
-        ? {
-            coverImageOptions: {
-              coverImageURL: [SITE_URL, frontmatter.image].join(""),
-            },
-          }
-        : {}),
-    },
-  };
-
-  const res = await fetch("https://gql.hashnode.com/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: pat,
-    },
-    body: JSON.stringify({ query: mutation, variables }),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Hashnode error ${res.status}: ${err}`);
-  }
-
-  const contentType = res.headers.get("content-type") || "";
-  if (!contentType.includes("application/json")) {
-    const body = await res.text();
-    throw new Error(
-      `Hashnode returned non-JSON response (${res.status}). Check HASHNODE_PAT and HASHNODE_PUBLICATION_ID.\nBody: ${body.slice(0, 200)}`,
-    );
-  }
-
-  const { data, errors } = await res.json();
-  if (errors?.length)
-    throw new Error(`Hashnode GraphQL errors: ${JSON.stringify(errors)}`);
-
-  const url = data?.publishPost?.post?.url;
-  console.log(`✅ Hashnode: ${url}`);
-  return url;
-}
-
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 async function run(slugs) {
@@ -221,15 +145,6 @@ async function run(slugs) {
       console.error(`❌ Dev.to failed for "${slug}": ${err.message}`);
       hadError = true;
     }
-
-    // Hashnode
-    // @todo Figure out why Hashnode keeps failing
-    // try {
-    //   await postToHashnode(post);
-    // } catch (err) {
-    //   console.error(`❌ Hashnode failed for "${slug}": ${err.message}`);
-    //   hadError = true;
-    // }
   }
 
   if (hadError) process.exit(1);

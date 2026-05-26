@@ -41,23 +41,10 @@ jobs:
             echo "posts=$NEW" >> $GITHUB_OUTPUT
           fi
 
-      - name: Cross-post to Dev.to and Hashnode
+      - name: Cross-post to Dev.to
         if: steps.detect.outputs.posts != ''
         env:
           DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
-          HASHNODE_PAT: ${{ secrets.HASHNODE_PAT }}
-          HASHNODE_PUBLICATION_ID: ${{ secrets.HASHNODE_PUBLICATION_ID }}
           SITE_URL: https://danholloran.me
           POST_SLUGS: ${{ steps.detect.outputs.posts }}
         run: node scripts/cross-post.mjs
-
-      - name: Announce on X (Twitter)
-        if: false
-        env:
-          X_APP_KEY: ${{ secrets.X_APP_KEY }}
-          X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
-          X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-          X_ACCESS_SECRET: ${{ secrets.X_ACCESS_SECRET }}
-          SITE_URL: https://danholloran.me
-          POST_SLUGS: ${{ steps.detect.outputs.posts }}
-        run: node scripts/announce-x.mjs
