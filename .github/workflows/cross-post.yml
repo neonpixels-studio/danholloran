@@ -52,7 +52,7 @@ jobs:
         run: node scripts/cross-post.mjs
 
       - name: Announce on X (Twitter)
-        if: steps.detect.outputs.posts != ''
+        if: false
         env:
           X_APP_KEY: ${{ secrets.X_APP_KEY }}
           X_APP_SECRET: ${{ secrets.X_APP_SECRET }}
