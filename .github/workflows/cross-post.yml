@@ -37,7 +37,7 @@ jobs:
             echo "posts=${{ github.event.inputs.post_slug }}" >> $GITHUB_OUTPUT
           else
             # Get markdown files added or modified in this push
-            NEW=$(git diff --name-only --diff-filter=A HEAD~1 HEAD -- '.vitepress/content/posts/*.md' | xargs -I{} basename {} .md | tr '\n' ',')
+            NEW=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- '.vitepress/content/posts/*.md' | xargs -I{} basename {} .md | tr '\n' ',')
             echo "posts=$NEW" >> $GITHUB_OUTPUT
           fi
 
