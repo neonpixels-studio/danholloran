@@ -70,6 +70,12 @@ async function run(slugs, rwClient) {
     }
 
     const { data: frontmatter } = matter(fs.readFileSync(filePath, "utf-8"));
+
+    if (frontmatter.draft !== false) {
+      console.log(`   Skipping "${slug}": post is a draft`);
+      continue;
+    }
+
     const tweet = composeTweet(frontmatter, slug);
 
     console.log(`\n🐦 Tweeting for: ${slug}`);
