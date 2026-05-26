@@ -1,10 +1,10 @@
 ---
-date: '2026-05-26T07:09:43.000+00:00'
-tags: ['javascript', 'typescript', 'tooling', 'jamstack']
-draft: true
+date: "2026-05-26T07:09:43.000+00:00"
+tags: ["javascript", "typescript", "tooling", "jamstack"]
+draft: false
 title: "Astro Actions: Type-Safe Server Functions Without the Boilerplate"
-image: '/images/posts/astro-actions-type-safe-server-functions-without-the-boilerplate.jpg'
-topic: 'development'
+image: "/images/posts/astro-actions-type-safe-server-functions-without-the-boilerplate.jpg"
+topic: "development"
 description: "Astro Actions let you define backend functions once and call them from HTML forms or client JavaScript with full type safety — no REST endpoints, no manual fetch, no type casting."
 ---
 
@@ -20,16 +20,16 @@ All actions live in `src/actions/index.ts` inside an exported `server` object:
 
 ```ts
 // src/actions/index.ts
-import { defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
+import { defineAction } from "astro:actions";
+import { z } from "astro:schema";
 
 export const server = {
   contact: defineAction({
-    accept: 'form',
+    accept: "form",
     input: z.object({
-      name: z.string().min(1, 'Name is required'),
-      email: z.string().email('Invalid email address'),
-      message: z.string().min(10, 'Message too short'),
+      name: z.string().min(1, "Name is required"),
+      email: z.string().email("Invalid email address"),
+      message: z.string().min(10, "Message too short"),
     }),
     handler: async ({ name, email, message }) => {
       // This runs on the server. Send an email, write to a DB, whatever.
@@ -66,9 +66,9 @@ For the JS-enhanced version, reading action results and rendering errors stays c
 
 ```ts
 // client-side script in the same .astro file
-import { actions, isInputError } from 'astro:actions';
+import { actions, isInputError } from "astro:actions";
 
-document.querySelector('form')?.addEventListener('submit', async (e) => {
+document.querySelector("form")?.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = new FormData(e.currentTarget as HTMLFormElement);
   const { data, error } = await actions.contact.safe(formData);
@@ -93,11 +93,11 @@ If you're working with a React or Svelte island, actions work just as well. No `
 
 ```tsx
 // src/components/ContactForm.tsx
-import { actions, isInputError } from 'astro:actions';
-import { useState } from 'react';
+import { actions, isInputError } from "astro:actions";
+import { useState } from "react";
 
 export function ContactForm() {
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -107,9 +107,9 @@ export function ContactForm() {
 
     if (error && isInputError(error)) {
       setFieldErrors(error.fields as Record<string, string[]>);
-      setStatus('error');
+      setStatus("error");
     } else if (data?.success) {
-      setStatus('success');
+      setStatus("success");
     }
   }
 
@@ -121,7 +121,7 @@ export function ContactForm() {
       {fieldErrors.email && <p className="error">{fieldErrors.email[0]}</p>}
       <textarea name="message" rows={5} />
       <button type="submit">Send</button>
-      {status === 'success' && <p>Message sent!</p>}
+      {status === "success" && <p>Message sent!</p>}
     </form>
   );
 }
@@ -130,7 +130,9 @@ export function ContactForm() {
 Actions also accept JSON payloads — drop `accept: 'form'` (JSON is the default) and call the action directly with an object:
 
 ```ts
-const { data, error } = await actions.newsletter.safe({ email: 'dan@example.com' });
+const { data, error } = await actions.newsletter.safe({
+  email: "dan@example.com",
+});
 ```
 
 That's useful for actions triggered by button clicks or other non-form interactions.
