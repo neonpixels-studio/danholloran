@@ -1,7 +1,7 @@
 ---
 date: "2026-05-26T07:09:43.000+00:00"
 tags: ["javascript", "typescript", "tooling", "jamstack"]
-draft: true
+draft: false
 title: "Astro Actions: Type-Safe Server Functions Without the Boilerplate"
 image: "/images/posts/astro-actions-type-safe-server-functions-without-the-boilerplate.jpg"
 topic: "development"
