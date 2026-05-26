@@ -89,6 +89,7 @@ async function run(slugs, rwClient) {
       console.log(`✅ X/Twitter: https://x.com/i/web/status/${data.id}`);
     } catch (err) {
       console.error(`❌ X/Twitter failed for "${slug}": ${err.message}`);
+      console.error(JSON.stringify(err));
       hadError = true;
     }
   }
