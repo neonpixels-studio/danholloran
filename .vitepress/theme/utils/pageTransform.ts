@@ -49,7 +49,7 @@ function transformResume(pageData: PageData): void {
 function transformPostsIndex(pageData: PageData): void {
   const title = pageData.frontmatter.title as string;
   const description = pageData.frontmatter.description as string;
-  const url = `${SITE_URL}/posts`;
+  const url = `${SITE_URL}/posts/`;
   const postsDir = join(process.cwd(), ".vitepress/content/posts");
   const blogPosts = readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))

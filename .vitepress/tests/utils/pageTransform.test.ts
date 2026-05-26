@@ -121,7 +121,7 @@ describe("transformPageData – posts/index.md", () => {
 
     expect(pageData.frontmatter.head).toContainEqual(existingTag);
     expect(
-      findHead(pageData, "link", "href", `${SITE_URL}/posts`),
+      findHead(pageData, "link", "href", `${SITE_URL}/posts/`),
     ).toBeDefined();
   });
 
@@ -163,7 +163,7 @@ describe("transformPageData – posts/index.md", () => {
 
     const ld = JSON.parse(scriptTag[2]);
     expect(ld["@type"]).toBe("Blog");
-    expect(ld.url).toBe(`${SITE_URL}/posts`);
+    expect(ld.url).toBe(`${SITE_URL}/posts/`);
     expect(ld.author["@type"]).toBe("Person");
 
     expect(Array.isArray(ld.blogPost)).toBe(true);

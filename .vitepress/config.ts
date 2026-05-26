@@ -82,7 +82,7 @@ export default defineConfig({
       {
         rel: "alternate",
         type: "application/rss+xml",
-        title: "DanHolloran",
+        title: "Dan Holloran",
         href: "https://danholloran.me/feed.xml",
       },
     ],

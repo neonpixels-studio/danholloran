@@ -125,7 +125,7 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
           >
             <img
               :src="`${post.frontmatter.images[Math.floor(Math.random() * post.frontmatter.images.length)]}`"
-              :alt="post.frontmatter.caption"
+              :alt="post.frontmatter.caption || `Instagram Post ${index}`"
             />
           </div>
           <div
