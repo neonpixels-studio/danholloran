@@ -1,20 +1,21 @@
 ---
-date: '2026-05-27T07:05:47.000+00:00'
-tags: ['obsidian', 'pkm', 'note-taking', 'workflows', 'tag-vs-folder-organization']
-draft: true
+date: "2026-05-27T07:05:47.000+00:00"
+tags:
+  ["obsidian", "pkm", "note-taking", "workflows", "tag-vs-folder-organization"]
+draft: false
 title: "Tags vs. Folders in Obsidian: How to Organize Your Vault Without Going Crazy"
-image: '/images/posts/tags-vs-folders-in-obsidian-how-to-organize-your-vault.jpg'
-topic: 'obsidian'
+image: "/images/posts/tags-vs-folders-in-obsidian-how-to-organize-your-vault.jpg"
+topic: "obsidian"
 description: "Folders and tags both have a place in Obsidian, but they solve fundamentally different problems. Here's how to use each one effectively so your vault stays navigable no matter how big it gets."
 ---
 
 At some point every Obsidian user hits the same wall. You've got a hundred notes, maybe two hundred, and suddenly the file explorer feels like a filing cabinet that someone sneezed on. Do you add more folders? Create a new tag? Reorganize everything from scratch? The temptation to build an elaborate system is real — and so is the regret that comes after spending a weekend reorganizing instead of actually writing.
 
-The good news: folders and tags aren't in competition. They're tools for different jobs, and once you understand what each one is actually *for*, the decisions get a lot easier.
+The good news: folders and tags aren't in competition. They're tools for different jobs, and once you understand what each one is actually _for_, the decisions get a lot easier.
 
 ## Folders Are for Location, Not Context
 
-Think of folders the way you think of rooms in a house. A room tells you where something lives — the kitchen, the office, the garage. It doesn't tell you what the thing *means* to you or how it connects to other things. Folders work the same way.
+Think of folders the way you think of rooms in a house. A room tells you where something lives — the kitchen, the office, the garage. It doesn't tell you what the thing _means_ to you or how it connects to other things. Folders work the same way.
 
 A good folder structure in Obsidian is shallow and stable. Most experienced vault builders recommend no more than two levels deep: a top-level category (say, `Work`, `Personal`, `Resources`) and maybe one subfolder beneath it. Beyond that, you're creating a treasure hunt for future-you. After a few months you genuinely forget where you put things, and deeply nested folders become more of a burden than a benefit.
 
@@ -24,9 +25,10 @@ The bigger limitation with folders is exclusivity: a note can only live in one f
 
 Tags are signals. They let you say "this note shares a property with these other notes" without moving the note anywhere. The power shows up when you click a tag in the Tags panel and suddenly see every related note across your entire vault — regardless of which folder it lives in.
 
-The best tags describe *what a note is* or *how you're using it*, not *where it belongs*. A few patterns that work well in practice:
+The best tags describe _what a note is_ or _how you're using it_, not _where it belongs_. A few patterns that work well in practice:
 
 **Status tags** keep your workflow visible:
+
 ```
 #status/active
 #status/waiting
@@ -34,6 +36,7 @@ The best tags describe *what a note is* or *how you're using it*, not *where it 
 ```
 
 **Type tags** classify the kind of note:
+
 ```
 #type/reference
 #type/project
@@ -42,6 +45,7 @@ The best tags describe *what a note is* or *how you're using it*, not *where it 
 ```
 
 **Topic tags** group notes by subject matter:
+
 ```
 #obsidian
 #productivity
@@ -65,7 +69,7 @@ rating: 5
 ---
 ```
 
-The key difference between properties and tags is *queryability*. With the Dataview plugin or Obsidian's built-in Bases view, you can query on properties to build dynamic tables and dashboards. Tags are great for filtering; properties are great for structured data you want to compute with.
+The key difference between properties and tags is _queryability_. With the Dataview plugin or Obsidian's built-in Bases view, you can query on properties to build dynamic tables and dashboards. Tags are great for filtering; properties are great for structured data you want to compute with.
 
 A practical split: use tags for loose categorization and discovery, and properties for anything you want to appear in a table or be sorted/filtered programmatically.
 
