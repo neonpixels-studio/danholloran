@@ -8,9 +8,9 @@ exports[`PostsView > renders correctly 1`] = `
 </header>
 <div class="fade-in mx-auto mb-4 flex max-w-275 flex-wrap items-center gap-2 px-8"><span class="text-fg-subtle font-mono text-[0.72rem] lowercase">topic:</span><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all active">all
     <!--v-if-->
-  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
-    <!--v-if-->
   </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">career
+    <!--v-if-->
+  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
     <!--v-if-->
   </button></div>
 <!--v-if-->
@@ -42,9 +42,9 @@ exports[`PostsView > renders no-posts message when filters match nothing 1`] = `
 </header>
 <div class="fade-in mx-auto mb-4 flex max-w-275 flex-wrap items-center gap-2 px-8"><span class="text-fg-subtle font-mono text-[0.72rem] lowercase">topic:</span><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all active">all
     <!--v-if-->
-  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
-    <!--v-if-->
   </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">career
+    <!--v-if-->
+  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
     <!--v-if-->
   </button></div>
 <!--v-if-->
@@ -90,9 +90,9 @@ exports[`PostsView > renders with tag filter applied from URL 1`] = `
 </header>
 <div class="fade-in mx-auto mb-4 flex max-w-275 flex-wrap items-center gap-2 px-8"><span class="text-fg-subtle font-mono text-[0.72rem] lowercase">topic:</span><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all active">all
     <!--v-if-->
-  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
-    <!--v-if-->
   </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">career
+    <!--v-if-->
+  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
     <!--v-if-->
   </button></div>
 <!--v-if-->
@@ -124,9 +124,9 @@ exports[`PostsView > renders with topic filter applied from URL 1`] = `
 </header>
 <div class="fade-in mx-auto mb-4 flex max-w-275 flex-wrap items-center gap-2 px-8"><span class="text-fg-subtle font-mono text-[0.72rem] lowercase">topic:</span><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all active">all
     <!--v-if-->
-  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
-    <!--v-if-->
   </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">career
+    <!--v-if-->
+  </button><button class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all">development
     <!--v-if-->
   </button></div>
 <!--v-if-->

@@ -10,7 +10,7 @@ const ALL_TOPIC = "all";
 const ALL_TAG = "all";
 const topics = [
   ALL_TOPIC,
-  ...new Set(posts.map((post) => post.frontmatter.topic)),
+  ...[...new Set(posts.map((post) => post.frontmatter.topic))].sort(),
 ];
 const FIRST_PAGE_SIZE = 10;
 const REST_PAGE_SIZE = 9;
