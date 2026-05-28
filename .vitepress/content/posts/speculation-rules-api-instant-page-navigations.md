@@ -1,18 +1,18 @@
 ---
-date: '2026-05-28T07:11:04.000+00:00'
-tags: ['javascript', 'web-apis', 'performance', 'web-performance']
-draft: true
+date: "2026-05-28T07:11:04.000+00:00"
+tags: ["javascript", "web-apis", "performance", "web-performance"]
+draft: false
 title: "The Speculation Rules API: Instant Page Navigations Without a Framework"
-image: '/images/posts/speculation-rules-api-instant-page-navigations.jpg'
-topic: 'development'
+image: "/images/posts/speculation-rules-api-instant-page-navigations.jpg"
+topic: "development"
 description: "The Speculation Rules API lets you tell the browser which pages to prefetch or fully prerender in the background — delivering near-instant navigations with a few lines of JSON and no framework required."
 ---
 
-Navigation speed is one of the biggest perceived performance wins you can hand users — not the initial page load, but how fast *subsequent* pages feel. Getting truly instant navigations used to mean reaching for a SPA framework and client-side routing. The Speculation Rules API changes that. It lets you prerender entire pages in the background so transitions feel nearly instantaneous. No framework required.
+Navigation speed is one of the biggest perceived performance wins you can hand users — not the initial page load, but how fast _subsequent_ pages feel. Getting truly instant navigations used to mean reaching for a SPA framework and client-side routing. The Speculation Rules API changes that. It lets you prerender entire pages in the background so transitions feel nearly instantaneous. No framework required.
 
 ## What the Speculation Rules API Does
 
-The API works through a `<script type="speculationrules">` tag containing a JSON structure that describes pages the browser should either *prefetch* (download the HTML in the background) or *prerender* (fully load and render the page, including JavaScript execution, in a hidden context). When the user navigates to a prefetched or prerendered URL, the browser activates it instantly.
+The API works through a `<script type="speculationrules">` tag containing a JSON structure that describes pages the browser should either _prefetch_ (download the HTML in the background) or _prerender_ (fully load and render the page, including JavaScript execution, in a hidden context). When the user navigates to a prefetched or prerendered URL, the browser activates it instantly.
 
 Two modes, two tradeoffs:
 
@@ -23,13 +23,13 @@ A basic list-based rule looks like this:
 
 ```html
 <script type="speculationrules">
-{
-  "prerender": [
-    {
-      "urls": ["/products", "/about", "/pricing"]
-    }
-  ]
-}
+  {
+    "prerender": [
+      {
+        "urls": ["/products", "/about", "/pricing"]
+      }
+    ]
+  }
 </script>
 ```
 
@@ -37,28 +37,28 @@ Drop that in your `<head>` and Chrome will start prerendering those three URLs i
 
 ## Document Rules: Dynamic Prefetching Without Hardcoding URLs
 
-Hardcoding a URL list works for small sites, but most apps need something smarter. *Document rules* match links already on the page rather than requiring you to enumerate every URL upfront.
+Hardcoding a URL list works for small sites, but most apps need something smarter. _Document rules_ match links already on the page rather than requiring you to enumerate every URL upfront.
 
 ```html
 <script type="speculationrules">
-{
-  "prefetch": [
-    {
-      "source": "document",
-      "where": {
-        "and": [
-          { "href_matches": "/*" },
-          { "not": { "href_matches": "/logout" } }
-        ]
-      },
-      "eagerness": "moderate"
-    }
-  ]
-}
+  {
+    "prefetch": [
+      {
+        "source": "document",
+        "where": {
+          "and": [
+            { "href_matches": "/*" },
+            { "not": { "href_matches": "/logout" } }
+          ]
+        },
+        "eagerness": "moderate"
+      }
+    ]
+  }
 </script>
 ```
 
-This tells the browser: prefetch any same-origin link on this page, except `/logout`, and use *moderate* eagerness. The `eagerness` setting controls when the speculation fires:
+This tells the browser: prefetch any same-origin link on this page, except `/logout`, and use _moderate_ eagerness. The `eagerness` setting controls when the speculation fires:
 
 - `"immediate"` — speculate as soon as the rule is parsed
 - `"moderate"` — trigger on hover (desktop) or when the link enters the viewport (mobile)
@@ -70,22 +70,22 @@ You can combine both approaches: broad prefetch for general coverage, prerender 
 
 ```html
 <script type="speculationrules">
-{
-  "prefetch": [
-    {
-      "source": "document",
-      "where": { "href_matches": "/*" },
-      "eagerness": "moderate"
-    }
-  ],
-  "prerender": [
-    {
-      "source": "document",
-      "where": { "href_matches": "/products/*" },
-      "eagerness": "conservative"
-    }
-  ]
-}
+  {
+    "prefetch": [
+      {
+        "source": "document",
+        "where": { "href_matches": "/*" },
+        "eagerness": "moderate"
+      }
+    ],
+    "prerender": [
+      {
+        "source": "document",
+        "where": { "href_matches": "/products/*" },
+        "eagerness": "conservative"
+      }
+    ]
+  }
 </script>
 ```
 
@@ -97,11 +97,13 @@ Prerendering a page means JavaScript runs before the user actually sees it, whic
 // Guard analytics so they only fire on real views
 function trackPageView() {
   if (document.prerendering) {
-    document.addEventListener('prerenderingchange', trackPageView, { once: true });
+    document.addEventListener("prerenderingchange", trackPageView, {
+      once: true,
+    });
     return;
   }
   // Safe to fire analytics here
-  analytics.track('page_view', { path: location.pathname });
+  analytics.track("page_view", { path: location.pathname });
 }
 
 trackPageView();
