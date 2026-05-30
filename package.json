@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vitepress build",
+    "preview": "vitepress preview",
     "dev": "vitepress dev",
     "test": "vitest",
     "test:ui": "vitest --ui",
