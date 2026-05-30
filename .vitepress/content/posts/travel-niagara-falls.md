@@ -1,11 +1,11 @@
 ---
 date: "2025-09-20T18:45:00.000+00:00"
-tags: ["niagra-falls", "travel", "nature", "adventure"]
+tags: ["niagara-falls", "travel", "nature", "adventure"]
 draft: false
-title: "Niagra Falls"
-image: "/images/posts/travel-niagra-falls.jpg"
+title: "niagara Falls"
+image: "/images/posts/travel-niagara-falls.jpg"
 topic: "travel"
-travel_location: "niagra falls"
+travel_location: "niagara falls"
 description: "Niagara Falls from the American side — the Horseshoe Falls and American Falls, the Maid of the Mist boat tour, and the improbable scale of moving water."
 ---
 
