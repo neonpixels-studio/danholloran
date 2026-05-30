@@ -1,14 +1,14 @@
 ---
-date: '2026-05-30T07:02:07.000+00:00'
-tags: ['javascript', 'typescript', 'tooling']
-draft: true
+date: "2026-05-30T07:02:07.000+00:00"
+tags: ["javascript", "typescript", "tooling"]
+draft: false
 title: "JavaScript's using Keyword: Automatic Resource Cleanup in ES2026"
-image: '/images/posts/javascript-using-explicit-resource-management-es2026.jpg'
-topic: 'JavaScript'
+image: "/images/posts/javascript-using-explicit-resource-management-es2026.jpg"
+topic: "JavaScript"
 description: "ES2026 introduces the using and await using keywords for automatic resource cleanup — no more forgetting to close that database connection or file handle in a finally block."
 ---
 
-If you've ever opened a database connection, grabbed a file handle, or spun up a worker — and then watched your `try...finally` block balloon into something that felt more like scaffolding than real code — you know the problem. JavaScript has never had a clean built-in way to say "when this block is done, clean *that* up." Until now.
+If you've ever opened a database connection, grabbed a file handle, or spun up a worker — and then watched your `try...finally` block balloon into something that felt more like scaffolding than real code — you know the problem. JavaScript has never had a clean built-in way to say "when this block is done, clean _that_ up." Until now.
 
 ES2026 finalizes **Explicit Resource Management**, a new language feature that adds `using` and `await using` declarations. They let you bind a resource's lifecycle to a block scope, so cleanup happens automatically no matter how the block exits — whether through normal return, an exception, or an early break.
 
@@ -17,12 +17,12 @@ ES2026 finalizes **Explicit Resource Management**, a new language feature that a
 Consider reading from a file in Node.js:
 
 ```js
-import { open } from 'node:fs/promises';
+import { open } from "node:fs/promises";
 
 async function readConfig(path) {
-  const file = await open(path, 'r');
+  const file = await open(path, "r");
   try {
-    const content = await file.readFile({ encoding: 'utf8' });
+    const content = await file.readFile({ encoding: "utf8" });
     return JSON.parse(content);
   } finally {
     await file.close(); // easy to forget, ugly to maintain
@@ -39,7 +39,7 @@ Any object that implements `[Symbol.dispose]()` (sync) or `[Symbol.asyncDispose]
 Here's the file example rewritten:
 
 ```js
-import { open } from 'node:fs/promises';
+import { open } from "node:fs/promises";
 
 function makeDisposableFile(file) {
   return {
@@ -51,13 +51,13 @@ function makeDisposableFile(file) {
 }
 
 async function readConfig(path) {
-  await using handle = makeDisposableFile(await open(path, 'r'));
-  const content = await handle.file.readFile({ encoding: 'utf8' });
+  await using handle = makeDisposableFile(await open(path, "r"));
+  const content = await handle.file.readFile({ encoding: "utf8" });
   return JSON.parse(content); // file.close() runs automatically here
 }
 ```
 
-The `await` in `await using` doesn't pause at declaration time — it tells JavaScript to *await* the async disposal when the block exits. If an exception is thrown before the block ends, disposal still runs.
+The `await` in `await using` doesn't pause at declaration time — it tells JavaScript to _await_ the async disposal when the block exits. If an exception is thrown before the block ends, disposal still runs.
 
 For synchronous resources, drop the `await`:
 
@@ -74,7 +74,7 @@ function getDbConnection() {
 
 function getUserCount() {
   using db = getDbConnection();
-  return db.conn.query('SELECT COUNT(*) FROM users')[0];
+  return db.conn.query("SELECT COUNT(*) FROM users")[0];
   // conn.close() runs here, even if query throws
 }
 ```
