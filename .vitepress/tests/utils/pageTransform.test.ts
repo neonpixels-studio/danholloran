@@ -125,6 +125,47 @@ describe("transformPageData – posts/index.md", () => {
     ).toBeDefined();
   });
 
+  it("uses default-social.png as og:image when no image is in frontmatter", () => {
+    const pageData = makePageData({
+      filePath: "posts/index.md",
+      frontmatter: { title: "Blog", description: "All posts" },
+    });
+    transformPageData(pageData);
+
+    expect(
+      findHead(
+        pageData,
+        "meta",
+        "content",
+        `${SITE_URL}/images/default-social.png`,
+      ),
+    ).toBeDefined();
+  });
+
+  it("uses frontmatter image over the default when provided", () => {
+    const pageData = makePageData({
+      filePath: "posts/index.md",
+      frontmatter: {
+        title: "Blog",
+        description: "All posts",
+        image: "/images/custom.png",
+      },
+    });
+    transformPageData(pageData);
+
+    expect(
+      findHead(pageData, "meta", "content", `${SITE_URL}/images/custom.png`),
+    ).toBeDefined();
+    expect(
+      findHead(
+        pageData,
+        "meta",
+        "content",
+        `${SITE_URL}/images/default-social.png`,
+      ),
+    ).toBeUndefined();
+  });
+
   it("includes a JSON-LD Blog script tag with blogPost items", () => {
     mockReaddirSync.mockReturnValue(["post-a.md", "post-b.md"] as any);
     mockReadFileSync.mockReturnValue("" as any);

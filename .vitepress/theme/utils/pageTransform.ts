@@ -90,7 +90,9 @@ function transformPostsIndex(pageData: PageData): void {
       title,
       description,
       url,
-      image: pageData.frontmatter.image as string | undefined,
+      image:
+        (pageData.frontmatter.image as string | undefined) ??
+        "/images/default-social.png",
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Blog",
