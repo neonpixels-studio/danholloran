@@ -1,10 +1,10 @@
 ---
-date: '2026-05-29T07:04:00.000+00:00'
-tags: ['obsidian', 'pkm', 'plugins', 'productivity', 'obsidian-tasks-plugin']
-draft: true
+date: "2026-05-29T07:04:00.000+00:00"
+tags: ["obsidian", "pkm", "plugins", "productivity", "obsidian-tasks-plugin"]
+draft: false
 title: "Obsidian Tasks: Query Your Entire Vault and Never Miss a Deadline"
-image: '/images/posts/obsidian-tasks-plugin-query-your-vault.jpg'
-topic: 'obsidian'
+image: "/images/posts/obsidian-tasks-plugin-query-your-vault.jpg"
+topic: "obsidian"
 description: "The Obsidian Tasks plugin turns scattered checkboxes into a vault-wide task management system — here's how to use its query syntax to build a dashboard that actually keeps you on top of things."
 ---
 
@@ -30,43 +30,43 @@ Each emoji signals something specific to the plugin:
 
 The modal you get when you click the Tasks checkmark icon in the toolbar makes entering these painlessly — you don't need to remember every emoji. But once you start reading them inline, they're surprisingly scannable.
 
-Recurrence deserves a closer look because it's genuinely useful for habit tracking and recurring professional duties. `🔁 every week on Monday` or `🔁 every month on the 1st` will automatically generate a new task when you check the current one off. You can also use completion-based recurrence — `🔁 every 7 days when done` — so the next occurrence is calculated from when you *actually* finished, not from the original due date. This distinction matters a lot for tasks like "review inbox" that slip occasionally.
+Recurrence deserves a closer look because it's genuinely useful for habit tracking and recurring professional duties. `🔁 every week on Monday` or `🔁 every month on the 1st` will automatically generate a new task when you check the current one off. You can also use completion-based recurrence — `🔁 every 7 days when done` — so the next occurrence is calculated from when you _actually_ finished, not from the original due date. This distinction matters a lot for tasks like "review inbox" that slip occasionally.
 
 ## The Query Block: Your Personal Task Dashboard
 
 The real magic of Tasks isn't the syntax — it's the query system. You can drop a fenced code block anywhere in your vault and filter tasks from across every single note:
 
-~~~markdown
+````markdown
 ```tasks
 not done
 due before tomorrow
 sort by priority
 ```
-~~~
+````
 
 That block will render a live list of every overdue or today-due task in your entire vault, sorted by priority. You can put this in your daily note, a dedicated "Today" dashboard file, or a weekly review template.
 
 The query language is fairly readable once you know the keywords. Here are some examples that cover most common use cases:
 
-~~~markdown
+````markdown
 ```tasks
 not done
 due this week
 path includes Projects
 group by due
 ```
-~~~
+````
 
 This one limits results to tasks inside your `Projects` folder, groups them by due date, and filters to the current week — useful for a project-level review. You can also filter by tags:
 
-~~~markdown
+````markdown
 ```tasks
 not done
 tags include #work
 scheduled before next week
 sort by scheduled
 ```
-~~~
+````
 
 Combining `scheduled` and `due` dates is a workflow shift worth embracing. `Due` means the hard deadline; `scheduled` is when you intend to actually do the work. Filtering on `scheduled` in your daily note keeps you from staring at a wall of future deadlines that aren't actionable yet.
 
@@ -74,8 +74,9 @@ Combining `scheduled` and `due` dates is a workflow shift worth embracing. `Due`
 
 A practical setup many Obsidian users land on is a single `Dashboard.md` file with a handful of query blocks stacked vertically — overdue tasks at the top, today's tasks next, then the rest of the week. Something like:
 
-~~~markdown
+````markdown
 ## Overdue
+
 ```tasks
 not done
 due before today
@@ -83,6 +84,7 @@ sort by due
 ```
 
 ## Today
+
 ```tasks
 not done
 due today
@@ -90,13 +92,14 @@ sort by priority
 ```
 
 ## This Week
+
 ```tasks
 not done
 due after today
 due before in 7 days
 sort by due
 ```
-~~~
+````
 
 This gives you a Morning Pages-style anchor file to open every day. Because Tasks queries are live — they re-run each time the file is opened — it's always accurate without any manual maintenance.
 
