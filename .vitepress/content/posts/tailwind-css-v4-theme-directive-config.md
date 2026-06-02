@@ -1,10 +1,10 @@
 ---
-date: '2026-06-02T07:10:22.000+00:00'
-tags: ['css', 'tailwind-css', 'tooling', 'javascript']
-draft: true
+date: "2026-06-02T07:10:22.000+00:00"
+tags: ["css", "tailwind-css", "tooling", "javascript"]
+draft: false
 title: "Tailwind CSS v4: Ditch the Config File, Embrace @theme"
-image: '/images/posts/tailwind-css-v4-theme-directive-config.jpg'
-topic: 'Tailwind CSS'
+image: "/images/posts/tailwind-css-v4-theme-directive-config.jpg"
+topic: "Tailwind CSS"
 description: "Tailwind CSS v4 moves design token configuration out of tailwind.config.js and into your CSS with the @theme directive — here's what that means for your workflow."
 ---
 
@@ -28,11 +28,11 @@ npm install tailwindcss @tailwindcss/vite
 
 ```js
 // vite.config.js
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from "@tailwindcss/vite";
 
 export default {
-  plugins: [tailwindcss()]
-}
+  plugins: [tailwindcss()],
+};
 ```
 
 No PostCSS config. No autoprefixer. The Vite plugin handles everything through the new Rust-based engine (Lightning CSS), which also means incremental builds in the single-digit millisecond range — full rebuilds that took 3.5 seconds in v3 now complete in under 100ms.
@@ -47,15 +47,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: '#6366f1',
-        'brand-dark': '#4f46e5',
+        brand: "#6366f1",
+        "brand-dark": "#4f46e5",
       },
       fontFamily: {
-        display: ['Satoshi', 'sans-serif'],
+        display: ["Satoshi", "sans-serif"],
       },
     },
   },
-}
+};
 ```
 
 In v4, that configuration moves into your CSS via the `@theme` directive:
@@ -73,6 +73,7 @@ In v4, that configuration moves into your CSS via the `@theme` directive:
 ```
 
 The namespace prefix determines what utility gets generated:
+
 - `--color-*` → `bg-brand`, `text-brand`, `border-brand`
 - `--font-*` → `font-display`
 - `--spacing-*` → padding, margin, gap, and size utilities
@@ -125,7 +126,7 @@ Because all tokens are CSS variables, switching themes at runtime is straightfor
 Toggle the theme with a single attribute change — no JavaScript class swapping, no recompilation:
 
 ```js
-document.documentElement.setAttribute('data-theme', 'dark')
+document.documentElement.setAttribute("data-theme", "dark");
 ```
 
 Every `bg-primary`, `text-foreground`, and `border-background` utility in your markup responds instantly.
@@ -137,9 +138,9 @@ V4 renames gradient utilities to align with native CSS syntax. This is the most 
 ```html
 <!-- v3 -->
 <div class="bg-gradient-to-r from-blue-500 to-purple-600">
-
-<!-- v4 -->
-<div class="bg-linear-to-r from-blue-500 to-purple-600">
+  <!-- v4 -->
+  <div class="bg-linear-to-r from-blue-500 to-purple-600"></div>
+</div>
 ```
 
 The official upgrade tool handles most renames automatically:
