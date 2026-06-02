@@ -1,13 +1,8 @@
-export type { SkillInterface, SkillsMap } from "./skills";
-export type {
-  ResumeContactInterface,
-  ResumeExperienceInterface,
-  ResumeEducationInterface,
-  ResumeInterface,
-} from "./resume";
-export type { ProjectInterface } from "./projects";
-export type { QuoteInterface } from "./quotes";
-export type { PostMeta, Post } from "./post.ts";
-export type { SearchItem } from "./search.ts";
-export type { NavItem } from "./nav.ts";
-export type { InstagramPost } from "./instagram.ts";
+export type * from "./skills";
+export type * from "./resume";
+export type * from "./projects";
+export type * from "./quotes";
+export type * from "./post";
+export type * from "./search";
+export type * from "./nav";
+export type * from "./instagram";

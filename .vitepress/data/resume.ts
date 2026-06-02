@@ -8,8 +8,6 @@ export const getExperienceLength = () => {
 
 export const CURRENT_LOCATION = `${location.city}, ${location.state}`;
 
-export const PHONE_NUMBER = "(314) 882-8326";
-
 export default {
   firstName: "Dan",
   lastName: "Holloran",

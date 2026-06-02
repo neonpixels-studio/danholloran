@@ -10,8 +10,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:ci": "vitest run",
-    "lint": "prettier --check . && eslint .",
-    "lint:fix": "prettier --write . && eslint . --fix",
+    "lint": "prettier --check . && eslint . && fallow audit",
+    "lint:fix": "prettier --write . && eslint . --fix && fallow fix",
     "prepare": "husky"
   },
   "author": "Dan Holloran",
@@ -26,6 +26,8 @@
     "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.1",
+    "fallow": "^2.86.0",
+    "globals": "^17.6.0",
     "happy-dom": "^20.9.0",
     "husky": "^9.1.7",
     "plist": "^5.0.0",
@@ -37,12 +39,8 @@
     "vitest": "^4.1.5"
   },
   "dependencies": {
-    "@heroicons/vue": "^2.2.0",
-    "collect.js": "^4.36.1",
     "feed": "^5.2.1",
-    "globals": "^17.6.0",
     "gray-matter": "^4.0.3",
-    "minisearch": "^7.2.0",
-    "twitter-api-v2": "^1.29.0"
+    "minisearch": "^7.2.0"
   }
 }

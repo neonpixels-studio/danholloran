@@ -1,0 +1,16 @@
+{
+  "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
+  "entry": ["src/index.{ts,tsx,js,jsx}", "src/main.{ts,tsx,js,jsx}"],
+  "duplicates": {
+    "minOccurrences": 3,
+    "ignore": ["*.test.*"]
+  },
+  "ignoreDependencies": ["vue"],
+  "ignorePatterns": ["**/*.data.ts", "**/*.paths.ts"],
+  "ignoreExports": [
+    { "file": ".vitepress/types/search.ts", "exports": ["PostSearchItem"] }
+  ],
+  "rules": {
+    "unused-dependencies": "warn"
+  }
+}
