@@ -4,7 +4,7 @@ tags: ["css", "tailwind-css", "tooling", "javascript"]
 draft: false
 title: "Tailwind CSS v4: Ditch the Config File, Embrace @theme"
 image: "/images/posts/tailwind-css-v4-theme-directive-config.jpg"
-topic: "Tailwind CSS"
+topic: "development"
 description: "Tailwind CSS v4 moves design token configuration out of tailwind.config.js and into your CSS with the @theme directive — here's what that means for your workflow."
 ---
 
