@@ -1,10 +1,18 @@
 ---
-date: '2026-06-03T07:05:08.000+00:00'
-tags: ['obsidian', 'pkm', 'note-taking', 'properties-and-frontmatter', 'markdown', 'workflows']
-draft: true
+date: "2026-06-03T07:05:08.000+00:00"
+tags:
+  [
+    "obsidian",
+    "pkm",
+    "note-taking",
+    "properties-and-frontmatter",
+    "markdown",
+    "workflows",
+  ]
+draft: false
 title: "Obsidian Properties and Frontmatter: Stop Treating Metadata as an Afterthought"
-image: '/images/posts/obsidian-properties-and-frontmatter-a-practical-guide.jpg'
-topic: 'obsidian'
+image: "/images/posts/obsidian-properties-and-frontmatter-a-practical-guide.jpg"
+topic: "obsidian"
 description: "Obsidian's Properties panel makes YAML frontmatter approachable for every note, and pairing it with typed fields and Dataview queries turns your vault into a genuinely queryable database."
 ---
 
@@ -90,6 +98,6 @@ One caveat: Dataview treats missing fields and empty fields differently. `WHERE 
 
 The biggest risk with a properties system is over-engineering it. Five well-maintained fields are more useful than twenty inconsistently-filled ones. A few habits that help:
 
-Start every note type with a template that includes only the fields you'll actually fill in — Templater makes this easy. Review your global property list periodically and delete keys you've stopped using. And when you find yourself adding a one-off property to a single note, ask whether it belongs in the frontmatter at all or whether it's just inline content.
+Start every note type with a template that includes only the fields you'll actually fill in — [Templater](https://community.obsidian.md/plugins/templater-obsidian) makes this easy. Review your global property list periodically and delete keys you've stopped using. And when you find yourself adding a one-off property to a single note, ask whether it belongs in the frontmatter at all or whether it's just inline content.
 
 The [Obsidian Properties documentation](https://help.obsidian.md/Editing+and+formatting/Properties) is a solid reference for type syntax and limitations, and the [Obsidian forum](https://forum.obsidian.md) has plenty of community-shared schemas if you want inspiration for a specific note type. A little upfront investment in your metadata conventions pays off the moment your vault grows large enough that you need to find things fast.
