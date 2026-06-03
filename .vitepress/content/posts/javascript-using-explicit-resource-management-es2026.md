@@ -4,7 +4,7 @@ tags: ["javascript", "typescript", "tooling"]
 draft: false
 title: "JavaScript's using Keyword: Automatic Resource Cleanup in ES2026"
 image: "/images/posts/javascript-using-explicit-resource-management-es2026.jpg"
-topic: "JavaScript"
+topic: "development"
 description: "ES2026 introduces the using and await using keywords for automatic resource cleanup — no more forgetting to close that database connection or file handle in a finally block."
 ---
 
