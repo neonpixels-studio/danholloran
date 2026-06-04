@@ -1,16 +1,16 @@
 ---
-date: '2026-06-04T07:09:24.000+00:00'
-tags: ['javascript', 'typescript', 'tooling', 'svelte']
-draft: true
+date: "2026-06-04T07:09:24.000+00:00"
+tags: ["javascript", "typescript", "tooling", "svelte"]
+draft: false
 title: "SvelteKit Remote Functions: Goodbye, API Boilerplate"
-image: '/images/posts/sveltekit-remote-functions-goodbye-api-boilerplate.jpg'
-topic: 'development'
+image: "/images/posts/sveltekit-remote-functions-goodbye-api-boilerplate.jpg"
+topic: "development"
 description: "SvelteKit's remote functions let you call type-safe server code straight from your components — no +server.ts endpoints, no fetch wrappers, no manually synced types."
 ---
 
 If you've built anything non-trivial in SvelteKit, you know the dance: create a `+server.ts` endpoint, write a `fetch` call on the client, hand-roll the types on both sides, and hope they never drift apart. It works, but it's ceremony — and every new piece of data means doing the dance again.
 
-SvelteKit's remote functions (available since 2.27, still behind an experimental flag) collapse all of that into a single import. You write a function once, it always *runs* on the server, but you can *call* it from anywhere — including right inside your component markup.
+SvelteKit's remote functions (available since 2.27, still behind an experimental flag) collapse all of that into a single import. You write a function once, it always _runs_ on the server, but you can _call_ it from anywhere — including right inside your component markup.
 
 ## Queries: server data, right in your template
 
@@ -18,9 +18,9 @@ Remote functions live in `.remote.js` or `.remote.ts` files and come in four fla
 
 ```ts
 // src/routes/blog/data.remote.ts
-import { query } from '$app/server';
-import * as v from 'valibot';
-import * as db from '$lib/server/database';
+import { query } from "$app/server";
+import * as v from "valibot";
+import * as db from "$lib/server/database";
 
 export const getPost = query(v.string(), async (slug) => {
   const [post] = await db.sql`
@@ -55,13 +55,13 @@ Mutations get the same treatment. The `form` function returns an object you spre
 export const createPost = form(
   v.object({
     title: v.pipe(v.string(), v.nonEmpty()),
-    content: v.pipe(v.string(), v.nonEmpty())
+    content: v.pipe(v.string(), v.nonEmpty()),
   }),
   async ({ title, content }) => {
     await db.sql`INSERT INTO post (title, content)
                  VALUES (${title}, ${content})`;
-    redirect(303, '/blog');
-  }
+    redirect(303, "/blog");
+  },
 );
 ```
 
@@ -75,7 +75,7 @@ export const createPost = form(
 
 The `fields` API generates `name`, `value`, and `aria-invalid` attributes for you, repopulates inputs after a failed submission, and surfaces validation issues per field via `issues()`. For mutations that aren't tied to a form — a like button, drag-and-drop reordering — `command` does the same job and can be called from any event handler.
 
-The clever bit is *single-flight mutations*: inside a form or command handler you can call `getPosts().refresh()` on the server, and the refreshed query data rides back to the client in the same response. No second round-trip, no stale UI, no invalidate-everything sledgehammer.
+The clever bit is _single-flight mutations_: inside a form or command handler you can call `getPosts().refresh()` on the server, and the refreshed query data rides back to the client in the same response. No second round-trip, no stale UI, no invalidate-everything sledgehammer.
 
 ## Should you turn it on?
 
