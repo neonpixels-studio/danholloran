@@ -1,10 +1,10 @@
 ---
-date: '2026-06-05T07:03:43.000+00:00'
-tags: ['obsidian', 'pkm', 'workflows', 'note-taking', 'canvas']
-draft: true
+date: "2026-06-05T07:03:43.000+00:00"
+tags: ["obsidian", "pkm", "workflows", "note-taking", "canvas"]
+draft: false
 title: "Obsidian Canvas: Turn Your Vault Into a Visual Thinking Space"
-image: '/images/posts/obsidian-canvas-turn-your-vault-into-a-visual-thinking-space.jpg'
-topic: 'obsidian'
+image: "/images/posts/obsidian-canvas-turn-your-vault-into-a-visual-thinking-space.jpg"
+topic: "obsidian"
 description: "How to use Obsidian's Canvas core plugin for project planning, brainstorming, and connecting notes spatially — plus a look at the open JSON Canvas format and the Advanced Canvas community plugin."
 ---
 
@@ -16,7 +16,7 @@ That's exactly the problem [Canvas](https://obsidian.md/canvas) solves. It's a C
 
 Canvas gives you an infinite, zoomable surface where you can lay out cards and draw connections between them. A card can be one of three things: a standalone text card written directly on the canvas, an embedded note from your vault, or a web page loaded by URL. You can also drop in images, PDFs, and even other canvases.
 
-The key difference from the graph view: the graph shows you connections that already exist in your links, while Canvas lets you *create* spatial relationships that don't need to exist as links at all. Two notes can sit side by side on a canvas because they belong together in your head — no `[[wikilink]]` required.
+The key difference from the graph view: the graph shows you connections that already exist in your links, while Canvas lets you _create_ spatial relationships that don't need to exist as links at all. Two notes can sit side by side on a canvas because they belong together in your head — no `[[wikilink]]` required.
 
 Creating one is quick: click the Canvas icon in the ribbon, or run "Canvas: Create new canvas" from the command palette. Drag any note from the file explorer onto the surface and it becomes a live, editable embed. Double-click empty space for a fresh text card. Drag from a card's edge to another card to draw a labeled arrow.
 
@@ -35,12 +35,17 @@ Every canvas is saved as a `.canvas` file using [JSON Canvas](https://obsidian.m
 ```json
 {
   "nodes": [
-    { "id": "a1", "type": "file", "file": "Projects/Site Redesign.md",
-      "x": 0, "y": 0, "width": 400, "height": 320 }
+    {
+      "id": "a1",
+      "type": "file",
+      "file": "Projects/Site Redesign.md",
+      "x": 0,
+      "y": 0,
+      "width": 400,
+      "height": 320
+    }
   ],
-  "edges": [
-    { "id": "e1", "fromNode": "a1", "toNode": "b2", "label": "blocks" }
-  ]
+  "edges": [{ "id": "e1", "fromNode": "a1", "toNode": "b2", "label": "blocks" }]
 }
 ```
 
