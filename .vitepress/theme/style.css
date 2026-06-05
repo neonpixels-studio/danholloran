@@ -342,6 +342,19 @@ html.dark img[src*="topography"] {
   }
 }
 
+/* Search text */
+::search-text {
+  background: var(--color-accent-dim);
+  color: var(--color-fg);
+}
+
+::search-text:current {
+  background: var(--color-accent-hover);
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-decoration-style: wavy;
+}
+
 /* Code Syntax Highlighting */
 .shiki,
 .shiki span {
