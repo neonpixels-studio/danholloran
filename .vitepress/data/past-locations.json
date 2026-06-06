@@ -14,5 +14,9 @@
   {
     "city": "Sacramento",
     "state": "CA"
+  },
+  {
+    "city": "Las Vegas",
+    "state": "NV"
   }
 ]
