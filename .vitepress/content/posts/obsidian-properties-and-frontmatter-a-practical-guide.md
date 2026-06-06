@@ -74,7 +74,7 @@ The key is that `status`, `priority`, and `due` mean the same thing across every
 
 Once your frontmatter is typed and consistent, Dataview (Community plugin) becomes genuinely useful. Here's a simple table query that lists all active projects sorted by due date:
 
-```dataview
+```md
 TABLE status, priority, due
 FROM #projects
 WHERE status = "active"
@@ -83,7 +83,7 @@ SORT due ASC
 
 Or a reading list that shows only books you've finished and rated:
 
-```dataview
+```md
 TABLE author, rating, finished
 FROM #books
 WHERE status = "finished" AND rating != null
