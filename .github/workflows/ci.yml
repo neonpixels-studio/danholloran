@@ -26,6 +26,11 @@ jobs:
         env:
           HUSKY: 0
 
+      - name: Exclude draft posts from Prettier
+        run: |
+          grep -rl "^draft: true" .vitepress/content/posts/ 2>/dev/null \
+            >> .prettierignore || true
+
       - name: Lint
         run: npm run lint
 
