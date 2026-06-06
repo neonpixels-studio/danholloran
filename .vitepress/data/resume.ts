@@ -1,12 +1,15 @@
 import type { ResumeInterface } from "@typedefs";
 import skills from "./skills";
 import location from "./location.json";
+import pastLocations from "./past-locations.json";
 
 export const getExperienceLength = () => {
   return new Date().getFullYear() - 2012;
 };
 
 export const CURRENT_LOCATION = `${location.city}, ${location.state}`;
+
+export const PAST_LOCATIONS = Object.freeze([...new Set(pastLocations)]);
 
 export default {
   firstName: "Dan",
