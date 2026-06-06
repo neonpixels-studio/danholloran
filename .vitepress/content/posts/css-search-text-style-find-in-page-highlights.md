@@ -1,10 +1,10 @@
 ---
-date: '2026-06-06T07:08:27.000+00:00'
-tags: ['css', 'web-apis', 'accessibility']
-draft: true
+date: "2026-06-06T07:08:27.000+00:00"
+tags: ["css", "web-apis", "accessibility"]
+draft: false
 title: "CSS ::search-text: Style the Browser's Find-in-Page Highlights"
-image: '/images/posts/css-search-text-style-find-in-page-highlights.jpg'
-topic: 'development'
+image: "/images/posts/css-search-text-style-find-in-page-highlights.jpg"
+topic: "development"
 description: "The new ::search-text pseudo-element lets you style the highlights from Ctrl+F find-in-page, so they finally match your site instead of clashing with it."
 ---
 

@@ -1,10 +1,10 @@
 ---
-date: '2026-06-06T07:08:27.000+00:00'
-tags: ['vue', 'javascript']
-draft: true
+date: "2026-06-06T07:08:27.000+00:00"
+tags: ["vue", "javascript"]
+draft: false
 title: "A Deep Dive into Vue 3's Suspense Component"
-image: '/images/posts/a-deep-dive-into-vue-3s-suspense-component.jpg'
-topic: 'development'
+image: "/images/posts/a-deep-dive-into-vue-3s-suspense-component.jpg"
+topic: "development"
 description: "How Vue's Suspense component coordinates async setup, fallback content, and error handling — and the patterns that keep it from becoming a loading-spinner mess."
 ---
 
@@ -31,8 +31,10 @@ Two kinds of async dependencies trigger the waiting behavior. The first is a com
 
 ```js
 // UserDashboard.vue
-const { data: user } = await useFetch(`/api/users/${route.params.id}`)
-const { data: activity } = await useFetch(`/api/users/${route.params.id}/activity`)
+const { data: user } = await useFetch(`/api/users/${route.params.id}`);
+const { data: activity } = await useFetch(
+  `/api/users/${route.params.id}/activity`,
+);
 ```
 
 The second is async components created with `defineAsyncComponent`, which by default let a parent Suspense boundary control their loading state instead of showing their own.
@@ -44,11 +46,11 @@ The key insight: the component using `await` doesn't know or care about loading 
 Suspense doesn't render an error state itself, so a bare boundary will swallow a rejected promise into the console. Pair it with `onErrorCaptured` in the parent to build a proper error boundary:
 
 ```js
-const error = ref(null)
+const error = ref(null);
 onErrorCaptured((err) => {
-  error.value = err
-  return false // stop the error from propagating further
-})
+  error.value = err;
+  return false; // stop the error from propagating further
+});
 ```
 
 Render the error UI when `error` is set, otherwise render the Suspense block. For finer-grained control, Suspense emits three events — `pending` when it starts waiting, `resolve` when the default slot finishes, and `fallback` when the fallback becomes visible — which are handy for progress bars or analytics timing.

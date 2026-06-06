@@ -1,10 +1,10 @@
 ---
-date: '2026-06-06T07:08:27.000+00:00'
-tags: ['obsidian', 'dataview', 'workflows', 'productivity']
-draft: true
+date: "2026-06-06T07:08:27.000+00:00"
+tags: ["obsidian", "dataview", "workflows", "productivity"]
+draft: false
 title: "Using Dataview for Project Tracking in Obsidian"
-image: '/images/posts/using-dataview-for-project-tracking-in-obsidian.jpg'
-topic: 'obsidian'
+image: "/images/posts/using-dataview-for-project-tracking-in-obsidian.jpg"
+topic: "obsidian"
 description: "Turn your Obsidian vault into a self-updating project tracker with Dataview: frontmatter conventions, a live dashboard, and task queries that never go stale."
 ---
 
