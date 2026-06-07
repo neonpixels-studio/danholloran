@@ -6,6 +6,7 @@ import HomeExperience from "@components/HomeExperience.vue";
 import HomeContact from "@components/HomeContact.vue";
 import HomeBlog from "@components/HomeBlog.vue";
 import HomeInstagram from "@components/HomeInstagram.vue";
+import HomeTravelMap from "@components/HomeTravelMap.vue";
 
 useRevealAnimations();
 </script>
@@ -15,6 +16,7 @@ useRevealAnimations();
   <HomeProjects />
   <HomeExperience />
   <HomeContact />
+  <HomeTravelMap />
   <HomeBlog />
   <HomeInstagram />
 </template>
