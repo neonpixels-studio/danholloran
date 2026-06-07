@@ -194,8 +194,7 @@ watch(isDark, fetchMapDate);
             class="tracking-tightest font-mono leading-none font-bold"
             style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
           >
-            1.5
-            <span class="text-accent ml-0.5 text-[1.1rem]">+</span>
+            1.5<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
           </div>
           <div
             class="text-fg-subtle mt-2.5 font-mono text-[0.6rem] tracking-widest uppercase"
