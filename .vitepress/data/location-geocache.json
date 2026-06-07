@@ -243,10 +243,6 @@
     -90.1933,
     38.6262
   ],
-  "columbia bottom conservation area, missouri": [
-    -92.3286,
-    38.9515
-  ],
   "dillard mill state historic site, missouri": [
     -91.2064,
     37.7383
@@ -255,17 +251,9 @@
     -124.4125,
     43.1185
   ],
-  "grand canyon of the yellowstone, wyoming": [
-    -112.142,
-    36.0541
-  ],
   "ha ha tonka state park, missouri": [
     -94.1969,
     36.9792
-  ],
-  "heceta head lighthouse, oregon": [
-    -122.0309,
-    36.957
   ],
   "kinkaid spillway, illinois": [
     -89.4134,
@@ -275,14 +263,6 @@
     -90.2473,
     38.7154
   ],
-  "looking glass falls, north carolina": [
-    -78.5796,
-    35.9397
-  ],
-  "mina sauk falls, missouri": [
-    -94.9742,
-    39.6326
-  ],
   "minnehaha falls, minneapolis, mn": [
     -93.3945,
     44.9428
@@ -290,10 +270,6 @@
   "mt. rainier, washington": [
     -122.58,
     45.6119
-  ],
-  "natural falls state park, oklahoma": [
-    -97.121,
-    35.7484
   ],
   "neskowin beach, oregon": [
     -123.9829,
@@ -319,10 +295,6 @@
     -90.2398,
     38.5804
   ],
-  "sand harbor beach, lake tahoe, nv": [
-    -82.6515,
-    43.8447
-  ],
   "shoshone falls state park, idaho": [
     -114.4079,
     42.9337
@@ -330,10 +302,6 @@
   "stephen lake park, kansas city, mo": [
     -94.5786,
     39.0985
-  ],
-  "taum sauk mountain state park, missouri": [
-    -94.1969,
-    36.9792
   ],
   "taum sauk mountain, missouri": [
     -90.4823,
@@ -346,5 +314,37 @@
   "whitewater falls, north carolina": [
     -83.0191,
     35.0247
+  ],
+  "columbia bottom conservation area, st. louis, mo": [
+    -90.1984,
+    38.6275
+  ],
+  "grand canyon of the yellowstone yellowstone national park wyoming": [
+    -110.8063,
+    44.549
+  ],
+  "heceta head lighthouse florence oregon": [
+    -124.1012,
+    43.9799
+  ],
+  "looking glass falls brevard north carolina": [
+    -82.7343,
+    35.2337
+  ],
+  "mina sauk falls pilot knob missouri": [
+    -90.6405,
+    37.6211
+  ],
+  "natural falls state park southwest city oklahoma": [
+    -95.3253,
+    36.3083
+  ],
+  "sand harbor beach incline village nevada": [
+    -119.9527,
+    39.2497
+  ],
+  "taum sauk mountain state park ironton missouri": [
+    -90.6276,
+    37.5974
   ]
 }
