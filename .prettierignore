@@ -2,3 +2,4 @@
 .vitepress/cache
 node_modules
 public/images
+.vitepress/data/location-geocache.json
