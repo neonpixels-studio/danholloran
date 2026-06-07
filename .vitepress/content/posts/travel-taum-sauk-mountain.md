@@ -5,7 +5,7 @@ draft: false
 title: "Taum Sauk Mountain"
 image: "/images/posts/travel-taum-sauk-mountain.jpg"
 topic: "travel"
-travel_location: "taum sauk mountain"
+travel_location: "taum sauk mountain, Missouri"
 description: "The highest point in Missouri at 1,772 feet, reached by an easy paved trail through the ancient St. Francois Mountains."
 ---
 

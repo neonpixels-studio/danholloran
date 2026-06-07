@@ -5,7 +5,7 @@ draft: false
 title: "City Garden Downtown Stl"
 image: "/images/posts/travel-city-garden-downtown-stl.jpg"
 topic: "travel"
-travel_location: "city garden downtown stl"
+travel_location: "city garden downtown stl, St. Louis, MO"
 description: "A free, two-block sculpture park in the heart of downtown St. Louis with 24 international artists, 102 water jets, and a remarkably welcoming vibe."
 ---
 

@@ -5,7 +5,7 @@ draft: false
 title: "Shoshone Falls"
 image: "/images/posts/travel-shoshone-falls-state-park.jpg"
 topic: "travel"
-travel_location: "shoshone falls state park"
+travel_location: "shoshone falls state park, Idaho"
 description: "Idaho's Niagara — a 212-foot waterfall on the Snake River that's wider than Niagara Falls, hidden in plain sight in the middle of southern Idaho's high desert."
 ---
 

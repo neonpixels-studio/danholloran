@@ -5,7 +5,7 @@ draft: false
 title: "Heceta Head Lighthouse"
 image: "/images/posts/travel-heceta-head-lighthouse.jpg"
 topic: "travel"
-travel_location: "heceta head lighthouse"
+travel_location: "heceta head lighthouse, Oregon"
 description: "The most photographed lighthouse on the West Coast, built in 1894 above the Oregon Coast with a First Order Fresnel lens visible 21 miles at sea."
 ---
 

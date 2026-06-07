@@ -5,7 +5,7 @@ draft: false
 title: "Missouri's Pink Granite Secret: Castor River Shut-Ins"
 image: "/images/posts/travel-castor-river-shut-ins.jpg"
 topic: "travel"
-travel_location: "castor river shut ins"
+travel_location: "castor river shut ins, Missouri"
 description: "The Castor River Shut-Ins near Fredericktown, Missouri are one of the Midwest's best-kept secrets — a swirling landscape of pink granite boulders, clear water channels, and natural swimming holes tucked deep in the Ozarks."
 ---
 

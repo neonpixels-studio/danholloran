@@ -5,7 +5,7 @@ draft: false
 title: "Rocky Falls"
 image: "/images/posts/travel-rocky-falls.jpg"
 topic: "travel"
-travel_location: "rocky falls"
+travel_location: "rocky falls, Missouri"
 description: "An Ozark shut-in where Rocky Creek cascades 40 feet over billion-year-old rhyolite — one of Missouri's best natural swimming holes and an Ozark Trail trailhead."
 ---
 

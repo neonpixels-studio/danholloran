@@ -5,7 +5,7 @@ draft: false
 title: "Saint Louis Zoo"
 image: "/images/posts/travel-saint-louis-zoo.jpg"
 topic: "travel"
-travel_location: "saint louis zoo"
+travel_location: "saint louis zoo, St. Louis, MO"
 description: "One of the top zoos in the country — completely free, in the middle of Forest Park, with over 14,000 animals across 90 acres."
 ---
 

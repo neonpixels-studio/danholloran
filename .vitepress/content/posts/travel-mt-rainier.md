@@ -5,7 +5,7 @@ draft: false
 title: "Mt. Rainier"
 image: "/images/posts/travel-mt-rainier.jpg"
 topic: "travel"
-travel_location: "mt. rainier"
+travel_location: "mt. rainier, Washington"
 description: "An active stratovolcano at 14,410 feet dominating western Washington — glaciers, wildflower meadows at Paradise, and views that make the rest of the range look small."
 ---
 

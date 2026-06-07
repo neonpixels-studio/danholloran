@@ -5,7 +5,7 @@ draft: false
 title: "Neskowin Beach"
 image: "/images/posts/travel-neskowin-beach.jpg"
 topic: "travel"
-travel_location: "neskowin beach"
+travel_location: "neskowin beach, Oregon"
 description: "A quiet Oregon Coast town with a 2,000-year-old ghost forest of buried sitka spruce stumps emerging from the surf at low tide."
 ---
 

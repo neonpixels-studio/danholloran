@@ -5,7 +5,7 @@ draft: false
 title: "Parkville Parks & Recreation"
 image: "/images/posts/travel-parkville-parks-recreation.jpg"
 topic: "travel"
-travel_location: "parkville parks & recreation"
+travel_location: "parkville parks & recreation, Missouri"
 description: "A charming historic town on the Missouri River with riverfront parks, a nature sanctuary, and a downtown that actually delivers on its small-town character promise."
 ---
 

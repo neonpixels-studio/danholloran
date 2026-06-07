@@ -5,7 +5,7 @@ draft: false
 title: "Arcadia beach, Oregon"
 image: "/images/posts/travel-arcadia-beach-oregon.jpg"
 topic: "travel"
-travel_location: "arcadia beach, oregon"
+travel_location: "arcadia beach, Cannon Beach, Oregon"
 description: "A small, quiet Oregon Coast beach between Cannon Beach and Hug Point, with tide pools, sea stacks, and a forested headland that most visitors drive past."
 ---
 

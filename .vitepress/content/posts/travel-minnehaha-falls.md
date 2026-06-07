@@ -5,7 +5,7 @@ draft: false
 title: "Minnehaha Falls"
 image: "/images/posts/travel-minnehaha-falls.jpg"
 topic: "travel"
-travel_location: "minnehaha falls"
+travel_location: "minnehaha falls, Minneapolis, MN"
 description: "A 53-foot waterfall tucked inside a park in the middle of Minneapolis — an unexpected natural landmark in an urban setting, with a creek gorge trail that makes you forget you're in a city."
 ---
 

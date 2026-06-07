@@ -5,7 +5,7 @@ draft: false
 title: "Bee Tree County Park"
 image: "/images/posts/travel-bee-tree-county-park.jpg"
 topic: "travel"
-travel_location: "bee tree county park"
+travel_location: "bee tree county park, St. Louis, MO"
 description: "A quiet 199-acre county park on the Mississippi bluffs where wildflowers bloom in spring and great blue herons stalk the shallows."
 ---
 

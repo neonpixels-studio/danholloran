@@ -5,7 +5,7 @@ draft: false
 title: "Face Rock State Scenic Viewpoint"
 image: "/images/posts/travel-face-rock-state-scenic-viewpoint.jpg"
 topic: "travel"
-travel_location: "face rock state scenic viewpoint"
+travel_location: "face rock state scenic viewpoint, Bandon, Oregon"
 description: "A Bandon, Oregon headland with a Native American legend, dramatic sea stacks named Cat and Kitten Rocks, and a stairway trail down to a wild stretch of protected beach."
 ---
 

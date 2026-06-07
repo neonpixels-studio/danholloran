@@ -5,7 +5,7 @@ draft: false
 title: "Kinkaid Spillway"
 image: "/images/posts/travel-kinkaid-spillway.jpg"
 topic: "travel"
-travel_location: "kinkaid spillway"
+travel_location: "kinkaid spillway, Illinois"
 description: "A Shawnee National Forest spillway in southern Illinois where river otters, beavers, and pileated woodpeckers appear with surprising regularity."
 ---
 

@@ -5,7 +5,7 @@ draft: false
 title: "The Blue Ridge Parkway: America's Best Road"
 image: "/images/posts/travel-blue-ridge-parkway.jpg"
 topic: "travel"
-travel_location: "blue ridge parkway"
+travel_location: "blue ridge parkway, Virginia"
 description: "The Blue Ridge Parkway runs 469 miles through the Appalachians from Virginia to North Carolina, with no stoplights, no trucks, and an overlook every 1.7 miles — one of the country's most celebrated scenic drives."
 ---
 

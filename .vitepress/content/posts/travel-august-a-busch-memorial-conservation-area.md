@@ -6,7 +6,7 @@ draft: false
 title: "August A. Busch Memorial Conservation Area"
 image: "/images/posts/travel-august-a-busch-memorial-conservation-area.jpg"
 topic: "travel"
-travel_location: "august a. busch memorial conservation area"
+travel_location: "august a. busch memorial conservation area, Missouri"
 description: "Nearly 7,000 acres of St. Charles County habitat with 32 fishing lakes, diverse wildlife, and a history tied to the Anheuser-Busch family and Missouri conservation."
 ---
 

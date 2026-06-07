@@ -5,7 +5,7 @@ draft: false
 title: "Toketee Falls"
 image: "/images/posts/travel-toketee-falls.jpg"
 topic: "travel"
-travel_location: "toketee falls"
+travel_location: "toketee falls, Oregon"
 description: "A two-tiered 113-foot waterfall framed by perfect columnar basalt in Oregon's Umpqua National Forest — one of the most photographed waterfalls in the Pacific Northwest."
 ---
 

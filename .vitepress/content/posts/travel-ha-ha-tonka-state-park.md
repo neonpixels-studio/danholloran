@@ -5,7 +5,7 @@ draft: false
 title: "Ha Ha Tonka State Park"
 image: "/images/posts/travel-ha-ha-tonka-state-park.jpg"
 topic: "travel"
-travel_location: "ha ha tonka state park"
+travel_location: "ha ha tonka state park, Missouri"
 description: "Castle ruins, a massive spring, a natural bridge, and karst topography that makes every trail a small geological revelation — Ha Ha Tonka earns its reputation."
 ---
 

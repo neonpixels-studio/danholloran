@@ -5,7 +5,7 @@ draft: false
 title: "Bass Pro Shops at the Pyramid"
 image: "/images/posts/travel-bass-pro-shops-at-the-pyramid.jpg"
 topic: "travel"
-travel_location: "bass pro shops at the pyramid"
+travel_location: "bass pro shops at the pyramid, Memphis, TN"
 description: "A 32-story steel pyramid on the Memphis riverfront that now holds a Bass Pro megastore, a cypress swamp, a bowling alley, live alligators, and a hotel inside the apex."
 ---
 

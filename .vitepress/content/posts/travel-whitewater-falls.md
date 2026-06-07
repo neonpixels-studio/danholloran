@@ -5,7 +5,7 @@ draft: false
 title: "Whitewater Falls"
 image: "/images/posts/travel-whitewater-falls.jpg"
 topic: "travel"
-travel_location: "whitewater falls"
+travel_location: "whitewater falls, North Carolina"
 description: "The highest waterfall east of the Rockies at up to 411 feet, plunging through Nantahala National Forest on the NC-SC border."
 ---
 

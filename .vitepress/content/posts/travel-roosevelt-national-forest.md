@@ -5,7 +5,7 @@ draft: false
 title: "Roosevelt National Forest"
 image: "/images/posts/travel-roosevelt-national-forest.jpg"
 topic: "travel"
-travel_location: "roosevelt national forest"
+travel_location: "roosevelt national forest, Colorado"
 description: "1.5 million acres of north-central Colorado mountains, wilderness areas, and alpine trails — one of the most-visited national forests in the country."
 ---
 

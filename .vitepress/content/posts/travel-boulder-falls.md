@@ -5,7 +5,7 @@ draft: false
 title: "Boulder Falls"
 image: "/images/posts/travel-boulder-falls.jpg"
 topic: "travel"
-travel_location: "boulder falls"
+travel_location: "boulder falls, Colorado"
 description: "A 70-foot waterfall in Boulder Canyon just 11 miles from Boulder — a 100-yard walk to something genuinely dramatic tucked into the canyon walls."
 ---
 

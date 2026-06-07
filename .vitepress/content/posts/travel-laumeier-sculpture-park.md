@@ -5,7 +5,7 @@ draft: false
 title: "Laumeier Sculpture Park"
 image: "/images/posts/travel-laumeier-sculpture-park.jpg"
 topic: "travel"
-travel_location: "laumeier sculpture park"
+travel_location: "laumeier sculpture park, St. Louis, MO"
 description: "A 105-acre open-air museum where giant sculptures live among the trees — Laumeier is one of St. Louis's best-kept secrets."
 ---
 
