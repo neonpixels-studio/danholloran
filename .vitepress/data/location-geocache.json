@@ -1,0 +1,350 @@
+{
+  "st. louis, mo": [
+    -90.1984,
+    38.6275
+  ],
+  "reno, nv": [
+    -119.8129,
+    39.5258
+  ],
+  "eugene, or": [
+    -123.0917,
+    44.0511
+  ],
+  "sacramento, ca": [
+    -121.4939,
+    38.581
+  ],
+  "las vegas, nv": [
+    -115.1406,
+    36.1692
+  ],
+  "abandoned castle - ha ha tonka": [
+    -92.7535,
+    37.9934
+  ],
+  "alley spring, missouri": [
+    -91.4439,
+    37.1443
+  ],
+  "arcadia beach, oregon": [
+    -116.985,
+    43.9236
+  ],
+  "arches national park": [
+    -109.6179,
+    38.6165
+  ],
+  "august a. busch memorial conservation area": [
+    10.897,
+    48.368
+  ],
+  "bass pro shops at the pyramid": [
+    14.9901,
+    47.3707
+  ],
+  "bee tree county park": [
+    -76.6585,
+    39.6899
+  ],
+  "black canyon of the gunnison national park": [
+    -107.7412,
+    38.5627
+  ],
+  "blue ridge parkway": [
+    -83.5138,
+    42.6202
+  ],
+  "bonneville salt flats, utah": [
+    -111.8279,
+    40.7396
+  ],
+  "boulder falls": [
+    -89.9417,
+    44.9661
+  ],
+  "bryce canyon national park": [
+    -112.1664,
+    37.63
+  ],
+  "canyonlands national park": [
+    -109.8205,
+    38.4592
+  ],
+  "castor river shut ins": [
+    12.095,
+    49.0202
+  ],
+  "chain of rocks bridge": [
+    -90.1803,
+    38.7661
+  ],
+  "city garden downtown stl": [
+    -99.5105,
+    27.5218
+  ],
+  "columbia bottom conservation area": [
+    -74.6634,
+    5.4751
+  ],
+  "crater lake national park": [
+    -122.1345,
+    42.8954
+  ],
+  "creve coeur lake memorial park": [
+    -90.4433,
+    38.6625
+  ],
+  "diamond lake, oregon": [
+    -121.6157,
+    43.1638
+  ],
+  "dillard mill state historic site": [
+    -86.7847,
+    35.5867
+  ],
+  "downtown st. louis": [
+    -90.1933,
+    38.6262
+  ],
+  "face rock state scenic viewpoint": [
+    -97.0066,
+    37.4408
+  ],
+  "glacier national park": [
+    -113.9829,
+    48.4995
+  ],
+  "grand canyon of the yellowstone": [
+    -112.142,
+    36.0541
+  ],
+  "grand falls plaza, missouri": [
+    -94.5407,
+    37.0343
+  ],
+  "grand teton national park": [
+    -110.6278,
+    43.6216
+  ],
+  "grand waterfall, joplin, missouri": [
+    -94.5134,
+    37.0855
+  ],
+  "great basin national park": [
+    -114.2175,
+    39.0034
+  ],
+  "ha ha tonka state park": [
+    -80.9402,
+    34.1163
+  ],
+  "hay stack rock cannon beach, oregon": [
+    -123.9609,
+    45.8983
+  ],
+  "heceta beach, oregon": [
+    -124.1318,
+    44.0333
+  ],
+  "heceta head lighthouse": [
+    151.2793,
+    -33.8382
+  ],
+  "hooker falls": [
+    -82.624,
+    35.2025
+  ],
+  "horseshoe lake": [
+    -78.6933,
+    44.9963
+  ],
+  "horsetail falls, columbia river gorge, oregon": [
+    -122.4042,
+    45.5258
+  ],
+  "hot springs national park": [
+    -93.054,
+    34.5108
+  ],
+  "inspiration point park": [
+    -110.4729,
+    44.7296
+  ],
+  "kinkaid spillway": [
+    120.7284,
+    15.0734
+  ],
+  "las vegas, nevada": [
+    -115.1406,
+    36.1692
+  ],
+  "las vegas strip": [
+    -115.1407,
+    36.1693
+  ],
+  "laumeier sculpture park": [
+    13.9896,
+    53.5032
+  ],
+  "line creek trail": [
+    -94.6182,
+    39.2178
+  ],
+  "little missouri falls recreation area": [
+    -94.9742,
+    39.6326
+  ],
+  "lon sanders canyon conservation area": [
+    -116.4144,
+    47.5727
+  ],
+  "lone elk county park": [
+    -90.5385,
+    38.5348
+  ],
+  "looking glass falls": [
+    -81.3398,
+    28.3712
+  ],
+  "mina sauk falls": [
+    -77.1711,
+    38.8823
+  ],
+  "minnehaha falls": [
+    -83.8157,
+    34.1178
+  ],
+  "mississippi river overlook": [
+    -88.4807,
+    34.0609
+  ],
+  "mt. rainier": [
+    -76.9606,
+    38.9366
+  ],
+  "multnomah falls - columbia river gorge, oregon": [
+    -122.6784,
+    45.5152
+  ],
+  "natural falls state park": [
+    -80.9402,
+    34.1163
+  ],
+  "neskowin beach": [
+    9.3238,
+    49.5219
+  ],
+  "niagara falls": [
+    -79.063,
+    43.0858
+  ],
+  "old chain of rocks bridge, mississippi river": [
+    -89.4066,
+    37.367
+  ],
+  "parkville parks & recreation": [
+    -87.0847,
+    39.8169
+  ],
+  "pinnacles national park": [
+    -121.3904,
+    36.852
+  ],
+  "red rocks park and amphitheatre": [
+    150.5217,
+    -34.7697
+  ],
+  "redwoods national park": [
+    -124.1412,
+    41.8017
+  ],
+  "rocky falls": [
+    152.4624,
+    -31.4348
+  ],
+  "roosevelt national forest": [
+    -97.2921,
+    37.6971
+  ],
+  "saint louis zoo": [
+    -44.2087,
+    -2.4821
+  ],
+  "salt creek falls": [
+    -122.1188,
+    43.6101
+  ],
+  "sand harbor beach": [
+    -98.4331,
+    30.5631
+  ],
+  "scenic overlook, mount rose hwy": [
+    -119.749,
+    39.4016
+  ],
+  "shoshone falls state park": [
+    -80.9402,
+    34.1163
+  ],
+  "st. louis aquarium at union station": [
+    -90.1984,
+    38.6275
+  ],
+  "st. louis arch": [
+    -90.2318,
+    38.7731
+  ],
+  "st. louis, missouri": [
+    -90.1984,
+    38.6275
+  ],
+  "st. louis riverfront arch": [
+    -90.2191,
+    38.6996
+  ],
+  "st mary's glacier": [
+    -105.646,
+    39.8353
+  ],
+  "stephen lake park , amphitheatre": [
+    -80.0647,
+    26.7986
+  ],
+  "taum sauk mountain state park": [
+    -96.3225,
+    48.5019
+  ],
+  "taum sauk mountain": [
+    -89.852,
+    43.5062
+  ],
+  "the gateway arch st. louis": [
+    -90.1984,
+    38.6275
+  ],
+  "toketee falls": [
+    -5.9802,
+    54.5802
+  ],
+  "triple falls productions": [
+    -77.5582,
+    38.762
+  ],
+  "tryst falls park": [
+    -76.6673,
+    39.6203
+  ],
+  "whitewater falls": [
+    -81.3405,
+    28.3705
+  ],
+  "wind point lighthouse": [
+    -87.7688,
+    42.7744
+  ],
+  "zion national park": [
+    -112.9834,
+    37.2061
+  ]
+}
