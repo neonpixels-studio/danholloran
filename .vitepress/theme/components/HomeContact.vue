@@ -44,26 +44,17 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <section
-    id="contact"
-    class="border-line border-t px-8 py-20"
-    data-om-id="3084acb1:238"
-  >
-    <div class="mx-auto max-w-275" data-om-id="3084acb1:239">
-      <div class="accent-line in mb-6" data-om-id="3084acb1:240"></div>
+  <section id="contact" class="border-line border-t px-8 py-20">
+    <div class="mx-auto max-w-275">
+      <div class="accent-line in mb-6"></div>
       <div
         class="grid grid-cols-[320px_1fr] items-start gap-16 max-lg:grid-cols-1 max-lg:gap-10"
-        data-om-id="3084acb1:241"
       >
-        <div class="reveal-left in" data-om-id="3084acb1:242">
+        <div class="reveal-left in">
           <div
             class="text-fg-subtle mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-widest uppercase"
-            data-om-id="3084acb1:243"
           >
-            <span
-              class="bg-accent inline-block h-px w-6"
-              data-om-id="3084acb1:244"
-            ></span>
+            <span class="bg-accent inline-block h-px w-6"></span>
             say hello
           </div>
           <h2
@@ -72,39 +63,28 @@ async function handleSubmit() {
               font-size: clamp(1.6rem, 3vw, 2.2rem);
               letter-spacing: var(--tracking-tightest);
             "
-            data-om-id="3084acb1:245"
           >
-            Get in<br data-om-id="3084acb1:246" />Touch
+            Get in<br />Touch
           </h2>
-          <p
-            class="text-fg-muted mb-6 font-mono text-[0.78rem] leading-[1.7]"
-            data-om-id="3084acb1:247"
-          >
+          <p class="text-fg-muted mb-6 font-mono text-[0.78rem] leading-[1.7]">
             Have a project, a question, or just want to swap notes on Vue,
             photography, or travel? Drop a message — I read everything.
           </p>
-          <div
-            class="text-fg-subtle font-mono text-[0.7rem] leading-[1.85]"
-            data-om-id="3084acb1:248"
-          >
-            <div data-om-id="3084acb1:249">
-              <span class="text-fg-subtle" data-om-id="3084acb1:250">↳</span>
+          <div class="text-fg-subtle font-mono text-[0.7rem] leading-[1.85]">
+            <div>
+              <span class="text-fg-subtle">↳</span>
               avg. response ·
-              <span class="text-fg" data-om-id="3084acb1:251">24–48h</span>
+              <span class="text-fg">24–48h</span>
             </div>
-            <div data-om-id="3084acb1:252">
-              <span class="text-fg-subtle" data-om-id="3084acb1:253">↳</span>
+            <div>
+              <span class="text-fg-subtle">↳</span>
               currently in ·
-              <span class="text-fg" data-om-id="3084acb1:254">{{
-                CURRENT_LOCATION
-              }}</span>
+              <span class="text-fg">{{ CURRENT_LOCATION }}</span>
             </div>
-            <div data-om-id="3084acb1:255">
-              <span class="text-fg-subtle" data-om-id="3084acb1:256">↳</span>
+            <div>
+              <span class="text-fg-subtle">↳</span>
               open to ·
-              <span class="text-fg" data-om-id="3084acb1:257"
-                >full-time, contract</span
-              >
+              <span class="text-fg">full-time, contract</span>
             </div>
           </div>
         </div>
@@ -115,21 +95,16 @@ async function handleSubmit() {
           data-netlify="true"
           class="reveal-right stagger in flex flex-col gap-5"
           novalidate
-          data-om-id="3084acb1:258"
           @submit.prevent="handleSubmit"
         >
           <input type="hidden" name="form-name" value="contact_form" />
-          <div
-            class="grid grid-cols-2 gap-5 max-sm:grid-cols-1"
-            data-om-id="3084acb1:259"
-          >
-            <label class="flex flex-col gap-2" data-om-id="3084acb1:260">
+          <div class="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
+            <label class="flex flex-col gap-2">
               <span
                 class="text-fg-subtle flex items-center justify-between font-mono text-[0.62rem] tracking-widest uppercase"
-                data-om-id="3084acb1:261"
               >
-                <span data-om-id="3084acb1:262">01 / Name</span>
-                <span class="text-accent" data-om-id="3084acb1:263">*</span>
+                <span>01 / Name</span>
+                <span class="text-accent">*</span>
               </span>
               <input
                 v-model="formName"
@@ -139,16 +114,14 @@ async function handleSubmit() {
                 autocomplete="name"
                 placeholder="Your full name"
                 class="contact-input text-fg border-line placeholder:text-fg-subtle focus:border-accent border-0 border-b bg-transparent px-0 py-2.5 font-mono text-[0.9rem] transition-colors duration-200 outline-none placeholder:font-mono"
-                data-om-id="3084acb1:264"
               />
             </label>
-            <label class="flex flex-col gap-2" data-om-id="3084acb1:265">
+            <label class="flex flex-col gap-2">
               <span
                 class="text-fg-subtle flex items-center justify-between font-mono text-[0.62rem] tracking-widest uppercase"
-                data-om-id="3084acb1:266"
               >
-                <span data-om-id="3084acb1:267">02 / Email</span>
-                <span class="text-accent" data-om-id="3084acb1:268">*</span>
+                <span>02 / Email</span>
+                <span class="text-accent">*</span>
               </span>
               <input
                 v-model="formEmail"
@@ -158,17 +131,15 @@ async function handleSubmit() {
                 autocomplete="email"
                 placeholder="you@domain.com"
                 class="contact-input text-fg border-line placeholder:text-fg-subtle focus:border-accent border-0 border-b bg-transparent px-0 py-2.5 font-mono text-[0.9rem] transition-colors duration-200 outline-none placeholder:font-mono"
-                data-om-id="3084acb1:269"
               />
             </label>
           </div>
-          <label class="flex flex-col gap-2" data-om-id="3084acb1:270">
+          <label class="flex flex-col gap-2">
             <span
               class="text-fg-subtle flex items-center justify-between font-mono text-[0.62rem] tracking-widest uppercase"
-              data-om-id="3084acb1:271"
             >
-              <span data-om-id="3084acb1:272">03 / Message</span>
-              <span class="text-accent" data-om-id="3084acb1:273">*</span>
+              <span>03 / Message</span>
+              <span class="text-accent">*</span>
             </span>
             <textarea
               v-model="formMessage"
@@ -179,15 +150,11 @@ async function handleSubmit() {
               class="contact-input text-fg border-line placeholder:text-fg-subtle focus:border-accent resize-y border-0 border-b bg-transparent px-0 py-2.5 font-mono text-[0.9rem] leading-[1.65] transition-colors duration-200 outline-none placeholder:font-mono"
             ></textarea>
           </label>
-          <div
-            class="flex flex-wrap items-center justify-between gap-4 pt-2"
-            data-om-id="3084acb1:274"
-          >
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
             <div
               id="contactStatus"
               class="text-fg-subtle min-h-[1em] font-mono text-[0.65rem] tracking-[0.02em]"
               aria-live="polite"
-              data-om-id="3084acb1:275"
               :class="{
                 'text-red-500': formError,
                 'text-green-500': !formError,
@@ -199,16 +166,14 @@ async function handleSubmit() {
               type="submit"
               :disabled="formSubmitting"
               class="btn-base bg-accent border-accent hover:bg-accent-hover hover:border-accent-hover inline-flex items-center gap-2 border-2 text-white hover:-translate-y-px disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
-              data-om-id="3084acb1:276"
             >
-              <span data-om-id="3084acb1:277">send message</span>
+              <span>send message</span>
               <svg
                 width="12"
                 height="12"
                 viewBox="0 0 12 12"
                 fill="none"
                 aria-hidden="true"
-                data-om-id="3084acb1:278"
               >
                 <path
                   d="M2 6H10M10 6L6.5 2.5M10 6L6.5 9.5"
@@ -216,7 +181,6 @@ async function handleSubmit() {
                   stroke-width="1.4"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  data-om-id="3084acb1:279"
                 ></path>
               </svg>
             </button>
