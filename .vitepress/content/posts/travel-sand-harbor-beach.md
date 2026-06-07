@@ -5,7 +5,7 @@ draft: false
 title: "Sand Harbor Beach, Lake Tahoe"
 image: "/images/posts/travel-sand-harbor-beach.jpg"
 topic: "travel"
-travel_location: "sand harbor beach, Lake Tahoe, NV"
+travel_location: "sand harbor beach incline village nevada"
 description: "On the Nevada side of Lake Tahoe, Sand Harbor is a boulder-strewn beach with water so clear you can see the bottom at 20 feet — the kind of lake view that makes you question every other lake you've ever seen."
 ---
 

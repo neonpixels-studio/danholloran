@@ -5,7 +5,7 @@ draft: false
 title: "Natural Falls State Park"
 image: "/images/posts/travel-natural-falls-state-park.jpg"
 topic: "travel"
-travel_location: "natural falls state park, Oklahoma"
+travel_location: "natural falls state park southwest city oklahoma"
 description: "A 77-foot waterfall in the Oklahoma Ozarks, filming location for Where the Red Fern Grows, with lamp posts from the 1920s still lining the trail."
 ---
 

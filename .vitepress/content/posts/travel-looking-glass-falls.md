@@ -5,7 +5,7 @@ draft: false
 title: "Looking Glass Falls"
 image: "/images/posts/travel-looking-glass-falls.jpg"
 topic: "travel"
-travel_location: "looking glass falls, North Carolina"
+travel_location: "looking glass falls brevard north carolina"
 description: "A 60-foot roadside waterfall in Pisgah National Forest near Brevard, NC — most accessible and most beautiful, no hike required."
 ---
 

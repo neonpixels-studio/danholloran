@@ -5,7 +5,7 @@ draft: false
 title: "Columbia Bottom Conservation Area"
 image: "/images/posts/travel-columbia-bottom-conservation-area.jpg"
 topic: "travel"
-travel_location: "columbia bottom conservation area, Missouri"
+travel_location: "columbia bottom conservation area, st. louis, mo"
 description: "Where the Missouri meets the Mississippi — a 4,000-acre conservation area at one of North America's great river confluences, with 285 bird species recorded."
 ---
 

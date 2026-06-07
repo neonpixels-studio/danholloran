@@ -5,7 +5,7 @@ draft: false
 title: "Taum Sauk Mountain State Park"
 image: "/images/posts/travel-taum-sauk-mountain-state-park.jpg"
 topic: "travel"
-travel_location: "taum sauk mountain state park, Missouri"
+travel_location: "taum sauk mountain state park ironton missouri"
 description: "Missouri's highest point wrapped in 7,448 acres of Ozark wilderness — ancient volcanic rock, a reservoir, and the trail to Mina Sauk Falls."
 ---
 

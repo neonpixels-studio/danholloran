@@ -6,7 +6,7 @@ draft: false
 title: "Grand Canyon of the Yellowstone"
 image: "/images/posts/travel-grand-canyon-of-the-yellowstone.jpg"
 topic: "travel"
-travel_location: "grand canyon of the yellowstone, Wyoming"
+travel_location: "grand canyon of the yellowstone yellowstone national park wyoming"
 description: "A 20-mile canyon of hydrothermally altered rock in brilliant yellows, oranges, and reds, with the 308-foot Lower Falls of the Yellowstone River at its head."
 ---
 
