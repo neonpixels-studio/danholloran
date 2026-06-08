@@ -1,10 +1,10 @@
 ---
-date: '2026-06-08T07:09:08.000+00:00'
-tags: ['css', 'javascript', 'accessibility']
-draft: true
+date: "2026-06-08T07:09:08.000+00:00"
+tags: ["css", "javascript", "accessibility"]
+draft: false
 title: "CSS if(): Inline Conditionals for Smarter Styling"
-image: '/images/posts/css-if-function-inline-conditionals.jpg'
-topic: 'development'
+image: "/images/posts/css-if-function-inline-conditionals.jpg"
+topic: "development"
 description: "CSS finally has native conditional logic with the new if() function — write style queries, media checks, and feature detection directly inside property declarations without extra selectors or JavaScript."
 ---
 
@@ -30,10 +30,7 @@ You can chain them with `else`:
 
 ```css
 button {
-  padding: if(
-    media(width >= 1024px): 0.5rem 1.5rem;
-    else: 0.75rem 1.25rem
-  );
+  padding: if(media(width >= 1024px): 0.5rem 1.5rem; else: 0.75rem 1.25rem);
 }
 ```
 
@@ -63,9 +60,8 @@ Custom properties are often used to carry design tokens — theme flags, compone
   --status: pending;
 
   background: if(
-    style(--status: complete): #22c55e;
-    style(--status: error): #ef4444;
-    else: #f59e0b
+    style(--status: complete): #22c55e; style(--status: error): #ef4444;
+      else: #f59e0b
   );
   color: if(style(--status: complete): #fff; else: #111);
 }
@@ -80,8 +76,8 @@ Feature detection used to require `@supports` wrapper blocks that mirror your re
 ```css
 .hero {
   background-color: if(
-    supports(color: oklch(0.7 0.2 180)): oklch(0.7 0.2 180);
-    else: hsl(180deg 40% 55%)
+    supports(color: oklch(0.7 0.2 180)): oklch(0.7 0.2 180) ;
+      else: hsl(180deg 40% 55%)
   );
 }
 ```
