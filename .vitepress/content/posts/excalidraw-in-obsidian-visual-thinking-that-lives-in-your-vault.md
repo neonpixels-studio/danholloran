@@ -1,10 +1,10 @@
 ---
-date: '2026-06-09T07:08:25.000+00:00'
-tags: ['obsidian', 'pkm', 'plugins', 'note-taking', 'excalidraw']
-draft: true
+date: "2026-06-09T07:08:25.000+00:00"
+tags: ["obsidian", "pkm", "plugins", "note-taking", "excalidraw"]
+draft: false
 title: "Excalidraw in Obsidian: Visual Thinking That Lives in Your Vault"
-image: '/images/posts/excalidraw-in-obsidian-visual-thinking-that-lives-in-your-vault.jpg'
-topic: 'obsidian'
+image: "/images/posts/excalidraw-in-obsidian-visual-thinking-that-lives-in-your-vault.jpg"
+topic: "obsidian"
 description: "A practical guide to the Excalidraw Community plugin for Obsidian — how to embed visual diagrams in your vault, link drawings to notes, and build a visual thinking workflow that actually integrates with your PKM."
 ---
 
@@ -32,7 +32,7 @@ The feature that pushes Excalidraw from "nice drawing tool" to genuine PKM power
 
 Select a shape, then use the link icon in the toolbar (or press `Ctrl/Cmd + K`) and type the name of any note in your vault. That shape becomes a clickable gateway into the note. Build a concept map where each node is a real note, and suddenly your diagram isn't decorative — it's navigable.
 
-Going the other direction, you can embed entire notes *inside* a drawing as **embeddables**. Drag a `.md` file from your vault onto the canvas and it appears as a live, scrollable note preview. This is especially powerful for project overviews or book-on-a-page summaries: pull in several atomic notes, arrange them spatially, and see relationships that linear prose can't express.
+Going the other direction, you can embed entire notes _inside_ a drawing as **embeddables**. Drag a `.md` file from your vault onto the canvas and it appears as a live, scrollable note preview. This is especially powerful for project overviews or book-on-a-page summaries: pull in several atomic notes, arrange them spatially, and see relationships that linear prose can't express.
 
 Obsidian's graph view picks up these links too. Your visual maps stay wired into the rest of the vault's link graph, so connections you draw on a canvas show up as real connections in the graph.
 
@@ -40,7 +40,7 @@ Obsidian's graph view picks up these links too. Your visual maps stay wired into
 
 Excalidraw is the right tool for system diagrams, architecture sketches, and flows; mind maps where nodes link out to individual notes; rough UI wireframes during planning; and sketchnotes from talks or books where the hand-drawn aesthetic is part of the appeal.
 
-It's less suited for polished exports. If you need a clean, publication-ready diagram, a dedicated tool like Figma or even Obsidian's built-in Mermaid support might serve you better. On mobile, the plugin works, but drawing with a finger is awkward — a stylus changes the equation considerably. And if your goal is primarily connecting lots of *existing* notes rather than drawing new content, Obsidian's native Canvas might be a better starting point.
+It's less suited for polished exports. If you need a clean, publication-ready diagram, a dedicated tool like Figma or even Obsidian's built-in Mermaid support might serve you better. On mobile, the plugin works, but drawing with a finger is awkward — a stylus changes the equation considerably. And if your goal is primarily connecting lots of _existing_ notes rather than drawing new content, Obsidian's native Canvas might be a better starting point.
 
 ## A Practical Workflow
 
