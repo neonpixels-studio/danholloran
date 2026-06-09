@@ -1,14 +1,14 @@
 ---
-date: '2026-06-09T07:09:53.000+00:00'
-tags: ['obsidian', 'pkm', 'productivity', 'knowledge-management', 'para-method']
-draft: true
+date: "2026-06-09T07:09:53.000+00:00"
+tags: ["obsidian", "pkm", "productivity", "knowledge-management", "para-method"]
+draft: false
 title: "The PARA Method in Obsidian: A Practical Guide to Organizing Your Vault"
-image: '/images/posts/the-para-method-in-obsidian-a-practical-guide.jpg'
-topic: 'obsidian'
+image: "/images/posts/the-para-method-in-obsidian-a-practical-guide.jpg"
+topic: "obsidian"
 description: "Learn how to implement the PARA method in Obsidian to organize your vault by actionability — Projects, Areas, Resources, and Archives — and finally stop losing track of what matters."
 ---
 
-If you've ever opened Obsidian, stared at a growing pile of notes, and wondered where anything actually goes, you're not alone. Most people start with good intentions — maybe a folder for "Work", one for "Personal", one for "Ideas" — and end up with a chaotic mess within a month. The PARA method offers a different approach: organize by what you're going to *do* with information, not by what it *is*.
+If you've ever opened Obsidian, stared at a growing pile of notes, and wondered where anything actually goes, you're not alone. Most people start with good intentions — maybe a folder for "Work", one for "Personal", one for "Ideas" — and end up with a chaotic mess within a month. The PARA method offers a different approach: organize by what you're going to _do_ with information, not by what it _is_.
 
 Developed by Tiago Forte as part of his Building a Second Brain framework, PARA gives you four top-level buckets that cover every piece of information you'll ever capture.
 
@@ -22,7 +22,7 @@ Developed by Tiago Forte as part of his Building a Second Brain framework, PARA 
 
 **Archives** is the inactive pile. Completed projects, old areas that no longer apply, resources you've outgrown. Critically, you don't delete things — you archive them. They stay searchable; they just stop cluttering your active folders.
 
-The four categories are intentionally ranked by actionability. Projects are most actionable (you need them *now*), Archives are least (you need them *occasionally*). When you're deciding where a note goes, ask: "Is this connected to something I'm actively working on?"
+The four categories are intentionally ranked by actionability. Projects are most actionable (you need them _now_), Archives are least (you need them _occasionally_). When you're deciding where a note goes, ask: "Is this connected to something I'm actively working on?"
 
 ## Setting It Up in Obsidian
 
@@ -78,7 +78,7 @@ This rhythm keeps your active folders clean and ensures nothing important gets b
 
 One criticism of folder-heavy systems like PARA is that they can work against Obsidian's linking model. Folders imply a note lives in exactly one place; links let a note connect to many contexts simultaneously.
 
-The good news: these approaches complement each other. Use PARA for *where a note lives*, and use `[[wikilinks]]` for *how notes relate*. A research note on CSS container queries lives in `Resources/CSS Reference/`, but it can be linked from whatever Project or Area note needs it.
+The good news: these approaches complement each other. Use PARA for _where a note lives_, and use `[[wikilinks]]` for _how notes relate_. A research note on CSS container queries lives in `Resources/CSS Reference/`, but it can be linked from whatever Project or Area note needs it.
 
 Many experienced Obsidian users also layer in Maps of Content (MOCs) — index notes that link to all the notes in a given topic area. A `CSS Reference MOC` in your Resources folder becomes the entry point to everything CSS-related in your vault, regardless of how deeply nested any individual note might be.
 
