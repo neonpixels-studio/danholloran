@@ -1,10 +1,10 @@
 ---
-date: '2026-06-11T07:09:22.000+00:00'
-tags: ['obsidian', 'pkm', 'plugins', 'templater', 'workflows', 'note-taking']
-draft: true
+date: "2026-06-11T07:09:22.000+00:00"
+tags: ["obsidian", "pkm", "plugins", "templater", "workflows", "note-taking"]
+draft: false
 title: "Templater for Obsidian: Stop Writing the Same Thing Twice"
-image: '/images/posts/templater-plugin-stop-writing-the-same-thing-twice.jpg'
-topic: 'obsidian'
+image: "/images/posts/templater-plugin-stop-writing-the-same-thing-twice.jpg"
+topic: "obsidian"
 description: "The Templater plugin turns Obsidian's static template system into a real automation engine — dynamic dates, user prompts, folder triggers, and optional JavaScript make note creation genuinely effortless."
 ---
 
@@ -39,7 +39,7 @@ Here's a meeting note template that dynamically fills in today's date, prompts f
 ```markdown
 ---
 date: <% tp.date.now("YYYY-MM-DD") %>
-attendees: 
+attendees:
 status: open
 tags: [meetings]
 ---
@@ -53,7 +53,8 @@ tags: [meetings]
 ## Notes
 
 ## Action Items
-- [ ] 
+
+- [ ]
 ```
 
 When you apply this template, Templater fires a prompt asking for the meeting title, then inserts everything in one shot. The note is ready to write in before you've even moved your hands.
@@ -72,7 +73,8 @@ tags: [projects]
 ## Goal
 
 ## Tasks
-- [ ] 
+
+- [ ]
 
 ## Notes
 ```
@@ -92,10 +94,10 @@ This pairs especially well with a folder-based vault structure. If you're using 
 For users who want more, Templater lets you drop into JavaScript using execution tags (`<%* ... %>`). This is where you can do things like rename the file on creation, conditionally include sections based on user input, or fetch data from an external API.
 
 ```markdown
-<%*
+<%\*
 const type = await tp.system.suggester(
-  ["Meeting", "1-on-1", "Workshop"],
-  ["meeting", "one-on-one", "workshop"]
+["Meeting", "1-on-1", "Workshop"],
+["meeting", "one-on-one", "workshop"]
 );
 await tp.file.rename(`${tp.date.now("YYYY-MM-DD")}-${type}`);
 %>
