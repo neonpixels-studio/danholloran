@@ -1,10 +1,10 @@
 ---
-date: '2026-06-10T07:08:27.000+00:00'
-tags: ['vue', 'javascript', 'performance', 'vue.js']
-draft: true
+date: "2026-06-10T07:08:27.000+00:00"
+tags: ["vue", "javascript", "performance", "vue.js"]
+draft: false
 title: "Vue 3.6 Vapor Mode: Opt Out of the Virtual DOM"
-image: '/images/posts/vue-3-6-vapor-mode-opt-out-of-the-virtual-dom.jpg'
-topic: 'development'
+image: "/images/posts/vue-3-6-vapor-mode-opt-out-of-the-virtual-dom.jpg"
+topic: "development"
 description: "Vue 3.6 Vapor Mode eliminates the virtual DOM for opted-in components, delivering SolidJS-level performance without rewriting a single line of your template logic."
 ---
 
@@ -20,9 +20,9 @@ The simplest way to opt in is a single attribute on your `<script setup>` tag:
 
 ```vue
 <script setup vapor>
-import { ref } from 'vue'
+import { ref } from "vue";
 
-const count = ref(0)
+const count = ref(0);
 </script>
 
 <template>
@@ -50,11 +50,7 @@ The most sensible approach is to start at the leaves. Identify the components in
 <!-- ParentComponent.vue — standard VDOM component -->
 <template>
   <ul>
-    <ListItem
-      v-for="item in items"
-      :key="item.id"
-      :item="item"
-    />
+    <ListItem v-for="item in items" :key="item.id" :item="item" />
   </ul>
 </template>
 ```
@@ -62,7 +58,7 @@ The most sensible approach is to start at the leaves. Identify the components in
 ```vue
 <!-- ListItem.vapor.vue — Vapor component, opted in by filename -->
 <script setup>
-defineProps(['item'])
+defineProps(["item"]);
 </script>
 
 <template>
