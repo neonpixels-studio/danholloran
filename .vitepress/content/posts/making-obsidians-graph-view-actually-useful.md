@@ -1,10 +1,10 @@
 ---
-date: '2026-06-12T07:08:47.000+00:00'
-tags: ['obsidian', 'pkm', 'note-taking', 'knowledge-management', 'graph-view']
-draft: true
+date: "2026-06-12T07:08:47.000+00:00"
+tags: ["obsidian", "pkm", "note-taking", "knowledge-management", "graph-view"]
+draft: false
 title: "Making Obsidian's Graph View Actually Useful"
-image: '/images/posts/making-obsidians-graph-view-actually-useful.jpg'
-topic: 'obsidian'
+image: "/images/posts/making-obsidians-graph-view-actually-useful.jpg"
+topic: "obsidian"
 description: "The graph view looks great in screenshots, but most Obsidian users never get practical value from it. Here's how to change that."
 ---
 
