@@ -1,11 +1,19 @@
 ---
-created_at: '2025-10-09T08:00:00.000-06:00'
-tags: ['yellowstone-national-park', 'wyoming', 'travel', 'national-park', 'nature', 'wildlife']
-draft: true
+created_at: "2025-10-09T08:00:00.000-06:00"
+tags:
+  [
+    "yellowstone-national-park",
+    "wyoming",
+    "travel",
+    "national-park",
+    "nature",
+    "wildlife",
+  ]
+draft: false
 title: "Visiting Yellowstone National Park"
-image: '/images/posts/travel-yellowstone-national-park.jpg'
-topic: 'travel'
-travel_location: 'yellowstone national park'
+image: "/images/posts/travel-yellowstone-national-park.jpg"
+topic: "travel"
+travel_location: "yellowstone national park"
 description: "Exploring Yellowstone in October, when the crowds thin and the elk rut fills the valleys with bugling, and the geysers and hot springs feel all the more surreal against the cool autumn air."
 ---
 

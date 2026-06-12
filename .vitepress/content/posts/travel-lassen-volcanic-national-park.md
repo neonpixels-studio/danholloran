@@ -1,11 +1,19 @@
 ---
-created_at: '2025-07-08T10:00:00.000-07:00'
-tags: ['lassen-volcanic-national-park', 'california', 'travel', 'national-park', 'nature', 'hiking']
-draft: true
+created_at: "2025-07-08T10:00:00.000-07:00"
+tags:
+  [
+    "lassen-volcanic-national-park",
+    "california",
+    "travel",
+    "national-park",
+    "nature",
+    "hiking",
+  ]
+draft: false
 title: "Visiting Lassen Volcanic National Park"
-image: '/images/posts/travel-lassen-volcanic-national-park.jpg'
-topic: 'travel'
-travel_location: 'lassen volcanic national park'
+image: "/images/posts/travel-lassen-volcanic-national-park.jpg"
+topic: "travel"
+travel_location: "lassen volcanic national park"
 description: "A trip through Lassen Volcanic National Park in northern California, where active hydrothermal features, steaming fumaroles, and a still-recovering volcanic landscape make for an otherworldly experience."
 ---
 

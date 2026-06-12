@@ -1,11 +1,19 @@
 ---
-created_at: '2025-05-22T09:00:00.000-06:00'
-tags: ['rocky-mountain-national-park', 'colorado', 'travel', 'national-park', 'mountains', 'hiking']
-draft: true
+created_at: "2025-05-22T09:00:00.000-06:00"
+tags:
+  [
+    "rocky-mountain-national-park",
+    "colorado",
+    "travel",
+    "national-park",
+    "mountains",
+    "hiking",
+  ]
+draft: false
 title: "Visiting Rocky Mountain National Park"
-image: '/images/posts/travel-rocky-mountain-national-park.jpg'
-topic: 'travel'
-travel_location: 'rocky mountain national park'
+image: "/images/posts/travel-rocky-mountain-national-park.jpg"
+topic: "travel"
+travel_location: "rocky mountain national park"
 description: "Exploring Rocky Mountain National Park in Colorado, where Trail Ridge Road cuts through alpine tundra above 12,000 feet and elk wander through meadows at dusk."
 ---
 

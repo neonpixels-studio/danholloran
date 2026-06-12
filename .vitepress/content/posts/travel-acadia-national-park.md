@@ -1,11 +1,19 @@
 ---
-created_at: '2025-06-28T07:30:00.000-04:00'
-tags: ['acadia-national-park', 'maine', 'travel', 'national-park', 'coastal', 'hiking']
-draft: true
+created_at: "2025-06-28T07:30:00.000-04:00"
+tags:
+  [
+    "acadia-national-park",
+    "maine",
+    "travel",
+    "national-park",
+    "coastal",
+    "hiking",
+  ]
+draft: false
 title: "Visiting Acadia National Park"
-image: '/images/posts/travel-acadia-national-park.jpg'
-topic: 'travel'
-travel_location: 'acadia national park'
+image: "/images/posts/travel-acadia-national-park.jpg"
+topic: "travel"
+travel_location: "acadia national park"
 description: "Exploring Acadia National Park on Maine's Mount Desert Island, where granite summits meet the Atlantic Ocean and the famous carriage roads wind through birch and pine."
 ---
 

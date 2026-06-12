@@ -1,11 +1,19 @@
 ---
-created_at: '2025-06-17T09:30:00.000-07:00'
-tags: ['sequoia-national-park', 'california', 'travel', 'national-park', 'nature', 'hiking']
-draft: true
+created_at: "2025-06-17T09:30:00.000-07:00"
+tags:
+  [
+    "sequoia-national-park",
+    "california",
+    "travel",
+    "national-park",
+    "nature",
+    "hiking",
+  ]
+draft: false
 title: "Visiting Sequoia National Park"
-image: '/images/posts/travel-sequoia-national-park.jpg'
-topic: 'travel'
-travel_location: 'sequoia national park'
+image: "/images/posts/travel-sequoia-national-park.jpg"
+topic: "travel"
+travel_location: "sequoia national park"
 description: "Standing among the giant sequoias in Sequoia National Park, California, where the largest trees on Earth by volume redefine your sense of scale and time."
 ---
 

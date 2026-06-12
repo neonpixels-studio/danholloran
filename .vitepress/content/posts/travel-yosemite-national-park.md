@@ -1,11 +1,19 @@
 ---
-created_at: '2025-06-24T08:00:00.000-07:00'
-tags: ['yosemite-national-park', 'california', 'travel', 'national-park', 'mountains', 'photography']
-draft: true
+created_at: "2025-06-24T08:00:00.000-07:00"
+tags:
+  [
+    "yosemite-national-park",
+    "california",
+    "travel",
+    "national-park",
+    "mountains",
+    "photography",
+  ]
+draft: false
 title: "Visiting Yosemite National Park"
-image: '/images/posts/travel-yosemite-national-park.jpg'
-topic: 'travel'
-travel_location: 'yosemite national park'
+image: "/images/posts/travel-yosemite-national-park.jpg"
+topic: "travel"
+travel_location: "yosemite national park"
 description: "A visit to Yosemite Valley, where Half Dome and El Capitan frame a landscape so dramatic it almost feels engineered, and the waterfalls are at their thunderous peak in late June."
 ---
 

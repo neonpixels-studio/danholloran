@@ -1,11 +1,19 @@
 ---
-created_at: '2025-07-23T09:00:00.000-07:00'
-tags: ['north-cascades-national-park', 'washington', 'travel', 'national-park', 'mountains', 'hiking']
-draft: true
+created_at: "2025-07-23T09:00:00.000-07:00"
+tags:
+  [
+    "north-cascades-national-park",
+    "washington",
+    "travel",
+    "national-park",
+    "mountains",
+    "hiking",
+  ]
+draft: false
 title: "Visiting North Cascades National Park"
-image: '/images/posts/travel-north-cascades-national-park.jpg'
-topic: 'travel'
-travel_location: 'north cascades national park'
+image: "/images/posts/travel-north-cascades-national-park.jpg"
+topic: "travel"
+travel_location: "north cascades national park"
 description: "A trip through North Cascades National Park in Washington, where jagged alpine peaks, the highest concentration of glaciers in the lower 48 states, and jade-green lakes make for some of the most dramatic mountain scenery in North America."
 ---
 

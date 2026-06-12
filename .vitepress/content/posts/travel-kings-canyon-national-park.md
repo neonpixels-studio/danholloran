@@ -1,11 +1,19 @@
 ---
-created_at: '2025-06-10T09:00:00.000-07:00'
-tags: ['kings-canyon-national-park', 'california', 'travel', 'national-park', 'mountains', 'hiking']
-draft: true
+created_at: "2025-06-10T09:00:00.000-07:00"
+tags:
+  [
+    "kings-canyon-national-park",
+    "california",
+    "travel",
+    "national-park",
+    "mountains",
+    "hiking",
+  ]
+draft: false
 title: "Visiting Kings Canyon National Park"
-image: '/images/posts/travel-kings-canyon-national-park.jpg'
-topic: 'travel'
-travel_location: 'kings canyon national park'
+image: "/images/posts/travel-kings-canyon-national-park.jpg"
+topic: "travel"
+travel_location: "kings canyon national park"
 description: "Exploring Kings Canyon National Park in California's Sierra Nevada, where one of the deepest canyons in North America meets towering sequoias and pristine granite wilderness."
 ---
 

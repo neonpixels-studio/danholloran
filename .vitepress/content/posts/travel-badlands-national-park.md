@@ -1,11 +1,19 @@
 ---
-created_at: '2025-11-14T10:30:00.000-06:00'
-tags: ['badlands-national-park', 'south-dakota', 'travel', 'national-park', 'desert', 'nature']
-draft: true
+created_at: "2025-11-14T10:30:00.000-06:00"
+tags:
+  [
+    "badlands-national-park",
+    "south-dakota",
+    "travel",
+    "national-park",
+    "desert",
+    "nature",
+  ]
+draft: false
 title: "Visiting Badlands National Park"
-image: '/images/posts/travel-badlands-national-park.jpg'
-topic: 'travel'
-travel_location: 'badlands national park'
+image: "/images/posts/travel-badlands-national-park.jpg"
+topic: "travel"
+travel_location: "badlands national park"
 description: "A November drive through Badlands National Park in South Dakota, where sharply eroded spires and layered clay formations rise abruptly from the prairie in a landscape that looks like it belongs on Mars."
 ---
 

@@ -1,11 +1,19 @@
 ---
-created_at: '2025-06-03T08:30:00.000-05:00'
-tags: ['great-smoky-mountains-national-park', 'tennessee', 'travel', 'national-park', 'hiking', 'nature']
-draft: true
+created_at: "2025-06-03T08:30:00.000-05:00"
+tags:
+  [
+    "great-smoky-mountains-national-park",
+    "tennessee",
+    "travel",
+    "national-park",
+    "hiking",
+    "nature",
+  ]
+draft: false
 title: "Visiting Great Smoky Mountains National Park"
-image: '/images/posts/travel-great-smoky-mountains-national-park.jpg'
-topic: 'travel'
-travel_location: 'great smoky mountains national park'
+image: "/images/posts/travel-great-smoky-mountains-national-park.jpg"
+topic: "travel"
+travel_location: "great smoky mountains national park"
 description: "A trip to the Great Smoky Mountains, the most visited national park in the country, where layers of blue-hazed ridgelines stretch to the horizon and old-growth forest fills every hollow."
 ---
 

@@ -1,11 +1,19 @@
 ---
-created_at: '2024-11-15T10:00:00.000-08:00'
-tags: ['death-valley-national-park', 'california', 'travel', 'national-park', 'desert', 'nature']
-draft: true
+created_at: "2024-11-15T10:00:00.000-08:00"
+tags:
+  [
+    "death-valley-national-park",
+    "california",
+    "travel",
+    "national-park",
+    "desert",
+    "nature",
+  ]
+draft: false
 title: "Visiting Death Valley National Park"
-image: '/images/posts/travel-death-valley-national-park.jpg'
-topic: 'travel'
-travel_location: 'death valley national park'
+image: "/images/posts/travel-death-valley-national-park.jpg"
+topic: "travel"
+travel_location: "death valley national park"
 description: "A trip to Death Valley, the hottest and driest national park in the United States, where the alien beauty of salt flats, sand dunes, and painted badlands stretches in every direction."
 ---
 
