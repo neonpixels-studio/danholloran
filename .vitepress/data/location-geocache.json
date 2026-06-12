@@ -346,5 +346,53 @@
   "taum sauk mountain state park ironton missouri": [
     -90.6276,
     37.5974
+  ],
+  "acadia national park": [
+    -68.2355,
+    44.3913
+  ],
+  "badlands national park": [
+    -101.9477,
+    43.7474
+  ],
+  "death valley national park": [
+    -116.8476,
+    36.5091
+  ],
+  "great smoky mountains national park": [
+    -83.6457,
+    35.7205
+  ],
+  "kings canyon national park": [
+    -118.9587,
+    36.7338
+  ],
+  "lassen volcanic national park": [
+    -121.5674,
+    40.5362
+  ],
+  "north cascades national park": [
+    -120.8482,
+    48.3963
+  ],
+  "olympic national park": [
+    -123.4252,
+    48.0982
+  ],
+  "rocky mountain national park": [
+    -105.5633,
+    40.3625
+  ],
+  "sequoia national park": [
+    -118.7735,
+    36.5645
+  ],
+  "yellowstone national park": [
+    -110.8063,
+    44.549
+  ],
+  "yosemite national park": [
+    -119.5887,
+    37.7494
   ]
 }
