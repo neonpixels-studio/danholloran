@@ -1,9 +1,34 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { data as posts } from "@content/posts/posts.data.ts";
+import { ref, watch, onMounted, computed } from "vue";
 import { useData } from "vitepress";
-
 const { isDark } = useData();
 const mapUpdatedText = ref("updated automatically");
+
+const nationalParkCount = computed(() => {
+  return posts.filter((post) => post.frontmatter.tags.includes("national-park"))
+    .length;
+});
+
+const yearsOnRoad = computed(() => {
+  const difference = Temporal.PlainDate.from("2024-11-01").until(
+    Temporal.Now.plainDateISO(),
+    {
+      largestUnit: "years",
+      smallestUnit: "months",
+      roundingMode: "trunc", // Keeps units as whole integers
+    },
+  );
+
+  return difference.years + Math.floor((difference.months / 12) * 10) / 10;
+});
+
+const formatter = new Intl.ListFormat("en", {
+  style: "short",
+  type: "conjunction",
+});
+const statesToVisit = ["Louisiana", "Alaska", "Hawaii"];
+const statesVisitedLength = computed(() => 50 - statesToVisit.length);
 
 async function fetchMapDate() {
   const url = isDark.value
@@ -13,7 +38,6 @@ async function fetchMapDate() {
     const r = await fetch(url, { method: "HEAD", cache: "no-store" });
     const lm = r.headers.get("last-modified");
     const d = lm ? new Date(lm) : null;
-    console.log(d);
     if (d && !isNaN(d)) {
       mapUpdatedText.value =
         "updated " +
@@ -24,7 +48,6 @@ async function fetchMapDate() {
         });
     }
   } catch {
-    console.log("errrrrr");
     // ignore fetch errors — date display is best-effort
   }
 }
@@ -61,8 +84,9 @@ watch(isDark, fetchMapDate);
           <p
             class="reveal text-fg-muted in max-w-115 font-mono text-[0.72rem] leading-[1.7]"
           >
-            Every pin marks somewhere I've stopped along the way — 47 states and
-            counting, mapped automatically as I go.
+            Every pin marks somewhere I've stopped along the way —
+            {{ statesVisitedLength }} states and counting, mapped automatically
+            as I go.
           </p>
         </div>
         <a
@@ -109,14 +133,14 @@ watch(isDark, fetchMapDate);
       >
         <img
           src="/images/visited-locations-light.png"
-          alt="Map of the United States with purple pins marking 47 states Dan has visited"
+          :alt="`Map of the United States with purple pins marking ${statesVisitedLength} states I have visited`"
           class="map-img-light block h-auto w-full"
           loading="lazy"
           decoding="async"
         />
         <img
           src="/images/visited-locations-dark.png"
-          alt="Map of the United States with purple pins marking 47 states Dan has visited"
+          :alt="`Map of the United States with purple pins marking ${statesVisitedLength} states I have visited`"
           class="map-img-dark h-auto w-full"
           loading="lazy"
           decoding="async"
@@ -140,7 +164,8 @@ watch(isDark, fetchMapDate);
             class="tracking-tightest font-mono leading-none font-bold"
             style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
           >
-            47<span class="text-fg-subtle ml-1 text-[0.85rem] font-medium"
+            {{ statesVisitedLength
+            }}<span class="text-fg-subtle ml-1 text-[0.85rem] font-medium"
               >/50</span
             >
           </div>
@@ -168,7 +193,8 @@ watch(isDark, fetchMapDate);
             class="tracking-tightest font-mono leading-none font-bold"
             style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
           >
-            25<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
+            {{ nationalParkCount
+            }}<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
           </div>
           <div
             class="text-fg-subtle mt-2.5 font-mono text-[0.6rem] tracking-widest uppercase"
@@ -194,7 +220,8 @@ watch(isDark, fetchMapDate);
             class="tracking-tightest font-mono leading-none font-bold"
             style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
           >
-            1.5<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
+            {{ yearsOnRoad
+            }}<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
           </div>
           <div
             class="text-fg-subtle mt-2.5 font-mono text-[0.6rem] tracking-widest uppercase"
@@ -207,7 +234,7 @@ watch(isDark, fetchMapDate);
       <div
         class="reveal text-fg-subtle in mt-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[0.62rem] tracking-[0.08em] uppercase"
       >
-        <span> // still to come — Louisiana, Alaska &amp; Hawaii </span>
+        <span> // still to come — {{ formatter.format(statesToVisit) }} </span>
         <span class="inline-flex items-center gap-2">
           <span
             class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"
