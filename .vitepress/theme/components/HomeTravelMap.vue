@@ -11,16 +11,15 @@ const nationalParkCount = computed(() => {
 });
 
 const yearsOnRoad = computed(() => {
-  const difference = Temporal.PlainDate.from("2024-11-01").until(
-    Temporal.Now.plainDateISO(),
-    {
-      largestUnit: "years",
-      smallestUnit: "months",
-      roundingMode: "trunc", // Keeps units as whole integers
-    },
-  );
-
-  return difference.years + Math.floor((difference.months / 12) * 10) / 10;
+  const start = new Date("2024-11-01");
+  const now = new Date();
+  let months =
+    (now.getFullYear() - start.getFullYear()) * 12 +
+    (now.getMonth() - start.getMonth());
+  if (now.getDate() < start.getDate()) months--;
+  const years = Math.floor(months / 12);
+  const remainingMonths = months % 12;
+  return years + Math.floor((remainingMonths / 12) * 10) / 10;
 });
 
 const formatter = new Intl.ListFormat("en", {

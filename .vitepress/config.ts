@@ -38,6 +38,7 @@ export default defineConfig({
     codeTransformers: [injectThemeBgTransformer],
   },
   vite: {
+    build: { cssMinify: "esbuild" },
     plugins: [tailwindcss()],
     resolve: {
       alias: {
