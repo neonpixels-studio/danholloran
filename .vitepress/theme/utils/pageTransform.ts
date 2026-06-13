@@ -3,7 +3,7 @@ import { join } from "path";
 import matter from "gray-matter";
 import type { PageData } from "vitepress";
 import { SITE_URL } from "./constants";
-import { pageMeta, personJsonLd } from "./seo";
+import { pageMeta, personJsonLd, profilePageJsonLd } from "./seo";
 import resume, { getExperienceLength } from "../../data/resume.ts";
 
 function transformHome(pageData: PageData): void {
@@ -41,7 +41,7 @@ function transformResume(pageData: PageData): void {
       description,
       url: `${SITE_URL}/resume`,
       image: resume.photo,
-      jsonLd: personJsonLd,
+      jsonLd: profilePageJsonLd,
     }),
   ];
 }
@@ -49,7 +49,7 @@ function transformResume(pageData: PageData): void {
 function transformPostsIndex(pageData: PageData): void {
   const title = pageData.frontmatter.title as string;
   const description = pageData.frontmatter.description as string;
-  const url = `${SITE_URL}/posts/`;
+  const url = `${SITE_URL}/posts`;
   const postsDir = join(process.cwd(), ".vitepress/content/posts");
   const blogPosts = readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))

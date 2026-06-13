@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { pageMeta, personJsonLd } from "../../theme/utils/seo";
+import { pageMeta, personJsonLd, profilePageJsonLd } from "../../theme/utils/seo";
 import { SITE_URL } from "../../theme/utils/constants";
 
 describe("pageMeta", () => {
@@ -135,5 +135,19 @@ describe("personJsonLd", () => {
       expect(url.startsWith("https://")).toBe(true);
       expect(url).not.toBe(SITE_URL);
     }
+  });
+});
+
+describe("profilePageJsonLd", () => {
+  it("has correct schema type and points to /resume", () => {
+    expect(profilePageJsonLd["@context"]).toBe("https://schema.org");
+    expect(profilePageJsonLd["@type"]).toBe("ProfilePage");
+    expect(profilePageJsonLd.url).toBe(`${SITE_URL}/resume`);
+  });
+
+  it("has a Person mainEntity", () => {
+    expect(profilePageJsonLd.mainEntity["@type"]).toBe("Person");
+    expect(typeof profilePageJsonLd.mainEntity.name).toBe("string");
+    expect(profilePageJsonLd.mainEntity.name.length).toBeGreaterThan(0);
   });
 });

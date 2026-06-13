@@ -48,3 +48,11 @@ export const personJsonLd = {
     .filter((c) => c.link?.startsWith("https://") && c.link !== SITE_URL)
     .map((c) => c.link as string),
 };
+
+export const profilePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  name: `${resume.firstName} ${resume.lastName} – Resume`,
+  url: `${SITE_URL}/resume`,
+  mainEntity: { ...personJsonLd, "@context": undefined },
+};

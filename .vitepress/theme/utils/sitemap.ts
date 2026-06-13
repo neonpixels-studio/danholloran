@@ -18,7 +18,7 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
         );
         if (existsSync(postPath)) {
           const { data } = matter(readFileSync(postPath, "utf-8"));
-          if (data.date) return { ...item, lastmod: new Date(data.date) };
+          if (data.date) return { ...item, url, lastmod: new Date(data.date) };
         }
       }
 
@@ -26,10 +26,10 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
       for (const candidate of [`${base}.md`, join(base, "index.md")]) {
         const fullPath = join(process.cwd(), candidate);
         if (existsSync(fullPath)) {
-          return { ...item, lastmod: statSync(fullPath).mtime };
+          return { ...item, url, lastmod: statSync(fullPath).mtime };
         }
       }
 
-      return { ...item, lastmod: new Date() };
+      return { ...item, url, lastmod: new Date() };
     });
 }

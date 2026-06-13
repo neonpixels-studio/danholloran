@@ -83,12 +83,13 @@ describe("transformSitemapItems", () => {
     );
   });
 
-  it("handles trailing slashes by stripping them", () => {
+  it("handles trailing slashes by stripping them from the output URL", () => {
     const mtime = new Date("2024-01-01");
     mockExistsSync.mockReturnValue(true);
     mockStatSync.mockReturnValue({ mtime } as any);
 
     const result = transformSitemapItems([{ url: "about/" }]);
+    expect(result[0].url).toBe("about");
     expect(result[0].lastmod).toEqual(mtime);
   });
 

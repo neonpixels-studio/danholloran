@@ -100,6 +100,24 @@ describe("transformPageData – resume.md", () => {
       findHead(pageData, "link", "href", `${SITE_URL}/resume`),
     ).toBeDefined();
   });
+
+  it("includes a JSON-LD ProfilePage script tag with a Person mainEntity", () => {
+    const pageData = makePageData({ filePath: "resume.md" });
+    transformPageData(pageData);
+
+    const scriptTag = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" &&
+        tag[1]?.type === "application/ld+json" &&
+        tag[2]?.includes("ProfilePage"),
+    );
+    expect(scriptTag).toBeDefined();
+
+    const ld = JSON.parse(scriptTag[2]);
+    expect(ld["@type"]).toBe("ProfilePage");
+    expect(ld.url).toBe(`${SITE_URL}/resume`);
+    expect(ld.mainEntity["@type"]).toBe("Person");
+  });
 });
 
 describe("transformPageData – posts/index.md", () => {
@@ -121,7 +139,7 @@ describe("transformPageData – posts/index.md", () => {
 
     expect(pageData.frontmatter.head).toContainEqual(existingTag);
     expect(
-      findHead(pageData, "link", "href", `${SITE_URL}/posts/`),
+      findHead(pageData, "link", "href", `${SITE_URL}/posts`),
     ).toBeDefined();
   });
 
@@ -204,7 +222,7 @@ describe("transformPageData – posts/index.md", () => {
 
     const ld = JSON.parse(scriptTag[2]);
     expect(ld["@type"]).toBe("Blog");
-    expect(ld.url).toBe(`${SITE_URL}/posts/`);
+    expect(ld.url).toBe(`${SITE_URL}/posts`);
     expect(ld.author["@type"]).toBe("Person");
 
     expect(Array.isArray(ld.blogPost)).toBe(true);
