@@ -1,10 +1,10 @@
 ---
-date: '2026-06-13T07:07:59.000+00:00'
-tags: ['fintech', 'payments', 'banking', 'fednow', 'real-time-payments']
-draft: true
+date: "2026-06-13T07:07:59.000+00:00"
+tags: ["fintech", "payments", "banking", "fednow", "real-time-payments"]
+draft: false
 title: "FedNow and Real-Time Payments: How Instant Settlement Actually Works"
-image: '/images/posts/fednow-and-real-time-payments-how-instant-settlement-works.jpg'
-topic: 'finance'
+image: "/images/posts/fednow-and-real-time-payments-how-instant-settlement-works.jpg"
+topic: "finance"
 description: "Most Americans still wait one to three days for bank transfers to clear. FedNow is the Federal Reserve's answer to that — but how does instant settlement actually work under the hood?"
 ---
 
@@ -14,19 +14,19 @@ The Federal Reserve launched FedNow in July 2023 to change that. Understanding w
 
 ## What Makes a Payment "Instant"?
 
-The key distinction isn't speed of initiation — it's speed of *settlement*. When you tap your card at a store, authorization happens in seconds, but the actual movement of funds between your bank and the merchant's bank settles later, in batches. Most consumers never notice this gap because their balance updates immediately on the front end. But for businesses, payroll providers, and anyone who needs cleared funds fast, the lag matters.
+The key distinction isn't speed of initiation — it's speed of _settlement_. When you tap your card at a store, authorization happens in seconds, but the actual movement of funds between your bank and the merchant's bank settles later, in batches. Most consumers never notice this gap because their balance updates immediately on the front end. But for businesses, payroll providers, and anyone who needs cleared funds fast, the lag matters.
 
-FedNow closes that gap. It settles each payment individually, immediately, and irrevocably, 24 hours a day, 7 days a week, including weekends and federal holidays. "Irrevocably" is the critical word here: once a FedNow payment completes, the funds are final. There's no clawback window the way there is with ACH (which gives institutions up to two days to return a transaction). That finality is what makes the money genuinely *available* to the recipient right away.
+FedNow closes that gap. It settles each payment individually, immediately, and irrevocably, 24 hours a day, 7 days a week, including weekends and federal holidays. "Irrevocably" is the critical word here: once a FedNow payment completes, the funds are final. There's no clawback window the way there is with ACH (which gives institutions up to two days to return a transaction). That finality is what makes the money genuinely _available_ to the recipient right away.
 
 The technical flow works roughly like this: the sender's bank sends a payment message to the FedNow Service, which validates it and debits the sending bank's Federal Reserve master account while crediting the receiving bank's master account — all within seconds. The receiving bank then credits the customer's account. Because both banks settle against Fed master accounts in real time, there's no counterparty credit risk between institutions. The Fed acts as the clearinghouse.
 
 ## Where Things Stand in 2026
 
-FedNow has grown significantly since launch. By the end of 2025, roughly 1,500 financial institutions had joined the network, and transaction volume surged 458% year-over-year — though the absolute numbers are still modest at around 8.4 million transactions in 2025. For context, ACH processes around 8 *billion* transactions per year.
+FedNow has grown significantly since launch. By the end of 2025, roughly 1,500 financial institutions had joined the network, and transaction volume surged 458% year-over-year — though the absolute numbers are still modest at around 8.4 million transactions in 2025. For context, ACH processes around 8 _billion_ transactions per year.
 
 The Fed's stated goal is to eventually connect all 8,000+ U.S. banks and credit unions. The 2026 transaction limit was raised to $10 million per payment, a threshold that opens the door to business-to-business use cases that the original $500,000 cap blocked. Real-world use cases gaining traction include instant payroll disbursement, insurance claim payouts, auto loan funding, government disaster relief, and real estate earnest money deposits — situations where waiting two business days has real costs.
 
-One notable 2026 development: the Fed rolled out a network intelligence API in April that lets participating banks access anonymized recipient account activity signals to detect fraud before sending. Because FedNow payments are irrevocable, fraud prevention has to happen *before* the transaction, not after — a fundamentally different security model than ACH, where disputes can reverse funds after the fact.
+One notable 2026 development: the Fed rolled out a network intelligence API in April that lets participating banks access anonymized recipient account activity signals to detect fraud before sending. Because FedNow payments are irrevocable, fraud prevention has to happen _before_ the transaction, not after — a fundamentally different security model than ACH, where disputes can reverse funds after the fact.
 
 FedNow also isn't the only real-time rail in the U.S. The Clearing House's RTP network has been operating since 2017 and reaches a similar number of institutions. The two networks don't interconnect yet, which creates a fragmented landscape where a payment's ability to settle instantly depends on whether both the sender's and receiver's bank have joined the same network — and many community banks and credit unions are still sitting out.
 
@@ -40,4 +40,4 @@ For developers and fintechs, FedNow is accessible via ISO 20022 message formatti
 
 Real-time settlement is increasingly table stakes in payments globally — the UK's Faster Payments, India's UPI, and Brazil's PIX all run 24/7 instant rails. The U.S. is catching up, but the transition from a batch-processing culture to real-time expectations will take years to fully play out.
 
-*This post is for educational and informational purposes only and is not financial, investment, or tax advice. Do your own research and consider consulting a licensed professional before making financial decisions.*
+_This post is for educational and informational purposes only and is not financial, investment, or tax advice. Do your own research and consider consulting a licensed professional before making financial decisions._
