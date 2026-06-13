@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { pageMeta, personJsonLd, profilePageJsonLd } from "../../theme/utils/seo";
+import {
+  pageMeta,
+  personJsonLd,
+  profilePageJsonLd,
+} from "../../theme/utils/seo";
 import { SITE_URL } from "../../theme/utils/constants";
 
 describe("pageMeta", () => {
