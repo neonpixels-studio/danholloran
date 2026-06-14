@@ -1,10 +1,10 @@
 ---
-date: '2026-06-14T07:08:24.000+00:00'
-tags: ['css', 'accessibility', 'web-apis']
-draft: true
+date: "2026-06-14T07:08:24.000+00:00"
+tags: ["css", "accessibility", "web-apis"]
+draft: false
 title: "CSS User Preference Media Queries: Build Accessible Experiences Without JavaScript"
-image: '/images/posts/css-user-preference-media-queries.jpg'
-topic: 'development'
+image: "/images/posts/css-user-preference-media-queries.jpg"
+topic: "development"
 description: "A practical guide to prefers-reduced-motion, prefers-color-scheme, prefers-contrast, and forced-colors — the CSS media queries that respect user accessibility settings with zero JavaScript."
 ---
 
@@ -76,8 +76,14 @@ body {
 Everything else in your stylesheet uses the custom properties, so theme switching happens in exactly one place. If you want to layer a user-controlled toggle on top, store the override in a `data-theme` attribute on `<html>` and let CSS check that first:
 
 ```css
-[data-theme="light"] { --bg: #ffffff; --text: #111111; }
-[data-theme="dark"]  { --bg: #0f0f0f; --text: #e8e8e8; }
+[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #111111;
+}
+[data-theme="dark"] {
+  --bg: #0f0f0f;
+  --text: #e8e8e8;
+}
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
