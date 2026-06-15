@@ -31,7 +31,9 @@ exports[`PostsView > renders correctly 1`] = `
       <div class="mt-auto flex items-center justify-between"><span class="text-accent font-mono text-[0.72rem]">read more →</span></div>
     </div>
   </a></div>
-<div class="mb-24"></div>"
+<div class="mb-12"></div>
+<!-- NEWSLETTER · featured slim block -->
+<newsletter-banner-stub></newsletter-banner-stub>"
 `;
 
 exports[`PostsView > renders no-posts message when filters match nothing 1`] = `
@@ -65,7 +67,9 @@ exports[`PostsView > renders no-posts message when filters match nothing 1`] = `
       <div class="mt-auto flex items-center justify-between"><span class="text-accent font-mono text-[0.72rem]">read more →</span></div>
     </div>
   </a></div>
-<div class="mb-24"></div>"
+<div class="mb-12"></div>
+<!-- NEWSLETTER · featured slim block -->
+<newsletter-banner-stub></newsletter-banner-stub>"
 `;
 
 exports[`PostsView > renders with empty posts list 1`] = `
@@ -79,7 +83,9 @@ exports[`PostsView > renders with empty posts list 1`] = `
 <div class="mx-auto max-w-275 px-8 pt-8 pb-24 text-center">
   <p class="text-fg-muted font-mono text-[0.9rem]"> No posts found for the current filters. </p><button class="text-accent mt-4 cursor-pointer bg-transparent font-mono text-[0.8rem] underline"> clear all filters </button>
 </div>
-<div class="mb-24"></div>"
+<div class="mb-12"></div>
+<!-- NEWSLETTER · featured slim block -->
+<newsletter-banner-stub></newsletter-banner-stub>"
 `;
 
 exports[`PostsView > renders with tag filter applied from URL 1`] = `
@@ -113,7 +119,9 @@ exports[`PostsView > renders with tag filter applied from URL 1`] = `
       <div class="mt-auto flex items-center justify-between"><span class="text-accent font-mono text-[0.72rem]">read more →</span></div>
     </div>
   </a></div>
-<div class="mb-24"></div>"
+<div class="mb-12"></div>
+<!-- NEWSLETTER · featured slim block -->
+<newsletter-banner-stub></newsletter-banner-stub>"
 `;
 
 exports[`PostsView > renders with topic filter applied from URL 1`] = `
@@ -147,5 +155,7 @@ exports[`PostsView > renders with topic filter applied from URL 1`] = `
       <div class="mt-auto flex items-center justify-between"><span class="text-accent font-mono text-[0.72rem]">read more →</span></div>
     </div>
   </a></div>
-<div class="mb-24"></div>"
+<div class="mb-12"></div>
+<!-- NEWSLETTER · featured slim block -->
+<newsletter-banner-stub></newsletter-banner-stub>"
 `;

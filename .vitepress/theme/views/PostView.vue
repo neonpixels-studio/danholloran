@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
+import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 
 const { post, posts } = defineProps<{
   post: Post;
@@ -123,6 +124,9 @@ function formatDate(d: string) {
         #{{ tag }}
       </a>
     </div>
+
+    <!-- NEWSLETTER · terminal block -->
+    <NewsletterTerminal />
 
     <nav
       class="border-line mt-16 grid grid-cols-2 gap-4 border-t pt-8 max-md:grid-cols-1"

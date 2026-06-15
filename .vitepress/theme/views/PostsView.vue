@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
 import { Post } from "@typedefs";
+import NewsletterBanner from "@components/NewsletterBanner.vue";
 
 const { posts } = defineProps<{
   posts: Post[];
@@ -310,7 +311,10 @@ onUnmounted(() => {
       →
     </button>
   </div>
-  <div v-else class="mb-24"></div>
+  <div v-else class="mb-12"></div>
+
+  <!-- NEWSLETTER · featured slim block -->
+  <NewsletterBanner />
 </template>
 
 <style>
