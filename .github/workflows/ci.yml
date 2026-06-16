@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,7 +34,14 @@ jobs:
             >> .prettierignore || true
 
       - name: Lint
-        run: npm run lint
+        run: |
+          npx prettier --check .
+          npx eslint .
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            npx fallow audit --base "${{ github.event.pull_request.base.sha }}"
+          else
+            npx fallow audit --base "${{ github.event.before }}"
+          fi
 
       - name: Test
         run: npm run test:ci
