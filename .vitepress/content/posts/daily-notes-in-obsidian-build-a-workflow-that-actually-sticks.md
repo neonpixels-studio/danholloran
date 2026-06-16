@@ -1,10 +1,19 @@
 ---
-date: '2026-06-16T07:09:10.000+00:00'
-tags: ['obsidian', 'pkm', 'daily-notes', 'productivity', 'workflows', 'templater', 'dataview']
+date: "2026-06-16T07:09:10.000+00:00"
+tags:
+  [
+    "obsidian",
+    "pkm",
+    "daily-notes",
+    "productivity",
+    "workflows",
+    "templater",
+    "dataview",
+  ]
 draft: true
 title: "Daily Notes in Obsidian: Build a Workflow That Actually Sticks"
-image: '/images/posts/daily-notes-in-obsidian-build-a-workflow-that-actually-sticks.jpg'
-topic: 'obsidian'
+image: "/images/posts/daily-notes-in-obsidian-build-a-workflow-that-actually-sticks.jpg"
+topic: "obsidian"
 description: "How to set up a daily notes workflow in Obsidian that you will actually use, from the core plugin to Templater templates and Dataview queries."
 ---
 
@@ -33,11 +42,13 @@ tags: [daily-note]
 ← [[<% tp.date.now("YYYY-MM-DD", -1) %>|Yesterday]] | [[<% tp.date.now("YYYY-MM-DD", 1) %>|Tomorrow]] →
 
 ## Tasks
-- [ ] 
+
+- [ ]
 
 ## Notes
 
 ## Reflection
+
 - What went well?
 - What would I carry into tomorrow?
 ```
