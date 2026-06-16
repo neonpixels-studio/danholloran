@@ -1,13 +1,16 @@
 import type { ResumeInterface } from "@typedefs";
 import skills from "./skills";
-import location from "./location.json";
 import pastLocations from "./past-locations.json";
 
 export const getExperienceLength = () => {
   return new Date().getFullYear() - 2012;
 };
 
-export const CURRENT_LOCATION = `${location.city}, ${location.state}`;
+// Single source of truth lives in constants.ts (derived from location.json).
+// Use a relative path (not the @utils alias): this module is pulled into the
+// VitePress config bundle, where aliases aren't resolved yet.
+export { CURRENT_LOCATION } from "../theme/utils/constants";
+import { CURRENT_LOCATION } from "../theme/utils/constants";
 
 export const PAST_LOCATIONS = Object.freeze([...new Set(pastLocations)]);
 

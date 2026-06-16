@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://danholloran.me/sitemap.xml
+LLM: https://danholloran.me/llms.txt

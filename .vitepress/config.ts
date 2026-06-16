@@ -4,11 +4,12 @@ import { join } from "path";
 import { defineConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { generateFeed } from "./theme/utils/generateFeed";
+import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
 import { parse as parsePlist } from "plist";
 import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { transformPageData } from "./theme/utils/pageTransform";
-import { SITE_URL } from "./theme/utils/constants";
+import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 
 const darkTheme = parsePlist(
   readFileSync(
@@ -25,7 +26,7 @@ const lightTheme = parsePlist(
 
 export default defineConfig({
   title: "Dan Holloran",
-  description: "Full-stack developer and photographer based in Reno, NV.",
+  description: SITE_DESCRIPTION,
   sitemap: {
     hostname: SITE_URL,
     transformItems: transformSitemapItems,
@@ -61,6 +62,7 @@ export default defineConfig({
   transformPageData,
   buildEnd(siteConfig) {
     writeFileSync(join(siteConfig.outDir, "feed.xml"), generateFeed());
+    writeFileSync(join(siteConfig.outDir, "llms.txt"), generateLlmsTxt());
   },
   cleanUrls: true,
   head: [

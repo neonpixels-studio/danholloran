@@ -2,14 +2,14 @@ import { Feed } from "feed";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import matter from "gray-matter";
-import { SITE_URL } from "./constants";
+import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 
 export function generateFeed(): string {
   const feed = new Feed({
     title: "Dan Holloran",
-    description: "Full-stack developer and photographer based in Reno, NV.",
+    description: SITE_DESCRIPTION,
     id: SITE_URL,
     link: SITE_URL,
     language: "en",
