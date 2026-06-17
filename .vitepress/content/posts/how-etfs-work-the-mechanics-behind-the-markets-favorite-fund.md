@@ -1,10 +1,10 @@
 ---
-date: '2026-06-17T07:08:03.000+00:00'
-tags: ['finance', 'investing', 'etfs', 'markets']
-draft: true
+date: "2026-06-17T07:08:03.000+00:00"
+tags: ["finance", "investing", "etfs", "markets"]
+draft: false
 title: "How ETFs Work: The Mechanics Behind the Market's Favorite Fund"
-image: '/images/posts/how-etfs-work-the-mechanics-behind-the-markets-favorite-fund.jpg'
-topic: 'finance'
+image: "/images/posts/how-etfs-work-the-mechanics-behind-the-markets-favorite-fund.jpg"
+topic: "finance"
 description: "ETFs hold $13.4 trillion in assets and are reshaping how people invest — but most buyers don't know what actually happens when they hit the buy button."
 ---
 
@@ -24,9 +24,9 @@ Here's how creation works: an AP assembles a basket of the underlying securities
 
 Every ETF has a net asset value (NAV) — the total value of what it holds, divided by shares outstanding. Because ETFs trade on an exchange in real time, their market price can drift above or below NAV. When it does, the creation/redemption mechanism closes the gap.
 
-If an ETF trades at a *premium* (above NAV), an AP buys the underlying basket of stocks, creates new ETF shares, and immediately sells them at the higher price — pocketing the difference. This pushes the ETF price back down toward NAV.
+If an ETF trades at a _premium_ (above NAV), an AP buys the underlying basket of stocks, creates new ETF shares, and immediately sells them at the higher price — pocketing the difference. This pushes the ETF price back down toward NAV.
 
-If it trades at a *discount* (below NAV), an AP buys ETF shares cheaply, redeems them for the underlying securities, and sells those at full NAV value. This pushes the ETF price back up.
+If it trades at a _discount_ (below NAV), an AP buys ETF shares cheaply, redeems them for the underlying securities, and sells those at full NAV value. This pushes the ETF price back up.
 
 The result: ETF prices stay remarkably tight to their underlying value, often within a fraction of a percent. You benefit from this arbitrage automatically, even if you've never heard of an authorized participant. It's one of the structural advantages ETFs have over closed-end funds, which can trade at persistent discounts or premiums for months.
 
@@ -48,4 +48,4 @@ Beyond expense ratios, pay attention to bid-ask spreads. For liquid, high-volume
 
 For most long-term investors, broad index ETFs with low fees remain the baseline, not because they're perfect but because decades of cost and performance data point that direction consistently. Active ETFs are worth understanding, especially for asset classes where manager skill has historically added value. Either way, understanding the creation/redemption mechanism, the AP arbitrage loop, and the in-kind structure gives you a clearer picture of what you actually own — and why it behaves the way it does.
 
-*This post is for educational and informational purposes only and is not financial, investment, or tax advice. Do your own research and consider consulting a licensed professional before making financial decisions.*
+_This post is for educational and informational purposes only and is not financial, investment, or tax advice. Do your own research and consider consulting a licensed professional before making financial decisions._
