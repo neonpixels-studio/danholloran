@@ -7,7 +7,17 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import matter from "gray-matter";
+import { parse as parseYaml } from "yaml";
+
+function parseFrontmatter(raw) {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+  if (!match) {
+    return { data: {}, content: raw };
+  }
+  const data = parseYaml(match[1]) ?? {};
+  const content = raw.slice(match[0].length);
+  return { data, content };
+}
 
 const SITE_URL = process.env.SITE_URL || "https://danholloran.me";
 const POSTS_DIR = path.resolve(".vitepress/content/posts");
@@ -20,7 +30,7 @@ export function readPost(slug) {
     throw new Error(`Post file not found: ${filePath}`);
   }
   const raw = fs.readFileSync(filePath, "utf-8");
-  const { data: frontmatter, content } = matter(raw);
+  const { data: frontmatter, content } = parseFrontmatter(raw);
   return { frontmatter, content, slug };
 }
 

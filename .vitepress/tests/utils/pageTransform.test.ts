@@ -12,20 +12,19 @@ vi.mock("fs", () => {
   };
 });
 
-vi.mock("gray-matter", () => {
-  const matter = vi.fn();
-  return { default: matter };
-});
+vi.mock("../../theme/utils/frontmatter", () => ({
+  parseFrontmatter: vi.fn(),
+}));
 
 import { existsSync, readFileSync, readdirSync } from "fs";
-import matter from "gray-matter";
+import { parseFrontmatter } from "../../theme/utils/frontmatter";
 import { transformPageData } from "../../theme/utils/pageTransform";
 import { SITE_URL } from "../../theme/utils/constants";
 
 const mockExistsSync = vi.mocked(existsSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockReaddirSync = vi.mocked(readdirSync);
-const mockMatter = vi.mocked(matter);
+const mockParseFrontmatter = vi.mocked(parseFrontmatter);
 
 function makePageData(overrides: Record<string, unknown> = {}) {
   return {
@@ -187,7 +186,7 @@ describe("transformPageData – posts/index.md", () => {
   it("includes a JSON-LD Blog script tag with blogPost items", () => {
     mockReaddirSync.mockReturnValue(["post-a.md", "post-b.md"] as any);
     mockReadFileSync.mockReturnValue("" as any);
-    mockMatter
+    mockParseFrontmatter
       .mockReturnValueOnce({
         data: {
           title: "Post A",
@@ -196,7 +195,8 @@ describe("transformPageData – posts/index.md", () => {
           draft: false,
           image: "/images/a.jpg",
         },
-      } as any)
+        content: "",
+      })
       .mockReturnValueOnce({
         data: {
           title: "Post B",
@@ -204,7 +204,8 @@ describe("transformPageData – posts/index.md", () => {
           date: "2024-02-01",
           draft: false,
         },
-      } as any);
+        content: "",
+      });
 
     const pageData = makePageData({
       filePath: "posts/index.md",
@@ -239,14 +240,15 @@ describe("transformPageData – posts/[slug].md", () => {
   it("sets title, description, and Article JSON-LD for a valid slug", () => {
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
-    mockMatter.mockReturnValue({
+    mockParseFrontmatter.mockReturnValue({
       data: {
         title: "My Post",
         description: "Post description",
         date: "2024-03-01",
         image: "/images/post.png",
       },
-    } as any);
+      content: "",
+    });
 
     const pageData = makePageData({
       filePath: "posts/[slug].md",
@@ -269,9 +271,10 @@ describe("transformPageData – posts/[slug].md", () => {
   it("includes canonical link to the post URL", () => {
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
-    mockMatter.mockReturnValue({
+    mockParseFrontmatter.mockReturnValue({
       data: { title: "T", description: "D", date: "2024-01-01" },
-    } as any);
+      content: "",
+    });
 
     const pageData = makePageData({
       filePath: "posts/[slug].md",

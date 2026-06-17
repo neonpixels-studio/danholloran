@@ -1,7 +1,7 @@
 import { Feed } from "feed";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
-import matter from "gray-matter";
+import { parseFrontmatter } from "./frontmatter";
 import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
@@ -26,7 +26,7 @@ export function generateFeed(): string {
   const posts = files
     .map((file) => {
       const raw = readFileSync(join(POSTS_DIR, file), "utf-8");
-      const { data } = matter(raw);
+      const { data } = parseFrontmatter(raw);
       const slug = file.replace(/\.md$/, "");
       return { ...data, slug } as Record<string, any>;
     })

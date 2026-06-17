@@ -12,19 +12,18 @@ vi.mock("fs", () => {
   };
 });
 
-vi.mock("gray-matter", () => {
-  const matter = vi.fn();
-  return { default: matter };
-});
+vi.mock("../../theme/utils/frontmatter", () => ({
+  parseFrontmatter: vi.fn(),
+}));
 
 import { existsSync, readFileSync, statSync } from "fs";
-import matter from "gray-matter";
+import { parseFrontmatter } from "../../theme/utils/frontmatter";
 import { transformSitemapItems } from "../../theme/utils/sitemap";
 
 const mockExistsSync = vi.mocked(existsSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockStatSync = vi.mocked(statSync);
-const mockMatter = vi.mocked(matter);
+const mockParseFrontmatter = vi.mocked(parseFrontmatter);
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -41,7 +40,7 @@ describe("transformSitemapItems", () => {
     const postDate = "2024-03-15";
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
-    mockMatter.mockReturnValue({ data: { date: postDate } } as any);
+    mockParseFrontmatter.mockReturnValue({ data: { date: postDate }, content: "" });
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(new Date(postDate));
@@ -51,7 +50,7 @@ describe("transformSitemapItems", () => {
     const mtime = new Date("2024-05-01");
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
-    mockMatter.mockReturnValue({ data: {} } as any);
+    mockParseFrontmatter.mockReturnValue({ data: {}, content: "" });
     mockStatSync.mockReturnValue({ mtime } as any);
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);

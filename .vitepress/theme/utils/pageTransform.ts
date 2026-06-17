@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync } from "fs";
 import { join } from "path";
-import matter from "gray-matter";
+import { parseFrontmatter } from "./frontmatter";
 import type { PageData } from "vitepress";
 import { SITE_URL } from "./constants";
 import { pageMeta, personJsonLd, profilePageJsonLd } from "./seo";
@@ -54,7 +54,7 @@ function transformPostsIndex(pageData: PageData): void {
   const blogPosts = readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))
     .map((f) => {
-      const { data } = matter(readFileSync(join(postsDir, f), "utf-8"));
+      const { data } = parseFrontmatter(readFileSync(join(postsDir, f), "utf-8"));
       return {
         slug: f.replace(/\.md$/, ""),
         title: data.title as string | undefined,
@@ -121,7 +121,7 @@ function transformPost(pageData: PageData): void {
   );
   if (!existsSync(postPath)) return;
 
-  const { data } = matter(readFileSync(postPath, "utf-8"));
+  const { data } = parseFrontmatter(readFileSync(postPath, "utf-8"));
   const title = data.title ?? "";
   const description = data.description ?? "";
   const url = `${SITE_URL}/posts/${slug}`;

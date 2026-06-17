@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
-import matter from "gray-matter";
+import { parseFrontmatter } from "./frontmatter";
 import { SITE_URL, CURRENT_LOCATION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
@@ -27,7 +27,7 @@ function loadPosts(): PostMeta[] {
     readdirSync(POSTS_DIR)
       .filter((f) => f.endsWith(".md") && f !== "index.md")
       .map((file) => {
-        const { data } = matter(readFileSync(join(POSTS_DIR, file), "utf-8"));
+        const { data } = parseFrontmatter(readFileSync(join(POSTS_DIR, file), "utf-8"));
         return { ...data, slug: file.replace(/\.md$/, "") } as PostMeta;
       })
       .filter((p) => !p.draft)

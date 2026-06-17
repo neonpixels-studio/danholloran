@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, statSync } from "fs";
 import { join } from "path";
-import matter from "gray-matter";
+import { parseFrontmatter } from "./frontmatter";
 import type { SitemapItem } from "vitepress";
 
 export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
@@ -17,7 +17,7 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
           `${postSlug}.md`,
         );
         if (existsSync(postPath)) {
-          const { data } = matter(readFileSync(postPath, "utf-8"));
+          const { data } = parseFrontmatter(readFileSync(postPath, "utf-8"));
           if (data.date) return { ...item, url, lastmod: new Date(data.date) };
         }
       }
