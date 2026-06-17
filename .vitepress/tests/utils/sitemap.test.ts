@@ -40,7 +40,10 @@ describe("transformSitemapItems", () => {
     const postDate = "2024-03-15";
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter.mockReturnValue({ data: { date: postDate }, content: "" });
+    mockParseFrontmatter.mockReturnValue({
+      data: { date: postDate },
+      content: "",
+    });
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(new Date(postDate));

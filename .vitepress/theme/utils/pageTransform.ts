@@ -54,7 +54,9 @@ function transformPostsIndex(pageData: PageData): void {
   const blogPosts = readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))
     .map((f) => {
-      const { data } = parseFrontmatter(readFileSync(join(postsDir, f), "utf-8"));
+      const { data } = parseFrontmatter(
+        readFileSync(join(postsDir, f), "utf-8"),
+      );
       return {
         slug: f.replace(/\.md$/, ""),
         title: data.title as string | undefined,

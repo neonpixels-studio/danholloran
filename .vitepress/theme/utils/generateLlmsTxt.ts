@@ -27,7 +27,9 @@ function loadPosts(): PostMeta[] {
     readdirSync(POSTS_DIR)
       .filter((f) => f.endsWith(".md") && f !== "index.md")
       .map((file) => {
-        const { data } = parseFrontmatter(readFileSync(join(POSTS_DIR, file), "utf-8"));
+        const { data } = parseFrontmatter(
+          readFileSync(join(POSTS_DIR, file), "utf-8"),
+        );
         return { ...data, slug: file.replace(/\.md$/, "") } as PostMeta;
       })
       .filter((p) => !p.draft)
