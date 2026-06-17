@@ -39,5 +39,3 @@ The risks aren't trivial. The irrevocability that makes FedNow useful also makes
 For developers and fintechs, FedNow is accessible via ISO 20022 message formatting — a global standard that's more structured and data-rich than the legacy formats ACH uses. Building on it requires connecting through a FedNow-certified participant (most commonly a bank or payment processor), not directly to the Fed.
 
 Real-time settlement is increasingly table stakes in payments globally — the UK's Faster Payments, India's UPI, and Brazil's PIX all run 24/7 instant rails. The U.S. is catching up, but the transition from a batch-processing culture to real-time expectations will take years to fully play out.
-
-_This post is for educational and informational purposes only and is not financial, investment, or tax advice. Do your own research and consider consulting a licensed professional before making financial decisions._

@@ -43,6 +43,25 @@ describe("PostView", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  it("shows the finance disclaimer for finance posts", () => {
+    const financePost = {
+      ...mockPosts[0],
+      frontmatter: { ...mockPosts[0].frontmatter, topic: "finance" },
+    };
+    const wrapper = shallowMount(PostView, {
+      props: { post: financePost, posts: [financePost] },
+    });
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("hides the finance disclaimer for non-finance posts", () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    expect(wrapper.find("aside[aria-label='Disclaimer']").exists()).toBe(false);
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it("links each tag to /posts?tag=TAG", () => {
     const wrapper = shallowMount(PostView, {
       props: {
