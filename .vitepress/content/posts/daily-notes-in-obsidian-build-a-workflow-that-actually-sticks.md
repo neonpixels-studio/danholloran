@@ -59,7 +59,7 @@ Back in Settings → Daily notes, set Template file location to the path of this
 
 Once you have a couple of weeks of daily notes, [Dataview](https://obsidian.md/plugins?id=dataview) turns them into a self-updating log. Install it the same way as Templater, then add this block to the bottom of your template:
 
-```dataview
+```markdown
 LIST
 FROM ""
 WHERE file.cday = date("<% tp.date.now("YYYY-MM-DD") %>")
@@ -71,7 +71,7 @@ Because Templater runs this at creation time, each daily note gets a query hardc
 
 You can extend this to surface unfinished work across the week. Add a second block to the template:
 
-```dataview
+```markdown
 TASK
 FROM "Daily"
 WHERE !completed AND file.day >= date(today) - dur(7d)
