@@ -10,7 +10,7 @@ tags:
     "templater",
     "dataview",
   ]
-draft: true
+draft: false
 title: "Daily Notes in Obsidian: Build a Workflow That Actually Sticks"
 image: "/images/posts/daily-notes-in-obsidian-build-a-workflow-that-actually-sticks.jpg"
 topic: "obsidian"
