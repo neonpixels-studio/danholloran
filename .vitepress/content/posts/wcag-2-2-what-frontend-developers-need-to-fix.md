@@ -1,10 +1,10 @@
 ---
-date: '2026-06-18T07:09:03.000+00:00'
-tags: ['accessibility', 'wcag', 'html', 'css', 'frontend']
+date: "2026-06-18T07:09:03.000+00:00"
+tags: ["accessibility", "wcag", "html", "css", "frontend"]
 draft: true
 title: "WCAG 2.2: What Frontend Developers Actually Need to Fix"
-image: '/images/posts/wcag-2-2-what-frontend-developers-need-to-fix.jpg'
-topic: 'development'
+image: "/images/posts/wcag-2-2-what-frontend-developers-need-to-fix.jpg"
+topic: "development"
 description: "WCAG 2.2 became the enforcement standard in 2026. Here are the nine new success criteria that matter most for frontend developers — and what to actually do about them."
 ---
 
@@ -16,7 +16,7 @@ The good news: WCAG 2.2 is backward compatible. If you're already meeting 2.1 AA
 
 Two of the nine new criteria deal with focus, and they're the ones that trip up the most component libraries and design systems.
 
-**Focus Not Obscured (SC 2.4.11, Level AA)** says a focused element can't be *entirely* hidden by author-created content. Sticky headers, floating chat widgets, cookie consent banners, and modal overlays are the usual culprits. The rule doesn't require the whole element to be visible — just that it's not completely covered. SC 2.4.12 (Level AAA) goes further and requires the full component to be visible.
+**Focus Not Obscured (SC 2.4.11, Level AA)** says a focused element can't be _entirely_ hidden by author-created content. Sticky headers, floating chat widgets, cookie consent banners, and modal overlays are the usual culprits. The rule doesn't require the whole element to be visible — just that it's not completely covered. SC 2.4.12 (Level AAA) goes further and requires the full component to be visible.
 
 **Focus Appearance (SC 2.4.11 at AA, 2.4.13 at AAA)** finally gives numbers to what a visible focus indicator looks like. At the AA level, the focus indicator must have a perimeter at least as long as the unfocused component's perimeter, and the color change between focused and unfocused states must have a contrast ratio of at least 3:1. The browser default outline in Chrome and Safari passes — `outline: none` without a replacement does not.
 
@@ -45,7 +45,7 @@ Using `:focus-visible` instead of `:focus` means keyboard users see the indicato
 
 ## Authentication and Forms
 
-**Accessible Authentication (SC 3.3.8 at AA, 3.3.9 at AAA)** is the criterion that generated the most discussion when 2.2 dropped. It says a cognitive function test — remembering a password, solving a CAPTCHA, transcribing characters — cannot be required as the *only* way to authenticate. The criterion doesn't ban passwords, but it does require that if you use a password, users can paste into the field (so password managers work), autofill is allowed, or a copy mechanism is available.
+**Accessible Authentication (SC 3.3.8 at AA, 3.3.9 at AAA)** is the criterion that generated the most discussion when 2.2 dropped. It says a cognitive function test — remembering a password, solving a CAPTCHA, transcribing characters — cannot be required as the _only_ way to authenticate. The criterion doesn't ban passwords, but it does require that if you use a password, users can paste into the field (so password managers work), autofill is allowed, or a copy mechanism is available.
 
 In practical terms: don't block paste on password inputs, don't disable autocomplete on login forms, and consider adding magic links or passkeys as alternatives.
 
