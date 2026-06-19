@@ -7,4 +7,5 @@ node_modules
 .netlify
 /.envrc
 .fallow/
+.lighthouseci/
 /.claude
