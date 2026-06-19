@@ -1,7 +1,7 @@
 ---
 date: "2026-06-18T07:09:03.000+00:00"
 tags: ["accessibility", "wcag", "html", "css", "frontend"]
-draft: true
+draft: false
 title: "WCAG 2.2: What Frontend Developers Actually Need to Fix"
 image: "/images/posts/wcag-2-2-what-frontend-developers-need-to-fix.jpg"
 topic: "development"
