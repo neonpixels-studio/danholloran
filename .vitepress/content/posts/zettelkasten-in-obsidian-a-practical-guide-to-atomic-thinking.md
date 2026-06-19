@@ -1,10 +1,18 @@
 ---
-date: '2026-06-19T07:08:31.000+00:00'
-tags: ['obsidian', 'pkm', 'zettelkasten', 'note-taking', 'knowledge-management', 'linking']
-draft: true
+date: "2026-06-19T07:08:31.000+00:00"
+tags:
+  [
+    "obsidian",
+    "pkm",
+    "zettelkasten",
+    "note-taking",
+    "knowledge-management",
+    "linking",
+  ]
+draft: false
 title: "Zettelkasten in Obsidian: A Practical Guide to Atomic Thinking"
-image: '/images/posts/zettelkasten-in-obsidian-a-practical-guide-to-atomic-thinking.jpg'
-topic: 'obsidian'
+image: "/images/posts/zettelkasten-in-obsidian-a-practical-guide-to-atomic-thinking.jpg"
+topic: "obsidian"
 description: "Most people use Obsidian as a fancy folder system. The Zettelkasten method changes that — here's how to set one up without overcomplicating it."
 ---
 
@@ -20,7 +28,7 @@ The original Zettelkasten distinguishes between three types of notes. You don't 
 
 **Literature notes** record what you took from a specific source: a book, a paper, a podcast. One note per source. Write in your own words, not copy-paste. Include a brief reference (author, title, URL). The point of paraphrasing is that you can't fool yourself — if you can't say it in your own words, you don't understand it yet.
 
-**Permanent notes** (Luhmann called them *Zettel*) are where the thinking lives. Each one captures a single idea, fully formed enough to stand alone. No loose ends, no "see also later." The title is usually a claim or assertion, not a topic: instead of "Spaced Repetition," something like "Spaced repetition works because forgetting and recalling is more effective than re-reading." One note, one idea.
+**Permanent notes** (Luhmann called them _Zettel_) are where the thinking lives. Each one captures a single idea, fully formed enough to stand alone. No loose ends, no "see also later." The title is usually a claim or assertion, not a topic: instead of "Spaced Repetition," something like "Spaced repetition works because forgetting and recalling is more effective than re-reading." One note, one idea.
 
 The workflow is: capture fleeting → distill into literature → synthesize into permanent. The permanent note is the product; the others are scaffolding.
 
@@ -36,24 +44,24 @@ vault/
 └── 3 - Templates/   # optional but useful
 ```
 
-Keep it flat within each folder. Resist the urge to create subfolders like `Permanent/Technology/Programming/JavaScript`. The whole point of the Zettelkasten is that *links*, not folders, create structure. When you nest folders, you're pre-deciding where an idea belongs before you know which other ideas it connects to. The link graph reveals structure organically; folders impose it artificially.
+Keep it flat within each folder. Resist the urge to create subfolders like `Permanent/Technology/Programming/JavaScript`. The whole point of the Zettelkasten is that _links_, not folders, create structure. When you nest folders, you're pre-deciding where an idea belongs before you know which other ideas it connects to. The link graph reveals structure organically; folders impose it artificially.
 
 Name your permanent notes with a timestamp prefix if you want to preserve creation order (Luhmann used a numeric ID system), or just use a descriptive title. Either works — what matters is that the body of the note links out.
 
 ## The Linking Habit: Where the System Lives or Dies
 
-The Zettelkasten doesn't work without links. This sounds obvious, but most people write their permanent notes and then stop. They save the file and move on. The magic only happens when you ask: *what does this note connect to?*
+The Zettelkasten doesn't work without links. This sounds obvious, but most people write their permanent notes and then stop. They save the file and move on. The magic only happens when you ask: _what does this note connect to?_
 
 When writing a new permanent note in Obsidian, before you close the file, force yourself to add at least one `[[wikilink]]` to an existing note. Usually you'll find two or three. If you can't find any, that's worth noticing — either the idea is genuinely new (good) or you haven't built up enough notes yet (normal, keep going).
 
 ```markdown
 ## Spaced repetition works because retrieval strengthens memory
 
-The act of forgetting and then recalling is more cognitively demanding than 
+The act of forgetting and then recalling is more cognitively demanding than
 re-reading, which requires only recognition. [[Active recall vs passive review]]
 explains why highlighting feels productive but isn't.
 
-This has practical consequences for flashcard design: [[Cloze deletion cards 
+This has practical consequences for flashcard design: [[Cloze deletion cards
 outperform simple Q&A]] because they force partial recall rather than all-or-nothing.
 
 Source: [[Make It Stick - Brown et al]]
