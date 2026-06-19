@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useMainNav } from "@composables/useMainNav.ts";
 import { useNavPanels } from "@composables/useNavPanels.ts";
 import socialLinks from "@data/socialLinks";
+import AppThemeToggle from "@components/AppThemeToggle.vue";
 
 const { isPathActive, activeSection, navItems } = useMainNav();
 const { isMobileMenuOpen, toggleMobileMenu } = useNavPanels();
@@ -87,6 +88,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
     </div>
 
     <div class="flex items-center gap-2 max-md:gap-1">
+      <AppThemeToggle />
       <button
         id="searchToggle"
         type="button"
