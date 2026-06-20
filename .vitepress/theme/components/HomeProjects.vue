@@ -31,7 +31,7 @@ import projects from "@data/projects";
         >
           <img
             :src="project.image"
-            class="mb-4 aspect-video w-full rounded-xs transition-transform duration-400 group-hover:scale-[1.02]"
+            class="mb-4 aspect-video w-full rounded-xs object-cover transition-transform duration-400 group-hover:scale-[1.02]"
             :alt="`${project.title} thumbnail`"
           />
           <div

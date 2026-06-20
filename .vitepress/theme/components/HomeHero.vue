@@ -5,7 +5,10 @@ import quotes from "@data/quotes";
 import skills from "@data/skills.ts";
 import { SkillInterface } from "@typedefs";
 
-const quote = quotes[Math.floor(Math.random() * quotes.length)];
+const quote = ref(quotes[0]);
+onMounted(() => {
+  quote.value = quotes[Math.floor(Math.random() * quotes.length)];
+});
 
 const heroParallaxRef = ref<HTMLElement | null>(null);
 
@@ -29,7 +32,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
     >
       <div ref="heroParallaxRef" class="hero-parallax">
         <div
-          class="reveal text-fg-subtle mb-8 flex items-center gap-3 font-mono text-[0.68rem] tracking-widest uppercase"
+          class="reveal in text-fg-subtle mb-8 flex items-center gap-3 font-mono text-[0.68rem] tracking-widest uppercase"
         >
           <span class="bg-accent inline-block h-px w-6"></span>
           <span
@@ -38,7 +41,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           {{ CURRENT_LOCATION }}
         </div>
         <h1
-          class="reveal mb-8 font-mono leading-[0.95] font-bold"
+          class="reveal in mb-8 font-mono leading-[0.95] font-bold"
           style="
             font-size: clamp(3rem, 6vw, 5rem);
             letter-spacing: var(--tracking-tightest);
@@ -47,11 +50,11 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           Dan<br /><span class="text-outline inline-block">Holloran</span>
         </h1>
         <p
-          class="reveal text-fg-muted mb-10 max-w-110 text-[1.05rem] leading-[1.75]"
+          class="reveal in text-fg-muted mb-10 max-w-110 text-[1.05rem] leading-[1.75]"
         >
           {{ resume.intro }}
         </p>
-        <div class="reveal flex flex-wrap gap-3">
+        <div class="reveal in flex flex-wrap gap-3">
           <a
             href="/posts"
             class="btn-base bg-accent border-accent hover:bg-accent-hover hover:border-accent-hover border-2 text-white hover:-translate-y-px"

@@ -8,12 +8,12 @@ exports[`HomeProjects > renders correctly 1`] = `
       <h2 class="reveal font-mono font-bold" style="letter-spacing: var(--tracking-tightest);"> Selected Work </h2><span class="reveal text-fg-subtle font-mono text-[0.68rem]">02 projects </span>
     </div>
     <div class="stagger grid grid-cols-3 gap-6 max-md:grid-cols-2 max-sm:grid-cols-1">
-      <div class="group border-t-2 pt-5 transition-colors duration-300 border-accent"><img src="/images/projects/acme.png" class="mb-4 aspect-video w-full rounded-xs transition-transform duration-400 group-hover:scale-[1.02]" alt="Acme Project thumbnail">
+      <div class="group border-t-2 pt-5 transition-colors duration-300 border-accent"><img src="/images/projects/acme.png" class="mb-4 aspect-video w-full rounded-xs object-cover transition-transform duration-400 group-hover:scale-[1.02]" alt="Acme Project thumbnail">
         <div class="tracking-tighter-2 mb-1 font-mono text-[0.85rem] font-bold">Acme Project</div>
         <div class="text-fg-subtle mb-2.5 font-mono text-[0.65rem]">Acme Corp</div>
         <div class="mb-2.5 flex flex-wrap gap-1.5"><span class="tag">Vue.js</span></div><a class="text-accent font-mono text-[0.72rem]" href="https://acme.example" target="blank"> view → </a>
       </div>
-      <div class="group border-t-2 pt-5 transition-colors duration-300 border-line"><img src="/images/projects/other.png" class="mb-4 aspect-video w-full rounded-xs transition-transform duration-400 group-hover:scale-[1.02]" alt="Side Project thumbnail">
+      <div class="group border-t-2 pt-5 transition-colors duration-300 border-line"><img src="/images/projects/other.png" class="mb-4 aspect-video w-full rounded-xs object-cover transition-transform duration-400 group-hover:scale-[1.02]" alt="Side Project thumbnail">
         <div class="tracking-tighter-2 mb-1 font-mono text-[0.85rem] font-bold">Side Project</div>
         <div class="text-fg-subtle mb-2.5 font-mono text-[0.65rem]">Other Co</div>
         <div class="mb-2.5 flex flex-wrap gap-1.5"><span class="tag">Vue.js</span></div><a class="text-accent font-mono text-[0.72rem]" target="blank"> view → </a>

@@ -4,10 +4,10 @@ exports[`HomeHero > renders correctly 1`] = `
 "<section id="about" class="border-line bg-topography-edge relative overflow-hidden border-b px-8 pt-35 pb-16">
   <div class="relative z-10 container mx-auto grid max-w-275 grid-cols-2 items-center gap-16 max-lg:grid-cols-1">
     <div class="hero-parallax">
-      <div class="reveal text-fg-subtle mb-8 flex items-center gap-3 font-mono text-[0.68rem] tracking-widest uppercase"><span class="bg-accent inline-block h-px w-6"></span><span class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"></span> Reno, NV</div>
-      <h1 class="reveal mb-8 font-mono leading-[0.95] font-bold" style="letter-spacing: var(--tracking-tightest);"> Dan<br><span class="text-outline inline-block">Holloran</span></h1>
-      <p class="reveal text-fg-muted mb-10 max-w-110 text-[1.05rem] leading-[1.75]">Building great things on the web.</p>
-      <div class="reveal flex flex-wrap gap-3"><a href="/posts" class="btn-base bg-accent border-accent hover:bg-accent-hover hover:border-accent-hover border-2 text-white hover:-translate-y-px"> read the blog </a><a href="/#projects" class="btn-base border-fg text-fg hover:bg-fg hover:text-bg border-2"> view projects </a></div>
+      <div class="reveal in text-fg-subtle mb-8 flex items-center gap-3 font-mono text-[0.68rem] tracking-widest uppercase"><span class="bg-accent inline-block h-px w-6"></span><span class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"></span> Reno, NV</div>
+      <h1 class="reveal in mb-8 font-mono leading-[0.95] font-bold" style="letter-spacing: var(--tracking-tightest);"> Dan<br><span class="text-outline inline-block">Holloran</span></h1>
+      <p class="reveal in text-fg-muted mb-10 max-w-110 text-[1.05rem] leading-[1.75]">Building great things on the web.</p>
+      <div class="reveal in flex flex-wrap gap-3"><a href="/posts" class="btn-base bg-accent border-accent hover:bg-accent-hover hover:border-accent-hover border-2 text-white hover:-translate-y-px"> read the blog </a><a href="/#projects" class="btn-base border-fg text-fg hover:bg-fg hover:text-bg border-2"> view projects </a></div>
     </div>
     <div class="flex flex-col gap-8">
       <div class="reveal-right flex items-center gap-8 max-md:flex-col max-md:items-start">

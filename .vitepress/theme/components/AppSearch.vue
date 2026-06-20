@@ -226,6 +226,7 @@ onUnmounted(() => {
                 if (el) resultRefs[index] = el as HTMLElement;
               }
             "
+            :href="item.href"
             class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors"
             :class="
               index === activeIndex
