@@ -1,0 +1,14 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NewsletterTerminal > renders correctly 1`] = `
+"<section data-v-32d77373="" class="mt-16" aria-labelledby="nl-term-heading">
+  <div data-v-32d77373="" class="nl-term">
+    <div class="nl-term-bar" data-v-32d77373=""><span class="nl-dot nl-dot-r" data-v-32d77373=""></span><span class="nl-dot nl-dot-y" data-v-32d77373=""></span><span class="nl-dot nl-dot-g" data-v-32d77373=""></span><span class="nl-term-path" data-v-32d77373="">~/subscribe</span></div>
+    <form data-v-32d77373="" class="nl-term-body" novalidate="">
+      <div data-v-32d77373="" id="nl-term-heading" class="nl-term-comment"> # new posts on code, craft &amp; travel — no noise, no schedule </div><label data-v-32d77373="" for="email_address" class="sr-only">Email address</label>
+      <div data-v-32d77373="" class="nl-term-cmd"><span data-v-32d77373="" class="nl-term-prompt">$</span><span data-v-32d77373="" class="nl-term-flag">subscribe</span><input data-v-32d77373="" id="email_address" type="email" name="email_address" autocomplete="email" placeholder="you@domain.com"></div>
+      <div data-v-32d77373="" class="nl-term-foot"><button data-v-32d77373="" type="submit" class="nl-term-run">↵ run</button><span data-v-32d77373="" class="nl-term-status" aria-live="polite"><!--v-if--></span></div>
+    </form>
+  </div>
+</section>"
+`;
