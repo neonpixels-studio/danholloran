@@ -54,6 +54,7 @@ import projects from "@data/projects";
             class="text-accent font-mono text-[0.72rem]"
             :href="project.url"
             target="blank"
+            :aria-label="`View ${project.title}`"
           >
             view →
           </a>

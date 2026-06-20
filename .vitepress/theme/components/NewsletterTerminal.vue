@@ -17,16 +17,17 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
         <div id="nl-term-heading" class="nl-term-comment">
           # new posts on code, craft &amp; travel — no noise, no schedule
         </div>
+        <label for="email_address" class="sr-only">Email address</label>
         <div class="nl-term-cmd">
           <span class="nl-term-prompt">$</span>
           <span class="nl-term-flag">subscribe</span>
           <input
+            id="email_address"
             v-model="email"
             type="email"
             name="email_address"
             autocomplete="email"
             placeholder="you@domain.com"
-            aria-label="Email address"
             :disabled="status === 'loading' || status === 'success'"
           />
         </div>
