@@ -1,10 +1,19 @@
 ---
-date: '2026-06-20T20:19:40.000+00:00'
-tags: ['finance', 'investing', 'stocks', 'options', 'markets', 'trading', 'options-basics']
-draft: true
+date: "2026-06-20T20:19:40.000+00:00"
+tags:
+  [
+    "finance",
+    "investing",
+    "stocks",
+    "options",
+    "markets",
+    "trading",
+    "options-basics",
+  ]
+draft: false
 title: "Options 101: Understanding Calls and Puts"
-image: '/images/posts/options-101-understanding-calls-and-puts.jpg'
-topic: 'finance'
+image: "/images/posts/options-101-understanding-calls-and-puts.jpg"
+topic: "finance"
 description: "A practical explainer on how stock options work — what calls and puts are, how they're priced, and what time decay means for buyers and sellers."
 ---
 
@@ -20,10 +29,10 @@ That specific price is the **strike price**. The date is the **expiration date**
 
 Two types:
 
-- A **call option** gives you the right to *buy* 100 shares at the strike price
-- A **put option** gives you the right to *sell* 100 shares at the strike price
+- A **call option** gives you the right to _buy_ 100 shares at the strike price
+- A **put option** gives you the right to _sell_ 100 shares at the strike price
 
-You're not buying or selling the actual shares when you purchase an option — you're buying the *right* to do so at predetermined terms.
+You're not buying or selling the actual shares when you purchase an option — you're buying the _right_ to do so at predetermined terms.
 
 ## A Worked Example
 
@@ -42,9 +51,9 @@ Here's the part most newcomers underweight: options lose value over time even if
 
 An option with 60 days until expiration has more time value built into its price than the same option with 10 days left. As expiration approaches, that time value erodes — and the erosion accelerates in the final few weeks. At expiration, an option is worth only its intrinsic value (the profit if exercised right now) or zero.
 
-For option *buyers*, theta is a headwind. You're not just betting on direction — you're racing against the clock. A stock can move in the right direction and you can still lose money if it moves too slowly.
+For option _buyers_, theta is a headwind. You're not just betting on direction — you're racing against the clock. A stock can move in the right direction and you can still lose money if it moves too slowly.
 
-For option *sellers*, theta is income. They collect the premium upfront and profit as long as the option expires worthless. Sellers are on the other side of every contract a buyer enters, and they take on the obligation that buyers avoid.
+For option _sellers_, theta is income. They collect the premium upfront and profit as long as the option expires worthless. Sellers are on the other side of every contract a buyer enters, and they take on the obligation that buyers avoid.
 
 ## What to Know Before Going Further
 

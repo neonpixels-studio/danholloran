@@ -1,10 +1,10 @@
 ---
-date: '2026-06-20T23:24:14.000+00:00'
-tags: ['finance', 'crypto', 'stablecoins', 'blockchain', 'web3']
-draft: true
+date: "2026-06-20T23:24:14.000+00:00"
+tags: ["finance", "crypto", "stablecoins", "blockchain", "web3"]
+draft: false
 title: "How Stablecoins Keep Their Peg — And Why It's Harder Than It Looks"
-image: '/images/posts/how-stablecoins-keep-their-peg.jpg'
-topic: 'finance'
+image: "/images/posts/how-stablecoins-keep-their-peg.jpg"
+topic: "finance"
 description: "Stablecoins promise $1 forever, but the mechanics behind that stability vary wildly. Here's how fiat-backed, crypto-backed, and algorithmic designs each approach the peg — and what can go wrong."
 ---
 
