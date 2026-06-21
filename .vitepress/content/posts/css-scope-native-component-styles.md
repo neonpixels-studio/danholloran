@@ -1,10 +1,10 @@
 ---
-date: '2026-06-21T07:08:32.000+00:00'
-tags: ['css', 'web-apis', 'tooling', 'performance']
-draft: true
+date: "2026-06-21T07:08:32.000+00:00"
+tags: ["css", "web-apis", "tooling", "performance"]
+draft: false
 title: "CSS @scope: Component-Scoped Styles Are Now Native"
-image: '/images/posts/css-scope-native-component-styles.jpg'
-topic: 'development'
+image: "/images/posts/css-scope-native-component-styles.jpg"
+topic: "development"
 description: "CSS @scope reached full browser support in December 2025 — here's how to use it to write component-scoped styles without CSS Modules, BEM, or a build step."
 ---
 
@@ -88,8 +88,12 @@ Where `@scope` gets genuinely interesting for component-driven development is in
 <article class="post-card">
   <style>
     @scope {
-      h2 { font-size: 1.5rem; }
-      p  { color: #555; }
+      h2 {
+        font-size: 1.5rem;
+      }
+      p {
+        color: #555;
+      }
     }
   </style>
 
