@@ -1,10 +1,10 @@
 ---
-date: '2026-06-20T07:09:15.000+00:00'
-tags: ['finance', 'crypto', 'blockchain', 'tokenization', 'web3', 'rwa']
-draft: true
+date: "2026-06-20T07:09:15.000+00:00"
+tags: ["finance", "crypto", "blockchain", "tokenization", "web3", "rwa"]
+draft: false
 title: "Real-World Asset Tokenization: Putting Stocks, Bonds, and Real Estate On-Chain"
-image: '/images/posts/real-world-asset-tokenization.jpg'
-topic: 'finance'
+image: "/images/posts/real-world-asset-tokenization.jpg"
+topic: "finance"
 description: "Real-world asset tokenization is turning traditionally illiquid investments into blockchain tokens. Here is how it actually works and what risks come with it."
 ---
 
