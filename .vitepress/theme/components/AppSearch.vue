@@ -192,6 +192,7 @@ onUnmounted(() => {
             ref="inputRef"
             v-model="query"
             type="text"
+            aria-label="Search"
             placeholder="search posts, projects, pages..."
             autocomplete="off"
             spellcheck="false"

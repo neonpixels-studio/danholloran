@@ -6,6 +6,23 @@ import { SITE_URL } from "./constants";
 import { pageMeta, personJsonLd, profilePageJsonLd } from "./seo";
 import resume, { getExperienceLength } from "../../data/resume.ts";
 
+// Returns true for head entries owned by our transforms (canonical, OG, JSON-LD).
+// Keeping this as a named predicate limits cyclomatic complexity per function.
+function isTransformOwned(tag: any[]): boolean {
+  if (tag[0] === "link") return tag[1]?.rel === "canonical";
+  if (tag[0] === "script") return tag[1]?.type === "application/ld+json";
+  if (tag[0] !== "meta") return false;
+  return (
+    tag[1]?.property?.startsWith("og:") || tag[1]?.name?.startsWith("twitter:")
+  );
+}
+
+// Strips owned entries so calling transformPageData twice (which VitePress can
+// do for dynamic routes) doesn't produce duplicate tags.
+function cleanHead(head: any[]): any[] {
+  return head.filter((tag) => !isTransformOwned(tag));
+}
+
 function transformHome(pageData: PageData): void {
   const title = resume.headline;
   pageData.title = title;
@@ -14,7 +31,7 @@ function transformHome(pageData: PageData): void {
   pageData.frontmatter.description =
     "Frontend developer, writer, and explorer. Dan Holloran shares deep-dives on modern web dev, travel photography, and the tools he actually uses at work.";
   pageData.frontmatter.head = [
-    ...(pageData.frontmatter.head ?? []),
+    ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: `${SITE_URL}/` }],
     ...pageMeta({
       title,
@@ -34,7 +51,7 @@ function transformResume(pageData: PageData): void {
   pageData.frontmatter.title = title;
   pageData.frontmatter.description = description;
   pageData.frontmatter.head = [
-    ...(pageData.frontmatter.head ?? []),
+    ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: `${SITE_URL}/resume` }],
     ...pageMeta({
       title,
@@ -86,7 +103,7 @@ function transformPostsIndex(pageData: PageData): void {
       },
     }));
   pageData.frontmatter.head = [
-    ...(pageData.frontmatter.head ?? []),
+    ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: url }],
     ...pageMeta({
       title,
@@ -132,7 +149,7 @@ function transformPost(pageData: PageData): void {
   pageData.frontmatter.title = title;
   pageData.frontmatter.description = description;
   pageData.frontmatter.head = [
-    ...(pageData.frontmatter.head ?? []),
+    ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: url }],
     ...pageMeta({
       title,
@@ -146,6 +163,7 @@ function transformPost(pageData: PageData): void {
         headline: title,
         description,
         datePublished: data.date,
+        dateModified: data.dateModified ?? data.date,
         url,
         ...(data.image && {
           image: `${SITE_URL}${data.image}`,

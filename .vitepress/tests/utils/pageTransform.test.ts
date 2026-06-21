@@ -268,6 +268,77 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(scriptTag).toBeDefined();
   });
 
+  it("sets dateModified to the post date when no dateModified is in frontmatter", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: { title: "T", description: "D", date: "2024-03-01" },
+      content: "",
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+    transformPageData(pageData);
+
+    const scriptTag = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" && tag[1]?.type === "application/ld+json",
+    );
+    const ld = JSON.parse(scriptTag[2]);
+    expect(ld.dateModified).toBe("2024-03-01");
+  });
+
+  it("uses a separate dateModified when provided in frontmatter", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        dateModified: "2024-06-15",
+      },
+      content: "",
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+    transformPageData(pageData);
+
+    const scriptTag = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" && tag[1]?.type === "application/ld+json",
+    );
+    const ld = JSON.parse(scriptTag[2]);
+    expect(ld.dateModified).toBe("2024-06-15");
+  });
+
+  it("does not duplicate JSON-LD when called twice on the same pageData", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: { title: "T", description: "D", date: "2024-03-01" },
+      content: "",
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+    transformPageData(pageData);
+    transformPageData(pageData);
+
+    const scriptTags = (pageData.frontmatter.head ?? []).filter(
+      (tag: any[]) =>
+        tag[0] === "script" && tag[1]?.type === "application/ld+json",
+    );
+    expect(scriptTags).toHaveLength(1);
+  });
+
   it("includes canonical link to the post URL", () => {
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
