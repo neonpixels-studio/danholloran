@@ -99,7 +99,7 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
               :src="`${post.frontmatter.images[Math.floor(Math.random() * post.frontmatter.images.length)]}`"
               :alt="
                 post.frontmatter.caption ||
-                `${post.frontmatter.location} images` ||
+                `${post.frontmatter.location} image` ||
                 `Instagram Post ${index}`
               "
               width="480"
