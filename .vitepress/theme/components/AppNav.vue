@@ -179,6 +179,20 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </svg>
       </a>
 
+      <a
+        :href="socialLinks.BLUE_SKY"
+        target="blank"
+        rel="noopener"
+        aria-label="Bluesky"
+        class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 16" fill="currentColor">
+          <path
+            d="M12 10.8c-.9-2.1-3.3-6-5.3-7.9C5 1.3 3.7.5 2.5.5 1.1.5 0 1.6 0 3v2.3c0 1.4.8 2.6 2 3.1v.1C.9 9 0 10.3 0 11.8c0 2.5 2 4.5 4.5 4.5 1.3 0 2.5-.5 3.4-1.4L12 11l4.1 3.9c.9.9 2.1 1.4 3.4 1.4 2.5 0 4.5-2 4.5-4.5 0-1.5-.9-2.8-2-3.4v-.1c1.2-.5 2-1.7 2-3.1V3c0-1.4-1.1-2.5-2.5-2.5-1.2 0-2.5.8-4.2 2.4-2 1.9-4.4 5.8-5.3 7.9z"
+          />
+        </svg>
+      </a>
+
       <button
         id="mobileMenuToggle"
         type="button"
