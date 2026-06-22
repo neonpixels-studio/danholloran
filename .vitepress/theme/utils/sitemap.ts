@@ -18,7 +18,15 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
         );
         if (existsSync(postPath)) {
           const { data } = parseFrontmatter(readFileSync(postPath, "utf-8"));
-          if (data.date) return { ...item, url, lastmod: new Date(data.date) };
+          if (data.date) {
+            const parsed = new Date(data.date);
+            if (Number.isNaN(parsed.getTime())) {
+              throw new Error(
+                `Invalid date "${data.date}" in frontmatter of ${postSlug}.md`,
+              );
+            }
+            return { ...item, url, lastmod: parsed };
+          }
         }
       }
 

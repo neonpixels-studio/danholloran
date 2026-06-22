@@ -1,5 +1,5 @@
 ---
-date: "2026-06-20sT22:31:35.000-05:00"
+date: "2026-06-20T22:31:35.000-05:00"
 tags: ["tooling", "automation", "self-hosting", "mac-mini"]
 draft: false
 title: "Turning a Base M4 Mac Mini Into an Always-On Automation Box"
