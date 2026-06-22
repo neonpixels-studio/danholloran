@@ -1,10 +1,10 @@
 ---
-date: '2026-06-22T07:08:29.000+00:00'
-tags: ['css', 'animation', 'tooling']
-draft: true
+date: "2026-06-22T07:08:29.000+00:00"
+tags: ["css", "animation", "tooling"]
+draft: false
 title: "CSS @property: Typed, Animatable Custom Properties"
-image: '/images/posts/css-property-typed-animatable-custom-properties.jpg'
-topic: 'development'
+image: "/images/posts/css-property-typed-animatable-custom-properties.jpg"
+topic: "development"
 description: "Unregistered CSS custom properties can't animate — they just snap. @property fixes that by giving the browser a type, a default, and an inheritance rule, unlocking smooth transitions for gradients, counters, and design tokens."
 ---
 
@@ -20,7 +20,7 @@ A `@property` declaration requires three descriptors: `syntax`, `inherits`, and 
 
 ```css
 @property --brand-hue {
-  syntax: '<angle>';
+  syntax: "<angle>";
   inherits: false;
   initial-value: 220deg;
 }
@@ -38,20 +38,22 @@ Before `@property`, animating a gradient background required JavaScript to inter
 
 ```css
 @property --stop-one {
-  syntax: '<color>';
+  syntax: "<color>";
   inherits: false;
   initial-value: #6366f1;
 }
 
 @property --stop-two {
-  syntax: '<color>';
+  syntax: "<color>";
   inherits: false;
   initial-value: #ec4899;
 }
 
 .card {
   background: linear-gradient(135deg, var(--stop-one), var(--stop-two));
-  transition: --stop-one 0.4s ease, --stop-two 0.4s ease;
+  transition:
+    --stop-one 0.4s ease,
+    --stop-two 0.4s ease;
 }
 
 .card:hover {
@@ -72,7 +74,7 @@ The `inherits: false` flag is particularly useful for component-scoped state. Sa
 
 ```css
 @property --progress {
-  syntax: '<percentage>';
+  syntax: "<percentage>";
   inherits: false;
   initial-value: 0%;
 }
@@ -90,10 +92,10 @@ You can also register properties in JavaScript using `CSS.registerProperty()`, w
 
 ```js
 CSS.registerProperty({
-  name: '--theme-angle',
-  syntax: '<angle>',
+  name: "--theme-angle",
+  syntax: "<angle>",
   inherits: false,
-  initialValue: '0deg',
+  initialValue: "0deg",
 });
 ```
 
