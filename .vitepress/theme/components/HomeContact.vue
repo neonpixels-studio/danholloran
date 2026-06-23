@@ -11,14 +11,24 @@ const formSubmitting = ref(false);
 
 async function handleSubmit() {
   formStatus.value = "";
-  formSubmitting.value = true;
   formError.value = false;
+
+  const name = formName.value.trim();
+  const email = formEmail.value.trim();
+  const message = formMessage.value.trim();
+  if (!name || !email || !message) {
+    formError.value = true;
+    formStatus.value = "Please fill in all fields before sending.";
+    return;
+  }
+
+  formSubmitting.value = true;
   try {
     const body = new URLSearchParams({
       "form-name": "contact_form",
-      name: formName.value,
-      email: formEmail.value,
-      message: formMessage.value,
+      name,
+      email,
+      message,
     });
     const res = await fetch("/", {
       method: "POST",
