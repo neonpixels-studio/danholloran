@@ -1,10 +1,10 @@
 ---
-date: '2026-06-24T07:08:57.000+00:00'
-tags: ['finance', 'fintech', 'payments', 'bnpl', 'embedded-finance']
-draft: true
+date: "2026-06-24T07:08:57.000+00:00"
+tags: ["finance", "fintech", "payments", "bnpl", "embedded-finance"]
+draft: false
 title: "Buy Now, Pay Later: The Mechanics Behind the Checkout Button"
-image: '/images/posts/buy-now-pay-later-the-mechanics-behind-the-checkout-button.jpg'
-topic: 'finance'
+image: "/images/posts/buy-now-pay-later-the-mechanics-behind-the-checkout-button.jpg"
+topic: "finance"
 description: "BNPL looks simple at checkout, but the plumbing underneath is surprisingly complex. Here's how providers actually make money, and where the risks sit."
 ---
 
