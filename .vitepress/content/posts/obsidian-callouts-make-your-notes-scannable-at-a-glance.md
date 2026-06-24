@@ -1,10 +1,10 @@
 ---
-date: '2026-06-23T07:07:56.000+00:00'
-tags: ['obsidian', 'pkm', 'note-taking', 'markdown', 'workflows', 'callouts']
-draft: true
+date: "2026-06-23T07:07:56.000+00:00"
+tags: ["obsidian", "pkm", "note-taking", "markdown", "workflows", "callouts"]
+draft: false
 title: "Obsidian Callouts: Make Your Notes Scannable at a Glance"
-image: '/images/posts/obsidian-callouts-make-your-notes-scannable-at-a-glance.jpg'
-topic: 'obsidian'
+image: "/images/posts/obsidian-callouts-make-your-notes-scannable-at-a-glance.jpg"
+topic: "obsidian"
 description: "Obsidian's callout feature turns plain blockquotes into visual highlights — warnings, tips, collapsible sections, and custom types — using nothing but Markdown."
 ---
 
@@ -60,8 +60,8 @@ Callouts also nest cleanly. Drop a callout inside another by adding an extra `>`
 > [!info] Setting up the project
 > Clone the repo and install dependencies.
 >
->> [!warning] Node version
->> This project requires Node 20+. Run `node -v` before installing.
+> > [!warning] Node version
+> > This project requires Node 20+. Run `node -v` before installing.
 ```
 
 Each nested level renders with its own icon, color, and indent. It reads better than raw indented blockquotes and makes complex notes easier to skim.
