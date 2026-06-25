@@ -1,10 +1,10 @@
 ---
-date: '2026-06-25T16:41:14.000+00:00'
-tags: ['javascript', 'graphql', 'typescript', 'react']
-draft: true
+date: "2026-06-25T16:41:14.000+00:00"
+tags: ["javascript", "graphql", "typescript", "react"]
+draft: false
 title: "GraphQL Fragments: Let Each Component Own Its Data"
-image: '/images/posts/graphql-fragments-let-each-component-own-its-data.jpg'
-topic: 'development'
+image: "/images/posts/graphql-fragments-let-each-component-own-its-data.jpg"
+topic: "development"
 description: "GraphQL fragments let each component declare exactly the fields it needs, eliminating overfetching and the hidden dependencies that make GraphQL codebases painful to refactor."
 ---
 
@@ -44,7 +44,7 @@ That's the basic syntax. The real value comes from where you put the fragment de
 Co-location means each component declares the fragment it needs right alongside its JSX. Here's what that looks like with Apollo Client:
 
 ```tsx
-import { gql, useFragment } from '@apollo/client'
+import { gql, useFragment } from "@apollo/client";
 
 // Declared next to the component that owns this data
 export const USER_BADGE_FRAGMENT = gql`
@@ -53,23 +53,23 @@ export const USER_BADGE_FRAGMENT = gql`
     name
     avatarUrl
   }
-`
+`;
 
 export function UserBadge({ userRef }: { userRef: UserBadge$key }) {
-  const user = useFragment(USER_BADGE_FRAGMENT, userRef)
+  const user = useFragment(USER_BADGE_FRAGMENT, userRef);
   return (
     <div>
       <img src={user.avatarUrl} alt={user.name} />
       <span>{user.name}</span>
     </div>
-  )
+  );
 }
 ```
 
 The parent component spreads the fragment without knowing what fields it contains:
 
 ```tsx
-import { USER_BADGE_FRAGMENT } from './UserBadge'
+import { USER_BADGE_FRAGMENT } from "./UserBadge";
 
 const GET_POST = gql`
   query GetPost($id: ID!) {
@@ -81,7 +81,7 @@ const GET_POST = gql`
     }
   }
   ${USER_BADGE_FRAGMENT}
-`
+`;
 ```
 
 Now when `UserBadge` needs a `role` field, you add it to the fragment. The query picks it up automatically. When you delete `UserBadge`, you delete its fragment too, and the query shrinks. The parent never had to know about `avatarUrl` in the first place.
@@ -95,13 +95,13 @@ With masking enabled (available in Apollo Client 3.12+ and built into Relay by d
 ```tsx
 // Without masking: this might work accidentally because a sibling
 // component requested avatarUrl in its fragment
-const { data } = useQuery(GET_POST)
-console.log(data.post.author.avatarUrl) // could be undefined tomorrow if UserBadge moves
+const { data } = useQuery(GET_POST);
+console.log(data.post.author.avatarUrl); // could be undefined tomorrow if UserBadge moves
 
 // With masking + useFragment: TypeScript errors immediately if you
 // access a field your fragment didn't declare
-const user = useFragment(USER_BADGE_FRAGMENT, userRef)
-console.log(user.avatarUrl) // always safe — it's in YOUR fragment
+const user = useFragment(USER_BADGE_FRAGMENT, userRef);
+console.log(user.avatarUrl); // always safe — it's in YOUR fragment
 ```
 
 The TypeScript types generated from your fragments encode this contract. If you remove `avatarUrl` from `UserBadge_Fragment`, the TypeScript compiler tells you everywhere you were using it. Refactors that used to require grepping the whole codebase become a type-check run.
