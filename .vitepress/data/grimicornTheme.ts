@@ -101,6 +101,90 @@ export const TOOLS: GrimicornTool[] = [
     docs: "https://code.visualstudio.com/docs/configure/themes",
   },
   {
+    name: "Git Tower",
+    kind: "git",
+    desc: "Diff & syntax theme for the Tower git client.",
+    featured: true,
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/gittower/Grimicorn-Dark.towertheme`,
+        download: "Grimicorn (Dark).towertheme",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/gittower/Grimicorn-Light.towertheme`,
+        download: "Grimicorn (Light).towertheme",
+      },
+    ],
+    install:
+      "Double-click the <code>.towertheme</code> to install, then pick it in Tower → Settings → Git Config / Appearance.",
+    docs: "https://www.git-tower.com/help/guides/integration/syntax-highlighting/mac",
+  },
+  {
+    name: "Obsidian",
+    kind: "notes",
+    featured: true,
+    desc: "Vault theme with the full heading-color waterfall.",
+    files: [
+      {
+        label: "theme.css",
+        href: `${FILES_BASE}/obsidian/theme.css`,
+        download: "theme.css",
+      },
+      {
+        label: "manifest.json",
+        href: `${FILES_BASE}/obsidian/manifest.json`,
+        download: "manifest.json",
+      },
+    ],
+    install:
+      "Place both files in <code>.obsidian/themes/Grimicorn/</code>, then Settings → Appearance → <em>Grimicorn</em>.",
+    docs: "https://help.obsidian.md/themes",
+  },
+  {
+    name: "Claude Code",
+    kind: "agent",
+    featured: true,
+    desc: "Terminal-agent palette — diffs, prompts, plan & accept modes.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/claude-code/grimicorn-dark.json`,
+        download: "grimicorn-dark.json",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/claude-code/grimicorn-light.json`,
+        download: "grimicorn-light.json",
+      },
+    ],
+    install:
+      "Drop the JSON into <code>~/.claude/themes/</code>, then select Grimicorn from the theme menu.",
+    docs: "https://docs.anthropic.com/en/docs/claude-code/overview",
+  },
+  {
+    name: "cmux",
+    kind: "terminal",
+    desc: "Ghostty-style terminal config — background, foreground & 16-color ANSI.",
+    featured: true,
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/cmux/grimicorn-dark.conf`,
+        download: "grimicorn-dark.conf",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/cmux/grimicorn-light.conf`,
+        download: "grimicorn-light.conf",
+      },
+    ],
+    install:
+      "Reference the file from your config with <code>config-file = grimicorn-dark.conf</code> (or paste its contents inline).",
+    docs: "https://ghostty.org/docs/config/reference#theme",
+  },
+  {
     name: "iTerm2",
     kind: "terminal",
     desc: "Color presets for the macOS terminal favorite.",
@@ -139,86 +223,6 @@ export const TOOLS: GrimicornTool[] = [
     install:
       "Double-click the file (or Settings → Profiles → ⚙︎ → <em>Import</em>), then set as default.",
     docs: "https://support.apple.com/guide/terminal/change-profiles-color-trml1067/mac",
-  },
-  {
-    name: "Git Tower",
-    kind: "git",
-    desc: "Diff & syntax theme for the Tower git client.",
-    files: [
-      {
-        label: "Dark",
-        href: `${FILES_BASE}/gittower/Grimicorn-Dark.towertheme`,
-        download: "Grimicorn (Dark).towertheme",
-      },
-      {
-        label: "Light",
-        href: `${FILES_BASE}/gittower/Grimicorn-Light.towertheme`,
-        download: "Grimicorn (Light).towertheme",
-      },
-    ],
-    install:
-      "Double-click the <code>.towertheme</code> to install, then pick it in Tower → Settings → Git Config / Appearance.",
-    docs: "https://www.git-tower.com/help/guides/integration/syntax-highlighting/mac",
-  },
-  {
-    name: "Obsidian",
-    kind: "notes",
-    desc: "Vault theme with the full heading-color waterfall.",
-    files: [
-      {
-        label: "theme.css",
-        href: `${FILES_BASE}/obsidian/theme.css`,
-        download: "theme.css",
-      },
-      {
-        label: "manifest.json",
-        href: `${FILES_BASE}/obsidian/manifest.json`,
-        download: "manifest.json",
-      },
-    ],
-    install:
-      "Place both files in <code>.obsidian/themes/Grimicorn/</code>, then Settings → Appearance → <em>Grimicorn</em>.",
-    docs: "https://help.obsidian.md/themes",
-  },
-  {
-    name: "Claude Code",
-    kind: "agent",
-    desc: "Terminal-agent palette — diffs, prompts, plan & accept modes.",
-    files: [
-      {
-        label: "Dark",
-        href: `${FILES_BASE}/claude-code/grimicorn-dark.json`,
-        download: "grimicorn-dark.json",
-      },
-      {
-        label: "Light",
-        href: `${FILES_BASE}/claude-code/grimicorn-light.json`,
-        download: "grimicorn-light.json",
-      },
-    ],
-    install:
-      "Drop the JSON into <code>~/.claude/themes/</code>, then select Grimicorn from the theme menu.",
-    docs: "https://docs.anthropic.com/en/docs/claude-code/overview",
-  },
-  {
-    name: "cmux",
-    kind: "terminal",
-    desc: "Ghostty-style terminal config — background, foreground & 16-color ANSI.",
-    files: [
-      {
-        label: "Dark",
-        href: `${FILES_BASE}/cmux/grimicorn-dark.conf`,
-        download: "grimicorn-dark.conf",
-      },
-      {
-        label: "Light",
-        href: `${FILES_BASE}/cmux/grimicorn-light.conf`,
-        download: "grimicorn-light.conf",
-      },
-    ],
-    install:
-      "Reference the file from your config with <code>config-file = grimicorn-dark.conf</code> (or paste its contents inline).",
-    docs: "https://ghostty.org/docs/config/reference#theme",
   },
   {
     name: "tmux",

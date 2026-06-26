@@ -46,6 +46,18 @@ const swatches = computed(() =>
 
 const bgScale = computed(() => (isLight.value ? BG_LIGHT : BG_DARK));
 
+// Featured ports first, then alphabetical by name within each group.
+const sortedTools = computed(() =>
+  [...TOOLS].sort((a, b) => {
+    const byFeatured =
+      Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+    if (byFeatured !== 0) {
+      return byFeatured;
+    }
+    return a.name.localeCompare(b.name);
+  }),
+);
+
 function bgLabelColor(index: number): string {
   if (index < 3 && isLight.value) {
     return "#3C4C55";
@@ -339,7 +351,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 v-for="(swatch, index) in swatches"
                 :key="swatch.role"
                 type="button"
-                class="gc-swatch border-line bg-bg/50 hover:border-accent overflow-hidden rounded-[3px] border text-left transition-colors"
+                class="gc-swatch border-line bg-bg/50 hover:border-accent flex flex-col overflow-hidden rounded-[3px] border text-left transition-colors"
                 :aria-label="`Copy ${swatch.role} ${swatch.hex}`"
                 @click="copyHex(swatch.hex, index)"
               >
@@ -617,7 +629,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
           class="stagger grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1"
         >
           <div
-            v-for="tool in TOOLS"
+            v-for="tool in sortedTools"
             :key="tool.name"
             class="group flex flex-col border-t-2 pt-5"
             :class="tool.featured ? 'border-accent' : 'border-line'"
