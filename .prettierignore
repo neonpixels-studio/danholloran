@@ -2,4 +2,5 @@
 .vitepress/cache
 node_modules
 public/images
+public/grimicorn-themes
 .vitepress/data/location-geocache.json

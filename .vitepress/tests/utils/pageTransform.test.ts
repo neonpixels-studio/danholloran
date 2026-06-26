@@ -119,6 +119,41 @@ describe("transformPageData – resume.md", () => {
   });
 });
 
+describe("transformPageData – themes/grimicorn.md", () => {
+  it("sets a Grimicorn title, description, and head tags", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn.md" });
+    transformPageData(pageData);
+
+    expect(pageData.title).toContain("Grimicorn");
+    expect(pageData.description.length).toBeGreaterThan(0);
+    expect(pageData.frontmatter.title).toBe(pageData.title);
+    expect(pageData.frontmatter.head).toBeDefined();
+  });
+
+  it("includes canonical link to /themes/grimicorn", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn.md" });
+    transformPageData(pageData);
+
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/themes/grimicorn`),
+    ).toBeDefined();
+  });
+
+  it("sets the mascot as the og:image", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn.md" });
+    transformPageData(pageData);
+
+    expect(
+      findHead(
+        pageData,
+        "meta",
+        "content",
+        `${SITE_URL}/images/grimicorn-mascot.png`,
+      ),
+    ).toBeDefined();
+  });
+});
+
 describe("transformPageData – posts/index.md", () => {
   beforeEach(() => {
     mockReaddirSync.mockReturnValue([] as any);

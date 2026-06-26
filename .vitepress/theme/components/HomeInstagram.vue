@@ -93,7 +93,7 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
           class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
         >
           <div
-            class="absolute inset-0 bg-red-500 transition-transform duration-500 group-hover:scale-[1.04]"
+            class="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
           >
             <img
               :src="`${post.frontmatter.images[Math.floor(Math.random() * post.frontmatter.images.length)]}`"

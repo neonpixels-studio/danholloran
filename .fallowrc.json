@@ -6,7 +6,7 @@
     "ignore": ["*.test.*"]
   },
   "ignoreDependencies": ["vue"],
-  "ignorePatterns": ["**/*.data.ts", "**/*.paths.ts"],
+  "ignorePatterns": ["**/*.data.ts", "**/*.paths.ts", "public/**"],
   "ignoreExports": [
     { "file": ".vitepress/types/search.ts", "exports": ["PostSearchItem"] }
   ],

@@ -63,6 +63,27 @@ function transformResume(pageData: PageData): void {
   ];
 }
 
+function transformGrimicornThemes(pageData: PageData): void {
+  const title = "Grimicorn – a calm, low-fatigue color theme";
+  const description =
+    "Grimicorn — a calm, low-fatigue color theme (grim reaper × unicorn) for VS Code, terminals, Obsidian, Claude Code and more. Download dark & light variants.";
+  const url = `${SITE_URL}/themes/grimicorn`;
+  pageData.title = title;
+  pageData.description = description;
+  pageData.frontmatter.title = title;
+  pageData.frontmatter.description = description;
+  pageData.frontmatter.head = [
+    ...cleanHead(pageData.frontmatter.head ?? []),
+    ["link", { rel: "canonical", href: url }],
+    ...pageMeta({
+      title,
+      description,
+      url,
+      image: "/images/grimicorn-mascot.png",
+    }),
+  ];
+}
+
 function transformPostsIndex(pageData: PageData): void {
   const title = pageData.frontmatter.title as string;
   const description = pageData.frontmatter.description as string;
@@ -184,6 +205,8 @@ export function transformPageData(pageData: PageData): void {
       return transformHome(pageData);
     case "resume.md":
       return transformResume(pageData);
+    case "themes/grimicorn.md":
+      return transformGrimicornThemes(pageData);
     case "posts/index.md":
       return transformPostsIndex(pageData);
     case "posts/[slug].md":
