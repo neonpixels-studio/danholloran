@@ -26,7 +26,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
             <div class="gc-line" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">3</span><span class="gc-src" data-v-45fa8901=""><span class="t-key" data-v-45fa8901="">import type</span> { <span class="t-type" data-v-45fa8901="">Theme</span> } <span class="t-key" data-v-45fa8901="">from</span><span class="t-str" data-v-45fa8901="">'./types'</span></span></div>
             <div class="gc-line" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">4</span><span class="gc-src" data-v-45fa8901=""></span></div>
             <div class="gc-line" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">5</span><span class="gc-src" data-v-45fa8901=""><span class="t-key" data-v-45fa8901="">const</span> palette = <span class="t-fn" data-v-45fa8901="">ref</span>&lt;<span class="t-type" data-v-45fa8901="">Theme</span>&gt;(<span class="t-str" data-v-45fa8901="">'dark'</span>)</span></div>
-            <div class="gc-line hl" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">6</span><span class="gc-src" data-v-45fa8901=""><span class="t-key" data-v-45fa8901="">const</span> hues = <span class="t-num" data-v-45fa8901="">6</span> <span class="t-op" data-v-45fa8901="">+</span><span class="t-num" data-v-45fa8901="">2</span><span class="t-com" data-v-45fa8901="">// 8 core roles</span></span></div>
+            <div class="gc-line hl" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">6</span><span class="gc-src" data-v-45fa8901=""><span class="t-key" data-v-45fa8901="">const</span> hues = <span class="t-num" data-v-45fa8901="">6</span> <span class="t-op" data-v-45fa8901="">+ </span><span class="t-num" data-v-45fa8901="">2</span><span class="t-com" data-v-45fa8901=""> // 8 core roles</span></span></div>
             <div class="gc-line" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">7</span><span class="gc-src" data-v-45fa8901=""></span></div>
             <div class="gc-line" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">8</span><span class="gc-src" data-v-45fa8901=""><span class="t-key" data-v-45fa8901="">export function</span><span class="t-fn" data-v-45fa8901="">useTheme</span>(mode = <span class="t-str" data-v-45fa8901="">'auto'</span>) {</span></div>
             <div class="gc-line" data-v-45fa8901=""><span class="gc-ln" data-v-45fa8901="">9</span><span class="gc-src" data-v-45fa8901="">&nbsp;&nbsp;<span class="t-key" data-v-45fa8901="">const</span> isDark = <span class="t-fn" data-v-45fa8901="">computed</span>(() <span class="t-op" data-v-45fa8901="">=&gt;</span> mode <span class="t-op" data-v-45fa8901="">===</span><span class="t-str" data-v-45fa8901="">'dark'</span>)</span></div>
@@ -77,28 +77,47 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
         <div data-v-45fa8901="">
           <div data-v-45fa8901="" class="reveal text-fg-subtle mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"><span data-v-45fa8901="" class="bg-accent inline-block h-px w-6"></span> see it in action </div>
           <h2 data-v-45fa8901="" class="reveal mb-2 font-mono leading-none font-bold" style="letter-spacing: var(--tracking-tightest);"> Across the stack </h2>
-          <p data-v-45fa8901="" class="reveal text-fg-muted max-w-[460px] font-mono text-[0.72rem] leading-[1.7]"> Terminal ANSI, and the markdown heading waterfall — the same palette, everywhere. </p>
+          <p data-v-45fa8901="" class="reveal text-fg-muted max-w-[460px] font-mono text-[0.72rem] leading-[1.7]"> Terminal ANSI, a Git Tower diff, and the markdown heading waterfall — the same palette, everywhere. </p>
         </div>
         <grimicorn-preview-toggle-stub data-v-45fa8901="" modelvalue="dark" class="reveal"></grimicorn-preview-toggle-stub>
       </div>
       <div class="stagger grid grid-cols-2 gap-6 max-lg:grid-cols-1" data-v-45fa8901="">
-        <!-- terminal -->
-        <div data-v-45fa8901="">
-          <div class="text-fg-subtle mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase" data-v-45fa8901=""> terminal · ANSI palette </div>
-          <div class="gc-win" data-v-45fa8901="">
-            <div class="gc-titlebar" data-v-45fa8901=""><span class="gc-dot" style="background:#dd9787;" data-v-45fa8901=""></span><span class="gc-dot" style="background:#dada93;" data-v-45fa8901=""></span><span class="gc-dot" style="background:#a9ce93;" data-v-45fa8901=""></span><span class="gc-chrome-label" style="margin-left:0.6rem;" data-v-45fa8901="">grimicorn — zsh — 96×24</span></div>
-            <div class="gc-term" data-v-45fa8901="">
-              <div data-v-45fa8901=""><span class="u" data-v-45fa8901="">grimicorn</span><span class="at" data-v-45fa8901="">@</span><span class="path" data-v-45fa8901="">dev</span><span class="pr" data-v-45fa8901="">~/code %</span> git status </div>
-              <div class="mut" data-v-45fa8901=""> On branch <span class="info" data-v-45fa8901="">main</span> · up to date with <span class="path" data-v-45fa8901="">origin/main</span></div>
-              <div style="height:0.5rem;" data-v-45fa8901=""></div>
-              <div class="mut" data-v-45fa8901="">Changes to be committed:</div>
-              <div data-v-45fa8901=""> &nbsp;&nbsp;<span class="ok" data-v-45fa8901="">new file: src/palette.ts</span></div>
-              <div data-v-45fa8901=""> &nbsp;&nbsp;<span class="mod" data-v-45fa8901="">modified: src/theme.ts</span></div>
-              <div data-v-45fa8901=""> &nbsp;&nbsp;<span class="del" data-v-45fa8901="">deleted: src/legacy.css</span></div>
-              <div style="height:0.5rem;" data-v-45fa8901=""></div>
-              <div data-v-45fa8901=""><span class="u" data-v-45fa8901="">grimicorn</span><span class="at" data-v-45fa8901="">@</span><span class="path" data-v-45fa8901="">dev</span><span class="pr" data-v-45fa8901="">~/code %</span> npm run build </div>
-              <div data-v-45fa8901=""><span class="ok" data-v-45fa8901="">✓</span> built <span class="info" data-v-45fa8901="">14</span> modules in <span class="info" data-v-45fa8901="">1.24s</span></div>
-              <div data-v-45fa8901=""><span class="u" data-v-45fa8901="">grimicorn</span><span class="at" data-v-45fa8901="">@</span><span class="path" data-v-45fa8901="">dev</span><span class="pr" data-v-45fa8901="">~/code %</span><span class="gc-cursor" data-v-45fa8901=""></span></div>
+        <!-- terminal + git diff, stacked in the left column -->
+        <div class="flex flex-col gap-6" data-v-45fa8901="">
+          <!-- terminal -->
+          <div data-v-45fa8901="">
+            <div class="text-fg-subtle mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase" data-v-45fa8901=""> terminal · ANSI palette </div>
+            <div class="gc-win" data-v-45fa8901="">
+              <div class="gc-titlebar" data-v-45fa8901=""><span class="gc-dot" style="background:#dd9787;" data-v-45fa8901=""></span><span class="gc-dot" style="background:#dada93;" data-v-45fa8901=""></span><span class="gc-dot" style="background:#a9ce93;" data-v-45fa8901=""></span><span class="gc-chrome-label" style="margin-left:0.6rem;" data-v-45fa8901="">grimicorn — zsh — 96×24</span></div>
+              <div class="gc-term" data-v-45fa8901="">
+                <div data-v-45fa8901=""><span class="u" data-v-45fa8901="">grimicorn</span><span class="at" data-v-45fa8901="">@</span><span class="path" data-v-45fa8901="">dev</span><span class="pr" data-v-45fa8901="">~/code %</span> git status </div>
+                <div class="mut" data-v-45fa8901=""> On branch <span class="info" data-v-45fa8901="">main</span> · up to date with <span class="path" data-v-45fa8901="">origin/main</span></div>
+                <div style="height:0.5rem;" data-v-45fa8901=""></div>
+                <div class="mut" data-v-45fa8901="">Changes to be committed:</div>
+                <div data-v-45fa8901=""> &nbsp;&nbsp;<span class="ok" data-v-45fa8901="">new file: src/palette.ts</span></div>
+                <div data-v-45fa8901=""> &nbsp;&nbsp;<span class="mod" data-v-45fa8901="">modified: src/theme.ts</span></div>
+                <div data-v-45fa8901=""> &nbsp;&nbsp;<span class="del" data-v-45fa8901="">deleted: src/legacy.css</span></div>
+                <div style="height:0.5rem;" data-v-45fa8901=""></div>
+                <div data-v-45fa8901=""><span class="u" data-v-45fa8901="">grimicorn</span><span class="at" data-v-45fa8901="">@</span><span class="path" data-v-45fa8901="">dev</span><span class="pr" data-v-45fa8901="">~/code %</span> npm run build </div>
+                <div data-v-45fa8901=""><span class="ok" data-v-45fa8901="">✓</span> built <span class="info" data-v-45fa8901="">14</span> modules in <span class="info" data-v-45fa8901="">1.24s</span></div>
+                <div data-v-45fa8901=""><span class="u" data-v-45fa8901="">grimicorn</span><span class="at" data-v-45fa8901="">@</span><span class="path" data-v-45fa8901="">dev</span><span class="pr" data-v-45fa8901="">~/code %</span><span class="gc-cursor" data-v-45fa8901=""></span></div>
+              </div>
+            </div>
+          </div><!-- git diff (Git Tower) -->
+          <div data-v-45fa8901="">
+            <div class="text-fg-subtle mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase" data-v-45fa8901=""> git diff · Git Tower </div>
+            <div class="gc-win" data-v-45fa8901="">
+              <div class="gc-titlebar" data-v-45fa8901=""><span class="gc-dot" style="background:#dd9787;" data-v-45fa8901=""></span><span class="gc-dot" style="background:#dada93;" data-v-45fa8901=""></span><span class="gc-dot" style="background:#a9ce93;" data-v-45fa8901=""></span><span class="gc-chrome-label" style="margin-left:0.6rem;" data-v-45fa8901="">theme.ts — Tower</span></div>
+              <div class="gc-diff" data-v-45fa8901="">
+                <div class="gc-dhunk" data-v-45fa8901=""> @@ -11,8 +11,8 @@ export const grimicorn </div>
+                <div class="gc-dline" data-v-45fa8901=""><span class="sg" data-v-45fa8901=""></span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;base: <span class="t-str" data-v-45fa8901="">'#3C4C55'</span>,</span></div>
+                <div class="gc-dline del" data-v-45fa8901=""><span class="sg" data-v-45fa8901="">-</span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;accent: <span class="t-str" data-v-45fa8901="">'#5C6BC0'</span>,</span></div>
+                <div class="gc-dline add" data-v-45fa8901=""><span class="sg" data-v-45fa8901="">+</span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;accent: <span class="t-str" data-v-45fa8901="">'#83AFE5'</span>,</span></div>
+                <div class="gc-dline" data-v-45fa8901=""><span class="sg" data-v-45fa8901=""></span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;cursor: <span class="t-str" data-v-45fa8901="">'#A9CE93'</span>,</span></div>
+                <div class="gc-dline del" data-v-45fa8901=""><span class="sg" data-v-45fa8901="">-</span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;comment: <span class="t-str" data-v-45fa8901="">'#888888'</span>,</span></div>
+                <div class="gc-dline add" data-v-45fa8901=""><span class="sg" data-v-45fa8901="">+</span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;comment: <span class="t-str" data-v-45fa8901="">'#BFBFBF'</span>,</span></div>
+                <div class="gc-dline" data-v-45fa8901=""><span class="sg" data-v-45fa8901=""></span><span class="dc" data-v-45fa8901="">&nbsp;&nbsp;error: <span class="t-str" data-v-45fa8901="">'#DD9787'</span>,</span></div>
+              </div>
             </div>
           </div>
         </div><!-- markdown -->

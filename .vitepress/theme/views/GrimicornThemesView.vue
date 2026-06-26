@@ -220,9 +220,9 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 <span class="gc-ln">6</span
                 ><span class="gc-src"
                   ><span class="t-key">const</span> hues =
-                  <span class="t-num">6</span> <span class="t-op">+</span>
+                  <span class="t-num">6</span> <span class="t-op">+ </span>
                   <span class="t-num">2</span>
-                  <span class="t-com">// 8 core roles</span></span
+                  <span class="t-com"> // 8 core roles</span></span
                 >
               </div>
               <div class="gc-line">
@@ -440,67 +440,143 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
             <p
               class="reveal text-fg-muted max-w-[460px] font-mono text-[0.72rem] leading-[1.7]"
             >
-              Terminal ANSI, and the markdown heading waterfall — the same
-              palette, everywhere.
+              Terminal ANSI, a Git Tower diff, and the markdown heading
+              waterfall — the same palette, everywhere.
             </p>
           </div>
           <GrimicornPreviewToggle v-model="previewMode" class="reveal" />
         </div>
 
         <div class="stagger grid grid-cols-2 gap-6 max-lg:grid-cols-1">
-          <!-- terminal -->
-          <div>
-            <div
-              class="text-fg-subtle mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
-            >
-              terminal · ANSI palette
-            </div>
-            <div class="gc-win">
-              <div class="gc-titlebar">
-                <span class="gc-dot" style="background: #dd9787"></span>
-                <span class="gc-dot" style="background: #dada93"></span>
-                <span class="gc-dot" style="background: #a9ce93"></span>
-                <span class="gc-chrome-label" style="margin-left: 0.6rem"
-                  >grimicorn — zsh — 96×24</span
-                >
+          <!-- terminal + git diff, stacked in the left column -->
+          <div class="flex flex-col gap-6">
+            <!-- terminal -->
+            <div>
+              <div
+                class="text-fg-subtle mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
+              >
+                terminal · ANSI palette
               </div>
-              <div class="gc-term">
-                <div>
-                  <span class="u">grimicorn</span><span class="at">@</span
-                  ><span class="path">dev</span>
-                  <span class="pr">~/code %</span> git status
+              <div class="gc-win">
+                <div class="gc-titlebar">
+                  <span class="gc-dot" style="background: #dd9787"></span>
+                  <span class="gc-dot" style="background: #dada93"></span>
+                  <span class="gc-dot" style="background: #a9ce93"></span>
+                  <span class="gc-chrome-label" style="margin-left: 0.6rem"
+                    >grimicorn — zsh — 96×24</span
+                  >
                 </div>
-                <div class="mut">
-                  On branch <span class="info">main</span> · up to date with
-                  <span class="path">origin/main</span>
+                <div class="gc-term">
+                  <div>
+                    <span class="u">grimicorn</span><span class="at">@</span
+                    ><span class="path">dev</span>
+                    <span class="pr">~/code %</span> git status
+                  </div>
+                  <div class="mut">
+                    On branch <span class="info">main</span> · up to date with
+                    <span class="path">origin/main</span>
+                  </div>
+                  <div style="height: 0.5rem"></div>
+                  <div class="mut">Changes to be committed:</div>
+                  <div>
+                    &nbsp;&nbsp;<span class="ok">new file: src/palette.ts</span>
+                  </div>
+                  <div>
+                    &nbsp;&nbsp;<span class="mod">modified: src/theme.ts</span>
+                  </div>
+                  <div>
+                    &nbsp;&nbsp;<span class="del">deleted: src/legacy.css</span>
+                  </div>
+                  <div style="height: 0.5rem"></div>
+                  <div>
+                    <span class="u">grimicorn</span><span class="at">@</span
+                    ><span class="path">dev</span>
+                    <span class="pr">~/code %</span> npm run build
+                  </div>
+                  <div>
+                    <span class="ok">✓</span> built
+                    <span class="info">14</span> modules in
+                    <span class="info">1.24s</span>
+                  </div>
+                  <div>
+                    <span class="u">grimicorn</span><span class="at">@</span
+                    ><span class="path">dev</span>
+                    <span class="pr">~/code %</span>
+                    <span class="gc-cursor"></span>
+                  </div>
                 </div>
-                <div style="height: 0.5rem"></div>
-                <div class="mut">Changes to be committed:</div>
-                <div>
-                  &nbsp;&nbsp;<span class="ok">new file: src/palette.ts</span>
+              </div>
+            </div>
+
+            <!-- git diff (Git Tower) -->
+            <div>
+              <div
+                class="text-fg-subtle mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
+              >
+                git diff · Git Tower
+              </div>
+              <div class="gc-win">
+                <div class="gc-titlebar">
+                  <span class="gc-dot" style="background: #dd9787"></span>
+                  <span class="gc-dot" style="background: #dada93"></span>
+                  <span class="gc-dot" style="background: #a9ce93"></span>
+                  <span class="gc-chrome-label" style="margin-left: 0.6rem"
+                    >theme.ts — Tower</span
+                  >
                 </div>
-                <div>
-                  &nbsp;&nbsp;<span class="mod">modified: src/theme.ts</span>
-                </div>
-                <div>
-                  &nbsp;&nbsp;<span class="del">deleted: src/legacy.css</span>
-                </div>
-                <div style="height: 0.5rem"></div>
-                <div>
-                  <span class="u">grimicorn</span><span class="at">@</span
-                  ><span class="path">dev</span>
-                  <span class="pr">~/code %</span> npm run build
-                </div>
-                <div>
-                  <span class="ok">✓</span> built
-                  <span class="info">14</span> modules in
-                  <span class="info">1.24s</span>
-                </div>
-                <div>
-                  <span class="u">grimicorn</span><span class="at">@</span
-                  ><span class="path">dev</span>
-                  <span class="pr">~/code %</span>
-                  <span class="gc-cursor"></span>
+                <div class="gc-diff">
+                  <div class="gc-dhunk">
+                    @@ -11,8 +11,8 @@ export const grimicorn
+                  </div>
+                  <div class="gc-dline">
+                    <span class="sg"> </span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;base:
+                      <span class="t-str">'#3C4C55'</span>,</span
+                    >
+                  </div>
+                  <div class="gc-dline del">
+                    <span class="sg">-</span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;accent:
+                      <span class="t-str">'#5C6BC0'</span>,</span
+                    >
+                  </div>
+                  <div class="gc-dline add">
+                    <span class="sg">+</span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;accent:
+                      <span class="t-str">'#83AFE5'</span>,</span
+                    >
+                  </div>
+                  <div class="gc-dline">
+                    <span class="sg"> </span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;cursor:
+                      <span class="t-str">'#A9CE93'</span>,</span
+                    >
+                  </div>
+                  <div class="gc-dline del">
+                    <span class="sg">-</span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;comment:
+                      <span class="t-str">'#888888'</span>,</span
+                    >
+                  </div>
+                  <div class="gc-dline add">
+                    <span class="sg">+</span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;comment:
+                      <span class="t-str">'#BFBFBF'</span>,</span
+                    >
+                  </div>
+                  <div class="gc-dline">
+                    <span class="sg"> </span>
+                    <span class="dc"
+                      >&nbsp;&nbsp;error:
+                      <span class="t-str">'#DD9787'</span>,</span
+                    >
+                  </div>
                 </div>
               </div>
             </div>
@@ -759,6 +835,8 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
   --gc-salmon: #dd9787;
   --gc-line-hl: #445060;
   --gc-border: #1e2a31;
+  --gc-diff-add: rgba(169, 206, 147, 0.16);
+  --gc-diff-del: rgba(221, 151, 135, 0.16);
 }
 .gc-scope[data-gc="light"] {
   --gc-editor: #fdfdfd;
@@ -775,6 +853,8 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
   --gc-salmon: #c4604e;
   --gc-line-hl: #ebebeb;
   --gc-border: #d0d0d0;
+  --gc-diff-add: rgba(46, 125, 50, 0.12);
+  --gc-diff-del: rgba(196, 96, 78, 0.12);
 }
 
 .gc-win {
@@ -1027,6 +1107,50 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
 }
 .gc-md li::marker {
   color: var(--gc-teal);
+}
+
+/* git diff */
+.gc-diff {
+  padding: 0.9rem 0 1.1rem;
+  overflow-x: auto;
+  background: var(--gc-editor);
+  color: var(--gc-fg);
+  font-size: 13px;
+  line-height: 1.85;
+}
+.gc-dhunk {
+  margin-bottom: 0.3rem;
+  padding: 0.15rem 1.1rem;
+  background: var(--gc-sidebar);
+  color: var(--gc-teal);
+  font-size: 12.5px;
+}
+.gc-dline {
+  display: flex;
+  padding: 0 1.1rem;
+}
+.gc-dline .sg {
+  width: 1.3rem;
+  flex-shrink: 0;
+  color: var(--gc-faint);
+  user-select: none;
+}
+.gc-dline .dc {
+  color: var(--gc-fg);
+}
+.gc-dline.add {
+  background: var(--gc-diff-add);
+  box-shadow: inset 2px 0 0 var(--gc-green);
+}
+.gc-dline.add .sg {
+  color: var(--gc-green);
+}
+.gc-dline.del {
+  background: var(--gc-diff-del);
+  box-shadow: inset 2px 0 0 var(--gc-salmon);
+}
+.gc-dline.del .sg {
+  color: var(--gc-salmon);
 }
 
 /* palette swatch */
