@@ -18,14 +18,14 @@ exports[`HomeInstagram > renders correctly 1`] = `
         </svg></a>
     </div>
     <div class="stagger in grid grid-cols-6 gap-3 max-lg:grid-cols-3 max-sm:grid-cols-2"><a href="https://instagram.com/p/abc123" target="blank" rel="noopener" class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200">
-        <div class="absolute inset-0 bg-red-500 transition-transform duration-500 group-hover:scale-[1.04]"><img src="/images/instagram/photo1.jpg" alt="A great photo" width="480" height="480" loading="lazy" decoding="async"></div>
+        <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"><img src="/images/instagram/photo1.jpg" alt="A great photo" width="480" height="480" loading="lazy" decoding="async"></div>
         <div class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"><span class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase">01</span>
           <div class="flex items-center gap-1 font-mono text-[0.6rem] text-white"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"></path>
             </svg><span>view</span></div>
         </div><span class="text-fg-subtle bg-bg/80 absolute top-2 left-2 rounded-xs px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.08em] uppercase backdrop-blur-sm">photo</span>
       </a><a href="https://instagram.com/p/def456" target="blank" rel="noopener" class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200">
-        <div class="absolute inset-0 bg-red-500 transition-transform duration-500 group-hover:scale-[1.04]"><img src="/images/instagram/photo2.jpg" alt="Another great photo" width="480" height="480" loading="lazy" decoding="async"></div>
+        <div class="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"><img src="/images/instagram/photo2.jpg" alt="Another great photo" width="480" height="480" loading="lazy" decoding="async"></div>
         <div class="absolute inset-0 flex flex-col justify-between bg-linear-to-b from-transparent via-transparent to-black/55 p-2.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"><span class="self-end font-mono text-[0.55rem] tracking-[0.08em] text-white/90 uppercase">02</span>
           <div class="flex items-center gap-1 font-mono text-[0.6rem] text-white"><svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
               <path d="M8 14s-6-3.5-6-8a4 4 0 0 1 7-2.7A4 4 0 0 1 14 6c0 4.5-6 8-6 8z"></path>
