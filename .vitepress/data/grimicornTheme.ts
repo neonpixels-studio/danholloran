@@ -221,6 +221,26 @@ export const TOOLS: GrimicornTool[] = [
     docs: "https://ghostty.org/docs/config/reference#theme",
   },
   {
+    name: "tmux",
+    kind: "terminal",
+    desc: "Status-line theme — session pill, window tabs, pane borders & copy mode.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/tmux/grimicorn-tmux-dark.conf`,
+        download: "grimicorn-tmux-dark.conf",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/tmux/grimicorn-tmux-light.conf`,
+        download: "grimicorn-tmux-light.conf",
+      },
+    ],
+    install:
+      "Add <code>source-file ~/path/grimicorn-tmux-dark.conf</code> to your <code>.tmux.conf</code>, then reload with <code>tmux source-file ~/.tmux.conf</code>.",
+    docs: "https://man.openbsd.org/tmux#STYLES",
+  },
+  {
     name: "Shiki",
     kind: "highlighter",
     desc: "TextMate themes that power this very blog's syntax highlighting — drop them into any Shiki-based site.",

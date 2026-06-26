@@ -216,4 +216,5 @@ BORDER_FOCUS          = #83AFE5 / #4A80C8
 | Obsidian | ✅ `theme.css` | ✅ (same file, `.theme-light` block) | `themes/obsidian/Grimicorn/` |
 | Claude Code | ✅ `grimicorn-dark.json` | ✅ `grimicorn-light.json` | `~/.claude/themes/` |
 | cmux | ✅ `grimicorn-dark.conf` | ✅ `grimicorn-light.conf` | `themes/cmux/` |
+| tmux | ✅ `grimicorn-tmux-dark.conf` | ✅ `grimicorn-tmux-light.conf` | `themes/tmux/` |
 | Shiki | ✅ `grimicorn-dark.tmTheme` | ✅ `grimicorn-light.tmTheme` | `themes/shiki/` |
