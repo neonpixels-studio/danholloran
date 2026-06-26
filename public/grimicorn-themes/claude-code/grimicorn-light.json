@@ -1,0 +1,44 @@
+{
+  "name": "Grimicorn Light",
+  "base": "light",
+  "overrides": {
+    "claude": "#4A80C8",
+    "claudeShimmer": "#5A90D8",
+    "text": "#1A262C",
+    "inverseText": "#FFFFFF",
+    "inactive": "#3C4C55",
+    "subtle": "#D0D0D0",
+    "suggestion": "#3A8E96",
+    "permission": "#6B63C8",
+    "remember": "#8A8A20",
+
+    "success": "#2E7D32",
+    "error": "#C4604E",
+    "warning": "#8A8A20",
+    "merged": "#3A8E96",
+
+    "promptBorder": "#3A8E96",
+    "planMode": "#8A8A20",
+    "autoAccept": "#2E7D32",
+    "bashBorder": "#6B63C8",
+    "ide": "#4A80C8",
+    "fastMode": "#3A8E96",
+
+    "diffAdded": "#d6ebd8",
+    "diffRemoved": "#f0dbd7",
+    "diffAddedDimmed": "#e8f4e9",
+    "diffRemovedDimmed": "#f7ece9",
+    "diffAddedWord": "#b8debb",
+    "diffRemovedWord": "#e8b8b0",
+
+    "userMessageBackground": "#EBEBEB",
+    "bashMessageBackgroundColor": "#E4E4E4",
+    "memoryBackgroundColor": "#E8EAF5",
+    "selectionBg": "#80C1CA55",
+
+    "rate_limit_fill": "#4A80C8",
+    "rate_limit_empty": "#D0D0D0",
+    "briefLabelYou": "#3A8E96",
+    "briefLabelClaude": "#4A80C8"
+  }
+}

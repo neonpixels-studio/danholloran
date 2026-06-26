@@ -31,6 +31,13 @@ const STATIC_ITEMS: SearchItem[] = [
     href: "/posts",
     kw: "blog posts writing articles",
   },
+  {
+    type: "page",
+    title: "Grimicorn Theme",
+    desc: "Calm, low-fatigue color theme — dark & light, for VS Code, terminals & more",
+    href: "/themes/grimicorn",
+    kw: "themes grimicorn color theme palette vscode terminal obsidian claude code dark light download",
+  },
 ];
 
 const ALL_ITEMS: SearchItem[] = [...STATIC_ITEMS, ...postItems];

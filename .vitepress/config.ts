@@ -65,6 +65,9 @@ export default defineConfig({
     writeFileSync(join(siteConfig.outDir, "llms.txt"), generateLlmsTxt());
   },
   cleanUrls: true,
+  // Static assets under public/ are served as-is; keep their markdown
+  // (e.g. the downloadable grimicorn-palette.md) out of page routing.
+  srcExclude: ["public/**"],
   head: [
     ["meta", { property: "og:site_name", content: "Dan Holloran" }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],

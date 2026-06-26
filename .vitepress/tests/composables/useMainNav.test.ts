@@ -75,9 +75,9 @@ describe("useMainNav", () => {
   });
 
   describe("navItems", () => {
-    it("returns 5 nav items", () => {
+    it("returns 6 nav items", () => {
       const { navItems } = useMainNav();
-      expect(navItems.value).toHaveLength(5);
+      expect(navItems.value).toHaveLength(6);
     });
 
     it("has correct labels", () => {
@@ -89,6 +89,7 @@ describe("useMainNav", () => {
         "Experience",
         "Resume",
         "Blog",
+        "Themes",
       ]);
     });
 
@@ -101,6 +102,7 @@ describe("useMainNav", () => {
         "/#experience",
         "/resume",
         "/posts",
+        "/themes/grimicorn",
       ]);
     });
 
@@ -114,6 +116,12 @@ describe("useMainNav", () => {
       routeState.path = "/posts/my-post";
       const { navItems } = useMainNav();
       expect(navItems.value[4].isActive()).toBe(true);
+    });
+
+    it("Themes isActive when path is /themes/grimicorn (prefix match)", () => {
+      routeState.path = "/themes/grimicorn";
+      const { navItems } = useMainNav();
+      expect(navItems.value[5].isActive()).toBe(true);
     });
 
     it("About isActive when on home with activeSection set to 'about'", () => {

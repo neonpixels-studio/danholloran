@@ -48,6 +48,11 @@ export function useMainNav() {
         label: "Blog",
         isActive: () => isPathActive("/posts", true),
       },
+      {
+        link: "/themes/grimicorn",
+        label: "Themes",
+        isActive: () => isPathActive("/themes", true),
+      },
     ] as NavItem[];
   });
 
