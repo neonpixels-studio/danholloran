@@ -10,7 +10,8 @@ export type GrimicornToolKind =
   | "terminal"
   | "git"
   | "notes"
-  | "agent";
+  | "agent"
+  | "highlighter";
 
 export interface GrimicornToolFile {
   label: string;

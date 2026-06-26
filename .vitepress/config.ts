@@ -11,15 +11,23 @@ import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { transformPageData } from "./theme/utils/pageTransform";
 import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 
+// The Shiki TextMate themes live under public/ so they double as the
+// downloadable Grimicorn port; this blog highlights its own code with them.
 const darkTheme = parsePlist(
   readFileSync(
-    new URL("./themes/grimicorn-dark.tmTheme", import.meta.url),
+    new URL(
+      "../public/grimicorn-themes/shiki/grimicorn-dark.tmTheme",
+      import.meta.url,
+    ),
     "utf-8",
   ),
 );
 const lightTheme = parsePlist(
   readFileSync(
-    new URL("./themes/grimicorn-light.tmTheme", import.meta.url),
+    new URL(
+      "../public/grimicorn-themes/shiki/grimicorn-light.tmTheme",
+      import.meta.url,
+    ),
     "utf-8",
   ),
 );

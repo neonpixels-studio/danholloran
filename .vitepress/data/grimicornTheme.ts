@@ -220,4 +220,24 @@ export const TOOLS: GrimicornTool[] = [
       "Reference the file from your config with <code>config-file = grimicorn-dark.conf</code> (or paste its contents inline).",
     docs: "https://ghostty.org/docs/config/reference#theme",
   },
+  {
+    name: "Shiki",
+    kind: "highlighter",
+    desc: "TextMate themes that power this very blog's syntax highlighting — drop them into any Shiki-based site.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/shiki/grimicorn-dark.tmTheme`,
+        download: "grimicorn-dark.tmTheme",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/shiki/grimicorn-light.tmTheme`,
+        download: "grimicorn-light.tmTheme",
+      },
+    ],
+    install:
+      "Parse the <code>.tmTheme</code> with a plist reader and pass the object to Shiki's <code>theme</code> option (VitePress, Astro, etc.).",
+    docs: "https://shiki.style/guide/load-theme",
+  },
 ];

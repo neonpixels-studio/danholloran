@@ -79,6 +79,8 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
     '<path d="M4 2.5h7L14 6v9.5H4z" /><path d="M11 2.5V6h3" /><path d="M6.5 9h5M6.5 11.5h5" />',
   agent:
     '<path d="M9 2.5l5 2.8v5.4L9 13.5 4 10.7V5.3z" stroke-linejoin="round" /><circle cx="9" cy="8" r="1.7" />',
+  highlighter:
+    '<path d="M6.5 6L3.5 9l3 3" stroke-linejoin="round" /><path d="M11.5 6l3 3-3 3" stroke-linejoin="round" /><path d="M10 4.5l-2 9" />',
 };
 </script>
 
@@ -554,7 +556,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 letter-spacing: var(--tracking-tightest);
               "
             >
-              Seven ports
+              Eight ports
             </h2>
             <p
               class="reveal text-fg-muted max-w-[480px] font-mono text-[0.72rem] leading-[1.7]"

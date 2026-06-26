@@ -215,4 +215,5 @@ BORDER_FOCUS          = #83AFE5 / #4A80C8
 | Git Tower | ✅ `Grimicorn (Dark).towertheme` | ✅ `Grimicorn (Light).towertheme` | `themes/gittower/` |
 | Obsidian | ✅ `theme.css` | ✅ (same file, `.theme-light` block) | `themes/obsidian/Grimicorn/` |
 | Claude Code | ✅ `grimicorn-dark.json` | ✅ `grimicorn-light.json` | `~/.claude/themes/` |
-| tmux | ✅ `grimicorn-dark.conf` | ✅ `grimicorn-light.conf` | `themes/cmux/` |
+| cmux | ✅ `grimicorn-dark.conf` | ✅ `grimicorn-light.conf` | `themes/cmux/` |
+| Shiki | ✅ `grimicorn-dark.tmTheme` | ✅ `grimicorn-light.tmTheme` | `themes/shiki/` |
