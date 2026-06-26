@@ -1,10 +1,10 @@
 ---
-date: '2026-06-26T07:08:36.000+00:00'
-tags: ['obsidian', 'pkm', 'knowledge-management', 'linking', 'note-taking']
-draft: true
+date: "2026-06-26T07:08:36.000+00:00"
+tags: ["obsidian", "pkm", "knowledge-management", "linking", "note-taking"]
+draft: false
 title: "Linking Your Thinking in Obsidian: How MOCs Replace Folders"
-image: '/images/posts/linking-your-thinking-in-obsidian-how-mocs-replace-folders.jpg'
-topic: 'obsidian'
+image: "/images/posts/linking-your-thinking-in-obsidian-how-mocs-replace-folders.jpg"
+topic: "obsidian"
 description: "Maps of Content (MOCs) are the organizing idea at the heart of the LYT framework — and once you understand them, you may never file a note into a folder again."
 ---
 
@@ -14,9 +14,9 @@ The problem isn't that you forgot where you put the note. The problem is that a 
 
 ## The Core Idea Behind Linking Your Thinking
 
-The LYT (Linking Your Thinking) framework, developed by Nick Milo, is built on one insight: notes should be connected by what they *mean*, not where they *sit*. Instead of filing notes into folders, you link them to other notes — and when a cluster of related notes grows large enough, you create a Map of Content (MOC) to give that cluster an entry point.
+The LYT (Linking Your Thinking) framework, developed by Nick Milo, is built on one insight: notes should be connected by what they _mean_, not where they _sit_. Instead of filing notes into folders, you link them to other notes — and when a cluster of related notes grows large enough, you create a Map of Content (MOC) to give that cluster an entry point.
 
-Wikilinks are what make this possible in Obsidian. Anywhere in a note, you type `[[note title]]` to create a link. Obsidian automatically creates the reverse link too — a *backlink* — so every note knows which other notes reference it. You don't have to set up that connection twice.
+Wikilinks are what make this possible in Obsidian. Anywhere in a note, you type `[[note title]]` to create a link. Obsidian automatically creates the reverse link too — a _backlink_ — so every note knows which other notes reference it. You don't have to set up that connection twice.
 
 ```
 [[JavaScript Async Patterns]]   ← links to the target note
@@ -26,27 +26,30 @@ On the target note, under the Backlinks panel, you'll see every note that linked
 
 ## What a MOC Actually Looks Like
 
-A MOC is just a note. It has a title, and its body is mostly a list of links. What makes it a MOC is its *purpose*: it's a hand-curated hub for a topic, one you update whenever you add a new note that belongs to that neighborhood.
+A MOC is just a note. It has a title, and its body is mostly a list of links. What makes it a MOC is its _purpose_: it's a hand-curated hub for a topic, one you update whenever you add a new note that belongs to that neighborhood.
 
 ```markdown
 # JavaScript MOC
 
 ## Core Concepts
+
 - [[JavaScript Async Patterns]]
 - [[Closures and Scope]]
 - [[Prototypal Inheritance]]
 
 ## Ecosystem
+
 - [[Node.js Basics]]
 - [[Bun vs Node.js]]
 - [[Web Workers]]
 
 ## Related
+
 - [[TypeScript MOC]]
 - [[Web Performance MOC]]
 ```
 
-Notice the last section: links to *other MOCs*. This is how LYT scales. Individual notes link to each other and to MOCs. MOCs link to each other. Your Home note (sometimes called an Index) links to your top-level MOCs. You end up with a navigable hierarchy that isn't a folder hierarchy — it's a linked one.
+Notice the last section: links to _other MOCs_. This is how LYT scales. Individual notes link to each other and to MOCs. MOCs link to each other. Your Home note (sometimes called an Index) links to your top-level MOCs. You end up with a navigable hierarchy that isn't a folder hierarchy — it's a linked one.
 
 You can also let Obsidian's Dataview plugin generate parts of a MOC automatically. This query lists every note tagged `javascript` that you haven't already added manually:
 
@@ -60,7 +63,7 @@ Treat the auto-generated list as a backlog — it surfaces notes you might want 
 
 ## When to Make a MOC
 
-The LYT framework has a useful rule of thumb: make a MOC when you feel *mental strain* navigating a topic. If you have five notes about CSS layout and you're losing track of them, that's when you create a CSS Layout MOC and link them all there. The discomfort is the signal.
+The LYT framework has a useful rule of thumb: make a MOC when you feel _mental strain_ navigating a topic. If you have five notes about CSS layout and you're losing track of them, that's when you create a CSS Layout MOC and link them all there. The discomfort is the signal.
 
 A few practical triggers:
 
