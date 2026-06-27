@@ -5,6 +5,13 @@ export interface GrimicornHue {
   usage: string;
 }
 
+/** Grimicorn Neon is dark-only, so each hue has a single value. */
+export interface GrimicornNeonHue {
+  role: string;
+  hex: string;
+  usage: string;
+}
+
 export type GrimicornToolKind =
   | "editor"
   | "terminal"

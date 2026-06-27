@@ -23,6 +23,23 @@ function cleanHead(head: any[]): any[] {
   return head.filter((tag) => !isTransformOwned(tag));
 }
 
+// Shared title/description + canonical + OG/JSON-LD head boilerplate, so each
+// per-page transform stays declarative instead of repeating the same block.
+function setStandardPageMeta(
+  pageData: PageData,
+  meta: Parameters<typeof pageMeta>[0],
+): void {
+  pageData.title = meta.title;
+  pageData.description = meta.description;
+  pageData.frontmatter.title = meta.title;
+  pageData.frontmatter.description = meta.description;
+  pageData.frontmatter.head = [
+    ...cleanHead(pageData.frontmatter.head ?? []),
+    ["link", { rel: "canonical", href: meta.url }],
+    ...pageMeta(meta),
+  ];
+}
+
 function transformHome(pageData: PageData): void {
   const title = resume.headline;
   pageData.title = title;
@@ -44,52 +61,39 @@ function transformHome(pageData: PageData): void {
 }
 
 function transformResume(pageData: PageData): void {
-  const title = `Resume – ${resume.headline}`;
-  const description = `View Dan Holloran's full work history, skills, and experience — ${getExperienceLength()}+ years of frontend and fullstack development across agencies, startups, and enterprise teams.`;
-  pageData.title = title;
-  pageData.description = description;
-  pageData.frontmatter.title = title;
-  pageData.frontmatter.description = description;
-  pageData.frontmatter.head = [
-    ...cleanHead(pageData.frontmatter.head ?? []),
-    ["link", { rel: "canonical", href: `${SITE_URL}/resume` }],
-    ...pageMeta({
-      title,
-      description,
-      url: `${SITE_URL}/resume`,
-      image: resume.photo,
-      jsonLd: profilePageJsonLd,
-    }),
-  ];
+  setStandardPageMeta(pageData, {
+    title: `Resume – ${resume.headline}`,
+    description: `View Dan Holloran's full work history, skills, and experience — ${getExperienceLength()}+ years of frontend and fullstack development across agencies, startups, and enterprise teams.`,
+    url: `${SITE_URL}/resume`,
+    image: resume.photo,
+    jsonLd: profilePageJsonLd,
+  });
 }
 
 function transformGrimicornThemes(pageData: PageData): void {
-  const title = "Grimicorn – a calm, low-fatigue color theme";
-  const description =
-    "Grimicorn — a calm, low-fatigue color theme (grim reaper × unicorn) for VS Code, terminals, Obsidian, Claude Code and more. Download dark & light variants.";
-  const url = `${SITE_URL}/themes/grimicorn`;
-  pageData.title = title;
-  pageData.description = description;
-  pageData.frontmatter.title = title;
-  pageData.frontmatter.description = description;
-  pageData.frontmatter.head = [
-    ...cleanHead(pageData.frontmatter.head ?? []),
-    ["link", { rel: "canonical", href: url }],
-    ...pageMeta({
-      title,
-      description,
-      url,
-      image: "/images/grimicorn-mascot.png",
-    }),
-  ];
+  setStandardPageMeta(pageData, {
+    title: "Grimicorn – a calm, low-fatigue color theme",
+    description:
+      "Grimicorn — a calm, low-fatigue color theme (grim reaper × unicorn) for VS Code, terminals, Obsidian, Claude Code and more. Download dark & light variants.",
+    url: `${SITE_URL}/themes/grimicorn`,
+    image: "/images/grimicorn-mascot.png",
+  });
 }
 
-function transformPostsIndex(pageData: PageData): void {
-  const title = pageData.frontmatter.title as string;
-  const description = pageData.frontmatter.description as string;
-  const url = `${SITE_URL}/posts`;
+function transformGrimicornNeonThemes(pageData: PageData): void {
+  setStandardPageMeta(pageData, {
+    title: "Grimicorn Neon – an always-on-rave color theme",
+    description:
+      "Grimicorn Neon — the high-voltage variant of Grimicorn. Electric neon accents on near-black, for VS Code, terminals, Obsidian, Claude Code and more. Download the dark-only port for every tool.",
+    url: `${SITE_URL}/themes/grimicorn-neon`,
+    image: "/images/grimicorn-mascot.png",
+  });
+}
+
+// Newest-first BlogPosting JSON-LD for the up-to-10 published posts.
+function buildBlogPostingList() {
   const postsDir = join(process.cwd(), ".vitepress/content/posts");
-  const blogPosts = readdirSync(postsDir)
+  return readdirSync(postsDir)
     .filter((f) => f.endsWith(".md"))
     .map((f) => {
       const { data } = parseFrontmatter(
@@ -123,6 +127,12 @@ function transformPostsIndex(pageData: PageData): void {
         url: SITE_URL,
       },
     }));
+}
+
+function transformPostsIndex(pageData: PageData): void {
+  const title = pageData.frontmatter.title as string;
+  const description = pageData.frontmatter.description as string;
+  const url = `${SITE_URL}/posts`;
   pageData.frontmatter.head = [
     ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: url }],
@@ -139,7 +149,7 @@ function transformPostsIndex(pageData: PageData): void {
         name: title,
         description,
         url,
-        blogPost: blogPosts,
+        blogPost: buildBlogPostingList(),
         author: {
           "@type": "Person",
           name: `${resume.firstName} ${resume.lastName}`,
@@ -165,38 +175,30 @@ function transformPost(pageData: PageData): void {
   const title = data.title ?? "";
   const description = data.description ?? "";
   const url = `${SITE_URL}/posts/${slug}`;
-  pageData.title = title;
-  pageData.description = description;
-  pageData.frontmatter.title = title;
-  pageData.frontmatter.description = description;
-  pageData.frontmatter.head = [
-    ...cleanHead(pageData.frontmatter.head ?? []),
-    ["link", { rel: "canonical", href: url }],
-    ...pageMeta({
-      title,
+  setStandardPageMeta(pageData, {
+    title,
+    description,
+    url,
+    image: data.image,
+    type: "article",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: title,
       description,
+      datePublished: data.date,
+      dateModified: data.dateModified ?? data.date,
       url,
-      image: data.image,
-      type: "article",
-      jsonLd: {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        headline: title,
-        description,
-        datePublished: data.date,
-        dateModified: data.dateModified ?? data.date,
-        url,
-        ...(data.image && {
-          image: `${SITE_URL}${data.image}`,
-        }),
-        author: {
-          "@type": "Person",
-          name: `${resume.firstName} ${resume.lastName}`,
-          url: SITE_URL,
-        },
+      ...(data.image && {
+        image: `${SITE_URL}${data.image}`,
+      }),
+      author: {
+        "@type": "Person",
+        name: `${resume.firstName} ${resume.lastName}`,
+        url: SITE_URL,
       },
-    }),
-  ];
+    },
+  });
 }
 
 export function transformPageData(pageData: PageData): void {
@@ -207,6 +209,8 @@ export function transformPageData(pageData: PageData): void {
       return transformResume(pageData);
     case "themes/grimicorn.md":
       return transformGrimicornThemes(pageData);
+    case "themes/grimicorn-neon.md":
+      return transformGrimicornNeonThemes(pageData);
     case "posts/index.md":
       return transformPostsIndex(pageData);
     case "posts/[slug].md":

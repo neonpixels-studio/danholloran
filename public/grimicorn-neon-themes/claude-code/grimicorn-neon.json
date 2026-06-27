@@ -1,0 +1,44 @@
+{
+  "name": "Grimicorn Neon",
+  "base": "dark",
+  "overrides": {
+    "claude": "#2323FF",
+    "claudeShimmer": "#5A5AFF",
+    "text": "#E7E5E4",
+    "inverseText": "#000000",
+    "inactive": "#A7A39C",
+    "subtle": "#26262B",
+    "suggestion": "#22D3EE",
+    "permission": "#A855F7",
+    "remember": "#FACC15",
+
+    "success": "#A3E635",
+    "error": "#FF2D9B",
+    "warning": "#FACC15",
+    "merged": "#22D3EE",
+
+    "promptBorder": "#22D3EE",
+    "planMode": "#FACC15",
+    "autoAccept": "#A3E635",
+    "bashBorder": "#A855F7",
+    "ide": "#2323FF",
+    "fastMode": "#22D3EE",
+
+    "diffAdded": "#16240A",
+    "diffRemoved": "#2A0A1C",
+    "diFF7BC4dDimmed": "#16240A",
+    "diffRemovedDimmed": "#2A0A1C",
+    "diffAddedWord": "#16240A",
+    "diffRemovedWord": "#2A0A1C",
+
+    "userMessageBackground": "#0A0A0B",
+    "bashMessageBackgroundColor": "#050506",
+    "memoryBackgroundColor": "#131316",
+    "selectionBg": "#22D3EE44",
+
+    "rate_limit_fill": "#2323FF",
+    "rate_limit_empty": "#131316",
+    "briefLabelYou": "#22D3EE",
+    "briefLabelClaude": "#2323FF"
+  }
+}

@@ -124,6 +124,23 @@ describe("useMainNav", () => {
       expect(navItems.value[5].isActive()).toBe(true);
     });
 
+    it("Themes has Grimicorn and Grimicorn Neon children", () => {
+      const { navItems } = useMainNav();
+      const children = navItems.value[5].children;
+      expect(children?.map((child) => child.link)).toEqual([
+        "/themes/grimicorn",
+        "/themes/grimicorn-neon",
+      ]);
+    });
+
+    it("only the Neon child is active on /themes/grimicorn-neon", () => {
+      routeState.path = "/themes/grimicorn-neon";
+      const { navItems } = useMainNav();
+      const [grimicorn, neon] = navItems.value[5].children ?? [];
+      expect(grimicorn.isActive()).toBe(false);
+      expect(neon.isActive()).toBe(true);
+    });
+
     it("About isActive when on home with activeSection set to 'about'", () => {
       routeState.path = "/";
       const { navItems, activeSection } = useMainNav();

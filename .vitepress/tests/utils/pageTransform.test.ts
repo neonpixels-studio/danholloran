@@ -154,6 +154,27 @@ describe("transformPageData – themes/grimicorn.md", () => {
   });
 });
 
+describe("transformPageData – themes/grimicorn-neon.md", () => {
+  it("sets a Grimicorn Neon title, description, and head tags", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn-neon.md" });
+    transformPageData(pageData);
+
+    expect(pageData.title).toContain("Grimicorn Neon");
+    expect(pageData.description.length).toBeGreaterThan(0);
+    expect(pageData.frontmatter.title).toBe(pageData.title);
+    expect(pageData.frontmatter.head).toBeDefined();
+  });
+
+  it("includes canonical link to /themes/grimicorn-neon", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn-neon.md" });
+    transformPageData(pageData);
+
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/themes/grimicorn-neon`),
+    ).toBeDefined();
+  });
+});
+
 describe("transformPageData – posts/index.md", () => {
   beforeEach(() => {
     mockReaddirSync.mockReturnValue([] as any);

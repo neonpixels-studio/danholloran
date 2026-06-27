@@ -5,6 +5,9 @@
     "minOccurrences": 3,
     "ignore": ["*.test.*"]
   },
+  "health": {
+    "ignore": ["*.test.*"]
+  },
   "ignoreDependencies": ["vue"],
   "ignorePatterns": ["**/*.data.ts", "**/*.paths.ts", "public/**"],
   "ignoreExports": [

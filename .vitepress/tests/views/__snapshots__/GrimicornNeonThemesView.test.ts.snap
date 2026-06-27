@@ -1,0 +1,371 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GrimicornNeonThemesView > renders correctly 1`] = `
+"<div data-v-c47154f1="" class="n-scope">
+  <!-- HERO -->
+  <section data-v-c47154f1="" class="n-hero relative overflow-hidden px-8 pt-32 pb-20 max-md:px-4">
+    <div data-v-c47154f1="" class="n-hero-glow" aria-hidden="true"></div>
+    <div data-v-c47154f1="" class="relative z-10 mx-auto grid max-w-[1180px] grid-cols-[0.92fr_1.08fr] items-center gap-14 max-lg:grid-cols-1 max-lg:gap-10">
+      <div data-v-c47154f1="">
+        <div data-v-c47154f1="" class="reveal mb-7 flex items-center gap-3 font-mono text-[0.68rem] tracking-[0.1em] uppercase" style="color: #a7a39c;"><span data-v-c47154f1="" class="n-rave-dot"></span> rave mode: always on </div>
+        <h1 data-v-c47154f1="" class="reveal n-rainbow mb-4 font-mono leading-[0.92] font-bold" style="background-image: linear-gradient(90deg, #FF2D9B, #FACC15, #A3E635, #22D3EE, #2323FF, #A855F7, #FF2D9B); letter-spacing: var(--tracking-tightest);"> Grimicorn Neon </h1>
+        <p data-v-c47154f1="" class="reveal mb-6 font-mono text-[0.9rem]" style="color: #22d3ee; text-shadow: 0 0 18px rgba(34, 211, 238, 0.5);"> // the grim reaper × unicorn, plugged into the mains </p>
+        <p data-v-c47154f1="" class="reveal mb-8 max-w-[520px] text-[1.02rem] leading-[1.75]" style="color: #a7a39c;"> Same hue roles as <a data-v-c47154f1="" class="n-link" href="/themes/grimicorn">calm Grimicorn</a>, cranked to electric values pulled from <a data-v-c47154f1="" class="n-link" href="https://grimicorn.dev" target="_blank">grimicorn.dev</a>. Saturated, glowing accents on a near-black base — dark-only, loud by design. </p>
+        <div data-v-c47154f1="" class="reveal flex flex-wrap items-center gap-3"><a data-v-c47154f1="" href="#neon-tools" class="n-btn n-btn-rainbow" style="background-image: linear-gradient(90deg, #FF2D9B, #FACC15, #A3E635, #22D3EE, #2323FF, #A855F7, #FF2D9B);"> grab the theme ↓ </a><a data-v-c47154f1="" href="/themes/grimicorn" class="n-btn n-btn-ghost"> back to calm → </a></div>
+      </div><!-- live editor preview -->
+      <div class="reveal-right" data-v-c47154f1="">
+        <div class="mb-3 font-mono text-[0.62rem] tracking-[0.1em] uppercase" style="color:#75726b;" data-v-c47154f1=""> VS Code · syntax </div>
+        <div class="n-win" data-v-c47154f1="">
+          <div class="n-titlebar" data-v-c47154f1=""><span class="n-dot" style="background:#ff2d9b;" data-v-c47154f1=""></span><span class="n-dot" style="background:#facc15;" data-v-c47154f1=""></span><span class="n-dot" style="background:#a3e635;" data-v-c47154f1=""></span><span style="margin-left:0.6rem;color:#a7a39c;font-size:11.5px;" data-v-c47154f1="">theme.ts</span><span style="margin-left:auto;color:#75726b;font-size:11.5px;" data-v-c47154f1="">Grimicorn Neon</span></div>
+          <div class="n-code" data-v-c47154f1="">
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">1</span><span class="n-src" data-v-c47154f1=""><span class="n-com" data-v-c47154f1="">// Grimicorn Neon — loud by default</span></span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">2</span><span class="n-src" data-v-c47154f1=""><span class="n-key" data-v-c47154f1="">import</span> { ref, computed } <span class="n-key" data-v-c47154f1="">from</span><span class="n-str" data-v-c47154f1="">'vue'</span></span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">3</span><span class="n-src" data-v-c47154f1=""><span class="n-key" data-v-c47154f1="">import type</span> { <span class="n-type" data-v-c47154f1="">Theme</span> } <span class="n-key" data-v-c47154f1="">from</span><span class="n-str" data-v-c47154f1="">'./types'</span></span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">4</span><span class="n-src" data-v-c47154f1=""></span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">5</span><span class="n-src" data-v-c47154f1=""><span class="n-key" data-v-c47154f1="">const</span> palette = <span class="n-fn" data-v-c47154f1="">ref</span>&lt;<span class="n-type" data-v-c47154f1="">Theme</span>&gt;(<span class="n-str" data-v-c47154f1="">'neon'</span>)</span></div>
+            <div class="n-line hl" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">6</span><span class="n-src" data-v-c47154f1=""><span class="n-key" data-v-c47154f1="">const</span> hues = <span class="n-num" data-v-c47154f1="">6</span> <span class="n-op" data-v-c47154f1="">+</span><span class="n-num" data-v-c47154f1="">2</span><span class="n-com" data-v-c47154f1=""> // 8 charged roles</span></span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">7</span><span class="n-src" data-v-c47154f1=""></span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">8</span><span class="n-src" data-v-c47154f1=""><span class="n-key" data-v-c47154f1="">export function</span><span class="n-fn" data-v-c47154f1="">useTheme</span>(mode = <span class="n-str" data-v-c47154f1="">'rave'</span>) {</span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">9</span><span class="n-src" data-v-c47154f1="">&nbsp;&nbsp;<span class="n-key" data-v-c47154f1="">const</span> isRave = <span class="n-fn" data-v-c47154f1="">computed</span>(() <span class="n-op" data-v-c47154f1="">=&gt;</span> mode <span class="n-op" data-v-c47154f1="">===</span><span class="n-str" data-v-c47154f1="">'rave'</span>)</span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">10</span><span class="n-src" data-v-c47154f1="">&nbsp;&nbsp;<span class="n-key" data-v-c47154f1="">return</span> { <span class="n-prop" data-v-c47154f1="">palette</span>, <span class="n-prop" data-v-c47154f1="">isRave</span> }</span></div>
+            <div class="n-line" data-v-c47154f1=""><span class="n-ln" data-v-c47154f1="">11</span><span class="n-src" data-v-c47154f1="">}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- PALETTE -->
+  <section data-v-c47154f1="" id="neon-palette" class="border-t px-8 py-20 max-md:px-4" style="border-color: #1c1c20;">
+    <div data-v-c47154f1="" class="mx-auto max-w-[1180px]">
+      <div class="mb-10" data-v-c47154f1="">
+        <div class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase" style="color:#a7a39c;" data-v-c47154f1=""><span class="n-bar" data-v-c47154f1=""></span> the palette </div>
+        <h2 class="reveal mb-2 font-mono leading-none font-bold" style="font-size:clamp(1.6rem, 3vw, 2.2rem);color:#e7e5e4;" data-v-c47154f1=""> Eight hues, fully charged </h2>
+        <p class="reveal max-w-[460px] font-mono text-[0.72rem] leading-[1.7]" style="color:#a7a39c;" data-v-c47154f1=""> Click any swatch to copy its hex. </p>
+      </div>
+      <div data-v-c47154f1="" class="stagger grid grid-cols-4 gap-4 max-md:grid-cols-2"><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #2323FF; box-shadow: 0 0 22px #2323FF66;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Blue</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #2323FF;">#2323FF</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Keywords · links · primary accent</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #A855F7; box-shadow: 0 0 22px #A855F766;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Purple</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #A855F7;">#A855F7</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Functions · selectors · secondary</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #A3E635; box-shadow: 0 0 22px #A3E63566;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Green</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #A3E635;">#A3E635</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Strings · success · cursor</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #22D3EE; box-shadow: 0 0 22px #22D3EE66;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Teal</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #22D3EE;">#22D3EE</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Constants · info · properties</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #FACC15; box-shadow: 0 0 22px #FACC1566;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Yellow</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #FACC15;">#FACC15</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Types · decorators · warnings</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #FF2D9B; box-shadow: 0 0 22px #FF2D9B66;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Pink</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #FF2D9B;">#FF2D9B</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Errors · invalid · deletions</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #A7A39C; box-shadow: 0 0 22px #A7A39C66;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Gray</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #A7A39C;">#A7A39C</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Comments · muted · inactive</span></button><button data-v-c47154f1="" class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left" style="border-color: #1c1c20;"><span data-v-c47154f1="" class="n-chip mb-3 h-12 w-full rounded-[4px]" style="background: #0A0A0B; box-shadow: 0 0 22px #0A0A0B66;"></span><span data-v-c47154f1="" class="font-mono text-[0.82rem] font-bold" style="color: #e7e5e4;">Black</span><span data-v-c47154f1="" class="font-mono text-[0.62rem]" style="color: #0A0A0B;">#0A0A0B</span><span data-v-c47154f1="" class="mt-1 font-mono text-[0.58rem] leading-[1.5]" style="color: #75726b;">Deepest background · ANSI black</span></button></div><!-- background scale -->
+      <div data-v-c47154f1="" class="reveal mt-8 flex overflow-hidden rounded-[6px] border" style="border-color: #1c1c20;">
+        <div data-v-c47154f1="" class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]" style="background: #050506; color: #75726b;">#050506</div>
+        <div data-v-c47154f1="" class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]" style="background: #0A0A0B; color: #75726b;">#0A0A0B</div>
+        <div data-v-c47154f1="" class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]" style="background: #131316; color: #75726b;">#131316</div>
+        <div data-v-c47154f1="" class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]" style="background: #1C1C20; color: #75726b;">#1C1C20</div>
+        <div data-v-c47154f1="" class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]" style="background: #26262B; color: #75726b;">#26262B</div>
+        <div data-v-c47154f1="" class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]" style="background: #303036; color: #75726b;">#303036</div>
+      </div>
+    </div>
+  </section><!-- PREVIEW -->
+  <section class="border-t px-8 py-20 max-md:px-4" style="border-color:#1c1c20;" data-v-c47154f1="">
+    <div class="mx-auto max-w-[1180px]" data-v-c47154f1="">
+      <div class="mb-10" data-v-c47154f1="">
+        <div class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase" style="color:#a7a39c;" data-v-c47154f1=""><span class="n-bar" data-v-c47154f1=""></span> see it glow </div>
+        <h2 class="reveal mb-2 font-mono leading-none font-bold" style="font-size:clamp(1.6rem, 3vw, 2.2rem);color:#e7e5e4;" data-v-c47154f1=""> Across the stack </h2>
+      </div>
+      <div class="stagger grid grid-cols-2 gap-6 max-lg:grid-cols-1" data-v-c47154f1="">
+        <!-- terminal + git diff, stacked in the left column -->
+        <div class="flex flex-col gap-6" data-v-c47154f1="">
+          <!-- terminal -->
+          <div data-v-c47154f1="">
+            <div class="mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase" style="color:#75726b;" data-v-c47154f1=""> terminal · ANSI palette </div>
+            <div class="n-win" data-v-c47154f1="">
+              <div class="n-titlebar" data-v-c47154f1=""><span class="n-dot" style="background:#ff2d9b;" data-v-c47154f1=""></span><span class="n-dot" style="background:#facc15;" data-v-c47154f1=""></span><span class="n-dot" style="background:#a3e635;" data-v-c47154f1=""></span><span style="margin-left:0.6rem;color:#a7a39c;font-size:11.5px;" data-v-c47154f1="">grimicorn — zsh — 96×24</span></div>
+              <div class="n-term" data-v-c47154f1="">
+                <div data-v-c47154f1=""><span class="u" data-v-c47154f1="">grimicorn</span><span class="at" data-v-c47154f1="">@</span><span class="path" data-v-c47154f1="">dev</span><span class="pr" data-v-c47154f1="">~/code %</span> git status </div>
+                <div class="mut" data-v-c47154f1=""> On branch <span class="info" data-v-c47154f1="">main</span> · up to date with <span class="path" data-v-c47154f1="">origin/main</span></div>
+                <div style="height:0.5rem;" data-v-c47154f1=""></div>
+                <div class="mut" data-v-c47154f1="">Changes to be committed:</div>
+                <div data-v-c47154f1=""> &nbsp;&nbsp;<span class="ok" data-v-c47154f1="">new file: src/neon.ts</span></div>
+                <div data-v-c47154f1=""> &nbsp;&nbsp;<span class="mod" data-v-c47154f1="">modified: theme.ts</span></div>
+                <div data-v-c47154f1=""> &nbsp;&nbsp;<span class="del" data-v-c47154f1="">deleted: calm.css</span></div>
+                <div style="height:0.5rem;" data-v-c47154f1=""></div>
+                <div data-v-c47154f1=""><span class="u" data-v-c47154f1="">grimicorn</span><span class="at" data-v-c47154f1="">@</span><span class="path" data-v-c47154f1="">dev</span><span class="pr" data-v-c47154f1="">~/code %</span> npm run build </div>
+                <div data-v-c47154f1=""><span class="ok" data-v-c47154f1="">✓</span> built <span class="info" data-v-c47154f1="">14</span> modules in <span class="info" data-v-c47154f1="">0.92s</span></div>
+                <div data-v-c47154f1=""><span class="u" data-v-c47154f1="">grimicorn</span><span class="at" data-v-c47154f1="">@</span><span class="path" data-v-c47154f1="">dev</span><span class="pr" data-v-c47154f1="">~/code %</span><span class="n-cursor" data-v-c47154f1=""></span></div>
+              </div>
+            </div>
+          </div><!-- git diff (Git Tower) -->
+          <div data-v-c47154f1="">
+            <div class="mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase" style="color:#75726b;" data-v-c47154f1=""> git diff · Git Tower </div>
+            <div class="n-win" data-v-c47154f1="">
+              <div class="n-titlebar" data-v-c47154f1=""><span class="n-dot" style="background:#ff2d9b;" data-v-c47154f1=""></span><span class="n-dot" style="background:#facc15;" data-v-c47154f1=""></span><span class="n-dot" style="background:#a3e635;" data-v-c47154f1=""></span><span style="margin-left:0.6rem;color:#a7a39c;font-size:11.5px;" data-v-c47154f1="">theme.ts — Tower</span></div>
+              <div class="n-diff" data-v-c47154f1="">
+                <div class="n-dhunk" data-v-c47154f1=""> @@ -11,8 +11,8 @@ export const grimicorn </div>
+                <div class="n-dline" data-v-c47154f1=""><span class="sg" data-v-c47154f1=""></span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;base: <span class="n-str" data-v-c47154f1="">'#1C1C20'</span>,</span></div>
+                <div class="n-dline del" data-v-c47154f1=""><span class="sg" data-v-c47154f1="">-</span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;accent: <span class="n-str" data-v-c47154f1="">'#5C6BC0'</span>,</span></div>
+                <div class="n-dline add" data-v-c47154f1=""><span class="sg" data-v-c47154f1="">+</span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;accent: <span class="n-str" data-v-c47154f1="">'#2323FF'</span>,</span></div>
+                <div class="n-dline" data-v-c47154f1=""><span class="sg" data-v-c47154f1=""></span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;cursor: <span class="n-str" data-v-c47154f1="">'#A3E635'</span>,</span></div>
+                <div class="n-dline del" data-v-c47154f1=""><span class="sg" data-v-c47154f1="">-</span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;comment: <span class="n-str" data-v-c47154f1="">'#888888'</span>,</span></div>
+                <div class="n-dline add" data-v-c47154f1=""><span class="sg" data-v-c47154f1="">+</span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;comment: <span class="n-str" data-v-c47154f1="">'#A7A39C'</span>,</span></div>
+                <div class="n-dline" data-v-c47154f1=""><span class="sg" data-v-c47154f1=""></span><span class="dc" data-v-c47154f1="">&nbsp;&nbsp;error: <span class="n-str" data-v-c47154f1="">'#FF2D9B'</span>,</span></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- markdown -->
+        <div data-v-c47154f1="">
+          <div class="mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase" style="color:#75726b;" data-v-c47154f1=""> markdown · heading waterfall </div>
+          <div class="n-win" data-v-c47154f1="">
+            <div class="n-titlebar" data-v-c47154f1=""><span class="n-dot" style="background:#ff2d9b;" data-v-c47154f1=""></span><span class="n-dot" style="background:#facc15;" data-v-c47154f1=""></span><span class="n-dot" style="background:#a3e635;" data-v-c47154f1=""></span><span style="margin-left:0.6rem;color:#a7a39c;font-size:11.5px;" data-v-c47154f1="">notes.md — Obsidian</span></div>
+            <div class="n-md" data-v-c47154f1="">
+              <div class="h1" data-v-c47154f1=""># Grimicorn Neon</div>
+              <p data-v-c47154f1="">The grim reaper, plugged into the <i data-v-c47154f1="">mains</i>.</p>
+              <div class="h2" data-v-c47154f1="">## Philosophy</div>
+              <p data-v-c47154f1=""> Near-black base, <b data-v-c47154f1="">neon syntax</b>, everything <i data-v-c47154f1="">turned up to 11</i>. </p>
+              <div class="h3" data-v-c47154f1="">### Accent order</div>
+              <ul data-v-c47154f1="">
+                <li data-v-c47154f1="">Blue → Purple → Teal</li>
+                <li data-v-c47154f1="">Green = success, Pink = error</li>
+              </ul>
+              <div class="h4" data-v-c47154f1="">#### Heading four</div>
+              <div class="h5" data-v-c47154f1="">##### Heading five</div>
+              <div class="h6" data-v-c47154f1="">###### Heading six</div>
+              <blockquote data-v-c47154f1=""> "Loud by default." — <code data-v-c47154f1="">const calm = false</code></blockquote>
+              <p data-v-c47154f1=""><a href="#neon-palette" data-v-c47154f1="">Read the full palette →</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- TOOLS / DOWNLOADS -->
+  <section data-v-c47154f1="" id="neon-tools" class="border-t px-8 py-20 max-md:px-4" style="border-color: #1c1c20;">
+    <div data-v-c47154f1="" class="mx-auto max-w-[1180px]">
+      <div data-v-c47154f1="" class="mb-10 flex flex-wrap items-end justify-between gap-4">
+        <div data-v-c47154f1="">
+          <div data-v-c47154f1="" class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase" style="color: #a7a39c;"><span data-v-c47154f1="" class="n-bar"></span> get the theme </div>
+          <h2 data-v-c47154f1="" class="reveal mb-2 font-mono leading-none font-bold" style="color: #e7e5e4;"> Fourteen ports </h2>
+          <p data-v-c47154f1="" class="reveal max-w-[480px] font-mono text-[0.72rem] leading-[1.7]" style="color: #a7a39c;"> Dark-only, one neon file each. Grab one, or take the whole set. </p>
+        </div>
+        <div data-v-c47154f1="" class="reveal flex flex-wrap items-center gap-3"><a data-v-c47154f1="" href="/grimicorn-neon-themes/grimicorn-palette.md" download="" class="n-btn n-btn-ghost">palette.md</a><a data-v-c47154f1="" href="/grimicorn-neon-themes/grimicorn-neon-themes.zip" download="" class="n-btn n-btn-rainbow" style="background-image: linear-gradient(90deg, #FF2D9B, #FACC15, #A3E635, #22D3EE, #2323FF, #A855F7, #FF2D9B);"> download all (.zip) </a></div>
+      </div>
+      <div data-v-c47154f1="" class="stagger grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1">
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M9 2.5l5 2.8v5.4L9 13.5 4 10.7V5.3z" stroke-linejoin="round"></path><circle cx="9" cy="8" r="1.7"></circle></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Claude Code</span><span data-v-c47154f1="" class="n-badge">featured</span></div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Terminal-agent palette — diffs, prompts, plan &amp; accept modes.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/claude-code/grimicorn-neon.json" download="grimicorn-neon.json" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Drop the JSON into <code>~/.claude/themes/</code>, then select Grimicorn Neon from the theme menu.</p><a data-v-c47154f1="" href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Ghostty</span><span data-v-c47154f1="" class="n-badge">featured</span></div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Terminal config — background, foreground, cursor &amp; the 16-color ANSI palette.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/ghostty/grimicorn-neon.conf" download="grimicorn-neon.conf" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Drop it in <code>~/.config/ghostty/themes/</code> and set <code>theme = grimicorn-neon</code>, or include it with <code>config-file = …</code>.</p><a data-v-c47154f1="" href="https://ghostty.org/docs/config/reference#theme" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="5" cy="5" r="1.6"></circle><circle cx="5" cy="13" r="1.6"></circle><circle cx="13" cy="9" r="1.6"></circle><path d="M5 6.6v4.8M6.5 5h4.4a1.6 1.6 0 0 1 1.6 1.6V8"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Git Tower</span><span data-v-c47154f1="" class="n-badge">featured</span></div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Diff &amp; syntax theme for the Tower git client.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/gittower/Grimicorn-Neon.towertheme" download="Grimicorn Neon.towertheme" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Double-click the <code>.towertheme</code> to install, then pick it in Tower → Settings → Git Config / Appearance.</p><a data-v-c47154f1="" href="https://www.git-tower.com/help/guides/integration/syntax-highlighting/mac" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M4 2.5h7L14 6v9.5H4z"></path><path d="M11 2.5V6h3"></path><path d="M6.5 9h5M6.5 11.5h5"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Obsidian</span><span data-v-c47154f1="" class="n-badge">featured</span></div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Vault theme with the full neon heading-color waterfall.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/obsidian/theme.css" download="theme.css" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> theme.css</a><a data-v-c47154f1="" href="/grimicorn-neon-themes/obsidian/manifest.json" download="manifest.json" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> manifest.json</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Place both files in <code>.obsidian/themes/Grimicorn Neon/</code>, then Settings → Appearance → <em>Grimicorn Neon</em>.</p><a data-v-c47154f1="" href="https://help.obsidian.md/themes" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">VS Code</span><span data-v-c47154f1="" class="n-badge">featured</span></div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Full editor + workbench theme, glowing on near-black.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/vscode/grimicorn-neon.color-theme.json" download="grimicorn-neon.color-theme.json" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Drop the file into a folder with a package.json under <code>~/.vscode/extensions/grimicorn-neon/</code>, reload, then pick Grimicorn Neon in <code>⌘K ⌘T</code>.</p><a data-v-c47154f1="" href="https://code.visualstudio.com/docs/configure/themes" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Antigravity</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Google's agentic IDE (VS Code-based) — the full neon editor theme.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/antigravity/grimicorn-neon-antigravity.color-theme.json" download="grimicorn-neon-antigravity.color-theme.json" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Load it like any VS Code theme — a folder with a package.json in Antigravity's extensions directory — then pick Grimicorn Neon.</p><a data-v-c47154f1="" href="https://antigravity.google/" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Cursor</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">AI-first VS Code fork — the same neon editor + workbench theme.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/cursor/grimicorn-neon-cursor.color-theme.json" download="grimicorn-neon-cursor.color-theme.json" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Drop the file into a folder with a package.json under <code>~/.cursor/extensions/grimicorn-neon/</code>, reload, then pick Grimicorn Neon in <code>⌘K ⌘T</code>.</p><a data-v-c47154f1="" href="https://docs.cursor.com/" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M9 2.5l5 2.8v5.4L9 13.5 4 10.7V5.3z" stroke-linejoin="round"></path><circle cx="9" cy="8" r="1.7"></circle></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Devin</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Cognition's AI engineer — neon for its VS Code-based workspace editor.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/devin/grimicorn-neon-devin.color-theme.json" download="grimicorn-neon-devin.color-theme.json" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Devin's workspace runs a VS Code editor — load it as a VS Code color theme, then select Grimicorn Neon.</p><a data-v-c47154f1="" href="https://docs.devin.ai/" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">iTerm2</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Color preset for the macOS terminal favorite.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/iterm/Grimicorn-Neon.itermcolors" download="Grimicorn-Neon.itermcolors" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Settings → Profiles → Colors → <em>Color Presets…</em> → <em>Import</em>, then select the preset.</p><a data-v-c47154f1="" href="https://iterm2.com/documentation-preferences-profiles-colors.html" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">JetBrains IDE</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Editor color scheme for IntelliJ, WebStorm, PyCharm &amp; the rest.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/jetbrains/Grimicorn-Neon.icls" download="Grimicorn-Neon.icls" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Settings → Editor → Color Scheme → ⚙︎ → <em>Import Scheme…</em>, choose the <code>.icls</code>, then select Grimicorn Neon.</p><a data-v-c47154f1="" href="https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">macOS Terminal</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Native Terminal.app profile.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/terminal/Grimicorn-Neon.terminal" download="Grimicorn Neon.terminal" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Double-click the file (or Settings → Profiles → ⚙︎ → <em>Import</em>), then set as default.</p><a data-v-c47154f1="" href="https://support.apple.com/guide/terminal/change-profiles-color-trml1067/mac" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M6.5 6L3.5 9l3 3" stroke-linejoin="round"></path><path d="M11.5 6l3 3-3 3" stroke-linejoin="round"></path><path d="M10 4.5l-2 9"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Shiki</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">TextMate theme for any Shiki-based site — neon syntax on near-black.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/shiki/grimicorn-neon.tmTheme" download="grimicorn-neon.tmTheme" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Parse the <code>.tmTheme</code> with a plist reader and pass the object to Shiki's <code>theme</code> option (VitePress, Astro, etc.).</p><a data-v-c47154f1="" href="https://shiki.style/guide/load-theme" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">tmux</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Status-line theme — session pill, window tabs, pane borders &amp; copy mode.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/tmux/grimicorn-neon-tmux.conf" download="grimicorn-neon-tmux.conf" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Add <code>source-file ~/path/grimicorn-neon-tmux.conf</code> to your <code>.tmux.conf</code>, then reload with <code>tmux source-file ~/.tmux.conf</code>.</p><a data-v-c47154f1="" href="https://man.openbsd.org/tmux#STYLES" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #1c1c20;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Warp</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">YAML theme — accent, background &amp; the full 16-color ANSI set.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/warp/grimicorn-neon.yaml" download="grimicorn-neon.yaml" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Copy the file into <code>~/.warp/themes/</code>, then Settings → Appearance → Themes → <em>Grimicorn Neon</em>.</p><a data-v-c47154f1="" href="https://docs.warp.dev/terminal/appearance/custom-themes" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>"
+`;

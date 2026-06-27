@@ -76,15 +76,42 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
     </a>
 
     <div class="flex items-center gap-6 max-md:gap-3">
-      <a
-        v-for="navItem in navItems"
-        :key="navItem.link"
-        :href="navItem.link"
-        class="nav-link text-fg-muted hover:text-accent hidden font-mono text-[0.75rem] tracking-[0.02em] lowercase no-underline transition-colors duration-200 md:block"
-        :class="{ 'text-accent!': navItem.isActive() }"
-      >
-        {{ navItem.label }}
-      </a>
+      <template v-for="navItem in navItems" :key="navItem.link">
+        <div v-if="navItem.children" class="group relative hidden md:block">
+          <a
+            :href="navItem.link"
+            class="nav-link text-fg-muted hover:text-accent font-mono text-[0.75rem] tracking-[0.02em] lowercase no-underline transition-colors duration-200"
+            :class="{ 'text-accent!': navItem.isActive() }"
+          >
+            {{ navItem.label }}
+          </a>
+          <div
+            class="invisible absolute top-full left-1/2 z-50 -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100"
+          >
+            <div
+              class="border-line bg-bg/95 flex min-w-[170px] flex-col rounded-md border p-1 shadow-lg backdrop-blur-md"
+            >
+              <a
+                v-for="child in navItem.children"
+                :key="child.link"
+                :href="child.link"
+                class="text-fg-muted hover:text-accent hover:bg-fg/5 rounded px-3 py-2 font-mono text-[0.72rem] lowercase no-underline transition-colors"
+                :class="{ 'text-accent!': child.isActive() }"
+              >
+                {{ child.label }}
+              </a>
+            </div>
+          </div>
+        </div>
+        <a
+          v-else
+          :href="navItem.link"
+          class="nav-link text-fg-muted hover:text-accent hidden font-mono text-[0.75rem] tracking-[0.02em] lowercase no-underline transition-colors duration-200 md:block"
+          :class="{ 'text-accent!': navItem.isActive() }"
+        >
+          {{ navItem.label }}
+        </a>
+      </template>
     </div>
 
     <div class="flex items-center gap-2 max-md:gap-1">

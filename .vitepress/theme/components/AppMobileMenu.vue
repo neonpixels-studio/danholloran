@@ -47,18 +47,28 @@ onUnmounted(() => {
       style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04)"
     >
       <div class="flex flex-col px-4 py-3">
-        <a
-          v-for="(item, index) in navItems"
-          :key="item.link"
-          :href="item.link"
-          class="border-line/60 text-fg hover:text-accent flex items-center justify-between border-b px-2 py-3.5 font-mono text-[0.95rem] tracking-[-0.01em] no-underline transition-colors last:border-b-0"
-          @click.prevent="navigate(item.link)"
-        >
-          <span>{{ item.label.toLowerCase() }}</span>
-          <span class="text-fg-subtle font-mono text-[0.6rem]">{{
-            String(index + 1).padStart(2, "0")
-          }}</span>
-        </a>
+        <template v-for="(item, index) in navItems" :key="item.link">
+          <a
+            :href="item.link"
+            class="border-line/60 text-fg hover:text-accent flex items-center justify-between border-b px-2 py-3.5 font-mono text-[0.95rem] tracking-[-0.01em] no-underline transition-colors"
+            @click.prevent="navigate(item.link)"
+          >
+            <span>{{ item.label.toLowerCase() }}</span>
+            <span class="text-fg-subtle font-mono text-[0.6rem]">{{
+              String(index + 1).padStart(2, "0")
+            }}</span>
+          </a>
+          <a
+            v-for="child in item.children"
+            :key="child.link"
+            :href="child.link"
+            class="border-line/60 text-fg-muted hover:text-accent flex items-center border-b py-2.5 pr-2 pl-6 font-mono text-[0.82rem] no-underline transition-colors"
+            @click.prevent="navigate(child.link)"
+          >
+            <span class="text-fg-subtle mr-2">↳</span>
+            <span>{{ child.label.toLowerCase() }}</span>
+          </a>
+        </template>
 
         <div class="border-line/60 mt-3 flex items-center gap-1 pt-4">
           <span

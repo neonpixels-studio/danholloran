@@ -1,0 +1,25 @@
+# Grimicorn Neon — Warp theme
+# Built from grimicorn-palette.md. Drop into ~/.warp/themes/
+accent: "#2323FF"
+background: "#131316"
+foreground: "#E7E5E4"
+details: darker
+terminal_colors:
+  normal:
+    black: "#0A0A0B"
+    red: "#FF2D9B"
+    green: "#A3E635"
+    yellow: "#FACC15"
+    blue: "#2323FF"
+    magenta: "#A855F7"
+    cyan: "#22D3EE"
+    white: "#A7A39C"
+  bright:
+    black: "#1C1C20"
+    red: "#FF2D9B"
+    green: "#A3E635"
+    yellow: "#FACC15"
+    blue: "#2323FF"
+    magenta: "#A855F7"
+    cyan: "#22D3EE"
+    white: "#E7E5E4"

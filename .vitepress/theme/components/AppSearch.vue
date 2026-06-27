@@ -38,6 +38,13 @@ const STATIC_ITEMS: SearchItem[] = [
     href: "/themes/grimicorn",
     kw: "themes grimicorn color theme palette vscode terminal obsidian claude code dark light download",
   },
+  {
+    type: "page",
+    title: "Grimicorn Neon",
+    desc: "The always-on-rave variant — electric neon palette on near-black, for every tool",
+    href: "/themes/grimicorn-neon",
+    kw: "themes grimicorn neon rave color theme palette vscode terminal pink cyan dark download",
+  },
 ];
 
 const ALL_ITEMS: SearchItem[] = [...STATIC_ITEMS, ...postItems];
