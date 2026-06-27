@@ -644,7 +644,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 letter-spacing: var(--tracking-tightest);
               "
             >
-              Nine ports
+              Fourteen ports
             </h2>
             <p
               class="reveal text-fg-muted max-w-[480px] font-mono text-[0.72rem] leading-[1.7]"

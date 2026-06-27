@@ -1,0 +1,25 @@
+# Grimicorn Light — Warp theme
+# Built from grimicorn-palette.md. Drop into ~/.warp/themes/
+accent: "#4A80C8"
+background: "#F0F0F0"
+foreground: "#1A262C"
+details: lighter
+terminal_colors:
+  normal:
+    black: "#1A262C"
+    red: "#C4604E"
+    green: "#2E7D32"
+    yellow: "#8A8A20"
+    blue: "#4A80C8"
+    magenta: "#6B63C8"
+    cyan: "#3A8E96"
+    white: "#FDFDFD"
+  bright:
+    black: "#3C4C55"
+    red: "#C4604E"
+    green: "#2E7D32"
+    yellow: "#8A8A20"
+    blue: "#4A80C8"
+    magenta: "#6B63C8"
+    cyan: "#3A8E96"
+    white: "#FDFDFD"

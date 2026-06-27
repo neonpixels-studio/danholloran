@@ -152,7 +152,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
       <div data-v-45fa8901="" class="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div data-v-45fa8901="">
           <div data-v-45fa8901="" class="reveal text-fg-subtle mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"><span data-v-45fa8901="" class="bg-accent inline-block h-px w-6"></span> get the theme </div>
-          <h2 data-v-45fa8901="" class="reveal mb-2 font-mono leading-none font-bold" style="letter-spacing: var(--tracking-tightest);"> Nine ports </h2>
+          <h2 data-v-45fa8901="" class="reveal mb-2 font-mono leading-none font-bold" style="letter-spacing: var(--tracking-tightest);"> Fourteen ports </h2>
           <p data-v-45fa8901="" class="reveal text-fg-muted max-w-[480px] font-mono text-[0.72rem] leading-[1.7]"> Each tool ships a dark and a light file. Grab one, or take the whole set. </p>
         </div>
         <div data-v-45fa8901="" class="reveal flex flex-wrap items-center gap-3"><a data-v-45fa8901="" href="/grimicorn-themes/grimicorn-palette.md" download="" class="btn-base border-line text-fg hover:border-accent hover:text-accent inline-flex items-center gap-2 border"><svg data-v-45fa8901="" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -184,20 +184,20 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
         <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-accent">
           <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
             <div data-v-45fa8901="" class="min-w-0 flex-1">
-              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">cmux</span><span data-v-45fa8901="" class="text-accent bg-accent-dim rounded-[2px] px-1.5 py-px font-mono text-[0.54rem] tracking-[0.08em] uppercase">featured</span></div>
+              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">Ghostty</span><span data-v-45fa8901="" class="text-accent bg-accent-dim rounded-[2px] px-1.5 py-px font-mono text-[0.54rem] tracking-[0.08em] uppercase">featured</span></div>
             </div>
           </div>
-          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">Ghostty-style terminal config — background, foreground &amp; 16-color ANSI.</p>
-          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/cmux/grimicorn-dark.conf" download="grimicorn-dark.conf" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">Terminal config — background, foreground, cursor &amp; the 16-color ANSI palette.</p>
+          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/ghostty/grimicorn-dark.conf" download="grimicorn-dark.conf" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/cmux/grimicorn-light.conf" download="grimicorn-light.conf" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/ghostty/grimicorn-light.conf" download="grimicorn-light.conf" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
             <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
-            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Reference the file from your config with <code>config-file = grimicorn-dark.conf</code> (or paste its contents inline).</p><a data-v-45fa8901="" href="https://ghostty.org/docs/config/reference#theme" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
+            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Drop it in <code>~/.config/ghostty/themes/</code> and set <code>theme = grimicorn-dark</code>, or include it with <code>config-file = …</code>.</p><a data-v-45fa8901="" href="https://ghostty.org/docs/config/reference#theme" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
           </details>
         </div>
         <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-accent">
@@ -258,6 +258,69 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
           </details>
         </div>
         <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
+          <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-45fa8901="" class="min-w-0 flex-1">
+              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">Antigravity</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">Google's agentic IDE (VS Code-based) — the full Grimicorn editor theme.</p>
+          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/antigravity/grimicorn-antigravity-dark.color-theme.json" download="grimicorn-antigravity-dark.color-theme.json" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/antigravity/grimicorn-antigravity-light.color-theme.json" download="grimicorn-antigravity-light.color-theme.json" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Light</a></div>
+          <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+                <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> how to install </summary>
+            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Load it like any VS Code theme — a folder with a package.json in Antigravity's extensions directory — then pick Grimicorn.</p><a data-v-45fa8901="" href="https://antigravity.google/" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
+          </details>
+        </div>
+        <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
+          <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-45fa8901="" class="min-w-0 flex-1">
+              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">Cursor</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">AI-first VS Code fork — the same Grimicorn editor + workbench theme.</p>
+          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/cursor/grimicorn-cursor-dark.color-theme.json" download="grimicorn-cursor-dark.color-theme.json" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/cursor/grimicorn-cursor-light.color-theme.json" download="grimicorn-cursor-light.color-theme.json" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Light</a></div>
+          <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+                <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> how to install </summary>
+            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Drop both files into a folder with a package.json under <code>~/.cursor/extensions/grimicorn/</code>, reload, then pick the theme in <code>⌘K ⌘T</code>.</p><a data-v-45fa8901="" href="https://docs.cursor.com/" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
+          </details>
+        </div>
+        <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
+          <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M9 2.5l5 2.8v5.4L9 13.5 4 10.7V5.3z" stroke-linejoin="round"></path><circle cx="9" cy="8" r="1.7"></circle></svg></span>
+            <div data-v-45fa8901="" class="min-w-0 flex-1">
+              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">Devin</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">Cognition's AI engineer — Grimicorn for its VS Code-based workspace editor.</p>
+          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/devin/grimicorn-devin-dark.color-theme.json" download="grimicorn-devin-dark.color-theme.json" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/devin/grimicorn-devin-light.color-theme.json" download="grimicorn-devin-light.color-theme.json" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Light</a></div>
+          <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+                <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> how to install </summary>
+            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Devin's workspace runs a VS Code editor — load it as a VS Code color theme (a folder with a package.json in the extensions directory), then select Grimicorn.</p><a data-v-45fa8901="" href="https://docs.devin.ai/" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
+          </details>
+        </div>
+        <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
           <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
             <div data-v-45fa8901="" class="min-w-0 flex-1">
               <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">iTerm2</span>
@@ -276,6 +339,27 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Settings → Profiles → Colors → <em>Color Presets…</em> → <em>Import</em>, then select the preset.</p><a data-v-45fa8901="" href="https://iterm2.com/documentation-preferences-profiles-colors.html" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
+          </details>
+        </div>
+        <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
+          <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M3 6h12"></path><path d="M5.5 4.5h.01"></path></svg></span>
+            <div data-v-45fa8901="" class="min-w-0 flex-1">
+              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">JetBrains IDE</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">Editor color scheme for IntelliJ, WebStorm, PyCharm &amp; the rest.</p>
+          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/jetbrains/Grimicorn-Dark.icls" download="Grimicorn-Dark.icls" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/jetbrains/Grimicorn-Light.icls" download="Grimicorn-Light.icls" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Light</a></div>
+          <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+                <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> how to install </summary>
+            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Settings → Editor → Color Scheme → ⚙︎ → <em>Import Scheme…</em>, choose the <code>.icls</code>, then select Grimicorn.</p><a data-v-45fa8901="" href="https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
           </details>
         </div>
         <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
@@ -339,6 +423,27 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Add <code>source-file ~/path/grimicorn-tmux-dark.conf</code> to your <code>.tmux.conf</code>, then reload with <code>tmux source-file ~/.tmux.conf</code>.</p><a data-v-45fa8901="" href="https://man.openbsd.org/tmux#STYLES" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
+          </details>
+        </div>
+        <div data-v-45fa8901="" class="group flex flex-col border-t-2 pt-5 border-line">
+          <div data-v-45fa8901="" class="mb-2 flex items-start gap-3"><span data-v-45fa8901="" class="text-accent mt-0.5 shrink-0"><svg data-v-45fa8901="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-45fa8901="" class="min-w-0 flex-1">
+              <div data-v-45fa8901="" class="flex flex-wrap items-center gap-2"><span data-v-45fa8901="" class="tracking-tighter-2 text-fg font-mono text-[0.92rem] font-bold">Warp</span>
+                <!--v-if-->
+              </div>
+            </div>
+          </div>
+          <p data-v-45fa8901="" class="text-fg-muted mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]">YAML theme — accent, background &amp; the full 16-color ANSI set.</p>
+          <div data-v-45fa8901="" class="mb-3 flex gap-2"><a data-v-45fa8901="" href="/grimicorn-themes/warp/grimicorn-dark.yaml" download="grimicorn-dark.yaml" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Dark</a><a data-v-45fa8901="" href="/grimicorn-themes/warp/grimicorn-light.yaml" download="grimicorn-light.yaml" class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"><svg data-v-45fa8901="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Light</a></div>
+          <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+                <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> how to install </summary>
+            <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Copy the file into <code>~/.warp/themes/</code>, then Settings → Appearance → Themes → <em>Grimicorn</em>.</p><a data-v-45fa8901="" href="https://docs.warp.dev/terminal/appearance/custom-themes" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
           </details>
         </div>
       </div>

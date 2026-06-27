@@ -164,25 +164,125 @@ export const TOOLS: GrimicornTool[] = [
     docs: "https://docs.anthropic.com/en/docs/claude-code/overview",
   },
   {
-    name: "cmux",
+    name: "Ghostty",
     kind: "terminal",
-    desc: "Ghostty-style terminal config — background, foreground & 16-color ANSI.",
+    desc: "Terminal config — background, foreground, cursor & the 16-color ANSI palette.",
     featured: true,
     files: [
       {
         label: "Dark",
-        href: `${FILES_BASE}/cmux/grimicorn-dark.conf`,
+        href: `${FILES_BASE}/ghostty/grimicorn-dark.conf`,
         download: "grimicorn-dark.conf",
       },
       {
         label: "Light",
-        href: `${FILES_BASE}/cmux/grimicorn-light.conf`,
+        href: `${FILES_BASE}/ghostty/grimicorn-light.conf`,
         download: "grimicorn-light.conf",
       },
     ],
     install:
-      "Reference the file from your config with <code>config-file = grimicorn-dark.conf</code> (or paste its contents inline).",
+      "Drop it in <code>~/.config/ghostty/themes/</code> and set <code>theme = grimicorn-dark</code>, or include it with <code>config-file = …</code>.",
     docs: "https://ghostty.org/docs/config/reference#theme",
+  },
+  {
+    name: "Cursor",
+    kind: "editor",
+    desc: "AI-first VS Code fork — the same Grimicorn editor + workbench theme.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/cursor/grimicorn-cursor-dark.color-theme.json`,
+        download: "grimicorn-cursor-dark.color-theme.json",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/cursor/grimicorn-cursor-light.color-theme.json`,
+        download: "grimicorn-cursor-light.color-theme.json",
+      },
+    ],
+    install:
+      "Drop both files into a folder with a package.json under <code>~/.cursor/extensions/grimicorn/</code>, reload, then pick the theme in <code>⌘K ⌘T</code>.",
+    docs: "https://docs.cursor.com/",
+  },
+  {
+    name: "Devin",
+    kind: "agent",
+    desc: "Cognition's AI engineer — Grimicorn for its VS Code-based workspace editor.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/devin/grimicorn-devin-dark.color-theme.json`,
+        download: "grimicorn-devin-dark.color-theme.json",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/devin/grimicorn-devin-light.color-theme.json`,
+        download: "grimicorn-devin-light.color-theme.json",
+      },
+    ],
+    install:
+      "Devin's workspace runs a VS Code editor — load it as a VS Code color theme (a folder with a package.json in the extensions directory), then select Grimicorn.",
+    docs: "https://docs.devin.ai/",
+  },
+  {
+    name: "Antigravity",
+    kind: "editor",
+    desc: "Google's agentic IDE (VS Code-based) — the full Grimicorn editor theme.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/antigravity/grimicorn-antigravity-dark.color-theme.json`,
+        download: "grimicorn-antigravity-dark.color-theme.json",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/antigravity/grimicorn-antigravity-light.color-theme.json`,
+        download: "grimicorn-antigravity-light.color-theme.json",
+      },
+    ],
+    install:
+      "Load it like any VS Code theme — a folder with a package.json in Antigravity's extensions directory — then pick Grimicorn.",
+    docs: "https://antigravity.google/",
+  },
+  {
+    name: "JetBrains IDE",
+    kind: "editor",
+    desc: "Editor color scheme for IntelliJ, WebStorm, PyCharm & the rest.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/jetbrains/Grimicorn-Dark.icls`,
+        download: "Grimicorn-Dark.icls",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/jetbrains/Grimicorn-Light.icls`,
+        download: "Grimicorn-Light.icls",
+      },
+    ],
+    install:
+      "Settings → Editor → Color Scheme → ⚙︎ → <em>Import Scheme…</em>, choose the <code>.icls</code>, then select Grimicorn.",
+    docs: "https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html",
+  },
+  {
+    name: "Warp",
+    kind: "terminal",
+    desc: "YAML theme — accent, background & the full 16-color ANSI set.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/warp/grimicorn-dark.yaml`,
+        download: "grimicorn-dark.yaml",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/warp/grimicorn-light.yaml`,
+        download: "grimicorn-light.yaml",
+      },
+    ],
+    install:
+      "Copy the file into <code>~/.warp/themes/</code>, then Settings → Appearance → Themes → <em>Grimicorn</em>.",
+    docs: "https://docs.warp.dev/terminal/appearance/custom-themes",
   },
   {
     name: "iTerm2",

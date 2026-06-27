@@ -215,6 +215,11 @@ BORDER_FOCUS          = #83AFE5 / #4A80C8
 | Git Tower | ✅ `Grimicorn (Dark).towertheme` | ✅ `Grimicorn (Light).towertheme` | `themes/gittower/` |
 | Obsidian | ✅ `theme.css` | ✅ (same file, `.theme-light` block) | `themes/obsidian/Grimicorn/` |
 | Claude Code | ✅ `grimicorn-dark.json` | ✅ `grimicorn-light.json` | `~/.claude/themes/` |
-| cmux | ✅ `grimicorn-dark.conf` | ✅ `grimicorn-light.conf` | `themes/cmux/` |
+| Ghostty | ✅ `grimicorn-dark.conf` | ✅ `grimicorn-light.conf` | `themes/ghostty/` |
 | tmux | ✅ `grimicorn-tmux-dark.conf` | ✅ `grimicorn-tmux-light.conf` | `themes/tmux/` |
 | Shiki | ✅ `grimicorn-dark.tmTheme` | ✅ `grimicorn-light.tmTheme` | `themes/shiki/` |
+| Cursor | ✅ `grimicorn-cursor-dark.color-theme.json` | ✅ `grimicorn-cursor-light.color-theme.json` | `themes/cursor/` |
+| Devin | ✅ `grimicorn-devin-dark.color-theme.json` | ✅ `grimicorn-devin-light.color-theme.json` | `themes/devin/` |
+| Antigravity | ✅ `grimicorn-antigravity-dark.color-theme.json` | ✅ `grimicorn-antigravity-light.color-theme.json` | `themes/antigravity/` |
+| JetBrains IDE | ✅ `Grimicorn-Dark.icls` | ✅ `Grimicorn-Light.icls` | `themes/jetbrains/` |
+| Warp | ✅ `grimicorn-dark.yaml` | ✅ `grimicorn-light.yaml` | `themes/warp/` |
