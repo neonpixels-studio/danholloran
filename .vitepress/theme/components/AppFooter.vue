@@ -1,6 +1,14 @@
 <script lang="js" setup>
 import { PAST_LOCATIONS } from "@data/resume.ts";
-import { ref, onMounted, onUnmounted } from "vue";
+import { computed, ref, onMounted, onUnmounted } from "vue";
+import { useRoute } from "vitepress";
+
+const route = useRoute();
+// Grimicorn Neon is always dark, so its footer is forced dark regardless of
+// the site's light/dark setting.
+const isAlwaysDark = computed(() =>
+  route.path.startsWith("/themes/grimicorn-neon"),
+);
 
 const locationIndex = ref(0);
 const maxLocationWidth =
@@ -20,7 +28,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <footer class="border-line no-print border-t px-8 py-8 text-center">
+  <footer
+    class="border-line no-print border-t px-8 py-8 text-center"
+    :class="{ dark: isAlwaysDark }"
+  >
     <p class="text-fg-subtle font-mono text-[0.7rem]">
       © Dan Holloran {{ new Date().getFullYear() }} ·
       <a href="/posts" class="text-fg-subtle hover:text-accent no-underline">
@@ -54,6 +65,12 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* Forced-dark footer (Grimicorn Neon): the .dark class flips the color tokens;
+   give it an opaque dark background so it doesn't show the light page behind. */
+footer.dark {
+  background: var(--color-bg);
+}
+
 .heartbeat {
   animation: heartbeat 1.4s ease-in-out infinite;
 }
