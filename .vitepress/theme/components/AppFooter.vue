@@ -1,14 +1,12 @@
 <script lang="js" setup>
 import { PAST_LOCATIONS } from "@data/resume.ts";
 import { computed, ref, onMounted, onUnmounted } from "vue";
-import { useRoute } from "vitepress";
+import { useData } from "vitepress";
 
-const route = useRoute();
-// Grimicorn Neon is always dark, so its footer is forced dark regardless of
-// the site's light/dark setting.
-const isAlwaysDark = computed(() =>
-  route.path.startsWith("/themes/grimicorn-neon"),
-);
+const { frontmatter } = useData();
+// Pages that are dark regardless of the site's light/dark setting (e.g.
+// Grimicorn Neon) opt in with `forceDarkFooter: true` in their frontmatter.
+const isAlwaysDark = computed(() => frontmatter.value.forceDarkFooter === true);
 
 const locationIndex = ref(0);
 const maxLocationWidth =

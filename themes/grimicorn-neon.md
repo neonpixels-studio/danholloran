@@ -1,4 +1,5 @@
 ---
+forceDarkFooter: true
 ---
 
 <script setup lang="ts">
