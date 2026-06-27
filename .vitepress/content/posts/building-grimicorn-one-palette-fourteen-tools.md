@@ -1,14 +1,14 @@
 ---
-date: '2026-06-27T16:35:47.000+00:00'
-tags: ['tooling', 'css', 'typescript', 'accessibility']
-draft: true
+date: "2026-06-27T16:35:47.000+00:00"
+tags: ["tooling", "css", "typescript", "accessibility"]
+draft: false
 title: "Building Grimicorn: One Palette, Fourteen Tools"
-image: '/images/posts/building-grimicorn-one-palette-fourteen-tools.jpg'
-topic: 'development'
+image: "/images/posts/building-grimicorn-one-palette-fourteen-tools.jpg"
+topic: "development"
 description: "How I turned a single calm, low-fatigue color palette into matching dark and light themes for VS Code, terminals, Obsidian, Claude Code and ten other tools — all generated from one source of truth."
 ---
 
-A typical day moves through a lot of windows. Editor, terminal, a git client, a notes app, and lately an agentic coding tool or two. Each one ships its own default theme, and even when you pick a "good" one in each, the seams show: the blue that means *keyword* in your editor means *directory* in your shell and *link* in your notes. Your eyes re-learn the color language every time you switch context. It is a small tax, but you pay it hundreds of times a day.
+A typical day moves through a lot of windows. Editor, terminal, a git client, a notes app, and lately an agentic coding tool or two. Each one ships its own default theme, and even when you pick a "good" one in each, the seams show: the blue that means _keyword_ in your editor means _directory_ in your shell and _link_ in your notes. Your eyes re-learn the color language every time you switch context. It is a small tax, but you pay it hundreds of times a day.
 
 Grimicorn started as a fix for that tax. It is a calm, low-fatigue color theme — the name is grim reaper × unicorn, dead serious but secretly colorful — built on a muted blue-gray base with soft pastel syntax. The real work, though, was not picking the colors. It was making one palette behave identically across fourteen different tools.
 
@@ -28,20 +28,20 @@ So every file is generated from a single source of truth: a `grimicorn-palette.m
 
 ```ts
 const palette = {
-  blue:   '#83AFE5', // keywords · links · primary
-  green:  '#A9CE93', // strings · success · cursor
-  salmon: '#DD9787', // errors · invalid · deletions
+  blue: "#83AFE5", // keywords · links · primary
+  green: "#A9CE93", // strings · success · cursor
+  salmon: "#DD9787", // errors · invalid · deletions
   // ...eight roles total
-} as const
+} as const;
 
 function toVSCode(p: typeof palette) {
   return {
-    'editor.foreground': p.gray,
+    "editor.foreground": p.gray,
     tokenColors: [
-      { scope: 'keyword', settings: { foreground: p.blue } },
-      { scope: 'string',  settings: { foreground: p.green } },
+      { scope: "keyword", settings: { foreground: p.blue } },
+      { scope: "string", settings: { foreground: p.green } },
     ],
-  }
+  };
 }
 ```
 
@@ -49,7 +49,7 @@ Each tool gets its own emitter — `toVSCode`, `toGhostty`, `toITerm`, `toTmux` 
 
 ## Tuning for low fatigue
 
-The "calm" part is not a vibe; it is a constraint. Nothing in the palette is saturated enough to vibrate against the background. The dark variant rests the same eight roles on a muted blue-gray base; the light variant shifts them toward ink-on-paper without changing what any role *means*. A six-step background scale (`#1E2A31` through `#4E5C66`) gives panels, gutters, and selections somewhere to sit without resorting to pure black or harsh borders.
+The "calm" part is not a vibe; it is a constraint. Nothing in the palette is saturated enough to vibrate against the background. The dark variant rests the same eight roles on a muted blue-gray base; the light variant shifts them toward ink-on-paper without changing what any role _means_. A six-step background scale (`#1E2A31` through `#4E5C66`) gives panels, gutters, and selections somewhere to sit without resorting to pure black or harsh borders.
 
 Shipping a light variant from the same source is where role-based design pays off again. Light mode is not a separate theme — it is the same role map with each color re-tuned for a bright surface. Blue darkens from `#83AFE5` to `#4A80C8` so it still reads as the primary accent against paper. Because the roles are fixed, dark and light stay in sync by construction.
 
