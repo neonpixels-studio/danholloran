@@ -1,10 +1,10 @@
 ---
-date: '2026-06-27T07:08:09.000+00:00'
-tags: ['finance', 'crypto', 'web3', 'blockchain', 'ethereum', 'layer-2-rollups']
-draft: true
+date: "2026-06-27T07:08:09.000+00:00"
+tags: ["finance", "crypto", "web3", "blockchain", "ethereum", "layer-2-rollups"]
+draft: false
 title: "Layer-2 Rollups: How Ethereum Scales Without Sacrificing Security"
-image: '/images/posts/layer-2-rollups-how-ethereum-scales-without-sacrificing-security.jpg'
-topic: 'finance'
+image: "/images/posts/layer-2-rollups-how-ethereum-scales-without-sacrificing-security.jpg"
+topic: "finance"
 description: "Ethereum's mainnet can only handle so many transactions, but Layer-2 rollups solve that bottleneck without giving up the security guarantees that make the chain worth using."
 ---
 
@@ -14,11 +14,11 @@ Layer-2 rollups are the answer the ecosystem landed on. As of mid-2026, L2 netwo
 
 ## The Core Idea: Do the Work Offchain, Post the Proof Onchain
 
-The fundamental insight behind rollups is that Ethereum doesn't need to *execute* every transaction — it just needs to be able to *verify* them. A rollup takes thousands of transactions, processes them on a separate chain with much lower overhead, bundles them into a compressed batch, and posts that batch back to Ethereum mainnet. Ethereum stores the data and adjudicates disputes. The rollup handles the compute.
+The fundamental insight behind rollups is that Ethereum doesn't need to _execute_ every transaction — it just needs to be able to _verify_ them. A rollup takes thousands of transactions, processes them on a separate chain with much lower overhead, bundles them into a compressed batch, and posts that batch back to Ethereum mainnet. Ethereum stores the data and adjudicates disputes. The rollup handles the compute.
 
 This is different from sidechains or bridges that just move assets to a separate chain and hope for the best. With rollups, Ethereum itself is the security layer. If the rollup operator tries to cheat, the fraud gets caught on mainnet. The rollup inherits Ethereum's validator set and consensus rather than bootstrapping its own.
 
-The two main rollup designs differ in *how* they prove to Ethereum that the batched transactions are valid.
+The two main rollup designs differ in _how_ they prove to Ethereum that the batched transactions are valid.
 
 ## Optimistic Rollups vs. ZK Rollups
 
