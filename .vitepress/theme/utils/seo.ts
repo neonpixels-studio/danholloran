@@ -1,5 +1,6 @@
 import { SITE_URL } from "./constants";
 import resume from "../../data/resume";
+import socialLinks from "../../data/socialLinks";
 
 export function pageMeta(opts: {
   title: string;
@@ -44,9 +45,27 @@ export const personJsonLd = {
   image: `${SITE_URL}${resume.photo}`,
   jobTitle: resume.headline,
   description: resume.intro,
-  sameAs: resume.contacts
-    .filter((c) => c.link?.startsWith("https://") && c.link !== SITE_URL)
-    .map((c) => c.link as string),
+  // External profiles from contacts + every linked social account (X, Bluesky,
+  // etc.), deduped — keeps sameAs in sync with what the site actually links to.
+  sameAs: [
+    ...new Set([
+      ...resume.contacts
+        .filter((c) => c.link?.startsWith("https://") && c.link !== SITE_URL)
+        .map((c) => c.link as string),
+      ...Object.values(socialLinks),
+    ]),
+  ],
+};
+
+// Publisher Organization for Article rich results (Google requires publisher
+// with a logo for Article structured data).
+export const publisherJsonLd = {
+  "@type": "Organization",
+  name: `${resume.firstName} ${resume.lastName}`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/images/apple-touch-icon.png`,
+  },
 };
 
 export const profilePageJsonLd = {

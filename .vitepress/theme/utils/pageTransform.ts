@@ -3,7 +3,12 @@ import { join } from "path";
 import { parseFrontmatter } from "./frontmatter";
 import type { PageData } from "vitepress";
 import { SITE_URL } from "./constants";
-import { pageMeta, personJsonLd, profilePageJsonLd } from "./seo";
+import {
+  pageMeta,
+  personJsonLd,
+  profilePageJsonLd,
+  publisherJsonLd,
+} from "./seo";
 import resume, { getExperienceLength } from "../../data/resume.ts";
 
 // Returns true for head entries owned by our transforms (canonical, OG, JSON-LD).
@@ -197,6 +202,7 @@ function transformPost(pageData: PageData): void {
         name: `${resume.firstName} ${resume.lastName}`,
         url: SITE_URL,
       },
+      publisher: publisherJsonLd,
     },
   });
 }

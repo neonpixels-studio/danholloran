@@ -105,7 +105,7 @@ function formatDate(d: string) {
       <img
         :src="post.frontmatter.image"
         class="h-full w-full"
-        :alt="`${post.frontmatter.title} image`"
+        :alt="post.frontmatter.title"
       />
     </div>
 

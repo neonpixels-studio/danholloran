@@ -19,7 +19,7 @@ export default {
   lastName: "Holloran",
   photo: "/images/profile.png",
   headline: "Senior Frontend & Fullstack Developer",
-  intro: `Senior Full Stack Developer with ${getExperienceLength()}+ years building performant, scalable web applications. Passionate about architecture, mentorship, and finding the right tool for the job.`,
+  intro: `Senior Frontend & Fullstack Developer with ${getExperienceLength()}+ years building performant, scalable web applications. Passionate about architecture, mentorship, and finding the right tool for the job.`,
   summary: `Dynamic Senior Frontend &amp; Fullstack Developer with <strong class="text-fg font-semibold">${getExperienceLength()}+ years</strong> of experience building responsive, performant web applications and leading engineering teams. Proven track record of reducing load times, improving user engagement, and directing cross-functional teams of 10+ developers. Equally comfortable owning complex frontend architecture with Vue.js and React, diving into Fullstack work with Laravel and PHP, or stepping into an engineering leadership role. Looking to bring deep technical expertise and a collaborative leadership style to an innovative startup or mid-sized product team — remotely.`,
   contacts: [
     {
