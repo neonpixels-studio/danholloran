@@ -1,10 +1,10 @@
 ---
-date: '2026-06-28T17:38:59.000+00:00'
-tags: ['tooling', 'css', 'accessibility', 'typescript']
+date: "2026-06-28T17:38:59.000+00:00"
+tags: ["tooling", "css", "accessibility", "typescript"]
 draft: true
 title: "Grimicorn Neon: When a Calm Theme Goes Loud"
-image: '/images/posts/grimicorn-neon-when-a-calm-theme-goes-loud.jpg'
-topic: 'development'
+image: "/images/posts/grimicorn-neon-when-a-calm-theme-goes-loud.jpg"
+topic: "development"
 description: "The high-voltage variant of Grimicorn keeps every semantic role and swaps in eight electric hexes. Here's what changes, what doesn't, and the contrast tradeoff that makes neon-on-black a deliberate choice."
 ---
 
@@ -21,11 +21,17 @@ What changes is only the values bound to those roles. Calm Grimicorn's blue is a
 ```ts
 // same eight roles, two personalities
 const calm = {
-  blue: '#83AFE5', green: '#A9CE93', error: '#DD9787', base: '#253039',
-}
+  blue: "#83AFE5",
+  green: "#A9CE93",
+  error: "#DD9787",
+  base: "#253039",
+};
 const neon = {
-  blue: '#2323FF', green: '#A3E635', error: '#FF2D9B', base: '#0A0A0B',
-}
+  blue: "#2323FF",
+  green: "#A3E635",
+  error: "#FF2D9B",
+  base: "#0A0A0B",
+};
 ```
 
 Because every one of the fourteen tool ports — VS Code, Ghostty, Obsidian, Claude Code, JetBrains, tmux, and the rest — is generated from a single `palette.md`, producing the neon set was mostly a matter of feeding the build a different eight values. The emitters that translate roles into VS Code scopes or ANSI slots never knew the difference. That is the real payoff of role-based theming: one architecture, two completely different moods, no forked codebase.

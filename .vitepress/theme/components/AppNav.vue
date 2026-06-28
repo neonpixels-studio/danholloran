@@ -262,8 +262,8 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         @click="toggleMobileMenu"
       >
         <svg
-          aria-hidden="true"
           v-if="!isMobileMenuOpen"
+          aria-hidden="true"
           width="18"
           height="18"
           viewBox="0 0 18 18"
@@ -275,8 +275,8 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           <path d="M2 5h14M2 9h14M2 13h14" />
         </svg>
         <svg
-          aria-hidden="true"
           v-else
+          aria-hidden="true"
           width="18"
           height="18"
           viewBox="0 0 18 18"
