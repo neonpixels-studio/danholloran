@@ -1,10 +1,10 @@
 ---
-date: '2026-06-28T07:08:02.000+00:00'
-tags: ['javascript', 'performance', 'web-apis']
-draft: true
+date: "2026-06-28T07:08:02.000+00:00"
+tags: ["javascript", "performance", "web-apis"]
+draft: false
 title: "scheduler.yield(): The One-Liner That Fixes Your INP"
-image: '/images/posts/scheduler-yield-the-one-liner-that-fixes-your-inp.jpg'
-topic: 'development'
+image: "/images/posts/scheduler-yield-the-one-liner-that-fixes-your-inp.jpg"
+topic: "development"
 description: "A practical look at scheduler.yield(), the browser API that breaks up long tasks and keeps the main thread responsive without the setTimeout penalty."
 ---
 
@@ -27,13 +27,13 @@ async function processItems(items) {
 }
 ```
 
-This breaks the long task into shorter ones, which is genuinely good for input delay. The problem is *where* your continuation lands. When you yield with `setTimeout`, the rest of your function goes to the **back** of the task queue. Anything else that got scheduled in the meantime, a third-party analytics callback, another component's work, a different `setTimeout`, now runs before you get control back. Your loop can stall behind work you don't care about, and a job that should take 100ms stretches out unpredictably.
+This breaks the long task into shorter ones, which is genuinely good for input delay. The problem is _where_ your continuation lands. When you yield with `setTimeout`, the rest of your function goes to the **back** of the task queue. Anything else that got scheduled in the meantime, a third-party analytics callback, another component's work, a different `setTimeout`, now runs before you get control back. Your loop can stall behind work you don't care about, and a job that should take 100ms stretches out unpredictably.
 
 You yielded to be polite, and the browser took you a little too literally.
 
 ## What scheduler.yield() does differently
 
-`scheduler.yield()` returns a promise you can await. Execution pauses at that point and hands the main thread back, exactly like the `setTimeout` trick, so pending interactions can be serviced. The difference is the continuation gets put in a **prioritized** queue. When the browser comes back around, your function resumes *before* other similar tasks that were waiting, rather than after them.
+`scheduler.yield()` returns a promise you can await. Execution pauses at that point and hands the main thread back, exactly like the `setTimeout` trick, so pending interactions can be serviced. The difference is the continuation gets put in a **prioritized** queue. When the browser comes back around, your function resumes _before_ other similar tasks that were waiting, rather than after them.
 
 Rewriting the loop is almost anticlimactic:
 
@@ -53,10 +53,10 @@ Same shape, better behavior. You still let high-priority interaction work jump t
 A common real-world shape is an event handler that needs to show feedback before doing slow work:
 
 ```js
-button.addEventListener('click', async () => {
+button.addEventListener("click", async () => {
   showSpinner();
   await scheduler.yield(); // let the browser paint the spinner
-  doSlowContentSwap();     // then run the expensive part
+  doSlowContentSwap(); // then run the expensive part
 });
 ```
 
