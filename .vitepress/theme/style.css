@@ -6,7 +6,7 @@
   --color-bg-soft: rgba(173, 70, 255, 0.03);
   --color-fg: #111110;
   --color-fg-muted: #6b6b68;
-  --color-fg-subtle: #767672;
+  --color-fg-subtle: #6e6e6a;
   --color-accent: #9b1dff;
   --color-accent-hover: #8a14e6;
   --color-accent-dim: rgba(173, 70, 255, 0.1);
@@ -62,7 +62,7 @@ html.dark {
   --color-bg-soft: rgba(173, 70, 255, 0.06);
   --color-fg: #f5f4f1;
   --color-fg-muted: #a1a09d;
-  --color-fg-subtle: #6b6b68;
+  --color-fg-subtle: #82827b;
   --color-accent-dim: rgba(173, 70, 255, 0.18);
   --color-line: rgba(255, 255, 255, 0.1);
 }

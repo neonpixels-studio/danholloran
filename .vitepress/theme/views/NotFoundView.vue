@@ -130,7 +130,13 @@ const route = useRoute();
           href="/"
           class="bg-accent border-accent inline-flex items-center gap-2 rounded-xs border-2 px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] text-white no-underline transition-all hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(173,70,255,0.25)]"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <svg
+            aria-hidden="true"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
             <path
               d="M1 6L6 1L11 6M2.5 5V10.5H9.5V5"
               stroke="currentColor"
@@ -145,7 +151,13 @@ const route = useRoute();
           onclick="document.getElementById('searchToggle').click()"
           class="border-fg text-fg hover:bg-fg hover:text-bg inline-flex cursor-pointer items-center gap-2 rounded-xs border-2 bg-transparent px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] transition-all"
         >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <svg
+            aria-hidden="true"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+          >
             <circle
               cx="5"
               cy="5"

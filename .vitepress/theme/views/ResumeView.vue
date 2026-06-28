@@ -20,7 +20,7 @@ function formatPeriod(start: string, end: string | null): string {
 </script>
 
 <template>
-  <main
+  <div
     class="mx-auto max-w-225 px-8 pt-30 pb-24 print:px-0 print:pt-0 print:pb-0"
   >
     <!-- ACTION BAR -->
@@ -40,6 +40,7 @@ function formatPeriod(start: string, end: string | null): string {
           href="/dan_holloran_resume.pdf"
         >
           <svg
+            aria-hidden="true"
             width="12"
             height="12"
             viewBox="0 0 12 12"
@@ -267,5 +268,5 @@ function formatPeriod(start: string, end: string | null): string {
         </div>
       </section>
     </div>
-  </main>
+  </div>
 </template>

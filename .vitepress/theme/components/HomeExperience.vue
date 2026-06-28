@@ -42,6 +42,7 @@ function formatPeriod(start: string, end: string | null): string {
             class="group text-accent border-accent/40 hover:bg-accent hover:border-accent inline-flex items-center gap-2 rounded-xs border px-3 py-2 font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-all hover:text-white"
           >
             <svg
+              aria-hidden="true"
               width="12"
               height="12"
               viewBox="0 0 12 12"

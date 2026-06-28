@@ -37,6 +37,7 @@ function formatDate(d: string) {
       class="group text-fg-muted hover:text-accent mb-12 inline-flex items-center gap-1.5 font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors"
     >
       <svg
+        aria-hidden="true"
         width="14"
         height="14"
         viewBox="0 0 14 14"
@@ -176,6 +177,7 @@ function formatDate(d: string) {
     <NewsletterTerminal />
 
     <nav
+      aria-label="Post navigation"
       class="border-line mt-16 grid grid-cols-2 gap-4 border-t pt-8 max-md:grid-cols-1"
     >
       <a

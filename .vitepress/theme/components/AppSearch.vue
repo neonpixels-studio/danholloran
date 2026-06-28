@@ -182,6 +182,7 @@ onUnmounted(() => {
       <div class="mx-auto max-w-[1100px] px-8 py-5 max-md:px-4">
         <div class="border-line flex items-center gap-4 border-b pb-3">
           <svg
+            aria-hidden="true"
             width="18"
             height="18"
             viewBox="0 0 16 16"
@@ -266,6 +267,7 @@ onUnmounted(() => {
               ></div>
             </div>
             <svg
+              aria-hidden="true"
               width="14"
               height="14"
               viewBox="0 0 14 14"

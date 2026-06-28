@@ -774,6 +774,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"
               >
                 <svg
+                  aria-hidden="true"
                   class="det-chevron transition-transform"
                   width="9"
                   height="9"

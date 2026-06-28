@@ -175,7 +175,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Drop the JSON into <code>~/.claude/themes/</code>, then select Grimicorn from the theme menu.</p><a data-v-45fa8901="" href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -194,7 +194,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Drop it in <code>~/.config/ghostty/themes/</code> and set <code>theme = grimicorn-dark</code>, or include it with <code>config-file = …</code>.</p><a data-v-45fa8901="" href="https://ghostty.org/docs/config/reference#theme" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -213,7 +213,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Double-click the <code>.towertheme</code> to install, then pick it in Tower → Settings → Git Config / Appearance.</p><a data-v-45fa8901="" href="https://www.git-tower.com/help/guides/integration/syntax-highlighting/mac" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -232,7 +232,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> manifest.json</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Place both files in <code>.obsidian/themes/Grimicorn/</code>, then Settings → Appearance → <em>Grimicorn</em>.</p><a data-v-45fa8901="" href="https://help.obsidian.md/themes" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -251,7 +251,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Drop both files into a folder with a package.json under <code>~/.vscode/extensions/grimicorn/</code>, reload, then choose the theme in <code>⌘K ⌘T</code>.</p><a data-v-45fa8901="" href="https://code.visualstudio.com/docs/configure/themes" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -272,7 +272,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Load it like any VS Code theme — a folder with a package.json in Antigravity's extensions directory — then pick Grimicorn.</p><a data-v-45fa8901="" href="https://antigravity.google/" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -293,7 +293,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Drop both files into a folder with a package.json under <code>~/.cursor/extensions/grimicorn/</code>, reload, then pick the theme in <code>⌘K ⌘T</code>.</p><a data-v-45fa8901="" href="https://docs.cursor.com/" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -314,7 +314,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Devin's workspace runs a VS Code editor — load it as a VS Code color theme (a folder with a package.json in the extensions directory), then select Grimicorn.</p><a data-v-45fa8901="" href="https://docs.devin.ai/" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -335,7 +335,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Settings → Profiles → Colors → <em>Color Presets…</em> → <em>Import</em>, then select the preset.</p><a data-v-45fa8901="" href="https://iterm2.com/documentation-preferences-profiles-colors.html" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -356,7 +356,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Settings → Editor → Color Scheme → ⚙︎ → <em>Import Scheme…</em>, choose the <code>.icls</code>, then select Grimicorn.</p><a data-v-45fa8901="" href="https://www.jetbrains.com/help/idea/configuring-colors-and-fonts.html" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -377,7 +377,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Double-click the file (or Settings → Profiles → ⚙︎ → <em>Import</em>), then set as default.</p><a data-v-45fa8901="" href="https://support.apple.com/guide/terminal/change-profiles-color-trml1067/mac" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -398,7 +398,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Parse the <code>.tmTheme</code> with a plist reader and pass the object to Shiki's <code>theme</code> option (VitePress, Astro, etc.).</p><a data-v-45fa8901="" href="https://shiki.style/guide/load-theme" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -419,7 +419,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Add <code>source-file ~/path/grimicorn-tmux-dark.conf</code> to your <code>.tmux.conf</code>, then reload with <code>tmux source-file ~/.tmux.conf</code>.</p><a data-v-45fa8901="" href="https://man.openbsd.org/tmux#STYLES" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
@@ -440,7 +440,7 @@ exports[`GrimicornThemesView > renders correctly 1`] = `
                 <path data-v-45fa8901="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> Light</a></div>
           <details data-v-45fa8901="" class="border-line/70 mt-auto border-t pt-2.5">
-            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
+            <summary data-v-45fa8901="" class="gc-summary text-fg-subtle hover:text-accent flex cursor-pointer items-center gap-1.5 font-mono text-[0.62rem] transition-colors select-none"><svg data-v-45fa8901="" aria-hidden="true" class="det-chevron transition-transform" width="9" height="9" viewBox="0 0 10 10" fill="none">
                 <path data-v-45fa8901="" d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg> how to install </summary>
             <p data-v-45fa8901="" class="text-fg-muted mt-2.5 font-mono text-[0.6rem] leading-[1.7]">Copy the file into <code>~/.warp/themes/</code>, then Settings → Appearance → Themes → <em>Grimicorn</em>.</p><a data-v-45fa8901="" href="https://docs.warp.dev/terminal/appearance/custom-themes" target="_blank" rel="noopener" class="text-accent mt-2 inline-flex items-center gap-1 font-mono text-[0.6rem] no-underline hover:underline">docs ↗</a>
