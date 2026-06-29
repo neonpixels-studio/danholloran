@@ -1,10 +1,10 @@
 ---
-date: '2026-06-29T07:08:24.000+00:00'
-tags: ['javascript', 'web-apis', 'routing', 'spa']
-draft: true
+date: "2026-06-29T07:08:24.000+00:00"
+tags: ["javascript", "web-apis", "routing", "spa"]
+draft: false
 title: "The Navigation API: Stop Wrestling with history.pushState"
-image: '/images/posts/the-navigation-api-stop-wrestling-with-history-pushstate.jpg'
-topic: 'development'
+image: "/images/posts/the-navigation-api-stop-wrestling-with-history-pushstate.jpg"
+topic: "development"
 description: "The Navigation API hit Baseline in early 2026, giving SPAs a single, purpose-built place to intercept and manage routing. Here's why it finally replaces the History API."
 ---
 
@@ -14,16 +14,16 @@ The Navigation API is the fix, and as of early 2026 it is finally something you 
 
 ## One event to rule every navigation
 
-The core idea is a single `navigate` event on the global `navigation` object. It fires for *every* kind of navigation: a link click, a form submission, a programmatic call, even a back/forward button press. Instead of scattering click handlers across your app and praying you caught them all, you handle routing in one place.
+The core idea is a single `navigate` event on the global `navigation` object. It fires for _every_ kind of navigation: a link click, a form submission, a programmatic call, even a back/forward button press. Instead of scattering click handlers across your app and praying you caught them all, you handle routing in one place.
 
 ```js
-navigation.addEventListener('navigate', (navigateEvent) => {
+navigation.addEventListener("navigate", (navigateEvent) => {
   // Let the browser handle anything we shouldn't touch.
   if (shouldNotIntercept(navigateEvent)) return;
 
   const url = new URL(navigateEvent.destination.url);
 
-  if (url.pathname.startsWith('/articles/')) {
+  if (url.pathname.startsWith("/articles/")) {
     navigateEvent.intercept({
       async handler() {
         renderPlaceholder();
@@ -44,10 +44,10 @@ The `navigateEvent` carries the context you used to reconstruct manually. A smal
 ```js
 function shouldNotIntercept(navigateEvent) {
   return (
-    !navigateEvent.canIntercept ||      // cross-origin, etc.
-    navigateEvent.hashChange ||          // same-page anchor jump
-    navigateEvent.downloadRequest ||     // it's a download
-    navigateEvent.formData               // a POST form submission
+    !navigateEvent.canIntercept || // cross-origin, etc.
+    navigateEvent.hashChange || // same-page anchor jump
+    navigateEvent.downloadRequest || // it's a download
+    navigateEvent.formData // a POST form submission
   );
 }
 ```
