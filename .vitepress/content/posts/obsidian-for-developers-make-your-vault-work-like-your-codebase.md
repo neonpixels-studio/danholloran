@@ -1,7 +1,7 @@
 ---
 date: "2026-06-30T07:06:56.000+00:00"
 tags: ["obsidian", "plugins", "workflows", "obsidian-for-developers"]
-draft: true
+draft: false
 title: "Obsidian for Developers: Make Your Vault Work Like Your Codebase"
 image: "/images/posts/obsidian-for-developers-make-your-vault-work-like-your-codebase.jpg"
 topic: "obsidian"
