@@ -1,10 +1,10 @@
 ---
-date: '2026-06-30T07:06:56.000+00:00'
-tags: ['obsidian', 'plugins', 'workflows', 'obsidian-for-developers']
+date: "2026-06-30T07:06:56.000+00:00"
+tags: ["obsidian", "plugins", "workflows", "obsidian-for-developers"]
 draft: true
 title: "Obsidian for Developers: Make Your Vault Work Like Your Codebase"
-image: '/images/posts/obsidian-for-developers-make-your-vault-work-like-your-codebase.jpg'
-topic: 'obsidian'
+image: "/images/posts/obsidian-for-developers-make-your-vault-work-like-your-codebase.jpg"
+topic: "obsidian"
 description: "Obsidian is plain-text markdown all the way down, which means the same tools you use on code work on your notes. Here's how to version your vault with Git, get real syntax highlighting, and run JavaScript inside your notes."
 ---
 
