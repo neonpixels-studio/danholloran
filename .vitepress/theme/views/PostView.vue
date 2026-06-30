@@ -1,13 +1,33 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
+import PostLightbox from "@components/PostLightbox.vue";
 
 const { post, posts } = defineProps<{
   post: Post;
   posts: Post[];
 }>();
+
+const lightbox = ref<{ src: string; alt: string } | null>(null);
+
+function openLightbox(src: string, alt: string) {
+  lightbox.value = { src, alt };
+}
+
+function closeLightbox() {
+  lightbox.value = null;
+}
+
+function onArticleClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (target.tagName !== "IMG" || target.closest("a")) {
+    return;
+  }
+  const image = target as HTMLImageElement;
+  openLightbox(image.currentSrc || image.src, image.alt);
+}
 
 const postIndex = computed(() =>
   posts.findIndex((p) => p.frontmatter.slug === post.frontmatter.slug),
@@ -105,13 +125,15 @@ function formatDate(d: string) {
     <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]">
       <img
         :src="post.frontmatter.image"
-        class="h-full w-full"
+        class="h-full w-full cursor-zoom-in"
         :alt="post.frontmatter.title"
+        @click="openLightbox(post.frontmatter.image, post.frontmatter.title)"
       />
     </div>
 
     <article
       class="post-body text-fg text-base leading-[1.85]"
+      @click="onArticleClick"
       v-html="post.html"
     ></article>
 
@@ -216,6 +238,12 @@ function formatDate(d: string) {
     </nav>
   </div>
 
+  <PostLightbox
+    :src="lightbox?.src ?? null"
+    :alt="lightbox?.alt"
+    @close="closeLightbox"
+  />
+
   <Teleport to="body">
     <div class="progress-bar"></div>
   </Teleport>
@@ -240,6 +268,10 @@ function formatDate(d: string) {
 
 .post-body a {
   @apply text-accent border-accent/30 hover:border-accent border-b no-underline transition-colors;
+}
+
+.post-body img {
+  cursor: zoom-in;
 }
 
 .post-body .lang {

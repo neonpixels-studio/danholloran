@@ -7,6 +7,7 @@ vi.mock("@data/resume.ts", () => ({
 }));
 
 import PostView from "@views/PostView.vue";
+import PostLightbox from "@components/PostLightbox.vue";
 
 describe("PostView", () => {
   it("renders correctly", () => {
@@ -60,6 +61,38 @@ describe("PostView", () => {
     });
     expect(wrapper.find("aside[aria-label='Disclaimer']").exists()).toBe(false);
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("opens the lightbox with the hero image when it is clicked", async () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
+
+    await wrapper
+      .find(`img[src='${mockPosts[0].frontmatter.image}']`)
+      .trigger("click");
+
+    const lightbox = wrapper.findComponent(PostLightbox);
+    expect(lightbox.props("src")).toBe(mockPosts[0].frontmatter.image);
+    expect(lightbox.props("alt")).toBe(mockPosts[0].frontmatter.title);
+  });
+
+  it("closes the lightbox when PostLightbox emits close", async () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    await wrapper
+      .find(`img[src='${mockPosts[0].frontmatter.image}']`)
+      .trigger("click");
+    expect(wrapper.findComponent(PostLightbox).props("src")).toBe(
+      mockPosts[0].frontmatter.image,
+    );
+
+    wrapper.findComponent(PostLightbox).vm.$emit("close");
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
   });
 
   it("links each tag to /posts?tag=TAG", () => {
