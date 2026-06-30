@@ -13,12 +13,7 @@ export interface GrimicornNeonHue {
 }
 
 export type GrimicornToolKind =
-  | "editor"
-  | "terminal"
-  | "git"
-  | "notes"
-  | "agent"
-  | "highlighter";
+  "editor" | "terminal" | "git" | "notes" | "agent" | "highlighter";
 
 export interface GrimicornToolFile {
   label: string;
