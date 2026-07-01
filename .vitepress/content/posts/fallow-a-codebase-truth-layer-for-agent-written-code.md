@@ -1,10 +1,10 @@
 ---
-date: '2026-07-01T07:08:04.000+00:00'
-tags: ['tooling', 'typescript', 'javascript', 'fallow']
-draft: true
+date: "2026-07-01T07:08:04.000+00:00"
+tags: ["tooling", "typescript", "javascript", "fallow"]
+draft: false
 title: "Fallow: A Codebase Truth Layer for Agent-Written Code"
-image: '/images/posts/fallow-a-codebase-truth-layer-for-agent-written-code.jpg'
-topic: 'development'
+image: "/images/posts/fallow-a-codebase-truth-layer-for-agent-written-code.jpg"
+topic: "development"
 description: "Fallow is a Rust-native tool that maps your whole TS/JS codebase to catch dead code, duplication, and architecture drift. Here's how it fits alongside ESLint, Prettier, and agent guidelines when you're reviewing PRs you didn't write."
 ---
 
@@ -68,6 +68,6 @@ When you're ready to make it stick, `fallow init` writes a tailored `.fallowrc.j
 { "rules": { "unused-files": "error", "unused-exports": "warn" } }
 ```
 
-In CI it's a one-liner (`uses: fallow-rs/fallow@v2`), and the `--baseline` flag means you only fail on *new* issues, which makes it painless to adopt on a codebase that's already a little messy.
+In CI it's a one-liner (`uses: fallow-rs/fallow@v2`), and the `--baseline` flag means you only fail on _new_ issues, which makes it painless to adopt on a codebase that's already a little messy.
 
 Delegating code to agents doesn't remove the need for review. It just changes what review is about. Fallow gives me a factual read on what a change did to the whole project, so I can spend my attention on the parts that actually need judgment instead of playing spot-the-dead-export. If you're shipping code you didn't personally type, that's a trade worth making.
