@@ -213,6 +213,7 @@ Neon ships a single dark-only file per tool.
 |------|-----------|--------|
 | VS Code | `grimicorn-neon.color-theme.json` | `themes/vscode/` |
 | iTerm2 | `Grimicorn-Neon.itermcolors` | `themes/iterm/` |
+| Panic Prompt | `Grimicorn-Neon.promptTheme` | `themes/prompt/` |
 | macOS Terminal | `Grimicorn-Neon.terminal` | `themes/terminal/` |
 | Git Tower | `Grimicorn-Neon.towertheme` | `themes/gittower/` |
 | Obsidian | `theme.css` + `manifest.json` | `themes/obsidian/` |

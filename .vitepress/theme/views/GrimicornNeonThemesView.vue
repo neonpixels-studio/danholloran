@@ -542,7 +542,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
               class="reveal mb-2 font-mono leading-none font-bold"
               style="font-size: clamp(1.6rem, 3vw, 2.2rem); color: #e7e5e4"
             >
-              Fourteen ports
+              Fifteen ports
             </h2>
             <p
               class="reveal max-w-[480px] font-mono text-[0.72rem] leading-[1.7]"

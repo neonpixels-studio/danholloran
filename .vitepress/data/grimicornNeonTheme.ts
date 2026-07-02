@@ -222,6 +222,22 @@ export const NEON_TOOLS: GrimicornTool[] = [
     docs: "https://iterm2.com/documentation-preferences-profiles-colors.html",
   },
   {
+    name: "Panic Prompt",
+    kind: "terminal",
+    featured: true,
+    desc: "Panic's SSH client for Mac & iOS — neon ANSI, cursor & selection, with text glow switched on.",
+    files: [
+      {
+        label: "Neon",
+        href: `${FILES_BASE}/prompt/Grimicorn-Neon.promptTheme`,
+        download: "Grimicorn-Neon.promptTheme",
+      },
+    ],
+    install:
+      "Double-click the <code>.promptTheme</code> to import (or Settings → Themes → ⚙︎ → <em>Import</em>), then pick Grimicorn Neon from the theme list.",
+    docs: "https://help.panic.com/prompt/prompt-themes/",
+  },
+  {
     name: "macOS Terminal",
     kind: "terminal",
     desc: "Native Terminal.app profile.",

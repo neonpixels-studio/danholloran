@@ -305,6 +305,27 @@ export const TOOLS: GrimicornTool[] = [
     docs: "https://iterm2.com/documentation-preferences-profiles-colors.html",
   },
   {
+    name: "Panic Prompt",
+    kind: "terminal",
+    featured: true,
+    desc: "Panic's SSH client for Mac & iOS — background, cursor, selection & the full 16-color ANSI palette.",
+    files: [
+      {
+        label: "Dark",
+        href: `${FILES_BASE}/prompt/Grimicorn-Dark.promptTheme`,
+        download: "Grimicorn-Dark.promptTheme",
+      },
+      {
+        label: "Light",
+        href: `${FILES_BASE}/prompt/Grimicorn-Light.promptTheme`,
+        download: "Grimicorn-Light.promptTheme",
+      },
+    ],
+    install:
+      "Double-click the <code>.promptTheme</code> to import (or Settings → Themes → ⚙︎ → <em>Import</em>), then pick Grimicorn from the theme list.",
+    docs: "https://help.panic.com/prompt/prompt-themes/",
+  },
+  {
     name: "macOS Terminal",
     kind: "terminal",
     desc: "Native Terminal.app profiles.",

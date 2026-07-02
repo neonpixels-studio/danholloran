@@ -211,6 +211,7 @@ BORDER_FOCUS          = #83AFE5 / #4A80C8
 |------|------|-------|------|
 | VS Code | ✅ `grimicorn-dark.color-theme.json` | ✅ `grimicorn-light.color-theme.json` | `themes/vscode/` |
 | iTerm2 | ✅ `Grimicorn-Dark.itermcolors` | ✅ `Grimicorn-Light.itermcolors` | `themes/iterm/` |
+| Panic Prompt | ✅ `Grimicorn-Dark.promptTheme` | ✅ `Grimicorn-Light.promptTheme` | `themes/prompt/` |
 | macOS Terminal | ✅ `Grimicorn (Dark).terminal` | ✅ `Grimicorn (Light).terminal` | `themes/terminal/` |
 | Git Tower | ✅ `Grimicorn (Dark).towertheme` | ✅ `Grimicorn (Light).towertheme` | `themes/gittower/` |
 | Obsidian | ✅ `theme.css` | ✅ (same file, `.theme-light` block) | `themes/obsidian/Grimicorn/` |

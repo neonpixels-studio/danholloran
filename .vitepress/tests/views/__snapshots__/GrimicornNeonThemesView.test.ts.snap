@@ -128,7 +128,7 @@ exports[`GrimicornNeonThemesView > renders correctly 1`] = `
       <div data-v-c47154f1="" class="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div data-v-c47154f1="">
           <div data-v-c47154f1="" class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase" style="color: #a7a39c;"><span data-v-c47154f1="" class="n-bar"></span> get the theme </div>
-          <h2 data-v-c47154f1="" class="reveal mb-2 font-mono leading-none font-bold" style="color: #e7e5e4;"> Fourteen ports </h2>
+          <h2 data-v-c47154f1="" class="reveal mb-2 font-mono leading-none font-bold" style="color: #e7e5e4;"> Fifteen ports </h2>
           <p data-v-c47154f1="" class="reveal max-w-[480px] font-mono text-[0.72rem] leading-[1.7]" style="color: #a7a39c;"> Dark-only, one neon file each. Grab one, or take the whole set. </p>
         </div>
         <div data-v-c47154f1="" class="reveal flex flex-wrap items-center gap-3"><a data-v-c47154f1="" href="/grimicorn-neon-themes/grimicorn-palette.md" download="" class="n-btn n-btn-ghost">palette.md</a><a data-v-c47154f1="" href="/grimicorn-neon-themes/grimicorn-neon-themes.zip" download="" class="n-btn n-btn-rainbow" style="background-image: linear-gradient(90deg, #FF2D9B, #FACC15, #A3E635, #22D3EE, #2323FF, #A855F7, #FF2D9B);"> download all (.zip) </a></div>
@@ -194,6 +194,21 @@ exports[`GrimicornNeonThemesView > renders correctly 1`] = `
           <details data-v-c47154f1="" class="mt-auto">
             <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
             <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Place both files in <code>.obsidian/themes/Grimicorn Neon/</code>, then Settings → Appearance → <em>Grimicorn Neon</em>.</p><a data-v-c47154f1="" href="https://help.obsidian.md/themes" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
+          </details>
+        </div>
+        <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
+          <div data-v-c47154f1="" class="mb-2 flex items-start gap-3"><span data-v-c47154f1="" class="n-icon mt-0.5 shrink-0"><svg data-v-c47154f1="" width="17" height="17" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M3 3h12v10H3z"></path><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round"></path><path d="M9 10.5h3"></path></svg></span>
+            <div data-v-c47154f1="" class="min-w-0 flex-1">
+              <div data-v-c47154f1="" class="flex flex-wrap items-center gap-2"><span data-v-c47154f1="" class="font-mono text-[0.92rem] font-bold" style="color: #e7e5e4;">Panic Prompt</span><span data-v-c47154f1="" class="n-badge">featured</span></div>
+            </div>
+          </div>
+          <p data-v-c47154f1="" class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]" style="color: #a7a39c;">Panic's SSH client for Mac &amp; iOS — neon ANSI, cursor &amp; selection, with text glow switched on.</p>
+          <div data-v-c47154f1="" class="mb-3 flex gap-2"><a data-v-c47154f1="" href="/grimicorn-neon-themes/prompt/Grimicorn-Neon.promptTheme" download="Grimicorn-Neon.promptTheme" class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"><svg data-v-c47154f1="" width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path data-v-c47154f1="" d="M6 1v7M6 8L3.5 5.5M6 8l2.5-2.5M2 10.5h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg> Neon</a></div>
+          <details data-v-c47154f1="" class="mt-auto">
+            <summary data-v-c47154f1="" class="n-summary cursor-pointer font-mono text-[0.6rem]" style="color: #75726b;"><span data-v-c47154f1="" class="n-chevron inline-block">▸</span> install </summary>
+            <p data-v-c47154f1="" class="mt-2 font-mono text-[0.62rem] leading-[1.7]" style="color: #a7a39c;">Double-click the <code>.promptTheme</code> to import (or Settings → Themes → ⚙︎ → <em>Import</em>), then pick Grimicorn Neon from the theme list.</p><a data-v-c47154f1="" href="https://help.panic.com/prompt/prompt-themes/" target="_blank" rel="noopener" class="n-link mt-2 inline-block font-mono text-[0.6rem]">docs →</a>
           </details>
         </div>
         <div data-v-c47154f1="" class="n-card group flex flex-col border-t-2 pt-5" style="border-color: #a855f7;">
