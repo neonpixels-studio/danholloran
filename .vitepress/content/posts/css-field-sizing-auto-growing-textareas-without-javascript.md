@@ -1,10 +1,10 @@
 ---
-date: '2026-07-02T02:07:22.000-05:00'
-tags: ['css', 'web-apis', 'accessibility', 'forms']
-draft: true
+date: "2026-07-02T02:07:22.000-05:00"
+tags: ["css", "web-apis", "accessibility", "forms"]
+draft: false
 title: "CSS field-sizing: Auto-Growing Textareas Without a Line of JavaScript"
-image: '/images/posts/css-field-sizing-auto-growing-textareas-without-javascript.jpg'
-topic: 'development'
+image: "/images/posts/css-field-sizing-auto-growing-textareas-without-javascript.jpg"
+topic: "development"
 description: "The auto-growing textarea has been a JavaScript rite of passage for years. A single CSS declaration now does the whole job, and it works on inputs and selects too."
 ---
 
@@ -19,8 +19,8 @@ The property takes two keywords: `fixed` (the default, the behavior you already 
 ```css
 textarea {
   field-sizing: content;
-  min-height: 4lh;   /* start at four lines tall */
-  max-height: 20lh;  /* cap it, then scroll */
+  min-height: 4lh; /* start at four lines tall */
+  max-height: 20lh; /* cap it, then scroll */
 }
 ```
 
@@ -42,7 +42,7 @@ input[type="number"] {
 }
 ```
 
-Selects are the real sleeper. A `<select>` normally sizes to its *widest* option, so one long entry pads out the control even when a short value is chosen. With `field-sizing: content`, the closed select is only as wide as the currently selected option, and a `multiple` list box grows to show its rows without an inner scrollbar. Filter bars and toolbars stop looking lopsided for free.
+Selects are the real sleeper. A `<select>` normally sizes to its _widest_ option, so one long entry pads out the control even when a short value is chosen. With `field-sizing: content`, the closed select is only as wide as the currently selected option, and a `multiple` list box grows to show its rows without an inner scrollbar. Filter bars and toolbars stop looking lopsided for free.
 
 ## Shipping it safely
 
@@ -58,7 +58,7 @@ Here is why you can adopt it today anyway: the failure mode is graceful. A brows
 }
 ```
 
-If you want the *exact* behavior everywhere, keep your JavaScript resizer as a fallback and gate it behind a feature check:
+If you want the _exact_ behavior everywhere, keep your JavaScript resizer as a fallback and gate it behind a feature check:
 
 ```js
 if (!CSS.supports("field-sizing", "content")) {
