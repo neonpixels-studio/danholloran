@@ -1,7 +1,8 @@
 name: Cross-Post Blog Posts
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
     paths:
       - ".vitepress/content/posts/**"
@@ -13,13 +14,25 @@ on:
 
 jobs:
   cross-post:
+    # Publish only when a PR is actually merged into main (not merely closed),
+    # or when dispatched manually. Triggering on the merge event — rather than
+    # every push to main — keeps cross-posting off direct pushes and local
+    # reconciliation merge commits, which otherwise re-detect an already-live
+    # post and fail with a Dev.to 422 (canonical URL already taken).
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
         with:
-          fetch-depth: 2 # needed to detect new/changed files
+          # The merge commit that landed on main (empty on manual dispatch, which
+          # falls back to the default branch). fetch-depth 0 gives us the full
+          # history needed to diff the PR's base..head range.
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -36,8 +49,12 @@ jobs:
           if [ -n "${{ github.event.inputs.post_slug }}" ]; then
             echo "posts=${{ github.event.inputs.post_slug }}" >> $GITHUB_OUTPUT
           else
-            # Get markdown files added or modified in this push
-            NEW=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- '.vitepress/content/posts/*.md' | xargs -I{} basename {} .md | tr '\n' ',')
+            # Posts this PR added or modified (three-dot = changes on the PR
+            # branch since it diverged from main).
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+            if [ -z "$BASE" ]; then BASE="HEAD~1"; HEAD="HEAD"; fi
+            NEW=$(git diff --name-only --diff-filter=AM "$BASE...$HEAD" -- '.vitepress/content/posts/*.md' | xargs -I{} basename {} .md | tr '\n' ',')
             echo "posts=$NEW" >> $GITHUB_OUTPUT
           fi
 
