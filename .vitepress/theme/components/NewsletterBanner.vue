@@ -43,7 +43,7 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
           </svg>
           <div>
             <div
-              class="text-accent mb-1.5 font-mono text-[0.62rem] font-semibold tracking-[0.12em] uppercase"
+              class="text-on-accent-dim mb-1.5 font-mono text-[0.62rem] font-semibold tracking-[0.12em] uppercase"
             >
               // the newsletter
             </div>
@@ -85,7 +85,7 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
 
       <div
         v-if="status === 'success' || status === 'error'"
-        class="text-accent relative z-10 -mt-3 px-8 pb-6 font-mono text-[0.78rem]"
+        class="text-on-accent-dim relative z-10 -mt-3 px-8 pb-6 font-mono text-[0.78rem]"
         aria-live="polite"
       >
         <template v-if="status === 'success'">

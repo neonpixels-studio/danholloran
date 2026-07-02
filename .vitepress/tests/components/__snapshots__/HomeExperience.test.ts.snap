@@ -13,7 +13,7 @@ exports[`HomeExperience > renders correctly 1`] = `
       <div class="stagger flex flex-col">
         <div class="grid grid-cols-[1fr_auto] gap-4 py-5 border-line border-b">
           <div>
-            <div class="mb-1.5 flex flex-wrap items-center gap-2.5"><span class="tracking-tighter-2 font-mono text-[0.9rem] leading-snug font-bold">Lead Developer</span><span class="text-accent bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.58rem]"> current </span></div>
+            <div class="mb-1.5 flex flex-wrap items-center gap-2.5"><span class="tracking-tighter-2 font-mono text-[0.9rem] leading-snug font-bold">Lead Developer</span><span class="text-on-accent-dim bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.58rem]"> current </span></div>
             <div class="text-fg-muted mb-2.5 font-mono text-[0.72rem]"> @Acme Corp · Remote</div>
             <div class="flex flex-wrap gap-1.5"><span class="tag">Vue.js</span></div>
           </div>

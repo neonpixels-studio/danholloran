@@ -88,7 +88,7 @@ function highlight(str: string, q: string): string {
   if (i < 0) return str;
   return (
     str.slice(0, i) +
-    '<mark class="bg-accent-dim text-accent rounded-[2px] px-0.5">' +
+    '<mark class="bg-accent-dim text-on-accent-dim rounded-[2px] px-0.5">' +
     str.slice(i, i + q.length) +
     "</mark>" +
     str.slice(i + q.length)
@@ -253,7 +253,7 @@ onUnmounted(() => {
             @mousemove="activeIndex = index"
           >
             <span
-              class="text-accent bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase"
+              class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase"
               >{{ item.type }}</span
             >
             <div class="min-w-0 flex-1">

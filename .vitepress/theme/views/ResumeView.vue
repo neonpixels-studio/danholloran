@@ -164,7 +164,7 @@ function formatPeriod(start: string, end: string | null): string {
                   >
                   <span
                     v-if="job.end === null"
-                    class="text-accent bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.6rem]"
+                    class="text-on-accent-dim bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.6rem]"
                     >current</span
                   >
                 </div>

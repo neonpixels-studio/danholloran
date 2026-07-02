@@ -77,7 +77,7 @@ function formatDate(d: string) {
 
     <div class="mb-6 flex flex-wrap items-center gap-4">
       <span
-        class="text-accent bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"
+        class="text-on-accent-dim bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"
       >
         {{ post.frontmatter.topic }}
       </span>

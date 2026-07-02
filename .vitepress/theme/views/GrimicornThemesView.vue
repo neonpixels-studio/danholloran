@@ -732,7 +732,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                   >
                   <span
                     v-if="tool.featured"
-                    class="text-accent bg-accent-dim rounded-[2px] px-1.5 py-px font-mono text-[0.54rem] tracking-[0.08em] uppercase"
+                    class="text-on-accent-dim bg-accent-dim rounded-[2px] px-1.5 py-px font-mono text-[0.54rem] tracking-[0.08em] uppercase"
                     >featured</span
                   >
                 </div>

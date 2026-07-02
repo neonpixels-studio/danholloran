@@ -249,7 +249,7 @@ onUnmounted(() => {
       <div class="flex flex-1 flex-col p-6">
         <div class="mb-3 flex flex-wrap items-center gap-3">
           <span
-            class="text-accent bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase"
+            class="text-on-accent-dim bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase"
             >{{ post.frontmatter.topic }}</span
           >
           <span class="text-fg-subtle font-mono text-[0.68rem]">{{

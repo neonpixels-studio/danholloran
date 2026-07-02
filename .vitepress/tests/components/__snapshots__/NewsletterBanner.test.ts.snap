@@ -12,7 +12,7 @@ exports[`NewsletterBanner > renders correctly 1`] = `
           <path d="M0 14.5 H22" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"></path>
         </svg>
         <div>
-          <div class="text-accent mb-1.5 font-mono text-[0.62rem] font-semibold tracking-[0.12em] uppercase"> // the newsletter </div>
+          <div class="text-on-accent-dim mb-1.5 font-mono text-[0.62rem] font-semibold tracking-[0.12em] uppercase"> // the newsletter </div>
           <div id="nl-banner-heading" class="text-fg font-mono text-[1.3rem] leading-[1.1] font-bold tracking-[-0.04em]"> Don't miss the next one </div>
         </div>
       </div>
