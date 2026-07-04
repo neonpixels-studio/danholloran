@@ -93,7 +93,8 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
 
 .nl-term-path {
   font-size: 0.7rem;
-  color: #6b6b68;
+  /* Muted gray that still clears AA (4.5:1) on the #1a1a18 terminal fill. */
+  color: #8a8a84;
   margin-left: 0.6rem;
   letter-spacing: 0.02em;
 }
@@ -104,7 +105,8 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
 
 .nl-term-comment {
   font-size: 0.8rem;
-  color: #7d7a70;
+  /* Warm gray raised to clear AA (4.5:1) on the #1a1a18 terminal fill. */
+  color: #928f85;
   margin-bottom: 1.1rem;
   line-height: 1.5;
 }
@@ -142,7 +144,8 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
 }
 
 .nl-term-cmd input::placeholder {
-  color: #5c594f;
+  /* Raised to clear AA (4.5:1) on the #1a1a18 terminal fill. */
+  color: #8a877d;
 }
 
 .nl-term-cmd input:focus {
@@ -165,7 +168,9 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
   font-family: var(--font-mono);
   font-size: 0.78rem;
   cursor: pointer;
-  color: #ad46ff;
+  /* Lighter purple so the resting label clears AA (4.5:1) on #1a1a18;
+     the plain accent only reaches 4.2:1. */
+  color: #c17dff;
   background: transparent;
   border: 1px solid rgba(173, 70, 255, 0.55);
   border-radius: 2px;
@@ -178,9 +183,11 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
 }
 
 .nl-term-run:hover:not(:disabled) {
-  background: #ad46ff;
+  /* Brighter accent-hover fill so the dark label clears AA (5.6:1);
+     the plain accent fill only reaches 4.2:1. */
+  background: #be6bff;
   color: #1a1a18;
-  border-color: #ad46ff;
+  border-color: #be6bff;
 }
 
 .nl-term-run:disabled {

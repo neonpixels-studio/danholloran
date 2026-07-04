@@ -322,7 +322,8 @@ onUnmounted(() => {
 
 .filter-btn.active {
   border-color: var(--color-accent);
-  color: var(--color-accent);
+  /* on-accent-dim clears AA on the tinted fill; plain accent only hits ~4:1. */
+  color: var(--color-on-accent-dim);
   background: var(--color-accent-dim);
 }
 
@@ -332,7 +333,7 @@ onUnmounted(() => {
 
 .page-btn.active {
   border-color: var(--color-accent);
-  color: var(--color-accent);
+  color: var(--color-on-accent-dim);
   background: var(--color-accent-dim);
 }
 
