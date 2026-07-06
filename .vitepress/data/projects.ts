@@ -2,6 +2,20 @@ import { ProjectInterface } from "@typedefs";
 import skills from "./skills";
 export default [
   {
+    company: `Personal Project`,
+    image: `/images/projects/ai-automation.png`,
+    url: `/posts/turning-a-base-m4-mac-mini-into-an-always-on-automation-box`,
+    skills: [
+      skills.AI_DEVELOPMENT,
+      skills.ARCHITECTURE,
+      skills.NODE_JS,
+      skills.TYPESCRIPT,
+    ],
+    title: `AI Automation Platform`,
+    content: `An always-on Mac mini server running ~10 scheduled [Claude Code](https://claude.com/claude-code) agent skills that automate blog cross-posting, SEO and accessibility audits, and content ingestion. Agents open pull requests through a dedicated bot account behind CI, review, and safety guardrails I built, so I review every change before it ships.`,
+    featured: true,
+  },
+  {
     company: `Ample`,
     image: `/images/projects/run-crossroads.png`,
     url: `https://run.crossroads.net/`,

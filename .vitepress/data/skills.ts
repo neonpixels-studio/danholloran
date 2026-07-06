@@ -7,6 +7,11 @@ export default {
     url: `https://apache.github.io/royale-docs/features/as3`,
     featured: false,
   },
+  AI_DEVELOPMENT: {
+    image: ``,
+    name: `Agentic Development`,
+    featured: true,
+  },
   ALGOLIA: {
     image: `algolia.svg`,
     name: `Algolia`,

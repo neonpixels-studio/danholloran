@@ -62,9 +62,7 @@ function formatPeriod(start: string, end: string | null): string {
 
     <div id="resume">
       <!-- HEADER -->
-      <header
-        class="reveal border-line mb-10 border-b pb-10 print:mb-6 print:pb-6"
-      >
+      <header class="reveal border-line mb-10 pb-10 print:mb-6 print:pb-6">
         <div
           class="grid grid-cols-[auto_1fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-6"
         >

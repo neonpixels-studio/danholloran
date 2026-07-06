@@ -11,7 +11,7 @@ exports[`ResumeView > renders correctly 1`] = `
   </div>
   <div id="resume">
     <!-- HEADER -->
-    <header class="reveal border-line mb-10 border-b pb-10 print:mb-6 print:pb-6">
+    <header class="reveal border-line mb-10 pb-10 print:mb-6 print:pb-6">
       <div class="grid grid-cols-[auto_1fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-6">
         <div class="border-accent h-24 w-24 shrink-0 overflow-hidden rounded-full border-[3px] shadow-[0_8px_32px_rgba(173,70,255,0.15)] print:shadow-none"><img src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover"></div>
         <div>
