@@ -171,7 +171,6 @@ export default {
         "Directed engineering operations for a team of 10 developers, owning technical decision-making, roadmap prioritization, and cross-team collaboration",
         "Implemented agile methodologies that streamlined development workflows, resulting in a 20% increase in project delivery speed",
         "Oversaw architecture and implementation of complex web applications using React and Gatsby, improving both user experience and system performance",
-        "Championed career development initiatives across the team, creating targeted growth plans that helped engineers build new technical skills and advance their careers",
       ],
       skills: [
         skills.ARCHITECTURE,
@@ -201,7 +200,6 @@ export default {
         "Integrated AS400 inventory systems to automate real-time product updates, eliminating manual processes and reliably meeting complex client data requirements",
         "Led cross-functional teams in the planning and execution of strategic web initiatives, delivering a 15% increase in project efficiency",
         "Built intuitive, user-friendly websites using WordPress, Laravel, Vue, and PHP, successfully delivering 50+ projects on time and within scope",
-        "Established streamlined client communication workflows that reduced friction, improved collaboration, and cut launch times by 15%",
       ],
       skills: [
         skills.ARCHITECTURE,
@@ -226,8 +224,7 @@ export default {
       location: "St. Louis, MO",
       remote: false,
       details: [
-        "Built and launched 3–5 custom WordPress websites for local business clients, translating Photoshop designs into responsive, production-ready builds with on-page SEO implementation.",
-        "Mentored a web development intern, providing hands-on guidance and code feedback throughout the engagement.",
+        "Built and launched 3–5 custom WordPress sites for local businesses from Photoshop designs, with on-page SEO, and mentored a web development intern.",
       ],
       skills: [skills.MENTORSHIP, skills.SASS, skills.WORDPRESS],
     },
