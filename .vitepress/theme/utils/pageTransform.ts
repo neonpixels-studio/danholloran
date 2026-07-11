@@ -137,7 +137,9 @@ function buildBlogPostingList() {
 function transformPostsIndex(pageData: PageData): void {
   const title = pageData.frontmatter.title as string;
   const description = pageData.frontmatter.description as string;
-  const url = `${SITE_URL}/posts`;
+  // Trailing slash: /posts is a directory index that 301-redirects to /posts/,
+  // so the self-canonical (and JSON-LD url) must be the final /posts/ URL.
+  const url = `${SITE_URL}/posts/`;
   pageData.frontmatter.head = [
     ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: url }],

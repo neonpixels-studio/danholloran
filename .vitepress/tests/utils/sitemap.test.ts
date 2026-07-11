@@ -95,6 +95,18 @@ describe("transformSitemapItems", () => {
     expect(result[0].lastmod).toEqual(mtime);
   });
 
+  it("keeps the trailing slash for directory-index routes (posts/index.md)", () => {
+    const mtime = new Date("2024-01-01");
+    mockExistsSync.mockImplementation(
+      (path: any) => typeof path === "string" && path.endsWith("index.md"),
+    );
+    mockStatSync.mockReturnValue({ mtime } as any);
+
+    const result = transformSitemapItems([{ url: "posts/" }]);
+    expect(result[0].url).toBe("posts/");
+    expect(result[0].lastmod).toEqual(mtime);
+  });
+
   it("handles root URL (empty string after strip)", () => {
     const mtime = new Date("2024-01-01");
     mockExistsSync.mockReturnValue(true);
