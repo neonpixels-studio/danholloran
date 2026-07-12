@@ -4,13 +4,13 @@ import type { GrimicornHue, GrimicornTool } from "@typedefs";
 export const HUES: GrimicornHue[] = [
   {
     role: "Blue",
-    dark: "#83AFE5",
-    light: "#4A80C8",
+    dark: "#99BDEA",
+    light: "#4475B7",
     usage: "Keywords · links · primary accent",
   },
   {
     role: "Purple",
-    dark: "#9A93E1",
+    dark: "#BAB5EA",
     light: "#6B63C8",
     usage: "Functions · selectors · secondary",
   },
@@ -22,20 +22,20 @@ export const HUES: GrimicornHue[] = [
   },
   {
     role: "Teal",
-    dark: "#80C1CA",
-    light: "#3A8E96",
+    dark: "#87C4CD",
+    light: "#337E85",
     usage: "Constants · info · properties",
   },
   {
     role: "Yellow",
     dark: "#DADA93",
-    light: "#8A8A20",
+    light: "#77771C",
     usage: "Types · decorators · warnings",
   },
   {
     role: "Salmon",
-    dark: "#DD9787",
-    light: "#C4604E",
+    dark: "#E4AEA1",
+    light: "#B45848",
     usage: "Errors · invalid · deletions",
   },
   {

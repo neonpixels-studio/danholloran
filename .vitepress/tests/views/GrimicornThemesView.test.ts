@@ -22,7 +22,7 @@ describe("GrimicornThemesView", () => {
     const wrapper = mount(GrimicornThemesView);
 
     expect(wrapper.find(".gc-scope").attributes("data-gc")).toBe("dark");
-    expect(wrapper.text()).toContain("#83AFE5");
+    expect(wrapper.text()).toContain("#99BDEA");
   });
 
   it("re-themes every preview and swaps to light hexes when toggled", async () => {
@@ -33,7 +33,7 @@ describe("GrimicornThemesView", () => {
       .vm.$emit("update:modelValue", "light");
 
     expect(wrapper.find(".gc-scope").attributes("data-gc")).toBe("light");
-    expect(wrapper.text()).toContain("#4A80C8");
+    expect(wrapper.text()).toContain("#4475B7");
   });
 
   it("flashes 'copied!' when a swatch is clicked", async () => {

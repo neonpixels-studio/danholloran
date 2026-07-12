@@ -19,12 +19,12 @@
 
 | Role | Dark Hex | Light Hex | Usage |
 |------|----------|-----------|-------|
-| **Blue** | `#83AFE5` | `#4A80C8` | Keywords, links, primary accent, badges |
-| **Purple** | `#9A93E1` | `#6B63C8` | Functions, CSS selectors, markdown italic |
+| **Blue** | `#99BDEA` | `#4475B7` | Keywords, links, primary accent, badges |
+| **Purple** | `#BAB5EA` | `#6B63C8` | Functions, CSS selectors, markdown italic |
 | **Green** | `#A9CE93` | `#2E7D32` | Strings, success states, cursor |
-| **Teal** | `#80C1CA` | `#3A8E96` | Constants, info, object properties, selection |
-| **Yellow** | `#DADA93` | `#8A8A20` | Types/classes, decorators, warnings, markdown bold |
-| **Salmon** | `#DD9787` | `#C4604E` | Errors, invalid, deleted git decorations |
+| **Teal** | `#87C4CD` | `#337E85` | Constants, info, object properties, selection |
+| **Yellow** | `#DADA93` | `#77771C` | Types/classes, decorators, warnings, markdown bold |
+| **Salmon** | `#E4AEA1` | `#B45848` | Errors, invalid, deleted git decorations |
 | **Gray** | `#BFBFBF` | `#3C4C55` | Comments, muted text, inactive elements |
 | **Black/Dark** | `#253039` | `#1A262C` | Deepest background, terminal ANSI black |
 
@@ -66,17 +66,17 @@ Foreground (primary)     #E5E5E5
 Foreground (muted)       #BFBFBF
 Foreground (faint)       #6B7880
 
-Accent Blue              #83AFE5   hsl(210°, 65%, 71%)
-Accent Purple            #9A93E1
+Accent Blue              #99BDEA   hsl(210°, 65%, 71%)
+Accent Purple            #BAB5EA
 Accent Green             #A9CE93
-Accent Teal              #80C1CA
+Accent Teal              #87C4CD
 Accent Yellow            #DADA93
-Accent Salmon            #DD9787
+Accent Salmon            #E4AEA1
 
-Selection                #80C1CA44  (teal at ~27% opacity)
+Selection                #87C4CD44  (teal at ~27% opacity)
 Find match               #DADA9355  (yellow at ~33% opacity)
 Diff added bg            #A9CE9322
-Diff removed bg          #DD978722
+Diff removed bg          #E4AEA122
 ```
 
 ### Light — Full Reference
@@ -89,12 +89,12 @@ Background (line HL)     #EBEBEB
 Foreground (primary)     #1A262C
 Foreground (muted/gray)  #3C4C55
 
-Accent Blue              #4A80C8
+Accent Blue              #4475B7
 Accent Purple            #6B63C8
 Accent Green             #2E7D32
-Accent Teal              #3A8E96
-Accent Yellow            #8A8A20
-Accent Salmon            #C4604E
+Accent Teal              #337E85
+Accent Yellow            #77771C
+Accent Salmon            #B45848
 ```
 
 ---
@@ -104,21 +104,21 @@ Accent Salmon            #C4604E
 | Token | Dark | Light | Notes |
 |-------|------|-------|-------|
 | Comments | `#BFBFBF` italic | `#3C4C5588` italic | Muted gray |
-| Keywords / storage | `#83AFE5` | `#4A80C8` | Blue |
-| Operators | `#83AFE5` | `#4A80C8` | Blue |
-| Functions | `#9A93E1` | `#6B63C8` | Purple |
+| Keywords / storage | `#99BDEA` | `#4475B7` | Blue |
+| Operators | `#99BDEA` | `#4475B7` | Blue |
+| Functions | `#BAB5EA` | `#6B63C8` | Purple |
 | Strings | `#A9CE93` | `#2E7D32` | Green |
-| String escapes / template expr | `#80C1CA` | `#3A8E96` | Teal |
-| Types / Classes / Tags | `#DADA93` | `#8A8A20` | Yellow |
-| Constants / Numbers | `#80C1CA` | `#3A8E96` | Teal |
+| String escapes / template expr | `#87C4CD` | `#337E85` | Teal |
+| Types / Classes / Tags | `#DADA93` | `#77771C` | Yellow |
+| Constants / Numbers | `#87C4CD` | `#337E85` | Teal |
 | Variables / Punctuation | `#E5E5E5` | `#1A262C` | Foreground |
-| Object properties | `#80C1CA` | `#3A8E96` | Teal |
-| HTML attributes | `#83AFE5` | `#4A80C8` | Blue |
-| CSS properties | `#83AFE5` | `#4A80C8` | Blue |
-| CSS selectors (class/id) | `#9A93E1` | `#6B63C8` | Purple |
+| Object properties | `#87C4CD` | `#337E85` | Teal |
+| HTML attributes | `#99BDEA` | `#4475B7` | Blue |
+| CSS properties | `#99BDEA` | `#4475B7` | Blue |
+| CSS selectors (class/id) | `#BAB5EA` | `#6B63C8` | Purple |
 | CSS values | `#A9CE93` | `#2E7D32` | Green |
-| Decorators | `#DADA93` italic | `#8A8A20` italic | Yellow |
-| Errors / Invalid | `#DD9787` | `#C4604E` | Salmon |
+| Decorators | `#DADA93` italic | `#77771C` italic | Yellow |
+| Errors / Invalid | `#E4AEA1` | `#B45848` | Salmon |
 
 ---
 
@@ -127,16 +127,16 @@ Accent Salmon            #C4604E
 | Role | Dark | Light |
 |------|------|-------|
 | Cursor | `#A9CE93` | `#2E7D32` |
-| Active tab accent (top border) | `#83AFE5` | `#4A80C8` |
-| Badges / buttons | `#83AFE5` bg / `#000000` fg | `#4A80C8` bg / `#FFFFFF` fg |
+| Active tab accent (top border) | `#99BDEA` | `#4475B7` |
+| Badges / buttons | `#99BDEA` bg / `#000000` fg | `#4475B7` bg / `#FFFFFF` fg |
 | Button hover | `#9BBFEF` | `#5A90D8` |
 | Git added | `#A9CE93` | `#2E7D32` |
-| Git modified | `#DADA93` | `#8A8A20` |
-| Git deleted | `#DD9787` | `#C4604E` |
-| Git untracked | `#80C1CA` | `#3A8E96` |
-| Bracket pair 1 | `#83AFE5` | `#4A80C8` |
-| Bracket pair 2 | `#9A93E1` | `#6B63C8` |
-| Bracket pair 3 | `#80C1CA` | `#3A8E96` |
+| Git modified | `#DADA93` | `#77771C` |
+| Git deleted | `#E4AEA1` | `#B45848` |
+| Git untracked | `#87C4CD` | `#337E85` |
+| Bracket pair 1 | `#99BDEA` | `#4475B7` |
+| Bracket pair 2 | `#BAB5EA` | `#6B63C8` |
+| Bracket pair 3 | `#87C4CD` | `#337E85` |
 
 ---
 
@@ -145,9 +145,9 @@ Accent Salmon            #C4604E
 Obsidian and any tool supporting per-level heading colors can use this waterfall (dark values shown):
 
 ```
-H1  #83AFE5  (Blue)
-H2  #9A93E1  (Purple)
-H3  #80C1CA  (Teal)
+H1  #99BDEA  (Blue)
+H2  #BAB5EA  (Purple)
+H3  #87C4CD  (Teal)
 H4  #A9CE93  (Green)
 H5  #DADA93  (Yellow)
 H6  #BFBFBF  (Gray)
@@ -162,20 +162,20 @@ Used for terminal emulators (iTerm2, macOS Terminal, etc.):
 | ANSI Slot | Dark | Light |
 |-----------|------|-------|
 | Black (0) | `#253039` | `#1A262C` |
-| Red (1) | `#DD9787` | `#C4604E` |
+| Red (1) | `#E4AEA1` | `#B45848` |
 | Green (2) | `#A9CE93` | `#2E7D32` |
-| Yellow (3) | `#DADA93` | `#8A8A20` |
-| Blue (4) | `#83AFE5` | `#4A80C8` |
-| Magenta (5) | `#9A93E1` | `#6B63C8` |
-| Cyan (6) | `#80C1CA` | `#3A8E96` |
+| Yellow (3) | `#DADA93` | `#77771C` |
+| Blue (4) | `#99BDEA` | `#4475B7` |
+| Magenta (5) | `#BAB5EA` | `#6B63C8` |
+| Cyan (6) | `#87C4CD` | `#337E85` |
 | White (7) | `#BFBFBF` | `#FDFDFD` |
 | Bright Black (8) | `#3C4C55` | `#3C4C55` |
-| Bright Red (9) | `#DD9787` | `#DD9787` |
+| Bright Red (9) | `#E4AEA1` | `#E4AEA1` |
 | Bright Green (10) | `#A9CE93` | `#A9CE93` |
 | Bright Yellow (11) | `#DADA93` | `#DADA93` |
-| Bright Blue (12) | `#83AFE5` | `#83AFE5` |
-| Bright Magenta (13) | `#9A93E1` | `#9A93E1` |
-| Bright Cyan (14) | `#80C1CA` | `#80C1CA` |
+| Bright Blue (12) | `#99BDEA` | `#99BDEA` |
+| Bright Magenta (13) | `#BAB5EA` | `#BAB5EA` |
+| Bright Cyan (14) | `#87C4CD` | `#87C4CD` |
 | Bright White (15) | `#E5E5E5` | `#FDFDFD` |
 | Foreground | `#E5E5E5` | `#1A262C` |
 | Background | `#2E3C44` | `#F0F0F0` |
@@ -192,15 +192,15 @@ BACKGROUND_SECONDARY  = #2E3C44 / #F0F0F0
 BACKGROUND_DEEP       = #253039 / #E4E4E4
 FOREGROUND_PRIMARY    = #E5E5E5 / #1A262C
 FOREGROUND_MUTED      = #BFBFBF / #3C4C55
-ACCENT_PRIMARY        = #83AFE5 / #4A80C8   (Blue — main interactive accent)
-ACCENT_SECONDARY      = #9A93E1 / #6B63C8   (Purple — secondary accent)
-ACCENT_TERTIARY       = #80C1CA / #3A8E96   (Teal — info / tertiary)
+ACCENT_PRIMARY        = #99BDEA / #4475B7   (Blue — main interactive accent)
+ACCENT_SECONDARY      = #BAB5EA / #6B63C8   (Purple — secondary accent)
+ACCENT_TERTIARY       = #87C4CD / #337E85   (Teal — info / tertiary)
 COLOR_SUCCESS         = #A9CE93 / #2E7D32   (Green)
-COLOR_WARNING         = #DADA93 / #8A8A20   (Yellow)
-COLOR_ERROR           = #DD9787 / #C4604E   (Salmon)
-COLOR_INFO            = #80C1CA / #3A8E96   (Teal)
+COLOR_WARNING         = #DADA93 / #77771C   (Yellow)
+COLOR_ERROR           = #E4AEA1 / #B45848   (Salmon)
+COLOR_INFO            = #87C4CD / #337E85   (Teal)
 BORDER_DEFAULT        = #253039 / #D0D0D0
-BORDER_FOCUS          = #83AFE5 / #4A80C8
+BORDER_FOCUS          = #99BDEA / #4475B7
 ```
 
 ---

@@ -12,7 +12,7 @@
 				<key>background</key>         <string>#FDFDFD</string>
 				<key>foreground</key>         <string>#1A262C</string>
 				<key>caret</key>              <string>#2E7D32</string>
-				<key>selection</key>          <string>#80C1CA55</string>
+				<key>selection</key>          <string>#87C4CD55</string>
 				<key>lineHighlight</key>      <string>#EBEBEB</string>
 				<key>invisibles</key>         <string>#1A262C33</string>
 				<key>findHighlight</key>      <string>#DADA9355</string>
@@ -36,7 +36,7 @@
 			<key>scope</key><string>keyword, keyword.control, keyword.operator.new, storage.type, storage.modifier</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#4A80C8</string>
+				<key>foreground</key><string>#4475B7</string>
 			</dict>
 		</dict>
 		<dict>
@@ -44,7 +44,7 @@
 			<key>scope</key><string>keyword.operator, punctuation.separator</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#4A80C8</string>
+				<key>foreground</key><string>#4475B7</string>
 			</dict>
 		</dict>
 		<dict>
@@ -68,7 +68,7 @@
 			<key>scope</key><string>constant.character.escape, punctuation.definition.template-expression, meta.template.expression</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#3A8E96</string>
+				<key>foreground</key><string>#337E85</string>
 			</dict>
 		</dict>
 		<dict>
@@ -76,7 +76,7 @@
 			<key>scope</key><string>entity.name.type, entity.name.class, entity.other.inherited-class, support.class, entity.name.tag</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#8A8A20</string>
+				<key>foreground</key><string>#77771C</string>
 			</dict>
 		</dict>
 		<dict>
@@ -84,7 +84,7 @@
 			<key>scope</key><string>constant.numeric, constant.language, constant.other, variable.other.constant, support.constant</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#3A8E96</string>
+				<key>foreground</key><string>#337E85</string>
 			</dict>
 		</dict>
 		<dict>
@@ -100,7 +100,7 @@
 			<key>scope</key><string>variable.other.property, meta.object-literal.key, support.type.property-name</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#3A8E96</string>
+				<key>foreground</key><string>#337E85</string>
 			</dict>
 		</dict>
 		<dict>
@@ -116,7 +116,7 @@
 			<key>scope</key><string>entity.other.attribute-name</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#4A80C8</string>
+				<key>foreground</key><string>#4475B7</string>
 			</dict>
 		</dict>
 		<dict>
@@ -124,7 +124,7 @@
 			<key>scope</key><string>support.type.property-name.css</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#4A80C8</string>
+				<key>foreground</key><string>#4475B7</string>
 			</dict>
 		</dict>
 		<dict>
@@ -148,7 +148,7 @@
 			<key>scope</key><string>markup.heading</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#4A80C8</string>
+				<key>foreground</key><string>#4475B7</string>
 			<key>fontStyle</key>
 			<string>bold</string>
 			</dict>
@@ -158,7 +158,7 @@
 			<key>scope</key><string>markup.bold</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#8A8A20</string>
+				<key>foreground</key><string>#77771C</string>
 			<key>fontStyle</key>
 			<string>bold</string>
 			</dict>
@@ -178,7 +178,7 @@
 			<key>scope</key><string>markup.underline.link</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#3A8E96</string>
+				<key>foreground</key><string>#337E85</string>
 			</dict>
 		</dict>
 		<dict>
@@ -194,7 +194,7 @@
 			<key>scope</key><string>meta.decorator, entity.name.function.decorator</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#8A8A20</string>
+				<key>foreground</key><string>#77771C</string>
 			<key>fontStyle</key>
 			<string>italic</string>
 			</dict>
@@ -204,7 +204,7 @@
 			<key>scope</key><string>invalid, invalid.deprecated</string>
 			<key>settings</key>
 			<dict>
-				<key>foreground</key><string>#C4604E</string>
+				<key>foreground</key><string>#B45848</string>
 			</dict>
 		</dict>
 	</array>

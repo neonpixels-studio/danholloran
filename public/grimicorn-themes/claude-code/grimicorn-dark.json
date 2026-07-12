@@ -2,27 +2,27 @@
   "name": "Grimicorn Dark",
   "base": "dark",
   "overrides": {
-    "claude": "#83AFE5",
+    "claude": "#99BDEA",
     "claudeShimmer": "#9BBFEF",
     "text": "#E5E5E5",
     "inverseText": "#000000",
     "inactive": "#BFBFBF",
     "subtle": "#445060",
-    "suggestion": "#80C1CA",
-    "permission": "#9A93E1",
+    "suggestion": "#87C4CD",
+    "permission": "#BAB5EA",
     "remember": "#DADA93",
 
     "success": "#A9CE93",
-    "error": "#DD9787",
+    "error": "#E4AEA1",
     "warning": "#DADA93",
-    "merged": "#80C1CA",
+    "merged": "#87C4CD",
 
-    "promptBorder": "#80C1CA",
+    "promptBorder": "#87C4CD",
     "planMode": "#DADA93",
     "autoAccept": "#A9CE93",
-    "bashBorder": "#9A93E1",
-    "ide": "#83AFE5",
-    "fastMode": "#80C1CA",
+    "bashBorder": "#BAB5EA",
+    "ide": "#99BDEA",
+    "fastMode": "#87C4CD",
 
     "diffAdded": "#243d2a",
     "diffRemoved": "#3d2422",
@@ -34,11 +34,11 @@
     "userMessageBackground": "#253039",
     "bashMessageBackgroundColor": "#1E2A31",
     "memoryBackgroundColor": "#2e3044",
-    "selectionBg": "#80C1CA44",
+    "selectionBg": "#87C4CD44",
 
-    "rate_limit_fill": "#83AFE5",
+    "rate_limit_fill": "#99BDEA",
     "rate_limit_empty": "#2E3C44",
-    "briefLabelYou": "#80C1CA",
-    "briefLabelClaude": "#83AFE5"
+    "briefLabelYou": "#87C4CD",
+    "briefLabelClaude": "#99BDEA"
   }
 }
