@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useRevealAnimations } from "@composables/useRevealAnimations";
+import { useAnalytics } from "@composables/useAnalytics";
 import {
   NEON_HUES,
   NEON_BG,
@@ -9,9 +10,27 @@ import {
   NEON_PALETTE_HREF,
   NEON_ZIP_HREF,
 } from "@data/grimicornNeonTheme";
-import type { GrimicornToolKind } from "@typedefs";
+import type { GrimicornToolFile, GrimicornToolKind } from "@typedefs";
 
 useRevealAnimations();
+
+const THEME_SLUG = "grimicorn-neon";
+const { trackEvent } = useAnalytics();
+
+function trackDownload(
+  format: "palette" | "bundle" | "tool",
+  params: Record<string, unknown> = {},
+) {
+  trackEvent("theme_download", { theme: THEME_SLUG, format, ...params });
+}
+
+function trackToolDownload(tool: string, file: GrimicornToolFile) {
+  trackDownload("tool", {
+    tool,
+    variant: file.label,
+    asset: file.download,
+  });
+}
 
 const FLASH_MS = 1100;
 const copiedIndex = ref<number | null>(null);
@@ -552,7 +571,13 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
             </p>
           </div>
           <div class="reveal flex flex-wrap items-center gap-3">
-            <a :href="NEON_PALETTE_HREF" download class="n-btn n-btn-ghost"
+            <a
+              :href="NEON_PALETTE_HREF"
+              download
+              class="n-btn n-btn-ghost"
+              @click="
+                trackDownload('palette', { asset: 'grimicorn-palette.md' })
+              "
               >palette.md</a
             >
             <a
@@ -560,6 +585,9 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
               download
               class="n-btn n-btn-rainbow"
               :style="{ backgroundImage: rainbowGradient }"
+              @click="
+                trackDownload('bundle', { asset: 'grimicorn-neon-themes.zip' })
+              "
             >
               download all (.zip)
             </a>
@@ -613,6 +641,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 :href="file.href"
                 :download="file.download"
                 class="n-file inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline"
+                @click="trackToolDownload(tool.name, file)"
               >
                 <svg
                   width="10"

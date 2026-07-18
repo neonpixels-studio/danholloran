@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRevealAnimations } from "@composables/useRevealAnimations";
+import { useAnalytics } from "@composables/useAnalytics";
 import GrimicornPreviewToggle from "@components/GrimicornPreviewToggle.vue";
 import {
   HUES,
@@ -10,9 +11,27 @@ import {
   PALETTE_HREF,
   ZIP_HREF,
 } from "@data/grimicornTheme";
-import type { GrimicornToolKind } from "@typedefs";
+import type { GrimicornToolFile, GrimicornToolKind } from "@typedefs";
 
 useRevealAnimations();
+
+const THEME_SLUG = "grimicorn";
+const { trackEvent } = useAnalytics();
+
+function trackDownload(
+  format: "palette" | "bundle" | "tool",
+  params: Record<string, unknown> = {},
+) {
+  trackEvent("theme_download", { theme: THEME_SLUG, format, ...params });
+}
+
+function trackToolDownload(tool: string, file: GrimicornToolFile) {
+  trackDownload("tool", {
+    tool,
+    variant: file.label,
+    asset: file.download,
+  });
+}
 
 const STORAGE_KEY = "gc-preview";
 const FLASH_MS = 1100;
@@ -658,6 +677,9 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
               :href="PALETTE_HREF"
               download
               class="btn-base border-line text-fg hover:border-accent hover:text-accent inline-flex items-center gap-2 border"
+              @click="
+                trackDownload('palette', { asset: 'grimicorn-palette.md' })
+              "
             >
               <svg
                 width="12"
@@ -680,6 +702,9 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
               :href="ZIP_HREF"
               download
               class="btn-base bg-accent border-accent hover:bg-accent-hover hover:border-accent-hover inline-flex items-center gap-2 border-2 text-white hover:-translate-y-px"
+              @click="
+                trackDownload('bundle', { asset: 'grimicorn-themes.zip' })
+              "
             >
               <svg
                 width="13"
@@ -750,6 +775,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                 :href="file.href"
                 :download="file.download"
                 class="text-fg-muted border-line hover:border-accent hover:text-accent inline-flex min-w-[88px] flex-1 items-center justify-center gap-1.5 rounded-[2px] border px-2 py-2 text-center font-mono text-[0.66rem] no-underline transition-colors"
+                @click="trackToolDownload(tool.name, file)"
               >
                 <svg
                   width="10"
@@ -810,7 +836,11 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
           class="reveal text-fg-subtle mt-8 font-mono text-[0.62rem] tracking-[0.06em]"
         >
           // every file is generated from a single source of truth —
-          <a :href="PALETTE_HREF" download class="text-accent no-underline"
+          <a
+            :href="PALETTE_HREF"
+            download
+            class="text-accent no-underline"
+            @click="trackDownload('palette', { asset: 'grimicorn-palette.md' })"
             >grimicorn-palette.md</a
           >
         </p>
