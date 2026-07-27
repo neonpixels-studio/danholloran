@@ -36,7 +36,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
     "vitepress": "^1.6.4",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "xml-js": "^1.6.11"
   },
   "dependencies": {
     "feed": "^5.2.1",
