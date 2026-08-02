@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, watch, onMounted, onUnmounted } from "vue";
+import { computed, ref, watch, onMounted, onUnmounted } from "vue";
+import { useFocusTrap } from "@composables/useFocusTrap";
 
 const { src, alt = "" } = defineProps<{
   src: string | null;
@@ -9,6 +10,9 @@ const { src, alt = "" } = defineProps<{
 const emit = defineEmits<{ close: [] }>();
 
 const isOpen = computed(() => Boolean(src));
+const dialog = ref<HTMLElement | null>(null);
+
+useFocusTrap(dialog, isOpen);
 
 function onKeydown(event: KeyboardEvent) {
   if (event.key === "Escape" && isOpen.value) {
@@ -33,7 +37,9 @@ onUnmounted(() => {
       <!-- Intentionally always dark, independent of the active theme. -->
       <div
         v-if="isOpen"
-        class="no-print fixed inset-0 z-[300] flex cursor-zoom-out items-center justify-center bg-black/90 p-6 backdrop-blur-sm"
+        ref="dialog"
+        tabindex="-1"
+        class="no-print fixed inset-0 z-[300] flex cursor-zoom-out items-center justify-center bg-black/90 p-6 backdrop-blur-sm outline-none"
         role="dialog"
         aria-modal="true"
         :aria-label="alt || 'Image preview'"
