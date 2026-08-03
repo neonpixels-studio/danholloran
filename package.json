@@ -40,7 +40,7 @@
     "xml-js": "^1.6.11"
   },
   "dependencies": {
-    "feed": "^5.2.1",
+    "feed": "^6.0.0",
     "minisearch": "^7.2.0",
     "yaml": "^2.9.0"
   }
