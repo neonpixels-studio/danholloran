@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { mount } from "@vue/test-utils";
+import { mount, flushPromises } from "@vue/test-utils";
 import PostLightbox from "@components/PostLightbox.vue";
 
 const mountOpts = { global: { stubs: { Teleport: true, Transition: false } } };
@@ -76,5 +76,90 @@ describe("PostLightbox", () => {
 
     await wrapper.setProps({ src: null });
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("moves focus into the lightbox on open", async () => {
+    const trigger = document.createElement("button");
+    document.body.appendChild(trigger);
+    trigger.focus();
+
+    const wrapper = mount(PostLightbox, {
+      props: { src: null },
+      attachTo: document.body,
+      ...mountOpts,
+    });
+
+    await wrapper.setProps({ src: "/images/posts/first-post.jpg" });
+    await flushPromises();
+
+    const dialog = wrapper.find("[role='dialog']").element;
+    expect(dialog.contains(document.activeElement)).toBe(true);
+    expect(document.activeElement).toBe(
+      wrapper.find("button[aria-label='Close image']").element,
+    );
+
+    wrapper.unmount();
+    trigger.remove();
+  });
+
+  it("traps Tab focus within the lightbox while open", async () => {
+    const trigger = document.createElement("button");
+    document.body.appendChild(trigger);
+    trigger.focus();
+
+    const wrapper = mount(PostLightbox, {
+      props: { src: "/images/posts/first-post.jpg" },
+      attachTo: document.body,
+      ...mountOpts,
+    });
+    await flushPromises();
+
+    const closeButton = wrapper.find(
+      "button[aria-label='Close image']",
+    ).element;
+
+    // Focus escaping the dialog is pulled back onto the sole focusable control.
+    trigger.focus();
+    const tab = new KeyboardEvent("keydown", { key: "Tab", cancelable: true });
+    document.dispatchEvent(tab);
+    expect(tab.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(closeButton);
+
+    // Shift+Tab stays on the trapped control rather than leaking to the trigger.
+    const shiftTab = new KeyboardEvent("keydown", {
+      key: "Tab",
+      shiftKey: true,
+      cancelable: true,
+    });
+    document.dispatchEvent(shiftTab);
+    expect(shiftTab.defaultPrevented).toBe(true);
+    expect(document.activeElement).toBe(closeButton);
+    expect(document.activeElement).not.toBe(trigger);
+
+    wrapper.unmount();
+    trigger.remove();
+  });
+
+  it("restores focus to the trigger on close", async () => {
+    const trigger = document.createElement("button");
+    document.body.appendChild(trigger);
+    trigger.focus();
+
+    const wrapper = mount(PostLightbox, {
+      props: { src: null },
+      attachTo: document.body,
+      ...mountOpts,
+    });
+
+    await wrapper.setProps({ src: "/images/posts/first-post.jpg" });
+    await flushPromises();
+    expect(document.activeElement).not.toBe(trigger);
+
+    await wrapper.setProps({ src: null });
+    await flushPromises();
+    expect(document.activeElement).toBe(trigger);
+
+    wrapper.unmount();
+    trigger.remove();
   });
 });

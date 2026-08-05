@@ -6,6 +6,23 @@ import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 
+// A post with no date, or a date that fails to parse, is excluded from the
+// feed rather than shipping an `Invalid Date` pubDate to subscribers. Warn
+// loudly on the unparseable case (as opposed to simply missing) since it
+// points at a frontmatter typo rather than an intentionally undated post.
+function hasParseableDate(post: Record<string, any>): boolean {
+  if (!post.date) {
+    return false;
+  }
+  const isUnparseable = Number.isNaN(new Date(post.date).getTime());
+  if (isUnparseable) {
+    console.warn(
+      `generateFeed: skipping "${post.slug}" — unparseable date "${post.date}"`,
+    );
+  }
+  return !isUnparseable;
+}
+
 export function generateFeed(): string {
   const feed = new Feed({
     title: "Dan Holloran",
@@ -30,7 +47,7 @@ export function generateFeed(): string {
       const slug = file.replace(/\.md$/, "");
       return { ...data, slug } as Record<string, any>;
     })
-    .filter((p) => !p.draft && p.date)
+    .filter((p) => !p.draft && hasParseableDate(p))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   for (const post of posts) {

@@ -5,6 +5,9 @@ import { SITE_URL, CURRENT_LOCATION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 
+/** The year Dan's professional experience is counted from. */
+export const CAREER_START_YEAR = 2012;
+
 /** Display names and ordering for the `topic` frontmatter field. */
 const TOPIC_SECTIONS: { topic: string; heading: string }[] = [
   { topic: "development", heading: "Development" },
@@ -22,24 +25,52 @@ interface PostMeta {
   slug: string;
 }
 
+// Sort key for newest-first ordering. Posts with no date, or a date that
+// fails to parse, sort to the end. A finite sentinel (rather than -Infinity)
+// keeps `postSortTime(b) - postSortTime(a)` a real number for any pair of
+// posts, including two undated ones.
+const UNDATED_SORT_TIME = Number.MIN_SAFE_INTEGER;
+
+function postSortTime(post: PostMeta): number {
+  if (!post.date) {
+    return UNDATED_SORT_TIME;
+  }
+  const time = new Date(post.date).getTime();
+  return Number.isNaN(time) ? UNDATED_SORT_TIME : time;
+}
+
+// Unlike generateFeed (which drops a post with an unparseable date entirely),
+// llms.txt keeps it — sorted to the end, same as an undated post — since an
+// incomplete listing here is lower-stakes than a broken RSS pubDate. Still
+// warn loudly, since it usually points at a frontmatter typo.
+function warnIfDateUnparseable(post: PostMeta): void {
+  if (!post.date) {
+    return;
+  }
+  if (Number.isNaN(new Date(post.date).getTime())) {
+    console.warn(
+      `generateLlmsTxt: post "${post.slug}" has an unparseable date "${post.date}"; sorting it to the end`,
+    );
+  }
+}
+
 function loadPosts(): PostMeta[] {
-  return (
-    readdirSync(POSTS_DIR)
-      .filter((f) => f.endsWith(".md") && f !== "index.md")
-      .map((file) => {
-        const { data } = parseFrontmatter(
-          readFileSync(join(POSTS_DIR, file), "utf-8"),
-        );
-        return { ...data, slug: file.replace(/\.md$/, "") } as PostMeta;
-      })
-      .filter((p) => !p.draft)
-      // Newest first; undated posts (e.g. some travel entries) sort to the end.
-      .sort((a, b) => {
-        const aTime = a.date ? new Date(a.date).getTime() : -Infinity;
-        const bTime = b.date ? new Date(b.date).getTime() : -Infinity;
-        return bTime - aTime;
-      })
-  );
+  const posts = readdirSync(POSTS_DIR)
+    .filter((f) => f.endsWith(".md") && f !== "index.md")
+    .map((file) => {
+      const { data } = parseFrontmatter(
+        readFileSync(join(POSTS_DIR, file), "utf-8"),
+      );
+      return { ...data, slug: file.replace(/\.md$/, "") } as PostMeta;
+    })
+    .filter((p) => !p.draft);
+
+  for (const post of posts) {
+    warnIfDateUnparseable(post);
+  }
+
+  // Newest first; undated posts (e.g. some travel entries) sort to the end.
+  return posts.sort((a, b) => postSortTime(b) - postSortTime(a));
 }
 
 function postLine(post: PostMeta): string {
@@ -55,7 +86,7 @@ function postLine(post: PostMeta): string {
  */
 export function generateLlmsTxt(): string {
   const posts = loadPosts();
-  const yearsExperience = new Date().getFullYear() - 2012;
+  const yearsExperience = new Date().getFullYear() - CAREER_START_YEAR;
   const place = CURRENT_LOCATION;
 
   const lines: string[] = [
