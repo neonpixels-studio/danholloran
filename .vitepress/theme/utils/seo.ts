@@ -75,3 +75,38 @@ export const profilePageJsonLd = {
   url: `${SITE_URL}/resume`,
   mainEntity: { ...personJsonLd, "@context": undefined },
 };
+
+// SoftwareApplication schema for the Grimicorn color themes. The themes are free
+// editor/terminal ports, so Google's Software rich results expect a free offer
+// and a developer-tools category.
+export function themeJsonLd(opts: {
+  name: string;
+  description: string;
+  url: string;
+  image: string;
+  operatingSystem: string;
+  downloadUrl: string;
+}): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: opts.name,
+    description: opts.description,
+    url: opts.url,
+    image: `${SITE_URL}${opts.image}`,
+    downloadUrl: `${SITE_URL}${opts.downloadUrl}`,
+    applicationCategory: "DeveloperApplication",
+    applicationSubCategory: "Color Theme",
+    operatingSystem: opts.operatingSystem,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    author: {
+      "@type": "Person",
+      name: `${resume.firstName} ${resume.lastName}`,
+      url: SITE_URL,
+    },
+  };
+}

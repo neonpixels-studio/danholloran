@@ -8,8 +8,11 @@ import {
   personJsonLd,
   profilePageJsonLd,
   publisherJsonLd,
+  themeJsonLd,
 } from "./seo";
 import resume, { getExperienceLength } from "../../data/resume.ts";
+import { ZIP_HREF } from "../../data/grimicornTheme.ts";
+import { NEON_ZIP_HREF } from "../../data/grimicornNeonTheme.ts";
 
 // Returns true for head entries owned by our transforms (canonical, OG, JSON-LD).
 // Keeping this as a named predicate limits cyclomatic complexity per function.
@@ -76,22 +79,46 @@ function transformResume(pageData: PageData): void {
 }
 
 function transformGrimicornThemes(pageData: PageData): void {
+  const title = "Grimicorn – a calm, low-fatigue color theme";
+  const description =
+    "Grimicorn — a calm, low-fatigue color theme (grim reaper × unicorn) for VS Code, terminals, Obsidian, Claude Code and more. Download dark & light variants.";
+  const url = `${SITE_URL}/themes/grimicorn`;
+  const image = "/images/grimicorn-mascot.png";
   setStandardPageMeta(pageData, {
-    title: "Grimicorn – a calm, low-fatigue color theme",
-    description:
-      "Grimicorn — a calm, low-fatigue color theme (grim reaper × unicorn) for VS Code, terminals, Obsidian, Claude Code and more. Download dark & light variants.",
-    url: `${SITE_URL}/themes/grimicorn`,
-    image: "/images/grimicorn-mascot.png",
+    title,
+    description,
+    url,
+    image,
+    jsonLd: themeJsonLd({
+      name: "Grimicorn",
+      description,
+      url,
+      image,
+      operatingSystem: "Windows, macOS, Linux",
+      downloadUrl: ZIP_HREF,
+    }),
   });
 }
 
 function transformGrimicornNeonThemes(pageData: PageData): void {
+  const title = "Grimicorn Neon – an always-on-rave color theme";
+  const description =
+    "Grimicorn Neon — the high-voltage variant of Grimicorn. Electric neon accents on near-black, for VS Code, terminals, Obsidian, Claude Code and more. Download the dark-only port for every tool.";
+  const url = `${SITE_URL}/themes/grimicorn-neon`;
+  const image = "/images/grimicorn-mascot.png";
   setStandardPageMeta(pageData, {
-    title: "Grimicorn Neon – an always-on-rave color theme",
-    description:
-      "Grimicorn Neon — the high-voltage variant of Grimicorn. Electric neon accents on near-black, for VS Code, terminals, Obsidian, Claude Code and more. Download the dark-only port for every tool.",
-    url: `${SITE_URL}/themes/grimicorn-neon`,
-    image: "/images/grimicorn-mascot.png",
+    title,
+    description,
+    url,
+    image,
+    jsonLd: themeJsonLd({
+      name: "Grimicorn Neon",
+      description,
+      url,
+      image,
+      operatingSystem: "Windows, macOS, Linux",
+      downloadUrl: NEON_ZIP_HREF,
+    }),
   });
 }
 

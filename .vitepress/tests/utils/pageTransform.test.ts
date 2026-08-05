@@ -152,6 +152,26 @@ describe("transformPageData – themes/grimicorn.md", () => {
       ),
     ).toBeDefined();
   });
+
+  it("includes a JSON-LD SoftwareApplication script tag with a free offer", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn.md" });
+    transformPageData(pageData);
+
+    const scriptTag = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" &&
+        tag[1]?.type === "application/ld+json" &&
+        tag[2]?.includes("SoftwareApplication"),
+    );
+    expect(scriptTag).toBeDefined();
+
+    const ld = JSON.parse(scriptTag[2]);
+    expect(ld["@type"]).toBe("SoftwareApplication");
+    expect(ld.name).toBe("Grimicorn");
+    expect(ld.url).toBe(`${SITE_URL}/themes/grimicorn`);
+    expect(ld.offers.price).toBe("0");
+    expect(ld.author["@type"]).toBe("Person");
+  });
 });
 
 describe("transformPageData – themes/grimicorn-neon.md", () => {
@@ -172,6 +192,25 @@ describe("transformPageData – themes/grimicorn-neon.md", () => {
     expect(
       findHead(pageData, "link", "href", `${SITE_URL}/themes/grimicorn-neon`),
     ).toBeDefined();
+  });
+
+  it("includes a JSON-LD SoftwareApplication script tag with a free offer", () => {
+    const pageData = makePageData({ filePath: "themes/grimicorn-neon.md" });
+    transformPageData(pageData);
+
+    const scriptTag = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" &&
+        tag[1]?.type === "application/ld+json" &&
+        tag[2]?.includes("SoftwareApplication"),
+    );
+    expect(scriptTag).toBeDefined();
+
+    const ld = JSON.parse(scriptTag[2]);
+    expect(ld["@type"]).toBe("SoftwareApplication");
+    expect(ld.name).toBe("Grimicorn Neon");
+    expect(ld.url).toBe(`${SITE_URL}/themes/grimicorn-neon`);
+    expect(ld.offers.price).toBe("0");
   });
 });
 
