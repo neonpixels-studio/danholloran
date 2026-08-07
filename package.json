@@ -18,7 +18,6 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "^4.3.3",
     "@typescript-eslint/parser": "^8.65.0",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/ui": "^4.1.5",
@@ -30,18 +29,19 @@
     "globals": "^17.8.0",
     "happy-dom": "^20.11.1",
     "husky": "^9.1.7",
-    "plist": "^5.0.0",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3",
-    "vitepress": "^1.6.4",
     "vitest": "^4.1.10",
     "xml-js": "^1.6.11"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
     "feed": "^6.0.0",
     "minisearch": "^7.2.0",
+    "plist": "^5.0.0",
+    "tailwindcss": "^4.3.3",
+    "vitepress": "^1.6.4",
     "yaml": "^2.9.0"
   }
 }
