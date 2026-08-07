@@ -41,7 +41,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: scripts
 
       - name: Detect new posts
         id: detect
