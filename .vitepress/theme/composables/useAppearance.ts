@@ -3,10 +3,32 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 type Theme = "auto" | "light" | "dark";
 
 const STORAGE_KEY = "vitepress-theme-appearance";
+const DEFAULT_THEME: Theme = "auto";
+// Legal persisted values (data concern), independent of CYCLE_ORDER (the UI toggle sequence).
+const THEMES: readonly Theme[] = ["auto", "light", "dark"];
 const CYCLE_ORDER: Theme[] = ["auto", "light", "dark"];
 
-function readStored(): Theme {
-  return (localStorage.getItem(STORAGE_KEY) as Theme) ?? "auto";
+function isTheme(value: string | null): value is Theme {
+  return THEMES.includes(value as Theme);
+}
+
+export function readStored(): Theme {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return isTheme(stored) ? stored : DEFAULT_THEME;
+  } catch (error) {
+    console.warn(`useAppearance: could not read stored theme — ${error}`);
+    return DEFAULT_THEME;
+  }
+}
+
+function persist(value: Theme): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, value);
+  } catch (error) {
+    // Storage blocked (private mode / restricted iframe): theme still applies for this session.
+    console.warn(`useAppearance: could not persist theme — ${error}`);
+  }
 }
 
 function prefersDark(): boolean {
@@ -19,13 +41,13 @@ function applyTheme(theme: Theme): void {
 }
 
 export function useAppearance() {
-  const theme = ref<Theme>("auto");
+  const theme = ref<Theme>(DEFAULT_THEME);
   let mediaQuery: MediaQueryList | null = null;
 
   function setTheme(value: Theme): void {
     theme.value = value;
-    localStorage.setItem(STORAGE_KEY, value);
     applyTheme(value);
+    persist(value);
   }
 
   function cycleTheme(): void {
