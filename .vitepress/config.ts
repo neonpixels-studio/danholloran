@@ -1,7 +1,7 @@
 import { fileURLToPath, URL } from "node:url";
 import { writeFileSync, readFileSync } from "fs";
 import { join } from "path";
-import { defineConfig } from "vitepress";
+import { defineConfig, createMarkdownRenderer } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { generateFeed } from "./theme/utils/generateFeed";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
@@ -68,8 +68,16 @@ export default defineConfig({
     },
   },
   transformPageData,
-  buildEnd(siteConfig) {
-    writeFileSync(join(siteConfig.outDir, "feed.xml"), generateFeed());
+  async buildEnd(siteConfig) {
+    const feedRenderer = await createMarkdownRenderer(
+      siteConfig.srcDir,
+      siteConfig.markdown,
+      siteConfig.site.base,
+    );
+    writeFileSync(
+      join(siteConfig.outDir, "feed.xml"),
+      generateFeed(feedRenderer),
+    );
     writeFileSync(join(siteConfig.outDir, "llms.txt"), generateLlmsTxt());
   },
   cleanUrls: true,

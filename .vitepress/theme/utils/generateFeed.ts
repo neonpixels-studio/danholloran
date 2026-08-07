@@ -1,10 +1,29 @@
 import { Feed } from "feed";
+import type { MarkdownRenderer } from "vitepress";
 import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { parseFrontmatter } from "./frontmatter";
 import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
+
+// `]]>` closes a CDATA section. The `feed` library wraps item content in CDATA
+// and its XML serializer escapes only the first occurrence per field, so a
+// body containing the sequence twice would prematurely close the section and
+// corrupt the whole feed document. Neutralize every terminator by
+// entity-encoding its closing bracket; since `content:encoded` is HTML, a
+// spec-compliant reader decodes it back to the original literal text (a
+// plaintext-mode reader would show `]]&gt;`, an acceptable trade for not
+// breaking the document).
+const CDATA_TERMINATOR = "]]>";
+const CDATA_TERMINATOR_SAFE = "]]&gt;";
+
+// Post bodies use root-relative URLs (e.g. `/images/...`, `/posts/...`) that a
+// feed reader resolves against its own origin, 404-ing every image and dead-
+// linking every internal reference. Rewrite them to absolute site URLs — the
+// same rule the item `image` field already applies. The negative lookahead
+// leaves protocol-relative `//host` URLs untouched.
+const ROOT_RELATIVE_URL = /(\s(?:src|href)=")\/(?!\/)/g;
 
 // A post with no date, or a date that fails to parse, is excluded from the
 // feed rather than shipping an `Invalid Date` pubDate to subscribers. Warn
@@ -23,7 +42,52 @@ function hasParseableDate(post: Record<string, any>): boolean {
   return !isUnparseable;
 }
 
-export function generateFeed(): string {
+function loadPosts(): Record<string, any>[] {
+  const files = readdirSync(POSTS_DIR).filter(
+    (file) => file.endsWith(".md") && file !== "index.md",
+  );
+
+  return files
+    .map((file) => {
+      const raw = readFileSync(join(POSTS_DIR, file), "utf-8");
+      const { data, content } = parseFrontmatter(raw);
+      const slug = file.replace(/\.md$/, "");
+      return { ...data, slug, body: content } as Record<string, any>;
+    })
+    .filter((post) => !post.draft && hasParseableDate(post))
+    .sort(
+      (left, right) =>
+        new Date(right.date).getTime() - new Date(left.date).getTime(),
+    );
+}
+
+function absolutizeUrls(html: string): string {
+  return html.replace(ROOT_RELATIVE_URL, `$1${SITE_URL}/`);
+}
+
+// Fail loud with the offending slug: a body-less feed item is worse than a
+// build that stops and names the post that could not be rendered.
+function renderBody(
+  renderer: MarkdownRenderer,
+  post: Record<string, any>,
+): string {
+  try {
+    const html = absolutizeUrls(renderer.render(post.body ?? ""));
+    return html.split(CDATA_TERMINATOR).join(CDATA_TERMINATOR_SAFE);
+  } catch (error) {
+    throw new Error(`generateFeed: failed to render "${post.slug}"`, {
+      cause: error,
+    });
+  }
+}
+
+// The markdown renderer is injected (an external dependency, kept out of this
+// module so it stays testable in isolation). The build passes one created from
+// the resolved site config (see config.ts `buildEnd`), so feed bodies run
+// through the site's own markdown-it — themes, code transformers, and plugins
+// included. VitePress's page-level preprocessing (e.g. `<!--@include-->`) is
+// not replicated; no post relies on it.
+export function generateFeed(renderer: MarkdownRenderer): string {
   const feed = new Feed({
     title: "Dan Holloran",
     description: SITE_DESCRIPTION,
@@ -36,29 +100,16 @@ export function generateFeed(): string {
     author: { name: "Dan Holloran", link: SITE_URL },
   });
 
-  const files = readdirSync(POSTS_DIR).filter(
-    (f) => f.endsWith(".md") && f !== "index.md",
-  );
-
-  const posts = files
-    .map((file) => {
-      const raw = readFileSync(join(POSTS_DIR, file), "utf-8");
-      const { data } = parseFrontmatter(raw);
-      const slug = file.replace(/\.md$/, "");
-      return { ...data, slug } as Record<string, any>;
-    })
-    .filter((p) => !p.draft && hasParseableDate(p))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  for (const post of posts) {
+  for (const post of loadPosts()) {
     const url = `${SITE_URL}/posts/${post.slug}`;
     feed.addItem({
       title: post.title,
       id: url,
       link: url,
       description: post.description ?? "",
+      content: renderBody(renderer, post),
       date: new Date(post.date),
-      category: post.tags?.map((t: string) => ({ name: t })) ?? [],
+      category: post.tags?.map((tag: string) => ({ name: tag })) ?? [],
       image: post.image ? `${SITE_URL}${post.image}` : undefined,
     });
   }
