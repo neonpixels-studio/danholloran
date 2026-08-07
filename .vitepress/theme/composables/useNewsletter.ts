@@ -11,6 +11,10 @@ export function useNewsletter() {
   const errorMessage = ref("");
 
   async function subscribe() {
+    if (status.value === "loading") {
+      return;
+    }
+
     const trimmedEmail = email.value.trim();
     if (!EMAIL_RE.test(trimmedEmail)) {
       status.value = "error";
