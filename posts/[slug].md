@@ -2,7 +2,7 @@
 ---
 
 <script setup>
-import { data as posts } from '@content/posts/posts.data.ts'
+import { data as posts } from '@content/posts/postsDetail.data.ts'
 import { useData } from 'vitepress'
 import PostView from '@views/PostView.vue'
 
