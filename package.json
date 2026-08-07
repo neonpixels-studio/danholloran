@@ -12,7 +12,7 @@
     "test:ci": "vitest run",
     "lint": "prettier --check . && eslint . && fallow audit",
     "lint:fix": "prettier --write . && eslint . --fix && fallow fix",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "author": "Dan Holloran",
   "license": "MIT",
