@@ -14,7 +14,7 @@ Personal blog and portfolio for Dan Holloran — full-stack developer and photog
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/grimicorn/danholloran-me.git
+   git clone https://github.com/neonpixels-studio/danholloran.git
    cd danholloran-me
    ```
 
