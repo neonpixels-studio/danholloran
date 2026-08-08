@@ -1,58 +1,121 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { defineComponent } from "vue";
-import { mount, flushPromises, type VueWrapper } from "@vue/test-utils";
-
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  type MockInstance,
+} from "vitest";
+import { createApp, defineComponent, type App } from "vue";
 import {
   readStored,
   useAppearance,
 } from "../../theme/composables/useAppearance";
 
 const STORAGE_KEY = "vitepress-theme-appearance";
+const DARK_CLASS = "dark";
 
-const mountedWrappers: VueWrapper[] = [];
-const mediaQueryListeners = {
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
+const CHANGE_EVENT = "change";
+
+type ChangeListener = (_event: MediaQueryListEvent) => void;
+
+type ControllableMediaQuery = {
+  mediaQuery: MediaQueryList;
+  matchMediaSpy: MockInstance;
+  emitSystemChange: (_matches: boolean) => void;
+  listenerCount: () => number;
 };
 
-function mockPrefersDark(prefersDark: boolean) {
-  vi.spyOn(window, "matchMedia").mockReturnValue({
-    matches: prefersDark,
-    media: "(prefers-color-scheme: dark)",
-    addEventListener: mediaQueryListeners.addEventListener,
-    removeEventListener: mediaQueryListeners.removeEventListener,
-    addListener: vi.fn(),
-    removeListener: vi.fn(),
-    onchange: null,
-    dispatchEvent: vi.fn(),
-  } as unknown as MediaQueryList);
+// A matchMedia stand-in whose `matches` and `change` listeners we drive by hand,
+// so system-theme behavior is deterministic instead of tied to the real host.
+// Both doubles honor the real contract: only `change` listeners are tracked and
+// each is invoked with a MediaQueryListEvent, so a listener registered on the
+// wrong event (or reading the event rather than re-querying) fails a test.
+function createControllableMediaQuery(
+  initialMatches: boolean,
+): Omit<ControllableMediaQuery, "matchMediaSpy"> {
+  const listeners: ChangeListener[] = [];
+  const mediaQuery = {
+    matches: initialMatches,
+    addEventListener: vi.fn((event: string, listener: ChangeListener) => {
+      if (event !== CHANGE_EVENT) {
+        return;
+      }
+      listeners.push(listener);
+    }),
+    removeEventListener: vi.fn((event: string, listener: ChangeListener) => {
+      if (event !== CHANGE_EVENT) {
+        return;
+      }
+      const index = listeners.indexOf(listener);
+      if (index !== -1) {
+        listeners.splice(index, 1);
+      }
+    }),
+  } as unknown as MediaQueryList;
+
+  function emitSystemChange(matches: boolean): void {
+    (mediaQuery as unknown as { matches: boolean }).matches = matches;
+    listeners
+      .slice()
+      .forEach((listener) => listener({ matches } as MediaQueryListEvent));
+  }
+
+  return {
+    mediaQuery,
+    emitSystemChange,
+    listenerCount: () => listeners.length,
+  };
 }
 
-type Appearance = ReturnType<typeof useAppearance>;
+// Every app mounted through withSetup is torn down in afterEach so no test leaks
+// a live component holding a system-theme change listener into the next one.
+const mountedApps: App[] = [];
 
-function mountAppearance() {
-  let appearance: Appearance;
-  const Harness = defineComponent({
-    setup() {
-      appearance = useAppearance();
-      return () => null;
-    },
-  });
-  const wrapper = mount(Harness, { attachTo: document.body });
-  mountedWrappers.push(wrapper);
-  return { wrapper, appearance: appearance! };
+function withSetup<T>(composable: () => T): { result: T; app: App } {
+  let result!: T;
+  const app = createApp(
+    defineComponent({
+      setup() {
+        result = composable();
+        return () => null;
+      },
+    }),
+  );
+  app.mount(document.createElement("div"));
+  mountedApps.push(app);
+  return { result, app };
+}
+
+function unmount(app: App): void {
+  app.unmount();
+  const index = mountedApps.indexOf(app);
+  if (index !== -1) {
+    mountedApps.splice(index, 1);
+  }
+}
+
+function stubSystemDark(prefersDark: boolean): ControllableMediaQuery {
+  const controllable = createControllableMediaQuery(prefersDark);
+  const matchMediaSpy = vi
+    .spyOn(window, "matchMedia")
+    .mockReturnValue(controllable.mediaQuery);
+  return { ...controllable, matchMediaSpy };
+}
+
+function isDocumentDark(): boolean {
+  return document.documentElement.classList.contains(DARK_CLASS);
 }
 
 describe("useAppearance", () => {
   beforeEach(() => {
     localStorage.clear();
-    document.documentElement.classList.remove("dark");
-    mediaQueryListeners.addEventListener.mockClear();
-    mediaQueryListeners.removeEventListener.mockClear();
+    document.documentElement.classList.remove(DARK_CLASS);
   });
 
   afterEach(() => {
-    mountedWrappers.splice(0).forEach((wrapper) => wrapper.unmount());
+    mountedApps.splice(0).forEach((app) => app.unmount());
     vi.restoreAllMocks();
   });
 
@@ -89,80 +152,199 @@ describe("useAppearance", () => {
     });
   });
 
-  describe("applied theme on mount", () => {
-    it("resolves a corrupt stored value to the default (auto) rather than propagating it", async () => {
+  describe("localStorage persistence", () => {
+    it("reads the stored theme on mount", () => {
+      stubSystemDark(false);
+      localStorage.setItem(STORAGE_KEY, "dark");
+
+      const { result } = withSetup(useAppearance);
+
+      expect(result.theme.value).toBe("dark");
+      expect(isDocumentDark()).toBe(true);
+    });
+
+    it("defaults to auto by reading storage, without persisting a default", () => {
+      stubSystemDark(false);
+      const getItemSpy = vi.spyOn(localStorage, "getItem");
+
+      const { result } = withSetup(useAppearance);
+
+      expect(getItemSpy).toHaveBeenCalledWith(STORAGE_KEY);
+      expect(result.theme.value).toBe("auto");
+      expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+    });
+
+    it("resolves a corrupt stored value to the default (auto) on mount", () => {
+      stubSystemDark(true);
       localStorage.setItem(STORAGE_KEY, "not-a-theme");
-      mockPrefersDark(true);
-      mountAppearance();
-      await flushPromises();
-      expect(document.documentElement.classList.contains("dark")).toBe(true);
+
+      const { result } = withSetup(useAppearance);
+
+      expect(result.theme.value).toBe("auto");
+      expect(isDocumentDark()).toBe(true);
     });
 
-    it("applies the stored dark theme on mount", async () => {
-      localStorage.setItem(STORAGE_KEY, "dark");
-      mockPrefersDark(false);
-      mountAppearance();
-      await flushPromises();
-      expect(document.documentElement.classList.contains("dark")).toBe(true);
-    });
-  });
+    it("persists every theme to localStorage as it is cycled", () => {
+      stubSystemDark(false);
 
-  describe("cycleTheme", () => {
-    it("persists and applies the next theme in the cycle", async () => {
-      localStorage.setItem(STORAGE_KEY, "auto");
-      mockPrefersDark(false);
-      const { appearance } = mountAppearance();
-      await flushPromises();
+      const { result } = withSetup(useAppearance);
 
-      appearance.cycleTheme();
-
-      expect(appearance.theme.value).toBe("light");
+      result.cycleTheme();
       expect(localStorage.getItem(STORAGE_KEY)).toBe("light");
-    });
 
-    it("wraps from the last theme back to the first", async () => {
-      localStorage.setItem(STORAGE_KEY, "dark");
-      mockPrefersDark(false);
-      const { appearance } = mountAppearance();
-      await flushPromises();
+      result.cycleTheme();
+      expect(localStorage.getItem(STORAGE_KEY)).toBe("dark");
 
-      appearance.cycleTheme();
-
-      expect(appearance.theme.value).toBe("auto");
+      result.cycleTheme();
       expect(localStorage.getItem(STORAGE_KEY)).toBe("auto");
     });
 
-    it("keeps the applied theme when persistence throws", async () => {
-      localStorage.setItem(STORAGE_KEY, "light");
-      mockPrefersDark(false);
-      const { appearance } = mountAppearance();
-      await flushPromises();
+    it("keeps the applied theme when persistence throws", () => {
+      stubSystemDark(false);
+
+      const { result } = withSetup(useAppearance);
+      result.cycleTheme(); // light
       vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
         throw new Error("QuotaExceededError");
       });
 
-      expect(() => appearance.cycleTheme()).not.toThrow();
-      expect(appearance.theme.value).toBe("dark");
-      expect(document.documentElement.classList.contains("dark")).toBe(true);
+      expect(() => result.cycleTheme()).not.toThrow();
+      expect(result.theme.value).toBe("dark");
+      expect(isDocumentDark()).toBe(true);
     });
   });
 
-  describe("cleanup", () => {
-    it("removes the same system-preference listener it registered on unmount", async () => {
-      mockPrefersDark(false);
-      const { wrapper } = mountAppearance();
-      await flushPromises();
-      expect(mediaQueryListeners.addEventListener).toHaveBeenCalledTimes(1);
-      const [registeredEvent, registeredHandler] =
-        mediaQueryListeners.addEventListener.mock.calls[0];
+  describe("matchMedia system-theme listener", () => {
+    it("registers a change listener on mount", () => {
+      const controllable = stubSystemDark(false);
 
-      mountedWrappers.splice(mountedWrappers.indexOf(wrapper), 1);
-      wrapper.unmount();
+      withSetup(useAppearance);
 
-      expect(mediaQueryListeners.removeEventListener).toHaveBeenCalledTimes(1);
-      expect(mediaQueryListeners.removeEventListener).toHaveBeenCalledWith(
-        registeredEvent,
-        registeredHandler,
+      expect(controllable.mediaQuery.addEventListener).toHaveBeenCalledWith(
+        "change",
+        expect.any(Function),
+      );
+      expect(controllable.listenerCount()).toBe(1);
+    });
+
+    it("re-applies dark when the system flips to dark while on auto", () => {
+      const controllable = stubSystemDark(false);
+
+      withSetup(useAppearance);
+      expect(isDocumentDark()).toBe(false);
+
+      controllable.emitSystemChange(true);
+      expect(isDocumentDark()).toBe(true);
+    });
+
+    it("drops dark when the system flips to light while on auto", () => {
+      const controllable = stubSystemDark(true);
+
+      withSetup(useAppearance);
+      expect(isDocumentDark()).toBe(true);
+
+      controllable.emitSystemChange(false);
+      expect(isDocumentDark()).toBe(false);
+    });
+
+    it("ignores system changes when the theme is not auto", () => {
+      const controllable = stubSystemDark(false);
+
+      const { result } = withSetup(useAppearance);
+      result.cycleTheme(); // auto -> light, dark class removed
+      expect(isDocumentDark()).toBe(false);
+
+      controllable.emitSystemChange(true);
+      expect(isDocumentDark()).toBe(false);
+    });
+
+    it("removes the change listener on unmount", () => {
+      const controllable = stubSystemDark(false);
+
+      const { app } = withSetup(useAppearance);
+      unmount(app);
+
+      expect(controllable.mediaQuery.removeEventListener).toHaveBeenCalledWith(
+        "change",
+        expect.any(Function),
+      );
+      expect(controllable.listenerCount()).toBe(0);
+    });
+  });
+
+  describe("auto/light/dark cycle", () => {
+    it("cycles auto -> light -> dark -> auto", () => {
+      stubSystemDark(false);
+
+      const { result } = withSetup(useAppearance);
+      expect(result.theme.value).toBe("auto");
+
+      result.cycleTheme();
+      expect(result.theme.value).toBe("light");
+
+      result.cycleTheme();
+      expect(result.theme.value).toBe("dark");
+
+      result.cycleTheme();
+      expect(result.theme.value).toBe("auto");
+    });
+
+    it("maps each theme to its icon", () => {
+      stubSystemDark(false);
+
+      const { result } = withSetup(useAppearance);
+      expect(result.themeIcon.value).toBe("monitor");
+
+      result.cycleTheme();
+      expect(result.themeIcon.value).toBe("sun");
+
+      result.cycleTheme();
+      expect(result.themeIcon.value).toBe("moon");
+    });
+
+    it("applies the dark class for an explicit dark theme", () => {
+      stubSystemDark(false);
+
+      const { result } = withSetup(useAppearance);
+      result.cycleTheme(); // light
+      result.cycleTheme(); // dark
+
+      expect(isDocumentDark()).toBe(true);
+    });
+
+    it("re-consults the system preference when cycling back to auto", () => {
+      stubSystemDark(true);
+
+      const { result } = withSetup(useAppearance);
+      result.cycleTheme(); // light
+      expect(isDocumentDark()).toBe(false);
+
+      result.cycleTheme(); // dark
+      expect(isDocumentDark()).toBe(true);
+
+      result.cycleTheme(); // auto, system prefers dark
+      expect(result.theme.value).toBe("auto");
+      expect(isDocumentDark()).toBe(true);
+    });
+
+    it("drops the dark class for an explicit light theme even when the system prefers dark", () => {
+      stubSystemDark(true);
+
+      const { result } = withSetup(useAppearance);
+      expect(isDocumentDark()).toBe(true); // auto + system dark
+
+      result.cycleTheme(); // light
+      expect(isDocumentDark()).toBe(false);
+    });
+
+    it("follows the system preference while on auto", () => {
+      const { matchMediaSpy } = stubSystemDark(true);
+
+      withSetup(useAppearance);
+
+      expect(isDocumentDark()).toBe(true);
+      expect(matchMediaSpy).toHaveBeenCalledWith(
+        "(prefers-color-scheme: dark)",
       );
     });
   });
