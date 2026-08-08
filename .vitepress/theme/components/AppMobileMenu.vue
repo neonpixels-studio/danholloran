@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useRouter } from "vitepress";
 import { useMainNav } from "@composables/useMainNav.ts";
 import { useNavPanels } from "@composables/useNavPanels.ts";
+import { useFocusTrap } from "@composables/useFocusTrap.ts";
 import socialLinks from "@data/socialLinks";
 
 const router = useRouter();
 const { navItems } = useMainNav();
 const { isMobileMenuOpen, closeAll } = useNavPanels();
+
+// Matches the `md` breakpoint the overlay is hidden at; keeping the trap armed
+// past it would hijack Tab for a menu the user can no longer see.
+const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
+
+const menu = ref<HTMLElement | null>(null);
+let desktopQuery: MediaQueryList | null = null;
+
+useFocusTrap(menu, isMobileMenuOpen);
 
 function close() {
   closeAll();
@@ -18,18 +28,34 @@ function navigate(href: string) {
   router.go(href);
 }
 
-function onKeydown(e: KeyboardEvent) {
-  if (e.key === "Escape" && isMobileMenuOpen.value) {
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === "Escape" && isMobileMenuOpen.value) {
     close();
   }
 }
 
+function closeOnDesktop(event: MediaQueryListEvent) {
+  if (!event.matches || !isMobileMenuOpen.value) {
+    return;
+  }
+  close();
+}
+
+// Match PostLightbox: a modal dialog locks the page behind it from scrolling.
+watch(isMobileMenuOpen, (open) => {
+  document.body.style.overflow = open ? "hidden" : "";
+});
+
 onMounted(() => {
   document.addEventListener("keydown", onKeydown);
+  desktopQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
+  desktopQuery.addEventListener("change", closeOnDesktop);
 });
 
 onUnmounted(() => {
   document.removeEventListener("keydown", onKeydown);
+  desktopQuery?.removeEventListener("change", closeOnDesktop);
+  document.body.style.overflow = "";
 });
 </script>
 
@@ -37,6 +63,11 @@ onUnmounted(() => {
   <Teleport to="body">
     <div
       id="mobileMenu"
+      ref="menu"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile navigation"
       :aria-hidden="!isMobileMenuOpen"
       class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-200 md:hidden"
       :class="
@@ -47,6 +78,13 @@ onUnmounted(() => {
       style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04)"
     >
       <div class="flex flex-col px-4 py-3">
+        <button
+          type="button"
+          class="sr-only focus-visible:not-sr-only focus-visible:mb-2 focus-visible:self-end focus-visible:rounded focus-visible:px-2 focus-visible:py-1 focus-visible:font-mono focus-visible:text-[0.82rem]"
+          @click="close"
+        >
+          close menu
+        </button>
         <template v-for="(item, index) in navItems" :key="item.link">
           <a
             :href="item.link"
