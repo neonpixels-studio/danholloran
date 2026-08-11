@@ -7,14 +7,15 @@ import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
 const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 
-// `]]>` closes a CDATA section. The `feed` library wraps item content in CDATA
-// and its XML serializer escapes only the first occurrence per field, so a
-// body containing the sequence twice would prematurely close the section and
-// corrupt the whole feed document. Neutralize every terminator by
-// entity-encoding its closing bracket; since `content:encoded` is HTML, a
-// spec-compliant reader decodes it back to the original literal text (a
-// plaintext-mode reader would show `]]&gt;`, an acceptable trade for not
-// breaking the document).
+// `]]>` closes a CDATA section. The `feed` library wraps every item title,
+// description, and body in CDATA and its XML serializer escapes only the first
+// occurrence per field, so any of them containing the sequence twice would
+// prematurely close the section and corrupt the whole feed document.
+// Neutralize every terminator by entity-encoding its closing bracket. The
+// `<description>` and `content:encoded` body are rendered as HTML by feed
+// readers, so a spec-compliant reader decodes `]]&gt;` back to the original
+// literal text; the RSS `<title>` is plain text, so the entity shows literally
+// there — an accepted trade for not breaking the document.
 const CDATA_TERMINATOR = "]]>";
 const CDATA_TERMINATOR_SAFE = "]]&gt;";
 
@@ -65,6 +66,14 @@ function absolutizeUrls(html: string): string {
   return html.replace(ROOT_RELATIVE_URL, `$1${SITE_URL}/`);
 }
 
+// `unknown` because frontmatter values arrive from YAML: a `title: 2026` parses
+// to a number, which is coerced to text here rather than crashing `split`.
+function neutralizeCdata(text: unknown): string {
+  return String(text ?? "")
+    .split(CDATA_TERMINATOR)
+    .join(CDATA_TERMINATOR_SAFE);
+}
+
 // Fail loud with the offending slug: a body-less feed item is worse than a
 // build that stops and names the post that could not be rendered.
 function renderBody(
@@ -73,7 +82,7 @@ function renderBody(
 ): string {
   try {
     const html = absolutizeUrls(renderer.render(post.body ?? ""));
-    return html.split(CDATA_TERMINATOR).join(CDATA_TERMINATOR_SAFE);
+    return neutralizeCdata(html);
   } catch (error) {
     throw new Error(`generateFeed: failed to render "${post.slug}"`, {
       cause: error,
@@ -103,10 +112,10 @@ export function generateFeed(renderer: MarkdownRenderer): string {
   for (const post of loadPosts()) {
     const url = `${SITE_URL}/posts/${post.slug}`;
     feed.addItem({
-      title: post.title,
+      title: neutralizeCdata(post.title),
       id: url,
       link: url,
-      description: post.description ?? "",
+      description: neutralizeCdata(post.description),
       content: renderBody(renderer, post),
       date: new Date(post.date),
       category: post.tags?.map((tag: string) => ({ name: tag })) ?? [],

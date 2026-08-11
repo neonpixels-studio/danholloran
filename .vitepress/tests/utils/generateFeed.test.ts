@@ -219,13 +219,74 @@ describe("generateFeed", () => {
   });
 
   it("does not let a CDATA-terminator sequence in the title break the document", async () => {
+    // The terminator is neutralized to `]]&gt;` (the same trade-off the body
+    // makes), so the document stays well-formed and the raw sequence is gone;
+    // other XML-special characters still round-trip through the CDATA wrapper.
     const title = "Nested ]]> sequence & <em>markup</em>";
     mockPostFiles(["cdata-terminator.md"], [{ title, date: "2024-01-01" }]);
 
     const xml = generateFeed(passthroughRenderer());
 
     expect(() => parseFeedXml(xml)).not.toThrow();
-    expect(itemTitles(xml)).toEqual([title]);
+    expect(itemTitles(xml)).toEqual([
+      "Nested ]]&gt; sequence & <em>markup</em>",
+    ]);
+  });
+
+  it("neutralizes multiple CDATA terminators in the title so the document stays well-formed", async () => {
+    // The `feed` library only splits the first `]]>` per field, so a second
+    // one in a raw title prematurely closes the CDATA section and corrupts the
+    // whole feed — this fails if the title regresses to raw passthrough.
+    mockPostFiles(
+      ["cdata-title.md"],
+      [{ title: "one ]]> two ]]> three", date: "2024-01-01" }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemTitles(xml)).toEqual(["one ]]&gt; two ]]&gt; three"]);
+  });
+
+  it("neutralizes multiple CDATA terminators in the description so the document stays well-formed", async () => {
+    mockPostFiles(
+      ["cdata-desc.md"],
+      [
+        {
+          title: "Desc",
+          date: "2024-01-01",
+          description: "a ]]> b ]]> c",
+        },
+      ],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(nodeText(feedItems(xml)[0].description)).toBe("a ]]&gt; b ]]&gt; c");
+  });
+
+  it("coerces a non-string title (e.g. a numeric YAML value) to text instead of crashing", async () => {
+    mockPostFiles(["numeric-title.md"], [{ title: 2026, date: "2024-01-01" }]);
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemTitles(xml)).toEqual(["2026"]);
+  });
+
+  it("degrades a structured (non-scalar) title to text rather than breaking the whole build", async () => {
+    // A malformed object title (e.g. a stray-indent YAML map) should still yield
+    // a valid feed for every other post — coercion is deliberately lenient here.
+    mockPostFiles(
+      ["object-title.md"],
+      [{ title: { a: 1 }, date: "2024-01-01" }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemTitles(xml)).toEqual(["[object Object]"]);
   });
 
   it("emits the frontmatter date as the item pubDate", async () => {
