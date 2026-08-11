@@ -194,6 +194,40 @@ function transformPostsIndex(pageData: PageData): void {
   ];
 }
 
+// Optional topical signals for Article JSON-LD: topic -> articleSection,
+// tags -> comma-separated keywords. Each field is omitted when its source is
+// absent so we never emit empty schema properties.
+function buildArticleTopicalFields(data: Record<string, unknown>): {
+  articleSection?: string;
+  keywords?: string;
+} {
+  const fields: { articleSection?: string; keywords?: string } = {};
+  const topic = typeof data.topic === "string" ? data.topic.trim() : "";
+  if (topic.length > 0) {
+    fields.articleSection = topic;
+  }
+  // Frontmatter is author-written YAML, so normalize before emitting: coerce a
+  // lone scalar to an array, stringify scalar entries (an unquoted tag like a
+  // year parses as a number/boolean — keep it rather than silently drop it),
+  // discard non-scalars and blanks, and omit the field entirely if nothing
+  // survives (never emit an empty keywords string).
+  const rawTags = data.tags;
+  const tags = Array.isArray(rawTags) ? rawTags : [rawTags];
+  const keywords = tags
+    .filter(
+      (tag) =>
+        typeof tag === "string" ||
+        typeof tag === "number" ||
+        typeof tag === "boolean",
+    )
+    .map((tag) => String(tag).trim())
+    .filter((tag) => tag.length > 0);
+  if (keywords.length > 0) {
+    fields.keywords = keywords.join(", ");
+  }
+  return fields;
+}
+
 function transformPost(pageData: PageData): void {
   const slug = pageData.params?.slug;
   if (!slug) return;
@@ -223,6 +257,7 @@ function transformPost(pageData: PageData): void {
       datePublished: data.date,
       dateModified: data.dateModified ?? data.date,
       url,
+      ...buildArticleTopicalFields(data),
       ...(data.image && {
         image: `${SITE_URL}${data.image}`,
       }),

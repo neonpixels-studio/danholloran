@@ -45,6 +45,28 @@ function findHead(pageData: any, type: string, attr: string, value: string) {
   );
 }
 
+// Runs a post transform for a fixed slug against the given frontmatter and
+// returns the resulting pageData, so per-post cases stay a single line.
+function transformPostWithFrontmatter(data: Record<string, unknown>) {
+  mockExistsSync.mockReturnValue(true);
+  mockReadFileSync.mockReturnValue("" as any);
+  mockParseFrontmatter.mockReturnValue({ data, content: "" });
+  const pageData = makePageData({
+    filePath: "posts/[slug].md",
+    params: { slug: "my-post" },
+  });
+  transformPageData(pageData);
+  return pageData;
+}
+
+function getJsonLd(pageData: any) {
+  const scriptTag = (pageData.frontmatter.head ?? []).find(
+    (tag: any[]) =>
+      tag[0] === "script" && tag[1]?.type === "application/ld+json",
+  );
+  return JSON.parse(scriptTag[2]);
+}
+
 beforeEach(() => {
   vi.clearAllMocks();
 });
@@ -410,6 +432,118 @@ describe("transformPageData – posts/[slug].md", () => {
     );
     const ld = JSON.parse(scriptTag[2]);
     expect(ld.dateModified).toBe("2024-06-15");
+  });
+
+  it("maps topic to articleSection and tags to keywords in the Article JSON-LD", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        topic: "development",
+        tags: ["vue", "javascript"],
+      }),
+    );
+    expect(ld.articleSection).toBe("development");
+    expect(ld.keywords).toBe("vue, javascript");
+  });
+
+  it("sets articleSection but omits keywords when only a topic is present", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        topic: "development",
+      }),
+    );
+    expect(ld.articleSection).toBe("development");
+    expect("keywords" in ld).toBe(false);
+  });
+
+  it("sets keywords but omits articleSection when only tags are present", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        tags: ["vue", "javascript"],
+      }),
+    );
+    expect(ld.keywords).toBe("vue, javascript");
+    expect("articleSection" in ld).toBe(false);
+  });
+
+  it("omits articleSection and keywords when topic and tags are absent", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+      }),
+    );
+    expect("articleSection" in ld).toBe(false);
+    expect("keywords" in ld).toBe(false);
+  });
+
+  it("omits keywords when tags contains only blank entries", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        tags: ["", " "],
+      }),
+    );
+    expect("keywords" in ld).toBe(false);
+  });
+
+  it("omits keywords when tags is an empty array", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        tags: [],
+      }),
+    );
+    expect("keywords" in ld).toBe(false);
+  });
+
+  it("omits articleSection when topic is only whitespace", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        topic: "   ",
+      }),
+    );
+    expect("articleSection" in ld).toBe(false);
+  });
+
+  it("coerces a lone scalar tag and trims surviving tags into keywords", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        tags: " vue ",
+      }),
+    );
+    expect(ld.keywords).toBe("vue");
+  });
+
+  it("stringifies non-string scalar tags rather than dropping them", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        tags: [2025, "inp"],
+      }),
+    );
+    expect(ld.keywords).toBe("2025, inp");
   });
 
   it("does not duplicate JSON-LD when called twice on the same pageData", () => {
