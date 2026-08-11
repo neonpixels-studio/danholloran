@@ -4,6 +4,7 @@ import { useNewsletter } from "../../theme/composables/useNewsletter";
 const KIT_FORM_ACTION = "https://app.kit.com/forms/9565549/subscriptions";
 const VALID_EMAIL = "reader@example.com";
 const SUBSCRIBE_EVENT = "newsletter_subscribe";
+const TIMEOUT_MS = 10_000;
 
 function okResponse(ok: boolean): Response {
   return { ok } as Response;
@@ -35,6 +36,31 @@ function deferredResponse() {
   return { promise, resolveFetch };
 }
 
+type FetchArgs = Parameters<typeof fetch>;
+
+// Rejects when the request's own signal aborts. Fails fast if `signal:` is
+// dropped so the suite doesn't hang on the test timeout; the actual regression
+// detection lives in the explicit assertions below, not this message.
+function abortRejectingFetch() {
+  return (_url: FetchArgs[0], init?: FetchArgs[1]): Promise<Response> => {
+    if (!init?.signal) {
+      return Promise.reject(
+        new Error("fetch was called without a timeout signal"),
+      );
+    }
+    return new Promise((_resolve, reject) => {
+      const rejectAsTimedOut = () => {
+        reject(new DOMException("timed out", "TimeoutError"));
+      };
+      if (init.signal.aborted) {
+        rejectAsTimedOut();
+        return;
+      }
+      init.signal.addEventListener("abort", rejectAsTimedOut);
+    });
+  };
+}
+
 // Each pins a different constraint of EMAIL_RE so loosening the regex fails a test.
 const INVALID_EMAILS = [
   "",
@@ -52,6 +78,7 @@ describe("useNewsletter", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
     delete (globalThis as unknown as { gtag?: unknown }).gtag;
   });
 
@@ -219,6 +246,82 @@ describe("useNewsletter", () => {
       expect(fetchSpy).toHaveBeenCalledTimes(2);
       expect(status.value).toBe("success");
       expect(errorMessage.value).toBe("");
+    });
+  });
+
+  describe("request timeout", () => {
+    it("bounds the fetch with an AbortSignal set to the request timeout", async () => {
+      const timeoutSignal = new AbortController().signal;
+      const timeoutSpy = vi
+        .spyOn(AbortSignal, "timeout")
+        .mockReturnValue(timeoutSignal);
+      const fetchSpy = stubFetch(true);
+      const { email, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+
+      expect(timeoutSpy).toHaveBeenCalledWith(TIMEOUT_MS);
+      const [, init] = fetchSpy.mock.calls[0];
+      expect(init?.signal).toBe(timeoutSignal);
+    });
+
+    it("routes an aborted (timed-out) request to the network-error branch and unlocks the form", async () => {
+      const timeoutController = new AbortController();
+      // A fresh signal per attempt: reuse the first (aborted) one and the retry rejects.
+      const timeoutSpy = vi
+        .spyOn(AbortSignal, "timeout")
+        .mockReturnValueOnce(timeoutController.signal)
+        .mockReturnValueOnce(new AbortController().signal);
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockImplementationOnce(abortRejectingFetch())
+        .mockImplementationOnce((_url, init) => {
+          if (init?.signal?.aborted) {
+            return Promise.reject(new DOMException("aborted", "AbortError"));
+          }
+          return Promise.resolve(okResponse(true));
+        });
+      const { email, status, errorMessage, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      const settled = subscribe();
+      expect(status.value).toBe("loading");
+
+      timeoutController.abort(new DOMException("timed out", "TimeoutError"));
+      await settled;
+      expect(status.value).toBe("error");
+      expect(errorMessage.value).toBe("network error — please try again.");
+
+      await subscribe();
+      expect(timeoutSpy).toHaveBeenCalledTimes(2);
+      expect(fetchSpy).toHaveBeenCalledTimes(2);
+      expect(status.value).toBe("success");
+      expect(errorMessage.value).toBe("");
+    });
+
+    it("sends an unbounded request when AbortSignal.timeout is unavailable", async () => {
+      vi.stubGlobal("AbortSignal", {});
+      const fetchSpy = stubFetch(true);
+      const { email, status, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+
+      expect(fetchSpy.mock.calls[0][1]?.signal).toBeUndefined();
+      expect(status.value).toBe("success");
+    });
+
+    it("sends an unbounded request when AbortSignal itself is absent", async () => {
+      vi.stubGlobal("AbortSignal", undefined);
+      const fetchSpy = stubFetch(true);
+      const { email, status, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+
+      expect(fetchSpy.mock.calls[0][1]?.signal).toBeUndefined();
+      expect(status.value).toBe("success");
     });
   });
 
