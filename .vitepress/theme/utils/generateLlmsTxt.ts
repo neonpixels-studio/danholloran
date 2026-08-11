@@ -16,6 +16,21 @@ const TOPIC_SECTIONS: { topic: string; heading: string }[] = [
   { topic: "travel", heading: "Travel & Photography" },
 ];
 
+/** Catch-all heading for posts whose topic matches no known section. */
+const OTHER_HEADING = "Other";
+
+function isKnownTopic(topic: string): boolean {
+  return TOPIC_SECTIONS.some((section) => section.topic === topic);
+}
+
+// True when a post would otherwise fall through every known section: it either
+// carries a topic none of TOPIC_SECTIONS recognizes, or carries no topic at
+// all. Shared by the warning and the "Other" section so the two can never
+// disagree about which posts are unplaced.
+function hasUnknownTopic(post: PostMeta): boolean {
+  return !post.topic || !isKnownTopic(post.topic);
+}
+
 interface PostMeta {
   title: string;
   description?: string;
@@ -54,6 +69,24 @@ function warnIfDateUnparseable(post: PostMeta): void {
   }
 }
 
+// A post whose topic matches no known section — or that has no topic at all —
+// would otherwise vanish from the index entirely, the same silent-drop failure
+// the date handling guards against. Warn loudly (mirroring
+// warnIfDateUnparseable) so a missing or newly-added topic surfaces at build
+// time instead of shipping an incomplete AI index; the post is still listed
+// under the "Other" section.
+function warnIfUnknownTopic(post: PostMeta): void {
+  if (!hasUnknownTopic(post)) {
+    return;
+  }
+  const topicDescription = post.topic
+    ? `an unrecognized topic "${post.topic}"`
+    : "no topic";
+  console.warn(
+    `generateLlmsTxt: post "${post.slug}" has ${topicDescription}; listing it under "${OTHER_HEADING}"`,
+  );
+}
+
 function loadPosts(): PostMeta[] {
   const posts = readdirSync(POSTS_DIR)
     .filter((f) => f.endsWith(".md") && f !== "index.md")
@@ -67,6 +100,7 @@ function loadPosts(): PostMeta[] {
 
   for (const post of posts) {
     warnIfDateUnparseable(post);
+    warnIfUnknownTopic(post);
   }
 
   // Newest first; undated posts (e.g. some travel entries) sort to the end.
@@ -76,7 +110,10 @@ function loadPosts(): PostMeta[] {
 function postLine(post: PostMeta): string {
   const url = `${SITE_URL}/posts/${post.slug}`;
   const description = post.description ? `: ${post.description}` : "";
-  return `- [${post.title}](${url})${description}`;
+  // Fall back to the slug so a post missing its title (now reachable via the
+  // "Other" section) never ships a literal "undefined" as its link text.
+  const label = post.title || post.slug;
+  return `- [${label}](${url})${description}`;
 }
 
 /**
@@ -107,6 +144,11 @@ export function generateLlmsTxt(): string {
     const sectionPosts = posts.filter((p) => p.topic === topic);
     if (sectionPosts.length === 0) continue;
     lines.push("", `## ${heading}`, "", ...sectionPosts.map(postLine));
+  }
+
+  const otherPosts = posts.filter(hasUnknownTopic);
+  if (otherPosts.length > 0) {
+    lines.push("", `## ${OTHER_HEADING}`, "", ...otherPosts.map(postLine));
   }
 
   lines.push(
