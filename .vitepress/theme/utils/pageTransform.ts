@@ -1,8 +1,12 @@
-import { existsSync, readFileSync, readdirSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { parseFrontmatter } from "./frontmatter";
 import type { PageData } from "vitepress";
+import { loadDatedPosts } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
+
+// The blog index's JSON-LD lists at most this many recent posts.
+const MAX_BLOG_POSTING_ENTRIES = 10;
 import {
   pageMeta,
   personJsonLd,
@@ -122,37 +126,19 @@ function transformGrimicornNeonThemes(pageData: PageData): void {
   });
 }
 
-// Newest-first BlogPosting JSON-LD for the up-to-10 published posts.
+// Newest-first BlogPosting JSON-LD for the most recent published posts. Only
+// posts with a usable date are listed, so `datePublished` is never an
+// `Invalid Date` string that structured-data validators reject.
 function buildBlogPostingList() {
-  const postsDir = join(process.cwd(), ".vitepress/content/posts");
-  return readdirSync(postsDir)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => {
-      const { data } = parseFrontmatter(
-        readFileSync(join(postsDir, f), "utf-8"),
-      );
-      return {
-        slug: f.replace(/\.md$/, ""),
-        title: data.title as string | undefined,
-        description: data.description as string | undefined,
-        date: data.date as string | undefined,
-        image: data.image as string | undefined,
-        draft: data.draft as boolean | undefined,
-      };
-    })
-    .filter((p) => !p.draft)
-    .sort(
-      (a, b) =>
-        new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime(),
-    )
-    .slice(0, 10)
-    .map((p) => ({
+  return loadDatedPosts()
+    .slice(0, MAX_BLOG_POSTING_ENTRIES)
+    .map((post) => ({
       "@type": "BlogPosting",
-      headline: p.title ?? "",
-      description: p.description ?? "",
-      url: `${SITE_URL}/posts/${p.slug}`,
-      datePublished: p.date,
-      ...(p.image && { image: `${SITE_URL}${p.image}` }),
+      headline: post.title ?? "",
+      description: post.description ?? "",
+      url: `${SITE_URL}/posts/${post.slug}`,
+      datePublished: post.date,
+      ...(post.image && { image: `${SITE_URL}${post.image}` }),
       author: {
         "@type": "Person",
         name: `${resume.firstName} ${resume.lastName}`,

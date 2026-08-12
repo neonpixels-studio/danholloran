@@ -1,16 +1,9 @@
-import { readdirSync, readFileSync } from "fs";
-import { join } from "path";
-import { parseFrontmatter } from "./frontmatter";
+import { loadDatedPosts } from "./loadPublishedPosts";
 
-const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
-
+// The image of the newest published, dated post that has one — used for the
+// site's default social image. Shares the one post loader so the read/parse/
+// filter/sort policy stays in a single place.
 export function getLatestPostImage(): string | undefined {
-  const posts = readdirSync(POSTS_DIR)
-    .filter((f) => f.endsWith(".md"))
-    .map(
-      (f) => parseFrontmatter(readFileSync(join(POSTS_DIR, f), "utf-8")).data,
-    )
-    .filter((d) => !d.draft && d.date && d.image)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  return posts[0]?.image;
+  const latestWithImage = loadDatedPosts().find((post) => post.image);
+  return latestWithImage?.image as string | undefined;
 }

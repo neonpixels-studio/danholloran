@@ -1,9 +1,5 @@
-import { readdirSync, readFileSync } from "fs";
-import { join } from "path";
-import { parseFrontmatter } from "./frontmatter";
+import { loadPublishedPosts, type PublishedPost } from "./loadPublishedPosts";
 import { SITE_URL, CURRENT_LOCATION } from "./constants";
-
-const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 
 /** The year Dan's professional experience is counted from. */
 export const CAREER_START_YEAR = 2012;
@@ -27,55 +23,16 @@ function isKnownTopic(topic: string): boolean {
 // carries a topic none of TOPIC_SECTIONS recognizes, or carries no topic at
 // all. Shared by the warning and the "Other" section so the two can never
 // disagree about which posts are unplaced.
-function hasUnknownTopic(post: PostMeta): boolean {
+function hasUnknownTopic(post: PublishedPost): boolean {
   return !post.topic || !isKnownTopic(post.topic);
-}
-
-interface PostMeta {
-  title: string;
-  description?: string;
-  topic?: string;
-  date?: string;
-  draft?: boolean;
-  slug: string;
-}
-
-// Sort key for newest-first ordering. Posts with no date, or a date that
-// fails to parse, sort to the end. A finite sentinel (rather than -Infinity)
-// keeps `postSortTime(b) - postSortTime(a)` a real number for any pair of
-// posts, including two undated ones.
-const UNDATED_SORT_TIME = Number.MIN_SAFE_INTEGER;
-
-function postSortTime(post: PostMeta): number {
-  if (!post.date) {
-    return UNDATED_SORT_TIME;
-  }
-  const time = new Date(post.date).getTime();
-  return Number.isNaN(time) ? UNDATED_SORT_TIME : time;
-}
-
-// Unlike generateFeed (which drops a post with an unparseable date entirely),
-// llms.txt keeps it — sorted to the end, same as an undated post — since an
-// incomplete listing here is lower-stakes than a broken RSS pubDate. Still
-// warn loudly, since it usually points at a frontmatter typo.
-function warnIfDateUnparseable(post: PostMeta): void {
-  if (!post.date) {
-    return;
-  }
-  if (Number.isNaN(new Date(post.date).getTime())) {
-    console.warn(
-      `generateLlmsTxt: post "${post.slug}" has an unparseable date "${post.date}"; sorting it to the end`,
-    );
-  }
 }
 
 // A post whose topic matches no known section — or that has no topic at all —
 // would otherwise vanish from the index entirely, the same silent-drop failure
-// the date handling guards against. Warn loudly (mirroring
-// warnIfDateUnparseable) so a missing or newly-added topic surfaces at build
-// time instead of shipping an incomplete AI index; the post is still listed
-// under the "Other" section.
-function warnIfUnknownTopic(post: PostMeta): void {
+// the shared loader's unparseable-date warning guards against. Warn loudly so a
+// missing or newly-added topic surfaces at build time instead of shipping an
+// incomplete AI index; the post is still listed under the "Other" section.
+function warnIfUnknownTopic(post: PublishedPost): void {
   if (!hasUnknownTopic(post)) {
     return;
   }
@@ -87,27 +44,7 @@ function warnIfUnknownTopic(post: PostMeta): void {
   );
 }
 
-function loadPosts(): PostMeta[] {
-  const posts = readdirSync(POSTS_DIR)
-    .filter((f) => f.endsWith(".md") && f !== "index.md")
-    .map((file) => {
-      const { data } = parseFrontmatter(
-        readFileSync(join(POSTS_DIR, file), "utf-8"),
-      );
-      return { ...data, slug: file.replace(/\.md$/, "") } as PostMeta;
-    })
-    .filter((p) => !p.draft);
-
-  for (const post of posts) {
-    warnIfDateUnparseable(post);
-    warnIfUnknownTopic(post);
-  }
-
-  // Newest first; undated posts (e.g. some travel entries) sort to the end.
-  return posts.sort((a, b) => postSortTime(b) - postSortTime(a));
-}
-
-function postLine(post: PostMeta): string {
+function postLine(post: PublishedPost): string {
   const url = `${SITE_URL}/posts/${post.slug}`;
   const description = post.description ? `: ${post.description}` : "";
   // Fall back to the slug so a post missing its title (now reachable via the
@@ -122,7 +59,11 @@ function postLine(post: PostMeta): string {
  * `.vitepress/data/location.json`.
  */
 export function generateLlmsTxt(): string {
-  const posts = loadPosts();
+  const posts = loadPublishedPosts();
+  // Warn once per unplaced post at build time before rendering the sections.
+  for (const post of posts) {
+    warnIfUnknownTopic(post);
+  }
   const yearsExperience = new Date().getFullYear() - CAREER_START_YEAR;
   const place = CURRENT_LOCATION;
 

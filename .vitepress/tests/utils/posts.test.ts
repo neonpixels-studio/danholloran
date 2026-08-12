@@ -11,15 +11,15 @@ vi.mock("../../theme/utils/frontmatter", () => ({
 }));
 
 import { readdirSync, readFileSync } from "fs";
-import { parseFrontmatter } from "../../theme/utils/frontmatter";
 import { getLatestPostImage } from "../../theme/utils/posts";
+import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockReadFileSync = vi.mocked(readFileSync);
-const mockParseFrontmatter = vi.mocked(parseFrontmatter);
 
 beforeEach(() => {
-  vi.clearAllMocks();
+  vi.resetAllMocks();
+  mockReadFileSync.mockReturnValue("" as any);
 });
 
 describe("getLatestPostImage", () => {
@@ -29,78 +29,74 @@ describe("getLatestPostImage", () => {
   });
 
   it("returns the image from the most recent non-draft post", () => {
-    mockReaddirSync.mockReturnValue(["older.md", "newer.md"] as any);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter
-      .mockReturnValueOnce({
-        data: { date: "2024-01-01", image: "/old.png", draft: false },
-        content: "",
-      })
-      .mockReturnValueOnce({
-        data: { date: "2024-06-01", image: "/new.png", draft: false },
-        content: "",
-      });
+    mockPostFiles(
+      ["older.md", "newer.md"],
+      [
+        { date: "2024-01-01", image: "/old.png", draft: false },
+        { date: "2024-06-01", image: "/new.png", draft: false },
+      ],
+    );
 
     expect(getLatestPostImage()).toBe("/new.png");
   });
 
   it("skips draft posts", () => {
-    mockReaddirSync.mockReturnValue(["draft.md", "published.md"] as any);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter
-      .mockReturnValueOnce({
-        data: { date: "2024-06-01", image: "/draft.png", draft: true },
-        content: "",
-      })
-      .mockReturnValueOnce({
-        data: { date: "2024-01-01", image: "/published.png", draft: false },
-        content: "",
-      });
+    mockPostFiles(
+      ["draft.md", "published.md"],
+      [
+        { date: "2024-06-01", image: "/draft.png", draft: true },
+        { date: "2024-01-01", image: "/published.png", draft: false },
+      ],
+    );
 
     expect(getLatestPostImage()).toBe("/published.png");
   });
 
   it("skips posts without a date", () => {
-    mockReaddirSync.mockReturnValue(["no-date.md", "with-date.md"] as any);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter
-      .mockReturnValueOnce({
-        data: { image: "/no-date.png" },
-        content: "",
-      })
-      .mockReturnValueOnce({
-        data: { date: "2024-01-01", image: "/with-date.png" },
-        content: "",
-      });
+    mockPostFiles(
+      ["no-date.md", "with-date.md"],
+      [
+        { image: "/no-date.png" },
+        { date: "2024-01-01", image: "/with-date.png" },
+      ],
+    );
 
     expect(getLatestPostImage()).toBe("/with-date.png");
   });
 
+  it("skips posts with an unparseable date", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockPostFiles(
+      ["bad-date.md", "with-date.md"],
+      [
+        { date: "not-a-real-date", image: "/bad-date.png" },
+        { date: "2024-01-01", image: "/with-date.png" },
+      ],
+    );
+
+    expect(getLatestPostImage()).toBe("/with-date.png");
+
+    warnSpy.mockRestore();
+  });
+
   it("skips posts without an image", () => {
-    mockReaddirSync.mockReturnValue(["no-image.md", "with-image.md"] as any);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter
-      .mockReturnValueOnce({
-        data: { date: "2024-06-01" },
-        content: "",
-      })
-      .mockReturnValueOnce({
-        data: { date: "2024-01-01", image: "/with-image.png" },
-        content: "",
-      });
+    mockPostFiles(
+      ["no-image.md", "with-image.md"],
+      [
+        { date: "2024-06-01" },
+        { date: "2024-01-01", image: "/with-image.png" },
+      ],
+    );
 
     expect(getLatestPostImage()).toBe("/with-image.png");
   });
 
-  it("ignores non-.md files", () => {
-    mockReaddirSync.mockReturnValue(["README.txt", "post.md"] as any);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter.mockReturnValueOnce({
-      data: { date: "2024-01-01", image: "/post.png" },
-      content: "",
-    });
+  it("ignores index.md and non-.md files", () => {
+    mockPostFiles(
+      ["index.md", "README.txt", "post.md"],
+      [{ date: "2024-01-01", image: "/post.png" }],
+    );
 
     expect(getLatestPostImage()).toBe("/post.png");
-    expect(mockParseFrontmatter).toHaveBeenCalledTimes(1);
   });
 });

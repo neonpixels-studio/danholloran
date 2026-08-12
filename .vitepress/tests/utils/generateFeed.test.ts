@@ -16,29 +16,13 @@ import { readdirSync, readFileSync } from "fs";
 import { parseFrontmatter } from "../../theme/utils/frontmatter";
 import { generateFeed } from "../../theme/utils/generateFeed";
 import { SITE_URL } from "../../theme/utils/constants";
+import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockParseFrontmatter = vi.mocked(parseFrontmatter);
 
 const XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>';
-
-// Registers a post file list and the frontmatter each file resolves to, in
-// the same order generateFeed() will read them. `bodies`, when provided,
-// supplies the markdown body for each file (defaulting to empty).
-function mockPostFiles(
-  files: string[],
-  frontmatters: Record<string, unknown>[],
-  bodies: string[] = [],
-): void {
-  mockReaddirSync.mockReturnValue(files as any);
-  frontmatters.forEach((data, index) => {
-    mockParseFrontmatter.mockReturnValueOnce({
-      data,
-      content: bodies[index] ?? "",
-    });
-  });
-}
 
 // xml-js's `xml2js` throws on real malformed XML (a bare `&` or `<` outside
 // an entity/tag, mismatched tags) rather than silently repairing it the way

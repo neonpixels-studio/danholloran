@@ -4,11 +4,13 @@ vi.mock("fs", () => {
   const existsSync = vi.fn();
   const readFileSync = vi.fn();
   const statSync = vi.fn();
+  const readdirSync = vi.fn();
   return {
-    default: { existsSync, readFileSync, statSync },
+    default: { existsSync, readFileSync, statSync, readdirSync },
     existsSync,
     readFileSync,
     statSync,
+    readdirSync,
   };
 });
 
@@ -16,17 +18,27 @@ vi.mock("../../theme/utils/frontmatter", () => ({
   parseFrontmatter: vi.fn(),
 }));
 
-import { existsSync, readFileSync, statSync } from "fs";
-import { parseFrontmatter } from "../../theme/utils/frontmatter";
+import { existsSync, readFileSync, statSync, readdirSync } from "fs";
 import { transformSitemapItems } from "../../theme/utils/sitemap";
+import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockExistsSync = vi.mocked(existsSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockStatSync = vi.mocked(statSync);
-const mockParseFrontmatter = vi.mocked(parseFrontmatter);
+const mockReaddirSync = vi.mocked(readdirSync);
+
+// The post-source directory holds the real files that back `/posts/<slug>`,
+// so a path-aware existsSync/statSync pins which file supplies an mtime.
+const POSTS_CONTENT_DIR = ".vitepress/content/posts";
+
+function contentPath(slug: string): string {
+  return `${POSTS_CONTENT_DIR}/${slug}.md`;
+}
 
 beforeEach(() => {
-  vi.clearAllMocks();
+  vi.resetAllMocks();
+  mockReaddirSync.mockReturnValue([] as any);
+  mockReadFileSync.mockReturnValue("" as any);
 });
 
 describe("transformSitemapItems", () => {
@@ -38,26 +50,53 @@ describe("transformSitemapItems", () => {
 
   it("uses frontmatter date as lastmod for post URLs", () => {
     const postDate = "2024-03-15";
-    mockExistsSync.mockReturnValue(true);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter.mockReturnValue({
-      data: { date: postDate },
-      content: "",
-    });
+    mockPostFiles(["my-post.md"], [{ date: postDate }]);
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(new Date(postDate));
   });
 
-  it("falls through to file mtime when post file has no date", () => {
+  it("falls through to the source file mtime when a post has no date", () => {
     const mtime = new Date("2024-05-01");
-    mockExistsSync.mockReturnValue(true);
-    mockReadFileSync.mockReturnValue("" as any);
-    mockParseFrontmatter.mockReturnValue({ data: {}, content: "" });
+    mockPostFiles(["my-post.md"], [{}]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("my-post")),
+    );
     mockStatSync.mockReturnValue({ mtime } as any);
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(mtime);
+  });
+
+  it("falls through to the source file mtime for a draft post rather than its frontmatter date", () => {
+    const mtime = new Date("2024-05-01");
+    mockPostFiles(["draft-post.md"], [{ date: "2024-03-15", draft: true }]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("draft-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime } as any);
+
+    const result = transformSitemapItems([{ url: "posts/draft-post" }]);
+    expect(result[0].lastmod).toEqual(mtime);
+  });
+
+  it("warns and falls through to the source file mtime for an unparseable post date instead of throwing", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const mtime = new Date("2024-05-01");
+    mockPostFiles(["bad-date.md"], [{ date: "not-a-real-date" }]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("bad-date")),
+    );
+    mockStatSync.mockReturnValue({ mtime } as any);
+
+    let result: ReturnType<typeof transformSitemapItems> | undefined;
+    expect(() => {
+      result = transformSitemapItems([{ url: "posts/bad-date" }]);
+    }).not.toThrow();
+    expect(result![0].lastmod).toEqual(mtime);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("bad-date"));
+
+    warnSpy.mockRestore();
   });
 
   it("uses file mtime for non-post URLs", () => {

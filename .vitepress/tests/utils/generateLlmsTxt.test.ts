@@ -17,22 +17,11 @@ import {
   CAREER_START_YEAR,
 } from "../../theme/utils/generateLlmsTxt";
 import { SITE_URL } from "../../theme/utils/constants";
+import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockParseFrontmatter = vi.mocked(parseFrontmatter);
-
-// Registers a post file list and the frontmatter each file resolves to, in
-// the same order generateLlmsTxt() will read them.
-function mockPostFiles(
-  files: string[],
-  frontmatters: Record<string, unknown>[],
-): void {
-  mockReaddirSync.mockReturnValue(files as any);
-  for (const data of frontmatters) {
-    mockParseFrontmatter.mockReturnValueOnce({ data, content: "" });
-  }
-}
 
 // Extracts the `- [title](url)...` list items under a `## <heading>`
 // section, stopping at the next `## ` heading or end of document. Splits on
