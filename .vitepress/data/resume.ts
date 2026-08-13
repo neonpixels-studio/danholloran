@@ -15,7 +15,7 @@ import { CURRENT_LOCATION } from "../theme/utils/constants";
 export const PAST_LOCATIONS = Object.freeze([...new Set(pastLocations)]);
 
 export default {
-  firstName: "Dan",
+  firstName: "Danny",
   lastName: "Holloran",
   photo: "/images/profile.png",
   headline: "Senior Frontend & Fullstack Developer",
