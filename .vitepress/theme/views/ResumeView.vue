@@ -83,14 +83,14 @@ function formatPeriod(start: string, end: string | null): string {
                 letter-spacing: -0.05em;
               "
             >
-              Dan
+              {{ resume.firstName }}
               <span
                 style="
                   -webkit-text-stroke: 2px var(--color-accent);
                   color: transparent;
                 "
               >
-                Holloran
+                {{ resume.lastName }}
               </span>
             </h1>
             <p class="text-fg-muted mb-4 font-mono text-[0.85rem]">

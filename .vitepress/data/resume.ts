@@ -16,6 +16,7 @@ export const PAST_LOCATIONS = Object.freeze([...new Set(pastLocations)]);
 
 export default {
   firstName: "Danny",
+  shortFirstName: "Dan",
   lastName: "Holloran",
   photo: "/images/profile.png",
   headline: "Senior Frontend & Fullstack Developer",

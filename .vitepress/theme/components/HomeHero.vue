@@ -47,7 +47,11 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
             letter-spacing: var(--tracking-tightest);
           "
         >
-          Dan<br /><span class="text-outline inline-block">Holloran</span>
+          {{ resume.shortFirstName }}<br /><span
+            class="text-outline inline-block"
+          >
+            {{ resume.lastName }}
+          </span>
         </h1>
         <p
           class="reveal in text-fg-muted mb-10 max-w-110 text-[1.05rem] leading-[1.75]"

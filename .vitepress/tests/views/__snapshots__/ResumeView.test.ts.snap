@@ -15,7 +15,7 @@ exports[`ResumeView > renders correctly 1`] = `
       <div class="grid grid-cols-[auto_1fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-6">
         <div class="border-accent h-24 w-24 shrink-0 overflow-hidden rounded-full border-[3px] shadow-[0_8px_32px_rgba(173,70,255,0.15)] print:shadow-none"><img src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover"></div>
         <div>
-          <h1 class="mb-2 font-mono leading-none font-bold" style="letter-spacing: -0.05em;"> Dan <span style="color: transparent;"> Holloran </span></h1>
+          <h1 class="mb-2 font-mono leading-none font-bold" style="letter-spacing: -0.05em;">Jane <span style="color: transparent;">Doe</span></h1>
           <p class="text-fg-muted mb-4 font-mono text-[0.85rem]">Senior Frontend Developer</p>
           <div class="text-fg-subtle flex flex-wrap gap-x-5 gap-y-2 font-mono text-[0.7rem]"><span class="inline-flex items-center gap-1.5"><span class="text-accent">→</span> jane@example.com</span><span class="inline-flex items-center gap-1.5"><span class="text-accent">→</span> GitHub</span></div>
         </div>
