@@ -95,6 +95,20 @@ describe("PostView", () => {
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
   });
 
+  it("prioritizes the hero image and reserves its space without lazy loading", () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    const hero = wrapper.find(`img[src='${mockPosts[0].frontmatter.image}']`);
+
+    // Hero is the LCP: prioritize its fetch and never defer it.
+    expect(hero.attributes("fetchpriority")).toBe("high");
+    expect(hero.attributes("loading")).toBeUndefined();
+    // The aspect-video wrapper reserves the hero's box before it loads, so the
+    // hero needs no intrinsic width/height to avoid CLS.
+    expect(hero.element.parentElement?.className).toContain("aspect-video");
+  });
+
   it("links each tag to /posts?tag=TAG", () => {
     const wrapper = shallowMount(PostView, {
       props: {

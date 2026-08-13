@@ -8,6 +8,10 @@ import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
 import { parse as parsePlist } from "plist";
 import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
+import {
+  applyMarkdownImageHints,
+  readLocalImageDimensions,
+} from "./theme/utils/markdownImageHints";
 import { transformPageData } from "./theme/utils/pageTransform";
 import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 
@@ -45,6 +49,9 @@ export default defineConfig({
       dark: darkTheme as any,
     },
     codeTransformers: [injectThemeBgTransformer],
+    config(md) {
+      applyMarkdownImageHints(md, readLocalImageDimensions);
+    },
   },
   vite: {
     build: { cssMinify: "esbuild" },

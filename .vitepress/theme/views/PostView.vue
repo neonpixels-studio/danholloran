@@ -127,6 +127,7 @@ function formatDate(d: string) {
         :src="post.frontmatter.image"
         class="h-full w-full cursor-zoom-in"
         :alt="post.frontmatter.title"
+        fetchpriority="high"
         @click="openLightbox(post.frontmatter.image, post.frontmatter.title)"
       />
     </div>

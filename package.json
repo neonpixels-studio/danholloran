@@ -38,6 +38,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "feed": "^6.0.0",
+    "image-size": "^2.0.2",
     "minisearch": "^7.2.0",
     "plist": "^5.0.0",
     "tailwindcss": "^4.3.3",
