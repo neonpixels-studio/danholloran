@@ -8,6 +8,12 @@ const SUBSCRIBE_EVENT = "newsletter_subscribe";
 const REQUEST_TIMEOUT_MS = 10_000;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Kit treats an address case-insensitively, so normalize before comparing to
+// the address that already succeeded — a case-only re-type is the same signup.
+function normalizeEmail(value: string): string {
+  return value.trim().toLowerCase();
+}
+
 // Undefined on browsers without AbortSignal.timeout so the request stays
 // unbounded (as before) rather than throwing and failing every subscribe.
 function requestTimeoutSignal(): AbortSignal | undefined {
@@ -26,17 +32,29 @@ export function useNewsletter() {
   const email = ref("");
   const status = ref<NewsletterStatus>("idle");
   const errorMessage = ref("");
+  const subscribedEmail = ref("");
   const { trackEvent } = useAnalytics();
 
   async function subscribe() {
-    // Locks after success on purpose: consumers hide or disable the submit
-    // path on success (NewsletterBanner unmounts the form, NewsletterTerminal
-    // disables the input). Re-subscribing requires a fresh useNewsletter().
-    if (status.value === "loading" || status.value === "success") {
+    // One request at a time.
+    if (status.value === "loading") {
       return;
     }
 
     const trimmedEmail = email.value.trim();
+
+    // Success lock scoped to the address that succeeded: a repeat submit of the
+    // same address (case/whitespace aside) re-affirms success and sends
+    // nothing, while editing to a different address re-enables the form.
+    if (
+      subscribedEmail.value !== "" &&
+      normalizeEmail(trimmedEmail) === subscribedEmail.value
+    ) {
+      status.value = "success";
+      errorMessage.value = "";
+      return;
+    }
+
     if (!EMAIL_RE.test(trimmedEmail)) {
       status.value = "error";
       errorMessage.value = "enter a valid email address.";
@@ -67,6 +85,7 @@ export function useNewsletter() {
     }
 
     status.value = "success";
+    subscribedEmail.value = normalizeEmail(trimmedEmail);
     trackEvent(SUBSCRIBE_EVENT);
   }
 
