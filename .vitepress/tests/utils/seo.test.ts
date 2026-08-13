@@ -117,6 +117,36 @@ describe("pageMeta", () => {
     const tags = result.map((r) => JSON.stringify(r));
     expect(tags.some((t) => t.includes("ld+json"))).toBe(false);
   });
+
+  it("neutralizes </script> and < in the emitted JSON-LD", () => {
+    const jsonLd = {
+      "@type": "Article",
+      headline: "Breakout </script><script>alert(1)</script>",
+      keywords: ["a < b", "x & y"],
+    };
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+      jsonLd: jsonLd as Record<string, unknown>,
+    });
+    const script = result.find((r) => r[0] === "script");
+    const payload = script?.[2] as string;
+
+    // No raw HTML-significant characters survive, so nothing can close the
+    // <script> element or start a new tag.
+    expect(payload.includes("<")).toBe(false);
+    expect(payload.includes(">")).toBe(false);
+    expect(payload.includes("&")).toBe(false);
+    expect(payload).not.toContain("</script>");
+    expect(payload).toContain("\\u003c");
+    expect(payload).toContain("\\u0026");
+
+    // The payload is still valid JSON and decodes back to the original values.
+    const parsed = JSON.parse(payload);
+    expect(parsed.headline).toBe(jsonLd.headline);
+    expect(parsed.keywords).toEqual(jsonLd.keywords);
+  });
 });
 
 describe("personJsonLd", () => {

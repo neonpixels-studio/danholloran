@@ -2,6 +2,21 @@ import { SITE_URL } from "./constants";
 import resume from "../../data/resume";
 import socialLinks from "../../data/socialLinks";
 
+// Characters that must be neutralized when embedding JSON inside an HTML
+// <script> element. Unicode escapes keep the payload valid JSON (a parser
+// decodes them back) while preventing a value like "</script>" from breaking
+// out of the element. HTML entities can't be used here: script content is raw
+// text, so entities are never decoded and would corrupt the JSON-LD.
+const SCRIPT_JSON_ESCAPES: Record<string, string> = {
+  "<": "\\u003c",
+  ">": "\\u003e",
+  "&": "\\u0026",
+};
+
+function escapeJsonForScript(json: string): string {
+  return json.replace(/[<>&]/g, (char) => SCRIPT_JSON_ESCAPES[char]);
+}
+
 export function pageMeta(opts: {
   title: string;
   description: string;
@@ -31,7 +46,7 @@ export function pageMeta(opts: {
     meta.push([
       "script",
       { type: "application/ld+json" },
-      JSON.stringify(jsonLd),
+      escapeJsonForScript(JSON.stringify(jsonLd)),
     ]);
   }
   return meta;
