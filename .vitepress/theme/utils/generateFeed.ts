@@ -15,6 +15,10 @@ import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 const CDATA_TERMINATOR = "]]>";
 const CDATA_TERMINATOR_SAFE = "]]&gt;";
 
+// The `feed` library emits a <title>/<description> element only for a truthy
+// value, so returning an empty string is how a field is deliberately omitted.
+const OMIT_ELEMENT = "";
+
 // Post bodies use root-relative URLs (e.g. `/images/...`, `/posts/...`) that a
 // feed reader resolves against its own origin, 404-ing every image and dead-
 // linking every internal reference. Rewrite them to absolute site URLs — the
@@ -50,6 +54,36 @@ function renderBody(
   }
 }
 
+// RSS 2.0 requires every <item> to carry at least a <title> or a
+// <description>; a post missing both would emit an invalid item. Fall back to
+// the slug as the title in that case so the post still ships rather than being
+// silently dropped. When a description is present the title element stays
+// omitted (a described, titleless item is already valid RSS). `description` is
+// pre-trimmed by the caller, so a whitespace-only one already reads as absent
+// here — the same trim that decides whether a description element ships. An
+// empty slug (no title, description, or slug at all) has nothing to show, so
+// fail loud with the post's date like `renderBody` does with the slug, rather
+// than shipping an invalid item.
+function resolveItemTitle(
+  post: Record<string, any>,
+  description: string,
+): string {
+  const title = neutralizeCdata(post.title).trim();
+  if (title) {
+    return title;
+  }
+  if (description) {
+    return OMIT_ELEMENT;
+  }
+  const slug = neutralizeCdata(post.slug).trim();
+  if (!slug) {
+    throw new Error(
+      `generateFeed: post dated "${post.date}" has no title, description, or slug`,
+    );
+  }
+  return slug;
+}
+
 // The markdown renderer is injected (an external dependency, kept out of this
 // module so it stays testable in isolation). The build passes one created from
 // the resolved site config (see config.ts `buildEnd`), so feed bodies run
@@ -73,11 +107,12 @@ export function generateFeed(renderer: MarkdownRenderer): string {
   // shared loader warned about), so no `Invalid Date` pubDate ever ships.
   for (const post of loadDatedPosts()) {
     const url = `${SITE_URL}/posts/${post.slug}`;
+    const description = neutralizeCdata(post.description).trim();
     feed.addItem({
-      title: neutralizeCdata(post.title),
+      title: resolveItemTitle(post, description),
       id: url,
       link: url,
-      description: neutralizeCdata(post.description),
+      description,
       content: renderBody(renderer, post),
       date: new Date(post.sortTime),
       category: post.tags?.map((tag: string) => ({ name: tag })) ?? [],

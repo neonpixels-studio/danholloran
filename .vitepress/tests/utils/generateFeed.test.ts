@@ -407,12 +407,75 @@ describe("generateFeed", () => {
     expect(nodeText(item.guid)).toBe(expectedUrl);
   });
 
-  it("does not crash and omits the title element when frontmatter has no title", async () => {
-    mockPostFiles(["untitled.md"], [{ date: "2024-01-01" }]);
+  it("omits the title element for a titleless post that still has a description", async () => {
+    // A described-but-titleless <item> is already valid RSS 2.0, so the title
+    // stays omitted rather than falling back to the slug.
+    mockPostFiles(
+      ["untitled.md"],
+      [{ date: "2024-01-01", description: "A summary" }],
+    );
 
     const xml = generateFeed(passthroughRenderer());
 
     expect(() => parseFeedXml(xml)).not.toThrow();
     expect(feedItems(xml)[0].title).toBeUndefined();
+  });
+
+  it("falls back to the slug as the title when a post has neither title nor description", async () => {
+    // RSS 2.0 requires every <item> to carry at least a <title> or a
+    // <description>; missing both would emit an invalid item, so the slug fills
+    // in as the title and the post still ships.
+    mockPostFiles(["my-untitled-post.md"], [{ date: "2024-01-01" }]);
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemTitles(xml)).toEqual(["my-untitled-post"]);
+  });
+
+  it("falls back to the slug when the description is present but blank (whitespace only)", async () => {
+    // A whitespace-only description satisfies no reader, so it must not defeat
+    // the slug fallback — otherwise the item ships with no title and a blank
+    // description, the exact invalid output this change prevents.
+    mockPostFiles(
+      ["blank-desc.md"],
+      [{ date: "2024-01-01", description: "   " }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemTitles(xml)).toEqual(["blank-desc"]);
+    expect(feedItems(xml)[0].description).toBeUndefined();
+  });
+
+  it("throws, naming the post date, when it has no title, description, or slug", () => {
+    // Only a file literally named ".md" yields an empty slug; failing loud
+    // beats silently emitting an item with neither a title nor a description.
+    mockPostFiles([".md"], [{ date: "2024-01-01" }]);
+
+    expect(() => generateFeed(passthroughRenderer())).toThrow(
+      /no title, description, or slug/,
+    );
+  });
+
+  it("falls back to the slug when the title is present but blank (whitespace only)", async () => {
+    mockPostFiles(["blank-title.md"], [{ title: "   ", date: "2024-01-01" }]);
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemTitles(xml)).toEqual(["blank-title"]);
+  });
+
+  it("does not fall back to the slug for a post that has a real title", async () => {
+    mockPostFiles(
+      ["cool-slug.md"],
+      [{ title: "Real Title", date: "2024-01-01" }],
+    );
+
+    expect(itemTitles(generateFeed(passthroughRenderer()))).toEqual([
+      "Real Title",
+    ]);
   });
 });
