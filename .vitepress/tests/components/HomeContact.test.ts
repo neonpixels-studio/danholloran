@@ -8,6 +8,24 @@ vi.mock("@data/resume", () => ({
 
 import HomeContact from "@components/HomeContact.vue";
 
+async function fill(
+  wrapper: ReturnType<typeof mount>,
+  { name = "", email = "", message = "" } = {},
+) {
+  await wrapper.find('input[name="name"]').setValue(name);
+  await wrapper.find('input[name="email"]').setValue(email);
+  await wrapper.find('textarea[name="message"]').setValue(message);
+}
+
+async function submit(wrapper: ReturnType<typeof mount>) {
+  await wrapper.find("form").trigger("submit.prevent");
+  // allow the (potential) async fetch handler to settle
+  await Promise.resolve();
+  await wrapper.vm.$nextTick();
+}
+
+const VALID_FIELDS = { name: "Dan", email: "a@b.com", message: "Hello there" };
+
 describe("HomeContact", () => {
   it("renders correctly", () => {
     const wrapper = shallowMount(HomeContact);
@@ -25,22 +43,6 @@ describe("HomeContact", () => {
     afterEach(() => {
       vi.unstubAllGlobals();
     });
-
-    async function fill(
-      wrapper: ReturnType<typeof mount>,
-      { name = "", email = "", message = "" } = {},
-    ) {
-      await wrapper.find('input[name="name"]').setValue(name);
-      await wrapper.find('input[name="email"]').setValue(email);
-      await wrapper.find('textarea[name="message"]').setValue(message);
-    }
-
-    async function submit(wrapper: ReturnType<typeof mount>) {
-      await wrapper.find("form").trigger("submit.prevent");
-      // allow the (potential) async fetch handler to settle
-      await Promise.resolve();
-      await wrapper.vm.$nextTick();
-    }
 
     it("does not submit when all fields are empty", async () => {
       const wrapper = mount(HomeContact);
@@ -136,6 +138,49 @@ describe("HomeContact", () => {
       expect(params.get("name")).toBe("Dan");
       expect(params.get("email")).toBe("a@b.com");
       expect(params.get("message")).toBe("Hello there");
+    });
+  });
+
+  describe("derived submission state", () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+      vi.unstubAllGlobals();
+    });
+
+    it("disables the submit button while the request is in flight", async () => {
+      let resolveFetch!: (_value: { ok: boolean }) => void;
+      const pending = new Promise<{ ok: boolean }>((resolve) => {
+        resolveFetch = resolve;
+      });
+      vi.stubGlobal("fetch", vi.fn().mockReturnValue(pending));
+      const wrapper = mount(HomeContact);
+      await fill(wrapper, VALID_FIELDS);
+
+      await submit(wrapper);
+      expect(
+        wrapper.find('button[type="submit"]').attributes("disabled"),
+      ).toBeDefined();
+
+      resolveFetch({ ok: true });
+      await Promise.resolve();
+      await wrapper.vm.$nextTick();
+      expect(
+        wrapper.find('button[type="submit"]').attributes("disabled"),
+      ).toBeUndefined();
+    });
+
+    it("applies the error style when the response is not ok", async () => {
+      vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false }));
+      const wrapper = mount(HomeContact);
+      await fill(wrapper, VALID_FIELDS);
+      await submit(wrapper);
+
+      expect(wrapper.find("#contactStatus").text()).toBe(
+        "Something went wrong. Please try again.",
+      );
+      expect(wrapper.find("#contactStatus").classes()).toContain(
+        "text-red-500",
+      );
     });
   });
 });

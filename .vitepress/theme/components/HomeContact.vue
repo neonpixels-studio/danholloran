@@ -1,56 +1,19 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed } from "vue";
 import { CURRENT_LOCATION } from "@data/resume";
+import { useContact } from "@composables/useContact";
 
-const formName = ref("");
-const formEmail = ref("");
-const formMessage = ref("");
-const formStatus = ref("");
-const formError = ref(false);
-const formSubmitting = ref(false);
+const {
+  name: formName,
+  email: formEmail,
+  message: formMessage,
+  status,
+  statusMessage: formStatus,
+  submit: handleSubmit,
+} = useContact();
 
-async function handleSubmit() {
-  formStatus.value = "";
-  formError.value = false;
-
-  const name = formName.value.trim();
-  const email = formEmail.value.trim();
-  const message = formMessage.value.trim();
-  if (!name || !email || !message) {
-    formError.value = true;
-    formStatus.value = "Please fill in all fields before sending.";
-    return;
-  }
-
-  formSubmitting.value = true;
-  try {
-    const body = new URLSearchParams({
-      "form-name": "contact_form",
-      name,
-      email,
-      message,
-    });
-    const res = await fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: body.toString(),
-    });
-    if (res.ok) {
-      formStatus.value = "Message sent — I'll be in touch soon.";
-      formName.value = "";
-      formEmail.value = "";
-      formMessage.value = "";
-    } else {
-      formError.value = true;
-      formStatus.value = "Something went wrong. Please try again.";
-    }
-  } catch {
-    formError.value = true;
-    formStatus.value = "Network error. Please try again.";
-  } finally {
-    formSubmitting.value = false;
-  }
-}
+const formSubmitting = computed(() => status.value === "loading");
+const formError = computed(() => status.value === "error");
 </script>
 
 <template>
