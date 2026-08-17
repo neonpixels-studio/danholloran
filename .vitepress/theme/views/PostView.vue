@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+
+const ZOOM_LABEL = "Zoom image";
 
 const { post, posts } = defineProps<{
   post: Post;
@@ -11,6 +13,7 @@ const { post, posts } = defineProps<{
 }>();
 
 const lightbox = ref<{ src: string; alt: string } | null>(null);
+const article = ref<HTMLElement | null>(null);
 
 function openLightbox(src: string, alt: string) {
   lightbox.value = { src, alt };
@@ -20,14 +23,93 @@ function closeLightbox() {
   lightbox.value = null;
 }
 
-function onArticleClick(event: MouseEvent) {
-  const target = event.target as HTMLElement;
-  if (target.tagName !== "IMG" || target.closest("a")) {
+function openHeroLightbox() {
+  openLightbox(post.frontmatter.image, post.frontmatter.title);
+}
+
+// Positional suffix keeps decorative (empty-alt) images distinguishable to AT
+// instead of collapsing them all into an identical "Zoom image" stop.
+function zoomLabelFor(alt: string, position?: number, total?: number) {
+  if (alt.trim()) {
+    return `${ZOOM_LABEL}: ${alt}`;
+  }
+  if (position && total && total > 1) {
+    return `${ZOOM_LABEL} ${position} of ${total}`;
+  }
+  return ZOOM_LABEL;
+}
+
+// An in-body image is zoomable unless it is a link (its click is a navigation).
+function isZoomableImage(target: HTMLElement): target is HTMLImageElement {
+  return target.tagName === "IMG" && !target.closest("a");
+}
+
+function openLightboxFromImage(image: HTMLImageElement) {
+  const source = image.currentSrc || image.src;
+  if (!source) {
     return;
   }
-  const image = target as HTMLImageElement;
-  openLightbox(image.currentSrc || image.src, image.alt);
+  openLightbox(source, image.alt);
 }
+
+function onArticleClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (!isZoomableImage(target)) {
+    return;
+  }
+  openLightboxFromImage(target);
+}
+
+function onArticleKeydown(event: KeyboardEvent) {
+  if (event.key !== "Enter" && event.key !== " ") {
+    return;
+  }
+  const target = event.target as HTMLElement;
+  if (!isZoomableImage(target)) {
+    return;
+  }
+  // Stop Space from scrolling the page while activating the control.
+  event.preventDefault();
+  openLightboxFromImage(target);
+}
+
+// The article body is v-html, so expose its images to keyboard/AT imperatively.
+function makeImageOperable(image: HTMLImageElement, label: string) {
+  // A pre-existing role or tabindex means the author defined the semantics
+  // themselves; bail wholesale rather than build a half-overridden control.
+  if (image.hasAttribute("role") || image.hasAttribute("tabindex")) {
+    return;
+  }
+  image.setAttribute("role", "button");
+  image.setAttribute("tabindex", "0");
+  image.setAttribute("aria-haspopup", "dialog");
+  if (!image.hasAttribute("aria-label")) {
+    image.setAttribute("aria-label", label);
+  }
+}
+
+function enrichArticleImages() {
+  const root = article.value;
+  if (!root) {
+    return;
+  }
+  const images = Array.from(root.querySelectorAll<HTMLImageElement>("img"));
+  const zoomable = images.filter((image) => isZoomableImage(image));
+  // Positional labels number only the images that actually get a generic label,
+  // so "N of M" reflects the count of generic controls, not all zoom targets.
+  const generic = zoomable.filter(
+    (image) => !image.alt.trim() && !image.hasAttribute("aria-label"),
+  );
+  zoomable.forEach((image) => {
+    const position = generic.indexOf(image) + 1;
+    const label = zoomLabelFor(image.alt, position, generic.length);
+    makeImageOperable(image, label);
+  });
+}
+
+onMounted(enrichArticleImages);
+// flush: "post" runs after the v-html DOM updates, so no manual nextTick.
+watch(() => post.html, enrichArticleImages, { flush: "post" });
 
 const postIndex = computed(() =>
   posts.findIndex((p) => p.frontmatter.slug === post.frontmatter.slug),
@@ -125,16 +207,24 @@ function formatDate(d: string) {
     <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]">
       <img
         :src="post.frontmatter.image"
-        class="h-full w-full cursor-zoom-in"
+        class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3"
         :alt="post.frontmatter.title"
         fetchpriority="high"
-        @click="openLightbox(post.frontmatter.image, post.frontmatter.title)"
+        role="button"
+        tabindex="0"
+        aria-haspopup="dialog"
+        :aria-label="zoomLabelFor(post.frontmatter.title)"
+        @click="openHeroLightbox"
+        @keydown.enter.prevent="openHeroLightbox"
+        @keydown.space.prevent="openHeroLightbox"
       />
     </div>
 
     <article
+      ref="article"
       class="post-body text-fg text-base leading-[1.85]"
       @click="onArticleClick"
+      @keydown="onArticleKeydown"
       v-html="post.html"
     ></article>
 
@@ -273,6 +363,11 @@ function formatDate(d: string) {
 
 .post-body img {
   cursor: zoom-in;
+}
+
+.post-body img[role="button"]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 .post-body .lang {

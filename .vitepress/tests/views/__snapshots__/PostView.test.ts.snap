@@ -14,7 +14,7 @@ exports[`PostView > hides the finance disclaimer for non-finance posts 1`] = `
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
     </div>
   </div>
-  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/first-post.jpg" class="h-full w-full cursor-zoom-in" alt="First Post" fetchpriority="high"></div>
+  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/first-post.jpg" class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3" alt="First Post" fetchpriority="high" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Zoom image: First Post"></div>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <!--v-if-->
   <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts?tag=javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div><!-- NEWSLETTER · terminal block -->
@@ -44,7 +44,7 @@ exports[`PostView > renders correctly 1`] = `
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
     </div>
   </div>
-  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/first-post.jpg" class="h-full w-full cursor-zoom-in" alt="First Post" fetchpriority="high"></div>
+  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/first-post.jpg" class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3" alt="First Post" fetchpriority="high" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Zoom image: First Post"></div>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <!--v-if-->
   <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts?tag=javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div><!-- NEWSLETTER · terminal block -->
@@ -74,7 +74,7 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
     </div>
   </div>
-  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/second-post.jpg" class="h-full w-full cursor-zoom-in" alt="Second Post" fetchpriority="high"></div>
+  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/second-post.jpg" class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3" alt="Second Post" fetchpriority="high" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Zoom image: Second Post"></div>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <!--v-if-->
   <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts?tag=career" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #career</a></div><!-- NEWSLETTER · terminal block -->
@@ -105,7 +105,7 @@ exports[`PostView > shows the finance disclaimer for finance posts 1`] = `
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
     </div>
   </div>
-  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/first-post.jpg" class="h-full w-full cursor-zoom-in" alt="First Post" fetchpriority="high"></div>
+  <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]"><img src="/images/posts/first-post.jpg" class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3" alt="First Post" fetchpriority="high" role="button" tabindex="0" aria-haspopup="dialog" aria-label="Zoom image: First Post"></div>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <aside class="border-line mt-14 flex gap-3.5 rounded border p-5" role="note" aria-label="Disclaimer" data-om-id="fef10f19:123"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" class="text-fg-subtle mt-0.5 shrink-0" aria-hidden="true" data-om-id="fef10f19:124">
       <circle cx="9" cy="9" r="7.25" data-om-id="fef10f19:125"></circle>
