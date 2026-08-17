@@ -688,6 +688,21 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(pageData.frontmatter.head).toBeUndefined();
   });
 
+  it("emits no title, SEO metadata, or JSON-LD for a draft post", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "Draft Post",
+      description: "Should never be indexed",
+      date: "2024-03-01",
+      draft: true,
+    });
+
+    expect(pageData.title).toBe("");
+    expect(pageData.description).toBe("");
+    expect(pageData.frontmatter.title).toBeUndefined();
+    expect(pageData.frontmatter.description).toBeUndefined();
+    expect(pageData.frontmatter.head).toBeUndefined();
+  });
+
   it("does nothing when params has no slug", () => {
     const pageData = makePageData({
       filePath: "posts/[slug].md",

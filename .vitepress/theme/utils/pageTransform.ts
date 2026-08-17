@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { parseFrontmatter } from "./frontmatter";
 import type { PageData } from "vitepress";
-import { loadDatedPosts } from "./loadPublishedPosts";
+import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
 
 // The blog index's JSON-LD lists at most this many recent posts.
@@ -232,6 +232,13 @@ function transformPost(pageData: PageData): void {
   if (!existsSync(postPath)) return;
 
   const { data } = parseFrontmatter(readFileSync(postPath, "utf-8"));
+  // Defense-in-depth: posts/[slug].paths.ts already drops drafts from route
+  // generation, but bail here too so a draft reached through any other route
+  // source never emits title/canonical/OG/JSON-LD. Without this a draft would
+  // ship rich SEO metadata over a body PostView renders blank (postsDetail.data
+  // excludes it) — a reachable, indexable, empty page.
+  if (!isPublished(data, slug)) return;
+
   const title = data.title ?? "";
   const description = data.description ?? "";
   const image = data.image ?? DEFAULT_SOCIAL_IMAGE;
