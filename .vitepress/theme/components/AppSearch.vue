@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from "vue";
+import {
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  useId,
+} from "vue";
 import MiniSearch from "minisearch";
 import { SearchItem } from "@typedefs";
 import { data as postItems } from "../../content/posts/search.data.ts";
@@ -60,6 +68,14 @@ const ms = new MiniSearch<SearchItem & { id: number }>({
 });
 ms.addAll(ALL_ITEMS.map((item, id) => ({ ...item, id })));
 
+// Per-instance prefix keeps combobox ids unique if the component mounts more than once.
+const componentUid = useId();
+const LISTBOX_ID = `app-search-listbox-${componentUid}`;
+
+function optionId(index: number): string {
+  return `app-search-option-${componentUid}-${index}`;
+}
+
 const query = ref("");
 const inputRef = ref<HTMLInputElement | null>(null);
 const activeIndex = ref(-1);
@@ -67,9 +83,37 @@ const resultRefs = ref<HTMLElement[]>([]);
 
 const filteredResults = computed((): SearchItem[] => {
   const q = query.value.trim();
-  if (!q) return ALL_ITEMS.slice(0, 8);
+  if (!q) {
+    return ALL_ITEMS.slice(0, 8);
+  }
   return ms.search(q).slice(0, 8) as unknown as SearchItem[];
 });
+
+const activeDescendantId = computed(() => {
+  if (activeIndex.value < 0) {
+    return undefined;
+  }
+  if (activeIndex.value >= filteredResults.value.length) {
+    return undefined;
+  }
+  return optionId(activeIndex.value);
+});
+
+const isListboxExpanded = computed(
+  () => isSearchOpen.value && filteredResults.value.length > 0,
+);
+
+const resultCountLabel = computed(() => {
+  if (!query.value) {
+    return "";
+  }
+  const count = filteredResults.value.length;
+  return `${count} ${count === 1 ? "result" : "results"}`;
+});
+
+const showNoResults = computed(
+  () => query.value.length > 0 && filteredResults.value.length === 0,
+);
 
 watch(filteredResults, () => {
   activeIndex.value = -1;
@@ -116,38 +160,69 @@ function navigate(href: string) {
   router.go(href);
 }
 
+function moveActiveDown() {
+  if (!filteredResults.value.length) {
+    return;
+  }
+  const isAtEnd = activeIndex.value >= filteredResults.value.length - 1;
+  activeIndex.value = isAtEnd ? 0 : activeIndex.value + 1;
+}
+
+function moveActiveUp() {
+  if (activeIndex.value === 0) {
+    activeIndex.value = -1;
+    nextTick(() => inputRef.value?.focus());
+    return;
+  }
+  if (activeIndex.value > 0) {
+    activeIndex.value -= 1;
+  }
+}
+
+function onResultNavigation(e: KeyboardEvent) {
+  if (e.key === "ArrowDown") {
+    e.preventDefault();
+    moveActiveDown();
+    return;
+  }
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    moveActiveUp();
+    return;
+  }
+  if (e.key === "Enter" && activeIndex.value >= 0) {
+    e.preventDefault();
+    navigate(filteredResults.value[activeIndex.value].href);
+  }
+}
+
+function isToggleShortcut(e: KeyboardEvent): boolean {
+  const isKKey = e.key === "k" || e.key === "K";
+  return isKKey && (e.metaKey || e.ctrlKey);
+}
+
+function isSlashShortcut(e: KeyboardEvent): boolean {
+  const isSlash = e.key === "/" && !isSearchOpen.value;
+  return isSlash && document.activeElement === document.body;
+}
+
 function onKeydown(e: KeyboardEvent) {
   if (e.key === "Escape" && isSearchOpen.value) {
     close();
-  } else if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) {
+    return;
+  }
+  if (isToggleShortcut(e)) {
     e.preventDefault();
     toggle();
-  } else if (
-    e.key === "/" &&
-    !isSearchOpen.value &&
-    document.activeElement === document.body
-  ) {
+    return;
+  }
+  if (isSlashShortcut(e)) {
     e.preventDefault();
     open();
-  } else if (isSearchOpen.value) {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      activeIndex.value =
-        activeIndex.value >= filteredResults.value.length - 1
-          ? 0
-          : activeIndex.value + 1;
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (activeIndex.value === 0) {
-        activeIndex.value = -1;
-        nextTick(() => inputRef.value?.focus());
-      } else if (activeIndex.value > 0) {
-        activeIndex.value -= 1;
-      }
-    } else if (e.key === "Enter" && activeIndex.value >= 0) {
-      e.preventDefault();
-      navigate(filteredResults.value[activeIndex.value].href);
-    }
+    return;
+  }
+  if (isSearchOpen.value) {
+    onResultNavigation(e);
   }
 }
 
@@ -207,7 +282,12 @@ onUnmounted(() => {
             ref="inputRef"
             v-model="query"
             type="text"
+            role="combobox"
             aria-label="Search"
+            aria-autocomplete="list"
+            :aria-controls="LISTBOX_ID"
+            :aria-expanded="isListboxExpanded"
+            :aria-activedescendant="activeDescendantId"
             placeholder="search posts, projects, pages..."
             autocomplete="off"
             spellcheck="false"
@@ -228,61 +308,75 @@ onUnmounted(() => {
         </div>
 
         <div class="mt-1 max-h-[60vh] overflow-y-auto">
+          <div class="sr-only" role="status" aria-live="polite">
+            {{ resultCountLabel }}
+          </div>
           <div
-            v-if="query && !filteredResults.length"
+            v-if="showNoResults"
             class="text-fg-subtle py-8 text-center font-mono text-[0.78rem]"
           >
             no results for "{{ query }}"
           </div>
-          <a
-            v-for="(item, index) in filteredResults"
-            :key="item.href + item.title"
-            :ref="
-              (el) => {
-                if (el) resultRefs[index] = el as HTMLElement;
-              }
-            "
-            :href="item.href"
-            class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors"
-            :class="
-              index === activeIndex
-                ? 'border-line bg-accent-dim/30'
-                : 'hover:border-line hover:bg-accent-dim/30 border-transparent'
-            "
-            @click.prevent="navigate(item.href)"
-            @mousemove="activeIndex = index"
+          <div
+            v-show="isListboxExpanded"
+            :id="LISTBOX_ID"
+            role="listbox"
+            aria-label="Search results"
           >
-            <span
-              class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase"
-              >{{ item.type }}</span
+            <a
+              v-for="(item, index) in filteredResults"
+              :id="optionId(index)"
+              :key="item.href + item.title"
+              :ref="
+                (el) => {
+                  if (el) resultRefs[index] = el as HTMLElement;
+                }
+              "
+              role="option"
+              tabindex="-1"
+              :aria-selected="index === activeIndex"
+              :href="item.href"
+              class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors"
+              :class="
+                index === activeIndex
+                  ? 'border-line bg-accent-dim/30'
+                  : 'hover:border-line hover:bg-accent-dim/30 border-transparent'
+              "
+              @click.prevent="navigate(item.href)"
+              @mousemove="activeIndex = index"
             >
-            <div class="min-w-0 flex-1">
-              <div
-                class="text-fg truncate font-mono text-[0.85rem] font-semibold"
-                v-html="highlight(item.title, query.trim())"
-              ></div>
-              <div
-                class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]"
-                v-html="highlight(item.desc, query.trim())"
-              ></div>
-            </div>
-            <svg
-              aria-hidden="true"
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5"
-            >
-              <path
-                d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5"
-                stroke="currentColor"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
+              <span
+                class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase"
+                >{{ item.type }}</span
+              >
+              <div class="min-w-0 flex-1">
+                <div
+                  class="text-fg truncate font-mono text-[0.85rem] font-semibold"
+                  v-html="highlight(item.title, query.trim())"
+                ></div>
+                <div
+                  class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]"
+                  v-html="highlight(item.desc, query.trim())"
+                ></div>
+              </div>
+              <svg
+                aria-hidden="true"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5"
+              >
+                <path
+                  d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
