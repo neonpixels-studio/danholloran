@@ -32,6 +32,26 @@ describe("HomeContact", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  describe("Netlify spam honeypot", () => {
+    it("declares the honeypot attribute on the form", () => {
+      const wrapper = mount(HomeContact);
+      expect(wrapper.find("form").attributes("data-netlify-honeypot")).toBe(
+        "bot-field",
+      );
+    });
+
+    it("renders a bot-field input that is hidden from users and assistive tech", () => {
+      const wrapper = mount(HomeContact);
+      const botField = wrapper.find('input[name="bot-field"]');
+      expect(botField.exists()).toBe(true);
+
+      const honeypotWrapper = botField.element.closest("p");
+      expect(honeypotWrapper?.classList.contains("hidden")).toBe(true);
+      expect(honeypotWrapper?.getAttribute("aria-hidden")).toBe("true");
+      expect(botField.attributes("tabindex")).toBe("-1");
+    });
+  });
+
   describe("required field validation", () => {
     let fetchMock: ReturnType<typeof vi.fn>;
 

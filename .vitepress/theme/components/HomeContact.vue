@@ -66,11 +66,19 @@ const formError = computed(() => status.value === "error");
           id="contactForm"
           name="contact_form"
           data-netlify="true"
+          data-netlify-honeypot="bot-field"
           class="reveal-right stagger in flex flex-col gap-5"
           novalidate
           @submit.prevent="handleSubmit"
         >
           <input type="hidden" name="form-name" value="contact_form" />
+          <!-- Netlify spam honeypot: hidden from humans and assistive tech; a filled value flags the submission as a bot -->
+          <p class="hidden" aria-hidden="true">
+            <label>
+              Don't fill this out if you're human:
+              <input name="bot-field" tabindex="-1" autocomplete="off" />
+            </label>
+          </p>
           <div class="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
             <label class="flex flex-col gap-2">
               <span
