@@ -714,3 +714,57 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(mockExistsSync).not.toHaveBeenCalled();
   });
 });
+
+describe("transformPageData – archive routes", () => {
+  function transformArchivePage(
+    filePath: string,
+    params: Record<string, string>,
+  ) {
+    const pageData = makePageData({ filePath, params });
+    transformPageData(pageData);
+    return pageData;
+  }
+
+  it("titles and self-canonicals an unfiltered page N", () => {
+    const pageData = transformArchivePage("posts/page/[page].md", {
+      page: "3",
+    });
+
+    expect(pageData.title).toBe("Writing — Page 3");
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/posts/page/3`),
+    ).toBeDefined();
+    expect(pageData.description).toContain("Page 3.");
+  });
+
+  it("titles a topic page 1 without a page segment in its canonical", () => {
+    const pageData = transformArchivePage("posts/topic/[topic].md", {
+      topic: "development",
+      topicLabel: "development",
+      page: "1",
+    });
+
+    expect(pageData.title).toBe("Posts on development");
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/posts/topic/development`),
+    ).toBeDefined();
+  });
+
+  it("titles and canonicals a paginated tag page", () => {
+    const pageData = transformArchivePage("posts/tag/[tag]/page/[page].md", {
+      tag: "javascript",
+      tagLabel: "javascript",
+      page: "2",
+    });
+
+    expect(pageData.title).toBe("Posts tagged #javascript — Page 2");
+    expect(
+      findHead(
+        pageData,
+        "link",
+        "href",
+        `${SITE_URL}/posts/tag/javascript/page/2`,
+      ),
+    ).toBeDefined();
+  });
+});

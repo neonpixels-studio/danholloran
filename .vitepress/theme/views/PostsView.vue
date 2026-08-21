@@ -1,145 +1,220 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 import { Post } from "@typedefs";
 import NewsletterBanner from "@components/NewsletterBanner.vue";
+import {
+  ALL_TOPIC,
+  ALL_TAG,
+  POSTS_BASE,
+  archiveHref,
+  hasFilterRoute,
+  pageSlice,
+  pickRepresentativeLabel,
+  toFilterSlug,
+  toPageNumber,
+  totalPagesForCount,
+} from "@utils/archive";
 
-const { posts } = defineProps<{
+// The archive is driven entirely by route params, not client state: each
+// paginated / filtered page is a real, statically generated route (see
+// posts/page, posts/topic, posts/tag) so the whole archive is crawlable and
+// works with JS off. `topic`/`tag` are filter *slugs* (matched against
+// toFilterSlug of each post's value); `tagLabel` is the human label shown in
+// the active-tag chip. Navigation is plain <a href> links — VitePress upgrades
+// them to instant client-side transitions when JS is available.
+const {
+  posts,
+  topic = ALL_TOPIC,
+  tag = ALL_TAG,
+  tagLabel = "",
+  page = 1,
+} = defineProps<{
   posts: Post[];
+  topic?: string;
+  tag?: string;
+  tagLabel?: string;
+  page?: number;
 }>();
 
-const ALL_TOPIC = "all";
-const ALL_TAG = "all";
-const topics = [
-  ALL_TOPIC,
-  ...[...new Set(posts.map((post) => post.frontmatter.topic))].sort(),
-];
-const FIRST_PAGE_SIZE = 10;
-const REST_PAGE_SIZE = 9;
-const currentTopic = ref<string>(ALL_TOPIC);
-const currentTag = ref<string>(ALL_TAG);
-const currentPage = ref<number>(1);
+const FIRST_PAGE = 1;
+const PAGE_WINDOW = 1;
+const ELLIPSIS = "…";
 
-const filtered = computed(() => {
-  let result = posts;
-  if (currentTopic.value !== ALL_TOPIC) {
-    result = result.filter((p) => p.frontmatter.topic === currentTopic.value);
-  }
-  if (currentTag.value !== ALL_TAG) {
-    result = result.filter((p) =>
-      p.frontmatter.tags.includes(currentTag.value),
-    );
-  }
-  return result;
-});
+// Guard against a missing / malformed page param (Number(undefined) === NaN),
+// which would otherwise slice out an empty, thin archive page.
+const currentPage = computed(() => toPageNumber(page));
 
-const totalPages = computed(() => {
-  const n = filtered.value.length;
-  if (n <= FIRST_PAGE_SIZE) return 1;
-  return 1 + Math.ceil((n - FIRST_PAGE_SIZE) / REST_PAGE_SIZE);
-});
+const activeTopicSlug = computed(() => (topic === ALL_TOPIC ? null : topic));
+const activeTagSlug = computed(() => (tag === ALL_TAG ? null : tag));
 
-const setUrlParams = (topic?: string, page?: number | string, tag?: string) => {
-  if (typeof window === "undefined") return;
-  const url = new URL(window.location.href);
-  url.searchParams.set("topic", topic ?? ALL_TOPIC);
-  url.searchParams.set("tag", tag ?? ALL_TAG);
-  url.searchParams.set("page", String(page ?? 1));
-  history.pushState({}, "", url.toString());
-};
+const filterContext = computed(() => ({
+  topicSlug: activeTopicSlug.value,
+  tagSlug: activeTagSlug.value,
+}));
 
-const pagePosts = computed(() => {
-  if (currentPage.value === 1) {
-    return filtered.value.slice(0, FIRST_PAGE_SIZE);
-  }
-  const start = FIRST_PAGE_SIZE + (currentPage.value - 2) * REST_PAGE_SIZE;
-  return filtered.value.slice(start, start + REST_PAGE_SIZE);
-});
-
-function setTopic(f: string) {
-  currentTopic.value = f;
-  currentPage.value = 1;
-  setUrlParams(currentTopic.value, currentPage.value, currentTag.value);
+function tagsOf(post: Post): string[] {
+  return Array.isArray(post.frontmatter.tags) ? post.frontmatter.tags : [];
 }
 
-function setTag(t: string) {
-  currentTag.value = t;
-  currentPage.value = 1;
-  setUrlParams(currentTopic.value, currentPage.value, currentTag.value);
+// De-duped by slug (not label) and stripped of route-less labels, so the row
+// never renders two chips pointing at one route or a dead /posts/topic/ link.
+const topicEntries = computed(() => {
+  const bySlug = new Map<string, string>();
+  for (const label of posts.map((post) => post.frontmatter.topic)) {
+    registerTopic(bySlug, label);
+  }
+  return [...bySlug.entries()]
+    .map(([slug, label]) => ({ slug, label }))
+    .sort((left, right) => left.label.localeCompare(right.label));
+});
+
+function registerTopic(bySlug: Map<string, string>, label: string): void {
+  if (!hasFilterRoute(label)) {
+    return;
+  }
+  const slug = toFilterSlug(label);
+  bySlug.set(slug, pickRepresentativeLabel(bySlug.get(slug), label));
 }
 
-function goPage(n: number) {
-  if (n < 1 || n > totalPages.value) return;
-  currentPage.value = n;
-  setUrlParams(currentTopic.value, currentPage.value, currentTag.value);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+function matchesTopic(post: Post): boolean {
+  if (activeTopicSlug.value === null) {
+    return true;
+  }
+  return toFilterSlug(post.frontmatter.topic) === activeTopicSlug.value;
 }
 
-function formatDate(d: string) {
-  return new Date(d).toLocaleDateString("en-US", {
+function matchesTag(post: Post): boolean {
+  if (activeTagSlug.value === null) {
+    return true;
+  }
+  return tagsOf(post).some(
+    (postTag) => toFilterSlug(postTag) === activeTagSlug.value,
+  );
+}
+
+const filtered = computed(() =>
+  posts.filter((post) => matchesTopic(post) && matchesTag(post)),
+);
+
+const totalPages = computed(() => totalPagesForCount(filtered.value.length));
+const pagePosts = computed(() => pageSlice(filtered.value, currentPage.value));
+
+// A per-filter heading so each topic/tag page is a distinct indexable surface
+// rather than repeating the blog index's H1. Null keeps the default two-line
+// hero on the unfiltered archive (including its paginated pages).
+const activeTopicLabel = computed(
+  () =>
+    topicEntries.value.find((entry) => entry.slug === activeTopicSlug.value)
+      ?.label ?? "",
+);
+
+const pageSuffix = computed(() =>
+  currentPage.value > FIRST_PAGE ? ` — Page ${currentPage.value}` : "",
+);
+
+const pageHeading = computed(() => {
+  if (activeTopicSlug.value !== null) {
+    return `Posts on ${activeTopicLabel.value || topic}${pageSuffix.value}`;
+  }
+  if (activeTagSlug.value !== null) {
+    return `Posts tagged #${tagLabel || tag}${pageSuffix.value}`;
+  }
+  // Unfiltered page 1 keeps the two-line hero; later pages get a distinct H1.
+  if (currentPage.value > FIRST_PAGE) {
+    return `Writing${pageSuffix.value}`;
+  }
+  return null;
+});
+
+// The featured full-width lead card only renders on page 1 of a filter.
+function isFeatured(index: number): boolean {
+  return currentPage.value === FIRST_PAGE && index === 0;
+}
+
+function topicHref(slug: string): string {
+  return archiveHref(FIRST_PAGE, { topicSlug: slug });
+}
+
+function pageHref(targetPage: number): string {
+  return archiveHref(targetPage, filterContext.value);
+}
+
+function formatDate(date: string): string {
+  return new Date(date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
 }
 
-const pageNumbers = computed(() => {
-  const numbers: (number | "…")[] = [];
-  for (let i = 1; i <= totalPages.value; i++) {
-    if (
-      i === 1 ||
-      i === totalPages.value ||
-      Math.abs(i - currentPage.value) <= 1
-    ) {
-      numbers.push(i);
-    } else if (Math.abs(i - currentPage.value) === 2) {
-      numbers.push("…");
+type PaginationItem =
+  | { kind: "gap"; key: string }
+  | { kind: "page"; key: string; page: number; href: string; active: boolean };
+
+function isWindowed(pageNumber: number): boolean {
+  if (pageNumber === FIRST_PAGE || pageNumber === totalPages.value) {
+    return true;
+  }
+  return Math.abs(pageNumber - currentPage.value) <= PAGE_WINDOW;
+}
+
+function toPaginationItem(pageNumber: number): PaginationItem | null {
+  if (isWindowed(pageNumber)) {
+    return {
+      kind: "page",
+      key: String(pageNumber),
+      page: pageNumber,
+      href: pageHref(pageNumber),
+      active: pageNumber === currentPage.value,
+    };
+  }
+  if (Math.abs(pageNumber - currentPage.value) === PAGE_WINDOW + 1) {
+    return { kind: "gap", key: `${ELLIPSIS}${pageNumber}` };
+  }
+  return null;
+}
+
+const paginationItems = computed<PaginationItem[]>(() => {
+  const items: PaginationItem[] = [];
+  for (
+    let pageNumber = FIRST_PAGE;
+    pageNumber <= totalPages.value;
+    pageNumber += 1
+  ) {
+    const item = toPaginationItem(pageNumber);
+    if (item) {
+      items.push(item);
     }
   }
-  return [...new Set(numbers)];
+  return items;
 });
 
-const syncFromUrl = () => {
-  if (typeof window === "undefined") return;
-  const p = new URLSearchParams(window.location.search);
-  currentTopic.value = p.get("topic") || ALL_TOPIC;
-  currentTag.value = p.get("tag") || ALL_TAG;
-  currentPage.value = parseInt(p.get("page") || "1") || 1;
-};
+const hasPrev = computed(() => currentPage.value > FIRST_PAGE);
+const hasNext = computed(() => currentPage.value < totalPages.value);
+const prevHref = computed(() => pageHref(currentPage.value - 1));
+const nextHref = computed(() => pageHref(currentPage.value + 1));
 
 let fadeObserver: IntersectionObserver | null = null;
 
-const observeFadeIns = () => {
-  if (!fadeObserver) return;
-  document
-    .querySelectorAll(".fade-in:not(.visible)")
-    .forEach((el) => fadeObserver!.observe(el));
-};
-
-// Re-observe after every pagePosts change so new cards get the fade-in treatment
-watch(pagePosts, observeFadeIns, { flush: "post" });
-
 onMounted(() => {
-  syncFromUrl();
-  window.addEventListener("popstate", syncFromUrl);
-
   fadeObserver = new IntersectionObserver(
     (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("visible");
-          fadeObserver?.unobserve(e.target);
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) {
+          return;
         }
+        entry.target.classList.add("visible");
+        fadeObserver?.unobserve(entry.target);
       });
     },
     { threshold: 0.1 },
   );
-
-  // nextTick ensures syncFromUrl's reactive updates have been applied to the DOM
-  nextTick(observeFadeIns);
+  document
+    .querySelectorAll(".fade-in:not(.visible)")
+    .forEach((element) => fadeObserver?.observe(element));
 });
 
 onUnmounted(() => {
-  window.removeEventListener("popstate", syncFromUrl);
   fadeObserver?.disconnect();
   fadeObserver = null;
 });
@@ -153,6 +228,14 @@ onUnmounted(() => {
       // writing
     </div>
     <h1
+      v-if="pageHeading"
+      class="mb-4 font-mono leading-[1.1] font-bold"
+      style="font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.04em"
+    >
+      {{ pageHeading }}
+    </h1>
+    <h1
+      v-else
       class="mb-4 font-mono leading-[1.1] font-bold"
       style="font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.04em"
     >
@@ -164,38 +247,46 @@ onUnmounted(() => {
     </p>
   </header>
 
-  <div
-    v-if="topics.length > 2"
+  <nav
+    v-if="topicEntries.length > 1"
+    aria-label="Filter posts by topic"
     class="fade-in mx-auto mb-4 flex max-w-275 flex-wrap items-center gap-2 px-8"
   >
     <span class="text-fg-subtle font-mono text-[0.72rem] lowercase"
       >topic:</span
     >
-    <button
-      v-for="f in topics"
-      :key="f"
-      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all"
-      :class="{ active: currentTopic === f }"
-      @click="setTopic(currentTopic === f && f !== ALL_TOPIC ? ALL_TOPIC : f)"
+    <a
+      :href="POSTS_BASE"
+      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
+      :class="{ active: activeTopicSlug === null && activeTagSlug === null }"
     >
-      {{ f
-      }}<span v-if="currentTopic === f && f !== ALL_TOPIC" aria-hidden="true"
-        >×</span
-      >
-    </button>
-  </div>
+      {{ ALL_TOPIC }}
+    </a>
+    <a
+      v-for="entry in topicEntries"
+      :key="entry.slug"
+      :href="
+        activeTopicSlug === entry.slug ? POSTS_BASE : topicHref(entry.slug)
+      "
+      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
+      :class="{ active: activeTopicSlug === entry.slug }"
+    >
+      {{ entry.label
+      }}<span v-if="activeTopicSlug === entry.slug" aria-hidden="true">×</span>
+    </a>
+  </nav>
 
   <div
-    v-if="currentTag !== ALL_TAG"
+    v-if="activeTagSlug !== null"
     class="fade-in mx-auto mb-12 flex max-w-275 flex-wrap items-center gap-2 px-8"
   >
     <span class="text-fg-subtle font-mono text-[0.72rem] lowercase">tag:</span>
-    <button
-      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent active inline-flex cursor-pointer items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase transition-all"
-      @click="setTag(ALL_TAG)"
+    <a
+      :href="POSTS_BASE"
+      class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent active inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
     >
-      #{{ currentTag }} <span aria-hidden="true">×</span>
-    </button>
+      #{{ tagLabel || tag }} <span aria-hidden="true">×</span>
+    </a>
   </div>
 
   <div
@@ -205,15 +296,12 @@ onUnmounted(() => {
     <p class="text-fg-muted font-mono text-[0.9rem]">
       No posts found for the current filters.
     </p>
-    <button
-      class="text-accent mt-4 cursor-pointer bg-transparent font-mono text-[0.8rem] underline"
-      @click="
-        setTopic(ALL_TOPIC);
-        setTag(ALL_TAG);
-      "
+    <a
+      :href="POSTS_BASE"
+      class="text-accent mt-4 inline-block bg-transparent font-mono text-[0.8rem] underline"
     >
       clear all filters
-    </button>
+    </a>
   </div>
 
   <div
@@ -226,16 +314,13 @@ onUnmounted(() => {
       :key="post.frontmatter.slug"
       :href="post.url"
       class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5"
-      :class="{
-        'col-span-full flex-row! max-md:flex-col!':
-          currentPage === 1 && i === 0,
-      }"
+      :class="{ 'col-span-full flex-row! max-md:flex-col!': isFeatured(i) }"
       :style="`transition-delay:${i * 60}ms`"
     >
       <div
         class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1]"
         :class="
-          currentPage === 1 && i === 0
+          isFeatured(i)
             ? 'aspect-auto w-[45%] max-md:aspect-video max-md:w-full'
             : ''
         "
@@ -261,9 +346,7 @@ onUnmounted(() => {
         </div>
         <div
           class="mb-3 font-mono leading-[1.3] font-bold tracking-[-0.03em]"
-          :class="
-            currentPage === 1 && i === 0 ? 'text-[1.4rem]' : 'text-[1.05rem]'
-          "
+          :class="isFeatured(i) ? 'text-[1.4rem]' : 'text-[1.05rem]'"
         >
           {{ post.frontmatter.title }}
         </div>
@@ -277,40 +360,38 @@ onUnmounted(() => {
     </a>
   </div>
 
-  <div
+  <nav
     v-if="totalPages > 1"
+    aria-label="Archive pagination"
     class="mx-auto mt-16 mb-24 flex max-w-275 items-center justify-center gap-2 px-8"
   >
-    <button
+    <a
+      v-if="hasPrev"
+      :href="prevHref"
       class="page-btn"
-      :class="{ disabled: currentPage === 1 }"
-      @click="goPage(currentPage - 1)"
+      aria-label="Previous page"
+      >←</a
     >
-      ←
-    </button>
-    <template v-for="n in pageNumbers" :key="n">
+    <span v-else class="page-btn disabled" aria-hidden="true">←</span>
+    <template v-for="item in paginationItems" :key="item.key">
       <span
-        v-if="n === '…'"
+        v-if="item.kind === 'gap'"
         class="text-fg-subtle px-1 font-mono text-[0.78rem]"
-        >…</span
+        >{{ ELLIPSIS }}</span
       >
-      <button
-        v-else
-        class="page-btn"
-        :class="{ active: n === currentPage }"
-        @click="goPage(n as number)"
+      <span
+        v-else-if="item.active"
+        class="page-btn active"
+        aria-current="page"
+        >{{ item.page }}</span
       >
-        {{ n }}
-      </button>
+      <a v-else :href="item.href" class="page-btn">{{ item.page }}</a>
     </template>
-    <button
-      class="page-btn"
-      :class="{ disabled: currentPage === totalPages }"
-      @click="goPage(currentPage + 1)"
+    <a v-if="hasNext" :href="nextHref" class="page-btn" aria-label="Next page"
+      >→</a
     >
-      →
-    </button>
-  </div>
+    <span v-else class="page-btn disabled" aria-hidden="true">→</span>
+  </nav>
   <div v-else class="mb-12"></div>
 
   <!-- NEWSLETTER · featured slim block -->
@@ -328,7 +409,7 @@ onUnmounted(() => {
 }
 
 .page-btn {
-  @apply border-line text-fg-muted hover:border-accent hover:text-accent flex h-9 w-9 cursor-pointer items-center justify-center rounded-xs border bg-transparent font-mono text-[0.78rem] transition-all;
+  @apply border-line text-fg-muted hover:border-accent hover:text-accent flex h-9 w-9 cursor-pointer items-center justify-center rounded-xs border bg-transparent font-mono text-[0.78rem] no-underline transition-all;
 }
 
 .page-btn.active {

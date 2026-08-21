@@ -166,6 +166,14 @@ export default defineConfig({
       {},
       '<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">',
     ],
+    // Reveal JS-driven entrance animations for no-JS clients. Without this the
+    // .fade-in / .reveal elements stay at opacity:0 (their observer never runs),
+    // hiding the statically-rendered archive content from no-JS visitors.
+    [
+      "noscript",
+      {},
+      "<style>.fade-in,.reveal,.reveal-left,.reveal-right,.stagger>*,.accent-line{opacity:1!important;transform:none!important;}</style>",
+    ],
     [
       "meta",
       {

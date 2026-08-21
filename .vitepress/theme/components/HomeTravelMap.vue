@@ -89,7 +89,7 @@ watch(isDark, fetchMapDate);
           </p>
         </div>
         <a
-          href="/posts/?topic=travel&amp;tag=all&amp;page=1"
+          href="/posts/topic/travel"
           class="reveal group text-accent border-accent/40 hover:bg-accent hover:border-accent in inline-flex items-center gap-2 rounded-xs border px-3 py-2 font-mono text-[0.72rem] tracking-[0.02em] no-underline transition-all hover:text-white"
         >
           <svg

@@ -72,8 +72,22 @@ function fileEntry(url: string): { url: string; lastmod: Date } | null {
   return null;
 }
 
+// Paginated / filtered archive routes (posts/page, posts/topic, posts/tag) have
+// no single backing source file, so both post- and file-lookups miss and they
+// would otherwise fall through to `new Date()` — telling crawlers every one of
+// the ~500 archive pages changed on every build. Anchor them to the newest
+// published post's date instead: a real, build-stable signal.
+const ARCHIVE_ROUTE = /^posts\/(page|topic|tag)(\/|$)/;
+
+function newestPublishedDate(posts: PublishedPost[]): Date | null {
+  const newest = posts.find(hasUsableDate);
+  return newest ? new Date(newest.sortTime) : null;
+}
+
 export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
-  const publishedBySlug = indexBySlug(loadPublishedPosts());
+  const published = loadPublishedPosts();
+  const publishedBySlug = indexBySlug(published);
+  const archiveLastmod = newestPublishedDate(published);
   return items
     .filter((item) => item.url !== "README")
     .map((item) => {
@@ -82,6 +96,10 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
       const postDate = postLastmod(url, publishedBySlug);
       if (postDate) {
         return { ...item, url, lastmod: postDate };
+      }
+
+      if (ARCHIVE_ROUTE.test(url) && archiveLastmod) {
+        return { ...item, url, lastmod: archiveLastmod };
       }
 
       const entry = fileEntry(url);

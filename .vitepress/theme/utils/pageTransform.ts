@@ -4,6 +4,7 @@ import { parseFrontmatter } from "./frontmatter";
 import type { PageData } from "vitepress";
 import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
+import { archiveHref, toPageNumber } from "./archive";
 
 // The blog index's JSON-LD lists at most this many recent posts.
 const MAX_BLOG_POSTING_ENTRIES = 10;
@@ -269,6 +270,65 @@ function transformPost(pageData: PageData): void {
   });
 }
 
+// Paginated / filtered archive routes. Each resolves to a self-canonical page
+// with a title/description that names its filter and page, so every crawlable
+// archive page is a distinct, indexable surface rather than a duplicate of the
+// blog index.
+interface ArchiveScope {
+  heading: string;
+  subject: string;
+  href: string;
+}
+
+function archivePageNumber(pageData: PageData): number {
+  return toPageNumber(pageData.params?.page);
+}
+
+function resolveArchiveScope(pageData: PageData): ArchiveScope | null {
+  const params = pageData.params ?? {};
+  const page = archivePageNumber(pageData);
+  if (pageData.filePath === "posts/page/[page].md") {
+    return {
+      heading: "Writing",
+      subject: "writing on code, craft, and exploration",
+      href: archiveHref(page, {}),
+    };
+  }
+  if (pageData.filePath.startsWith("posts/topic/")) {
+    const label = (params.topicLabel ?? params.topic ?? "") as string;
+    return {
+      heading: `Posts on ${label}`,
+      subject: `posts on ${label}`,
+      href: archiveHref(page, { topicSlug: params.topic as string }),
+    };
+  }
+  if (pageData.filePath.startsWith("posts/tag/")) {
+    const label = (params.tagLabel ?? params.tag ?? "") as string;
+    return {
+      heading: `Posts tagged #${label}`,
+      subject: `posts tagged ${label}`,
+      href: archiveHref(page, { tagSlug: params.tag as string }),
+    };
+  }
+  return null;
+}
+
+function transformArchive(pageData: PageData): void {
+  const scope = resolveArchiveScope(pageData);
+  if (!scope) {
+    return;
+  }
+  const page = archivePageNumber(pageData);
+  const title = page > 1 ? `${scope.heading} — Page ${page}` : scope.heading;
+  const pageNote = page > 1 ? ` Page ${page}.` : "";
+  setStandardPageMeta(pageData, {
+    title,
+    description: `Dan Holloran's ${scope.subject}.${pageNote}`,
+    url: `${SITE_URL}${scope.href}`,
+    image: DEFAULT_SOCIAL_IMAGE,
+  });
+}
+
 export function transformPageData(pageData: PageData): void {
   switch (pageData.filePath) {
     case "index.md":
@@ -283,5 +343,11 @@ export function transformPageData(pageData: PageData): void {
       return transformPostsIndex(pageData);
     case "posts/[slug].md":
       return transformPost(pageData);
+    case "posts/page/[page].md":
+    case "posts/topic/[topic].md":
+    case "posts/topic/[topic]/page/[page].md":
+    case "posts/tag/[tag].md":
+    case "posts/tag/[tag]/page/[page].md":
+      return transformArchive(pageData);
   }
 }
