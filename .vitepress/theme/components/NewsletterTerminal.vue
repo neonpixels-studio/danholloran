@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useNewsletter } from "@composables/useNewsletter";
 
-const { email, status, errorMessage, subscribe } = useNewsletter();
+const { email, status, errorMessage, isSubscribedAddress, subscribe } =
+  useNewsletter();
 </script>
 
 <template>
@@ -28,12 +29,12 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
             name="email_address"
             autocomplete="email"
             placeholder="you@domain.com"
-            :disabled="status === 'loading' || status === 'success'"
+            :disabled="status === 'loading'"
           />
         </div>
         <div class="nl-term-foot">
           <button
-            v-if="status !== 'success'"
+            v-if="!isSubscribedAddress"
             type="submit"
             class="nl-term-run"
             :disabled="status === 'loading'"
@@ -41,7 +42,7 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
             {{ status === "loading" ? "…" : "↵ run" }}
           </button>
           <span class="nl-term-status" aria-live="polite">
-            <template v-if="status === 'success'">
+            <template v-if="isSubscribedAddress">
               <span class="ok">✓</span> subscribed — check your inbox to
               confirm.
             </template>

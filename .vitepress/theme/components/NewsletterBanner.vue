@@ -1,7 +1,21 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useNewsletter } from "@composables/useNewsletter";
 
-const { email, status, errorMessage, subscribe } = useNewsletter();
+const { email, status, errorMessage, isSubscribedAddress, subscribe } =
+  useNewsletter();
+
+// One source for the live region's text, so its content and padding class can
+// never disagree about whether a message is showing.
+const message = computed(() => {
+  if (isSubscribedAddress.value) {
+    return "✓ Almost there — check your inbox to confirm your subscription.";
+  }
+  if (status.value === "error") {
+    return `⚠ ${errorMessage.value}`;
+  }
+  return "";
+});
 </script>
 
 <template>
@@ -57,7 +71,6 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
         </div>
 
         <form
-          v-if="status !== 'success'"
           class="flex w-full max-w-[400px] gap-2 max-md:max-w-none"
           novalidate
           @submit.prevent="subscribe"
@@ -74,6 +87,7 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
             class="text-fg border-line focus:border-accent h-11 min-w-0 flex-1 rounded-xs border bg-transparent px-3.5 font-mono text-[0.85rem] transition-colors outline-none"
           />
           <button
+            v-if="!isSubscribedAddress"
             type="submit"
             :disabled="status === 'loading'"
             class="border-accent bg-accent hover:bg-accent-hover hover:border-accent-hover inline-flex h-11 cursor-pointer items-center justify-center rounded-xs border-2 px-[1.4rem] font-mono text-[0.78rem] tracking-[0.02em] whitespace-nowrap text-white transition-all duration-200 hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-60"
@@ -84,14 +98,11 @@ const { email, status, errorMessage, subscribe } = useNewsletter();
       </div>
 
       <div
-        v-if="status === 'success' || status === 'error'"
-        class="text-on-accent-dim relative z-10 -mt-3 px-8 pb-6 font-mono text-[0.78rem]"
+        class="text-on-accent-dim relative z-10 font-mono text-[0.78rem]"
+        :class="{ '-mt-3 px-8 pb-6': message }"
         aria-live="polite"
       >
-        <template v-if="status === 'success'">
-          ✓ Almost there — check your inbox to confirm your subscription.
-        </template>
-        <template v-else> ⚠ {{ errorMessage }} </template>
+        {{ message }}
       </div>
     </div>
   </section>

@@ -18,7 +18,7 @@ exports[`NewsletterBanner > renders correctly 1`] = `
       </div>
       <form class="flex w-full max-w-[400px] gap-2 max-md:max-w-none" novalidate=""><label for="email_address" class="sr-only">Email Address</label><input id="email_address" type="email" name="email_address" autocomplete="email" placeholder="you@domain.com" class="text-fg border-line focus:border-accent h-11 min-w-0 flex-1 rounded-xs border bg-transparent px-3.5 font-mono text-[0.85rem] transition-colors outline-none"><button type="submit" class="border-accent bg-accent hover:bg-accent-hover hover:border-accent-hover inline-flex h-11 cursor-pointer items-center justify-center rounded-xs border-2 px-[1.4rem] font-mono text-[0.78rem] tracking-[0.02em] whitespace-nowrap text-white transition-all duration-200 hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-60">Subscribe</button></form>
     </div>
-    <!--v-if-->
+    <div class="text-on-accent-dim relative z-10 font-mono text-[0.78rem]" aria-live="polite"></div>
   </div>
 </section>"
 `;

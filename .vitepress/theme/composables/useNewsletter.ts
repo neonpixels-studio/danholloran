@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useAnalytics } from "@composables/useAnalytics";
 
 const KIT_FORM_ACTION = "https://app.kit.com/forms/9565549/subscriptions";
@@ -32,8 +32,20 @@ export function useNewsletter() {
   const email = ref("");
   const status = ref<NewsletterStatus>("idle");
   const errorMessage = ref("");
-  const subscribedEmail = ref("");
+  // Every address that has succeeded on this form instance, so re-typing any
+  // earlier one (not just the most recent) still re-affirms without a second
+  // POST. A Set in a ref stays deep-reactive in Vue 3, so `.add` retriggers the
+  // computed.
+  const subscribedEmails = ref(new Set<string>());
   const { trackEvent } = useAnalytics();
+
+  // Drives the UI's "already subscribed" lock: true only while the entered
+  // address is one that already succeeded. Editing to an unsubscribed address
+  // flips it false so the form re-opens for another signup, rather than gating
+  // the UI on status === "success" (which stays locked to the first address).
+  const isSubscribedAddress = computed(() =>
+    subscribedEmails.value.has(normalizeEmail(email.value)),
+  );
 
   async function subscribe() {
     // One request at a time.
@@ -43,13 +55,10 @@ export function useNewsletter() {
 
     const trimmedEmail = email.value.trim();
 
-    // Success lock scoped to the address that succeeded: a repeat submit of the
-    // same address (case/whitespace aside) re-affirms success and sends
-    // nothing, while editing to a different address re-enables the form.
-    if (
-      subscribedEmail.value !== "" &&
-      normalizeEmail(trimmedEmail) === subscribedEmail.value
-    ) {
+    // Re-affirm success without a second POST when the entered address is the
+    // one that already succeeded; shares `isSubscribedAddress` so the guard and
+    // the UI lock can't drift.
+    if (isSubscribedAddress.value) {
       status.value = "success";
       errorMessage.value = "";
       return;
@@ -85,9 +94,9 @@ export function useNewsletter() {
     }
 
     status.value = "success";
-    subscribedEmail.value = normalizeEmail(trimmedEmail);
+    subscribedEmails.value.add(normalizeEmail(trimmedEmail));
     trackEvent(SUBSCRIBE_EVENT);
   }
 
-  return { email, status, errorMessage, subscribe };
+  return { email, status, errorMessage, isSubscribedAddress, subscribe };
 }

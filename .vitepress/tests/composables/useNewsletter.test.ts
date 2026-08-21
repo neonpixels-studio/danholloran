@@ -326,6 +326,67 @@ describe("useNewsletter", () => {
     });
   });
 
+  describe("isSubscribedAddress", () => {
+    it("is false before any successful subscribe", () => {
+      const { email, isSubscribedAddress } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+
+      expect(isSubscribedAddress.value).toBe(false);
+    });
+
+    it("is true while the entered address matches the one that succeeded", async () => {
+      stubFetch(true);
+      const { email, isSubscribedAddress, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+
+      expect(isSubscribedAddress.value).toBe(true);
+    });
+
+    it("stays true for a case/whitespace-only re-type of the subscribed address", async () => {
+      stubFetch(true);
+      const { email, isSubscribedAddress, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+
+      email.value = `  ${VALID_EMAIL.toUpperCase()}  `;
+
+      expect(isSubscribedAddress.value).toBe(true);
+    });
+
+    it("flips false when the visitor edits to a different address so the form re-opens", async () => {
+      stubFetch(true);
+      const { email, isSubscribedAddress, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+
+      email.value = "second@example.com";
+
+      expect(isSubscribedAddress.value).toBe(false);
+    });
+
+    it("stays locked for any address subscribed this session, not just the most recent", async () => {
+      const fetchSpy = stubFetch(true);
+      const { email, isSubscribedAddress, subscribe } = useNewsletter();
+
+      email.value = VALID_EMAIL;
+      await subscribe();
+      email.value = "second@example.com";
+      await subscribe();
+      expect(fetchSpy).toHaveBeenCalledTimes(2);
+
+      // Re-typing the first address must not re-POST or re-open the button.
+      email.value = VALID_EMAIL;
+      expect(isSubscribedAddress.value).toBe(true);
+      await subscribe();
+      expect(fetchSpy).toHaveBeenCalledTimes(2);
+    });
+  });
+
   describe("request timeout", () => {
     it("bounds the fetch with an AbortSignal set to the request timeout", async () => {
       const timeoutSignal = new AbortController().signal;
