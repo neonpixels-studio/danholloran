@@ -1,4 +1,4 @@
-import { NavItem } from "@typedef";
+import { NavItem } from "@typedefs";
 import { useRoute } from "vitepress";
 import { computed, ref } from "vue";
 
