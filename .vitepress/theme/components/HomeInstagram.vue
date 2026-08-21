@@ -38,7 +38,7 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
         </div>
         <a
           :href="socialLinks.INSTAGRAM"
-          target="blank"
+          target="_blank"
           rel="noopener"
           class="reveal group text-accent border-accent/40 hover:bg-accent hover:border-accent in inline-flex items-center gap-2 rounded-xs border px-3 py-2 font-mono text-[0.72rem] tracking-[0.02em] no-underline transition-all hover:text-white"
         >
@@ -88,7 +88,7 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
           v-for="(post, index) in instagramPosts.slice(0, 6)"
           :key="post.frontmatter.url"
           :href="post.frontmatter.url"
-          target="blank"
+          target="_blank"
           rel="noopener"
           class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
         >

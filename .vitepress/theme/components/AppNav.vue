@@ -148,7 +148,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </button>
       <a
         :href="socialLinks.GITHUB"
-        target="blank"
+        target="_blank"
         rel="noopener"
         aria-label="GitHub"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
@@ -167,7 +167,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </a>
       <a
         :href="socialLinks.INSTAGRAM"
-        target="blank"
+        target="_blank"
         rel="noopener"
         aria-label="Instagram"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
@@ -194,7 +194,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
       </a>
       <a
         :href="socialLinks.LINKEDIN"
-        target="blank"
+        target="_blank"
         rel="noopener"
         aria-label="LinkedIn"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
@@ -214,7 +214,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
 
       <a
         :href="socialLinks.X"
-        target="blank"
+        target="_blank"
         rel="noopener"
         aria-label="X"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"
@@ -234,7 +234,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
 
       <a
         :href="socialLinks.BLUE_SKY"
-        target="blank"
+        target="_blank"
         rel="noopener"
         aria-label="Bluesky"
         class="text-fg-subtle hover:text-accent inline-flex items-center justify-center p-2 transition-colors max-md:hidden"

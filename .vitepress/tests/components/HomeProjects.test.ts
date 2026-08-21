@@ -13,4 +13,11 @@ describe("HomeProjects", () => {
     const wrapper = shallowMount(HomeProjects);
     expect(wrapper.html()).toMatchSnapshot();
   });
+
+  it("opens external project links in a new tab", () => {
+    const wrapper = shallowMount(HomeProjects);
+    const externalLink = wrapper.get('a[href="https://acme.example"]');
+    expect(externalLink.attributes("target")).toBe("_blank");
+    expect(externalLink.attributes("rel")).toBe("noopener");
+  });
 });
