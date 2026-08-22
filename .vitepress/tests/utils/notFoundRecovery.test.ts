@@ -17,7 +17,7 @@ describe("buildNotFoundRecoveryHtml", () => {
     const html = buildNotFoundRecoveryHtml();
 
     expect(html).toContain('href="/"');
-    expect(html).toContain('href="/posts"');
+    expect(html).toContain('href="/posts/"');
     expect(html).toContain('href="/resume"');
     expect(html).toContain('href="/feed.xml"');
     expect(html).toContain('href="/sitemap.xml"');

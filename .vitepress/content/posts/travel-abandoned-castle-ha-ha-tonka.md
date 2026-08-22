@@ -5,6 +5,7 @@ draft: false
 title: "Abandoned Castle - Ha Ha Tonka"
 image: "/images/posts/travel-abandoned-castle-ha-ha-tonka.jpg"
 topic: "travel"
+canonical: "travel-ha-ha-tonka-state-park"
 travel_location: "abandoned castle - ha ha tonka"
 description: "A ruined stone castle on a bluff above the Lake of the Ozarks — one of Missouri's most dramatic and surprising landmarks."
 ---

@@ -193,7 +193,7 @@ describe("AppMobileMenu", () => {
   it("closes when a nav link is activated", async () => {
     wrapper = mount(AppMobileMenu, mountOpts);
 
-    await wrapper.find('a[href="/posts"]').trigger("click");
+    await wrapper.find('a[href="/posts/"]').trigger("click");
     expect(store.closeAll).toHaveBeenCalledTimes(1);
   });
 

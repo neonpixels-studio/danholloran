@@ -5,6 +5,7 @@ draft: false
 title: "St. Louis Riverfront Arch"
 image: "/images/posts/travel-st-louis-riverfront-arch.jpg"
 topic: "travel"
+canonical: "travel-the-gateway-arch-st-louis"
 travel_location: "st. louis riverfront arch"
 description: "The Gateway Arch from the St. Louis riverfront — a walk along the Mississippi that puts one of America's great monuments directly overhead."
 ---

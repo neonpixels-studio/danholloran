@@ -31,7 +31,7 @@ function buildNavItems(
       isActive: () => isPathActive("/resume"),
     },
     {
-      link: "/posts",
+      link: "/posts/",
       label: "Blog",
       isActive: () => isPathActive("/posts", true),
     },

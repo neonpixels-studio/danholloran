@@ -201,7 +201,7 @@ const route = useRoute();
             </div>
           </a>
           <a
-            href="/posts"
+            href="/posts/"
             class="group border-line hover:border-accent block rounded-xs border p-4 text-left no-underline transition-all hover:-translate-y-px"
           >
             <div

@@ -32,7 +32,7 @@ onUnmounted(() => {
   >
     <p class="text-fg-subtle font-mono text-[0.7rem]">
       © Dan Holloran {{ new Date().getFullYear() }} ·
-      <a href="/posts" class="text-fg-subtle hover:text-accent no-underline">
+      <a href="/posts/" class="text-fg-subtle hover:text-accent no-underline">
         blog
       </a>
       · Built with Vue.js + Tailwind CSS +

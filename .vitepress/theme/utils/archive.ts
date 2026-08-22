@@ -14,6 +14,11 @@ export const ALL_TOPIC = "all";
 export const ALL_TAG = "all";
 
 export const POSTS_BASE = "/posts";
+// The blog index is a directory route (posts/index.html), so a slashless
+// /posts 301-redirects to /posts/ on Netlify. Link the trailing-slash form
+// directly to skip that hop; POSTS_BASE stays slashless for building the
+// filtered/paginated child routes (/posts/topic/x), which are plain .html files.
+export const POSTS_INDEX = `${POSTS_BASE}/`;
 const PAGE_SEGMENT = "page";
 const TOPIC_SEGMENT = "topic";
 const TAG_SEGMENT = "tag";
@@ -106,7 +111,7 @@ export interface ArchiveFilter {
 }
 
 // Builds the href for a given page within a filter context. Page 1 points at
-// the filter's base route (no /page/ segment); the unfiltered page 1 is /posts.
+// the filter's base route (no /page/ segment); the unfiltered page 1 is /posts/.
 export function archiveHref(page: number, filter: ArchiveFilter = {}): string {
   const segments: string[] = [];
   if (filter.topicSlug) {
@@ -118,7 +123,7 @@ export function archiveHref(page: number, filter: ArchiveFilter = {}): string {
     segments.push(PAGE_SEGMENT, String(page));
   }
   if (segments.length === 0) {
-    return POSTS_BASE;
+    return POSTS_INDEX;
   }
   return `${POSTS_BASE}/${segments.join("/")}`;
 }

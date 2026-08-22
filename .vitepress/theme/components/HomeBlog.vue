@@ -21,7 +21,7 @@ const recentPosts = posts.slice(1, 9);
           Latest Posts
         </h2>
         <span class="reveal text-fg-subtle font-mono text-[0.68rem]">
-          <a href="/posts" class="text-accent no-underline">all posts →</a>
+          <a href="/posts/" class="text-accent no-underline">all posts →</a>
         </span>
       </div>
 
@@ -83,7 +83,7 @@ const recentPosts = posts.slice(1, 9);
 
       <div class="reveal mt-8 text-center">
         <a
-          href="/posts"
+          href="/posts/"
           class="btn-base border-line text-fg hover:border-accent hover:text-accent border"
         >
           view all posts

@@ -5,7 +5,7 @@ import { SITE_URL } from "./constants";
 // landed on a dead URL.
 const RECOVERY_LINKS: { href: string; label: string }[] = [
   { href: "/", label: "Home" },
-  { href: "/posts", label: "Blog — all posts" },
+  { href: "/posts/", label: "Blog — all posts" },
   { href: "/resume", label: "Resume" },
   { href: "/feed.xml", label: "RSS feed" },
   { href: "/sitemap.xml", label: "Sitemap — every page on the site" },

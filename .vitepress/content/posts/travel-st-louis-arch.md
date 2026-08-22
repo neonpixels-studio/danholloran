@@ -5,6 +5,7 @@ draft: false
 title: "St. Louis Arch"
 image: "/images/posts/travel-st-louis-arch.jpg"
 topic: "travel"
+canonical: "travel-the-gateway-arch-st-louis"
 travel_location: "st. louis arch"
 description: "The Gateway Arch at dusk, seen from the riverfront — 630 feet of stainless steel that earns its place as the most successful public monument in the country."
 ---

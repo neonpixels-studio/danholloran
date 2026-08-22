@@ -122,7 +122,7 @@ describe("extraPageNumbers", () => {
 
 describe("archiveHref", () => {
   it("points page 1 of the unfiltered archive at the base", () => {
-    expect(archiveHref(1)).toBe("/posts");
+    expect(archiveHref(1)).toBe("/posts/");
   });
 
   it("adds a page segment beyond page 1", () => {

@@ -25,7 +25,7 @@ exports[`AppSearch > renders correctly 1`] = `
             </div><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5">
               <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
-          </a><a id="app-search-option-v-0-2" role="option" tabindex="-1" aria-selected="false" href="/posts" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
+          </a><a id="app-search-option-v-0-2" role="option" tabindex="-1" aria-selected="false" href="/posts/" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
             <div class="min-w-0 flex-1">
               <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Blog</div>
               <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">All posts, filterable by tag</div>

@@ -171,6 +171,6 @@ export const mockSocialLinks = Object.freeze({
 });
 
 export const mockNavItems = [
-  { label: "Blog", link: "/posts", isActive: () => false },
+  { label: "Blog", link: "/posts/", isActive: () => false },
   { label: "Resume", link: "/resume", isActive: () => false },
 ];

@@ -136,7 +136,7 @@ function formatDate(d: string) {
 <template>
   <div v-if="post" class="mx-auto max-w-180 px-8 pt-35 pb-24">
     <a
-      href="/posts"
+      href="/posts/"
       class="group text-fg-muted hover:text-accent mb-12 inline-flex items-center gap-1.5 font-mono text-[0.75rem] tracking-[0.02em] no-underline transition-colors"
     >
       <svg

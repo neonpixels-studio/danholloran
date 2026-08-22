@@ -101,7 +101,7 @@ describe("useMainNav", () => {
         "/#projects",
         "/#experience",
         "/resume",
-        "/posts",
+        "/posts/",
         "/themes/grimicorn",
       ]);
     });

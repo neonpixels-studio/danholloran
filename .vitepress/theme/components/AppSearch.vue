@@ -36,7 +36,7 @@ const STATIC_ITEMS: SearchItem[] = [
     type: "page",
     title: "Blog",
     desc: "All posts, filterable by tag",
-    href: "/posts",
+    href: "/posts/",
     kw: "blog posts writing articles",
   },
   {

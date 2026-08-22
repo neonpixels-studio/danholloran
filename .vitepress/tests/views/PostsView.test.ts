@@ -67,7 +67,7 @@ describe("PostsView", () => {
     });
     const emptyBlock = wrapper.get(".text-center");
     expect(emptyBlock.text()).toContain("No posts found");
-    expect(emptyBlock.get("a").attributes("href")).toBe("/posts");
+    expect(emptyBlock.get("a").attributes("href")).toBe("/posts/");
   });
 
   it("renders real pagination links to numbered pages", () => {
@@ -90,7 +90,7 @@ describe("PostsView", () => {
     expect(wrapper.html()).not.toContain('/posts/post-0"');
     // The previous-page control (scoped to the pagination nav) points at page 1.
     const pagination = wrapper.get('nav[aria-label="Archive pagination"]');
-    expect(anchorHrefs(pagination.html())).toContain("/posts");
+    expect(anchorHrefs(pagination.html())).toContain("/posts/");
     // A later unfiltered page gets a distinct H1 instead of the page-1 hero.
     expect(wrapper.get("h1").text()).toBe("Writing — Page 2");
   });

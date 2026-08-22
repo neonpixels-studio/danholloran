@@ -472,6 +472,51 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(getJsonLd(pageData).image).toBe(postImageUrl);
   });
 
+  it("self-canonicals when no canonical frontmatter is set", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeDefined();
+    expect(findHead(pageData, "meta", "property", "og:url")?.[1]?.content).toBe(
+      selfUrl,
+    );
+    expect(getJsonLd(pageData).url).toBe(selfUrl);
+  });
+
+  it("points the canonical link at another post when canonical frontmatter is set, keeping og:url and JSON-LD self-referential", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+      canonical: "the-primary-post",
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+    const canonicalUrl = `${SITE_URL}/posts/the-primary-post`;
+
+    expect(findHead(pageData, "link", "href", canonicalUrl)).toBeDefined();
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeUndefined();
+    expect(findHead(pageData, "meta", "property", "og:url")?.[1]?.content).toBe(
+      selfUrl,
+    );
+    expect(getJsonLd(pageData).url).toBe(selfUrl);
+  });
+
+  it("ignores a blank canonical frontmatter value and self-canonicals", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+      canonical: "   ",
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeDefined();
+  });
+
   it("sets dateModified to the post date when no dateModified is in frontmatter", () => {
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);

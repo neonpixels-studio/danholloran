@@ -5,6 +5,7 @@ draft: false
 title: "Chain of Rocks Bridge"
 image: "/images/posts/travel-chain-of-rocks-bridge.jpg"
 topic: "travel"
+canonical: "travel-old-chain-of-rocks-bridge-mississippi-river"
 travel_location: "chain of rocks bridge"
 description: "A Route 66 bridge over the Mississippi, now open only to walkers and cyclists — the bend in the middle is real and worth the trip."
 ---

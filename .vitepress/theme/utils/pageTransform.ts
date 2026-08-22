@@ -47,6 +47,7 @@ function cleanHead(head: any[]): any[] {
 function setStandardPageMeta(
   pageData: PageData,
   meta: Parameters<typeof pageMeta>[0],
+  canonicalUrl: string = meta.url,
 ): void {
   pageData.title = meta.title;
   pageData.description = meta.description;
@@ -54,7 +55,7 @@ function setStandardPageMeta(
   pageData.frontmatter.description = meta.description;
   pageData.frontmatter.head = [
     ...cleanHead(pageData.frontmatter.head ?? []),
-    ["link", { rel: "canonical", href: meta.url }],
+    ["link", { rel: "canonical", href: canonicalUrl }],
     ...pageMeta(meta),
   ];
 }
@@ -221,6 +222,18 @@ function buildArticleTopicalFields(data: Record<string, unknown>): {
   return fields;
 }
 
+// A `canonical` frontmatter slug points a post's canonical link at another post,
+// consolidating the ranking signal for near-duplicate photo posts about the same
+// landmark. og:url and the Article JSON-LD stay self-referential — only the
+// canonical signal is redirected. Absent or blank means self-canonical.
+function resolvePostCanonical(
+  data: Record<string, unknown>,
+  selfUrl: string,
+): string {
+  const slug = typeof data.canonical === "string" ? data.canonical.trim() : "";
+  return slug ? `${SITE_URL}/posts/${slug}` : selfUrl;
+}
+
 function transformPost(pageData: PageData): void {
   const slug = pageData.params?.slug;
   if (!slug) return;
@@ -244,30 +257,34 @@ function transformPost(pageData: PageData): void {
   const description = data.description ?? "";
   const image = data.image ?? DEFAULT_SOCIAL_IMAGE;
   const url = `${SITE_URL}/posts/${slug}`;
-  setStandardPageMeta(pageData, {
-    title,
-    description,
-    url,
-    image,
-    type: "article",
-    jsonLd: {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: title,
+  setStandardPageMeta(
+    pageData,
+    {
+      title,
       description,
-      datePublished: data.date,
-      dateModified: data.dateModified ?? data.date,
       url,
-      ...buildArticleTopicalFields(data),
-      image: `${SITE_URL}${image}`,
-      author: {
-        "@type": "Person",
-        name: `${resume.firstName} ${resume.lastName}`,
-        url: SITE_URL,
+      image,
+      type: "article",
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: title,
+        description,
+        datePublished: data.date,
+        dateModified: data.dateModified ?? data.date,
+        url,
+        ...buildArticleTopicalFields(data),
+        image: `${SITE_URL}${image}`,
+        author: {
+          "@type": "Person",
+          name: `${resume.firstName} ${resume.lastName}`,
+          url: SITE_URL,
+        },
+        publisher: publisherJsonLd,
       },
-      publisher: publisherJsonLd,
     },
-  });
+    resolvePostCanonical(data, url),
+  );
 }
 
 // Paginated / filtered archive routes. Each resolves to a self-canonical page

@@ -5,7 +5,7 @@ import NewsletterBanner from "@components/NewsletterBanner.vue";
 import {
   ALL_TOPIC,
   ALL_TAG,
-  POSTS_BASE,
+  POSTS_INDEX,
   archiveHref,
   hasFilterRoute,
   pageSlice,
@@ -256,7 +256,7 @@ onUnmounted(() => {
       >topic:</span
     >
     <a
-      :href="POSTS_BASE"
+      :href="POSTS_INDEX"
       class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
       :class="{ active: activeTopicSlug === null && activeTagSlug === null }"
     >
@@ -266,7 +266,7 @@ onUnmounted(() => {
       v-for="entry in topicEntries"
       :key="entry.slug"
       :href="
-        activeTopicSlug === entry.slug ? POSTS_BASE : topicHref(entry.slug)
+        activeTopicSlug === entry.slug ? POSTS_INDEX : topicHref(entry.slug)
       "
       class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
       :class="{ active: activeTopicSlug === entry.slug }"
@@ -282,7 +282,7 @@ onUnmounted(() => {
   >
     <span class="text-fg-subtle font-mono text-[0.72rem] lowercase">tag:</span>
     <a
-      :href="POSTS_BASE"
+      :href="POSTS_INDEX"
       class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent active inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
     >
       #{{ tagLabel || tag }} <span aria-hidden="true">×</span>
@@ -297,7 +297,7 @@ onUnmounted(() => {
       No posts found for the current filters.
     </p>
     <a
-      :href="POSTS_BASE"
+      :href="POSTS_INDEX"
       class="text-accent mt-4 inline-block bg-transparent font-mono text-[0.8rem] underline"
     >
       clear all filters

@@ -89,7 +89,7 @@ export function generateLlmsTxt(): string {
     "## Main Pages",
     "",
     `- [Home](${SITE_URL}/): Landing page and overview.`,
-    `- [Blog](${SITE_URL}/posts): Index of all posts — technical articles, career reflections, and travel photography.`,
+    `- [Blog](${SITE_URL}/posts/): Index of all posts — technical articles, career reflections, and travel photography.`,
     `- [Resume](${SITE_URL}/resume): Professional experience, skills, and projects.`,
   ];
 

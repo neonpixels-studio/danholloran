@@ -60,7 +60,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
         </p>
         <div class="reveal in flex flex-wrap gap-3">
           <a
-            href="/posts"
+            href="/posts/"
             class="btn-base bg-accent border-accent hover:bg-accent-hover hover:border-accent-hover border-2 text-white hover:-translate-y-px"
           >
             read the blog
