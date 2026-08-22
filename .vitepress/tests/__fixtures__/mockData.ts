@@ -141,7 +141,10 @@ export const mockInstagramPosts = [
       caption: "A great photo",
       tags: ["nature"],
       location: "Yosemite",
-      images: ["/images/instagram/photo1.jpg"],
+      images: [
+        "/images/instagram/photo1-a.jpg",
+        "/images/instagram/photo1-b.jpg",
+      ],
       url: "https://instagram.com/p/abc123",
     } as InstagramPost,
   },
@@ -152,7 +155,10 @@ export const mockInstagramPosts = [
       caption: "Another great photo",
       tags: ["travel"],
       location: "Grand Canyon",
-      images: ["/images/instagram/photo2.jpg"],
+      images: [
+        "/images/instagram/photo2-a.jpg",
+        "/images/instagram/photo2-b.jpg",
+      ],
       url: "https://instagram.com/p/def456",
     } as InstagramPost,
   },

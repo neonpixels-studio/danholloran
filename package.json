@@ -33,6 +33,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10",
+    "vue": "^3.5.35",
     "xml-js": "^1.6.11"
   },
   "dependencies": {
