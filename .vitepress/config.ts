@@ -5,6 +5,7 @@ import { defineConfig, createMarkdownRenderer } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { generateFeed } from "./theme/utils/generateFeed";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
+import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
 import { parse as parsePlist } from "plist";
 import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
@@ -86,6 +87,18 @@ export default defineConfig({
       generateFeed(feedRenderer),
     );
     writeFileSync(join(siteConfig.outDir, "llms.txt"), generateLlmsTxt());
+
+    // Give the client-rendered 404 a static, no-JS recovery block so agents and
+    // scripts that read raw HTML still get real links back into the site.
+    const notFoundPath = join(siteConfig.outDir, "404.html");
+    const notFoundHtml = readFileSync(notFoundPath, "utf-8");
+    const withRecovery = injectNotFoundRecovery(notFoundHtml);
+    if (withRecovery === notFoundHtml) {
+      throw new Error(
+        "404.html had no </body> to inject the no-JS recovery block into; the VitePress 404 template changed.",
+      );
+    }
+    writeFileSync(notFoundPath, withRecovery);
   },
   cleanUrls: true,
   // Static assets under public/ are served as-is; keep their markdown
