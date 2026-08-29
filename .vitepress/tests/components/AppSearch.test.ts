@@ -1,7 +1,10 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { shallowMount, mount, VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { mockSearchItems } from "../__fixtures__/mockData";
+import {
+  mockSearchItems,
+  mockStaticSearchItems,
+} from "../__fixtures__/mockData";
 
 import type { Ref } from "vue";
 
@@ -30,6 +33,10 @@ vi.mock("@content/posts/search.data.ts", () => ({
   data: mockSearchItems,
 }));
 
+vi.mock("@data/staticSearch.data.ts", () => ({
+  data: mockStaticSearchItems,
+}));
+
 import AppSearch from "@components/AppSearch.vue";
 
 describe("AppSearch", () => {
@@ -44,6 +51,7 @@ describe("AppSearch", () => {
     wrapper?.unmount();
     wrapper = null;
     mocks.routerGo.mockClear();
+    vi.unstubAllGlobals();
     if (mocks.isSearchOpen) {
       mocks.isSearchOpen.value = true;
     }
@@ -117,6 +125,69 @@ describe("AppSearch", () => {
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
 
     expect(mocks.routerGo).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns the Resume page when searching for a page keyword", async () => {
+    const search = mountSearch();
+
+    await search.find("input").setValue("resume");
+    await nextTick();
+
+    const options = search.findAll('[role="option"]');
+    expect(options.length).toBeGreaterThan(0);
+    const resumeOption = options.find((option) =>
+      option.text().includes("Resume"),
+    );
+    expect(resumeOption).toBeTruthy();
+    expect(resumeOption!.text()).toContain("page");
+    expect(resumeOption!.attributes("href")).toBe("/resume");
+  });
+
+  it("returns a project when searching for a project name", async () => {
+    const search = mountSearch();
+
+    await search.find("input").setValue("Acme Project");
+    await nextTick();
+
+    const options = search.findAll('[role="option"]');
+    expect(options.length).toBeGreaterThan(0);
+    const projectOption = options.find((option) =>
+      option.text().includes("Acme Project"),
+    );
+    expect(projectOption).toBeTruthy();
+    expect(projectOption!.text()).toContain("project");
+    expect(projectOption!.attributes("href")).toBe("https://acme.example");
+  });
+
+  it("navigates external project urls via window.location, not the SPA router", async () => {
+    const location = { href: "" };
+    vi.stubGlobal("location", location);
+
+    const search = mountSearch();
+    await search.find("input").setValue("Acme Project");
+    await nextTick();
+    const projectOption = search
+      .findAll('[role="option"]')
+      .find((option) => option.text().includes("Acme Project"));
+    await projectOption!.trigger("click");
+
+    expect(location.href).toBe("https://acme.example");
+    expect(mocks.routerGo).not.toHaveBeenCalled();
+  });
+
+  it("folds a project that links to its own post into a single post result", async () => {
+    const search = mountSearch();
+
+    await search.find("input").setValue("collision");
+    await nextTick();
+
+    const options = search.findAll('[role="option"]');
+    // The colliding project's keyword resolves to the post entry, not a
+    // second option with the project's own title.
+    expect(options.length).toBe(1);
+    expect(options[0].text()).toContain("First Post");
+    expect(options[0].text()).toContain("post");
+    expect(options[0].text()).not.toContain("Duplicate Of First Post");
   });
 
   it("collapses aria-expanded when the search panel is closed", async () => {

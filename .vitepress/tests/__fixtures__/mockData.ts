@@ -131,6 +131,31 @@ export const mockSearchItems: SearchItem[] = [
   },
 ];
 
+export const mockStaticSearchItems: SearchItem[] = [
+  {
+    type: "page",
+    title: "Resume",
+    desc: "Full professional history & download",
+    href: "/resume",
+    kw: "resume cv work history",
+  },
+  {
+    type: "project",
+    title: "Acme Project",
+    desc: "Acme Corp",
+    href: "https://acme.example",
+    kw: "Acme Corp Vue.js A featured project.",
+  },
+  // Collides with the "/posts/first-post" post entry to exercise deduping.
+  {
+    type: "project",
+    title: "Duplicate Of First Post",
+    desc: "Collision",
+    href: "/posts/first-post",
+    kw: "duplicate collision project",
+  },
+];
+
 // Real posts carry a single image; the synthetic second image per post gives
 // the permalink-seeded pick more than one bucket to land in. The two permalinks
 // straddle buckets on purpose (photo1 → shortcode `aaa000`, index 0 → -a;

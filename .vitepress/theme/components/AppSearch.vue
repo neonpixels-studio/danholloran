@@ -11,51 +11,15 @@ import {
 import MiniSearch from "minisearch";
 import { SearchItem } from "@typedefs";
 import { data as postItems } from "../../content/posts/search.data.ts";
+import { data as staticItems } from "../../data/staticSearch.data.ts";
+import { mergeSearchIndex } from "../../data/searchIndex.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
 
 const router = useRouter();
 const { isSearchOpen, openSearch, closeAll } = useNavPanels();
 
-const STATIC_ITEMS: SearchItem[] = [
-  {
-    type: "page",
-    title: "Home",
-    desc: "About, projects, experience, latest posts",
-    href: "/",
-    kw: "home about projects experience",
-  },
-  {
-    type: "page",
-    title: "Resume",
-    desc: "Full professional history & download",
-    href: "/resume",
-    kw: "resume cv work history",
-  },
-  {
-    type: "page",
-    title: "Blog",
-    desc: "All posts, filterable by tag",
-    href: "/posts/",
-    kw: "blog posts writing articles",
-  },
-  {
-    type: "page",
-    title: "Grimicorn Theme",
-    desc: "Calm, low-fatigue color theme — dark & light, for VS Code, terminals & more",
-    href: "/themes/grimicorn",
-    kw: "themes grimicorn color theme palette vscode terminal obsidian claude code dark light download",
-  },
-  {
-    type: "page",
-    title: "Grimicorn Neon",
-    desc: "The always-on-rave variant — electric neon palette on near-black, for every tool",
-    href: "/themes/grimicorn-neon",
-    kw: "themes grimicorn neon rave color theme palette vscode terminal pink cyan dark download",
-  },
-];
-
-const ALL_ITEMS: SearchItem[] = [...STATIC_ITEMS, ...postItems];
+const ALL_ITEMS: SearchItem[] = mergeSearchIndex(staticItems, postItems);
 
 const ms = new MiniSearch<SearchItem & { id: number }>({
   fields: ["title", "desc", "kw"],
@@ -155,8 +119,25 @@ function toggle() {
   isSearchOpen.value ? close() : open();
 }
 
+const EXTERNAL_PROTOCOLS = ["http:", "https:", "mailto:"];
+
+function isExternal(href: string): boolean {
+  if (href.startsWith("//")) {
+    return true;
+  }
+  const scheme = href.match(/^[a-z][a-z0-9+.-]*:/i)?.[0].toLowerCase();
+  if (!scheme) {
+    return false;
+  }
+  return EXTERNAL_PROTOCOLS.includes(scheme);
+}
+
 function navigate(href: string) {
   close();
+  if (isExternal(href)) {
+    window.location.href = href;
+    return;
+  }
   router.go(href);
 }
 

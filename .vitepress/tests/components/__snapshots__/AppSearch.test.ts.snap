@@ -11,42 +11,21 @@ exports[`AppSearch > renders correctly 1`] = `
       <div class="mt-1 max-h-[60vh] overflow-y-auto">
         <div class="sr-only" role="status" aria-live="polite"></div>
         <!--v-if-->
-        <div id="app-search-listbox-v-0" role="listbox" aria-label="Search results"><a id="app-search-option-v-0-0" role="option" tabindex="-1" aria-selected="false" href="/" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
-            <div class="min-w-0 flex-1">
-              <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Home</div>
-              <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">About, projects, experience, latest posts</div>
-            </div><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5">
-              <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </a><a id="app-search-option-v-0-1" role="option" tabindex="-1" aria-selected="false" href="/resume" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
+        <div id="app-search-listbox-v-0" role="listbox" aria-label="Search results"><a id="app-search-option-v-0-0" role="option" tabindex="-1" aria-selected="false" href="/resume" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
             <div class="min-w-0 flex-1">
               <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Resume</div>
               <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">Full professional history &amp; download</div>
             </div><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5">
               <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
-          </a><a id="app-search-option-v-0-2" role="option" tabindex="-1" aria-selected="false" href="/posts/" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
+          </a><a id="app-search-option-v-0-1" role="option" tabindex="-1" aria-selected="false" href="https://acme.example" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">project</span>
             <div class="min-w-0 flex-1">
-              <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Blog</div>
-              <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">All posts, filterable by tag</div>
+              <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Acme Project</div>
+              <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">Acme Corp</div>
             </div><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5">
               <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg>
-          </a><a id="app-search-option-v-0-3" role="option" tabindex="-1" aria-selected="false" href="/themes/grimicorn" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
-            <div class="min-w-0 flex-1">
-              <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Grimicorn Theme</div>
-              <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">Calm, low-fatigue color theme — dark &amp; light, for VS Code, terminals &amp; more</div>
-            </div><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5">
-              <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </a><a id="app-search-option-v-0-4" role="option" tabindex="-1" aria-selected="false" href="/themes/grimicorn-neon" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">page</span>
-            <div class="min-w-0 flex-1">
-              <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">Grimicorn Neon</div>
-              <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">The always-on-rave variant — electric neon palette on near-black, for every tool</div>
-            </div><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" class="text-fg-subtle group-hover:text-accent shrink-0 transition-all group-hover:translate-x-0.5">
-              <path d="M3 7H11M11 7L7.5 3.5M11 7L7.5 10.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </a><a id="app-search-option-v-0-5" role="option" tabindex="-1" aria-selected="false" href="/posts/first-post" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">post</span>
+          </a><a id="app-search-option-v-0-2" role="option" tabindex="-1" aria-selected="false" href="/posts/first-post" class="search-result group -mx-3 flex cursor-pointer items-center gap-4 rounded border px-3 py-3 no-underline transition-colors hover:border-line hover:bg-accent-dim/30 border-transparent"><span class="text-on-accent-dim bg-accent-dim w-[60px] shrink-0 rounded-[2px] px-1.5 py-0.5 text-center font-mono text-[0.6rem] tracking-[0.08em] uppercase">post</span>
             <div class="min-w-0 flex-1">
               <div class="text-fg truncate font-mono text-[0.85rem] font-semibold">First Post</div>
               <div class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]">The first post description.</div>
