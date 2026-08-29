@@ -235,6 +235,11 @@ html.dark img[src*="topography"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Cancel the sitewide smooth anchor/route scrolling (vestibular trigger) */
+  html {
+    scroll-behavior: auto !important;
+  }
+
   .reveal,
   .reveal-left,
   .reveal-right,
@@ -243,6 +248,24 @@ html.dark img[src*="topography"] {
   .fade-in {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Also stop the continuous decorative loops, not just entrance reveals */
+  .live-dot,
+  .mountain-float,
+  .glitch,
+  .progress-bar {
+    animation: none !important;
+  }
+
+  /* Drop the compositing hint left over from the paused pulse */
+  .live-dot {
+    will-change: auto !important;
+  }
+
+  /* Scroll-driven bar: remove it so nothing paints or reads as 100% scrolled */
+  .progress-bar {
+    display: none !important;
   }
 }
 

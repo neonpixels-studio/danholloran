@@ -8,20 +8,37 @@ const { frontmatter } = useData();
 // Grimicorn Neon) opt in with `forceDarkFooter: true` in their frontmatter.
 const isAlwaysDark = computed(() => frontmatter.value.forceDarkFooter === true);
 
+const LOCATION_ROTATE_MS = 3000;
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
 const locationIndex = ref(0);
 const maxLocationWidth =
   Math.max(...PAST_LOCATIONS.map((l) => `${l.city}, ${l.state}`.length)) + "ch";
 
 let interval;
+let reducedMotion;
 
-onMounted(() => {
+// Honor prefers-reduced-motion: don't auto-rotate the location text (WCAG
+// 2.2.2). Re-evaluated on preference change so a mid-session flip takes hold.
+function applyMotionPreference() {
+  clearInterval(interval);
+  if (reducedMotion.matches) {
+    return;
+  }
   interval = setInterval(() => {
     locationIndex.value = (locationIndex.value + 1) % PAST_LOCATIONS.length;
-  }, 3000);
+  }, LOCATION_ROTATE_MS);
+}
+
+onMounted(() => {
+  reducedMotion = window.matchMedia(REDUCED_MOTION_QUERY);
+  applyMotionPreference();
+  reducedMotion.addEventListener("change", applyMotionPreference);
 });
 
 onUnmounted(() => {
   clearInterval(interval);
+  reducedMotion?.removeEventListener("change", applyMotionPreference);
 });
 </script>
 
@@ -103,5 +120,11 @@ footer.dark {
 .location-fade-enter-from,
 .location-fade-leave-to {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat {
+    animation: none !important;
+  }
 }
 </style>
