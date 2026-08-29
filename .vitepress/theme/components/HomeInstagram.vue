@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
 import { data as instagramPosts } from "@content/instagram/instagram.data.ts";
 import socialLinks from "@data/socialLinks.ts";
 import { formatPostDate } from "@utils/formatDate";
+import { pickDeterministicImage } from "@utils/deterministicPick";
 
 const instagramHandle = socialLinks.INSTAGRAM.match(
   /(?:https?:\/\/)?(?:www\.)?instagram\.com\/([A-Za-z0-9_.]+)/,
@@ -12,28 +12,25 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
 const MAX_TILES = 6;
 const displayedPosts = instagramPosts.slice(0, MAX_TILES);
 
-function randomImageIndex(images: string[] | undefined) {
-  if (!images?.length) {
-    return 0;
-  }
-  return Math.floor(Math.random() * images.length);
+// Seed on the immutable /p/<shortcode> id rather than the full permalink so URL
+// cosmetics (www., trailing slash, an Instagram ?igsh= share suffix) can't
+// reshuffle a post's pick between builds. Falls back to the raw url if the
+// pattern ever changes shape.
+function permalinkSeed(url: string | undefined) {
+  return url?.match(/\/p\/([A-Za-z0-9_-]+)/)?.[1] ?? url;
 }
 
-// SSR and the initial client render both use index 0 so hydration matches;
-// the random pick only happens after mount to avoid a hydration mismatch. This
-// mirrors HomeHero's onMounted quote pick and accepts a one-time post-hydration
-// swap as the price of a stable server render.
-const imageIndexes = ref<number[]>(displayedPosts.map(() => 0));
-
-onMounted(() => {
-  imageIndexes.value = displayedPosts.map((post) =>
-    randomImageIndex(post.frontmatter.images),
-  );
-});
-
-function tileImage(post: (typeof displayedPosts)[number], index: number) {
-  return post.frontmatter.images?.[imageIndexes.value[index]];
-}
+// Seed the pick on each post's permalink so the server and client resolve the
+// same image with zero post-hydration swap and no second image fetch. Resolved
+// once per setup (the pick is pure) rather than on every render to avoid
+// re-hashing.
+const tiles = displayedPosts.map((post) => ({
+  post,
+  image: pickDeterministicImage(
+    permalinkSeed(post.frontmatter.url),
+    post.frontmatter.images,
+  ),
+}));
 </script>
 
 <template>
@@ -113,22 +110,22 @@ function tileImage(post: (typeof displayedPosts)[number], index: number) {
         class="stagger in grid grid-cols-6 gap-3 max-lg:grid-cols-3 max-sm:grid-cols-2"
       >
         <a
-          v-for="(post, index) in displayedPosts"
-          :key="post.frontmatter.url"
-          :href="post.frontmatter.url"
+          v-for="(tile, index) in tiles"
+          :key="tile.post.frontmatter.url"
+          :href="tile.post.frontmatter.url"
           target="_blank"
           rel="noopener"
           class="ig-tile group border-line hover:border-accent relative block aspect-square overflow-hidden rounded-xs border transition-colors duration-200"
         >
           <div
-            v-if="tileImage(post, index)"
+            v-if="tile.image"
             class="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.04]"
           >
             <img
-              :src="tileImage(post, index)"
+              :src="tile.image"
               :alt="
-                post.frontmatter.caption ||
-                `${post.frontmatter.location} image` ||
+                tile.post.frontmatter.caption ||
+                `${tile.post.frontmatter.location} image` ||
                 `Instagram Post ${index}`
               "
               width="480"
