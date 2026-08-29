@@ -85,6 +85,13 @@ function resolveSortTime(slug: string, date: unknown): number {
   return time;
 }
 
+// ParsedPost has declared properties, so passing it whole to isPublished's weak
+// `{ draft?: unknown }` parameter trips TS's weak-type check (no properties in
+// common); hand over just the draft flag.
+function isPublishedPost(post: ParsedPost): boolean {
+  return isPublished({ draft: post.draft }, post.slug);
+}
+
 function withSortTime(post: ParsedPost): PublishedPost {
   return { ...post, sortTime: resolveSortTime(post.slug, post.date) };
 }
@@ -109,7 +116,7 @@ export function loadPublishedPosts(): PublishedPost[] {
   return readdirSync(POSTS_DIR)
     .filter(isPostFile)
     .map(parsePostFile)
-    .filter((post) => isPublished(post, post.slug))
+    .filter(isPublishedPost)
     .map(withSortTime)
     .sort(byNewestFirst);
 }

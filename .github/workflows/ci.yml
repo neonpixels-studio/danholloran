@@ -48,5 +48,8 @@ jobs:
             npx fallow audit
           fi
 
+      - name: Type check
+        run: npm run typecheck
+
       - name: Test
         run: npm run test:ci
