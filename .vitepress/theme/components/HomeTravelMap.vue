@@ -6,8 +6,11 @@ const { isDark } = useData();
 const mapUpdatedText = ref("updated automatically");
 
 const nationalParkCount = computed(() => {
-  return posts.filter((post) => post.frontmatter.tags.includes("national-park"))
-    .length;
+  return posts.filter(
+    (post) =>
+      Array.isArray(post.frontmatter.tags) &&
+      post.frontmatter.tags.includes("national-park"),
+  ).length;
 });
 
 const yearsOnRoad = computed(() => {
