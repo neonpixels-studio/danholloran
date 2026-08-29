@@ -3,6 +3,7 @@ import { useContact } from "../../theme/composables/useContact";
 
 const SUBMIT_PATH = "/";
 const FORM_NAME = "contact_form";
+const BOT_FIELD = "bot-field";
 const TIMEOUT_MS = 10_000;
 
 const ALL_FIELDS_MESSAGE = "Please fill in all fields before sending.";
@@ -31,6 +32,47 @@ function fill(
   contact.name.value = name;
   contact.email.value = email;
   contact.message.value = message;
+}
+
+function fieldInput(fieldName: string, value: string): HTMLInputElement {
+  const input = document.createElement("input");
+  input.name = fieldName;
+  input.value = value;
+  return input;
+}
+
+// Mirrors the real contact form markup so `new FormData(form)` sees the same
+// fields the browser would submit, including the honeypot.
+function contactForm({
+  name = "",
+  email = "",
+  message = "",
+  botField = "",
+} = {}): HTMLFormElement {
+  const form = document.createElement("form");
+  form.append(
+    fieldInput("form-name", FORM_NAME),
+    fieldInput("name", name),
+    fieldInput("email", email),
+    fieldInput("message", message),
+    fieldInput(BOT_FIELD, botField),
+  );
+  return form;
+}
+
+function submitEvent(fields = {}): SubmitEvent {
+  return { currentTarget: contactForm(fields) } as unknown as SubmitEvent;
+}
+
+// The composable reads the form for validation and the payload; the refs only
+// mirror v-model for display and reset. Populate both so a submit matches the
+// live component, where they are always in sync.
+function submitWith(
+  contact: ReturnType<typeof useContact>,
+  fields = {},
+): Promise<void> {
+  fill(contact, fields);
+  return contact.submit(submitEvent(fields));
 }
 
 function deferredResponse() {
@@ -92,8 +134,7 @@ describe("useContact", () => {
         const fetchSpy = stubFetch(true);
         const contact = useContact();
 
-        fill(contact, fields);
-        await contact.submit();
+        await submitWith(contact, fields);
 
         expect(fetchSpy).not.toHaveBeenCalled();
         expect(contact.status.value).toBe("error");
@@ -105,10 +146,68 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("form element requirement", () => {
+    it("rejects when the refs are filled but the submitted form is empty", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      await contact.submit(submitEvent());
+
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(contact.status.value).toBe("error");
+      expect(contact.statusMessage.value).toBe(ALL_FIELDS_MESSAGE);
+    });
+
+    it("errors without calling fetch when the event carries no form element", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      const event = {
+        currentTarget: document.createElement("div"),
+      } as unknown as SubmitEvent;
+      await contact.submit(event);
+
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(contact.status.value).toBe("error");
+      expect(contact.statusMessage.value).toBe(ERROR_MESSAGE);
+    });
+
+    it("errors without calling fetch when invoked without an event", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      // Out of contract (the signature requires an event); the runtime backstop
+      // still fails safe rather than throwing.
+      await (contact.submit as () => Promise<void>)();
+
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(contact.status.value).toBe("error");
+      expect(contact.statusMessage.value).toBe(ERROR_MESSAGE);
+    });
+
+    it("errors without a false success when form-name is missing from the markup", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      const form = document.createElement("form");
+      form.append(
+        fieldInput("name", VALID_FIELDS.name),
+        fieldInput("email", VALID_FIELDS.email),
+        fieldInput("message", VALID_FIELDS.message),
+      );
+      const event = { currentTarget: form } as unknown as SubmitEvent;
+      await contact.submit(event);
+
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(contact.status.value).toBe("error");
+      expect(contact.statusMessage.value).toBe(ERROR_MESSAGE);
     });
   });
 
@@ -130,8 +229,7 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       const [url, init] = fetchSpy.mock.calls[0];
       expect(url).toBe(SUBMIT_PATH);
@@ -146,16 +244,60 @@ describe("useContact", () => {
       expect(params.get("message")).toBe(VALID_FIELDS.message);
     });
 
+    it("forwards the bot-field honeypot so the JS path is protected too", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      await contact.submit(
+        submitEvent({ ...VALID_FIELDS, botField: "i-am-a-bot" }),
+      );
+
+      const params = new URLSearchParams(
+        fetchSpy.mock.calls[0][1]?.body as string,
+      );
+      expect(params.get(BOT_FIELD)).toBe("i-am-a-bot");
+    });
+
+    it("forwards a whitespace-only honeypot raw so it still trips the filter", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      await contact.submit(submitEvent({ ...VALID_FIELDS, botField: "   " }));
+
+      const params = new URLSearchParams(
+        fetchSpy.mock.calls[0][1]?.body as string,
+      );
+      expect(params.get(BOT_FIELD)).toBe("   ");
+    });
+
+    it("reads the submitted form, not the composable refs", async () => {
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      // Refs left empty on purpose; only the form carries the values, proving
+      // the form is what gets validated and sent.
+      await contact.submit(submitEvent(VALID_FIELDS));
+
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      const params = new URLSearchParams(
+        fetchSpy.mock.calls[0][1]?.body as string,
+      );
+      expect(params.get("name")).toBe(VALID_FIELDS.name);
+      expect(params.get("email")).toBe(VALID_FIELDS.email);
+      expect(params.get("message")).toBe(VALID_FIELDS.message);
+    });
+
     it("trims surrounding whitespace before sending", async () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, {
+      await submitWith(contact, {
         name: "  Dan  ",
         email: "  dan@example.com  ",
         message: "  Hello there  ",
       });
-      await contact.submit();
 
       const params = new URLSearchParams(
         fetchSpy.mock.calls[0][1]?.body as string,
@@ -173,9 +315,8 @@ describe("useContact", () => {
 
       const contact = useContact();
       contact.statusMessage.value = "stale message";
-      fill(contact, VALID_FIELDS);
 
-      const settled = contact.submit();
+      const settled = submitWith(contact, VALID_FIELDS);
       expect(contact.status.value).toBe("loading");
       expect(contact.statusMessage.value).toBe("");
 
@@ -188,8 +329,7 @@ describe("useContact", () => {
       stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(contact.status.value).toBe("success");
       expect(contact.statusMessage.value).toBe(SUCCESS_MESSAGE);
@@ -202,8 +342,7 @@ describe("useContact", () => {
       stubFetch(false);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(contact.status.value).toBe("error");
       expect(contact.statusMessage.value).toBe(ERROR_MESSAGE);
@@ -213,8 +352,7 @@ describe("useContact", () => {
       stubFetch(false);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(contact.name.value).toBe(VALID_FIELDS.name);
       expect(contact.email.value).toBe(VALID_FIELDS.email);
@@ -225,8 +363,7 @@ describe("useContact", () => {
       vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("offline"));
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(contact.status.value).toBe("error");
       expect(contact.statusMessage.value).toBe(NETWORK_ERROR_MESSAGE);
@@ -242,11 +379,11 @@ describe("useContact", () => {
       const fetchSpy = vi.spyOn(globalThis, "fetch").mockReturnValue(promise);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      const firstCall = contact.submit();
+      const firstCall = submitWith(contact, VALID_FIELDS);
       expect(contact.status.value).toBe("loading");
 
-      const secondCall = contact.submit();
+      // Valid form so only the in-flight guard — not validation — can stop it.
+      const secondCall = contact.submit(submitEvent(VALID_FIELDS));
       expect(fetchSpy).toHaveBeenCalledTimes(1);
 
       resolveFetch(okResponse(true));
@@ -262,11 +399,10 @@ describe("useContact", () => {
         .mockResolvedValueOnce(okResponse(true));
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
       expect(contact.status.value).toBe("error");
 
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
       expect(fetchSpy).toHaveBeenCalledTimes(2);
       expect(contact.status.value).toBe("success");
     });
@@ -278,12 +414,11 @@ describe("useContact", () => {
         .mockResolvedValueOnce(okResponse(true));
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
       expect(contact.status.value).toBe("error");
       expect(contact.statusMessage.value).toBe(NETWORK_ERROR_MESSAGE);
 
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
       expect(fetchSpy).toHaveBeenCalledTimes(2);
       expect(contact.status.value).toBe("success");
     });
@@ -298,8 +433,7 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(timeoutSpy).toHaveBeenCalledWith(TIMEOUT_MS);
       const [, init] = fetchSpy.mock.calls[0];
@@ -323,8 +457,7 @@ describe("useContact", () => {
         });
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      const settled = contact.submit();
+      const settled = submitWith(contact, VALID_FIELDS);
       expect(contact.status.value).toBe("loading");
 
       timeoutController.abort(new DOMException("timed out", "TimeoutError"));
@@ -332,7 +465,7 @@ describe("useContact", () => {
       expect(contact.status.value).toBe("error");
       expect(contact.statusMessage.value).toBe(NETWORK_ERROR_MESSAGE);
 
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
       expect(timeoutSpy).toHaveBeenCalledTimes(2);
       expect(fetchSpy).toHaveBeenCalledTimes(2);
       expect(contact.status.value).toBe("success");
@@ -343,8 +476,7 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       const fallbackSignal = fetchSpy.mock.calls[0][1]?.signal;
       expect(fallbackSignal).toBeDefined();
@@ -358,8 +490,7 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       const fallbackSignal = fetchSpy.mock.calls[0][1]?.signal;
       expect(fallbackSignal).toBeDefined();
@@ -374,8 +505,7 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(false);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(fetchSpy.mock.calls[0][1]?.signal).toBeDefined();
       expect(contact.status.value).toBe("error");
@@ -390,8 +520,7 @@ describe("useContact", () => {
         .mockRejectedValue(new TypeError("Failed to fetch"));
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(fetchSpy.mock.calls[0][1]?.signal).toBeDefined();
       expect(contact.status.value).toBe("error");
@@ -404,8 +533,7 @@ describe("useContact", () => {
       vi.spyOn(globalThis, "fetch").mockImplementation(abortRejectingFetch());
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      const settled = contact.submit();
+      const settled = submitWith(contact, VALID_FIELDS);
       expect(contact.status.value).toBe("loading");
 
       vi.advanceTimersByTime(TIMEOUT_MS);
@@ -421,8 +549,7 @@ describe("useContact", () => {
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
-      fill(contact, VALID_FIELDS);
-      await contact.submit();
+      await submitWith(contact, VALID_FIELDS);
 
       expect(fetchSpy.mock.calls[0][1]?.signal).toBeUndefined();
       expect(contact.status.value).toBe("success");

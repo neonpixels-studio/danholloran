@@ -71,6 +71,7 @@ const formError = computed(() => status.value === "error");
           novalidate
           @submit.prevent="handleSubmit"
         >
+          <!-- Netlify needs form-name on every POST; the JS submit reads it from this input, so don't remove it -->
           <input type="hidden" name="form-name" value="contact_form" />
           <!-- Netlify spam honeypot: hidden from humans and assistive tech; a filled value flags the submission as a bot -->
           <p class="hidden" aria-hidden="true">

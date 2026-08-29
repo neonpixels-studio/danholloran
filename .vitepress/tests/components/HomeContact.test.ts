@@ -134,6 +134,7 @@ describe("HomeContact", () => {
       const [url, options] = fetchMock.mock.calls[0];
       expect(url).toBe("/");
       const params = new URLSearchParams(options.body as string);
+      expect(params.get("form-name")).toBe("contact_form");
       expect(params.get("name")).toBe("Dan");
       expect(params.get("email")).toBe("a@b.com");
       expect(params.get("message")).toBe("Hello there");
@@ -158,6 +159,19 @@ describe("HomeContact", () => {
       expect(params.get("name")).toBe("Dan");
       expect(params.get("email")).toBe("a@b.com");
       expect(params.get("message")).toBe("Hello there");
+    });
+
+    it("forwards a filled bot-field honeypot through the JS submit path", async () => {
+      const wrapper = mount(HomeContact);
+      await fill(wrapper, VALID_FIELDS);
+      await wrapper.find('input[name="bot-field"]').setValue("i-am-a-bot");
+      await submit(wrapper);
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const params = new URLSearchParams(
+        fetchMock.mock.calls[0][1].body as string,
+      );
+      expect(params.get("bot-field")).toBe("i-am-a-bot");
     });
   });
 
