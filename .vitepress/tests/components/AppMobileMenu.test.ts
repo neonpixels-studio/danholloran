@@ -6,7 +6,7 @@ import {
   type VueWrapper,
 } from "@vue/test-utils";
 import type { Ref } from "vue";
-import { mockNavItems, mockSocialLinks } from "../__fixtures__/mockData";
+import { mockNavItems } from "../__fixtures__/mockData";
 
 const store = vi.hoisted(() => {
   return {} as {
@@ -43,9 +43,8 @@ vi.mock("@composables/useNavPanels.ts", async () => {
   };
 });
 
-vi.mock("@data/socialLinks", () => ({ default: mockSocialLinks }));
-
 import AppMobileMenu from "@components/AppMobileMenu.vue";
+import AppSocialLinks from "@components/AppSocialLinks.vue";
 
 const mountOpts = { global: { stubs: { Teleport: true } } };
 
@@ -92,6 +91,13 @@ describe("AppMobileMenu", () => {
   it("renders correctly", () => {
     wrapper = shallowMount(AppMobileMenu, mountOpts);
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("shows the social links regardless of breakpoint", () => {
+    wrapper = shallowMount(AppMobileMenu, mountOpts);
+    expect(wrapper.findComponent(AppSocialLinks).props("hideOnMobile")).toBe(
+      false,
+    );
   });
 
   it("moves focus to the close control when it opens", async () => {

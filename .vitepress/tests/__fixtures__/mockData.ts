@@ -168,6 +168,8 @@ export const mockSocialLinks = Object.freeze({
   GITHUB: "https://github.com/testuser",
   INSTAGRAM: "https://instagram.com/testuser/",
   LINKEDIN: "https://linkedin.com/in/testuser/",
+  X: "https://x.com/testuser",
+  BLUE_SKY: "https://bsky.app/profile/testuser.bsky.social",
 });
 
 export const mockNavItems = [
