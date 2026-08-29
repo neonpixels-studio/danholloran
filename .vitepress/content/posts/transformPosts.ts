@@ -1,6 +1,7 @@
 import type { ContentData } from "vitepress";
 import type { Post } from "@typedefs";
 import { calculateReadTime } from "../../theme/utils/readTime.ts";
+import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 
 // Both the list loader (posts.data.ts) and the detail loader
 // (postsDetail.data.ts) match the same posts and share this transform; the
@@ -60,6 +61,9 @@ export function transformPosts(raw: ContentData[]): Post[] {
           ...post.frontmatter,
           slug,
           readTime: calculateReadTime(src ?? ""),
+          // Normalize once at this chokepoint so every list/detail consumer
+          // downstream can treat `tags` as a guaranteed array.
+          tags: normalizeTags(post.frontmatter.tags),
         },
       };
     });

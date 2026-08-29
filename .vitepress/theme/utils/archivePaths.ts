@@ -5,6 +5,7 @@ import {
   pickRepresentativeLabel,
   toFilterSlug,
 } from "./archive";
+import { normalizeTags } from "./normalizeTags";
 
 // The posts glob every archive `.paths.ts` declares in its `watch` array,
 // mirroring the existing `posts/[slug].paths.ts` convention. Defined once so all
@@ -87,9 +88,9 @@ function tagBuckets(): FilterBucket[] {
   // the raw value — coercing a numeric YAML tag with String() would launder it
   // past that guard and generate a page no post links to.
   return bucketsFromKeyed(posts, (post) =>
-    Array.isArray(post.tags)
-      ? post.tags.filter((tag): tag is string => typeof tag === "string")
-      : [],
+    normalizeTags(post.tags).filter(
+      (tag): tag is string => typeof tag === "string",
+    ),
   );
 }
 

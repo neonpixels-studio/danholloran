@@ -52,10 +52,6 @@ const filterContext = computed(() => ({
   tagSlug: activeTagSlug.value,
 }));
 
-function tagsOf(post: Post): string[] {
-  return Array.isArray(post.frontmatter.tags) ? post.frontmatter.tags : [];
-}
-
 // De-duped by slug (not label) and stripped of route-less labels, so the row
 // never renders two chips pointing at one route or a dead /posts/topic/ link.
 const topicEntries = computed(() => {
@@ -87,7 +83,7 @@ function matchesTag(post: Post): boolean {
   if (activeTagSlug.value === null) {
     return true;
   }
-  return tagsOf(post).some(
+  return post.frontmatter.tags.some(
     (postTag) => toFilterSlug(postTag) === activeTagSlug.value,
   );
 }

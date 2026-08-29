@@ -54,6 +54,35 @@ describe("transformPosts", () => {
     expect(post.frontmatter.readTime).toBe(2);
   });
 
+  it("passes an array of tags through unchanged", () => {
+    const [post] = transformPosts([makeRawPost()]);
+
+    expect(post.frontmatter.tags).toEqual(["javascript"]);
+  });
+
+  it("normalizes non-array tags to an empty array at the chokepoint", () => {
+    // The fixture's frontmatter carries a scalar where a list is expected;
+    // every downstream consumer relies on transformPosts guaranteeing an array
+    // so it no longer has to guard the shape itself.
+    const scalarTagsPost = makeRawPost({
+      frontmatter: { ...makeRawPost().frontmatter, tags: "javascript" },
+    });
+
+    const [post] = transformPosts([scalarTagsPost]);
+
+    expect(post.frontmatter.tags).toEqual([]);
+  });
+
+  it("normalizes missing tags to an empty array at the chokepoint", () => {
+    const untaggedPost = makeRawPost({
+      frontmatter: { ...makeRawPost().frontmatter, tags: undefined },
+    });
+
+    const [post] = transformPosts([untaggedPost]);
+
+    expect(post.frontmatter.tags).toEqual([]);
+  });
+
   it("drops src and excerpt from every post", () => {
     const [post] = transformPosts([makeRawPost()]);
 

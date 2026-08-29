@@ -8,19 +8,18 @@ vi.mock("vitepress", () => ({
   useData: () => ({ isDark: ref(false) }),
 }));
 
+// `posts.data` is transformPosts' output, which normalizes `tags` to an array
+// at the chokepoint — so every entry here is already an array. Authored posts
+// with an absent, null, or scalar `tags` arrive as `[]`; that upstream coercion
+// is covered by transformPosts.test.ts and normalizeTags.test.ts, so this file
+// only needs one post that is post-normalization empty to prove the counter
+// skips a non-national-park post.
 vi.mock("@content/posts/posts.data.ts", () => ({
   data: [
     { frontmatter: { tags: ["national-park", "travel"] } },
     { frontmatter: { tags: ["national-park", "travel"] } },
     { frontmatter: { tags: ["travel"] } },
-    // Published posts with an absent and a null tags value — neither must crash
-    // the national-park counter.
-    { frontmatter: {} },
-    { frontmatter: { tags: null } },
-    // A scalar (non-array) tag is intentionally not counted here, matching the
-    // sibling list consumers PostsView.tagsOf and archivePaths, which also treat
-    // a non-array `tags` as empty. So this does not add to the count.
-    { frontmatter: { tags: "national-park" } },
+    { frontmatter: { tags: [] } },
   ],
 }));
 
@@ -45,14 +44,14 @@ describe("HomeTravelMap", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it("counts only tagged posts when others are missing tags", () => {
+  it("counts only posts carrying the national-park tag", () => {
     const wrapper = shallowMount(HomeTravelMap);
     const nationalParkStat = wrapper
       .findAll(".border-t-2")
       .find((stat) => stat.text().includes("national parks"));
     expect(nationalParkStat).toBeDefined();
-    // Two mocked posts carry the national-park tag; the tagless, null-tag, and
-    // scalar-tag posts must be skipped rather than throwing a TypeError.
+    // Two mocked posts carry the national-park tag; the travel-only and
+    // empty-tag posts are skipped.
     expect(nationalParkStat?.text()).toMatch(/^2\+/);
   });
 });

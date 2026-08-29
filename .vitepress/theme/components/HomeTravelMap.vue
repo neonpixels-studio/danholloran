@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { data as posts } from "@content/posts/posts.data.ts";
 import { ref, watch, onMounted, computed } from "vue";
 import { useData } from "vitepress";
@@ -6,11 +6,8 @@ const { isDark } = useData();
 const mapUpdatedText = ref("updated automatically");
 
 const nationalParkCount = computed(() => {
-  return posts.filter(
-    (post) =>
-      Array.isArray(post.frontmatter.tags) &&
-      post.frontmatter.tags.includes("national-park"),
-  ).length;
+  return posts.filter((post) => post.frontmatter.tags.includes("national-park"))
+    .length;
 });
 
 const yearsOnRoad = computed(() => {
