@@ -1,5 +1,6 @@
 import { computed, ref } from "vue";
 import { useAnalytics } from "@composables/useAnalytics";
+import { withTimeoutSignal } from "@utils/timeoutSignal";
 
 const KIT_FORM_ACTION = "https://app.kit.com/forms/9565549/subscriptions";
 const SUBSCRIBE_EVENT = "newsletter_subscribe";
@@ -12,18 +13,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // the address that already succeeded — a case-only re-type is the same signup.
 function normalizeEmail(value: string): string {
   return value.trim().toLowerCase();
-}
-
-// Undefined on browsers without AbortSignal.timeout so the request stays
-// unbounded (as before) rather than throwing and failing every subscribe.
-function requestTimeoutSignal(): AbortSignal | undefined {
-  if (
-    typeof AbortSignal === "undefined" ||
-    typeof AbortSignal.timeout !== "function"
-  ) {
-    return undefined;
-  }
-  return AbortSignal.timeout(REQUEST_TIMEOUT_MS);
 }
 
 export type NewsletterStatus = "idle" | "loading" | "success" | "error";
@@ -73,6 +62,7 @@ export function useNewsletter() {
     status.value = "loading";
     errorMessage.value = "";
 
+    const timeout = withTimeoutSignal(REQUEST_TIMEOUT_MS);
     try {
       const fd = new FormData();
       fd.append("email_address", trimmedEmail);
@@ -80,7 +70,7 @@ export function useNewsletter() {
         method: "POST",
         body: fd,
         headers: { Accept: "application/json" },
-        signal: requestTimeoutSignal(),
+        signal: timeout.signal,
       });
       if (!res.ok) {
         status.value = "error";
@@ -91,6 +81,8 @@ export function useNewsletter() {
       status.value = "error";
       errorMessage.value = "network error — please try again.";
       return;
+    } finally {
+      timeout.clear();
     }
 
     status.value = "success";

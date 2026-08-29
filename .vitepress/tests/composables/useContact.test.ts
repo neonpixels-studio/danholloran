@@ -82,6 +82,7 @@ describe("useContact", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.useRealTimers();
   });
 
   describe("required field validation", () => {
@@ -337,7 +338,7 @@ describe("useContact", () => {
       expect(contact.status.value).toBe("success");
     });
 
-    it("sends an unbounded request when AbortSignal.timeout is unavailable", async () => {
+    it("bounds the fetch with a fallback signal when AbortSignal.timeout is unavailable", async () => {
       vi.stubGlobal("AbortSignal", {});
       const fetchSpy = stubFetch(true);
       const contact = useContact();
@@ -345,12 +346,78 @@ describe("useContact", () => {
       fill(contact, VALID_FIELDS);
       await contact.submit();
 
-      expect(fetchSpy.mock.calls[0][1]?.signal).toBeUndefined();
+      const fallbackSignal = fetchSpy.mock.calls[0][1]?.signal;
+      expect(fallbackSignal).toBeDefined();
+      expect(fallbackSignal?.aborted).toBe(false);
       expect(contact.status.value).toBe("success");
     });
 
-    it("sends an unbounded request when AbortSignal itself is absent", async () => {
+    it("cancels the fallback timer once a successful request settles", async () => {
+      vi.useFakeTimers();
+      vi.stubGlobal("AbortSignal", {});
+      const fetchSpy = stubFetch(true);
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      await contact.submit();
+
+      const fallbackSignal = fetchSpy.mock.calls[0][1]?.signal;
+      expect(fallbackSignal).toBeDefined();
+      expect(vi.getTimerCount()).toBe(0);
+      vi.advanceTimersByTime(TIMEOUT_MS);
+      expect(fallbackSignal?.aborted).toBe(false);
+    });
+
+    it("cancels the fallback timer when the response is not ok", async () => {
+      vi.useFakeTimers();
+      vi.stubGlobal("AbortSignal", {});
+      const fetchSpy = stubFetch(false);
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      await contact.submit();
+
+      expect(fetchSpy.mock.calls[0][1]?.signal).toBeDefined();
+      expect(contact.status.value).toBe("error");
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("cancels the fallback timer when the request rejects", async () => {
+      vi.useFakeTimers();
+      vi.stubGlobal("AbortSignal", {});
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockRejectedValue(new TypeError("Failed to fetch"));
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      await contact.submit();
+
+      expect(fetchSpy.mock.calls[0][1]?.signal).toBeDefined();
+      expect(contact.status.value).toBe("error");
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it("aborts a hung request via the fallback timer when AbortSignal.timeout is unavailable", async () => {
+      vi.useFakeTimers();
+      vi.stubGlobal("AbortSignal", {});
+      vi.spyOn(globalThis, "fetch").mockImplementation(abortRejectingFetch());
+      const contact = useContact();
+
+      fill(contact, VALID_FIELDS);
+      const settled = contact.submit();
+      expect(contact.status.value).toBe("loading");
+
+      vi.advanceTimersByTime(TIMEOUT_MS);
+      await settled;
+
+      expect(contact.status.value).toBe("error");
+      expect(contact.statusMessage.value).toBe(NETWORK_ERROR_MESSAGE);
+    });
+
+    it("sends an unbounded request when neither AbortSignal.timeout nor AbortController exists", async () => {
       vi.stubGlobal("AbortSignal", undefined);
+      vi.stubGlobal("AbortController", undefined);
       const fetchSpy = stubFetch(true);
       const contact = useContact();
 
