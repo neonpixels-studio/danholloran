@@ -35,6 +35,65 @@ describe("HomeInstagram", () => {
     vi.restoreAllMocks();
   });
 
+  describe("image alt text", () => {
+    const [firstPost, secondPost] = mockInstagramPosts;
+    const originals = mockInstagramPosts.map((post) => ({
+      caption: post.frontmatter.caption,
+      location: post.frontmatter.location,
+    }));
+
+    afterEach(() => {
+      mockInstagramPosts.forEach((post, index) => {
+        post.frontmatter.caption = originals[index].caption;
+        post.frontmatter.location = originals[index].location;
+      });
+    });
+
+    it("uses the caption when present, ahead of the location", () => {
+      firstPost.frontmatter.caption = "Caption beats location";
+      firstPost.frontmatter.location = "Somewhere else";
+
+      const alt = shallowMount(HomeInstagram)
+        .findAll("img")[0]
+        .attributes("alt");
+
+      expect(alt).toBe("Caption beats location");
+    });
+
+    it("falls back to the location when the caption is empty", () => {
+      secondPost.frontmatter.caption = "";
+      secondPost.frontmatter.location = "Grand Canyon";
+
+      const alt = shallowMount(HomeInstagram)
+        .findAll("img")[1]
+        .attributes("alt");
+
+      expect(alt).toBe("Grand Canyon image");
+    });
+
+    it("falls back to the indexed default when caption and location are both empty", () => {
+      firstPost.frontmatter.caption = "";
+      firstPost.frontmatter.location = "";
+
+      const alt = shallowMount(HomeInstagram)
+        .findAll("img")[0]
+        .attributes("alt");
+
+      expect(alt).toBe("Instagram Post 0");
+    });
+
+    it("falls back to the indexed default when caption and location are undefined", () => {
+      secondPost.frontmatter.caption = undefined as unknown as string;
+      secondPost.frontmatter.location = undefined as unknown as string;
+
+      const alt = shallowMount(HomeInstagram)
+        .findAll("img")[1]
+        .attributes("alt");
+
+      expect(alt).toBe("Instagram Post 1");
+    });
+  });
+
   it("renders correctly", () => {
     const wrapper = shallowMount(HomeInstagram);
     expect(wrapper.html()).toMatchSnapshot();

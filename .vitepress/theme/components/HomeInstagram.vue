@@ -20,16 +20,34 @@ function permalinkSeed(url: string | undefined) {
   return url?.match(/\/p\/([A-Za-z0-9_-]+)/)?.[1] ?? url;
 }
 
+// Guard on a non-empty location so a captionless, locationless post falls
+// through to the indexed default rather than an empty " image" label. Params are
+// optional because VitePress content frontmatter is untyped and may omit either.
+function tileAlt(
+  caption: string | undefined,
+  location: string | undefined,
+  index: number,
+) {
+  if (caption) {
+    return caption;
+  }
+  if (location) {
+    return `${location} image`;
+  }
+  return `Instagram Post ${index}`;
+}
+
 // Seed the pick on each post's permalink so the server and client resolve the
 // same image with zero post-hydration swap and no second image fetch. Resolved
 // once per setup (the pick is pure) rather than on every render to avoid
 // re-hashing.
-const tiles = displayedPosts.map((post) => ({
+const tiles = displayedPosts.map((post, index) => ({
   post,
   image: pickDeterministicImage(
     permalinkSeed(post.frontmatter.url),
     post.frontmatter.images,
   ),
+  alt: tileAlt(post.frontmatter.caption, post.frontmatter.location, index),
 }));
 </script>
 
@@ -123,11 +141,7 @@ const tiles = displayedPosts.map((post) => ({
           >
             <img
               :src="tile.image"
-              :alt="
-                tile.post.frontmatter.caption ||
-                `${tile.post.frontmatter.location} image` ||
-                `Instagram Post ${index}`
-              "
+              :alt="tile.alt"
               width="480"
               height="480"
               loading="lazy"
