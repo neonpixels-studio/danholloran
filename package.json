@@ -19,7 +19,7 @@
   "license": "MIT",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@typescript-eslint/parser": "^8.67.0",
+    "@typescript-eslint/parser": "^8.68.0",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/ui": "^4.1.11",
     "@vue/test-utils": "^2.5.0",
