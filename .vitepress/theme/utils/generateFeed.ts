@@ -1,6 +1,7 @@
 import { Feed } from "feed";
 import type { MarkdownRenderer } from "vitepress";
 import { loadDatedPosts } from "./loadPublishedPosts";
+import { normalizeTags } from "./normalizeTags";
 import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
 // `]]>` closes a CDATA section. The `feed` library wraps every item title,
@@ -84,6 +85,25 @@ function resolveItemTitle(
   return slug;
 }
 
+// Raw frontmatter `tags` is author-controlled YAML that can arrive as a
+// scalar (string/number) or be missing entirely, not just an array — feeding
+// that straight to `.map` throws. `normalizeTags` guards the container shape;
+// the string filter then matches archivePaths' `tagBuckets` non-string policy
+// of dropping non-string tags rather than coercing them into a laundered
+// label. Trimming and dropping the empty result additionally keeps a blank or
+// whitespace-only tag from shipping as a junk `<category>` element (`tagBuckets`
+// gets the same outcome for free via its route-slugging step, which isn't
+// appropriate to reuse here). Deduping after the trim stops two tags that
+// differ only by surrounding whitespace (e.g. "js" and " js ") from shipping
+// as two byte-identical `<category>` elements on the same item.
+function feedCategories(tags: unknown): { name: string }[] {
+  const trimmedTags = normalizeTags(tags)
+    .filter((tag): tag is string => typeof tag === "string")
+    .map((tag) => tag.trim())
+    .filter((tag) => tag.length > 0);
+  return [...new Set(trimmedTags)].map((tag) => ({ name: tag }));
+}
+
 // The markdown renderer is injected (an external dependency, kept out of this
 // module so it stays testable in isolation). The build passes one created from
 // the resolved site config (see config.ts `buildEnd`), so feed bodies run
@@ -115,7 +135,7 @@ export function generateFeed(renderer: MarkdownRenderer): string {
       description,
       content: renderBody(renderer, post),
       date: new Date(post.sortTime),
-      category: post.tags?.map((tag: string) => ({ name: tag })) ?? [],
+      category: feedCategories(post.tags),
       image: post.image ? `${SITE_URL}${post.image}` : undefined,
     });
   }

@@ -59,6 +59,19 @@ function itemTitles(xml: string): string[] {
   return feedItems(xml).map((item) => nodeText(item.title));
 }
 
+// rss2's <category> is one element per tag when there are 2+, but xml-js
+// collapses a single element to a bare object rather than a one-item array —
+// normalize both shapes to a name array so callers don't care how many tags
+// a post had.
+function itemCategories(item: ElementCompact): string[] {
+  const category = item.category;
+  if (!category) {
+    return [];
+  }
+  const categories = Array.isArray(category) ? category : [category];
+  return categories.map((entry) => nodeText(entry));
+}
+
 // The full post body renders into <content:encoded> (feed's `content` field).
 function itemContent(item: ElementCompact): string {
   return nodeText(item["content:encoded"]);
@@ -476,6 +489,123 @@ describe("generateFeed", () => {
 
     expect(itemTitles(generateFeed(passthroughRenderer()))).toEqual([
       "Real Title",
+    ]);
+  });
+
+  it("emits a category per array tag", async () => {
+    mockPostFiles(
+      ["tagged.md"],
+      [{ title: "Tagged", date: "2024-01-01", tags: ["js", "css"] }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual(["js", "css"]);
+  });
+
+  it("omits categories for a post with no tags", async () => {
+    mockPostFiles(["untagged.md"], [{ title: "Untagged", date: "2024-01-01" }]);
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual([]);
+  });
+
+  it("does not crash and drops the tag when frontmatter tags is a scalar string", async () => {
+    mockPostFiles(
+      ["scalar-tags.md"],
+      [{ title: "Scalar Tags", date: "2024-01-01", tags: "javascript" }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual([]);
+  });
+
+  it("does not crash and drops the tag when frontmatter tags is a number", async () => {
+    mockPostFiles(
+      ["numeric-tags.md"],
+      [{ title: "Numeric Tags", date: "2024-01-01", tags: 2025 }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual([]);
+  });
+
+  it("keeps only the string entries when a tags array mixes types", async () => {
+    mockPostFiles(
+      ["mixed-tags.md"],
+      [{ title: "Mixed Tags", date: "2024-01-01", tags: ["js", 3, null] }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual(["js"]);
+  });
+
+  it("drops empty and whitespace-only string tags", async () => {
+    mockPostFiles(
+      ["blank-tags.md"],
+      [{ title: "Blank Tags", date: "2024-01-01", tags: ["", "   ", "js"] }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual(["js"]);
+  });
+
+  it("trims surrounding whitespace from a tag it keeps", async () => {
+    mockPostFiles(
+      ["padded-tags.md"],
+      [{ title: "Padded Tags", date: "2024-01-01", tags: ["  js  "] }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(itemCategories(feedItems(xml)[0])).toEqual(["js"]);
+  });
+
+  it("dedupes tags that are identical once trimmed", async () => {
+    mockPostFiles(
+      ["duplicate-tags.md"],
+      [{ title: "Duplicate Tags", date: "2024-01-01", tags: ["js", " js "] }],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(itemCategories(feedItems(xml)[0])).toEqual(["js"]);
+  });
+
+  it("keeps the feed well-formed for tags with XML-special characters", async () => {
+    // <category> is a plain text node (not CDATA-wrapped, unlike title/
+    // description/content), so this pins that xml-js's writer escapes it on
+    // its own rather than relying on neutralizeCdata, which tags deliberately
+    // skip.
+    mockPostFiles(
+      ["special-tags.md"],
+      [
+        {
+          title: "Special Tags",
+          date: "2024-01-01",
+          tags: ["A & B", "<script>", "one ]]> two"],
+        },
+      ],
+    );
+
+    const xml = generateFeed(passthroughRenderer());
+
+    expect(() => parseFeedXml(xml)).not.toThrow();
+    expect(itemCategories(feedItems(xml)[0])).toEqual([
+      "A & B",
+      "<script>",
+      "one ]]> two",
     ]);
   });
 });
