@@ -190,6 +190,20 @@ describe("AppSearch", () => {
     expect(options[0].text()).not.toContain("Duplicate Of First Post");
   });
 
+  it("shows posts ahead of projects in the default empty-query panel", () => {
+    const search = mountSearch();
+
+    const optionHrefs = search
+      .findAll('[role="option"]')
+      .map((option) => option.attributes("href"));
+    const postIndex = optionHrefs.indexOf("/posts/first-post");
+    const projectIndex = optionHrefs.indexOf("https://acme.example");
+
+    expect(postIndex).toBeGreaterThan(-1);
+    expect(projectIndex).toBeGreaterThan(-1);
+    expect(postIndex).toBeLessThan(projectIndex);
+  });
+
   it("collapses aria-expanded when the search panel is closed", async () => {
     const search = mountSearch();
     mocks.isSearchOpen!.value = false;
