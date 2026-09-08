@@ -2,11 +2,15 @@ import { describe, it, expect } from "vitest";
 import realProjects from "@data/projects";
 import {
   buildStaticSearchItems,
+  buildEmptyQueryResults,
   mergeSearchIndex,
   projectToSearchItem,
   PROJECTS_ANCHOR,
+  SEARCH_PANEL_SIZE,
+  EMPTY_QUERY_PAGE_LIMIT,
 } from "@data/searchIndex";
 import { mockProjects, mockSearchItems } from "../__fixtures__/mockData";
+import type { SearchItem } from "@typedefs";
 
 describe("buildStaticSearchItems", () => {
   it("indexes the full set of static pages", () => {
@@ -94,5 +98,141 @@ describe("mergeSearchIndex", () => {
     expect(survivor.type).toBe("post");
     expect(survivor.kw).toContain("Automation Platform");
     expect(survivor.kw).toContain(mockSearchItems[0].kw);
+  });
+});
+
+describe("buildEmptyQueryResults", () => {
+  function manyProjects(count: number): SearchItem[] {
+    return Array.from({ length: count }, (_unused, index) =>
+      projectToSearchItem({
+        ...mockProjects[0],
+        title: `Project ${index}`,
+        url: `https://example.com/project-${index}`,
+      }),
+    );
+  }
+
+  it("orders pages before posts before projects, regardless of input order", () => {
+    const pageItem = buildStaticSearchItems([])[0];
+    const items = [...manyProjects(2), ...mockSearchItems, pageItem];
+
+    const result = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE);
+
+    const typeOrder = result.map((item) => item.type);
+    const lastPageIndex = typeOrder.lastIndexOf("page");
+    const firstProjectIndex = typeOrder.indexOf("project");
+    const postIndices = typeOrder.reduce<number[]>((indices, type, index) => {
+      if (type === "post") {
+        indices.push(index);
+      }
+      return indices;
+    }, []);
+
+    expect(postIndices.length).toBeGreaterThan(0);
+    expect(firstProjectIndex).toBeGreaterThan(-1);
+    expect(lastPageIndex).toBeLessThan(Math.min(...postIndices));
+    expect(Math.max(...postIndices)).toBeLessThan(firstProjectIndex);
+  });
+
+  it("keeps every post ahead of every project when projects outnumber the panel size", () => {
+    const pageItem = buildStaticSearchItems([])[0];
+    const items = [pageItem, ...manyProjects(10), ...mockSearchItems];
+
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
+    const lastPostIndex = visibleTypes.lastIndexOf("post");
+    const firstProjectIndex = visibleTypes.indexOf("project");
+
+    expect(lastPostIndex).toBeGreaterThan(-1);
+    expect(firstProjectIndex).toBeGreaterThan(-1);
+    expect(lastPostIndex).toBeLessThan(firstProjectIndex);
+  });
+
+  it("fills the panel with posts alone when there are enough to do so, excluding projects entirely", () => {
+    const pageItem = buildStaticSearchItems([])[0];
+    const manyPosts: SearchItem[] = Array.from(
+      { length: 10 },
+      (_unused, index) => ({
+        type: "post",
+        title: `Post ${index}`,
+        desc: "",
+        href: `/posts/post-${index}`,
+        kw: "",
+      }),
+    );
+    const items = [pageItem, ...manyProjects(5), ...manyPosts];
+
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
+
+    expect(visibleTypes).not.toContain("project");
+  });
+
+  function buildPages(count: number): SearchItem[] {
+    return Array.from({ length: count }, (_unused, index) => ({
+      type: "page",
+      title: `Page ${index}`,
+      desc: "",
+      href: `/page-${index}`,
+      kw: "",
+    }));
+  }
+
+  it("caps leading pages so an ever-growing pages list can't crowd out posts", () => {
+    const manyPages = buildPages(10);
+    const items = [...manyPages, ...mockSearchItems];
+
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
+    const firstPostIndex = visibleTypes.indexOf("post");
+
+    expect(firstPostIndex).toBeGreaterThan(-1);
+    expect(firstPostIndex).toBeLessThanOrEqual(EMPTY_QUERY_PAGE_LIMIT);
+  });
+
+  it("backfills pages beyond the cap after posts and projects, instead of dropping them, once the panel has room", () => {
+    const pageCount = EMPTY_QUERY_PAGE_LIMIT + 1;
+    const manyPages = buildPages(pageCount);
+    const overflowPageCount = pageCount - EMPTY_QUERY_PAGE_LIMIT;
+    const project = manyProjects(1)[0];
+    const items = [...manyPages, ...mockSearchItems, project];
+    const roomyPanelSize =
+      EMPTY_QUERY_PAGE_LIMIT + mockSearchItems.length + 1 + overflowPageCount;
+
+    const result = buildEmptyQueryResults(items, roomyPanelSize);
+
+    expect(result.length).toBe(roomyPanelSize);
+    // Order must be leading pages, then posts, then projects, then the
+    // overflow pages — not overflow pages slotted in ahead of the project.
+    const lastNonPageIndex = Math.max(
+      result.findIndex((item) => item.type === "post"),
+      result.findIndex((item) => item.type === "project"),
+    );
+    const firstOverflowPageIndex = result.findIndex(
+      (item, index) => item.type === "page" && index > EMPTY_QUERY_PAGE_LIMIT,
+    );
+    expect(firstOverflowPageIndex).toBeGreaterThan(lastNonPageIndex);
+  });
+
+  it("respects the panel size limit", () => {
+    const items = [
+      ...buildStaticSearchItems([]),
+      ...manyProjects(5),
+      ...mockSearchItems,
+    ];
+
+    const result = buildEmptyQueryResults(items, 3);
+
+    expect(result.length).toBe(3);
+  });
+
+  it("returns an empty array for a zero or negative panel size instead of dropping the last item via slice(0, -1)", () => {
+    const items = [...buildStaticSearchItems([]), ...mockSearchItems];
+
+    expect(buildEmptyQueryResults(items, 0)).toEqual([]);
+    expect(buildEmptyQueryResults(items, -1)).toEqual([]);
   });
 });

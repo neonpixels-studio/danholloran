@@ -89,7 +89,8 @@ type FetchArgs = Parameters<typeof fetch>;
 // dropped so the suite doesn't hang on the test timeout.
 function abortRejectingFetch() {
   return (_url: FetchArgs[0], init?: FetchArgs[1]): Promise<Response> => {
-    if (!init?.signal) {
+    const signal = init?.signal;
+    if (!signal) {
       return Promise.reject(
         new Error("fetch was called without a timeout signal"),
       );
@@ -98,11 +99,11 @@ function abortRejectingFetch() {
       const rejectAsTimedOut = () => {
         reject(new DOMException("timed out", "TimeoutError"));
       };
-      if (init.signal.aborted) {
+      if (signal.aborted) {
         rejectAsTimedOut();
         return;
       }
-      init.signal.addEventListener("abort", rejectAsTimedOut);
+      signal.addEventListener("abort", rejectAsTimedOut);
     });
   };
 }

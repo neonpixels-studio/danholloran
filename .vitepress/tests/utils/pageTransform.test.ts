@@ -429,6 +429,29 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(scriptTag).toBeDefined();
   });
 
+  it("stringifies a non-string title/description rather than dropping them", () => {
+    // An unquoted YAML scalar that looks like a number/date/bool parses as
+    // that type, not a string. Coerce it into something meaningful instead
+    // of silently shipping empty SEO metadata for the page.
+    const pageData = transformPostWithFrontmatter({
+      title: 1984,
+      description: false,
+      date: "2024-03-01",
+    });
+
+    expect(pageData.title).toBe("1984");
+    expect(pageData.description).toBe("false");
+  });
+
+  it("defaults title/description to an empty string when absent", () => {
+    const pageData = transformPostWithFrontmatter({
+      date: "2024-03-01",
+    });
+
+    expect(pageData.title).toBe("");
+    expect(pageData.description).toBe("");
+  });
+
   it("falls back to default-social.png for og:image, twitter:image, and Article JSON-LD when no frontmatter image", () => {
     const pageData = transformPostWithFrontmatter({
       title: "T",

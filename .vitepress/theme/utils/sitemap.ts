@@ -1,11 +1,19 @@
 import { existsSync, statSync } from "fs";
 import { join } from "path";
-import type { SitemapItem } from "vitepress";
+import type { UserConfig } from "vitepress";
 import {
   loadPublishedPosts,
   hasUsableDate,
   type PublishedPost,
 } from "./loadPublishedPosts";
+
+// vitepress doesn't export `SitemapItem` directly; derive it from the public
+// `sitemap.transformItems` config type so this stays in sync with vitepress's
+// own definition instead of hand-duplicating it.
+type SitemapTransformItems = NonNullable<
+  NonNullable<UserConfig["sitemap"]>["transformItems"]
+>;
+type SitemapItem = Parameters<SitemapTransformItems>[0][number];
 
 // Post source files live here, not at a route-shaped path: `/posts/<slug>` is
 // served by the dynamic `posts/[slug].md` route, so `fileEntry` (which probes

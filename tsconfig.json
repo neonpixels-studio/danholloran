@@ -12,6 +12,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "ignoreDeprecations": "6.0",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [".vitepress/*"],
@@ -34,6 +36,11 @@
       "@views": [".vitepress/theme/views"]
     }
   },
-  "include": ["**/*.ts", "**/*.vue"],
+  "include": [
+    "**/*.ts",
+    "**/*.vue",
+    ".vitepress/**/*.ts",
+    ".vitepress/**/*.vue"
+  ],
   "exclude": ["node_modules", ".vitepress/dist", ".vitepress/cache"]
 }

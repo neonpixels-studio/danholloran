@@ -12,7 +12,11 @@ import MiniSearch from "minisearch";
 import { SearchItem } from "@typedefs";
 import { data as postItems } from "../../content/posts/search.data.ts";
 import { data as staticItems } from "../../data/staticSearch.data.ts";
-import { mergeSearchIndex } from "../../data/searchIndex.ts";
+import {
+  mergeSearchIndex,
+  buildEmptyQueryResults,
+  SEARCH_PANEL_SIZE,
+} from "../../data/searchIndex.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
 
@@ -48,9 +52,9 @@ const resultRefs = ref<HTMLElement[]>([]);
 const filteredResults = computed((): SearchItem[] => {
   const q = query.value.trim();
   if (!q) {
-    return ALL_ITEMS.slice(0, 8);
+    return buildEmptyQueryResults(ALL_ITEMS);
   }
-  return ms.search(q).slice(0, 8) as unknown as SearchItem[];
+  return ms.search(q).slice(0, SEARCH_PANEL_SIZE) as unknown as SearchItem[];
 });
 
 const activeDescendantId = computed(() => {
