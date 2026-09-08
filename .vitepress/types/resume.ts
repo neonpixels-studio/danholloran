@@ -4,7 +4,7 @@ import type { SkillInterface } from "./skills";
 export interface ResumeContactInterface {
   label: string;
   icon?: Component;
-  link?: boolean;
+  link?: string;
 }
 
 export interface ResumeExperienceInterface {
@@ -33,6 +33,7 @@ export interface ResumeEducationInterface {
 
 export interface ResumeInterface {
   firstName: string;
+  shortFirstName: string;
   lastName: string;
   photo: string;
   headline: string;

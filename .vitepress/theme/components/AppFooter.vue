@@ -1,4 +1,4 @@
-<script lang="js" setup>
+<script lang="ts" setup>
 import { PAST_LOCATIONS } from "@data/resume.ts";
 import { computed, ref, onMounted, onUnmounted } from "vue";
 import { useData } from "vitepress";
@@ -15,8 +15,14 @@ const locationIndex = ref(0);
 const maxLocationWidth =
   Math.max(...PAST_LOCATIONS.map((l) => `${l.city}, ${l.state}`.length)) + "ch";
 
-let interval;
-let reducedMotion;
+let interval: ReturnType<typeof setInterval> | undefined;
+// Assigned in onMounted before applyMotionPreference is ever called; declared
+// without `| undefined` so a real "not initialized yet" bug on that path
+// throws loudly instead of silently disabling the location rotation. Teardown
+// still guards with `?.` below: if onMounted itself failed before assignment
+// (e.g. matchMedia throwing), onUnmounted can still run, and a crash there
+// would mask the original mount error behind a confusing new one.
+let reducedMotion: MediaQueryList;
 
 // Honor prefers-reduced-motion: don't auto-rotate the location text (WCAG
 // 2.2.2). Re-evaluated on preference change so a mid-session flip takes hold.

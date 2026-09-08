@@ -1,5 +1,5 @@
 import type { ContentData } from "vitepress";
-import type { Post } from "@typedefs";
+import type { Post, PostMeta } from "@typedefs";
 import { calculateReadTime } from "../../theme/utils/readTime.ts";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 
@@ -58,7 +58,12 @@ export function transformPosts(raw: ContentData[]): Post[] {
         ...post,
         url: `/posts/${slug}`,
         frontmatter: {
-          ...post.frontmatter,
+          // vitepress types raw frontmatter as `Record<string, any>`, so TS
+          // can't verify it matches PostMeta at this spread. Malformed dates
+          // already get a loud runtime warning above (publishedTime); other
+          // malformed/missing fields are not yet validated at build time —
+          // this cast only silences the type error, it doesn't add safety.
+          ...(post.frontmatter as PostMeta),
           slug,
           readTime: calculateReadTime(src ?? ""),
           // Normalize once at this chokepoint so every list/detail consumer

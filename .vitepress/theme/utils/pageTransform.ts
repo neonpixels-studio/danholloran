@@ -253,9 +253,14 @@ function transformPost(pageData: PageData): void {
   // excludes it) — a reachable, indexable, empty page.
   if (!isPublished(data, slug)) return;
 
-  const title = data.title ?? "";
-  const description = data.description ?? "";
-  const image = data.image ?? DEFAULT_SOCIAL_IMAGE;
+  // title/description are coerced (not dropped) for a non-string value: an
+  // unquoted YAML scalar that happens to look like a number/date/bool still
+  // renders as *something* meaningful in SEO metadata. image has no sane
+  // coercion — a non-string value falls back to the default social image.
+  const title = data.title == null ? "" : String(data.title);
+  const description = data.description == null ? "" : String(data.description);
+  const image =
+    typeof data.image === "string" ? data.image : DEFAULT_SOCIAL_IMAGE;
   const url = `${SITE_URL}/posts/${slug}`;
   setStandardPageMeta(
     pageData,

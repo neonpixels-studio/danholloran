@@ -17,13 +17,13 @@ const processEnvWithoutGitOverrides = Object.fromEntries(
 // Also isolate git from this machine's global/system config (e.g. an
 // iCloud-synced ~/.gitconfig) so these subprocess calls can't fail or behave
 // differently depending on where the test happens to run.
-const GIT_ENV = {
+type ProcessEnv = Record<string, string | undefined>;
+
+const GIT_ENV: ProcessEnv = {
   ...processEnvWithoutGitOverrides,
   GIT_CONFIG_GLOBAL: "/dev/null",
   GIT_CONFIG_SYSTEM: "/dev/null",
 };
-
-type ProcessEnv = Record<string, string | undefined>;
 
 const SCRIPT_PATH = join(__dirname, "../../../netlify-ignore.sh");
 

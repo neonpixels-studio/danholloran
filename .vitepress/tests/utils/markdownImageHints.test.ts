@@ -109,7 +109,7 @@ describe("setMarkdownImageHints", () => {
 
 describe("applyMarkdownImageHints", () => {
   it("hints the token then delegates to the existing image rule with all args", () => {
-    const renderImage = vi.fn(() => "<rendered>");
+    const renderImage = vi.fn((..._args: unknown[]) => "<rendered>");
     const md = { renderer: { rules: { image: renderImage } } };
 
     applyMarkdownImageHints(md as never, measure10x20);

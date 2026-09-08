@@ -1,20 +1,38 @@
 <script setup lang="ts">
 import resume from "@data/resume";
+import type { SkillInterface } from "@typedefs";
+import { formatPeriod } from "@utils/formatDate";
 
-const experience = [...resume.experience, ...resume.education].sort((a, b) => {
-  return new Date(b.start).getTime() - new Date(a.start).getTime();
-});
-
-function formatPeriod(start: string, end: string | null): string {
-  const fmt = (d: string) =>
-    new Date(d).toLocaleDateString("en-US", {
-      month: "short",
-      year: "numeric",
-    });
-  return end === null
-    ? `${fmt(start)} – Present`
-    : `${fmt(start)} – ${fmt(end)}`;
+interface TimelineEntry {
+  title: string;
+  subtitle: string;
+  location: string;
+  start: Date;
+  end: Date | null | undefined;
+  skills: SkillInterface[];
 }
+
+// Experience and education entries have different shapes (role/company vs.
+// degree/field/school); normalize both into one display shape up front so
+// the template doesn't need to branch on which kind of entry it's rendering.
+const experience: TimelineEntry[] = [
+  ...resume.experience.map((entry): TimelineEntry => ({
+    title: entry.role,
+    subtitle: entry.company,
+    location: entry.location,
+    start: entry.start,
+    end: entry.end,
+    skills: entry.skills,
+  })),
+  ...resume.education.map((entry): TimelineEntry => ({
+    title: `${entry.degree} in ${entry.field}`,
+    subtitle: entry.school,
+    location: entry.location,
+    start: entry.start,
+    end: entry.end,
+    skills: entry.skills,
+  })),
+].sort((a, b) => b.start.getTime() - a.start.getTime());
 </script>
 
 <template>
@@ -63,7 +81,7 @@ function formatPeriod(start: string, end: string | null): string {
         <div class="stagger flex flex-col">
           <div
             v-for="(job, index) in experience"
-            :key="job.role + (job.company || job.school)"
+            :key="job.title + job.subtitle"
             class="grid grid-cols-[1fr_auto] gap-4 py-5"
             :class="index < experience.length - 1 ? 'border-line border-b' : ''"
           >
@@ -71,17 +89,17 @@ function formatPeriod(start: string, end: string | null): string {
               <div class="mb-1.5 flex flex-wrap items-center gap-2.5">
                 <span
                   class="tracking-tighter-2 font-mono text-[0.9rem] leading-snug font-bold"
-                  >{{ job.role || `${job.degree} in ${job.field}` }}</span
+                  >{{ job.title }}</span
                 >
                 <span
-                  v-if="job.end === null"
+                  v-if="job.end == null"
                   class="text-on-accent-dim bg-accent-dim rounded-xs px-1.5 py-px font-mono text-[0.58rem]"
                 >
                   current
                 </span>
               </div>
               <div class="text-fg-muted mb-2.5 font-mono text-[0.72rem]">
-                @{{ job.company || job.school }} · {{ job.location }}
+                @{{ job.subtitle }} · {{ job.location }}
               </div>
               <div class="flex flex-wrap gap-1.5">
                 <span
