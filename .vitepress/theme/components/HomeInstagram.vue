@@ -49,6 +49,13 @@ const tiles = displayedPosts.map((post, index) => ({
   ),
   alt: tileAlt(post.frontmatter.caption, post.frontmatter.location, index),
 }));
+
+// Frontmatter is untyped content, so the newest post could in principle omit
+// created_at; fall back to vague-but-true rather than formatting `undefined`.
+const newestCreatedAt = instagramPosts[0]?.frontmatter.created_at;
+const lastUpdatedLabel = newestCreatedAt
+  ? formatPostDate(newestCreatedAt)
+  : "recently";
 </script>
 
 <template>
@@ -190,7 +197,7 @@ const tiles = displayedPosts.map((post, index) => ({
           >
           </span>
 
-          Updated {{ formatPostDate(instagramPosts[0].frontmatter.created_at) }}
+          Updated {{ lastUpdatedLabel }}
         </span>
       </div>
     </div>

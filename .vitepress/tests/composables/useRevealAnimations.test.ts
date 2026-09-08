@@ -106,7 +106,12 @@ describe("useRevealAnimations", () => {
     withSetup(useRevealAnimations);
     const el = document.createElement("div");
     ioInstances[0].cb(
-      [{ isIntersecting: true, target: el } as IntersectionObserverEntry],
+      [
+        {
+          isIntersecting: true,
+          target: el,
+        } as unknown as IntersectionObserverEntry,
+      ],
       {} as IntersectionObserver,
     );
     expect(el.classList.contains("in")).toBe(true);
@@ -117,7 +122,12 @@ describe("useRevealAnimations", () => {
     withSetup(useRevealAnimations);
     const el = document.createElement("div");
     ioInstances[0].cb(
-      [{ isIntersecting: false, target: el } as IntersectionObserverEntry],
+      [
+        {
+          isIntersecting: false,
+          target: el,
+        } as unknown as IntersectionObserverEntry,
+      ],
       {} as IntersectionObserver,
     );
     expect(el.classList.contains("in")).toBe(false);

@@ -37,7 +37,7 @@ async function fetchMapDate() {
     const r = await fetch(url, { method: "HEAD", cache: "no-store" });
     const lm = r.headers.get("last-modified");
     const d = lm ? new Date(lm) : null;
-    if (d && !isNaN(d)) {
+    if (d && !Number.isNaN(d.getTime())) {
       mapUpdatedText.value =
         "updated " +
         d.toLocaleDateString("en-US", {

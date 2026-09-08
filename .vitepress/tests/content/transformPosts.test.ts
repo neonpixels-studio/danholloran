@@ -101,7 +101,7 @@ describe("transformPosts", () => {
     // `html` key to the raw data it hands the transform. This proves the list
     // payload ships no rendered post html.
     const rawWithoutHtml = makeRawPost();
-    delete (rawWithoutHtml as Record<string, unknown>).html;
+    delete (rawWithoutHtml as unknown as Record<string, unknown>).html;
 
     const [post] = transformPosts([rawWithoutHtml]);
 

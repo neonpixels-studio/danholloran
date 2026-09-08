@@ -11,7 +11,11 @@
   "ignoreDependencies": ["vue"],
   "ignorePatterns": ["**/*.data.ts", "**/*.paths.ts", "public/**"],
   "ignoreExports": [
-    { "file": ".vitepress/types/search.ts", "exports": ["PostSearchItem"] }
+    { "file": ".vitepress/types/search.ts", "exports": ["PostSearchItem"] },
+    {
+      "file": ".vitepress/types/instagram.ts",
+      "exports": ["InstagramContentItem"]
+    }
   ],
   "rules": {
     "unused-dependencies": "warn"

@@ -2,7 +2,9 @@ import { fileURLToPath, URL } from "node:url";
 import { writeFileSync, readFileSync } from "fs";
 import { join } from "path";
 import { defineConfig, createMarkdownRenderer } from "vitepress";
+import type { UserConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
+import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 import { generateFeed } from "./theme/utils/generateFeed";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
 import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
@@ -14,7 +16,6 @@ import {
   readLocalImageDimensions,
 } from "./theme/utils/markdownImageHints";
 import { transformPageData } from "./theme/utils/pageTransform";
-import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 
 // The Shiki TextMate themes live under public/ so they double as the
 // downloadable Grimicorn port; this blog highlights its own code with them.
@@ -37,6 +38,15 @@ const lightTheme = parsePlist(
   ),
 );
 
+// @tailwindcss/vite and vitepress each bundle their own (differing major)
+// copy of vite's types, so the plugin @tailwindcss/vite returns is
+// structurally incompatible with vitepress's nested `vite` types even though
+// it works fine at runtime. Derive the plugin element type from vitepress's
+// own config type (rather than importing `vite` directly) so the cast below
+// targets the exact shape vitepress expects.
+type VitePlugins = NonNullable<NonNullable<UserConfig["vite"]>["plugins"]>;
+type VitePluginOption = VitePlugins[number];
+
 export default defineConfig({
   title: "Dan Holloran",
   description: SITE_DESCRIPTION,
@@ -56,7 +66,7 @@ export default defineConfig({
   },
   vite: {
     build: { cssMinify: "esbuild" },
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss() as unknown as VitePluginOption],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL(".", import.meta.url)),

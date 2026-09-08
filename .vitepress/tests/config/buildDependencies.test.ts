@@ -47,7 +47,10 @@ type LockfilePackageEntry = {
   dev?: boolean;
 };
 
-function readLockfilePackages(): Record<string, LockfilePackageEntry> {
+function readLockfilePackages(): Record<
+  string,
+  LockfilePackageEntry & DependencyManifest
+> {
   const lockfile = readJsonFromRoot("package-lock.json") as {
     packages?: Record<string, LockfilePackageEntry & DependencyManifest>;
   };
