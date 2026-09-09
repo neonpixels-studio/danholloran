@@ -141,6 +141,7 @@ export function buildEmptyQueryResults(
     page: pageItems,
     post: postItems,
     project: projectItems,
+    ...otherTypeItems
   } = groupByType(items);
   const leadingPages = pageItems.slice(0, EMPTY_QUERY_PAGE_LIMIT);
   const overflowPages = pageItems.slice(EMPTY_QUERY_PAGE_LIMIT);
@@ -149,6 +150,7 @@ export function buildEmptyQueryResults(
     ...postItems,
     ...projectItems,
     ...overflowPages,
+    ...Object.values<SearchItem[]>(otherTypeItems).flat(),
   ];
   return ordered.slice(0, Math.max(0, panelSize));
 }
