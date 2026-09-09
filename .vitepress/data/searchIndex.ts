@@ -150,7 +150,7 @@ export function buildEmptyQueryResults(
     ...postItems,
     ...projectItems,
     ...overflowPages,
-    ...Object.values(otherTypeItems).flat(),
+    ...Object.values<SearchItem[]>(otherTypeItems).flat(),
   ];
   return ordered.slice(0, Math.max(0, panelSize));
 }
