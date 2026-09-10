@@ -15,6 +15,7 @@ import {
   applyMarkdownImageHints,
   readLocalImageDimensions,
 } from "./theme/utils/markdownImageHints";
+import { applyMarkdownZoomImageHints } from "./theme/utils/markdownZoomImages";
 import { transformPageData } from "./theme/utils/pageTransform";
 
 // The Shiki TextMate themes live under public/ so they double as the
@@ -62,6 +63,7 @@ export default defineConfig({
     codeTransformers: [injectThemeBgTransformer],
     config(md) {
       applyMarkdownImageHints(md, readLocalImageDimensions);
+      applyMarkdownZoomImageHints(md);
     },
   },
   vite: {

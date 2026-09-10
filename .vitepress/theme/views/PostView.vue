@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import { archiveHref, hasFilterRoute, toFilterSlug } from "@utils/archive";
-
-const ZOOM_LABEL = "Zoom image";
+import { zoomLabelFor } from "@utils/markdownZoomImages";
 
 const { post, posts } = defineProps<{
   post: Post;
@@ -14,7 +13,6 @@ const { post, posts } = defineProps<{
 }>();
 
 const lightbox = ref<{ src: string; alt: string } | null>(null);
-const article = ref<HTMLElement | null>(null);
 
 function openLightbox(src: string, alt: string) {
   lightbox.value = { src, alt };
@@ -26,18 +24,6 @@ function closeLightbox() {
 
 function openHeroLightbox() {
   openLightbox(post.frontmatter.image, post.frontmatter.title);
-}
-
-// Positional suffix keeps decorative (empty-alt) images distinguishable to AT
-// instead of collapsing them all into an identical "Zoom image" stop.
-function zoomLabelFor(alt: string, position?: number, total?: number) {
-  if (alt.trim()) {
-    return `${ZOOM_LABEL}: ${alt}`;
-  }
-  if (position && total && total > 1) {
-    return `${ZOOM_LABEL} ${position} of ${total}`;
-  }
-  return ZOOM_LABEL;
 }
 
 // An in-body image is zoomable unless it is a link (its click is a navigation).
@@ -73,44 +59,6 @@ function onArticleKeydown(event: KeyboardEvent) {
   event.preventDefault();
   openLightboxFromImage(target);
 }
-
-// The article body is v-html, so expose its images to keyboard/AT imperatively.
-function makeImageOperable(image: HTMLImageElement, label: string) {
-  // A pre-existing role or tabindex means the author defined the semantics
-  // themselves; bail wholesale rather than build a half-overridden control.
-  if (image.hasAttribute("role") || image.hasAttribute("tabindex")) {
-    return;
-  }
-  image.setAttribute("role", "button");
-  image.setAttribute("tabindex", "0");
-  image.setAttribute("aria-haspopup", "dialog");
-  if (!image.hasAttribute("aria-label")) {
-    image.setAttribute("aria-label", label);
-  }
-}
-
-function enrichArticleImages() {
-  const root = article.value;
-  if (!root) {
-    return;
-  }
-  const images = Array.from(root.querySelectorAll<HTMLImageElement>("img"));
-  const zoomable = images.filter((image) => isZoomableImage(image));
-  // Positional labels number only the images that actually get a generic label,
-  // so "N of M" reflects the count of generic controls, not all zoom targets.
-  const generic = zoomable.filter(
-    (image) => !image.alt.trim() && !image.hasAttribute("aria-label"),
-  );
-  zoomable.forEach((image) => {
-    const position = generic.indexOf(image) + 1;
-    const label = zoomLabelFor(image.alt, position, generic.length);
-    makeImageOperable(image, label);
-  });
-}
-
-onMounted(enrichArticleImages);
-// flush: "post" runs after the v-html DOM updates, so no manual nextTick.
-watch(() => post.html, enrichArticleImages, { flush: "post" });
 
 const postIndex = computed(() =>
   posts.findIndex((p) => p.frontmatter.slug === post.frontmatter.slug),
@@ -222,7 +170,6 @@ function formatDate(d: string) {
     </div>
 
     <article
-      ref="article"
       class="post-body text-fg text-base leading-[1.85]"
       @click="onArticleClick"
       @keydown="onArticleKeydown"
