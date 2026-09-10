@@ -7,11 +7,8 @@ export interface InstagramPost {
   url: string;
 }
 
-// HomeInstagram.vue is the sole consumer of instagram.data.ts and only ever
-// reads these five frontmatter fields (never `tags`) off the six newest
-// posts. transformInstagram.ts projects down to this shape so the other
-// ~294 posts' full frontmatter — and the unused `tags` field on the six that
-// remain — never leave the loader.
+// The subset of InstagramPost the loader actually ships — see
+// transformInstagram.ts for which fields and why.
 export type InstagramTileFrontmatter = Pick<
   InstagramPost,
   "created_at" | "caption" | "location" | "images" | "url"
@@ -23,9 +20,7 @@ export type InstagramTileFrontmatter = Pick<
 // instead of asserting fields the loader never actually guarantees.
 //
 // No top-level `url` (the page route VitePress's ContentData normally
-// carries): Instagram entries have no detail page of their own, and
-// HomeInstagram links out via `frontmatter.url` (the Instagram permalink)
-// instead, so that field was dead weight on every one of ~300 posts.
+// carries) — see transformInstagram.ts for why that field is dropped too.
 export interface InstagramContentItem {
   frontmatter: Partial<InstagramTileFrontmatter>;
 }

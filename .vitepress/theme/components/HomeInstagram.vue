@@ -36,8 +36,8 @@ function tileAlt(
 // Seed the pick on each post's permalink so the server and client resolve the
 // same image with zero post-hydration swap and no second image fetch. Resolved
 // once per setup (the pick is pure) rather than on every render to avoid
-// re-hashing. instagram.data.ts's loader already sorts newest-first and slices
-// to one full row of tiles, so no local slice is needed here.
+// re-hashing. transformInstagram.ts already sorts newest-first and slices to
+// HOME_TILE_COUNT, so no local slice is needed here.
 const tiles = instagramPosts.map((post, index) => ({
   post,
   image: pickDeterministicImage(

@@ -96,31 +96,38 @@ describe("transformInstagram", () => {
     ]);
   });
 
-  it("sorts a post with a missing created_at last instead of leaving it in place", () => {
-    // NaN from `new Date(undefined).getTime()` makes every comparison against
-    // this post return 0 ("equal" to Array.prototype.sort), which would leave
-    // it wherever the glob happened to list it rather than actually sorting
-    // it last. Placing it first in the input, ahead of both dated posts,
-    // proves it is actively re-sorted rather than merely never moved.
-    const undatedPost = makeRawInstagramPost(
-      { url: "/.vitepress/content/instagram/undated-post" },
-      { created_at: undefined, url: "undated" },
-    );
-    const olderPost = makeRawInstagramPost(
-      { url: "/.vitepress/content/instagram/older-post" },
-      { created_at: "2024-01-01T00:00:00.000Z", url: "older" },
-    );
-    const newerPost = makeRawInstagramPost(
-      { url: "/.vitepress/content/instagram/newer-post" },
-      { created_at: "2025-06-01T00:00:00.000Z", url: "newer" },
-    );
+  it.each([
+    ["missing", undefined],
+    ["malformed", "not-a-date"],
+  ])(
+    "sorts a post with a %s created_at last instead of leaving it in place",
+    (_label, createdAt) => {
+      // NaN from `new Date(createdAt).getTime()` makes every comparison
+      // against this post return 0 ("equal" to Array.prototype.sort), which
+      // would leave it wherever the glob happened to list it rather than
+      // actually sorting it last. Placing it first in the input, ahead of
+      // both dated posts, proves it is actively re-sorted rather than
+      // merely never moved.
+      const undatedPost = makeRawInstagramPost(
+        { url: "/.vitepress/content/instagram/undated-post" },
+        { created_at: createdAt, url: "undated" },
+      );
+      const olderPost = makeRawInstagramPost(
+        { url: "/.vitepress/content/instagram/older-post" },
+        { created_at: "2024-01-01T00:00:00.000Z", url: "older" },
+      );
+      const newerPost = makeRawInstagramPost(
+        { url: "/.vitepress/content/instagram/newer-post" },
+        { created_at: "2025-06-01T00:00:00.000Z", url: "newer" },
+      );
 
-    const sorted = transformInstagram([undatedPost, olderPost, newerPost]);
+      const sorted = transformInstagram([undatedPost, olderPost, newerPost]);
 
-    expect(sorted.map((tile) => tile.frontmatter.url)).toEqual([
-      "newer",
-      "older",
-      "undated",
-    ]);
-  });
+      expect(sorted.map((tile) => tile.frontmatter.url)).toEqual([
+        "newer",
+        "older",
+        "undated",
+      ]);
+    },
+  );
 });

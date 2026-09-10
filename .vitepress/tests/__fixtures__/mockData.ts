@@ -5,9 +5,8 @@ import type {
   QuoteInterface,
   Post,
   SearchItem,
+  InstagramContentItem,
 } from "@typedefs";
-import type { InstagramTileFrontmatter } from "@typedefs";
-
 export const mockSkill = {
   image: "vue-js.svg",
   name: "Vue.js",
@@ -163,10 +162,10 @@ export const mockStaticSearchItems: SearchItem[] = [
 // photo2 → shortcode `def456`, index 1 → -b), so a test expecting a single
 // fixed position would fail. photo2 also uses the production `www.` + trailing
 // slash shape to prove the shortcode seed ignores URL cosmetics.
-// transformInstagram.ts projects the loader's output down to just the
-// frontmatter fields HomeInstagram reads (no `tags`, no top-level page
-// `url` — see instagram.ts's InstagramContentItem); mirror that trimmed
-// shape here so the fixture matches what the real loader ships.
+// Mirrors transformInstagram.ts's trimmed output shape. `satisfies` (rather
+// than a per-field `as`) keeps this honest: an extra key like `tags` or a
+// top-level `url` the real loader no longer emits would fail the type check
+// instead of silently passing tests against a shape production never sends.
 export const mockInstagramPosts = [
   {
     frontmatter: {
@@ -178,7 +177,7 @@ export const mockInstagramPosts = [
         "/images/instagram/photo1-b.jpg",
       ],
       url: "https://instagram.com/p/aaa000",
-    } as InstagramTileFrontmatter,
+    },
   },
   {
     frontmatter: {
@@ -190,9 +189,9 @@ export const mockInstagramPosts = [
         "/images/instagram/photo2-b.jpg",
       ],
       url: "https://www.instagram.com/p/def456/",
-    } as InstagramTileFrontmatter,
+    },
   },
-];
+] satisfies InstagramContentItem[];
 
 export const mockSocialLinks = Object.freeze({
   GITHUB: "https://github.com/testuser",

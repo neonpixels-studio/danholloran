@@ -28,8 +28,8 @@ function byNewestFirst(first: ContentData, second: ContentData): number {
 // loader-generated page `url` VitePress attaches at the top level, since
 // Instagram entries have no detail page of their own). Projecting down to
 // just those fields here, on just the slice that ships, is what actually
-// shrinks the payload; ~300 posts' worth of full frontmatter otherwise rides
-// along for six tiles.
+// shrinks the payload; otherwise every post's full frontmatter rides along
+// for the handful of tiles Home renders.
 function toTile(post: ContentData): InstagramContentItem {
   const { created_at, caption, location, images, url } = post.frontmatter;
   return {
