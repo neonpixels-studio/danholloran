@@ -18,7 +18,12 @@
 set -euo pipefail
 
 # High/critical advisories accepted because no patched version exists upstream.
-# Remove an entry the moment its package ships a fix and bump via `overrides`.
+# Keyed as "<GHSA-id>@<node_modules path>" (not just the id) so the exemption
+# only covers the exact install location it was justified for — if the same
+# advisory ID ever shows up at a different path (e.g. a top-level `vite` from
+# vitest/@tailwindcss/vite resolving into the vulnerable range), it is NOT
+# covered and correctly fails the gate. Remove an entry the moment its package
+# ships a fix and bump via `overrides`.
 ALLOWLISTED_ADVISORIES=(
   # image-size <=2.0.2: crafted ICNS/JXL/HEIF inputs cause an infinite-loop DoS.
   # No patched version exists (latest published image-size is 2.0.2, and the
@@ -27,16 +32,18 @@ ALLOWLISTED_ADVISORIES=(
   # blog's own committed post images at build time — never fed untrusted or
   # attacker-controlled bytes at runtime. Drop both ids once image-size
   # publishes a fix.
-  "GHSA-w3rx-r6r6-pgpr" # image-size: ICNS parser DoS
-  "GHSA-5p2g-fcmc-qvqq" # image-size: JXL/HEIF parser DoS
-  # vite <=6.4.2 (vitepress's bundled copy at
-  # node_modules/vitepress/node_modules/vite, currently 5.4.21): `server.fs.deny`
+  "GHSA-w3rx-r6r6-pgpr@node_modules/image-size" # image-size: ICNS parser DoS
+  "GHSA-5p2g-fcmc-qvqq@node_modules/image-size" # image-size: JXL/HEIF parser DoS
+  # vite <=6.4.2, specifically vitepress's own bundled copy at
+  # node_modules/vitepress/node_modules/vite (currently 5.4.21): `server.fs.deny`
   # bypass on Windows alternate paths. No fix available — vitepress pins its own
   # vite range. Windows-only dev-server bypass; this project's dev server never
   # runs on Windows or is exposed to untrusted clients (CI runs on
   # ubuntu-latest, deploys are static builds). Drop once vitepress bumps its
-  # bundled vite past the vulnerable range.
-  "GHSA-fx2h-pf6j-xcff" # vite: server.fs.deny bypass on Windows
+  # bundled vite past the vulnerable range. Any OTHER vite copy (e.g. the
+  # top-level one used by vitest/@tailwindcss/vite) hitting this same GHSA id
+  # is intentionally NOT covered by this entry.
+  "GHSA-fx2h-pf6j-xcff@node_modules/vitepress/node_modules/vite" # vite: server.fs.deny bypass on Windows
 )
 
 report="$(npm audit --json || true)"
@@ -68,7 +75,9 @@ low="$(read_count low)"
   echo "| Low      | ${low} |"
 } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
-# Reads a JSON string on stdin through jq so each id pipeline is a single call.
+# Runs jq over the JSON string passed as $1; the remaining arguments are jq's
+# own filter/flags. A small wrapper so every call below reads as one line
+# instead of repeating the `printf | jq` pipe.
 jq_on() {
   printf '%s' "$1" | jq "${@:2}"
 }
@@ -77,16 +86,22 @@ jq_on() {
 # (removing every entry is the documented next step once fixes ship).
 allow_json="$(jq -cn '$ARGS.positional' --args ${ALLOWLISTED_ADVISORIES[@]+"${ALLOWLISTED_ADVISORIES[@]}"})"
 
-# Distinct high/critical advisory ids in the report: the GHSA id when the
-# advisory carries one, otherwise a source-<n>:<pkg> fallback that stays unique
-# so two url-less advisories never collapse. `(.via // [])` tolerates a
-# vulnerability object without a `via` array instead of aborting under set -e.
+# Distinct high/critical "<advisory-id>@<node_modules path>" pairs in the
+# report. The id is the GHSA id when the advisory carries one, otherwise a
+# source-<n>:<pkg> fallback that stays unique so two url-less advisories never
+# collapse. Pairing with the install path (not just the id) means an
+# allowlist entry only exempts the exact location it was justified for.
+# `(.via // [])` and `(.nodes // [...])` tolerate a vulnerability object
+# missing either array instead of aborting under set -e.
 all_ids="$(jq_on "$report" -c '
-  [ .vulnerabilities[]
-    | (.via // [])[]
+  [ .vulnerabilities[] as $vulnerability
+    | ($vulnerability.via // [])[]
     | select(type == "object" and (.severity == "high" or .severity == "critical"))
-    | (((.url // "") | capture("(?<id>GHSA-[-0-9a-z]+)").id)? )
-      // ("source-" + ((.source // 0) | tostring) + ":" + (.name // .title // "unknown"))
+    | ( (((.url // "") | capture("(?<id>GHSA-[-0-9a-z]+)").id)?)
+        // ("source-" + ((.source // 0) | tostring) + ":" + (.name // .title // "unknown"))
+      ) as $advisory_id
+    | ($vulnerability.nodes // ["unknown-path"])[]
+    | "\($advisory_id)@\(.)"
   ] | unique')"
 
 # NOTE on staleness: there is no reliable per-advisory "patched upstream" signal
@@ -102,10 +117,21 @@ blocking_count="$(jq_on "$blocking_ids" 'length')"
 accepted_ids="$(jq_on "$all_ids" -c --argjson allow "$allow_json" 'map(select(IN($allow[])))')"
 accepted_present="$(jq_on "$accepted_ids" 'length')"
 
+# Surfaced as a `::warning` annotation (shows up on the job summary and the PR
+# Checks tab, not just a buried stderr line) plus the step summary, so a
+# maintainer notices when an entry has fallen out of the report — most often
+# because the advisory shipped a real fix and the exemption is no longer
+# needed.
 stale_ids="$(jq_on "$all_ids" -r --argjson allow "$allow_json" '$allow - . | .[]')"
 if [ -n "$stale_ids" ]; then
-  echo "Allowlist entries no longer present in the audit — safe to remove from ALLOWLISTED_ADVISORIES:" >&2
-  printf '%s\n' "$stale_ids" >&2
+  mapfile -t stale_ids_array <<<"$stale_ids"
+  stale_summary="${stale_ids//$'\n'/, }"
+  echo "::warning title=Stale audit allowlist entries::${stale_summary}"
+  {
+    echo ""
+    echo "Stale allowlist entries (no longer present in the audit — safe to remove from ALLOWLISTED_ADVISORIES):"
+    printf -- '- %s\n' "${stale_ids_array[@]}"
+  } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 fi
 
 if [ "$accepted_present" -gt 0 ]; then

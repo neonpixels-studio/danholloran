@@ -60,18 +60,19 @@ jobs:
       contents: read
 
     steps:
+      # persist-credentials: false — this job never pushes and doesn't need the
+      # checkout's GITHUB_TOKEN left in .git/config for the rest of the job.
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-        env:
-          HUSKY: 0
-
+      # `npm audit` reads package-lock.json directly and doesn't need
+      # node_modules, so this job skips `npm ci` deliberately: no dependency's
+      # (including the vulnerable ones being audited) install scripts run here.
       - name: Audit dependencies
         run: bash .github/scripts/audit.sh
