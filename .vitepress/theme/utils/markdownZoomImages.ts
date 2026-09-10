@@ -21,19 +21,35 @@ import type { MarkdownRenderer } from "vitepress";
 // core state through to the renderer, so it carries state between the two
 // passes.
 //
+// This markdown.config hook runs for every markdown file the site renders
+// (index.md, resume.md, themes/*.md, feed generation, every post), but only
+// PostView's <article> has a click/keydown handler ready to open the
+// lightbox — an aria-haspopup="dialog" control with nothing listening is
+// worse than no control. VitePress's bundled frontmatter core rule populates
+// `env.frontmatter` from the file's YAML block even when the caller passes
+// no env at all (createContentLoader's `md.render(src)` call — the path that
+// produces post.html — passes none), so gating on the Post-only
+// `topic`/`date` fields scopes this to post bodies specifically.
+//
 // An image token's `alt` attr is still the empty placeholder markdown-it
 // seeds at parse time — the real text is only written into attrs by the
 // base image render rule, deeper in the delegation chain than this module
-// runs. So alt text here is resolved straight from the token's children
-// (mirroring markdown-it's own Renderer#renderInlineAsText), the same
-// source the base rule itself reads from.
+// runs. Alt text here is instead resolved via an injected resolver backed by
+// markdown-it's own Renderer#renderInlineAsText (the exact function the base
+// rule itself uses), rather than a hand-rolled reimplementation that would
+// drift from markdown-it's actual token handling.
 //
 // A linked image's click is a navigation, not a zoom — those are left alone
-// entirely, mirroring the client behavior this replaces. Images written as
-// raw <img> HTML inside markdown arrive as html tokens rather than image
-// tokens (see markdownImageHints.ts's own note on this), so — like the
-// dimension hints — they are not enriched; every in-body image in this
-// site's posts uses markdown image syntax.
+// entirely, mirroring the client behavior this replaces. This site enables
+// markdown-it-attrs (VitePress's default), so an author can write
+// `![x](/a.png){tabindex="-1"}` to opt an image out by hand; such an image is
+// excluded from the generic count too, so it doesn't consume a position
+// number that then goes unused. Images written as raw <img> HTML inside
+// markdown arrive as html tokens rather than image tokens (see
+// markdownImageHints.ts's own note on this), so — like the dimension hints —
+// they are not enriched; every in-body image in this site's posts today uses
+// markdown image syntax, though this is a real, undocumented-elsewhere gap
+// if that ever changes.
 
 const ZOOM_LABEL = "Zoom image";
 
@@ -49,8 +65,13 @@ const IMAGE_TOKEN_TYPE = "image";
 const INLINE_TOKEN_TYPE = "inline";
 const LINK_OPEN_TYPE = "link_open";
 const LINK_CLOSE_TYPE = "link_close";
-const TEXT_TOKEN_TYPE = "text";
-const SOFTBREAK_TOKEN_TYPE = "softbreak";
+const HTML_INLINE_TOKEN_TYPE = "html_inline";
+
+// Raw HTML anchors mixed into markdown (`<a href="/x">![y](z.png)</a>`)
+// arrive as html_inline tokens rather than link_open/link_close, but they
+// wrap a click target exactly the same way.
+const HTML_ANCHOR_OPEN_PATTERN = /^<a[\s>]/i;
+const HTML_ANCHOR_CLOSE_PATTERN = /^<\/a\s*>/i;
 
 // Namespaced so this module's build-pass state can't collide with another
 // markdown-it plugin's use of the same env object.
@@ -85,49 +106,78 @@ export interface ZoomToken {
   attrSet(_name: string, _value: string): void;
 }
 
-// Reconstructs an image's rendered alt text from its child tokens, mirroring
-// markdown-it's own Renderer#renderInlineAsText (text + nested image + a
-// softbreak as a newline; every other inline token, e.g. emphasis markers,
-// contributes no text of its own).
-function resolveAltText(children: ZoomToken[] | null): string {
-  if (!children) {
-    return "";
+// Resolves an image token's rendered alt text from its child tokens. Backed
+// in production by markdown-it's own Renderer#renderInlineAsText so this
+// module never has to re-derive markdown-it's token-handling rules itself;
+// injected so tests can drive the logic with a trivial fake.
+export type AltTextResolver = (_children: ZoomToken[] | null) => string;
+
+function isPostFrontmatter(frontmatter: unknown): boolean {
+  if (!frontmatter || typeof frontmatter !== "object") {
+    return false;
   }
-  let text = "";
-  for (const child of children) {
-    if (child.type === TEXT_TOKEN_TYPE) {
-      text += child.content;
-    } else if (child.type === IMAGE_TOKEN_TYPE) {
-      text += resolveAltText(child.children);
-    } else if (child.type === SOFTBREAK_TOKEN_TYPE) {
-      text += "\n";
-    }
-  }
-  return text;
+  const record = frontmatter as Record<string, unknown>;
+  return typeof record.topic === "string" && typeof record.date === "string";
+}
+
+function hasAuthorDefinedControl(token: ZoomToken): boolean {
+  // A pre-existing role or tabindex means the author defined the semantics
+  // themselves (or opted out via markdown-it-attrs curly-brace syntax);
+  // treat it as spoken for rather than build a half-overridden control.
+  return (
+    token.attrIndex(ROLE_ATTRIBUTE) >= 0 ||
+    token.attrIndex(TABINDEX_ATTRIBUTE) >= 0
+  );
 }
 
 function isGenericImage(token: ZoomToken, alt: string): boolean {
+  if (hasAuthorDefinedControl(token)) {
+    return false;
+  }
   return !alt.trim() && token.attrIndex(ARIA_LABEL_ATTRIBUTE) < 0;
 }
 
-// An in-body image is a link's click target (a navigation) when a link_open
-// precedes it in the same inline block with no matching link_close yet —
-// walk the preceding siblings tracking nesting depth.
+function isLinkOpener(token: ZoomToken): boolean {
+  if (token.type === LINK_OPEN_TYPE) {
+    return true;
+  }
+  return (
+    token.type === HTML_INLINE_TOKEN_TYPE &&
+    HTML_ANCHOR_OPEN_PATTERN.test(token.content)
+  );
+}
+
+function isLinkCloser(token: ZoomToken): boolean {
+  if (token.type === LINK_CLOSE_TYPE) {
+    return true;
+  }
+  return (
+    token.type === HTML_INLINE_TOKEN_TYPE &&
+    HTML_ANCHOR_CLOSE_PATTERN.test(token.content)
+  );
+}
+
+// An in-body image is a link's click target (a navigation) when an opener
+// precedes it in the same inline block with no matching closer yet — walk
+// the preceding siblings tracking nesting depth.
 function isInsideLink(siblings: ZoomToken[], index: number): boolean {
   let depth = 0;
   for (let position = 0; position < index; position++) {
-    if (siblings[position].type === LINK_OPEN_TYPE) {
+    if (isLinkOpener(siblings[position])) {
       depth++;
       continue;
     }
-    if (siblings[position].type === LINK_CLOSE_TYPE) {
+    if (isLinkCloser(siblings[position])) {
       depth = Math.max(0, depth - 1);
     }
   }
   return depth > 0;
 }
 
-function countGenericInBlock(siblings: ZoomToken[]): number {
+function countGenericInBlock(
+  siblings: ZoomToken[],
+  resolveAlt: AltTextResolver,
+): number {
   let count = 0;
   siblings.forEach((sibling, index) => {
     if (sibling.type !== IMAGE_TOKEN_TYPE) {
@@ -136,7 +186,7 @@ function countGenericInBlock(siblings: ZoomToken[]): number {
     if (isInsideLink(siblings, index)) {
       return;
     }
-    if (isGenericImage(sibling, resolveAltText(sibling.children))) {
+    if (isGenericImage(sibling, resolveAlt(sibling.children))) {
       count++;
     }
   });
@@ -147,24 +197,22 @@ function countGenericInBlock(siblings: ZoomToken[]): number {
 // unlabeled in-body images will need a positional "N of M" label, so the
 // render pass (which sees one image at a time) can hand out stable numbers
 // without knowing the rest of the document.
-export function countGenericZoomImages(blockTokens: ZoomToken[]): number {
+export function countGenericZoomImages(
+  blockTokens: ZoomToken[],
+  resolveAlt: AltTextResolver,
+): number {
   let total = 0;
   for (const blockToken of blockTokens) {
     if (blockToken.type !== INLINE_TOKEN_TYPE || !blockToken.children) {
       continue;
     }
-    total += countGenericInBlock(blockToken.children);
+    total += countGenericInBlock(blockToken.children, resolveAlt);
   }
   return total;
 }
 
 function setZoomImageAttributes(token: ZoomToken, label: string): void {
-  // A pre-existing role or tabindex means the author defined the semantics
-  // themselves; bail wholesale rather than build a half-overridden control.
-  if (
-    token.attrIndex(ROLE_ATTRIBUTE) >= 0 ||
-    token.attrIndex(TABINDEX_ATTRIBUTE) >= 0
-  ) {
+  if (hasAuthorDefinedControl(token)) {
     return;
   }
   token.attrSet(ROLE_ATTRIBUTE, ROLE_BUTTON);
@@ -193,24 +241,49 @@ export function setMarkdownZoomImageHints(
   siblings: ZoomToken[],
   index: number,
   env: Record<string, unknown>,
+  resolveAlt: AltTextResolver,
 ): void {
   if (isInsideLink(siblings, index)) {
     return;
   }
   const token = siblings[index];
-  const alt = resolveAltText(token.children);
+  const alt = resolveAlt(token.children);
   const position = isGenericImage(token, alt) ? nextGenericPosition(env) : 0;
   const total = totalGenericZoomImages(env);
   setZoomImageAttributes(token, zoomLabelFor(alt, position, total));
 }
 
-// Wrap markdown-it's image renderer so every rendered in-body image carries
-// zoom-control semantics, chaining after any earlier wrapper (e.g.
+// Real markdown-it Token[], derived from the renderer's own method rather
+// than importing markdown-it's types directly — ZoomToken deliberately holds
+// only the slice this module needs (see its doc comment above), but the real
+// renderInlineAsText still expects its native, fuller Token shape.
+type RendererTokens = Parameters<
+  MarkdownRenderer["renderer"]["renderInlineAsText"]
+>[0];
+
+function asRendererTokens(children: ZoomToken[] | null): RendererTokens {
+  return (children ?? []) as unknown as RendererTokens;
+}
+
+// Wrap markdown-it's image renderer so every rendered in-body post image
+// carries zoom-control semantics, chaining after any earlier wrapper (e.g.
 // applyMarkdownImageHints's lazy/decoding/dimension hints) so both sets of
 // attributes land regardless of registration order.
 export function applyMarkdownZoomImageHints(md: MarkdownRenderer): void {
   md.core.ruler.push(CORE_RULE_NAME, (state) => {
-    state.env[GENERIC_TOTAL_ENV_KEY] = countGenericZoomImages(state.tokens);
+    if (!isPostFrontmatter(state.env.frontmatter)) {
+      return;
+    }
+    const resolveAlt: AltTextResolver = (children) =>
+      state.md.renderer.renderInlineAsText(
+        asRendererTokens(children),
+        state.md.options,
+        state.env,
+      );
+    state.env[GENERIC_TOTAL_ENV_KEY] = countGenericZoomImages(
+      state.tokens,
+      resolveAlt,
+    );
     // Reset per document in case the caller ever reuses one env object
     // across multiple render() calls — the position count must never leak
     // across documents.
@@ -219,7 +292,11 @@ export function applyMarkdownZoomImageHints(md: MarkdownRenderer): void {
 
   const renderImage = md.renderer.rules.image!;
   md.renderer.rules.image = (tokens, index, options, env, self) => {
-    setMarkdownZoomImageHints(tokens, index, env);
+    if (env && isPostFrontmatter(env.frontmatter)) {
+      const resolveAlt: AltTextResolver = (children) =>
+        self.renderInlineAsText(asRendererTokens(children), options, env);
+      setMarkdownZoomImageHints(tokens, index, env, resolveAlt);
+    }
     return renderImage(tokens, index, options, env, self);
   };
 }
