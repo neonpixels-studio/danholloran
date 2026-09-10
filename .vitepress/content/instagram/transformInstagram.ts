@@ -1,5 +1,5 @@
 import type { ContentData } from "vitepress";
-import type { InstagramContentItem } from "@typedefs";
+import type { InstagramContentItem, InstagramTileFrontmatter } from "@typedefs";
 
 export const INSTAGRAM_GLOB = ".vitepress/content/instagram/*.md";
 
@@ -32,9 +32,18 @@ function byNewestFirst(first: ContentData, second: ContentData): number {
 // for the handful of tiles Home renders.
 function toTile(post: ContentData): InstagramContentItem {
   const { created_at, caption, location, images, url } = post.frontmatter;
-  return {
-    frontmatter: { created_at, caption, location, images, url },
+  // Annotated against the full (non-Partial) InstagramTileFrontmatter, not
+  // just returned as InstagramContentItem's Partial<...> field, so dropping
+  // one of these five keys is a compile error instead of a silent gap that
+  // only Partial's optionality would let through.
+  const frontmatter: InstagramTileFrontmatter = {
+    created_at,
+    caption,
+    location,
+    images,
+    url,
   };
+  return { frontmatter };
 }
 
 export function transformInstagram(
