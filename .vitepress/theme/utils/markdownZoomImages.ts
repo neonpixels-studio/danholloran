@@ -28,8 +28,12 @@ import type { MarkdownRenderer } from "vitepress";
 // worse than no control. VitePress's bundled frontmatter core rule populates
 // `env.frontmatter` from the file's YAML block even when the caller passes
 // no env at all (createContentLoader's `md.render(src)` call — the path that
-// produces post.html — passes none), so gating on the Post-only
-// `topic`/`date` fields scopes this to post bodies specifically.
+// produces post.html — passes none), so gating on the Post-only `topic`
+// field scopes this to post bodies specifically. `topic` alone (not also
+// `date`) is deliberate: loadPublishedPosts.ts documents that an undated
+// post is legitimate (e.g. some travel entries), and an unquoted YAML date
+// parses as a `Date` object rather than a string anyway — `topic` has
+// neither risk and no other page or content type in this repo sets it.
 //
 // An image token's `alt` attr is still the empty placeholder markdown-it
 // seeds at parse time — the real text is only written into attrs by the
@@ -44,12 +48,17 @@ import type { MarkdownRenderer } from "vitepress";
 // markdown-it-attrs (VitePress's default), so an author can write
 // `![x](/a.png){tabindex="-1"}` to opt an image out by hand; such an image is
 // excluded from the generic count too, so it doesn't consume a position
-// number that then goes unused. Images written as raw <img> HTML inside
-// markdown arrive as html tokens rather than image tokens (see
-// markdownImageHints.ts's own note on this), so — like the dimension hints —
-// they are not enriched; every in-body image in this site's posts today uses
-// markdown image syntax, though this is a real, undocumented-elsewhere gap
-// if that ever changes.
+// number that then goes unused. A raw HTML anchor wrapping an image
+// (`<a href="/x">![y](z.png)</a>`) on a single line is also detected, but one
+// that spans multiple blocks (the anchor tags as their own paragraphs, the
+// image in between) is not — a narrow, undisclosed-elsewhere gap flagged as
+// a follow-up rather than fixed here, since nothing in this site's current
+// content does that and markdown link syntax is the natural way to write it.
+// Images written as raw <img> HTML inside markdown arrive as html tokens
+// rather than image tokens (see markdownImageHints.ts's own note on this),
+// so — like the dimension hints — they are not enriched; this module warns
+// at build time when it sees one in a post, since that image would
+// otherwise silently lose keyboard access with nothing surfacing the gap.
 
 const ZOOM_LABEL = "Zoom image";
 
@@ -66,6 +75,8 @@ const INLINE_TOKEN_TYPE = "inline";
 const LINK_OPEN_TYPE = "link_open";
 const LINK_CLOSE_TYPE = "link_close";
 const HTML_INLINE_TOKEN_TYPE = "html_inline";
+const HTML_BLOCK_TOKEN_TYPE = "html_block";
+const RAW_IMG_TAG_PATTERN = /<img[\s>]/i;
 
 // Raw HTML anchors mixed into markdown (`<a href="/x">![y](z.png)</a>`)
 // arrive as html_inline tokens rather than link_open/link_close, but they
@@ -117,7 +128,49 @@ function isPostFrontmatter(frontmatter: unknown): boolean {
     return false;
   }
   const record = frontmatter as Record<string, unknown>;
-  return typeof record.topic === "string" && typeof record.date === "string";
+  return typeof record.topic === "string";
+}
+
+function postLabelFor(frontmatter: Record<string, unknown>): string {
+  if (typeof frontmatter.slug === "string") {
+    return frontmatter.slug;
+  }
+  if (typeof frontmatter.title === "string") {
+    return frontmatter.title;
+  }
+  return "unknown post";
+}
+
+function warnIfRawImgTag(token: ZoomToken, postLabel: string): void {
+  if (!RAW_IMG_TAG_PATTERN.test(token.content)) {
+    return;
+  }
+  console.warn(
+    `markdownZoomImages: "${postLabel}" has a raw <img> tag in its markdown ` +
+      "body; only ![]() markdown image syntax gets zoom-control keyboard " +
+      "access, so this image stays mouse-only.",
+  );
+}
+
+// Raw <img> HTML in a post's body silently loses keyboard access (see the
+// module doc comment above) — warn loudly rather than let it pass unnoticed,
+// mirroring this codebase's fail-loud convention for silent content gaps.
+// html_block tokens are top-level siblings in the token stream; html_inline
+// ones live inside an "inline" block's children — both are checked.
+function warnAboutRawImgTags(
+  blockTokens: ZoomToken[],
+  postLabel: string,
+): void {
+  for (const blockToken of blockTokens) {
+    if (blockToken.type === HTML_BLOCK_TOKEN_TYPE) {
+      warnIfRawImgTag(blockToken, postLabel);
+    }
+    if (blockToken.type === INLINE_TOKEN_TYPE && blockToken.children) {
+      blockToken.children
+        .filter((child) => child.type === HTML_INLINE_TOKEN_TYPE)
+        .forEach((child) => warnIfRawImgTag(child, postLabel));
+    }
+  }
 }
 
 function hasAuthorDefinedControl(token: ZoomToken): boolean {
@@ -271,7 +324,9 @@ function asRendererTokens(children: ZoomToken[] | null): RendererTokens {
 // attributes land regardless of registration order.
 export function applyMarkdownZoomImageHints(md: MarkdownRenderer): void {
   md.core.ruler.push(CORE_RULE_NAME, (state) => {
-    if (!isPostFrontmatter(state.env.frontmatter)) {
+    // md.parse()/parseInline() (unlike render()) never default env to {},
+    // so a caller invoking either directly leaves state.env undefined.
+    if (!state.env || !isPostFrontmatter(state.env.frontmatter)) {
       return;
     }
     const resolveAlt: AltTextResolver = (children) =>
@@ -288,15 +343,20 @@ export function applyMarkdownZoomImageHints(md: MarkdownRenderer): void {
     // across multiple render() calls — the position count must never leak
     // across documents.
     state.env[GENERIC_POSITION_ENV_KEY] = 0;
+    warnAboutRawImgTags(
+      state.tokens,
+      postLabelFor(state.env.frontmatter as Record<string, unknown>),
+    );
   });
 
   const renderImage = md.renderer.rules.image!;
   md.renderer.rules.image = (tokens, index, options, env, self) => {
-    if (env && isPostFrontmatter(env.frontmatter)) {
-      const resolveAlt: AltTextResolver = (children) =>
-        self.renderInlineAsText(asRendererTokens(children), options, env);
-      setMarkdownZoomImageHints(tokens, index, env, resolveAlt);
+    if (!env || !isPostFrontmatter(env.frontmatter)) {
+      return renderImage(tokens, index, options, env, self);
     }
+    const resolveAlt: AltTextResolver = (children) =>
+      self.renderInlineAsText(asRendererTokens(children), options, env);
+    setMarkdownZoomImageHints(tokens, index, env, resolveAlt);
     return renderImage(tokens, index, options, env, self);
   };
 }

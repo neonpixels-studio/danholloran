@@ -244,23 +244,35 @@ describe("setMarkdownZoomImageHints", () => {
 describe("applyMarkdownZoomImageHints (integration)", () => {
   const POST_FRONTMATTER = 'topic: development\ndate: "2025-01-01"';
 
-  async function renderWithZoomHints(
-    markdown: string,
-    { withDimensionHints = false } = {},
-  ): Promise<string> {
+  async function createZoomRenderer({
+    withDimensionHints = false,
+    zoomFirst = false,
+  } = {}) {
     // createMarkdownRenderer caches a single markdown-it instance for the
     // whole process (it ignores its arguments once one exists), so without
     // disposing it first, a later test in this file would silently reuse an
     // earlier test's config instead of the one just passed in.
     disposeMdItInstance();
-    const md = await createMarkdownRenderer(process.cwd(), {
+    return createMarkdownRenderer(process.cwd(), {
       config(renderer) {
+        if (zoomFirst) {
+          applyMarkdownZoomImageHints(renderer);
+        }
         if (withDimensionHints) {
           applyMarkdownImageHints(renderer, readLocalImageDimensions);
         }
-        applyMarkdownZoomImageHints(renderer);
+        if (!zoomFirst) {
+          applyMarkdownZoomImageHints(renderer);
+        }
       },
     });
+  }
+
+  async function renderWithZoomHints(
+    markdown: string,
+    options: { withDimensionHints?: boolean; zoomFirst?: boolean } = {},
+  ): Promise<string> {
+    const md = await createZoomRenderer(options);
     return md.render(markdown);
   }
 
@@ -353,14 +365,51 @@ describe("applyMarkdownZoomImageHints (integration)", () => {
     expect(html).not.toContain("tabindex=");
   });
 
-  it("both sets of attributes land regardless of plugin registration order", async () => {
+  it.each([
+    { zoomFirst: false, label: "dimension hints registered first" },
+    { zoomFirst: true, label: "zoom hints registered first" },
+  ])("both sets of attributes land when $label", async ({ zoomFirst }) => {
     const html = await renderWithZoomHints(
       asPost("![Inline diagram](/images/default-social.png)"),
-      { withDimensionHints: true },
+      { withDimensionHints: true, zoomFirst },
     );
 
     expect(html).toContain('role="button"');
     expect(html).toContain('loading="lazy"');
     expect(html).toContain('width="1200"');
+  });
+
+  it("respects a markdown-it-attrs opt-out without inflating positional counts", async () => {
+    // VitePress enables markdown-it-attrs by default, so an author can write
+    // `![](/a.png){tabindex="-1"}` to opt an image out of zoom control by
+    // hand. This only proves anything as a real-renderer test: it depends on
+    // markdown-it-attrs' own core rule running before this module's, which a
+    // fake-token unit test can't observe.
+    const html = await renderWithZoomHints(
+      asPost('![](/images/a.jpg){tabindex="-1"}\n\n![](/images/b.jpg)'),
+    );
+
+    // The opted-out image keeps the author's tabindex and gets no role — the
+    // real control (the second image) is untouched by the opt-out.
+    expect(html).toContain('<img src="/images/a.jpg" alt="" tabindex="-1">');
+    expect(html).toContain('role="button"');
+    // The opted-out image must not consume a position slot, so the one real
+    // generic control is labeled plainly rather than "2 of 2".
+    expect(html).toContain('aria-label="Zoom image"');
+    expect(html).not.toContain("of 2");
+  });
+
+  it("resets the positional counter across separate renders sharing one env object", async () => {
+    const md = await createZoomRenderer();
+    const markdown = asPost("![](/images/a.jpg)\n\n![](/images/b.jpg)");
+    const sharedEnv: Record<string, unknown> = {};
+
+    const first = md.render(markdown, sharedEnv);
+    const second = md.render(markdown, sharedEnv);
+
+    for (const html of [first, second]) {
+      expect(html).toContain('aria-label="Zoom image 1 of 2"');
+      expect(html).toContain('aria-label="Zoom image 2 of 2"');
+    }
   });
 });
