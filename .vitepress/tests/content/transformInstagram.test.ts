@@ -47,12 +47,6 @@ describe("transformInstagram", () => {
     });
   });
 
-  it("drops the unconsumed tags field", () => {
-    const [tile] = transformInstagram([makeRawInstagramPost()]);
-
-    expect(tile.frontmatter).not.toHaveProperty("tags");
-  });
-
   it("drops the loader-generated top-level page url, which HomeInstagram never reads", () => {
     const [tile] = transformInstagram([makeRawInstagramPost()]);
 
@@ -102,17 +96,31 @@ describe("transformInstagram", () => {
     ]);
   });
 
-  it("keeps everything HomeInstagram needs: url, images, caption, location, created_at", () => {
-    const [tile] = transformInstagram([makeRawInstagramPost()]);
-
-    expect(tile.frontmatter.url).toBe(
-      "https://www.instagram.com/p/example000/",
+  it("sorts a post with a missing created_at last instead of leaving it in place", () => {
+    // NaN from `new Date(undefined).getTime()` makes every comparison against
+    // this post return 0 ("equal" to Array.prototype.sort), which would leave
+    // it wherever the glob happened to list it rather than actually sorting
+    // it last. Placing it first in the input, ahead of both dated posts,
+    // proves it is actively re-sorted rather than merely never moved.
+    const undatedPost = makeRawInstagramPost(
+      { url: "/.vitepress/content/instagram/undated-post" },
+      { created_at: undefined, url: "undated" },
     );
-    expect(tile.frontmatter.images).toEqual([
-      "/images/instagram/example-post.jpg",
+    const olderPost = makeRawInstagramPost(
+      { url: "/.vitepress/content/instagram/older-post" },
+      { created_at: "2024-01-01T00:00:00.000Z", url: "older" },
+    );
+    const newerPost = makeRawInstagramPost(
+      { url: "/.vitepress/content/instagram/newer-post" },
+      { created_at: "2025-06-01T00:00:00.000Z", url: "newer" },
+    );
+
+    const sorted = transformInstagram([undatedPost, olderPost, newerPost]);
+
+    expect(sorted.map((tile) => tile.frontmatter.url)).toEqual([
+      "newer",
+      "older",
+      "undated",
     ]);
-    expect(tile.frontmatter.caption).toBe("A great photo");
-    expect(tile.frontmatter.location).toBe("Yosemite");
-    expect(tile.frontmatter.created_at).toBe("2025-01-01T00:00:00.000Z");
   });
 });

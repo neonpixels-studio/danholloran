@@ -4,15 +4,23 @@ import type { InstagramContentItem } from "@typedefs";
 export const INSTAGRAM_GLOB = ".vitepress/content/instagram/*.md";
 
 // HomeInstagram (the sole consumer, see HomeInstagram.vue) renders one full
-// row of tiles at its widest breakpoint. Keep in sync with MAX_TILES there if
+// row of tiles — the template's `grid-cols-6` class. Keep both in sync if
 // that layout ever changes.
 const HOME_TILE_COUNT = 6;
 
-function byNewestFirst(a: ContentData, b: ContentData): number {
-  return (
-    new Date(b.frontmatter.created_at).getTime() -
-    new Date(a.frontmatter.created_at).getTime()
-  );
+// A missing or malformed created_at makes `new Date(...).getTime()` return
+// NaN, and Array.prototype.sort treats a NaN comparator result as "equal" —
+// leaving that post in its arbitrary glob position instead of sorted last,
+// which could push it into the six tiles ahead of an actually-newer post (or
+// bump a real one out via the slice below). Fall back to 0 (oldest) so an
+// undated post always sorts last rather than silently corrupting the order.
+function createdAtTime(post: ContentData): number {
+  const time = new Date(post.frontmatter.created_at).getTime();
+  return Number.isNaN(time) ? 0 : time;
+}
+
+function byNewestFirst(first: ContentData, second: ContentData): number {
+  return createdAtTime(second) - createdAtTime(first);
 }
 
 // HomeInstagram reads only these five frontmatter fields off the six newest
