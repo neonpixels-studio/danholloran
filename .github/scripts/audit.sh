@@ -16,22 +16,17 @@
 # findings — prefer `npm update <pkg>` (or an `overrides` bump if the parent's
 # declared range excludes the patched version) every time a fix is available.
 #
-# KNOWN LIMITATION: entries are keyed "<GHSA-id>@<node_modules path>", pairing
-# every advisory on a package with every one of that package's install paths.
-# A package with multiple advisories AND multiple install paths could produce
-# a pair that doesn't actually apply (advisory X doesn't affect the version at
-# path Y) — npm audit's JSON doesn't cleanly separate that on its own. Today
-# every affected package here has exactly one install path, so this doesn't
-# bite; re-verify if that ever changes.
+# Entries are keyed "<GHSA-id>@<node_modules path>" so an exemption only covers
+# the exact install location it was justified for, not every copy of the
+# advisory anywhere in the tree. KNOWN LIMITATION: a package with multiple
+# advisories AND multiple install paths could still produce a pair that
+# doesn't really apply (npm audit's JSON doesn't cleanly separate that). Every
+# affected package here has exactly one install path today, so this doesn't
+# bite; re-verify if that changes.
 set -euo pipefail
 
 # High/critical advisories accepted because no patched version exists upstream.
-# Keyed as "<GHSA-id>@<node_modules path>" (not just the id) so the exemption
-# only covers the exact install location it was justified for — if the same
-# advisory ID ever shows up at a different path (e.g. a top-level `vite` from
-# vitest/@tailwindcss/vite resolving into the vulnerable range), it is NOT
-# covered and correctly fails the gate. Remove an entry the moment its package
-# ships a fix.
+# Remove an entry the moment its package ships a fix.
 ALLOWLISTED_ADVISORIES=(
   # image-size <=2.0.2: crafted ICNS/JXL/HEIF inputs cause an infinite-loop DoS.
   # No patched version exists (latest published image-size is 2.0.2, and the
@@ -72,6 +67,16 @@ high="$(read_count high)"
 moderate="$(read_count moderate)"
 low="$(read_count low)"
 
+# Runs jq over the JSON string passed as $1; remaining args go to jq.
+jq_on() {
+  printf '%s' "$1" | jq "${@:2}"
+}
+
+# Appends to the job summary (a no-op sink when not running in Actions).
+append_summary() {
+  tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+}
+
 {
   echo "## Dependency audit"
   echo ""
@@ -81,24 +86,15 @@ low="$(read_count low)"
   echo "| High     | ${high} |"
   echo "| Moderate | ${moderate} |"
   echo "| Low      | ${low} |"
-} | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
-
-# Runs jq over the JSON string passed as $1; remaining args go to jq.
-jq_on() {
-  printf '%s' "$1" | jq "${@:2}"
-}
+} | append_summary
 
 # Build the allowlist as a JSON array — safe even when the array is emptied
 # (removing every entry is the documented next step once fixes ship).
 allow_json="$(jq -cn '$ARGS.positional' --args ${ALLOWLISTED_ADVISORIES[@]+"${ALLOWLISTED_ADVISORIES[@]}"})"
 
-# Distinct high/critical "<advisory-id>@<node_modules path>" pairs in the
-# report. The id is the GHSA id when the advisory carries one, otherwise a
-# source-<n>:<pkg> fallback that stays unique so two url-less advisories never
-# collapse. Pairing with the install path (not just the id) means an
-# allowlist entry only exempts the exact location it was justified for.
-# `(.via // [])` and `(.nodes // [...])` tolerate a vulnerability object
-# missing either array instead of aborting under set -e.
+# Distinct high/critical "<GHSA-id>@<path>" pairs; non-GHSA advisories fall
+# back to source-<n>:<name>. `(.via // [])` and `(.nodes // [...])` tolerate a
+# vulnerability object missing either array instead of aborting under set -e.
 all_ids="$(jq_on "$report" -c '
   [ .vulnerabilities[] as $vulnerability
     | ($vulnerability.via // [])[]
@@ -110,23 +106,15 @@ all_ids="$(jq_on "$report" -c '
     | "\($advisory_id)@\(.)"
   ] | unique')"
 
-# NOTE on staleness: there is no reliable per-advisory "patched upstream" signal
-# in `npm audit --json` — `fixAvailable` is per-package, and its value covers
-# breaking tree-surgery (e.g. downgrading a parent) as readily as a clean patch.
-# So removal is manual: this gate re-runs `npm audit` every CI run, keeping the
-# data fresh; when a maintainer next touches deps and sees one of the entries
-# above ship a real fix, drop it and bump it via `overrides`. The warning below
-# flags entries that have already fallen out of the report.
+# Staleness has no reliable signal in `npm audit --json` (`fixAvailable` is
+# per-package, not per-advisory), so removal is manual — the `::warning` below
+# is what prompts a maintainer to check when an entry falls out of the report.
 blocking_ids="$(jq_on "$all_ids" -c --argjson allow "$allow_json" 'map(select(IN($allow[]) | not))')"
 blocking_count="$(jq_on "$blocking_ids" 'length')"
 
 accepted_ids="$(jq_on "$all_ids" -c --argjson allow "$allow_json" 'map(select(IN($allow[])))')"
 accepted_present="$(jq_on "$accepted_ids" 'length')"
 
-# `::warning` is a GitHub Actions annotation — it surfaces on the job summary
-# and PR Checks tab, not just this buried log line, so a shipped upstream fix
-# doesn't sit unnoticed. Built without `mapfile` (bash 4+ only) so the script
-# still runs under macOS's default bash 3.2.
 stale_ids="$(jq_on "$all_ids" -r --argjson allow "$allow_json" '$allow - . | .[]')"
 if [ -n "$stale_ids" ]; then
   stale_summary="${stale_ids//$'\n'/, }"
@@ -135,7 +123,7 @@ if [ -n "$stale_ids" ]; then
     echo ""
     echo "Stale allowlist entries (no longer present in the audit — safe to remove from ALLOWLISTED_ADVISORIES):"
     echo "$stale_ids" | sed 's/^/- /'
-  } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+  } | append_summary
 fi
 
 if [ "$accepted_present" -gt 0 ]; then
@@ -143,7 +131,7 @@ if [ "$accepted_present" -gt 0 ]; then
     echo ""
     echo "Accepted (allowlisted, no upstream fix) high/critical advisories:"
     jq_on "$accepted_ids" -r '.[] | "- " + .'
-  } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
+  } | append_summary
 fi
 
 if [ "$blocking_count" -gt 0 ]; then
@@ -151,7 +139,7 @@ if [ "$blocking_count" -gt 0 ]; then
     echo ""
     echo "Found ${blocking_count} un-allowlisted high/critical advisories — failing the build:"
     jq_on "$blocking_ids" -r '.[] | "- " + .'
-  } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}" >&2
+  } | append_summary >&2
   exit 1
 fi
 
