@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach, type MockInstance } from "vitest";
 import { useContact } from "../../theme/composables/useContact";
+import { mockGtag, mockThrowingGtag, clearGtag } from "../helpers/gtag";
 
 const SUBMIT_PATH = "/";
 const FORM_NAME = "contact_form";
@@ -25,20 +26,6 @@ function okResponse(ok: boolean): Response {
 
 function stubFetch(ok: boolean): MockInstance {
   return vi.spyOn(globalThis, "fetch").mockResolvedValue(okResponse(ok));
-}
-
-function mockGtag() {
-  const gtag = vi.fn();
-  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
-  return gtag;
-}
-
-function mockThrowingGtag() {
-  const gtag = vi.fn(() => {
-    throw new Error("gtag blew up");
-  });
-  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
-  return gtag;
 }
 
 function fill(
@@ -143,7 +130,7 @@ describe("useContact", () => {
     vi.unstubAllGlobals();
     vi.unstubAllEnvs();
     vi.useRealTimers();
-    delete (globalThis as unknown as { gtag?: unknown }).gtag;
+    clearGtag();
   });
 
   describe("required field validation", () => {
@@ -587,15 +574,57 @@ describe("useContact", () => {
       expect(gtag).toHaveBeenCalledWith("event", CONTACT_SUBMIT_EVENT, {});
     });
 
-    it("does not leak submitted field values into the analytics event", async () => {
+    it("does not leak submitted field values into any analytics call", async () => {
       stubFetch(true);
       const gtag = mockGtag();
       const contact = useContact();
 
       await submitWith(contact, VALID_FIELDS);
 
-      const [, , params] = gtag.mock.calls[0];
-      expect(params).toEqual({});
+      const serializedCalls = JSON.stringify(gtag.mock.calls);
+      for (const fieldValue of Object.values(VALID_FIELDS)) {
+        expect(serializedCalls).not.toContain(fieldValue);
+      }
+    });
+
+    it("fires no analytics event when the honeypot is filled, even though the submit still reports success", async () => {
+      const fetchSpy = stubFetch(true);
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await contact.submit(
+        submitEvent({ ...VALID_FIELDS, botField: "i-am-a-bot" }),
+      );
+
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+      expect(contact.status.value).toBe("success");
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires no analytics event when the honeypot is whitespace-only", async () => {
+      stubFetch(true);
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await contact.submit(submitEvent({ ...VALID_FIELDS, botField: "   " }));
+
+      expect(contact.status.value).toBe("success");
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires exactly one event when a second submit lands mid-flight", async () => {
+      const { promise, resolveFetch } = deferredResponse();
+      vi.spyOn(globalThis, "fetch").mockReturnValue(promise);
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      const firstCall = contact.submit(submitEvent(VALID_FIELDS));
+      const secondCall = contact.submit(submitEvent(VALID_FIELDS));
+
+      resolveFetch(okResponse(true));
+      await Promise.all([firstCall, secondCall]);
+
+      expect(gtag).toHaveBeenCalledTimes(1);
     });
 
     it("still reports success and warns in dev when the analytics call throws", async () => {

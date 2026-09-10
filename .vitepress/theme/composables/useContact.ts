@@ -118,9 +118,14 @@ export function useContact() {
     name.value = "";
     email.value = "";
     message.value = "";
-    // No PII in the event params — mirrors useNewsletter, which also fires
-    // with an empty params object rather than the submitted address.
-    trackEvent(CONTACT_SUBMIT_EVENT);
+
+    // A filled honeypot still resolves as "success" (Netlify silently drops the
+    // spam POST but returns 200), so skip the event rather than counting a bot
+    // as a conversion. No PII in the params — mirrors useNewsletter, which also
+    // fires with an empty params object rather than the submitted address.
+    if (!resolution.body.get(HONEYPOT_FIELD)) {
+      trackEvent(CONTACT_SUBMIT_EVENT);
+    }
   }
 
   return { name, email, message, status, statusMessage, submit };

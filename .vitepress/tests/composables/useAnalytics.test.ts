@@ -1,28 +1,15 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { useAnalytics } from "../../theme/composables/useAnalytics";
+import { mockGtag, mockThrowingGtag, clearGtag } from "../helpers/gtag";
 
 const EVENT_NAME = "newsletter_subscribe";
-
-function mockGtag() {
-  const gtag = vi.fn();
-  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
-  return gtag;
-}
-
-function mockThrowingGtag() {
-  const gtag = vi.fn(() => {
-    throw new Error("gtag blew up");
-  });
-  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
-  return gtag;
-}
 
 describe("useAnalytics", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllEnvs();
     vi.unstubAllGlobals();
-    delete (globalThis as unknown as { gtag?: unknown }).gtag;
+    clearGtag();
   });
 
   it("no-ops during SSR when window is undefined", () => {
