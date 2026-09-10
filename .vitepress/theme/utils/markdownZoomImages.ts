@@ -1,14 +1,11 @@
 import type { MarkdownRenderer } from "vitepress";
 
-// PostView used to grant in-body <img> elements role="button", tabindex="0",
-// and aria-haspopup="dialog" client-side (onMounted + a watcher on
-// post.html), so the static HTML shipped inert — a keyboard/AT user landing
-// before hydration finished saw plain, non-interactive images. This module
-// hooks the same markdown-it image rule applyMarkdownImageHints installs
-// (both are wired together in .vitepress/config.ts's markdown.config) to
-// bake the zoom-control semantics into the rendered HTML at build time
-// instead, so the control is operable in the pre-hydration markup. PostView
-// still owns *opening* the lightbox (click/keydown delegation on the article
+// Grants in-body <img> elements zoom-control semantics (role="button",
+// tabindex="0", aria-haspopup="dialog", a labeling aria-label) at markdown
+// build time, so they're operable in the pre-hydration HTML. Hooks the same
+// markdown-it image rule applyMarkdownImageHints installs (both are wired
+// together in .vitepress/config.ts's markdown.config). PostView still owns
+// *opening* the lightbox (click/keydown delegation on the article
 // container), since that behavior is inherently client-side.
 //
 // Positional "N of M" labels distinguish otherwise-identical alt-less images
@@ -44,21 +41,20 @@ import type { MarkdownRenderer } from "vitepress";
 // drift from markdown-it's actual token handling.
 //
 // A linked image's click is a navigation, not a zoom — those are left alone
-// entirely, mirroring the client behavior this replaces. This site enables
-// markdown-it-attrs (VitePress's default), so an author can write
-// `![x](/a.png){tabindex="-1"}` to opt an image out by hand; such an image is
-// excluded from the generic count too, so it doesn't consume a position
-// number that then goes unused. A raw HTML anchor wrapping an image
-// (`<a href="/x">![y](z.png)</a>`) on a single line is also detected, but one
-// that spans multiple blocks (the anchor tags as their own paragraphs, the
-// image in between) is not — a narrow, undisclosed-elsewhere gap flagged as
-// a follow-up rather than fixed here, since nothing in this site's current
-// content does that and markdown link syntax is the natural way to write it.
-// Images written as raw <img> HTML inside markdown arrive as html tokens
-// rather than image tokens (see markdownImageHints.ts's own note on this),
-// so — like the dimension hints — they are not enriched; this module warns
-// at build time when it sees one in a post, since that image would
-// otherwise silently lose keyboard access with nothing surfacing the gap.
+// entirely. This site enables markdown-it-attrs (VitePress's default), so an
+// author can write `![x](/a.png){tabindex="-1"}` to opt an image out by
+// hand; such an image is excluded from the generic count too, so it doesn't
+// consume a position number that then goes unused. Images written as raw
+// <img> HTML inside markdown arrive as html tokens rather than image tokens
+// (see markdownImageHints.ts's own note on this), so — like the dimension
+// hints — they are not enriched; this module warns at build time when it
+// sees one in a post, since that image would otherwise silently lose
+// keyboard access with nothing surfacing the gap.
+//
+// @todo Detect a raw <a> anchor that wraps a markdown image across multiple
+// blocks (the anchor tags as their own paragraphs, the image in between) —
+// only a same-block wrapping is currently detected. Nothing in this site's
+// content does this today.
 
 const ZOOM_LABEL = "Zoom image";
 
@@ -85,8 +81,9 @@ const HTML_ANCHOR_OPEN_PATTERN = /^<a[\s>]/i;
 const HTML_ANCHOR_CLOSE_PATTERN = /^<\/a\s*>/i;
 
 // Namespaced so this module's build-pass state can't collide with another
-// markdown-it plugin's use of the same env object.
-const GENERIC_TOTAL_ENV_KEY = "zoomImageGenericTotal";
+// markdown-it plugin's use of the same env object. Exported so tests can
+// build an env fixture without hard-coding this private key themselves.
+export const GENERIC_TOTAL_ENV_KEY = "zoomImageGenericTotal";
 const GENERIC_POSITION_ENV_KEY = "zoomImageGenericPosition";
 const CORE_RULE_NAME = "zoom_image_generic_total";
 
@@ -152,25 +149,48 @@ function warnIfRawImgTag(token: ZoomToken, postLabel: string): void {
   );
 }
 
+// html_block tokens are top-level siblings in state.tokens, each an opaque
+// standalone chunk of raw HTML — a raw <a> wrapping one is the multi-block
+// case this module doesn't detect (see the @todo above), so no link check
+// applies here.
+function rawHtmlBlockTokens(blockTokens: ZoomToken[]): ZoomToken[] {
+  return blockTokens.filter((token) => token.type === HTML_BLOCK_TOKEN_TYPE);
+}
+
+// html_inline tokens live inside an "inline" block's children as siblings of
+// the anchor tags around them (`<a href="/x">`, `<img ...>`, and `</a>` are
+// three separate tokens, not one) — isInsideLink walks those siblings the
+// same way image enrichment does, so a raw <img> already wrapped in a link
+// (never going to be a zoom target) doesn't get a misleading warning.
+function unlinkedRawHtmlInlineTokens(siblings: ZoomToken[]): ZoomToken[] {
+  return siblings.filter(
+    (sibling, index) =>
+      sibling.type === HTML_INLINE_TOKEN_TYPE && !isInsideLink(siblings, index),
+  );
+}
+
+function rawHtmlCandidateTokens(blockTokens: ZoomToken[]): ZoomToken[] {
+  const inlineBlocks = blockTokens.filter(
+    (token) => token.type === INLINE_TOKEN_TYPE && token.children,
+  );
+  return [
+    ...rawHtmlBlockTokens(blockTokens),
+    ...inlineBlocks.flatMap((token) =>
+      unlinkedRawHtmlInlineTokens(token.children as ZoomToken[]),
+    ),
+  ];
+}
+
 // Raw <img> HTML in a post's body silently loses keyboard access (see the
 // module doc comment above) — warn loudly rather than let it pass unnoticed,
 // mirroring this codebase's fail-loud convention for silent content gaps.
-// html_block tokens are top-level siblings in the token stream; html_inline
-// ones live inside an "inline" block's children — both are checked.
 function warnAboutRawImgTags(
   blockTokens: ZoomToken[],
   postLabel: string,
 ): void {
-  for (const blockToken of blockTokens) {
-    if (blockToken.type === HTML_BLOCK_TOKEN_TYPE) {
-      warnIfRawImgTag(blockToken, postLabel);
-    }
-    if (blockToken.type === INLINE_TOKEN_TYPE && blockToken.children) {
-      blockToken.children
-        .filter((child) => child.type === HTML_INLINE_TOKEN_TYPE)
-        .forEach((child) => warnIfRawImgTag(child, postLabel));
-    }
-  }
+  rawHtmlCandidateTokens(blockTokens).forEach((token) =>
+    warnIfRawImgTag(token, postLabel),
+  );
 }
 
 function hasAuthorDefinedControl(token: ZoomToken): boolean {
@@ -210,21 +230,21 @@ function isLinkCloser(token: ZoomToken): boolean {
   );
 }
 
+function nextLinkDepth(depth: number, token: ZoomToken): number {
+  if (isLinkOpener(token)) {
+    return depth + 1;
+  }
+  if (isLinkCloser(token)) {
+    return Math.max(0, depth - 1);
+  }
+  return depth;
+}
+
 // An in-body image is a link's click target (a navigation) when an opener
 // precedes it in the same inline block with no matching closer yet — walk
 // the preceding siblings tracking nesting depth.
 function isInsideLink(siblings: ZoomToken[], index: number): boolean {
-  let depth = 0;
-  for (let position = 0; position < index; position++) {
-    if (isLinkOpener(siblings[position])) {
-      depth++;
-      continue;
-    }
-    if (isLinkCloser(siblings[position])) {
-      depth = Math.max(0, depth - 1);
-    }
-  }
-  return depth > 0;
+  return siblings.slice(0, index).reduce(nextLinkDepth, 0) > 0;
 }
 
 function countGenericInBlock(
@@ -324,6 +344,13 @@ function asRendererTokens(children: ZoomToken[] | null): RendererTokens {
 // attributes land regardless of registration order.
 export function applyMarkdownZoomImageHints(md: MarkdownRenderer): void {
   md.core.ruler.push(CORE_RULE_NAME, (state) => {
+    // md.parseInline()/renderInline() render a text fragment out of document
+    // order (e.g. an excerpt) — recomputing the document-wide total and
+    // resetting the position counter here would corrupt state for whatever
+    // full-document render happens to share the same env object.
+    if (state.inlineMode) {
+      return;
+    }
     // md.parse()/parseInline() (unlike render()) never default env to {},
     // so a caller invoking either directly leaves state.env undefined.
     if (!state.env || !isPostFrontmatter(state.env.frontmatter)) {

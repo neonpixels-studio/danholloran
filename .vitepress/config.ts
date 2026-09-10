@@ -11,11 +11,7 @@ import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
 import { parse as parsePlist } from "plist";
 import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
-import {
-  applyMarkdownImageHints,
-  readLocalImageDimensions,
-} from "./theme/utils/markdownImageHints";
-import { applyMarkdownZoomImageHints } from "./theme/utils/markdownZoomImages";
+import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
 
 // The Shiki TextMate themes live under public/ so they double as the
@@ -61,10 +57,7 @@ export default defineConfig({
       dark: darkTheme as any,
     },
     codeTransformers: [injectThemeBgTransformer],
-    config(md) {
-      applyMarkdownImageHints(md, readLocalImageDimensions);
-      applyMarkdownZoomImageHints(md);
-    },
+    config: configureMarkdown,
   },
   vite: {
     build: { cssMinify: "esbuild" },

@@ -1,10 +1,11 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { createMarkdownRenderer, disposeMdItInstance } from "vitepress";
 import {
   zoomLabelFor,
   countGenericZoomImages,
   setMarkdownZoomImageHints,
   applyMarkdownZoomImageHints,
+  GENERIC_TOTAL_ENV_KEY,
   type ZoomToken,
   type AltTextResolver,
 } from "../../theme/utils/markdownZoomImages";
@@ -67,6 +68,10 @@ function fakeImage(alt = "", attrs: [string, string][] = []): FakeToken {
     attrs,
     children: alt ? [new FakeToken("text", { content: alt })] : [],
   });
+}
+
+function envWithGenericTotal(total: number): Record<string, unknown> {
+  return { [GENERIC_TOTAL_ENV_KEY]: total };
 }
 
 describe("zoomLabelFor", () => {
@@ -167,7 +172,7 @@ describe("countGenericZoomImages", () => {
 describe("setMarkdownZoomImageHints", () => {
   it("marks a lone alt-having image as an operable zoom control", () => {
     const image = fakeImage("Inline diagram", [["src", "/images/posts/a.jpg"]]);
-    const env: Record<string, unknown> = { zoomImageGenericTotal: 0 };
+    const env = envWithGenericTotal(0);
 
     setMarkdownZoomImageHints([image], 0, env, resolveFakeAlt);
 
@@ -180,7 +185,7 @@ describe("setMarkdownZoomImageHints", () => {
   it("assigns stable positional labels to generic images in document order", () => {
     const first = fakeImage("");
     const second = fakeImage("");
-    const env: Record<string, unknown> = { zoomImageGenericTotal: 2 };
+    const env = envWithGenericTotal(2);
 
     setMarkdownZoomImageHints([first, second], 0, env, resolveFakeAlt);
     setMarkdownZoomImageHints([first, second], 1, env, resolveFakeAlt);
@@ -196,7 +201,7 @@ describe("setMarkdownZoomImageHints", () => {
       linkedImage,
       new FakeToken("link_close"),
     ];
-    const env: Record<string, unknown> = { zoomImageGenericTotal: 0 };
+    const env = envWithGenericTotal(0);
 
     setMarkdownZoomImageHints(siblings, 1, env, resolveFakeAlt);
 
@@ -211,7 +216,7 @@ describe("setMarkdownZoomImageHints", () => {
       linkedImage,
       new FakeToken("html_inline", { content: "</a>" }),
     ];
-    const env: Record<string, unknown> = { zoomImageGenericTotal: 0 };
+    const env = envWithGenericTotal(0);
 
     setMarkdownZoomImageHints(siblings, 1, env, resolveFakeAlt);
 
@@ -221,7 +226,7 @@ describe("setMarkdownZoomImageHints", () => {
 
   it("leaves an image that already declares role or tabindex untouched", () => {
     const image = fakeImage("Chart", [["tabindex", "-1"]]);
-    const env: Record<string, unknown> = { zoomImageGenericTotal: 0 };
+    const env = envWithGenericTotal(0);
 
     setMarkdownZoomImageHints([image], 0, env, resolveFakeAlt);
 
@@ -232,7 +237,7 @@ describe("setMarkdownZoomImageHints", () => {
 
   it("preserves an author-provided aria-label instead of overwriting it", () => {
     const image = fakeImage("Diagram", [["aria-label", "Custom label"]]);
-    const env: Record<string, unknown> = { zoomImageGenericTotal: 0 };
+    const env = envWithGenericTotal(0);
 
     setMarkdownZoomImageHints([image], 0, env, resolveFakeAlt);
 
@@ -411,5 +416,71 @@ describe("applyMarkdownZoomImageHints (integration)", () => {
       expect(html).toContain('aria-label="Zoom image 1 of 2"');
       expect(html).toContain('aria-label="Zoom image 2 of 2"');
     }
+  });
+
+  // Every other test in this file wires applyMarkdownZoomImageHints through
+  // a hand-written config callback, which proves the module works but not
+  // that it's actually reachable from postsDetail.data.ts's real render
+  // path — createContentLoader always builds its renderer from the site's
+  // own .vitepress/config.ts markdown options. configureMarkdown is the
+  // exact function config.ts wires as `markdown.config`, so importing it
+  // here (rather than config.ts itself, which has unrelated top-level side
+  // effects that don't survive a test runner's module loader) is the one
+  // test that would catch e.g. a future loader rendering post.body
+  // (frontmatter stripped) instead of the raw source, or a dropped wire-up.
+  it("enriches an image through the site's real markdown.config wiring", async () => {
+    disposeMdItInstance();
+    const { configureMarkdown } =
+      await import("../../theme/utils/configureMarkdown");
+    const md = await createMarkdownRenderer(process.cwd(), {
+      config: configureMarkdown,
+    });
+
+    const html = md.render(asPost("![Inline diagram](/images/a.jpg)"));
+
+    expect(html).toContain('role="button"');
+    expect(html).toContain('aria-label="Zoom image: Inline diagram"');
+  });
+
+  describe("raw <img> tag warning", () => {
+    it("warns for a raw <img> on its own line (html_block) in a post", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+      await renderWithZoomHints(asPost('<img src="/images/a.jpg">'));
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("raw <img>"));
+      warn.mockRestore();
+    });
+
+    it("warns for a raw <img> mixed into text (html_inline) in a post", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+      await renderWithZoomHints(
+        asPost('See this: <img src="/images/a.jpg"> for reference.'),
+      );
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining("raw <img>"));
+      warn.mockRestore();
+    });
+
+    it("does not warn for a raw <img> in a non-post document", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+      await renderWithZoomHints('<img src="/images/a.jpg">');
+
+      expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it("does not warn for a raw <img> already wrapped in a raw anchor", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+      await renderWithZoomHints(
+        asPost('<a href="/x"><img src="/images/a.jpg"></a>'),
+      );
+
+      expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
+    });
   });
 });
