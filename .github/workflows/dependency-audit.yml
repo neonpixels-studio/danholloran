@@ -1,0 +1,37 @@
+name: Dependency Audit
+
+# Standalone (not folded into ci.yml) because ci.yml's push trigger has
+# `paths-ignore: "**/*.md"` — on a blog, most main-branch pushes are post
+# content, so an audit sharing that trigger would rarely run on main. The
+# daily schedule below is the real backstop: it catches a newly disclosed
+# advisory against an unchanged lockfile even when nobody opens a PR.
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  schedule:
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+
+      # `npm audit` reads package-lock.json directly and doesn't need
+      # node_modules, so this job skips `npm ci`: no dependency's install
+      # scripts (including the vulnerable ones being audited) run here.
+      - name: Audit dependencies
+        run: bash .github/scripts/audit.sh

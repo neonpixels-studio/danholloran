@@ -13,8 +13,16 @@
 #
 # ALLOWLIST POLICY: only advisories with no upstream fix belong here, each with a
 # justification and a trigger to remove it. This is NOT a way to silence fixable
-# findings — prefer an npm `overrides` bump every time one is available (see the
-# `nanoid` override in package.json, added instead of allowlisting).
+# findings — prefer `npm update <pkg>` (or an `overrides` bump if the parent's
+# declared range excludes the patched version) every time a fix is available.
+#
+# KNOWN LIMITATION: entries are keyed "<GHSA-id>@<node_modules path>", pairing
+# every advisory on a package with every one of that package's install paths.
+# A package with multiple advisories AND multiple install paths could produce
+# a pair that doesn't actually apply (advisory X doesn't affect the version at
+# path Y) — npm audit's JSON doesn't cleanly separate that on its own. Today
+# every affected package here has exactly one install path, so this doesn't
+# bite; re-verify if that ever changes.
 set -euo pipefail
 
 # High/critical advisories accepted because no patched version exists upstream.
@@ -23,7 +31,7 @@ set -euo pipefail
 # advisory ID ever shows up at a different path (e.g. a top-level `vite` from
 # vitest/@tailwindcss/vite resolving into the vulnerable range), it is NOT
 # covered and correctly fails the gate. Remove an entry the moment its package
-# ships a fix and bump via `overrides`.
+# ships a fix.
 ALLOWLISTED_ADVISORIES=(
   # image-size <=2.0.2: crafted ICNS/JXL/HEIF inputs cause an infinite-loop DoS.
   # No patched version exists (latest published image-size is 2.0.2, and the
@@ -75,9 +83,7 @@ low="$(read_count low)"
   echo "| Low      | ${low} |"
 } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
-# Runs jq over the JSON string passed as $1; the remaining arguments are jq's
-# own filter/flags. A small wrapper so every call below reads as one line
-# instead of repeating the `printf | jq` pipe.
+# Runs jq over the JSON string passed as $1; remaining args go to jq.
 jq_on() {
   printf '%s' "$1" | jq "${@:2}"
 }
@@ -117,20 +123,18 @@ blocking_count="$(jq_on "$blocking_ids" 'length')"
 accepted_ids="$(jq_on "$all_ids" -c --argjson allow "$allow_json" 'map(select(IN($allow[])))')"
 accepted_present="$(jq_on "$accepted_ids" 'length')"
 
-# Surfaced as a `::warning` annotation (shows up on the job summary and the PR
-# Checks tab, not just a buried stderr line) plus the step summary, so a
-# maintainer notices when an entry has fallen out of the report — most often
-# because the advisory shipped a real fix and the exemption is no longer
-# needed.
+# `::warning` is a GitHub Actions annotation — it surfaces on the job summary
+# and PR Checks tab, not just this buried log line, so a shipped upstream fix
+# doesn't sit unnoticed. Built without `mapfile` (bash 4+ only) so the script
+# still runs under macOS's default bash 3.2.
 stale_ids="$(jq_on "$all_ids" -r --argjson allow "$allow_json" '$allow - . | .[]')"
 if [ -n "$stale_ids" ]; then
-  mapfile -t stale_ids_array <<<"$stale_ids"
   stale_summary="${stale_ids//$'\n'/, }"
   echo "::warning title=Stale audit allowlist entries::${stale_summary}"
   {
     echo ""
     echo "Stale allowlist entries (no longer present in the audit — safe to remove from ALLOWLISTED_ADVISORIES):"
-    printf -- '- %s\n' "${stale_ids_array[@]}"
+    echo "$stale_ids" | sed 's/^/- /'
   } | tee -a "${GITHUB_STEP_SUMMARY:-/dev/null}"
 fi
 
