@@ -8,9 +8,9 @@ const instagramHandle = socialLinks.INSTAGRAM.match(
   /(?:https?:\/\/)?(?:www\.)?instagram\.com\/([A-Za-z0-9_.]+)/,
 )?.[1];
 
-// One full row of tiles at the widest breakpoint.
-const MAX_TILES = 6;
-const displayedPosts = instagramPosts.slice(0, MAX_TILES);
+// instagram.data.ts's loader already sorts newest-first and slices to one
+// full row of tiles (see transformInstagram.ts's HOME_TILE_COUNT) — no local
+// slice needed here.
 
 // Seed on the immutable /p/<shortcode> id rather than the full permalink so URL
 // cosmetics (www., trailing slash, an Instagram ?igsh= share suffix) can't
@@ -41,7 +41,7 @@ function tileAlt(
 // same image with zero post-hydration swap and no second image fetch. Resolved
 // once per setup (the pick is pure) rather than on every render to avoid
 // re-hashing.
-const tiles = displayedPosts.map((post, index) => ({
+const tiles = instagramPosts.map((post, index) => ({
   post,
   image: pickDeterministicImage(
     permalinkSeed(post.frontmatter.url),

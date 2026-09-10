@@ -6,7 +6,7 @@ import type {
   Post,
   SearchItem,
 } from "@typedefs";
-import type { InstagramPost } from "@typedefs";
+import type { InstagramTileFrontmatter } from "@typedefs";
 
 export const mockSkill = {
   image: "vue-js.svg",
@@ -163,35 +163,34 @@ export const mockStaticSearchItems: SearchItem[] = [
 // photo2 → shortcode `def456`, index 1 → -b), so a test expecting a single
 // fixed position would fail. photo2 also uses the production `www.` + trailing
 // slash shape to prove the shortcode seed ignores URL cosmetics.
-// createContentLoader wraps each item with a `frontmatter` key.
+// transformInstagram.ts projects the loader's output down to just the
+// frontmatter fields HomeInstagram reads (no `tags`, no top-level page
+// `url` — see instagram.ts's InstagramContentItem); mirror that trimmed
+// shape here so the fixture matches what the real loader ships.
 export const mockInstagramPosts = [
   {
-    url: "/content/instagram/photo1",
     frontmatter: {
       created_at: "2025-01-01T00:00:00.000Z",
       caption: "A great photo",
-      tags: ["nature"],
       location: "Yosemite",
       images: [
         "/images/instagram/photo1-a.jpg",
         "/images/instagram/photo1-b.jpg",
       ],
       url: "https://instagram.com/p/aaa000",
-    } as InstagramPost,
+    } as InstagramTileFrontmatter,
   },
   {
-    url: "/content/instagram/photo2",
     frontmatter: {
       created_at: "2025-02-01T00:00:00.000Z",
       caption: "Another great photo",
-      tags: ["travel"],
       location: "Grand Canyon",
       images: [
         "/images/instagram/photo2-a.jpg",
         "/images/instagram/photo2-b.jpg",
       ],
       url: "https://www.instagram.com/p/def456/",
-    } as InstagramPost,
+    } as InstagramTileFrontmatter,
   },
 ];
 
