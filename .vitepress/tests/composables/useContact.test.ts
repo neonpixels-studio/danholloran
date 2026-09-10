@@ -17,12 +17,28 @@ const VALID_FIELDS = {
   message: "Hello there, this is a message.",
 };
 
+const CONTACT_SUBMIT_EVENT = "contact_form_submit";
+
 function okResponse(ok: boolean): Response {
   return { ok } as Response;
 }
 
 function stubFetch(ok: boolean): MockInstance {
   return vi.spyOn(globalThis, "fetch").mockResolvedValue(okResponse(ok));
+}
+
+function mockGtag() {
+  const gtag = vi.fn();
+  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
+  return gtag;
+}
+
+function mockThrowingGtag() {
+  const gtag = vi.fn(() => {
+    throw new Error("gtag blew up");
+  });
+  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
+  return gtag;
 }
 
 function fill(
@@ -125,7 +141,9 @@ describe("useContact", () => {
   afterEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.unstubAllEnvs();
     vi.useRealTimers();
+    delete (globalThis as unknown as { gtag?: unknown }).gtag;
   });
 
   describe("required field validation", () => {
@@ -554,6 +572,115 @@ describe("useContact", () => {
 
       expect(fetchSpy.mock.calls[0][1]?.signal).toBeUndefined();
       expect(contact.status.value).toBe("success");
+    });
+  });
+
+  describe("analytics", () => {
+    it("fires exactly one analytics event on a successful submit", async () => {
+      stubFetch(true);
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+      expect(gtag).toHaveBeenCalledWith("event", CONTACT_SUBMIT_EVENT, {});
+    });
+
+    it("does not leak submitted field values into the analytics event", async () => {
+      stubFetch(true);
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      const [, , params] = gtag.mock.calls[0];
+      expect(params).toEqual({});
+    });
+
+    it("still reports success and warns in dev when the analytics call throws", async () => {
+      vi.stubEnv("DEV", true);
+      stubFetch(true);
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockThrowingGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      expect(contact.status.value).toBe("success");
+      expect(warn).toHaveBeenCalledTimes(1);
+    });
+
+    it("swallows a throwing analytics call silently outside dev", async () => {
+      vi.stubEnv("DEV", false);
+      stubFetch(true);
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockThrowingGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      expect(contact.status.value).toBe("success");
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("still reports success when gtag is absent", async () => {
+      stubFetch(true);
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      expect(contact.status.value).toBe("success");
+    });
+
+    it("fires no analytics event when the response is not ok", async () => {
+      stubFetch(false);
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires no analytics event when the request throws", async () => {
+      vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("offline"));
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires no analytics event when required fields are missing", async () => {
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockRejectedValue(new Error("fetch should not be called"));
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await submitWith(contact, { name: "", email: "", message: "" });
+
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires one event when a retry after an error succeeds", async () => {
+      const fetchSpy = vi
+        .spyOn(globalThis, "fetch")
+        .mockResolvedValueOnce(okResponse(false))
+        .mockResolvedValueOnce(okResponse(true));
+      const gtag = mockGtag();
+      const contact = useContact();
+
+      await submitWith(contact, VALID_FIELDS);
+      expect(contact.status.value).toBe("error");
+
+      await submitWith(contact, VALID_FIELDS);
+      expect(fetchSpy).toHaveBeenCalledTimes(2);
+      expect(contact.status.value).toBe("success");
+      expect(gtag).toHaveBeenCalledTimes(1);
     });
   });
 });
