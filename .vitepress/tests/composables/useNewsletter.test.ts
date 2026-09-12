@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach, type MockInstance } from "vitest";
 import { useNewsletter } from "../../theme/composables/useNewsletter";
+import { mockGtag, mockThrowingGtag, clearGtag } from "../helpers/gtag";
 
 const KIT_FORM_ACTION = "https://app.kit.com/forms/9565549/subscriptions";
 const VALID_EMAIL = "reader@example.com";
@@ -12,20 +13,6 @@ function okResponse(ok: boolean): Response {
 
 function stubFetch(ok: boolean): MockInstance {
   return vi.spyOn(globalThis, "fetch").mockResolvedValue(okResponse(ok));
-}
-
-function mockGtag() {
-  const gtag = vi.fn();
-  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
-  return gtag;
-}
-
-function mockThrowingGtag() {
-  const gtag = vi.fn(() => {
-    throw new Error("gtag blew up");
-  });
-  (globalThis as unknown as { gtag: typeof gtag }).gtag = gtag;
-  return gtag;
 }
 
 function deferredResponse() {
@@ -81,7 +68,7 @@ describe("useNewsletter", () => {
     vi.unstubAllEnvs();
     vi.unstubAllGlobals();
     vi.useRealTimers();
-    delete (globalThis as unknown as { gtag?: unknown }).gtag;
+    clearGtag();
   });
 
   describe("email validation", () => {
