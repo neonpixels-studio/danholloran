@@ -152,10 +152,18 @@ describe("PostView", () => {
     );
   });
 
-  it("makes in-body images keyboard-operable and zoomable", async () => {
+  // Zoom-control attributes (role/tabindex/aria-haspopup/aria-label) are now
+  // baked into post.html at markdown build time (markdownZoomImages.ts), so
+  // this fixture pre-declares them as the real pipeline would; PostView's
+  // job is only wiring the click/keydown interaction on top.
+  it("opens the lightbox when Enter is pressed on an operable in-body image", async () => {
     const post = {
       ...mockPosts[0],
-      html: '<p>Body</p><img src="/images/posts/inline.jpg" alt="Inline diagram" />',
+      html:
+        "<p>Body</p>" +
+        '<img src="/images/posts/inline.jpg" alt="Inline diagram" ' +
+        'role="button" tabindex="0" aria-haspopup="dialog" ' +
+        'aria-label="Zoom image: Inline diagram" />',
     };
     const wrapper = shallowMount(PostView, {
       props: { post, posts: mockPosts },
@@ -193,100 +201,6 @@ describe("PostView", () => {
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
   });
 
-  it("labels a lone empty-alt image with the generic zoom label", () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<img src="/images/posts/decorative.jpg" alt="" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    const image = wrapper.find("article img");
-    expect(image.attributes("role")).toBe("button");
-    expect(image.attributes("tabindex")).toBe("0");
-    expect(image.attributes("aria-label")).toBe("Zoom image");
-  });
-
-  it("distinguishes multiple empty-alt images with positional labels", () => {
-    const post = {
-      ...mockPosts[0],
-      html:
-        '<img src="/images/posts/a.jpg" alt="" />' +
-        '<img src="/images/posts/b.jpg" alt="" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    const images = wrapper.findAll("article img");
-    expect(images[0].attributes("aria-label")).toBe("Zoom image 1 of 2");
-    expect(images[1].attributes("aria-label")).toBe("Zoom image 2 of 2");
-  });
-
-  it("labels a mixed set so empty-alt images are not falsely numbered", () => {
-    const post = {
-      ...mockPosts[0],
-      html:
-        '<img src="/images/posts/chart.jpg" alt="Chart" />' +
-        '<img src="/images/posts/decorative.jpg" alt="" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    const images = wrapper.findAll("article img");
-    expect(images[0].attributes("aria-label")).toBe("Zoom image: Chart");
-    // Only one generic control exists, so it must not claim "1 of 2".
-    expect(images[1].attributes("aria-label")).toBe("Zoom image");
-  });
-
-  it("leaves images that already declare role or tabindex untouched", () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<img src="/images/posts/x.jpg" alt="Chart" tabindex="-1" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    const image = wrapper.find("article img");
-    expect(image.attributes("role")).toBeUndefined();
-    expect(image.attributes("aria-haspopup")).toBeUndefined();
-    expect(image.attributes("tabindex")).toBe("-1");
-  });
-
-  it("does not let an author-labeled empty-alt image inflate positional counts", () => {
-    const post = {
-      ...mockPosts[0],
-      html:
-        '<img src="/images/posts/a.jpg" alt="" aria-label="Site map" />' +
-        '<img src="/images/posts/b.jpg" alt="" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    const images = wrapper.findAll("article img");
-    expect(images[0].attributes("aria-label")).toBe("Site map");
-    // Only one generic control exists, so it must not claim "1 of 2".
-    expect(images[1].attributes("aria-label")).toBe("Zoom image");
-  });
-
-  it("marks in-body zoom images as opening a dialog", () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<img src="/images/posts/inline.jpg" alt="Inline diagram" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    expect(wrapper.find("article img").attributes("aria-haspopup")).toBe(
-      "dialog",
-    );
-  });
-
   it("prevents the default Space action on the hero image", () => {
     const wrapper = shallowMount(PostView, {
       props: { post: mockPosts[0], posts: mockPosts },
@@ -303,20 +217,6 @@ describe("PostView", () => {
     hero.dispatchEvent(event);
 
     expect(event.defaultPrevented).toBe(true);
-  });
-
-  it("preserves an author-provided aria-label on an in-body image", () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<img src="/images/posts/x.jpg" alt="Diagram" aria-label="Custom label" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
-
-    expect(wrapper.find("article img").attributes("aria-label")).toBe(
-      "Custom label",
-    );
   });
 
   it("prevents the default Space action so the page does not scroll", async () => {
@@ -357,20 +257,30 @@ describe("PostView", () => {
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
   });
 
-  it("re-enriches in-body images after the post changes", async () => {
+  // Since attribute enrichment now happens at build time, "the post changes"
+  // just re-renders the incoming html as-is — verify the click delegation
+  // (bound once on the article container) still routes interaction to the
+  // new post's images rather than being stuck on the old one.
+  it("routes interaction to the new post's in-body images after the post changes", async () => {
     const wrapper = shallowMount(PostView, {
       props: { post: mockPosts[0], posts: mockPosts },
     });
 
     const nextPost = {
       ...mockPosts[1],
-      html: '<img src="/images/posts/next.jpg" alt="Next diagram" />',
+      html:
+        '<img src="/images/posts/next.jpg" alt="Next diagram" ' +
+        'role="button" tabindex="0" aria-haspopup="dialog" ' +
+        'aria-label="Zoom image: Next diagram" />',
     };
     await wrapper.setProps({ post: nextPost });
 
     const inlineImage = wrapper.find("article img");
-    expect(inlineImage.attributes("role")).toBe("button");
-    expect(inlineImage.attributes("tabindex")).toBe("0");
+    await inlineImage.trigger("keydown", { key: "Enter" });
+
+    const lightbox = wrapper.findComponent(PostLightbox);
+    expect(lightbox.props("src")).toContain("/images/posts/next.jpg");
+    expect(lightbox.props("alt")).toBe("Next diagram");
   });
 
   it("links each tag to its crawlable tag archive route", () => {
