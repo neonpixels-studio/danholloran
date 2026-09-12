@@ -1,7 +1,9 @@
 import { ref } from "vue";
+import { useAnalytics } from "@composables/useAnalytics";
 import { withTimeoutSignal } from "@utils/timeoutSignal";
 
 const SUBMIT_PATH = "/";
+const CONTACT_SUBMIT_EVENT = "contact_form_submit";
 // Netlify's honeypot: forwarded verbatim (never trimmed) so a whitespace-only
 // bot fill still trips it, matching the native no-JS submit.
 const HONEYPOT_FIELD = "bot-field";
@@ -72,6 +74,7 @@ export function useContact() {
   const message = ref("");
   const status = ref<ContactStatus>("idle");
   const statusMessage = ref("");
+  const { trackEvent } = useAnalytics();
 
   async function submit(event: SubmitEvent) {
     // One request at a time.
@@ -115,6 +118,14 @@ export function useContact() {
     name.value = "";
     email.value = "";
     message.value = "";
+
+    // A filled honeypot still resolves as "success" (Netlify silently drops the
+    // spam POST but returns 200), so skip the event rather than counting a bot
+    // as a conversion. No PII in the params — mirrors useNewsletter, which also
+    // fires with an empty params object rather than the submitted address.
+    if (!resolution.body.get(HONEYPOT_FIELD)) {
+      trackEvent(CONTACT_SUBMIT_EVENT);
+    }
   }
 
   return { name, email, message, status, statusMessage, submit };
