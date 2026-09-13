@@ -105,6 +105,12 @@ export const SEARCH_PANEL_SIZE = 8;
 // backfills them at the tail if posts/projects don't fill the panel.
 export const EMPTY_QUERY_PAGE_LIMIT = 3;
 
+// Minimum number of project slots reserved in the empty-query panel whenever
+// at least one project exists. Without a reservation, an ever-growing posts
+// list fills every non-page slot and projects never appear at all, even
+// though the search placeholder advertises "posts, projects, pages".
+export const EMPTY_QUERY_PROJECT_MIN_SLOTS = 2;
+
 // A Record keyed by every SearchItem type, rather than three separate
 // .filter() calls, so adding a new type to the union is a compile error here
 // instead of that type silently vanishing from the empty-query panel.
@@ -129,10 +135,10 @@ function groupByType(
 // is expected pre-sorted by recency within each type (postItems already
 // sorts newest-first).
 //
-// With enough posts to fill the remaining slots on their own, projects (and
-// overflow pages) won't appear in the panel at all — that's intentional:
-// posts are the content most worth surfacing here, and everything else is
-// still one click away via the Blog/Home pages or a real search query.
+// Projects get a reserved slot count (EMPTY_QUERY_PROJECT_MIN_SLOTS) taken
+// out of the space posts would otherwise fill, so an ever-growing posts list
+// can never crowd projects out of the panel entirely — mirroring why pages
+// have their own EMPTY_QUERY_PAGE_LIMIT above.
 export function buildEmptyQueryResults(
   items: SearchItem[],
   panelSize: number = SEARCH_PANEL_SIZE,
@@ -145,10 +151,21 @@ export function buildEmptyQueryResults(
   } = groupByType(items);
   const leadingPages = pageItems.slice(0, EMPTY_QUERY_PAGE_LIMIT);
   const overflowPages = pageItems.slice(EMPTY_QUERY_PAGE_LIMIT);
+
+  const slotsAfterPages = Math.max(0, panelSize - leadingPages.length);
+  const reservedProjectSlots = Math.min(
+    EMPTY_QUERY_PROJECT_MIN_SLOTS,
+    projectItems.length,
+    slotsAfterPages,
+  );
+  const postSlots = slotsAfterPages - reservedProjectSlots;
+  const leadingPosts = postItems.slice(0, postSlots);
+  const leadingProjects = projectItems.slice(0, reservedProjectSlots);
+
   const ordered = [
     ...leadingPages,
-    ...postItems,
-    ...projectItems,
+    ...leadingPosts,
+    ...leadingProjects,
     ...overflowPages,
     ...Object.values<SearchItem[]>(otherTypeItems).flat(),
   ];
