@@ -10,20 +10,21 @@ import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 // restart for both loaders to pick up the change.
 export const POSTS_GLOB = ".vitepress/content/posts/*.md";
 
-// Shared by transformPosts and search.data.ts (which cannot import it
-// directly — see the .fallowrc.json ignoreExports entry — but does) so both
-// loaders derive the same href from the same content-loader url.
+// Shared by transformPosts and search.data.ts so both loaders derive the same
+// href from the same content-loader url. fallow doesn't traverse `*.data.ts`
+// loaders (see ignorePatterns in .fallowrc.json), so it can't see
+// search.data.ts's import of this export — that's why it's also listed in
+// .fallowrc.json's ignoreExports, to avoid a false "unused export" flag.
 export function toSlug(url: string): string {
   return url
     .replace(/\/\.vitepress\/content\/posts\//g, "")
     .replace(/\/posts\//g, "");
 }
 
-// The sort key and "is this safe to format" flag for a post's date, computed
-// once per post from a single Date parse. transformPosts and search.data.ts
-// both need this; sharing one resolver means the two loaders can't drift on
-// what counts as an invalid date, and each caller only pays for one parse
-// per post (not once per sort comparison).
+// The sort key and "is this safe to format" flag for a post's date.
+// transformPosts and search.data.ts both need this; sharing one resolver
+// means the two loaders can't drift on what counts as an invalid date, and
+// the NaN-detection/warn logic itself lives in exactly one place.
 type PublishedDate = {
   sortTime: number;
   isValid: boolean;
@@ -32,13 +33,17 @@ type PublishedDate = {
 // A missing or malformed frontmatter date would make the sort comparator
 // return NaN, which Array.prototype.sort treats as "equal" — leaving the post
 // in its (arbitrary) glob position, possibly the featured slot — and would
-// render the literal string "Invalid Date" wherever the date gets formatted.
-// `date: null`/`date:` (bare key) parses to `new Date(null).getTime() === 0`,
-// not NaN, so an empty date would otherwise sort to the epoch and format as
-// "Jan 1, 1970" with no warning; the falsy guard below routes it through the
-// same unparseable path as a typo'd string. Mirror generateFeed's behaviour:
-// warn loudly, sort the post last (oldest), and flag the date unusable so
-// callers skip formatting it.
+// render the literal string "Invalid Date" wherever the raw date gets
+// formatted. `date: null`/`date:` (bare key) parses to
+// `new Date(null).getTime() === 0`, not NaN, so an empty date would otherwise
+// sort to the epoch and format as "Jan 1, 1970" with no warning; the falsy
+// guard below routes it through the same unparseable path as a typo'd
+// string. Mirror generateFeed's behaviour: warn loudly, sort the post last
+// (oldest), and flag the date unusable via `isValid` so a caller that checks
+// it can skip formatting the raw value. `transformPosts` itself does not yet
+// check `isValid` for its own rendered surfaces (HomeBlog/PostsView/PostView
+// format `frontmatter.date` directly) — only search.data.ts consumes the
+// flag today; see the PR's follow-up suggestions.
 export function resolvePublishedDate(post: ContentData): PublishedDate {
   if (!post.frontmatter.date) {
     console.warn(

@@ -42,7 +42,10 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
         return {
           type: "post" as const,
           title: frontmatter.title as string,
-          desc: date ? `${topic} · ${date}` : topic,
+          // Join only the parts that exist rather than special-casing one
+          // side — an absent topic must not leave an orphan " · " leading
+          // the date, and an absent date must not leave a trailing one.
+          desc: [topic, date].filter(Boolean).join(" · "),
           href: `/posts/${slug}`,
           kw: [frontmatter.description ?? "", topic, ...tags].join(" "),
         };

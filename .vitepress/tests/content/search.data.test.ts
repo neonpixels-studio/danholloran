@@ -180,4 +180,18 @@ describe("transformSearchData date handling", () => {
     expect(item.desc).toBe("development");
     expect(item.desc).not.toContain("1970");
   });
+
+  it("omits the separator instead of leaving a dangling ' · ' when topic is missing", () => {
+    // Special-casing only the date side of the join would leave an orphan
+    // leading " · " once topic is falsy; both sides must be optional.
+    const untopicedPost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, topic: undefined, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([untopicedPost]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.desc.startsWith(" · ")).toBe(false);
+  });
 });

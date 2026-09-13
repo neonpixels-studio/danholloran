@@ -205,28 +205,22 @@ describe("transformPosts", () => {
     ]);
   });
 
-  it("treats a null frontmatter date as unparseable and sorts it last", () => {
-    // `new Date(null).getTime()` is 0, not NaN — a bare `date:` YAML key
-    // (which parses to `null`) must not silently sort as the epoch.
-    vi.spyOn(console, "warn").mockImplementation(() => {});
-    const datedPost = makeRawPost({
-      url: "/.vitepress/content/posts/dated-post",
-      frontmatter: {
-        ...makeRawPost().frontmatter,
-        date: "2025-01-01T00:00:00.000Z",
-      },
-    });
+  it("warns on a null frontmatter date instead of silently treating it as the epoch", () => {
+    // `new Date(null).getTime()` is 0, not NaN, so a bare `date:` YAML key
+    // (which parses to `null`) already sorted last even without the falsy
+    // guard — the sort position alone can't distinguish the fix from its
+    // absence. The observable change is the warning, which only fires once
+    // the guard treats a null date as unparseable rather than as a valid
+    // (epoch) timestamp.
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
     const nullDatedPost = makeRawPost({
       url: "/.vitepress/content/posts/null-dated-post",
       frontmatter: { ...makeRawPost().frontmatter, date: null },
     });
 
-    const sorted = transformPosts([nullDatedPost, datedPost]);
+    transformPosts([nullDatedPost]);
 
-    expect(sorted.map((post) => post.frontmatter.slug)).toEqual([
-      "dated-post",
-      "null-dated-post",
-    ]);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("has no date"));
   });
 
   it("does not mutate the raw post object, so re-transforming a cached post is safe", () => {
