@@ -35,13 +35,8 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
         (tag): tag is string => typeof tag === "string",
       );
       // frontmatter.topic is optional at runtime even though the Post type
-      // marks it required — author-controlled YAML can omit it or supply a
-      // non-string scalar. Matches the `typeof === "string"` policy already
-      // applied to topic in archivePaths.ts and pageTransform.ts: a non-string
-      // topic falls back to empty rather than getting laundered into the
-      // desc/keyword string as e.g. a stray number. Without this guard a
-      // topicless post's desc interpolates the literal string "undefined"
-      // ahead of the separator instead of just showing the date.
+      // marks it required — YAML can omit it. Unguarded, a topicless post's
+      // desc interpolates the literal string "undefined".
       const topic =
         typeof frontmatter.topic === "string" ? frontmatter.topic.trim() : "";
       const desc = topic ? `${topic} · ${date}` : date;

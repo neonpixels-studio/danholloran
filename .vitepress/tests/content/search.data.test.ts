@@ -157,10 +157,6 @@ describe("transformSearchData", () => {
   });
 
   it("drops a non-string topic instead of laundering it into desc/kw", () => {
-    // Matches the typeof-string policy already applied to topic in
-    // archivePaths.ts and pageTransform.ts: a scalar like a number is
-    // dropped rather than coerced, so it can't advertise a topic that
-    // topicBuckets() would have excluded from the archive routes.
     const [item] = transformSearchData([
       makeRawPost({ topic: 2025, tags: [] }),
     ]);
