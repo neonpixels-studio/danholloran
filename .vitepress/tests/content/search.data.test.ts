@@ -137,9 +137,8 @@ describe("transformSearchData", () => {
   });
 
   it("omits the topic segment when topic is a bare null key", () => {
-    // Frontmatter YAML with a bare `topic:` key (no value) parses to `null`,
-    // distinct from the key being absent entirely — same distinction the
-    // tags tests draw above.
+    // Frontmatter YAML with a bare `topic:` key (no value) parses to `null`;
+    // the `typeof === "string"` guard treats it the same as a missing key.
     const [item] = transformSearchData([
       makeRawPost({ topic: null, tags: [] }),
     ]);
@@ -173,5 +172,20 @@ describe("transformSearchData", () => {
 
     expect(item.desc).toBe("development · Jan 1, 2025");
     expect(item.kw).toBe("An example post. development");
+  });
+
+  it("does not leave a leading space in kw when description is missing but topic is present", () => {
+    // Pins `.filter(Boolean)` on the kw join: without it, a missing
+    // description leaves an empty leading segment that joins into a
+    // leading space ahead of the topic instead of being dropped.
+    const [item] = transformSearchData([
+      makeRawPost({
+        description: undefined,
+        topic: "development",
+        tags: ["js"],
+      }),
+    ]);
+
+    expect(item.kw).toBe("development js");
   });
 });
