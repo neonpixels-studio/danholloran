@@ -49,8 +49,10 @@ describe("useGrimicornToolDownloads", () => {
       const tools = [tool({ name: "Zed" }), tool({ name: "Alpha" })];
       const { sortedTools } = useGrimicornToolDownloads(THEME_SLUG, tools);
 
-      sortedTools.value;
-
+      expect(sortedTools.value.map((entry) => entry.name)).toEqual([
+        "Alpha",
+        "Zed",
+      ]);
       expect(tools.map((entry) => entry.name)).toEqual(["Zed", "Alpha"]);
     });
   });
@@ -112,6 +114,18 @@ describe("useGrimicornToolDownloads", () => {
       await copyHex("#123456", 3);
 
       expect(copiedIndex.value).toBe(3);
+    });
+
+    it("still flashes the copied index when the clipboard API is unavailable", async () => {
+      vi.stubGlobal("navigator", {});
+      const { copyHex, copiedIndex } = useGrimicornToolDownloads(
+        THEME_SLUG,
+        [],
+      );
+
+      await copyHex("#123456", 1);
+
+      expect(copiedIndex.value).toBe(1);
     });
 
     it("clears the pending flash timer when its effect scope is disposed", async () => {

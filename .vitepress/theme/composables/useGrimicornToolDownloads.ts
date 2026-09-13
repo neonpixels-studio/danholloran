@@ -1,4 +1,4 @@
-import { computed, onScopeDispose, ref } from "vue";
+import { computed, getCurrentScope, onScopeDispose, ref } from "vue";
 import { useAnalytics } from "@composables/useAnalytics";
 import type { GrimicornTool, GrimicornToolFile } from "@typedefs";
 
@@ -52,7 +52,12 @@ export function useGrimicornToolDownloads(
 
   const copiedIndex = ref<number | null>(null);
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
-  onScopeDispose(() => clearTimeout(copyTimer));
+  // Guarded: callers outside a component/effect scope (e.g. calling this
+  // composable directly in a unit test) have nothing to dispose into, and an
+  // unconditional call would only log a Vue dev warning.
+  if (getCurrentScope()) {
+    onScopeDispose(() => clearTimeout(copyTimer));
+  }
 
   async function copyHex(hex: string, index: number) {
     // Flash before awaiting the clipboard write: a slow/blocked write (e.g. a
