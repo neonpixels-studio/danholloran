@@ -10,18 +10,21 @@ import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 // restart for both loaders to pick up the change.
 export const POSTS_GLOB = ".vitepress/content/posts/*.md";
 
-function toSlug(url: string): string {
+// Shared by transformPosts and search.data.ts (which cannot import it
+// directly — see the .fallowrc.json ignoreExports entry — but does) so both
+// loaders derive the same href from the same content-loader url.
+export function toSlug(url: string): string {
   return url
     .replace(/\/\.vitepress\/content\/posts\//g, "")
     .replace(/\/posts\//g, "");
 }
 
-// Both the sort key and "is this safe to format" flag for a post's date,
-// computed once per post from a single Date parse. search.data.ts and
-// transformPosts both need this — sharing one resolver means an unparseable
-// date warns exactly once (not once per consumer) and the two call sites
-// can't drift on how "invalid" is detected.
-export type PublishedDate = {
+// The sort key and "is this safe to format" flag for a post's date, computed
+// once per post from a single Date parse. transformPosts and search.data.ts
+// both need this; sharing one resolver means the two loaders can't drift on
+// what counts as an invalid date, and each caller only pays for one parse
+// per post (not once per sort comparison).
+type PublishedDate = {
   sortTime: number;
   isValid: boolean;
 };
@@ -30,13 +33,23 @@ export type PublishedDate = {
 // return NaN, which Array.prototype.sort treats as "equal" — leaving the post
 // in its (arbitrary) glob position, possibly the featured slot — and would
 // render the literal string "Invalid Date" wherever the date gets formatted.
-// Mirror generateFeed's behaviour: warn loudly, sort the post last (oldest),
-// and flag the date unusable so callers skip formatting it.
+// `date: null`/`date:` (bare key) parses to `new Date(null).getTime() === 0`,
+// not NaN, so an empty date would otherwise sort to the epoch and format as
+// "Jan 1, 1970" with no warning; the falsy guard below routes it through the
+// same unparseable path as a typo'd string. Mirror generateFeed's behaviour:
+// warn loudly, sort the post last (oldest), and flag the date unusable so
+// callers skip formatting it.
 export function resolvePublishedDate(post: ContentData): PublishedDate {
+  if (!post.frontmatter.date) {
+    console.warn(
+      `resolvePublishedDate: post "${post.url}" has no date; sorting it last`,
+    );
+    return { sortTime: 0, isValid: false };
+  }
   const time = new Date(post.frontmatter.date).getTime();
   if (Number.isNaN(time)) {
     console.warn(
-      `transformPosts: post "${post.url}" has an unparseable date ` +
+      `resolvePublishedDate: post "${post.url}" has an unparseable date ` +
         `"${post.frontmatter.date}"; sorting it last`,
     );
     return { sortTime: 0, isValid: false };

@@ -205,6 +205,30 @@ describe("transformPosts", () => {
     ]);
   });
 
+  it("treats a null frontmatter date as unparseable and sorts it last", () => {
+    // `new Date(null).getTime()` is 0, not NaN — a bare `date:` YAML key
+    // (which parses to `null`) must not silently sort as the epoch.
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const datedPost = makeRawPost({
+      url: "/.vitepress/content/posts/dated-post",
+      frontmatter: {
+        ...makeRawPost().frontmatter,
+        date: "2025-01-01T00:00:00.000Z",
+      },
+    });
+    const nullDatedPost = makeRawPost({
+      url: "/.vitepress/content/posts/null-dated-post",
+      frontmatter: { ...makeRawPost().frontmatter, date: null },
+    });
+
+    const sorted = transformPosts([nullDatedPost, datedPost]);
+
+    expect(sorted.map((post) => post.frontmatter.slug)).toEqual([
+      "dated-post",
+      "null-dated-post",
+    ]);
+  });
+
   it("does not mutate the raw post object, so re-transforming a cached post is safe", () => {
     // VitePress reuses the same cached raw data object across reloads (e.g.
     // dev server HMR) and re-runs transform on it. A transform that mutates

@@ -2,7 +2,8 @@ import { createContentLoader } from "vitepress";
 import type { ContentData } from "vitepress";
 import { PostSearchItem } from "@typedefs";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
-import { POSTS_GLOB, resolvePublishedDate } from "./transformPosts.ts";
+import { formatPostDate } from "../../theme/utils/formatDate.ts";
+import { POSTS_GLOB, resolvePublishedDate, toSlug } from "./transformPosts.ts";
 
 declare const data: PostSearchItem[];
 export { data };
@@ -24,18 +25,16 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
       .map((post) => ({ post, published: resolvePublishedDate(post) }))
       .sort((a, b) => b.published.sortTime - a.published.sortTime)
       .map(({ post: { frontmatter, url }, published }) => {
-        const slug = url
-          .replace(/\/\.vitepress\/content\/posts\//g, "")
-          .replace(/\/posts\//g, "");
+        const slug = toSlug(url);
+        const topic = (frontmatter.topic as string | undefined) ?? "";
         // An unparseable date already warned inside resolvePublishedDate;
         // formatting it anyway would render the literal string "Invalid Date"
         // into the search result's desc, so fall back to the topic alone.
+        // formatPostDate is the same formatter every other post surface
+        // (HomeBlog, PostsView, PostView) uses, so the search index can't
+        // drift from them on locale/timezone.
         const date = published.isValid
-          ? new Date(frontmatter.date).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })
+          ? formatPostDate(frontmatter.date)
           : undefined;
         const tags = normalizeTags(frontmatter.tags).filter(
           (tag): tag is string => typeof tag === "string",
@@ -43,15 +42,9 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
         return {
           type: "post" as const,
           title: frontmatter.title as string,
-          desc: date
-            ? `${frontmatter.topic} · ${date}`
-            : `${frontmatter.topic}`,
+          desc: date ? `${topic} · ${date}` : topic,
           href: `/posts/${slug}`,
-          kw: [
-            frontmatter.description ?? "",
-            frontmatter.topic ?? "",
-            ...tags,
-          ].join(" "),
+          kw: [frontmatter.description ?? "", topic, ...tags].join(" "),
         };
       })
   );

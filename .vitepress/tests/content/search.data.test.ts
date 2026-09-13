@@ -164,4 +164,20 @@ describe("transformSearchData date handling", () => {
 
     expect(item.desc).toBe("development · Jan 1, 2025");
   });
+
+  it("treats a null frontmatter date as unparseable rather than rendering the epoch", () => {
+    // `new Date(null).getTime()` is 0, not NaN — a bare `date:` YAML key
+    // (which parses to `null`) must not silently sort as the epoch and
+    // format as "Jan 1, 1970".
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const nullDatePost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: null, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([nullDatePost]);
+
+    expect(item.desc).toBe("development");
+    expect(item.desc).not.toContain("1970");
+  });
 });
