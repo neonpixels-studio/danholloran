@@ -164,14 +164,23 @@ describe("buildEmptyQueryResults", () => {
     const pageItem = buildStaticSearchItems([])[0];
     const items = [pageItem, ...manyProjects(5), ...buildManyPosts(10)];
 
-    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
-      (item) => item.type,
-    );
+    const result = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE);
+    const visibleTypes = result.map((item) => item.type);
     const projectCount = visibleTypes.filter(
       (type) => type === "project",
     ).length;
 
     expect(projectCount).toBe(EMPTY_QUERY_PROJECT_MIN_SLOTS);
+    expect(result.length).toBe(SEARCH_PANEL_SIZE);
+  });
+
+  it("backfills remaining projects when posts can't fill the panel on their own", () => {
+    const pageItem = buildStaticSearchItems([])[0];
+    const items = [pageItem, ...manyProjects(6), ...buildManyPosts(1)];
+
+    const result = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE);
+
+    expect(result.length).toBe(SEARCH_PANEL_SIZE);
   });
 
   it("shows every project when fewer projects exist than the reserved slot count", () => {

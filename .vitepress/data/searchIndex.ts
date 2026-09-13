@@ -166,6 +166,8 @@ export function buildEmptyQueryResults(
     ...leadingPages,
     ...leadingPosts,
     ...leadingProjects,
+    ...postItems.slice(postSlots),
+    ...projectItems.slice(reservedProjectSlots),
     ...overflowPages,
     ...Object.values<SearchItem[]>(otherTypeItems).flat(),
   ];
