@@ -116,4 +116,19 @@ describe("transformSearchData", () => {
 
     expect(item.kw).toBe("An example post. development js");
   });
+
+  it("omits the topic segment from desc instead of rendering literal undefined", () => {
+    const rawPost = {
+      url: "/.vitepress/content/posts/example-post",
+      src: undefined,
+      html: undefined,
+      excerpt: undefined,
+      frontmatter: { ...DEFAULT_FRONTMATTER, topic: undefined, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([rawPost]);
+
+    expect(item.desc).not.toContain("undefined");
+    expect(item.desc).toBe("Jan 1, 2025");
+  });
 });

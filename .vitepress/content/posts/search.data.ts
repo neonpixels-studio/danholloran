@@ -34,10 +34,15 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
       const tags = normalizeTags(frontmatter.tags).filter(
         (tag): tag is string => typeof tag === "string",
       );
+      // frontmatter.topic is optional at runtime even though the Post type
+      // marks it required — author-controlled YAML can omit it. Without this
+      // guard a topicless post's desc interpolates the literal string
+      // "undefined" ahead of the separator instead of just showing the date.
+      const desc = frontmatter.topic ? `${frontmatter.topic} · ${date}` : date;
       return {
         type: "post" as const,
         title: frontmatter.title as string,
-        desc: `${frontmatter.topic} · ${date}`,
+        desc,
         href: `/posts/${slug}`,
         kw: [
           frontmatter.description ?? "",
