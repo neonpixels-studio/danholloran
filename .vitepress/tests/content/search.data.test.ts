@@ -194,4 +194,21 @@ describe("transformSearchData date handling", () => {
     expect(item.desc).toBe("Jan 1, 2025");
     expect(item.desc.startsWith(" · ")).toBe(false);
   });
+
+  it("falls back to an empty desc, not a dangling separator, when both topic and date are missing", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const bareRawPost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: {
+        ...DEFAULT_FRONTMATTER,
+        topic: undefined,
+        date: "not-a-date",
+        tags: [],
+      },
+    } as ContentData;
+
+    const [item] = transformSearchData([bareRawPost]);
+
+    expect(item.desc).toBe("");
+  });
 });
