@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
+import { effectScope } from "vue";
 import { useGrimicornToolDownloads } from "../../theme/composables/useGrimicornToolDownloads";
 import { mockGtag, clearGtag } from "../helpers/gtag";
 import type { GrimicornTool } from "../../types/grimicornTheme";
@@ -111,6 +112,21 @@ describe("useGrimicornToolDownloads", () => {
       await copyHex("#123456", 3);
 
       expect(copiedIndex.value).toBe(3);
+    });
+
+    it("clears the pending flash timer when its effect scope is disposed", async () => {
+      vi.useFakeTimers();
+      const scope = effectScope();
+      const { copyHex, copiedIndex } = scope.run(() =>
+        useGrimicornToolDownloads(THEME_SLUG, []),
+      )!;
+
+      await copyHex("#123456", 0);
+      scope.stop();
+      vi.advanceTimersByTime(FLASH_MS);
+
+      // The timer's clearTimeout ran on dispose, so the flash is never reset.
+      expect(copiedIndex.value).toBe(0);
     });
   });
 

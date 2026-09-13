@@ -55,16 +55,20 @@ export function useGrimicornToolDownloads(
   onScopeDispose(() => clearTimeout(copyTimer));
 
   async function copyHex(hex: string, index: number) {
-    try {
-      await navigator.clipboard?.writeText(hex);
-    } catch {
-      // Clipboard blocked — still flash so the hex stays visible to copy by hand.
-    }
+    // Flash before awaiting the clipboard write: a slow/blocked write (e.g. a
+    // permission prompt) must not let an out-of-order resolution steal the
+    // flash from a swatch clicked afterward.
     copiedIndex.value = index;
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => {
       copiedIndex.value = null;
     }, COPY_FLASH_MS);
+    try {
+      await navigator.clipboard?.writeText(hex);
+    } catch {
+      // Clipboard blocked — the flash already fired so the hex stays visible
+      // to copy by hand.
+    }
   }
 
   return {
