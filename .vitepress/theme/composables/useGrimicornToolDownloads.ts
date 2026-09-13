@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, onScopeDispose, ref } from "vue";
 import { useAnalytics } from "@composables/useAnalytics";
 import type { GrimicornTool, GrimicornToolFile } from "@typedefs";
 
@@ -7,12 +7,16 @@ const COPY_FLASH_MS = 1100;
 type DownloadFormat = "palette" | "bundle" | "tool";
 
 /** Featured tools first, then alphabetical by name within each group. */
-function byFeaturedThenName(a: GrimicornTool, b: GrimicornTool): number {
-  const byFeatured = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+function byFeaturedThenName(
+  first: GrimicornTool,
+  second: GrimicornTool,
+): number {
+  const byFeatured =
+    Number(Boolean(second.featured)) - Number(Boolean(first.featured));
   if (byFeatured !== 0) {
     return byFeatured;
   }
-  return a.name.localeCompare(b.name);
+  return first.name.localeCompare(second.name);
 }
 
 /**
@@ -31,12 +35,14 @@ export function useGrimicornToolDownloads(
     format: DownloadFormat,
     params: Record<string, unknown> = {},
   ) {
-    trackEvent("theme_download", { theme: themeSlug, format, ...params });
+    // Scoped fields last so a caller can't accidentally clobber theme/format
+    // by including those keys in params.
+    trackEvent("theme_download", { ...params, theme: themeSlug, format });
   }
 
-  function trackToolDownload(tool: string, file: GrimicornToolFile) {
+  function trackToolDownload(toolName: string, file: GrimicornToolFile) {
     trackDownload("tool", {
-      tool,
+      tool: toolName,
       variant: file.label,
       asset: file.download,
     });
@@ -46,6 +52,7 @@ export function useGrimicornToolDownloads(
 
   const copiedIndex = ref<number | null>(null);
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
+  onScopeDispose(() => clearTimeout(copyTimer));
 
   async function copyHex(hex: string, index: number) {
     try {

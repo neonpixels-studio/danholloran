@@ -21,6 +21,7 @@ function tool(overrides: Partial<GrimicornTool> = {}): GrimicornTool {
 describe("useGrimicornToolDownloads", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
     vi.useRealTimers();
     clearGtag();
   });
@@ -88,6 +89,29 @@ describe("useGrimicornToolDownloads", () => {
 
       expect(copiedIndex.value).toBeNull();
     });
+
+    it("writes the hex to the clipboard", async () => {
+      const writeText = vi.fn().mockResolvedValue(undefined);
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex } = useGrimicornToolDownloads(THEME_SLUG, []);
+
+      await copyHex("#123456", 0);
+
+      expect(writeText).toHaveBeenCalledWith("#123456");
+    });
+
+    it("still flashes the copied index when the clipboard write is blocked", async () => {
+      const writeText = vi.fn().mockRejectedValue(new Error("denied"));
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copiedIndex } = useGrimicornToolDownloads(
+        THEME_SLUG,
+        [],
+      );
+
+      await copyHex("#123456", 3);
+
+      expect(copiedIndex.value).toBe(3);
+    });
   });
 
   describe("trackDownload / trackToolDownload", () => {
@@ -120,6 +144,18 @@ describe("useGrimicornToolDownloads", () => {
         tool: "Editor",
         variant: "dark",
         asset: "editor-dark",
+      });
+    });
+
+    it("keeps the scoped theme and format even if params tries to override them", () => {
+      const gtag = mockGtag();
+      const { trackDownload } = useGrimicornToolDownloads(THEME_SLUG, []);
+
+      trackDownload("bundle", { theme: "other-theme", format: "palette" });
+
+      expect(gtag).toHaveBeenCalledWith("event", "theme_download", {
+        theme: THEME_SLUG,
+        format: "bundle",
       });
     });
   });
