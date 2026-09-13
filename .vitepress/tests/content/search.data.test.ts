@@ -32,16 +32,27 @@ const DEFAULT_FRONTMATTER = {
   description: "An example post.",
 };
 
-// Every case here only varies `tags`; hoisting the rest of the frontmatter
-// keeps each test focused on the one thing it's proving.
-function makeRawPostWithTags(tags: unknown): ContentData {
+const DEFAULT_URL = "/.vitepress/content/posts/example-post";
+
+// Most cases only vary one or two frontmatter fields (or the url); hoisting
+// the rest of the frontmatter keeps each test focused on the one thing it's
+// proving. `url` is pulled out of `overrides` rather than merged into
+// frontmatter since it lives on the raw ContentData record, not frontmatter.
+function makeRawPost(
+  overrides: Record<string, unknown> & { url?: string } = {},
+): ContentData {
+  const { url = DEFAULT_URL, ...frontmatterOverrides } = overrides;
   return {
-    url: "/.vitepress/content/posts/example-post",
+    url,
     src: undefined,
     html: undefined,
     excerpt: undefined,
-    frontmatter: { ...DEFAULT_FRONTMATTER, tags },
+    frontmatter: { ...DEFAULT_FRONTMATTER, ...frontmatterOverrides },
   } as ContentData;
+}
+
+function makeRawPostWithTags(tags: unknown): ContentData {
+  return makeRawPost({ tags });
 }
 
 describe("search.data.ts list loader", () => {
@@ -63,13 +74,10 @@ describe("transformSearchData", () => {
     // so an unescaped version would also match "/xvitepress/content/posts/"
     // and strip it down to "example-post" — the same href as a real post at
     // the actual content-folder path, a silent collision.
-    const rawPost = {
+    const rawPost = makeRawPost({
       url: "/xvitepress/content/posts/example-post",
-      src: undefined,
-      html: undefined,
-      excerpt: undefined,
-      frontmatter: { ...DEFAULT_FRONTMATTER, tags: [] },
-    } as ContentData;
+      tags: [],
+    });
 
     const [item] = transformSearchData([rawPost]);
 
@@ -117,18 +125,56 @@ describe("transformSearchData", () => {
     expect(item.kw).toBe("An example post. development js");
   });
 
-  it("omits the topic segment from desc instead of rendering literal undefined", () => {
-    const rawPost = {
-      url: "/.vitepress/content/posts/example-post",
-      src: undefined,
-      html: undefined,
-      excerpt: undefined,
-      frontmatter: { ...DEFAULT_FRONTMATTER, topic: undefined, tags: [] },
-    } as ContentData;
-
-    const [item] = transformSearchData([rawPost]);
+  it("omits the topic segment from desc and kw when topic is missing, instead of rendering literal undefined", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: undefined, tags: [] }),
+    ]);
 
     expect(item.desc).not.toContain("undefined");
     expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("omits the topic segment when topic is a bare null key", () => {
+    // Frontmatter YAML with a bare `topic:` key (no value) parses to `null`,
+    // distinct from the key being absent entirely — same distinction the
+    // tags tests draw above.
+    const [item] = transformSearchData([
+      makeRawPost({ topic: null, tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("omits the topic segment when topic is an empty or blank string", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: "   ", tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("drops a non-string topic instead of laundering it into desc/kw", () => {
+    // Matches the typeof-string policy already applied to topic in
+    // archivePaths.ts and pageTransform.ts: a scalar like a number is
+    // dropped rather than coerced, so it can't advertise a topic that
+    // topicBuckets() would have excluded from the archive routes.
+    const [item] = transformSearchData([
+      makeRawPost({ topic: 2025, tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("trims whitespace around a valid topic in desc and kw", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: "  development  ", tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("development · Jan 1, 2025");
+    expect(item.kw).toBe("An example post. development");
   });
 });
