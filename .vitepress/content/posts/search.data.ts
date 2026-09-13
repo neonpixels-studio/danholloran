@@ -2,6 +2,7 @@ import { createContentLoader } from "vitepress";
 import type { ContentData } from "vitepress";
 import { PostSearchItem } from "@typedefs";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
+import { coerceFrontmatterString } from "../../theme/utils/frontmatter.ts";
 import { POSTS_GLOB } from "./transformPosts.ts";
 
 declare const data: PostSearchItem[];
@@ -34,12 +35,10 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
       const tags = normalizeTags(frontmatter.tags).filter(
         (tag): tag is string => typeof tag === "string",
       );
-      // `title` was previously an unchecked cast: a post missing/misusing the
-      // frontmatter key reached AppSearch's highlight(), which calls
-      // .toLowerCase() on it and throws once a query is typed. Coerce (not
-      // drop) for a non-string value, matching pageTransform's title/description
-      // policy — an unquoted YAML scalar still renders as something meaningful.
-      const title = frontmatter.title == null ? "" : String(frontmatter.title);
+      // `title` was previously an unchecked cast, so a post missing/misusing
+      // the frontmatter key reached AppSearch's highlight(), which throws on
+      // .toLowerCase() once a query is typed. coerceFrontmatterString guards it.
+      const title = coerceFrontmatterString(frontmatter.title);
       return {
         type: "post" as const,
         title,

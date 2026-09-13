@@ -14,6 +14,11 @@ vi.mock("fs", () => {
 
 vi.mock("../../theme/utils/frontmatter", () => ({
   parseFrontmatter: vi.fn(),
+  // Pure and has no fs/yaml dependency worth stubbing — mocking parseFrontmatter
+  // above is what isolates this suite from the filesystem, so the real
+  // implementation is used here rather than adding a redundant vi.fn().
+  coerceFrontmatterString: (value: unknown): string =>
+    value == null ? "" : String(value),
 }));
 
 import { existsSync, readFileSync, readdirSync } from "fs";

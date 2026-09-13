@@ -32,16 +32,22 @@ const DEFAULT_FRONTMATTER = {
   description: "An example post.",
 };
 
-// Every case here only varies `tags`; hoisting the rest of the frontmatter
-// keeps each test focused on the one thing it's proving.
-function makeRawPostWithTags(tags: unknown): ContentData {
+// Shared shape for every fixture; each caller only overrides the frontmatter
+// keys it's testing, keeping every test focused on the one thing it's proving.
+function makeRawPost(
+  frontmatterOverrides: Record<string, unknown>,
+): ContentData {
   return {
     url: "/.vitepress/content/posts/example-post",
     src: undefined,
     html: undefined,
     excerpt: undefined,
-    frontmatter: { ...DEFAULT_FRONTMATTER, tags },
+    frontmatter: { ...DEFAULT_FRONTMATTER, ...frontmatterOverrides },
   } as ContentData;
+}
+
+function makeRawPostWithTags(tags: unknown): ContentData {
+  return makeRawPost({ tags });
 }
 
 describe("search.data.ts list loader", () => {
@@ -64,12 +70,9 @@ describe("transformSearchData", () => {
     // and strip it down to "example-post" — the same href as a real post at
     // the actual content-folder path, a silent collision.
     const rawPost = {
+      ...makeRawPost({ tags: [] }),
       url: "/xvitepress/content/posts/example-post",
-      src: undefined,
-      html: undefined,
-      excerpt: undefined,
-      frontmatter: { ...DEFAULT_FRONTMATTER, tags: [] },
-    } as ContentData;
+    };
 
     const [item] = transformSearchData([rawPost]);
 
@@ -117,22 +120,26 @@ describe("transformSearchData", () => {
     expect(item.kw).toBe("An example post. development js");
   });
 
+  // A raw `as string` cast left `title` as whatever the frontmatter key held
+  // — including undefined — and AppSearch's highlight() calls .toLowerCase()
+  // on `item.title` once a query is typed, throwing on anything non-string.
+  // These three cases pin the coercion policy: missing/null becomes "", and a
+  // non-string scalar is stringified rather than silently dropped.
   it("coerces a missing title to an empty string instead of leaking undefined", () => {
-    // A raw `as string` cast leaves `title` as `undefined` for a post missing
-    // the frontmatter key. AppSearch's highlight() calls `.toLowerCase()` on
-    // `item.title` once a query is typed, which throws on undefined — this
-    // pins the value stays a real (if empty) string, never undefined.
-    const rawPost = {
-      url: "/.vitepress/content/posts/example-post",
-      src: undefined,
-      html: undefined,
-      excerpt: undefined,
-      frontmatter: { ...DEFAULT_FRONTMATTER, title: undefined },
-    } as ContentData;
-
-    const [item] = transformSearchData([rawPost]);
+    const [item] = transformSearchData([makeRawPost({ title: undefined })]);
 
     expect(item.title).toBe("");
-    expect(() => item.title.toLowerCase()).not.toThrow();
+  });
+
+  it("coerces a bare null title to an empty string", () => {
+    const [item] = transformSearchData([makeRawPost({ title: null })]);
+
+    expect(item.title).toBe("");
+  });
+
+  it("coerces a non-string title rather than dropping it", () => {
+    const [item] = transformSearchData([makeRawPost({ title: 2025 })]);
+
+    expect(item.title).toBe("2025");
   });
 });
