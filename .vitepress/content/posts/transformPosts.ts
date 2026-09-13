@@ -16,30 +16,44 @@ function toSlug(url: string): string {
     .replace(/\/posts\//g, "");
 }
 
+// Both the sort key and "is this safe to format" flag for a post's date,
+// computed once per post from a single Date parse. search.data.ts and
+// transformPosts both need this — sharing one resolver means an unparseable
+// date warns exactly once (not once per consumer) and the two call sites
+// can't drift on how "invalid" is detected.
+export type PublishedDate = {
+  sortTime: number;
+  isValid: boolean;
+};
+
 // A missing or malformed frontmatter date would make the sort comparator
 // return NaN, which Array.prototype.sort treats as "equal" — leaving the post
-// in its (arbitrary) glob position, possibly the featured slot. Mirror
-// generateFeed's behaviour: warn loudly and sort the post last (oldest)
-// instead of letting a typo scramble the list order.
-function publishedTime(post: ContentData): number {
+// in its (arbitrary) glob position, possibly the featured slot — and would
+// render the literal string "Invalid Date" wherever the date gets formatted.
+// Mirror generateFeed's behaviour: warn loudly, sort the post last (oldest),
+// and flag the date unusable so callers skip formatting it.
+export function resolvePublishedDate(post: ContentData): PublishedDate {
   const time = new Date(post.frontmatter.date).getTime();
   if (Number.isNaN(time)) {
     console.warn(
       `transformPosts: post "${post.url}" has an unparseable date ` +
         `"${post.frontmatter.date}"; sorting it last`,
     );
-    return 0;
+    return { sortTime: 0, isValid: false };
   }
-  return time;
+  return { sortTime: time, isValid: true };
 }
 
 export function transformPosts(raw: ContentData[]): Post[] {
   // Decorate each post with its parsed publish time before sorting so
-  // publishedTime (and its warn on a bad date) runs once per post rather than
-  // once per comparison.
+  // resolvePublishedDate (and its warn on a bad date) runs once per post
+  // rather than once per comparison.
   return raw
     .filter(({ frontmatter }) => !frontmatter.draft)
-    .map((post) => ({ post, publishedAt: publishedTime(post) }))
+    .map((post) => ({
+      post,
+      publishedAt: resolvePublishedDate(post).sortTime,
+    }))
     .sort((a, b) => b.publishedAt - a.publishedAt)
     .map(({ post: { src, excerpt: _excerpt, ...post } }): Post => {
       const slug = toSlug(post.url);
@@ -60,9 +74,10 @@ export function transformPosts(raw: ContentData[]): Post[] {
         frontmatter: {
           // vitepress types raw frontmatter as `Record<string, any>`, so TS
           // can't verify it matches PostMeta at this spread. Malformed dates
-          // already get a loud runtime warning above (publishedTime); other
-          // malformed/missing fields are not yet validated at build time —
-          // this cast only silences the type error, it doesn't add safety.
+          // already get a loud runtime warning above (resolvePublishedDate);
+          // other malformed/missing fields are not yet validated at build
+          // time — this cast only silences the type error, it doesn't add
+          // safety.
           ...(post.frontmatter as PostMeta),
           slug,
           readTime: calculateReadTime(src ?? ""),
