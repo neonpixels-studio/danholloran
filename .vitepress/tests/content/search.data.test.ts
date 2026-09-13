@@ -34,14 +34,15 @@ const DEFAULT_FRONTMATTER = {
 
 const DEFAULT_URL = "/.vitepress/content/posts/example-post";
 
-// Most cases only vary one or two frontmatter fields (or the url); hoisting
-// the rest of the frontmatter keeps each test focused on the one thing it's
-// proving. `url` is pulled out of `overrides` rather than merged into
-// frontmatter since it lives on the raw ContentData record, not frontmatter.
+// Most cases only vary one or two frontmatter fields; hoisting the rest of
+// the frontmatter keeps each test focused on the one thing it's proving.
+// `url` is a separate parameter (not a frontmatter override) so a future
+// frontmatter field literally named `url` can't be silently rerouted onto
+// the ContentData record instead of into frontmatter.
 function makeRawPost(
-  overrides: Record<string, unknown> & { url?: string } = {},
+  frontmatterOverrides: Record<string, unknown> = {},
+  url: string = DEFAULT_URL,
 ): ContentData {
-  const { url = DEFAULT_URL, ...frontmatterOverrides } = overrides;
   return {
     url,
     src: undefined,
@@ -74,10 +75,10 @@ describe("transformSearchData", () => {
     // so an unescaped version would also match "/xvitepress/content/posts/"
     // and strip it down to "example-post" — the same href as a real post at
     // the actual content-folder path, a silent collision.
-    const rawPost = makeRawPost({
-      url: "/xvitepress/content/posts/example-post",
-      tags: [],
-    });
+    const rawPost = makeRawPost(
+      { tags: [] },
+      "/xvitepress/content/posts/example-post",
+    );
 
     const [item] = transformSearchData([rawPost]);
 
