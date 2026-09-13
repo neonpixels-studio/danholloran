@@ -148,4 +148,12 @@ describe("transformSearchData", () => {
 
     expect(item.title).toBe("2025");
   });
+
+  it("falls back to an empty string for a mapping title instead of '[object Object]'", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ title: { en: "Example Post" } }),
+    ]);
+
+    expect(item.title).toBe("");
+  });
 });
