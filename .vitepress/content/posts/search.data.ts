@@ -34,9 +34,15 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
       const tags = normalizeTags(frontmatter.tags).filter(
         (tag): tag is string => typeof tag === "string",
       );
+      // `title` was previously an unchecked cast: a post missing/misusing the
+      // frontmatter key reached AppSearch's highlight(), which calls
+      // .toLowerCase() on it and throws once a query is typed. Coerce (not
+      // drop) for a non-string value, matching pageTransform's title/description
+      // policy — an unquoted YAML scalar still renders as something meaningful.
+      const title = frontmatter.title == null ? "" : String(frontmatter.title);
       return {
         type: "post" as const,
-        title: frontmatter.title as string,
+        title,
         desc: `${frontmatter.topic} · ${date}`,
         href: `/posts/${slug}`,
         kw: [

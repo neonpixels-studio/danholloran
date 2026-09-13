@@ -116,4 +116,23 @@ describe("transformSearchData", () => {
 
     expect(item.kw).toBe("An example post. development js");
   });
+
+  it("coerces a missing title to an empty string instead of leaking undefined", () => {
+    // A raw `as string` cast leaves `title` as `undefined` for a post missing
+    // the frontmatter key. AppSearch's highlight() calls `.toLowerCase()` on
+    // `item.title` once a query is typed, which throws on undefined — this
+    // pins the value stays a real (if empty) string, never undefined.
+    const rawPost = {
+      url: "/.vitepress/content/posts/example-post",
+      src: undefined,
+      html: undefined,
+      excerpt: undefined,
+      frontmatter: { ...DEFAULT_FRONTMATTER, title: undefined },
+    } as ContentData;
+
+    const [item] = transformSearchData([rawPost]);
+
+    expect(item.title).toBe("");
+    expect(() => item.title.toLowerCase()).not.toThrow();
+  });
 });
