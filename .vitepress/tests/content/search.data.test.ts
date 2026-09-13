@@ -125,6 +125,12 @@ describe("transformSearchData", () => {
   // on `item.title` once a query is typed, throwing on anything non-string.
   // These three cases pin the coercion policy: missing/null becomes "", and a
   // non-string scalar is stringified rather than silently dropped.
+  it("passes a normal string title through unchanged", () => {
+    const [item] = transformSearchData([makeRawPostWithTags([])]);
+
+    expect(item.title).toBe("Example Post");
+  });
+
   it("coerces a missing title to an empty string instead of leaking undefined", () => {
     const [item] = transformSearchData([makeRawPost({ title: undefined })]);
 

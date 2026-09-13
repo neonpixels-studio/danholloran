@@ -12,13 +12,12 @@ vi.mock("fs", () => {
   };
 });
 
-vi.mock("../../theme/utils/frontmatter", () => ({
+// Only parseFrontmatter needs stubbing (it's the fs/yaml boundary); pull the
+// real coerceFrontmatterString through importOriginal so this suite exercises
+// the actual coercion policy instead of a hand-copy that could drift from it.
+vi.mock("../../theme/utils/frontmatter", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../theme/utils/frontmatter")>()),
   parseFrontmatter: vi.fn(),
-  // Pure and has no fs/yaml dependency worth stubbing — mocking parseFrontmatter
-  // above is what isolates this suite from the filesystem, so the real
-  // implementation is used here rather than adding a redundant vi.fn().
-  coerceFrontmatterString: (value: unknown): string =>
-    value == null ? "" : String(value),
 }));
 
 import { existsSync, readFileSync, readdirSync } from "fs";
