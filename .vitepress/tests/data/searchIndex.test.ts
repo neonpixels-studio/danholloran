@@ -176,11 +176,22 @@ describe("buildEmptyQueryResults", () => {
 
   it("backfills remaining projects when posts can't fill the panel on their own", () => {
     const pageItem = buildStaticSearchItems([])[0];
-    const items = [pageItem, ...manyProjects(6), ...buildManyPosts(1)];
+    const items = [pageItem, ...manyProjects(9), ...buildManyPosts(1)];
 
-    const result = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE);
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
 
-    expect(result.length).toBe(SEARCH_PANEL_SIZE);
+    expect(visibleTypes).toEqual([
+      "page",
+      "post",
+      "project",
+      "project",
+      "project",
+      "project",
+      "project",
+      "project",
+    ]);
   });
 
   it("shows every project when fewer projects exist than the reserved slot count", () => {
