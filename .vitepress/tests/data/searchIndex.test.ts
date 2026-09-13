@@ -164,14 +164,27 @@ describe("buildEmptyQueryResults", () => {
     const pageItem = buildStaticSearchItems([])[0];
     const items = [pageItem, ...manyProjects(5), ...buildManyPosts(10)];
 
-    const result = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE);
-    const visibleTypes = result.map((item) => item.type);
-    const projectCount = visibleTypes.filter(
-      (type) => type === "project",
-    ).length;
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
 
-    expect(projectCount).toBe(EMPTY_QUERY_PROJECT_MIN_SLOTS);
-    expect(result.length).toBe(SEARCH_PANEL_SIZE);
+    // Pins the exact composition (not just a count) so a version that
+    // dropped the reservation, or one that let projects outrank posts,
+    // both fail: 1 leading page, then posts filling every slot except
+    // the EMPTY_QUERY_PROJECT_MIN_SLOTS reserved for projects at the end.
+    expect(visibleTypes).toEqual([
+      "page",
+      "post",
+      "post",
+      "post",
+      "post",
+      "post",
+      "project",
+      "project",
+    ]);
+    expect(visibleTypes.filter((type) => type === "project").length).toBe(
+      EMPTY_QUERY_PROJECT_MIN_SLOTS,
+    );
   });
 
   it("backfills remaining projects when posts can't fill the panel on their own", () => {
@@ -201,11 +214,17 @@ describe("buildEmptyQueryResults", () => {
     const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
       (item) => item.type,
     );
-    const projectCount = visibleTypes.filter(
-      (type) => type === "project",
-    ).length;
 
-    expect(projectCount).toBe(1);
+    expect(visibleTypes).toEqual([
+      "page",
+      "post",
+      "post",
+      "post",
+      "post",
+      "post",
+      "post",
+      "project",
+    ]);
   });
 
   function buildPages(count: number): SearchItem[] {
