@@ -5,7 +5,7 @@ draft: false
 title: "WebNN: The Only Web API That Can Reach Your NPU"
 image: "/images/posts/webnn-the-only-web-api-that-can-reach-your-npu.jpg"
 topic: "development"
-description: "Almost every laptop shipped in the last two years has a neural processing unit sitting idle. WebNN is the only web standard that can actually talk to it, and it just hit an updated Candidate Recommendation."
+description: "Almost every laptop shipped in the last two years has a neural processing unit sitting idle. WebNN is the only web standard that can actually talk to it…"
 ---
 
 There is a piece of silicon in your laptop that your web app has never once used. If you bought a machine in the last couple of years, it almost certainly has an NPU: a small, power-efficient accelerator built specifically for running neural networks. Your OS uses it. Native apps use it. The browser, until recently, had no way to reach it at all.

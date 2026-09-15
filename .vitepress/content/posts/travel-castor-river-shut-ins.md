@@ -6,7 +6,7 @@ title: "Missouri's Pink Granite Secret: Castor River Shut-Ins"
 image: "/images/posts/travel-castor-river-shut-ins.jpg"
 topic: "travel"
 travel_location: "castor river shut ins, Missouri"
-description: "The Castor River Shut-Ins near Fredericktown, Missouri are one of the Midwest's best-kept secrets — a swirling landscape of pink granite boulders, clear water channels, and natural swimming holes tucked deep in the Ozarks."
+description: "The Castor River Shut-Ins near Fredericktown, Missouri are one of the Midwest's best-kept secrets — a swirling landscape of pink granite boulders, clear…"
 ---
 
 There's a moment, maybe half a mile into the Cedar Glade Trail, when the trees part and you catch your first real glimpse of the shut-ins — and it genuinely stops you in your tracks. The water isn't rushing through ordinary gray limestone. It's threading between ancient pink granite, the kind of bubblegum-and-rust color that makes you wonder if you've somehow ended up in a different part of the world entirely. That was the moment I understood why people drive hours to get here.

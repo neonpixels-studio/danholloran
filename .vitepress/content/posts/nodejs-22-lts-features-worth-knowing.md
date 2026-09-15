@@ -5,7 +5,7 @@ draft: false
 title: "Node.js 22 LTS: The Features Worth Knowing About"
 image: "/images/posts/nodejs-22-lts-features-worth-knowing.jpg"
 topic: "development"
-description: "Node.js 22 became the active LTS in October 2024, bringing a native test runner, built-in watch mode, require() for ES modules, and much more. Here's what's useful in practice."
+description: "Node.js 22 became the active LTS in October 2024, bringing a native test runner, built-in watch mode, require() for ES modules, and much more."
 ---
 
 Node.js 22 entered Long Term Support (LTS) in October 2024 under the codename "Jod." If you're still on Node 18 or 20 for production workloads, now is a good time to start planning the upgrade. The release includes a set of built-in features that reduce reliance on external tools, which is a theme that's been building across recent Node versions.

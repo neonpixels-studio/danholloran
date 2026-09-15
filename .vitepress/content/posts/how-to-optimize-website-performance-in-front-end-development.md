@@ -5,7 +5,7 @@ tags: ["frontend", "performance"]
 image: "/images/posts/how-to-optimize-website-performance-in-front-end-development.jpg"
 title: How to Optimize Website Performance in Front-End Development
 topic: development
-description: "Practical tips for front-end performance optimization — from writing clean and efficient code to image and asset optimization, lazy loading, and reducing unnecessary server requests."
+description: "Practical tips for front-end performance optimization — from writing clean and efficient code to image and asset optimization, lazy loading, and reducing…"
 ---
 
 Website performance is a critical factor in ensuring a positive user experience. Slow-loading pages, broken links, and errors can drive users away and hurt your website's search engine rankings. As a front-end developer, it is your responsibility to optimize website performance. This blog post will explore tips and techniques for optimizing website performance as part of the front-end development process, including clean code, image and asset optimization, and more. We will also provide some code examples to help you get started.

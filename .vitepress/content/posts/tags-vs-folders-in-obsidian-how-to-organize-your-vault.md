@@ -6,7 +6,7 @@ draft: false
 title: "Tags vs. Folders in Obsidian: How to Organize Your Vault Without Going Crazy"
 image: "/images/posts/tags-vs-folders-in-obsidian-how-to-organize-your-vault.jpg"
 topic: "obsidian"
-description: "Folders and tags both have a place in Obsidian, but they solve fundamentally different problems. Here's how to use each one effectively so your vault stays navigable no matter how big it gets."
+description: "Folders and tags both have a place in Obsidian, but they solve fundamentally different problems. Here's how to use each one effectively so your vault stays…"
 ---
 
 At some point every Obsidian user hits the same wall. You've got a hundred notes, maybe two hundred, and suddenly the file explorer feels like a filing cabinet that someone sneezed on. Do you add more folders? Create a new tag? Reorganize everything from scratch? The temptation to build an elaborate system is real — and so is the regret that comes after spending a weekend reorganizing instead of actually writing.

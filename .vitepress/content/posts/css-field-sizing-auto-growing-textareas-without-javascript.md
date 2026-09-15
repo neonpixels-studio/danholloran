@@ -5,7 +5,7 @@ draft: false
 title: "CSS field-sizing: Auto-Growing Textareas Without a Line of JavaScript"
 image: "/images/posts/css-field-sizing-auto-growing-textareas-without-javascript.jpg"
 topic: "development"
-description: "The auto-growing textarea has been a JavaScript rite of passage for years. A single CSS declaration now does the whole job, and it works on inputs and selects too."
+description: "The auto-growing textarea has been a JavaScript rite of passage for years. A single CSS declaration now does the whole job, and it works on inputs and…"
 ---
 
 Every frontend developer has written the auto-growing textarea at least once. You listen for `input`, reset the height to `auto`, read `scrollHeight`, and set the height to match. Then you discover it breaks on paste, fights with `box-sizing`, flickers on the first render, and needs a `ResizeObserver` to survive a font swap. It is a surprising amount of code for "make the box as tall as the text."

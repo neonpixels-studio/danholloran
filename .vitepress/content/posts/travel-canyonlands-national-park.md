@@ -14,7 +14,7 @@ title: "Canyonlands National Park"
 image: "/images/posts/travel-canyonlands-national-park.jpg"
 topic: "travel"
 travel_location: "canyonlands national park"
-description: "Utah's largest national park is a vast plateau carved into three separate districts by the Colorado and Green rivers — a landscape of mesas, canyons, and buttes that requires real commitment to see properly."
+description: "Utah's largest national park is a vast plateau carved into three separate districts by the Colorado and Green rivers — a landscape of mesas, canyons, and…"
 ---
 
 Canyonlands is the one Utah park that doesn't reward a quick visit. Zion is right there as you drive in; Bryce reveals itself from the rim. Canyonlands requires you to choose: Island in the Sky, the Needles, or the Maze — and each is a separate destination, separated by hours of driving and hundreds of feet of elevation change. There's no driving from one to another in an afternoon. The park is enormous, and it shows.

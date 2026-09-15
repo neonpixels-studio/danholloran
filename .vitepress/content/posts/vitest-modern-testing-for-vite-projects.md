@@ -5,7 +5,7 @@ draft: false
 title: "Vitest: Modern Unit Testing That Doesn't Fight Your Toolchain"
 image: "/images/posts/vitest-modern-testing-for-vite-projects.jpg"
 topic: "development"
-description: "Vitest brings Jest-compatible testing to Vite projects with native TypeScript support, in-source tests, and a dramatically faster watch mode. Here's how to get started."
+description: "Vitest brings Jest-compatible testing to Vite projects with native TypeScript support, in-source tests, and a dramatically faster watch mode."
 ---
 
 Testing in JavaScript projects has historically involved a wall of configuration: Babel transforms, Jest module mappers, manual mocks for imports, and a test environment that subtly differs from how your production bundler sees the code. Vitest fixes most of this by reusing your Vite config and treating tests as first-class citizens of the same build graph.

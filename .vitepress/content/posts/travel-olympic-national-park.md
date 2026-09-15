@@ -15,7 +15,7 @@ title: "Visiting Olympic National Park"
 image: "/images/posts/travel-olympic-national-park.jpg"
 topic: "travel"
 travel_location: "olympic national park"
-description: "Exploring Olympic National Park on Washington's Olympic Peninsula, where temperate rainforest, rugged Pacific coastline, and alpine wilderness coexist in one extraordinary park."
+description: "Exploring Olympic National Park on Washington's Olympic Peninsula, where temperate rainforest, rugged Pacific coastline, and alpine wilderness coexist in…"
 ---
 
 Olympic National Park does something unusual: it contains three completely different ecosystems within its borders, and none of them look like the others. You can go from dense temperate rainforest — mossy, dripping, green beyond any shade of green you have a name for — to rugged, driftwood-strewn Pacific coastline to high alpine meadows and glaciated peaks, all within the same park. I went in mid-July, when all three zones were accessible, and driving the perimeter of the Olympic Peninsula with the park as the anchor felt like traveling through several different countries.

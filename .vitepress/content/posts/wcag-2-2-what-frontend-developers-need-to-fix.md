@@ -5,7 +5,7 @@ draft: false
 title: "WCAG 2.2: What Frontend Developers Actually Need to Fix"
 image: "/images/posts/wcag-2-2-what-frontend-developers-need-to-fix.jpg"
 topic: "development"
-description: "WCAG 2.2 became the enforcement standard in 2026. Here are the nine new success criteria that matter most for frontend developers — and what to actually do about them."
+description: "WCAG 2.2 became the enforcement standard in 2026. Here are the nine new success criteria that matter most for frontend developers — and what to actually do…"
 ---
 
 If accessibility audits still reference WCAG 2.1 at your company, you're behind. WCAG 2.2 became a W3C Recommendation in October 2023 and is now the version that regulators, auditors, and legal teams point to. In the US, the Department of Justice formally adopted WCAG 2.1 AA as the ADA standard — but in practice, WCAG 2.2 is what modern audits check. The European Accessibility Act, which hit full enforcement for digital products in 2025, also tracks WCAG 2.2.

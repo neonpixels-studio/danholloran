@@ -18,7 +18,13 @@ vi.mock("../../theme/utils/frontmatter", () => ({
   parseFrontmatter: vi.fn(),
 }));
 
+vi.mock("child_process", () => {
+  const execFileSync = vi.fn();
+  return { default: { execFileSync }, execFileSync };
+});
+
 import { existsSync, readFileSync, statSync, readdirSync } from "fs";
+import { execFileSync } from "child_process";
 import { transformSitemapItems } from "../../theme/utils/sitemap";
 import { mockPostFiles } from "../helpers/mockPostFiles";
 
@@ -26,6 +32,7 @@ const mockExistsSync = vi.mocked(existsSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockStatSync = vi.mocked(statSync);
 const mockReaddirSync = vi.mocked(readdirSync);
+const mockExecFileSync = vi.mocked(execFileSync);
 
 // The post-source directory holds the real files that back `/posts/<slug>`,
 // so a path-aware existsSync/statSync pins which file supplies an mtime.
@@ -39,6 +46,9 @@ beforeEach(() => {
   vi.resetAllMocks();
   mockReaddirSync.mockReturnValue([] as any);
   mockReadFileSync.mockReturnValue("" as any);
+  // Default to "untracked" so file-backed pages fall through to their mtime;
+  // git-date tests override this per case.
+  mockExecFileSync.mockReturnValue("" as any);
 });
 
 describe("transformSitemapItems", () => {
@@ -155,21 +165,41 @@ describe("transformSitemapItems", () => {
     expect(result[0].lastmod).toEqual(mtime);
   });
 
-  it("stamps archive routes with the newest published post date", () => {
+  it("stamps the indexable topic hub with the newest published post date", () => {
     const newest = "2024-06-01";
     mockPostFiles(
       ["newer.md", "older.md"],
       [{ date: newest }, { date: "2020-01-01" }],
     );
 
+    const result = transformSitemapItems([{ url: "posts/topic/travel" }]);
+    expect(result).toHaveLength(1);
+    expect(result[0].lastmod).toEqual(new Date(newest));
+  });
+
+  it("excludes noindexed archive URLs (pagination, tag pages) from the sitemap", () => {
+    mockPostFiles(["newer.md"], [{ date: "2024-06-01" }]);
+
     const result = transformSitemapItems([
       { url: "posts/page/2" },
-      { url: "posts/topic/travel" },
+      { url: "posts/tag/javascript" },
       { url: "posts/tag/javascript/page/2" },
+      { url: "posts/topic/travel/page/2" },
+      { url: "posts/topic/travel" },
+      { url: "posts/my-post" },
     ]);
-    result.forEach((item) => {
-      expect(item.lastmod).toEqual(new Date(newest));
-    });
+    const urls = result.map((item) => item.url);
+    expect(urls).toEqual(["posts/topic/travel", "posts/my-post"]);
+  });
+
+  it("prefers the git commit date over mtime for a tracked static page", () => {
+    const commitDate = "2025-02-10T08:30:00.000Z";
+    mockExistsSync.mockReturnValue(true);
+    mockStatSync.mockReturnValue({ mtime: new Date("2024-01-01") } as any);
+    mockExecFileSync.mockReturnValue(`${commitDate}\n` as any);
+
+    const result = transformSitemapItems([{ url: "about" }]);
+    expect(result[0].lastmod).toEqual(new Date(commitDate));
   });
 
   it("does not treat a post slug prefixed page-/tag- as an archive route", () => {

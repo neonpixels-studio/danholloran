@@ -6,7 +6,7 @@ title: "The Blue Ridge Parkway: America's Best Road"
 image: "/images/posts/travel-blue-ridge-parkway.jpg"
 topic: "travel"
 travel_location: "blue ridge parkway, Virginia"
-description: "The Blue Ridge Parkway runs 469 miles through the Appalachians from Virginia to North Carolina, with no stoplights, no trucks, and an overlook every 1.7 miles — one of the country's most celebrated scenic drives."
+description: "The Blue Ridge Parkway runs 469 miles through the Appalachians from Virginia to North Carolina, with no stoplights, no trucks, and an overlook every 1.7…"
 ---
 
 I grew up thinking the East Coast didn't have scenery in the same league as the West, which is the kind of thing you believe until you drive the Blue Ridge Parkway for the first time. The road winds along the spine of the Blue Ridge Mountains for 469 miles, connecting Shenandoah in Virginia to Great Smoky Mountains in North Carolina, and there are no stoplights, no commercial vehicles, and an overlook every mile and a half on average. It's a national parkway, which means the whole thing is managed for the experience of driving it. That makes a difference.

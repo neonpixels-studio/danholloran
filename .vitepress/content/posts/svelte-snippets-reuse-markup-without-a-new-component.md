@@ -5,7 +5,7 @@ draft: false
 title: "Svelte Snippets: Reuse Markup Without a New Component"
 image: "/images/posts/svelte-snippets-reuse-markup-without-a-new-component.jpg"
 topic: "development"
-description: "Snippets let you define reusable chunks of markup inline and render them like functions. They replace slots, kill the let: directive, and mean you stop extracting a component every time you repeat six lines."
+description: "Snippets let you define reusable chunks of markup inline and render them like functions. They replace slots, kill the let: directive, and mean you stop…"
 ---
 
 You have a card layout that appears twice in the same component: once wrapped in a link, once bare. The markup is identical apart from the wrapper. For years the Svelte answer was to extract `Card.svelte`, import it, thread props through it, and accept a new file in your tree for six lines of HTML.

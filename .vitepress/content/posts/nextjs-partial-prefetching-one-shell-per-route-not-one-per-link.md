@@ -5,7 +5,7 @@ draft: false
 title: "Next.js Partial Prefetching: One Shell Per Route, Not One Per Link"
 image: "/images/posts/nextjs-partial-prefetching-one-shell-per-route-not-one-per-link.jpg"
 topic: "development"
-description: "Next.js 16.3 stops firing a prefetch request for every link in the viewport and caches one reusable loading shell per route instead. Here's what changes and how to turn it on."
+description: "Next.js 16.3 stops firing a prefetch request for every link in the viewport and caches one reusable loading shell per route instead."
 ---
 
 Open the Network tab on a production Next.js app and scroll a page with a long list of links. You get a waterfall of prefetch requests, one per link, most of them hitting the same route with different params. A sidebar with twenty chat threads fires twenty requests to render twenty variations of the same `/chat/[id]` page. The Next.js team's own writeup calls this "ridiculous," which is refreshingly blunt for a framework changelog.

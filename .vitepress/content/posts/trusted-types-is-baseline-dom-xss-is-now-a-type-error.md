@@ -5,7 +5,7 @@ draft: false
 title: "Trusted Types Is Baseline: DOM XSS Is Now a Type Error"
 image: "/images/posts/trusted-types-is-baseline-dom-xss-is-now-a-type-error.jpg"
 topic: "development"
-description: "Firefox 148 shipped Trusted Types in February 2026, making it Baseline. Here's how to turn every dangerous innerHTML assignment in your app into a TypeError you can actually catch."
+description: "Firefox 148 shipped Trusted Types in February 2026, making it Baseline. Here's how to turn every dangerous innerHTML assignment in your app into a TypeError…"
 ---
 
 Every codebase has one. Somewhere in a component nobody has opened in eighteen months, there is a line that reads `el.innerHTML = someValue`, and nobody can tell you with confidence where `someValue` comes from. Maybe it's a hardcoded template. Maybe it's a server response. Maybe, three refactors ago, it started carrying a slice of `location.hash`. That uncertainty is the entire DOM XSS problem: the sink is a plain string setter, strings all look alike, and the browser has no way to tell a trusted one from an attacker-controlled one.

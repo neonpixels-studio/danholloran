@@ -11,7 +11,7 @@ draft: false
 title: "Building an Obsidian Theme: A Practical Guide to CSS Variables"
 image: "/images/posts/building-an-obsidian-theme-a-practical-guide-to-css-variables.jpg"
 topic: "obsidian"
-description: "You do not need to fight cascade specificity to restyle Obsidian. Override a handful of CSS variables and you have a real theme that respects light and dark mode."
+description: "You do not need to fight cascade specificity to restyle Obsidian. Override a handful of CSS variables and you have a real theme that respects light and dark…"
 ---
 
 Most people who want to change how Obsidian looks reach for a community theme, tweak it until something breaks, and give up. The friction is real, but it usually comes from the wrong mental model. You picture a theme as thousands of lines of CSS selectors chasing deeply nested elements, each one a fresh fight with specificity. Obsidian's actual design is much kinder than that. The entire interface is painted from a few hundred named CSS variables, and a theme is mostly just a file that overrides the ones you care about.

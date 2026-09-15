@@ -5,7 +5,7 @@ draft: false
 title: "Layer-2 Rollups: How Ethereum Scales Without Sacrificing Security"
 image: "/images/posts/layer-2-rollups-how-ethereum-scales-without-sacrificing-security.jpg"
 topic: "finance"
-description: "Ethereum's mainnet can only handle so many transactions, but Layer-2 rollups solve that bottleneck without giving up the security guarantees that make the chain worth using."
+description: "Ethereum's mainnet can only handle so many transactions, but Layer-2 rollups solve that bottleneck without giving up the security guarantees that make the…"
 ---
 
 If you've ever tried to do something on Ethereum during peak demand — swap tokens, mint an NFT, interact with a DeFi protocol — you've probably seen gas fees spike to $50 or $100 for what should be a routine operation. That's not a bug; it's the natural consequence of a highly secure, highly decentralized network with a hard limit on how much work it can do per block.

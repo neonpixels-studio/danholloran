@@ -5,7 +5,7 @@ draft: false
 title: "React 19: The Stable Features You Should Actually Be Using"
 image: "/images/posts/react-19-stable-features-you-should-be-using.jpg"
 topic: "development"
-description: "React 19 went stable in December 2024. Actions, the use() API, new hooks, and document metadata support are all production-ready. Here's what's worth adopting first."
+description: "React 19 went stable in December 2024. Actions, the use() API, new hooks, and document metadata support are all production-ready."
 ---
 
 React 19 went stable in December 2024, and the announcement was notable for how much it landed at once: Actions, a new set of hooks, the `use()` API, Server Components in stable, and native document metadata support. Not all of it is relevant for every project, but some of it changes how you'll write React code going forward.

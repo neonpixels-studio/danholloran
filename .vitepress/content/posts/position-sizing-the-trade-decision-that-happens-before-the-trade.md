@@ -5,7 +5,7 @@ draft: false
 title: "Position Sizing: The Trade Decision That Happens Before the Trade"
 image: "/images/posts/position-sizing-the-trade-decision-that-happens-before-the-trade.jpg"
 topic: "finance"
-description: "Most trading education obsesses over entries and indicators. The arithmetic says how much you put on matters more than where you got in, and the math is less forgiving than it looks."
+description: "Most trading education obsesses over entries and indicators. The arithmetic says how much you put on matters more than where you got in, and the math is…"
 ---
 
 Give two people the exact same set of trades — same entries, same exits, same win rate — and one can finish the year up while the other is down 40%. Nothing about their analysis differed. The only variable was how much they put on each time.

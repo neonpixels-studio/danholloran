@@ -5,7 +5,7 @@ draft: false
 title: "How DeFi Lending Works: Health Factors, Rate Curves, and Liquidation Bots"
 image: "/images/posts/how-defi-lending-works-health-factors-rate-curves-and-liquidation-bots.jpg"
 topic: "finance"
-description: "On-chain lending replaces credit checks with collateral, loan officers with a utilization curve, and collections with bots. Here is what each of those swaps actually costs you."
+description: "On-chain lending replaces credit checks with collateral, loan officers with a utilization curve, and collections with bots."
 ---
 
 A bank loan gets underwritten. Someone pulls your credit, looks at your income, and makes a judgment call about whether you will pay it back. An on-chain lending protocol does none of that. It does not know who you are, it cannot sue you, and it will never call you. So it replaces the three things a bank relies on with mechanical substitutes: collateral instead of trust, a formula instead of a loan officer, and bots instead of a collections department.

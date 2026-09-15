@@ -6,7 +6,7 @@ title: "Sand Harbor Beach, Lake Tahoe"
 image: "/images/posts/travel-sand-harbor-beach.jpg"
 topic: "travel"
 travel_location: "sand harbor beach incline village nevada"
-description: "On the Nevada side of Lake Tahoe, Sand Harbor is a boulder-strewn beach with water so clear you can see the bottom at 20 feet — the kind of lake view that makes you question every other lake you've ever seen."
+description: "On the Nevada side of Lake Tahoe, Sand Harbor is a boulder-strewn beach with water so clear you can see the bottom at 20 feet — the kind of lake view that…"
 ---
 
 Lake Tahoe is one of those places that people describe as looking fake, and until you've stood next to it that description makes no sense. Then you're there and the water is this impossible gradient of turquoise and deep blue and you can see the bottom through 20 feet of water and the mountains are reflected in the surface and you understand exactly what they meant.

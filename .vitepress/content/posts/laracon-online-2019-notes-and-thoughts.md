@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/laracon-online-2019-notes-and-thoughts.jpg"
 title: Laracon Online 2019 Notes and Thoughts
 topic: development
-description: "Notes and takeaways from Laracon Online 2019 — covering event sourcing in Laravel, writing less complex code, Livewire, and other highlights from the conference sessions."
+description: "Notes and takeaways from Laracon Online 2019 — covering event sourcing in Laravel, writing less complex code, Livewire, and other highlights from the…"
 ---
 
 These are my notes from Laracon 2019 was an interesting conference and a lot of fun. I think you may still be able to buy tickets to access the recordings at [https://laracon.net/](https://laracon.net/). It is nice being online not having to travel makes it easier to go.

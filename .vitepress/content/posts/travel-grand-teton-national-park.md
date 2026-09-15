@@ -13,7 +13,7 @@ title: "Grand Teton: Mountains That Don't Wait to Impress You"
 image: "/images/posts/travel-grand-teton-national-park.jpg"
 topic: "travel"
 travel_location: "grand teton national park"
-description: "Grand Teton National Park in northwestern Wyoming rises abruptly from the valley floor without foothills — the jagged Teton peaks just appear, reflected in glacial lakes, with wildlife grazing in the meadows below."
+description: "Grand Teton National Park in northwestern Wyoming rises abruptly from the valley floor without foothills — the jagged Teton peaks just appear, reflected in…"
 ---
 
 Most mountain ranges give you a warning. There are foothills first, then the slope increases, and eventually you're looking up at something serious. The Tetons don't do that. You're driving through the Jackson Hole valley, flat sagebrush on both sides, and then there they are — twelve peaks above 12,000 feet, the Grand Teton topping out at 13,770, rising directly from the valley floor with no geographic preamble. It's one of the more startling things a mountain range can do.

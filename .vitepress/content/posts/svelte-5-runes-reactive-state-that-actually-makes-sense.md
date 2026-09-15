@@ -5,7 +5,7 @@ draft: false
 title: "Svelte 5 Runes: Reactive State That Actually Makes Sense"
 image: "/images/posts/svelte-5-runes-reactive-state-that-actually-makes-sense.jpg"
 topic: development
-description: "An introduction to Svelte 5 runes — the explicit reactive primitives ($state, $derived, $effect, $props) that replace Svelte 4's magic $: syntax and make reactivity predictable, composable, and no longer limited to .svelte files."
+description: "An introduction to Svelte 5 runes — the explicit reactive primitives ($state, $derived, $effect, $props) that replace Svelte 4's magic $: syntax and make…"
 ---
 
 If you've ever wrestled with Svelte 4's reactive declarations — that vaguely magical `$:` syntax that sometimes works exactly as you expect and sometimes very much doesn't — you'll appreciate what Svelte 5 brings to the table. Runes are a new set of explicit reactive primitives that replace the old implicit system, and they're a genuine improvement: clearer, more predictable, and no longer confined to `.svelte` files.

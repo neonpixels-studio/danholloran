@@ -5,7 +5,7 @@ draft: false
 title: "The Speculation Rules API: Instant Page Navigations Without a Framework"
 image: "/images/posts/speculation-rules-api-instant-page-navigations.jpg"
 topic: "development"
-description: "The Speculation Rules API lets you tell the browser which pages to prefetch or fully prerender in the background — delivering near-instant navigations with a few lines of JSON and no framework required."
+description: "The Speculation Rules API lets you tell the browser which pages to prefetch or fully prerender in the background — delivering near-instant navigations with…"
 ---
 
 Navigation speed is one of the biggest perceived performance wins you can hand users — not the initial page load, but how fast _subsequent_ pages feel. Getting truly instant navigations used to mean reaching for a SPA framework and client-side routing. The Speculation Rules API changes that. It lets you prerender entire pages in the background so transitions feel nearly instantaneous. No framework required.

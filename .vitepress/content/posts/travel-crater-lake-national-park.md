@@ -13,7 +13,7 @@ title: "Crater Lake: The Deepest Blue You've Ever Seen"
 image: "/images/posts/travel-crater-lake-national-park.jpg"
 topic: "travel"
 travel_location: "crater lake national park"
-description: "Crater Lake in Oregon is the deepest lake in the United States and one of the most pristine — a collapsed volcano filled over millennia by snowmelt, producing a shade of blue that seems almost artificially saturated."
+description: "Crater Lake in Oregon is the deepest lake in the United States and one of the most pristine — a collapsed volcano filled over millennia by snowmelt…"
 ---
 
 Nothing I'd read or seen prepared me for the color. I came over the rim for the first time and just stopped moving. Crater Lake is a blue that doesn't look real — not turquoise like a tropical beach, not gray-blue like the ocean, but a deep, saturated cobalt that seems to glow from somewhere inside the water itself. It's the kind of color you'd assume was a filter. It isn't. It's just what happens when a lake is 1,949 feet deep, has no rivers flowing in or out, and is fed entirely by rain and snowmelt so pure that almost nothing clouds it.

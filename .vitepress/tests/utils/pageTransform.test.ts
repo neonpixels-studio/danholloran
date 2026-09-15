@@ -102,6 +102,21 @@ describe("transformPageData – index.md", () => {
     );
     expect(scriptTag).toBeDefined();
   });
+
+  it("names the Person entity after the on-page brand with a legal alternateName", () => {
+    const pageData = makePageData({ filePath: "index.md" });
+    transformPageData(pageData);
+
+    const personJson = (pageData.frontmatter.head ?? []).find(
+      (tag: any[]) =>
+        tag[0] === "script" &&
+        tag[1]?.type === "application/ld+json" &&
+        tag[2]?.includes('"@type":"Person"'),
+    );
+    const parsed = JSON.parse((personJson as any[])[2]);
+    expect(parsed.name).toBe("Dan Holloran");
+    expect(parsed.alternateName).toBe("Danny Holloran");
+  });
 });
 
 describe("transformPageData – resume.md", () => {
@@ -452,6 +467,26 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(pageData.description).toBe("");
   });
 
+  it("drops the brand-suffix titleTemplate on a long title", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "Index Funds vs Active Management: Reading the Scorecard Honestly",
+      description: "D",
+      date: "2024-03-01",
+    });
+
+    expect(pageData.titleTemplate).toBe(false);
+  });
+
+  it("keeps the brand-suffix titleTemplate on a short title", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "Zustand, briefly",
+      description: "D",
+      date: "2024-03-01",
+    });
+
+    expect(pageData.titleTemplate).toBeUndefined();
+  });
+
   it("falls back to default-social.png for og:image, twitter:image, and Article JSON-LD when no frontmatter image", () => {
     const pageData = transformPostWithFrontmatter({
       title: "T",
@@ -793,6 +828,10 @@ describe("transformPageData – archive routes", () => {
     return pageData;
   }
 
+  function findRobotsNoindex(pageData: any) {
+    return findHead(pageData, "meta", "content", "noindex,follow");
+  }
+
   it("titles and self-canonicals an unfiltered page N", () => {
     const pageData = transformArchivePage("posts/page/[page].md", {
       page: "3",
@@ -803,6 +842,7 @@ describe("transformPageData – archive routes", () => {
       findHead(pageData, "link", "href", `${SITE_URL}/posts/page/3`),
     ).toBeDefined();
     expect(pageData.description).toContain("Page 3.");
+    expect(findRobotsNoindex(pageData)).toBeDefined();
   });
 
   it("titles a topic page 1 without a page segment in its canonical", () => {
@@ -818,7 +858,40 @@ describe("transformPageData – archive routes", () => {
     ).toBeDefined();
   });
 
-  it("titles and canonicals a paginated tag page", () => {
+  it("keeps the topic hub page 1 indexable (no robots noindex)", () => {
+    const pageData = transformArchivePage("posts/topic/[topic].md", {
+      topic: "development",
+      topicLabel: "development",
+      page: "1",
+    });
+
+    expect(findRobotsNoindex(pageData)).toBeUndefined();
+  });
+
+  it("noindexes a paginated topic page beyond page 1", () => {
+    const pageData = transformArchivePage(
+      "posts/topic/[topic]/page/[page].md",
+      {
+        topic: "development",
+        topicLabel: "development",
+        page: "2",
+      },
+    );
+
+    expect(findRobotsNoindex(pageData)).toBeDefined();
+  });
+
+  it("noindexes a tag hub page 1", () => {
+    const pageData = transformArchivePage("posts/tag/[tag].md", {
+      tag: "javascript",
+      tagLabel: "javascript",
+      page: "1",
+    });
+
+    expect(findRobotsNoindex(pageData)).toBeDefined();
+  });
+
+  it("titles, canonicals, and noindexes a paginated tag page", () => {
     const pageData = transformArchivePage("posts/tag/[tag]/page/[page].md", {
       tag: "javascript",
       tagLabel: "javascript",
@@ -834,5 +907,6 @@ describe("transformPageData – archive routes", () => {
         `${SITE_URL}/posts/tag/javascript/page/2`,
       ),
     ).toBeDefined();
+    expect(findRobotsNoindex(pageData)).toBeDefined();
   });
 });

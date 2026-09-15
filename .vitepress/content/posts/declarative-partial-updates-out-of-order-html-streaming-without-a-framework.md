@@ -5,7 +5,7 @@ draft: false
 title: "Declarative Partial Updates: Out-of-Order HTML Streaming Without a Framework"
 image: "/images/posts/declarative-partial-updates-out-of-order-html-streaming-without-a-framework.jpg"
 topic: "development"
-description: "Chrome 148 ships experimental support for filling HTML placeholders out of order and streaming markup into the DOM. Here's how the new template-for and streamHTML APIs work, and what they replace."
+description: "Chrome 148 ships experimental support for filling HTML placeholders out of order and streaming markup into the DOM."
 ---
 
 HTML has one stubborn rule that has quietly shaped a decade of frontend architecture: it renders in the order it arrives. If the third section of your page needs a slow database query, everything after it waits. The usual escape hatches are all compromises. You buffer the whole response and give up streaming entirely, you reorder with CSS and break the accessibility tree, or you ship a framework whose main job is turning that server delay into a client-side spinner.

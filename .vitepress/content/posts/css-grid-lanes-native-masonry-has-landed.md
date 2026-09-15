@@ -5,7 +5,7 @@ draft: false
 title: "CSS Grid Lanes: Native Masonry Has Finally Landed"
 image: "/images/posts/css-grid-lanes-native-masonry-has-landed.jpg"
 topic: "development"
-description: "Masonry layout is coming to CSS as grid-lanes, and Safari shipped it first. Here's how the new display value works, why it beats the JavaScript libraries, and what it fixes for keyboard users."
+description: "Masonry layout is coming to CSS as grid-lanes, and Safari shipped it first. Here's how the new display value works, why it beats the JavaScript libraries…"
 ---
 
 For over a decade, "masonry" meant reaching for a JavaScript library. You know the layout: a Pinterest-style wall of cards with different heights, each one tucked up snugly under the shortest column so there are no ragged gaps. CSS Grid could not do it, Flexbox could fake a broken version of it, and so everyone loaded Masonry.js or Isotope, measured every element in JavaScript, and absolutely-positioned the results. It worked, but it fought the browser the whole way: reflows on resize, layout thrash, and a tab order that jumped all over the page.

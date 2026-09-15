@@ -6,7 +6,7 @@ title: "Mina Sauk Falls: Missouri's Tallest Drop"
 image: "/images/posts/travel-mina-sauk-falls.jpg"
 topic: "travel"
 travel_location: "mina sauk falls pilot knob missouri"
-description: "Mina Sauk Falls is Missouri's tallest waterfall at 132 feet, tucked inside Taum Sauk Mountain State Park in the St. Francois Mountains — a challenging but rewarding hike through some of the state's wildest terrain."
+description: "Mina Sauk Falls is Missouri's tallest waterfall at 132 feet, tucked inside Taum Sauk Mountain State Park in the St. Francois Mountains — a challenging but…"
 ---
 
 Missouri is not the state you think of when you think waterfalls. But Mina Sauk Falls exists, and it's real, and it drops 132 feet over a series of rhyolite ledges into a pool at the bottom of Taum Sauk Mountain — the highest point in the state. The first time I hiked out to it I half expected something modest. It wasn't.

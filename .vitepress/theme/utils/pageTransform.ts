@@ -9,12 +9,28 @@ import { archiveHref, toPageNumber } from "./archive";
 // The blog index's JSON-LD lists at most this many recent posts.
 const MAX_BLOG_POSTING_ENTRIES = 10;
 
+// VitePress appends " | Dan Holloran" (the site title) to every page <title>.
+// Past ~65 rendered characters Google truncates the tag in the SERP, cutting
+// off the brand suffix and often the tail of the headline. When the base title
+// alone leaves no room for the suffix under that budget, drop the suffix so the
+// headline itself survives.
+const TITLE_SUFFIX_LENGTH = " | Dan Holloran".length;
+const MAX_SERP_TITLE_LENGTH = 65;
+
+function applyTitleTemplate(pageData: PageData, title: string): void {
+  if (title.length + TITLE_SUFFIX_LENGTH > MAX_SERP_TITLE_LENGTH) {
+    pageData.titleTemplate = false;
+    pageData.frontmatter.titleTemplate = false;
+  }
+}
+
 // Fallback social image for pages without a frontmatter `image`, so og:image,
 // twitter:image, and the Article JSON-LD image always resolve. (The post hero
 // is fed by the postsDetail content loader, not this transform. The blog-index
 // BlogPosting list entries intentionally stay image-optional.)
 const DEFAULT_SOCIAL_IMAGE = "/images/default-social.png";
 import {
+  AUTHOR_NAME,
   pageMeta,
   personJsonLd,
   profilePageJsonLd,
@@ -32,7 +48,9 @@ function isTransformOwned(tag: any[]): boolean {
   if (tag[0] === "script") return tag[1]?.type === "application/ld+json";
   if (tag[0] !== "meta") return false;
   return (
-    tag[1]?.property?.startsWith("og:") || tag[1]?.name?.startsWith("twitter:")
+    tag[1]?.property?.startsWith("og:") ||
+    tag[1]?.name?.startsWith("twitter:") ||
+    tag[1]?.name === "robots"
   );
 }
 
@@ -48,14 +66,19 @@ function setStandardPageMeta(
   pageData: PageData,
   meta: Parameters<typeof pageMeta>[0],
   canonicalUrl: string = meta.url,
+  noindex = false,
 ): void {
   pageData.title = meta.title;
   pageData.description = meta.description;
   pageData.frontmatter.title = meta.title;
   pageData.frontmatter.description = meta.description;
+  applyTitleTemplate(pageData, meta.title);
   pageData.frontmatter.head = [
     ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: canonicalUrl }],
+    ...(noindex
+      ? [["meta", { name: "robots", content: "noindex,follow" }]]
+      : []),
     ...pageMeta(meta),
   ];
 }
@@ -149,7 +172,7 @@ function buildBlogPostingList() {
       ...(post.image && { image: `${SITE_URL}${post.image}` }),
       author: {
         "@type": "Person",
-        name: `${resume.firstName} ${resume.lastName}`,
+        name: AUTHOR_NAME,
         url: SITE_URL,
       },
     }));
@@ -180,7 +203,7 @@ function transformPostsIndex(pageData: PageData): void {
         blogPost: buildBlogPostingList(),
         author: {
           "@type": "Person",
-          name: `${resume.firstName} ${resume.lastName}`,
+          name: AUTHOR_NAME,
           url: SITE_URL,
         },
       },
@@ -282,7 +305,7 @@ function transformPost(pageData: PageData): void {
         image: `${SITE_URL}${image}`,
         author: {
           "@type": "Person",
-          name: `${resume.firstName} ${resume.lastName}`,
+          name: AUTHOR_NAME,
           url: SITE_URL,
         },
         publisher: publisherJsonLd,
@@ -292,10 +315,21 @@ function transformPost(pageData: PageData): void {
   );
 }
 
-// Paginated / filtered archive routes. Each resolves to a self-canonical page
-// with a title/description that names its filter and page, so every crawlable
-// archive page is a distinct, indexable surface rather than a duplicate of the
-// blog index.
+// Paginated / filtered archive routes. Every archive page stays crawlable
+// (noindex,follow) so posts remain discoverable, but only the topic hub pages
+// (development, finance, obsidian, travel — page 1) are indexable. Tag pages
+// duplicate the topic hubs, split subjects across synonym slugs, and are often
+// a single thin post; paginated views (/page/N of any filter) duplicate posts
+// already indexed at their own URLs. Both are excluded from the index and the
+// sitemap to consolidate ranking signal on the topic hubs and post pages.
+const TOPIC_HUB_FILE_PATH = "posts/topic/[topic].md";
+
+// A topic hub's page 1 is the one indexable archive surface. Its own
+// `[topic].md` route is always page 1, so the filePath alone decides.
+function isIndexableArchive(pageData: PageData): boolean {
+  return pageData.filePath === TOPIC_HUB_FILE_PATH;
+}
+
 interface ArchiveScope {
   heading: string;
   subject: string;
@@ -343,12 +377,18 @@ function transformArchive(pageData: PageData): void {
   const page = archivePageNumber(pageData);
   const title = page > 1 ? `${scope.heading} — Page ${page}` : scope.heading;
   const pageNote = page > 1 ? ` Page ${page}.` : "";
-  setStandardPageMeta(pageData, {
-    title,
-    description: `Dan Holloran's ${scope.subject}.${pageNote}`,
-    url: `${SITE_URL}${scope.href}`,
-    image: DEFAULT_SOCIAL_IMAGE,
-  });
+  const url = `${SITE_URL}${scope.href}`;
+  setStandardPageMeta(
+    pageData,
+    {
+      title,
+      description: `Dan Holloran's ${scope.subject}.${pageNote}`,
+      url,
+      image: DEFAULT_SOCIAL_IMAGE,
+    },
+    url,
+    !isIndexableArchive(pageData),
+  );
 }
 
 export function transformPageData(pageData: PageData): void {

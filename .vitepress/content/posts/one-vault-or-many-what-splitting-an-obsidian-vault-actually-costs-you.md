@@ -12,7 +12,7 @@ draft: false
 title: "One Vault or Many? What Splitting an Obsidian Vault Actually Costs You"
 image: "/images/posts/one-vault-or-many-what-splitting-an-obsidian-vault-actually-costs-you.jpg"
 topic: "obsidian"
-description: "Splitting your Obsidian vault feels like tidying up, but a vault boundary is a hard wall your search, links, and queries cannot cross. Here is what you actually give up, and when it is worth it."
+description: "Splitting your Obsidian vault feels like tidying up, but a vault boundary is a hard wall your search, links, and queries cannot cross."
 ---
 
 Every few months someone in the Obsidian forums asks the same question: should I keep one big vault, or split my notes into a work vault and a personal vault? The answers usually turn into a preference argument, which is a shame, because it isn't really one. A vault boundary is not an organizational choice like a folder or a tag. It's a hard wall, and almost everything that makes Obsidian interesting stops at it.

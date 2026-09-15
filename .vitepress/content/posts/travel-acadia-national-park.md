@@ -15,7 +15,7 @@ title: "Visiting Acadia National Park"
 image: "/images/posts/travel-acadia-national-park.jpg"
 topic: "travel"
 travel_location: "acadia national park"
-description: "Exploring Acadia National Park on Maine's Mount Desert Island, where granite summits meet the Atlantic Ocean and the famous carriage roads wind through birch and pine."
+description: "Exploring Acadia National Park on Maine's Mount Desert Island, where granite summits meet the Atlantic Ocean and the famous carriage roads wind through…"
 ---
 
 Acadia is the only national park I've been to that smells like the ocean. That might sound obvious — it's on the coast of Maine — but it takes you off guard when you're hiking through a spruce and birch forest and the salt air comes through without warning, carried on a breeze off Frenchman Bay. The park sits mostly on Mount Desert Island, connected to the Maine mainland by a short causeway, and it combines two landscapes that don't usually overlap: rocky Atlantic coastline and real mountains. The result is something you can't quite prepare for.

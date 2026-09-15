@@ -5,7 +5,7 @@ draft: false
 title: "The Soft Navigations API: Core Web Vitals Finally Work in SPAs"
 image: "/images/posts/soft-navigations-api-core-web-vitals-finally-work-in-spas.jpg"
 topic: "development"
-description: "Chrome ships the Soft Navigations API unflagged in 151, giving single-page apps a standardized way to measure LCP, INP, and CLS per route change instead of only on the first load."
+description: "Chrome ships the Soft Navigations API unflagged in 151, giving single-page apps a standardized way to measure LCP, INP, and CLS per route change instead of…"
 ---
 
 Here's an uncomfortable fact about every SPA you've ever shipped: your Core Web Vitals numbers describe the first page the user landed on, and nothing after that. Someone loads your product listing, clicks through to a detail page, then a checkout, then a confirmation — four "pages" as far as they're concerned — and your RUM data has exactly one LCP value, from the landing. The three route changes that followed are invisible.

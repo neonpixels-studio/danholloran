@@ -5,7 +5,7 @@ draft: false
 title: "How Stablecoins Keep Their Peg — And Why It's Harder Than It Looks"
 image: "/images/posts/how-stablecoins-keep-their-peg.jpg"
 topic: "finance"
-description: "Stablecoins promise $1 forever, but the mechanics behind that stability vary wildly. Here's how fiat-backed, crypto-backed, and algorithmic designs each approach the peg — and what can go wrong."
+description: "Stablecoins promise $1 forever, but the mechanics behind that stability vary wildly. Here's how fiat-backed, crypto-backed, and algorithmic designs each…"
 ---
 
 Crypto is famous for volatility — Bitcoin can swing 20% in a week, and altcoins can do that in a day. Stablecoins exist to solve this problem: they're cryptocurrencies designed to maintain a fixed value, almost always pegged to the US dollar. The stablecoin market has grown to well over $200 billion in circulation, and these tokens have become the backbone of most on-chain activity — from lending protocols to cross-border transfers.

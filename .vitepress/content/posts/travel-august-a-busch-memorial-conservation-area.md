@@ -7,7 +7,7 @@ title: "August A. Busch Memorial Conservation Area"
 image: "/images/posts/travel-august-a-busch-memorial-conservation-area.jpg"
 topic: "travel"
 travel_location: "august a. busch memorial conservation area, Missouri"
-description: "Nearly 7,000 acres of St. Charles County habitat with 32 fishing lakes, diverse wildlife, and a history tied to the Anheuser-Busch family and Missouri conservation."
+description: "Nearly 7,000 acres of St. Charles County habitat with 32 fishing lakes, diverse wildlife, and a history tied to the Anheuser-Busch family and Missouri…"
 ---
 
 The August A. Busch Memorial Conservation Area in St. Charles County is one of those places that locals fish and hunt regularly without most St. Louis residents being aware it exists. At nearly 7,000 acres, it's substantial — 32 fishing lakes stocked with trout, bass, crappie, and muskellunge, along with a mix of agricultural land, forest, grassland, and wetland managed for a wide range of wildlife.

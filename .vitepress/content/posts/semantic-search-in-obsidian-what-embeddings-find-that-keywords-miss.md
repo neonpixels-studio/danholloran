@@ -6,7 +6,7 @@ draft: false
 title: "Semantic Search in Obsidian: What Embeddings Find That Keywords Miss"
 image: "/images/posts/semantic-search-in-obsidian-what-embeddings-find-that-keywords-miss.jpg"
 topic: "obsidian"
-description: "Obsidian's search operators are precise, but they only find notes when you remember the words you used. Here's what local embedding plugins add, where they quietly fail, and why hybrid ranking is the honest answer."
+description: "Obsidian's search operators are precise, but they only find notes when you remember the words you used."
 ---
 
 You know the note exists. You wrote it maybe eight months ago, something about why a project stalled, and now you want it back. You open search, type `stalled`, get nothing. Try `blocked`. Nothing. Try `postmortem`. Two hits, both irrelevant. The note is sitting right there in the vault, and the only thing standing between you and it is that past-you called it "the thing where we kept waiting on legal."

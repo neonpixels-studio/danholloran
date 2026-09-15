@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Publish: Turn Your Vault Into a Website Without a Static Site Generator"
 image: "/images/posts/obsidian-publish-turn-your-vault-into-a-website.jpg"
 topic: "obsidian"
-description: "How Obsidian Publish turns selected notes into a live, searchable website with backlinks and graph view intact, and when it beats rolling your own digital garden."
+description: "How Obsidian Publish turns selected notes into a live, searchable website with backlinks and graph view intact, and when it beats rolling your own digital…"
 ---
 
 There's a familiar trap for anyone who has kept a vault for a while. You've written hundreds of genuinely useful notes, and at some point you think, "I should put some of this online." Then you spend a weekend wiring up a static site generator, writing a script to resolve `[[wikilinks]]` into real URLs, hunting down a plugin that fakes the graph view, and fighting your build pipeline instead of writing. The notes never ship. Obsidian Publish exists to skip all of that: it takes the notes you choose and serves them as a website, with the internal links, backlinks, and graph already working.

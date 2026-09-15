@@ -5,7 +5,7 @@ draft: false
 title: "CSS Cascade Layers: Finally Taking Control of Specificity"
 image: "/images/posts/css-cascade-layers-taking-control-of-specificity.jpg"
 topic: "development"
-description: "The @layer rule gives you explicit control over which CSS wins when rules conflict. Here's how cascade layers work and how they change the way you structure stylesheets."
+description: "The @layer rule gives you explicit control over which CSS wins when rules conflict. Here's how cascade layers work and how they change the way you structure…"
 ---
 
 Specificity has always been one of CSS's most frustrating aspects. You write a reasonable selector, and it gets overridden by something with a higher specificity buried three files away. The usual fixes — adding more specific selectors, using `!important`, or reorganizing your stylesheet — all feel like symptoms of a deeper problem. CSS Cascade Layers (`@layer`) address that problem directly by letting you define an explicit ordering for groups of styles.

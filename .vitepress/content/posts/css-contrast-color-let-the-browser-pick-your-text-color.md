@@ -5,7 +5,7 @@ draft: false
 title: "CSS contrast-color(): Let the Browser Pick Your Text Color"
 image: "/images/posts/css-contrast-color-let-the-browser-pick-your-text-color.jpg"
 topic: "development"
-description: "The contrast-color() function went Baseline in April 2026 and kills the luminance-math helper every design system eventually writes. Here is how it works, the mid-tone problem nobody warns you about, and how to work around it."
+description: "The contrast-color() function went Baseline in April 2026 and kills the luminance-math helper every design system eventually writes."
 ---
 
 Every design system eventually grows the same ugly little function. Someone adds theme colors that users can pick, a marketing page ships category badges in eleven brand colors, and suddenly you need to know whether the label on top should be black or white. So you write it: relative luminance, the WCAG coefficients, a `0.179` threshold pulled from a blog post, and a unit test nobody trusts. Then you run it at build time, or worse, in a `useEffect`, and you cache the result in a CSS custom property.

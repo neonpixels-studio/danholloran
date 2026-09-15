@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/setup-vhosts-in-mamp.jpg"
 title: Setup Vhosts in MAMP
 topic: development
-description: "How to configure Apache Virtual Hosts in MAMP so each local project is accessible via its own custom .dev domain instead of navigating subdirectories of localhost."
+description: "How to configure Apache Virtual Hosts in MAMP so each local project is accessible via its own custom .dev domain instead of navigating subdirectories of…"
 ---
 
 Setting up Vhosts in MAMP is really easy. VHost is short for Virtual Host which is basically just a way to access multiple "sites" on a server. Instead of changing MAMP to point at the site you want and then accessing it through `http://localhost/` you can access it from a custom domain. So lets get started.

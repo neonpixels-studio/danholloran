@@ -5,7 +5,7 @@ draft: false
 title: "CSS scroll-state() Queries: Styling Stuck, Snapped, and Scrollable"
 image: "/images/posts/css-scroll-state-queries-styling-stuck-snapped-and-scrollable.jpg"
 topic: "development"
-description: "Sticky headers, snapped carousel slides, and scroll shadows have all been JavaScript jobs for a decade. Scroll-state container queries hand that work back to CSS."
+description: "Sticky headers, snapped carousel slides, and scroll shadows have all been JavaScript jobs for a decade."
 ---
 
 Every codebase I have worked in has the same file somewhere. It is called `stickyHeader.js` or `useIsStuck.ts`, and it exists because CSS could tell you an element was `position: sticky` but never whether it was currently _stuck_. So you wire up an IntersectionObserver against a one-pixel sentinel div, toggle a class, and hope nobody asks why the shadow flickers on iOS.

@@ -6,7 +6,7 @@ title: "Glacier National Park: The Crown of the Continent"
 image: "/images/posts/travel-glacier-national-park.jpg"
 topic: "travel"
 travel_location: "glacier national park"
-description: "Glacier National Park in northwestern Montana is one of the most dramatic landscapes in North America — alpine meadows, ancient glaciers, turquoise lakes, and wildlife around every bend on the Going-to-the-Sun Road."
+description: "Glacier National Park in northwestern Montana is one of the most dramatic landscapes in North America — alpine meadows, ancient glaciers, turquoise lakes…"
 ---
 
 I pulled over on the Going-to-the-Sun Road somewhere near Logan Pass and just sat on the hood of the car for a while. The Highline Trail was visible above me, snaking along the cliff face. Below, a valley dropped thousands of feet to a turquoise lake I couldn't name on a map. Bighorn sheep stood on a ledge about forty feet away and didn't care at all that I was there. It was one of those moments where you understand, in your body more than your head, why people call this place the Crown of the Continent.

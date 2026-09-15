@@ -7,7 +7,7 @@ title: "Hot Springs, Arkansas: Gangsters, Geothermal Water, and a National Park 
 image: "/images/posts/travel-hot-springs-national-park.jpg"
 topic: "travel"
 travel_location: "hot springs national park"
-description: "Hot Springs National Park in Arkansas is unlike any other national park — it sits inside a small city, and the park's thermal springs have drawn everyone from Native American tribes to 1930s gangsters to baseball players looking for a soak."
+description: "Hot Springs National Park in Arkansas is unlike any other national park — it sits inside a small city, and the park's thermal springs have drawn everyone…"
 ---
 
 Hot Springs National Park is the strangest national park in the country, and I mean that as a recommendation. It doesn't start with a gate and a welcome sign at the edge of wilderness. It starts on a city block in downtown Hot Springs, Arkansas, where a row of early 20th-century bathhouses stretches along Central Avenue — the grand Fordyce now a visitor center, the Buckstaff still operating as a working bathhouse since 1912, thermal water piped directly from the mountain behind them at 143 degrees Fahrenheit. It is, by a wide margin, the only national park where you can get a thermal bath, visit a brewery, and walk a mountain trail in the same afternoon.

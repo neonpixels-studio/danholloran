@@ -6,7 +6,7 @@ title: "Zion National Park: Standing at the Bottom of the Sky"
 image: "/images/posts/travel-zion-national-park.jpg"
 topic: "travel"
 travel_location: "zion national park"
-description: "Zion National Park in southwestern Utah is a landscape of towering sandstone canyon walls, ancient cultural history, and hikes that range from gentle riverside strolls to vertiginous ridgeline scrambles above the clouds."
+description: "Zion National Park in southwestern Utah is a landscape of towering sandstone canyon walls, ancient cultural history, and hikes that range from gentle…"
 ---
 
 The thing about Zion Canyon is the scale. You're standing at the bottom looking up at walls of Navajo sandstone — cream and pink and burnt orange — rising nearly 3,000 feet above you, and the sky is just this narrow corridor of blue above it all. Walking the canyon floor along the Virgin River, with the canyon walls that high on both sides, is one of the more physically humbling experiences I've had in a park. You feel very small in a way that isn't frightening but is clarifying.

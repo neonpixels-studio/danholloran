@@ -5,7 +5,7 @@ draft: false
 title: "Progressive Web Apps in 2026: Offline-First Patterns That Actually Work"
 image: "/images/posts/progressive-web-apps-in-2026-offline-first-patterns.jpg"
 topic: "development"
-description: "PWAs have matured significantly. Between Workbox's caching strategies, the Background Sync API, and the Web App Manifest improvements, building offline-capable apps is more practical than ever."
+description: "PWAs have matured significantly. Between Workbox's caching strategies, the Background Sync API, and the Web App Manifest improvements, building…"
 ---
 
 The PWA narrative has had its ups and downs. Early enthusiasm collided with iOS limitations and uneven browser support. But the gap has closed considerably — iOS now supports service workers, push notifications, and installation prompts with reasonable fidelity. Combined with modern tooling like Workbox and Vite's PWA plugin, building an offline-capable web app is no longer a heroic effort.

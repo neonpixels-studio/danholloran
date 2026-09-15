@@ -9,3 +9,8 @@ node_modules
 .fallow/
 .lighthouseci/
 /.claude
+
+# Claude working files (scratch todo / questions / output)
+_claude-questions.md
+_claude-todo.md
+_claude-output.md

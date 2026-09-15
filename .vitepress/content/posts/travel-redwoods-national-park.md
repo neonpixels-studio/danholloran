@@ -6,7 +6,7 @@ title: "Redwoods National Park"
 image: "/images/posts/travel-redwoods-national-park.jpg"
 topic: "travel"
 travel_location: "redwoods national park"
-description: "The tallest trees on earth along 37 miles of pristine California coastline — a place that requires standing still and looking up for several minutes before it makes sense."
+description: "The tallest trees on earth along 37 miles of pristine California coastline — a place that requires standing still and looking up for several minutes before…"
 ---
 
 The coast redwoods at Redwood National and State Parks are the tallest living things on earth. Hyperion, the current record holder at 380 feet, lives somewhere in this park in a location the NPS keeps undisclosed to protect it from foot traffic. The four tallest known trees on earth are all here. Numbers don't fully prepare you for what it feels like to stand at the base of a tree that has been growing since before Rome fell.

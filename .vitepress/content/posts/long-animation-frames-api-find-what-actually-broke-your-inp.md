@@ -5,7 +5,7 @@ draft: false
 title: "The Long Animation Frames API: Find What Actually Broke Your INP"
 image: "/images/posts/long-animation-frames-api-find-what-actually-broke-your-inp.jpg"
 topic: "development"
-description: "Your field data says INP is 400ms. Your local profile says everything is fine. The Long Animation Frames API closes that gap by naming the script, the function, and the character position that stalled the frame."
+description: "Your field data says INP is 400ms. Your local profile says everything is fine. The Long Animation Frames API closes that gap by naming the script, the…"
 ---
 
 Your real user monitoring dashboard says the 75th percentile INP on your product page is 412ms. You open DevTools, click the same button forty times, and every interaction comes back at 60ms. Nothing reproduces. So you start guessing: maybe it's the analytics tag, maybe it's the third-party chat widget, maybe it's that one `useEffect` that everybody is afraid to touch.

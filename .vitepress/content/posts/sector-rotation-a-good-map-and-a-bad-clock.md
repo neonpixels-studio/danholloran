@@ -5,7 +5,7 @@ draft: false
 title: "Sector Rotation: A Good Map and a Bad Clock"
 image: "/images/posts/sector-rotation-a-good-map-and-a-bad-clock.jpg"
 topic: "finance"
-description: "Sector rotation charts promise a map of the business cycle laid over the stock market. The taxonomy and the economic logic hold up well. The timing is where the evidence gets uncomfortable."
+description: "Sector rotation charts promise a map of the business cycle laid over the stock market. The taxonomy and the economic logic hold up well."
 ---
 
 Open a brokerage app during a market wobble and you will eventually meet the wheel: a circle divided into slices, sectors arranged around the rim, an arrow sweeping from "early cycle" through "late cycle" and down into "recession." Technology sits on the upswing. Utilities sits near the bottom. The implied instruction is hard to miss — work out where the arrow is pointing and own that slice.
