@@ -26,7 +26,13 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
       .sort((a, b) => b.published.sortTime - a.published.sortTime)
       .map(({ post: { frontmatter, url }, published }) => {
         const slug = toSlug(url);
-        const topic = (frontmatter.topic as string | undefined) ?? "";
+        // frontmatter.topic is optional at runtime even though the Post type
+        // marks it required — YAML can omit it, leave it bare (null), or hand
+        // back a non-string scalar. Guard to a trimmed string so a topicless
+        // post never interpolates the literal "undefined" or launders a
+        // number into desc/kw.
+        const topic =
+          typeof frontmatter.topic === "string" ? frontmatter.topic.trim() : "";
         // An unparseable date already warned inside resolvePublishedDate;
         // formatting it anyway would render the literal string "Invalid Date"
         // into the search result's desc, so fall back to the topic alone.
@@ -47,7 +53,11 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
           // the date, and an absent date must not leave a trailing one.
           desc: [topic, date].filter(Boolean).join(" · "),
           href: `/posts/${slug}`,
-          kw: [frontmatter.description ?? "", topic, ...tags].join(" "),
+          // filter(Boolean) drops an empty description or topic so the join
+          // can't leave a leading space ahead of the tags.
+          kw: [frontmatter.description ?? "", topic, ...tags]
+            .filter(Boolean)
+            .join(" "),
         };
       })
   );
