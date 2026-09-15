@@ -8,6 +8,7 @@ import {
   PROJECTS_ANCHOR,
   SEARCH_PANEL_SIZE,
   EMPTY_QUERY_PAGE_LIMIT,
+  EMPTY_QUERY_PROJECT_MIN_SLOTS,
 } from "@data/searchIndex";
 import { mockProjects, mockSearchItems } from "../__fixtures__/mockData";
 import type { SearchItem } from "@typedefs";
@@ -149,25 +150,81 @@ describe("buildEmptyQueryResults", () => {
     expect(lastPostIndex).toBeLessThan(firstProjectIndex);
   });
 
-  it("fills the panel with posts alone when there are enough to do so, excluding projects entirely", () => {
+  function buildManyPosts(count: number): SearchItem[] {
+    return Array.from({ length: count }, (_unused, index) => ({
+      type: "post",
+      title: `Post ${index}`,
+      desc: "",
+      href: `/posts/post-${index}`,
+      kw: "",
+    }));
+  }
+
+  it("reserves project slots so projects stay visible even when posts alone could fill the panel", () => {
     const pageItem = buildStaticSearchItems([])[0];
-    const manyPosts: SearchItem[] = Array.from(
-      { length: 10 },
-      (_unused, index) => ({
-        type: "post",
-        title: `Post ${index}`,
-        desc: "",
-        href: `/posts/post-${index}`,
-        kw: "",
-      }),
-    );
-    const items = [pageItem, ...manyProjects(5), ...manyPosts];
+    const items = [pageItem, ...manyProjects(5), ...buildManyPosts(10)];
 
     const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
       (item) => item.type,
     );
 
-    expect(visibleTypes).not.toContain("project");
+    // Pins the exact composition (not just a count) so a version that
+    // dropped the reservation, or one that let projects outrank posts,
+    // both fail: 1 leading page, then posts filling every slot except
+    // the EMPTY_QUERY_PROJECT_MIN_SLOTS reserved for projects at the end.
+    expect(visibleTypes).toEqual([
+      "page",
+      "post",
+      "post",
+      "post",
+      "post",
+      "post",
+      "project",
+      "project",
+    ]);
+    expect(visibleTypes.filter((type) => type === "project").length).toBe(
+      EMPTY_QUERY_PROJECT_MIN_SLOTS,
+    );
+  });
+
+  it("backfills remaining projects when posts can't fill the panel on their own", () => {
+    const pageItem = buildStaticSearchItems([])[0];
+    const items = [pageItem, ...manyProjects(9), ...buildManyPosts(1)];
+
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
+
+    expect(visibleTypes).toEqual([
+      "page",
+      "post",
+      "project",
+      "project",
+      "project",
+      "project",
+      "project",
+      "project",
+    ]);
+  });
+
+  it("shows every project when fewer projects exist than the reserved slot count", () => {
+    const pageItem = buildStaticSearchItems([])[0];
+    const items = [pageItem, ...manyProjects(1), ...buildManyPosts(10)];
+
+    const visibleTypes = buildEmptyQueryResults(items, SEARCH_PANEL_SIZE).map(
+      (item) => item.type,
+    );
+
+    expect(visibleTypes).toEqual([
+      "page",
+      "post",
+      "post",
+      "post",
+      "post",
+      "post",
+      "post",
+      "project",
+    ]);
   });
 
   function buildPages(count: number): SearchItem[] {
