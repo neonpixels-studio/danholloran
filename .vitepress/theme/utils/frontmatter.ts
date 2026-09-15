@@ -1,5 +1,20 @@
 import { parse } from "yaml";
 
+// Coerced, not dropped: an unquoted YAML scalar (number/bool, or a Date —
+// yaml parses YAML 1.1 timestamps into real Date objects) still renders as
+// something meaningful. null/undefined fall back to "". A mapping or sequence
+// under the key isn't a scalar the author meant to display, so it also falls
+// back to "" rather than surfacing `String()`'s "[object Object]"/"a,b".
+export function coerceFrontmatterString(value: unknown): string {
+  if (value == null) {
+    return "";
+  }
+  if (typeof value === "object" && !(value instanceof Date)) {
+    return "";
+  }
+  return String(value);
+}
+
 export function parseFrontmatter(raw: string): {
   data: Record<string, unknown>;
   content: string;

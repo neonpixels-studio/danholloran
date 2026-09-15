@@ -126,6 +126,43 @@ describe("transformSearchData", () => {
     expect(item.kw).toBe("An example post. development js");
   });
 
+  // A raw `as string` cast left `title` as whatever the frontmatter key held
+  // — including undefined — and AppSearch's highlight() calls .toLowerCase()
+  // on `item.title` once a query is typed, throwing on anything non-string.
+  // These cases pin the coercion policy: missing/null becomes "", and a
+  // non-string scalar is stringified rather than silently dropped.
+  it("passes a normal string title through unchanged", () => {
+    const [item] = transformSearchData([makeRawPostWithTags([])]);
+
+    expect(item.title).toBe("Example Post");
+  });
+
+  it("coerces a missing title to an empty string instead of leaking undefined", () => {
+    const [item] = transformSearchData([makeRawPost({ title: undefined })]);
+
+    expect(item.title).toBe("");
+  });
+
+  it("coerces a bare null title to an empty string", () => {
+    const [item] = transformSearchData([makeRawPost({ title: null })]);
+
+    expect(item.title).toBe("");
+  });
+
+  it("coerces a non-string title rather than dropping it", () => {
+    const [item] = transformSearchData([makeRawPost({ title: 2025 })]);
+
+    expect(item.title).toBe("2025");
+  });
+
+  it("falls back to an empty string for a mapping title instead of '[object Object]'", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ title: { en: "Example Post" } }),
+    ]);
+
+    expect(item.title).toBe("");
+  });
+
   it("omits the topic segment from desc and kw when topic is missing, instead of rendering literal undefined", () => {
     const [item] = transformSearchData([
       makeRawPost({ topic: undefined, tags: [] }),
