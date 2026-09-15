@@ -205,6 +205,24 @@ describe("transformPosts", () => {
     ]);
   });
 
+  it("warns on a null frontmatter date instead of silently treating it as the epoch", () => {
+    // `new Date(null).getTime()` is 0, not NaN, so a bare `date:` YAML key
+    // (which parses to `null`) already sorted last even without the falsy
+    // guard — the sort position alone can't distinguish the fix from its
+    // absence. The observable change is the warning, which only fires once
+    // the guard treats a null date as unparseable rather than as a valid
+    // (epoch) timestamp.
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const nullDatedPost = makeRawPost({
+      url: "/.vitepress/content/posts/null-dated-post",
+      frontmatter: { ...makeRawPost().frontmatter, date: null },
+    });
+
+    transformPosts([nullDatedPost]);
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining("has no date"));
+  });
+
   it("does not mutate the raw post object, so re-transforming a cached post is safe", () => {
     // VitePress reuses the same cached raw data object across reloads (e.g.
     // dev server HMR) and re-runs transform on it. A transform that mutates
