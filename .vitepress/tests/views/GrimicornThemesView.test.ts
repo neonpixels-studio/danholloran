@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { mount, shallowMount, flushPromises } from "@vue/test-utils";
+import { mockGtag, clearGtag } from "../helpers/gtag";
 
 vi.mock("@composables/useRevealAnimations", () => ({
   useRevealAnimations: vi.fn(),
@@ -11,6 +12,11 @@ import GrimicornPreviewToggle from "@components/GrimicornPreviewToggle.vue";
 describe("GrimicornThemesView", () => {
   beforeEach(() => {
     localStorage.clear();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    clearGtag();
   });
 
   it("renders correctly", () => {
@@ -54,6 +60,34 @@ describe("GrimicornThemesView", () => {
 
     expect(zipLink?.attributes("href")).toBe(
       "/grimicorn-themes/grimicorn-themes.zip",
+    );
+  });
+
+  it("orders tool cards with featured ports before non-featured ones", () => {
+    const wrapper = mount(GrimicornThemesView);
+
+    const cards = wrapper.findAll(".group.flex.flex-col.border-t-2");
+    const featuredFlags = cards.map((card) =>
+      card.find(".bg-accent-dim").exists(),
+    );
+    const featuredCount = featuredFlags.filter(Boolean).length;
+
+    expect(featuredFlags.slice(0, featuredCount).every(Boolean)).toBe(true);
+    expect(featuredFlags.slice(featuredCount).some(Boolean)).toBe(false);
+  });
+
+  it("tracks a tool download scoped to the grimicorn theme", async () => {
+    const gtag = mockGtag();
+    const wrapper = mount(GrimicornThemesView);
+
+    await wrapper
+      .find(".group.flex.flex-col.border-t-2 a[download]")
+      .trigger("click");
+
+    expect(gtag).toHaveBeenCalledWith(
+      "event",
+      "theme_download",
+      expect.objectContaining({ theme: "grimicorn", format: "tool" }),
     );
   });
 });
