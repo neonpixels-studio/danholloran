@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
 import { useRevealAnimations } from "@composables/useRevealAnimations";
-import { useAnalytics } from "@composables/useAnalytics";
+import { useGrimicornToolDownloads } from "@composables/useGrimicornToolDownloads";
 import {
   NEON_HUES,
   NEON_BG,
@@ -10,72 +9,16 @@ import {
   NEON_PALETTE_HREF,
   NEON_ZIP_HREF,
 } from "@data/grimicornNeonTheme";
-import type { GrimicornToolFile, GrimicornToolKind } from "@typedefs";
+import { GRIMICORN_TOOL_ICON_PATHS } from "@data/grimicornToolIcons";
 
 useRevealAnimations();
 
 const THEME_SLUG = "grimicorn-neon";
-const { trackEvent } = useAnalytics();
-
-function trackDownload(
-  format: "palette" | "bundle" | "tool",
-  params: Record<string, unknown> = {},
-) {
-  trackEvent("theme_download", { theme: THEME_SLUG, format, ...params });
-}
-
-function trackToolDownload(tool: string, file: GrimicornToolFile) {
-  trackDownload("tool", {
-    tool,
-    variant: file.label,
-    asset: file.download,
-  });
-}
-
-const FLASH_MS = 1100;
-const copiedIndex = ref<number | null>(null);
-let copyTimer: ReturnType<typeof setTimeout> | undefined;
+const { trackDownload, trackToolDownload, sortedTools, copiedIndex, copyHex } =
+  useGrimicornToolDownloads(THEME_SLUG, NEON_TOOLS);
 
 // The rainbow stops, looped back to the first so the pan animation is seamless.
 const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW[0]].join(", ")})`;
-
-const sortedTools = computed(() =>
-  [...NEON_TOOLS].sort((a, b) => {
-    const byFeatured =
-      Number(Boolean(b.featured)) - Number(Boolean(a.featured));
-    if (byFeatured !== 0) {
-      return byFeatured;
-    }
-    return a.name.localeCompare(b.name);
-  }),
-);
-
-async function copyHex(hex: string, index: number) {
-  try {
-    await navigator.clipboard?.writeText(hex);
-  } catch {
-    // Clipboard blocked — still flash so the hex stays visible to copy by hand.
-  }
-  copiedIndex.value = index;
-  clearTimeout(copyTimer);
-  copyTimer = setTimeout(() => {
-    copiedIndex.value = null;
-  }, FLASH_MS);
-}
-
-const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
-  editor:
-    '<path d="M3 3h12v10H3z" /><path d="M3 6h12" /><path d="M5.5 4.5h.01" />',
-  terminal:
-    '<path d="M3 3h12v10H3z" /><path d="M5.5 6.5l2 2-2 2" stroke-linejoin="round" /><path d="M9 10.5h3" />',
-  git: '<circle cx="5" cy="5" r="1.6" /><circle cx="5" cy="13" r="1.6" /><circle cx="13" cy="9" r="1.6" /><path d="M5 6.6v4.8M6.5 5h4.4a1.6 1.6 0 0 1 1.6 1.6V8" />',
-  notes:
-    '<path d="M4 2.5h7L14 6v9.5H4z" /><path d="M11 2.5V6h3" /><path d="M6.5 9h5M6.5 11.5h5" />',
-  agent:
-    '<path d="M9 2.5l5 2.8v5.4L9 13.5 4 10.7V5.3z" stroke-linejoin="round" /><circle cx="9" cy="8" r="1.7" />',
-  highlighter:
-    '<path d="M6.5 6L3.5 9l3 3" stroke-linejoin="round" /><path d="M11.5 6l3 3-3 3" stroke-linejoin="round" /><path d="M10 4.5l-2 9" />',
-};
 </script>
 
 <template>
@@ -614,7 +557,7 @@ const TOOL_ICON_PATHS: Record<GrimicornToolKind, string> = {
                   stroke-width="1.3"
                   stroke-linecap="round"
                   aria-hidden="true"
-                  v-html="TOOL_ICON_PATHS[tool.kind]"
+                  v-html="GRIMICORN_TOOL_ICON_PATHS[tool.kind]"
                 ></svg>
               </span>
               <div class="min-w-0 flex-1">
