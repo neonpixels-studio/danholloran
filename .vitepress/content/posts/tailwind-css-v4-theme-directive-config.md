@@ -5,7 +5,7 @@ draft: false
 title: "Tailwind CSS v4: Ditch the Config File, Embrace @theme"
 image: "/images/posts/tailwind-css-v4-theme-directive-config.jpg"
 topic: "development"
-description: "Tailwind CSS v4 moves design token configuration out of tailwind.config.js and into your CSS with the @theme directive — here's what that means for your workflow."
+description: "Tailwind CSS v4 moves design token configuration out of tailwind.config.js and into your CSS with the @theme directive — here's what that means for your…"
 ---
 
 If you've been using Tailwind CSS for a while, you know the ritual: install tailwind, postcss, and autoprefixer, generate a `tailwind.config.js`, add three `@tailwind` directives to a CSS file, wire up your content paths. It works, but it's a lot of ceremony before you write a single utility class.

@@ -5,7 +5,7 @@ draft: false
 title: "Animate to height: auto in CSS with interpolate-size and calc-size()"
 image: "/images/posts/animate-to-height-auto-with-interpolate-size-and-calc-size.jpg"
 topic: "development"
-description: "Transitioning an element to height: auto used to mean JavaScript measurements or fragile max-height hacks. interpolate-size and calc-size() finally make it a one-line CSS opt-in."
+description: "Transitioning an element to height: auto used to mean JavaScript measurements or fragile max-height hacks."
 ---
 
 You have an accordion. Click the header, the panel expands. You want that expansion to slide open smoothly instead of snapping. So you reach for a `transition` on `height`, set the closed state to `height: 0`, the open state to `height: auto`, and... nothing animates. The panel just pops open like the transition isn't there.

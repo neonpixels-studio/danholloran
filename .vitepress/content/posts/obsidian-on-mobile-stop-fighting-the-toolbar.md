@@ -6,7 +6,7 @@ draft: false
 title: "Obsidian on Mobile: Stop Fighting the Toolbar"
 image: "/images/posts/obsidian-on-mobile-stop-fighting-the-toolbar.jpg"
 topic: "obsidian"
-description: "Most people give up on Obsidian mobile because the defaults don't match how they actually capture notes. The fix isn't plugins — it's ten minutes in the Mobile settings."
+description: "Most people give up on Obsidian mobile because the defaults don't match how they actually capture notes."
 ---
 
 There's a familiar pattern with Obsidian on the phone. You set up a vault you love on the desktop, install the mobile app so you can capture things on the go, use it twice, and then quietly go back to the stock notes app. The usual diagnosis is that the mobile app is underpowered, and the usual prescription is a pile of community plugins.

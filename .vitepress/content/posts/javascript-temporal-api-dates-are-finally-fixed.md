@@ -5,7 +5,7 @@ draft: false
 image: "/images/posts/javascript-temporal-api-dates-are-finally-fixed.jpg"
 title: "JavaScript Temporal API: Dates Are Finally Fixed"
 topic: development
-description: "A practical introduction to the JavaScript Temporal API — the ES2026 replacement for Date that gets types right, handles timezones properly, and makes date arithmetic readable without moment.js or date-fns."
+description: "A practical introduction to the JavaScript Temporal API — the ES2026 replacement for Date that gets types right, handles timezones properly, and makes date…"
 ---
 
 `new Date()` was already problematic in 1995. It was based on Java's `java.util.Date`, which the Java team themselves deprecated years later. And yet here we are, still calling `getMonth()` on an object that returns 0 for January, still manually converting UTC offsets, still installing moment.js to do things the language should handle natively.

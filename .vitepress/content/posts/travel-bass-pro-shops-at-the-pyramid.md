@@ -6,7 +6,7 @@ title: "Bass Pro Shops at the Pyramid"
 image: "/images/posts/travel-bass-pro-shops-at-the-pyramid.jpg"
 topic: "travel"
 travel_location: "bass pro shops at the pyramid, Memphis, TN"
-description: "A 32-story steel pyramid on the Memphis riverfront that now holds a Bass Pro megastore, a cypress swamp, a bowling alley, live alligators, and a hotel inside the apex."
+description: "A 32-story steel pyramid on the Memphis riverfront that now holds a Bass Pro megastore, a cypress swamp, a bowling alley, live alligators, and a hotel…"
 ---
 
 The Memphis Pyramid opened in 1991 as a 20,142-seat arena on the banks of the Mississippi River. It hosted NBA games, concerts, and NCAA tournaments for over a decade before falling out of regular use in 2007. For years it sat largely empty, a 321-foot steel pyramid dominating the downtown skyline with nowhere useful to be.

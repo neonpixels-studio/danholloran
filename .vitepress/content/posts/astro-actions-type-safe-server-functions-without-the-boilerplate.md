@@ -5,7 +5,7 @@ draft: false
 title: "Astro Actions: Type-Safe Server Functions Without the Boilerplate"
 image: "/images/posts/astro-actions-type-safe-server-functions-without-the-boilerplate.jpg"
 topic: "development"
-description: "Astro Actions let you define backend functions once and call them from HTML forms or client JavaScript with full type safety — no REST endpoints, no manual fetch, no type casting."
+description: "Astro Actions let you define backend functions once and call them from HTML forms or client JavaScript with full type safety — no REST endpoints, no manual…"
 ---
 
 You've got a contact form in your Astro site. The classic approach: write an API endpoint at `src/pages/api/contact.ts`, parse `formData` by hand, validate the fields yourself, and then write a client-side `fetch()` call that knows nothing about the shape of the data it's sending. You end up touching four files to wire up one form, and TypeScript can't help you across the boundary.

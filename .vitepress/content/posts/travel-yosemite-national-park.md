@@ -15,7 +15,7 @@ title: "Visiting Yosemite National Park"
 image: "/images/posts/travel-yosemite-national-park.jpg"
 topic: "travel"
 travel_location: "yosemite national park"
-description: "A visit to Yosemite Valley, where Half Dome and El Capitan frame a landscape so dramatic it almost feels engineered, and the waterfalls are at their thunderous peak in late June."
+description: "A visit to Yosemite Valley, where Half Dome and El Capitan frame a landscape so dramatic it almost feels engineered, and the waterfalls are at their…"
 ---
 
 Yosemite is one of those places you feel like you already know before you arrive — you've seen Ansel Adams' photographs, the iconic Valley View framing El Capitan in the foreground, the famous silhouette of Half Dome at sunset. What surprised me, going in June, was how much more dynamic and chaotic it feels than the photographs suggest. The waterfalls were still going strong from snowmelt, filling the valley with a constant, distant roaring; the Merced River was running high and fast and cold; and the light at the granite walls was doing something I've never quite seen reproduced on a screen — the way warm afternoon sun catches the pale face of El Capitan and turns it almost golden while the opposite walls stay in blue shadow.

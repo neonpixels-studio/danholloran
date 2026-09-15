@@ -5,7 +5,7 @@ draft: false
 title: "Fallow: A Codebase Truth Layer for Agent-Written Code"
 image: "/images/posts/fallow-a-codebase-truth-layer-for-agent-written-code.jpg"
 topic: "development"
-description: "Fallow is a Rust-native tool that maps your whole TS/JS codebase to catch dead code, duplication, and architecture drift. Here's how it fits alongside ESLint, Prettier, and agent guidelines when you're reviewing PRs you didn't write."
+description: "Fallow is a Rust-native tool that maps your whole TS/JS codebase to catch dead code, duplication, and architecture drift."
 ---
 
 Most of the code in my side projects lately wasn't typed by me. I write the issue, an agent writes the branch, and I review the PR. That workflow is fast, but it quietly moves the hard part downstream. When you review a lot of generated diffs, you stop worrying about whether a function works and start worrying about the stuff a diff never shows you: the export nothing imports anymore, the near-identical helper that already exists two folders over, the module that just started reaching across a boundary it had no business touching.

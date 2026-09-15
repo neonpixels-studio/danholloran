@@ -15,7 +15,7 @@ title: "Visiting Death Valley National Park"
 image: "/images/posts/travel-death-valley-national-park.jpg"
 topic: "travel"
 travel_location: "death valley national park"
-description: "A trip to Death Valley, the hottest and driest national park in the United States, where the alien beauty of salt flats, sand dunes, and painted badlands stretches in every direction."
+description: "A trip to Death Valley, the hottest and driest national park in the United States, where the alien beauty of salt flats, sand dunes, and painted badlands…"
 ---
 
 There's a particular kind of silence in Death Valley that you don't find anywhere else — not the quiet of forests or the hush of snow, but a total, baking stillness where even the air feels reluctant to move. I went in November, when the park becomes actually approachable, and even then it felt like stepping onto another planet entirely. The road into the valley drops you below sea level gradually, and you feel the shift more than you see it — the air thickening slightly, the sky somehow becoming bluer, the rock walls rising up on both sides in shades of red and tan and purple.

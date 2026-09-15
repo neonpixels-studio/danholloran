@@ -5,7 +5,7 @@ draft: false
 title: "How a Card Swipe Actually Works: The Four-Party Model and Interchange"
 image: "/images/posts/how-a-card-swipe-actually-works-the-four-party-model-and-interchange.jpg"
 topic: "finance"
-description: "Tap your card and the money looks instant, but four different companies and a fee called interchange are quietly settling up behind the scenes. Here's how that machinery works and why it's suddenly a political fight."
+description: "Tap your card and the money looks instant, but four different companies and a fee called interchange are quietly settling up behind the scenes."
 ---
 
 You tap your card, the terminal beeps, and a receipt prints. From where you stand, money just moved from your account to the coffee shop. What actually happened is stranger: nobody moved any money at all in that moment, and at least four separate companies just agreed to owe each other something. Understanding that choreography explains a lot, including why the shop down the street sometimes has a "$5 card minimum" sign taped to the register.

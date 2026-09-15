@@ -5,7 +5,7 @@ draft: false
 title: "Inline Dataview Queries: Live Numbers Inside Your Notes"
 image: "/images/posts/inline-dataview-queries-live-numbers-inside-your-notes.jpg"
 topic: "obsidian"
-description: "Dataview code blocks give you tables. Inline queries give you a single live value in the middle of a sentence, which turns out to be the feature you reach for far more often."
+description: "Dataview code blocks give you tables. Inline queries give you a single live value in the middle of a sentence, which turns out to be the feature you reach…"
 ---
 
 Most people meet Dataview through the big fenced code block: a `dataview` block that spits out a table of every project, every book, every unfinished task. It is genuinely great, and it is also the reason a lot of vaults end up with one enormous dashboard note that nobody reads and a hundred ordinary notes still full of hand-typed numbers that went stale weeks ago.

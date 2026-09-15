@@ -5,7 +5,7 @@ draft: false
 title: "Tax-Loss Harvesting: How Selling at a Loss Actually Works"
 image: "/images/posts/tax-loss-harvesting-how-selling-at-a-loss-actually-works.jpg"
 topic: "finance"
-description: "Tax-loss harvesting turns a losing position into a deduction, but the mechanics are fussier than the pitch suggests. Here's how the netting order, the wash sale rule, and the cost-basis catch actually work."
+description: "Tax-loss harvesting turns a losing position into a deduction, but the mechanics are fussier than the pitch suggests."
 ---
 
 Every December, some corner of financial media rediscovers tax-loss harvesting and describes it as free money: sell your losers, write off the loss, buy back in, collect a smaller tax bill. The framing is off in two directions at once. It undersells the mechanics, which are genuinely useful and worth understanding, and it oversells the outcome, which is mostly a deferral rather than a discount.

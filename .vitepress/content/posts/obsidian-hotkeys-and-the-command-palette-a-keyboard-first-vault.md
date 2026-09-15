@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Hotkeys and the Command Palette: Building a Keyboard-First Vault"
 image: "/images/posts/obsidian-hotkeys-and-the-command-palette-a-keyboard-first-vault.jpg"
 topic: "obsidian"
-description: "Most Obsidian friction is the round trip from keyboard to mouse and back. Here is how the command palette, a short list of hotkeys, and a little usage data get rid of it."
+description: "Most Obsidian friction is the round trip from keyboard to mouse and back. Here is how the command palette, a short list of hotkeys, and a little usage data…"
 ---
 
 You are three sentences into a thought and you need to insert a template. Your hand leaves the keyboard, you find the ribbon icon, you click, you come back. It costs about two seconds. Do it forty times a day and you have lost roughly an hour a month, which is annoying but survivable.

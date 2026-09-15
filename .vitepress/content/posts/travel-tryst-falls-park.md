@@ -6,7 +6,7 @@ title: "Tryst Falls Park"
 image: "/images/posts/travel-tryst-falls-park.jpg"
 topic: "travel"
 travel_location: "tryst falls park"
-description: "One of the few natural waterfalls near Kansas City, tucked into a Clay County park between Excelsior Springs and Kearney — small and beautiful and worth finding."
+description: "One of the few natural waterfalls near Kansas City, tucked into a Clay County park between Excelsior Springs and Kearney — small and beautiful and worth…"
 ---
 
 Tryst Falls has been drawing visitors for more than a hundred years, which says something about how hard it is to find a decent waterfall near Kansas City. The falls themselves are modest — not the kind of thing that would make a list in the Pacific Northwest — but they're real, and they're free, and on a weekday morning in November they were mine entirely.

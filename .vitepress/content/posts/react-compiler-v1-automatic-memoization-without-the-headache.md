@@ -5,7 +5,7 @@ draft: false
 title: "React Compiler v1.0: Automatic Memoization Without the Headache"
 image: "/images/posts/react-compiler-v1-automatic-memoization-without-the-headache.jpg"
 topic: "development"
-description: "React Compiler v1.0 landed in production-ready form and it automatically handles the memoization patterns you used to write by hand — here's what changed, how to set it up, and what it means for your day-to-day React code."
+description: "React Compiler v1.0 landed in production-ready form and it automatically handles the memoization patterns you used to write by hand — here's what changed…"
 ---
 
 If you've spent any time tuning a React app for performance, you know the ritual: wrap callbacks in `useCallback`, memoize expensive calculations with `useMemo`, slap `React.memo` on child components that keep re-rendering for no good reason. It works — but it's also brittle, easy to get wrong, and clutters your components with optimization noise that has nothing to do with what the component is actually supposed to do.

@@ -6,7 +6,7 @@ title: "Multnomah Falls"
 image: "/images/posts/travel-multnomah-falls.jpg"
 topic: "travel"
 travel_location: "multnomah falls - columbia river gorge, oregon"
-description: "Oregon's tallest waterfall drops 620 feet in two tiers along the Historic Columbia River Highway — the most visited natural site in the Pacific Northwest, and for good reason."
+description: "Oregon's tallest waterfall drops 620 feet in two tiers along the Historic Columbia River Highway — the most visited natural site in the Pacific Northwest…"
 ---
 
 I'd seen a hundred photos of Multnomah Falls before I ever stood in front of it, and I still wasn't prepared. The scale of it is something a photograph flattens out. You're standing at the base looking up at 620 feet of falling water — two tiers separated by a stone bridge — with the cliff face rising above that, and the whole thing is just relentlessly vertical. It keeps going up longer than you expect.

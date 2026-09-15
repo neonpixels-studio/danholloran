@@ -5,7 +5,7 @@ draft: false
 title: "CSS :has() in Practice: The Parent Selector You Can Finally Ship"
 image: "/images/posts/css-has-in-practice-the-parent-selector-you-can-finally-ship.jpg"
 topic: "development"
-description: "The :has() selector is Baseline and fast in 2026. Here's how to use it for parent styling, sibling reactions, and quantity queries without reaching for JavaScript."
+description: "The :has() selector is Baseline and fast in 2026. Here's how to use it for parent styling, sibling reactions, and quantity queries without reaching for…"
 ---
 
 For years, "there's no parent selector in CSS" was one of the first hard truths you learned. You could style a child based on its parent all day, but going the other way meant a class toggle in JavaScript, a `MutationObserver`, or some framework state. That constraint shaped how we wrote components. It's gone now, and a lot of the JavaScript we wrote to work around it can go with it.

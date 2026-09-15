@@ -5,7 +5,7 @@ draft: false
 title: "What's Actually in Your Phone When You Tap to Pay"
 image: "/images/posts/whats-actually-in-your-phone-when-you-tap-to-pay.jpg"
 topic: "finance"
-description: "Your card number isn't in your phone. Here's what a digital wallet actually stores, why a stolen token is useless on its own, and why merchants care about tokens for reasons that have nothing to do with security."
+description: "Your card number isn't in your phone. Here's what a digital wallet actually stores, why a stolen token is useless on its own, and why merchants care about…"
 ---
 
 Most people picture a digital wallet as a photograph of a credit card. You add the card, the app shows the card art, you tap, the card gets charged. Reasonable model. It's also wrong in the one place that matters: your card number is not in your phone, and it never was.

@@ -5,7 +5,7 @@ draft: false
 title: "Web Workers: Keeping Your UI Smooth When the Work Gets Heavy"
 image: "/images/posts/web-workers-offloading-heavy-computation-from-the-main-thread.jpg"
 topic: "development"
-description: "JavaScript is single-threaded, but that doesn't mean your UI has to freeze during heavy computation. Web Workers give you real parallel execution — here's how to use them well."
+description: "JavaScript is single-threaded, but that doesn't mean your UI has to freeze during heavy computation."
 ---
 
 The most common reason a web app freezes during user interaction isn't a network request — it's a long-running synchronous task blocking the main thread. Parsing a large CSV, running a search across thousands of records, processing an image — these can lock up your UI for hundreds of milliseconds. Web Workers solve this cleanly, and with Vite's built-in worker support, the ergonomics have never been better.

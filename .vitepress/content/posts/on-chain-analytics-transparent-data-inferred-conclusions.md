@@ -5,7 +5,7 @@ draft: false
 title: "On-Chain Analytics: Transparent Data, Inferred Conclusions"
 image: "/images/posts/on-chain-analytics-transparent-data-inferred-conclusions.jpg"
 topic: "finance"
-description: "Blockchains publish every transaction, which makes on-chain data feel like proof. Most of the charts built on top of it are inferences, and a few of the famous thresholds were calibrated on a market that no longer exists."
+description: "Blockchains publish every transaction, which makes on-chain data feel like proof. Most of the charts built on top of it are inferences, and a few of the…"
 ---
 
 The pitch for on-chain analytics is seductive. Every Bitcoin transaction that has ever settled is sitting in a public ledger you can download and verify yourself. No filings, no quarterly delay, no company deciding what to disclose. When a chart says "whales are accumulating," it feels less like an opinion and more like a fact read off an instrument.

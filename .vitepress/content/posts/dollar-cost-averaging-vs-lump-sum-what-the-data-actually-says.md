@@ -12,7 +12,7 @@ draft: false
 title: "Dollar-Cost Averaging vs. Lump-Sum: What the Data Actually Says"
 image: "/images/posts/dollar-cost-averaging-vs-lump-sum-what-the-data-actually-says.jpg"
 topic: "finance"
-description: "Investing a windfall all at once beats easing it in about two-thirds of the time. Here is what the research actually says, and when dollar-cost averaging still makes sense."
+description: "Investing a windfall all at once beats easing it in about two-thirds of the time. Here is what the research actually says, and when dollar-cost averaging…"
 ---
 
 You just got a windfall. A bonus, an inheritance, the proceeds from selling a house. Now it is sitting in your account doing nothing, and the instinct almost everyone has is to ease it into the market slowly, a slice each month, so you do not put it all in the day before a crash. It feels prudent. It feels like risk management. And most of the time, the math says it quietly costs you money.

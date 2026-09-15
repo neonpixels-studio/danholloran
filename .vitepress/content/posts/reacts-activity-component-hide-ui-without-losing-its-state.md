@@ -5,7 +5,7 @@ draft: false
 title: "React's Activity Component: Hide UI Without Losing Its State"
 image: "/images/posts/reacts-activity-component-hide-ui-without-losing-its-state.jpg"
 topic: "development"
-description: "React 19.2's Activity component hides a subtree instead of unmounting it, so state, scroll position, and DOM survive the round trip. Here's how it behaves, what it does to your Effects, and where it costs you."
+description: "React 19.2's Activity component hides a subtree instead of unmounting it, so state, scroll position, and DOM survive the round trip."
 ---
 
 A user types half a message into the compose tab, flips over to the settings tab to change a

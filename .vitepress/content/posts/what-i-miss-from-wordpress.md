@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/what-i-miss-from-wordpress.jpg"
 title: What I Miss From WordPress & What Ghost Does Better
 topic: development
-description: "An honest comparison list after switching from WordPress to Ghost — the features and familiarity left behind, and the things Ghost genuinely does better for a developer who just wants to write."
+description: "An honest comparison list after switching from WordPress to Ghost — the features and familiarity left behind, and the things Ghost genuinely does better for…"
 ---
 
 I started compiling this list when I first decided to switch from WordPress to Ghost for my personal blog. Just a short list of what I do and do not miss from WordPres, might help if you are trying to make the decision on which to use.

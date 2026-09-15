@@ -5,7 +5,7 @@ draft: false
 title: "Dividend Yield Is a Ratio, Not a Promise"
 image: "/images/posts/dividend-yield-is-a-ratio-not-a-promise.jpg"
 topic: "finance"
-description: "A high dividend yield can mean a company is generating serious cash, or it can mean the share price is falling faster than the payout. Here's how to tell the difference."
+description: "A high dividend yield can mean a company is generating serious cash, or it can mean the share price is falling faster than the payout."
 ---
 
 Sort a stock screener by dividend yield, descending. The top of that list is almost never a list of the best businesses. It's a list of companies whose share price has fallen furthest, fastest. That's not a quirk of the screener. It's arithmetic, and it's the single most misread number in income investing.

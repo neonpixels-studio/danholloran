@@ -15,7 +15,7 @@ title: "Visiting Great Smoky Mountains National Park"
 image: "/images/posts/travel-great-smoky-mountains-national-park.jpg"
 topic: "travel"
 travel_location: "great smoky mountains national park"
-description: "A trip to the Great Smoky Mountains, the most visited national park in the country, where layers of blue-hazed ridgelines stretch to the horizon and old-growth forest fills every hollow."
+description: "A trip to the Great Smoky Mountains, the most visited national park in the country, where layers of blue-hazed ridgelines stretch to the horizon and…"
 ---
 
 The Smokies earn their name. That soft blue haze that settles over the mountains — a natural phenomenon caused by volatile organic compounds released by the trees mixing with moisture — gives the whole range a layered, watercolor quality that photographs never quite capture. I went in early June, just before the summer rush hit its peak, and found the park in that sweet transitional state where the rhododendrons were blooming in bursts of purple and pink along the creek trails while the high ridges still held a cool, damp chill.

@@ -5,7 +5,7 @@ draft: false
 title: "Your Obsidian Plugin List Is a Supply Chain"
 image: "/images/posts/your-obsidian-plugin-list-is-a-supply-chain.jpg"
 topic: "obsidian"
-description: "Obsidian's 2026 Community directory added automated scans and safety scorecards for every plugin version. Here's what that changes, and how to actually audit the plugins already sitting in your vault."
+description: "Obsidian's 2026 Community directory added automated scans and safety scorecards for every plugin version."
 ---
 
 The first time you click **Turn on community plugins**, Obsidian shows you a warning and most of us dismiss it in half a second. Two years later there are thirty-something plugins in the vault, six of which you cannot remember installing, and every single one of them can read every file on your machine.

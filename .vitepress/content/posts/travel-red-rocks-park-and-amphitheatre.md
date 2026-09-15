@@ -7,7 +7,7 @@ title: "Red Rocks: Where the Geology Steals the Show"
 image: "/images/posts/travel-red-rocks-park-and-amphitheatre.jpg"
 topic: "travel"
 travel_location: "red rocks park and amphitheatre, Colorado"
-description: "Red Rocks Park and Amphitheatre near Morrison, Colorado is one of the most striking natural formations in the country — towering sandstone monoliths that happen to double as one of the world's best concert venues."
+description: "Red Rocks Park and Amphitheatre near Morrison, Colorado is one of the most striking natural formations in the country — towering sandstone monoliths that…"
 ---
 
 I'd seen photos of Red Rocks for years before I finally stood inside it, and even then the scale of the place didn't fully register until I walked up to the top of the seating area and turned around. The two massive red sandstone formations — Ship Rock and Creation Rock — rise 300 feet on either side, and between them the city of Denver sits on the horizon like a backdrop someone painted in. It's theatrical in a way that nature rarely manages to be, and yet it's completely, genuinely real.

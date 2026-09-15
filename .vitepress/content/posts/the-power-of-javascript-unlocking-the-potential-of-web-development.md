@@ -5,7 +5,7 @@ tags: ["javascript"]
 date: "2024-05-19T15:06:00.000+00:00"
 draft: false
 topic: development
-description: "An overview of JavaScript's role in modern web development — from cross-browser compatibility and async programming to the React, Angular, and Vue ecosystem that makes building interactive applications more productive."
+description: "An overview of JavaScript's role in modern web development — from cross-browser compatibility and async programming to the React, Angular, and Vue ecosystem…"
 ---
 
 In the world of web development, Javascript has emerged as a powerful and versatile programming language that has transformed the way websites and web applications are built. With its ability to create interactive and dynamic content, Javascript has become an essential tool for developers looking to enhance user experience and functionality. This blog post will explore the key features and benefits of Javascript, as well as its impact on modern web development.

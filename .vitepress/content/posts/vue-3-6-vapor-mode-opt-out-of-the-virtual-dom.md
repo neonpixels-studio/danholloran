@@ -5,7 +5,7 @@ draft: false
 title: "Vue 3.6 Vapor Mode: Opt Out of the Virtual DOM"
 image: "/images/posts/vue-3-6-vapor-mode-opt-out-of-the-virtual-dom.jpg"
 topic: "development"
-description: "Vue 3.6 Vapor Mode eliminates the virtual DOM for opted-in components, delivering SolidJS-level performance without rewriting a single line of your template logic."
+description: "Vue 3.6 Vapor Mode eliminates the virtual DOM for opted-in components, delivering SolidJS-level performance without rewriting a single line of your template…"
 ---
 
 The virtual DOM has been Vue's engine room since day one. It's the layer that diffs what changed in your component tree and figures out the minimal DOM updates needed. For most apps, it's fast enough that you never think about it. But "fast enough" has always meant there was overhead you were silently paying — and now Vue is letting you opt out.

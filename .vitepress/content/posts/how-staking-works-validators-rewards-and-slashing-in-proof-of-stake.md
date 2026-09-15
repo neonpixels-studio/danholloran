@@ -5,7 +5,7 @@ draft: false
 title: "How Staking Actually Works: Validators, Rewards, and Slashing"
 image: "/images/posts/how-staking-works-validators-rewards-and-slashing-in-proof-of-stake.jpg"
 topic: "finance"
-description: "A plain-English look at what happens under the hood when you stake crypto: how validators secure a proof-of-stake network, where the yield comes from, and what slashing really risks."
+description: "A plain-English look at what happens under the hood when you stake crypto: how validators secure a proof-of-stake network, where the yield comes from, and…"
 ---
 
 "Earn 4% on your ETH" sounds a lot like a savings account, and that framing is exactly why staking is so easy to misunderstand. There's no bank paying you interest out of its lending margin. When you stake, you're posting collateral to do a job for a blockchain, and the network is paying you for the work while holding your deposit hostage against you doing it badly. The yield is real, but it comes from a specific place, and so does the risk. Both are worth understanding before the number on the dashboard becomes the only thing you look at.

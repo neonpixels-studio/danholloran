@@ -6,7 +6,7 @@ title: "Face Rock State Scenic Viewpoint"
 image: "/images/posts/travel-face-rock-state-scenic-viewpoint.jpg"
 topic: "travel"
 travel_location: "face rock state scenic viewpoint, Bandon, Oregon"
-description: "A Bandon, Oregon headland with a Native American legend, dramatic sea stacks named Cat and Kitten Rocks, and a stairway trail down to a wild stretch of protected beach."
+description: "A Bandon, Oregon headland with a Native American legend, dramatic sea stacks named Cat and Kitten Rocks, and a stairway trail down to a wild stretch of…"
 ---
 
 Face Rock sits offshore from Bandon on the southern Oregon Coast, a sea stack that the Coquille people called by the face of Ewauna — a chief's daughter turned to stone by a water spirit who caught her when she swam too far from shore. The face is there in the rock if you look: a profile facing skyward, chin tilted up toward the horizon, expression stoic. The Cat and Kitten Rocks nearby complete the story.

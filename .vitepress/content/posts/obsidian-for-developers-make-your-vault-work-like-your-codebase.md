@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian for Developers: Make Your Vault Work Like Your Codebase"
 image: "/images/posts/obsidian-for-developers-make-your-vault-work-like-your-codebase.jpg"
 topic: "obsidian"
-description: "Obsidian is plain-text markdown all the way down, which means the same tools you use on code work on your notes. Here's how to version your vault with Git, get real syntax highlighting, and run JavaScript inside your notes."
+description: "Obsidian is plain-text markdown all the way down, which means the same tools you use on code work on your notes."
 ---
 
 Most note-taking apps treat your writing as something locked inside a proprietary database. You can export, sure, but the canonical copy lives somewhere you don't control, in a format you can't diff. For developers that's a constant low-grade itch. We spend all day in plain-text files under version control, and then we're supposed to keep our actual thinking in a black box?

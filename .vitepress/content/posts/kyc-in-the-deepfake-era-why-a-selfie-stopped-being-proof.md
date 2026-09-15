@@ -5,7 +5,7 @@ draft: false
 title: "KYC in the Deepfake Era: Why a Selfie Stopped Being Proof"
 image: "/images/posts/kyc-in-the-deepfake-era-why-a-selfie-stopped-being-proof.jpg"
 topic: "finance"
-description: "The document-plus-selfie onboarding flow every fintech copied is quietly failing. Here is how identity verification actually works, why injection attacks broke it, and what the layered replacement looks like."
+description: "The document-plus-selfie onboarding flow every fintech copied is quietly failing. Here is how identity verification actually works, why injection attacks…"
 ---
 
 Every fintech onboarding flow looks the same. Snap a photo of your driver's license, take a selfie, wait for a spinner, and you have an account. That pattern has been the default for about a decade, and for most of that decade it worked well enough. It is now the weakest part of the stack.

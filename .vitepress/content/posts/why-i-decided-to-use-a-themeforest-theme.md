@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/why-i-decided-to-use-a-themeforest-theme.jpg"
 title: Why I Decided to Use a Themeforest Theme
 topic: development
-description: "Why buying a Themeforest theme beat spending another weekend at 85% on a custom design — freeing up time and energy for writing and building things that actually matter."
+description: "Why buying a Themeforest theme beat spending another weekend at 85% on a custom design — freeing up time and energy for writing and building things that…"
 ---
 
 I usually get the itch to revamp my personal website every 6 months to a year. I tend to spend a weekend hacking away at my theme and I get about 85% done before feeling stuck. This in turn makes viewing the site a chore which in turn makes it hard to blog. So the majority of the posts I have written in the past are about the redesign of the site. Honestly I no longer feel like my website has to have a theme built by myself.

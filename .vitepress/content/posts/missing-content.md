@@ -1,7 +1,11 @@
 ---
 alert_message: This project is no longer maintained.
 date: "2015-03-10T05:00:00.000+00:00"
-draft: false
+# Unpublished: the body is raw WordPress shortcodes that never render outside
+# WordPress, so the page read as broken/thin content. Kept as a draft (dropped
+# from routes + sitemap) with a 301 in public/_redirects so the previously
+# indexed URL resolves to the blog index instead of a soft 404.
+draft: true
 tags: []
 image: "/images/posts/missing-content.jpg"
 title: Missing Content

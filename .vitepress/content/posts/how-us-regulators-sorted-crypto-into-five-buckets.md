@@ -5,7 +5,7 @@ draft: false
 title: "How US Regulators Sorted Crypto Into Five Buckets"
 image: "/images/posts/how-us-regulators-sorted-crypto-into-five-buckets.jpg"
 topic: "finance"
-description: "For years, whether a token was a security came down to a lawyer's read of a 1946 orange grove case. In 2026 the SEC finally published a taxonomy, and then proposed rules to go with it."
+description: "For years, whether a token was a security came down to a lawyer's read of a 1946 orange grove case. In 2026 the SEC finally published a taxonomy, and then…"
 ---
 
 For most of crypto's history, the question "is this token a security?" had no good answer. You hired a lawyer, they applied the Howey test from a 1946 Supreme Court case about Florida orange groves, and you got back a probability rather than a yes. Projects launched offshore. Exchanges delisted assets after enforcement actions rather than before. The regulatory position was communicated mostly through lawsuits.
