@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Tasks: Query Your Entire Vault and Never Miss a Deadline"
 image: "/images/posts/obsidian-tasks-plugin-query-your-vault.jpg"
 topic: "obsidian"
-description: "The Obsidian Tasks plugin turns scattered checkboxes into a vault-wide task management system — here's how to use its query syntax to build a dashboard that actually keeps you on top of things."
+description: "The Obsidian Tasks plugin turns scattered checkboxes into a vault-wide task management system — here's how to use its query syntax to build a dashboard that…"
 ---
 
 If you've been using Obsidian for a while, you've almost certainly accumulated tasks scattered across dozens of notes. A checkbox in a project file here, a to-do buried in a daily note there, a deadline jotted down in a meeting summary you haven't opened in two weeks. Plain Markdown checkboxes are great for capturing tasks in context, but terrible for getting a birds-eye view of what actually needs to happen today.

@@ -6,7 +6,7 @@ title: "Bonneville Salt Flats"
 image: "/images/posts/travel-bonneville-salt-flats.jpg"
 topic: "travel"
 travel_location: "bonneville salt flats, utah"
-description: "A perfectly flat expanse of salt stretching to the horizon in every direction — one of the most surreal landscapes in North America, where the ground looks like snow and the sky reflects in the surface like water."
+description: "A perfectly flat expanse of salt stretching to the horizon in every direction — one of the most surreal landscapes in North America, where the ground looks…"
 ---
 
 The Bonneville Salt Flats don't look real. You pull off I-80 in northwestern Utah and walk out onto the surface and the ground is hard white salt — perfectly flat, crystalline underfoot — extending in every direction until it meets the mountains on the horizon. The sky is enormous. The silence is total. There's no reference point your brain can use to calibrate distance or scale.

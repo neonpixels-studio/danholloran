@@ -5,7 +5,7 @@ draft: false
 title: "Bun vs Node.js: Should You Actually Switch?"
 image: "/images/posts/bun-vs-nodejs-should-you-switch.jpg"
 topic: "development"
-description: "Bun is fast, ships with a bundler and test runner, and is Node-compatible. But is it actually worth switching your production backend or toolchain? Here's an honest take."
+description: "Bun is fast, ships with a bundler and test runner, and is Node-compatible. But is it actually worth switching your production backend or toolchain?"
 ---
 
 Bun entered the JavaScript runtime conversation with benchmarks that were hard to ignore, and the 1.0 release in 2023 made it a serious option for production use. A year-plus later, with the ecosystem having had time to actually use it, the picture is more nuanced than "Bun is faster, just switch." Here's how to think about it.

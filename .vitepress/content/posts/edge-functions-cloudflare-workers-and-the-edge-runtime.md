@@ -5,7 +5,7 @@ draft: false
 title: "Edge Functions: Running Code Where Your Users Are"
 image: "/images/posts/edge-functions-cloudflare-workers-and-the-edge-runtime.jpg"
 topic: "development"
-description: "Edge functions run your code in data centers close to users, eliminating the latency of a centralized origin server. Here's what they're good for and how to build with them."
+description: "Edge functions run your code in data centers close to users, eliminating the latency of a centralized origin server."
 ---
 
 Traditional serverless functions run in a single region. A user in Tokyo hitting an API deployed in us-east-1 waits for a round trip across the Pacific before getting a response. Edge functions solve this by running your code at hundreds of points of presence worldwide — the compute moves to wherever your users are.

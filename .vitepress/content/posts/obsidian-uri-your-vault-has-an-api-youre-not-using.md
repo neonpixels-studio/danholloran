@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian URI: Your Vault Has an API You're Not Using"
 image: "/images/posts/obsidian-uri-your-vault-has-an-api-youre-not-using.jpg"
 topic: "obsidian"
-description: "Obsidian ships with a custom URI protocol that lets scripts, browsers, and phone shortcuts read and write your vault without you touching the app. Here's how the core actions work and where the Advanced URI plugin picks up the slack."
+description: "Obsidian ships with a custom URI protocol that lets scripts, browsers, and phone shortcuts read and write your vault without you touching the app."
 ---
 
 Most Obsidian capture workflows stop at the app boundary. You have templates, hotkeys, maybe a QuickAdd macro that files things perfectly — and all of it requires you to already be in Obsidian. So the idea you had while reading a changelog in your browser goes into a scratch file, and the note you meant to append from a terminal never gets appended.

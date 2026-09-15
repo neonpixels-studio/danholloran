@@ -6,7 +6,7 @@ draft: false
 title: "DataviewJS: The Escape Hatch When Bases and DQL Run Out"
 image: "/images/posts/dataviewjs-the-escape-hatch-when-bases-and-dql-run-out.jpg"
 topic: "obsidian"
-description: "Bases handles most vault dashboards now, and Dataview's query language covers the rest. DataviewJS is what you reach for when neither can express the thing you actually want."
+description: "Bases handles most vault dashboards now, and Dataview's query language covers the rest. DataviewJS is what you reach for when neither can express the thing…"
 ---
 
 You write a Dataview query, it almost works, and then you hit the wall. You want a table of projects where the third column is a percentage of completed subtasks. Or a list grouped by month, but only months that have more than three entries. Or a rollup that reads a value out of a linked note two hops away. DQL has no arithmetic over grouped children, no early exit, no real branching. You end up writing three queries and eyeballing the results.

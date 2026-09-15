@@ -12,7 +12,7 @@ draft: false
 title: "Neobanks and the Sponsor Bank Model: Who Actually Holds Your Money"
 image: "/images/posts/neobanks-and-the-sponsor-bank-model-who-actually-holds-your-money.jpg"
 topic: "finance"
-description: "Your favorite fintech app probably isn't a bank. Here's the sponsor bank plumbing underneath it, why the ledger matters more than the logo, and what the Synapse collapse exposed."
+description: "Your favorite fintech app probably isn't a bank. Here's the sponsor bank plumbing underneath it, why the ledger matters more than the logo, and what the…"
 ---
 
 Open almost any modern money app and somewhere near the bottom of the screen you will find a line

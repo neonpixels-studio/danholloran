@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/check-out-ghost-inspector.jpg"
 title: Check Out Ghost Inspector
 topic: development
-description: "An introduction to Ghost Inspector, a record-and-replay browser regression testing tool that makes automated UI testing more accessible for small teams without writing Selenium tests by hand."
+description: "An introduction to Ghost Inspector, a record-and-replay browser regression testing tool that makes automated UI testing more accessible for small teams…"
 ---
 
 I saw this cool tool the other day on Twitter [Ghost Inspector ](https://ghostinspector.com) which allows your to record your actions or setup by drag/drop website regression testing. I've done some work with [Nightwatch.js](http://nightwatchjs.org) which helps writing tests for [Selenium](http://www.seleniumhq.org) which allows you test across all the major browsers.

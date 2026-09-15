@@ -6,7 +6,7 @@ title: "Toketee Falls"
 image: "/images/posts/travel-toketee-falls.jpg"
 topic: "travel"
 travel_location: "toketee falls, Oregon"
-description: "A two-tiered 113-foot waterfall framed by perfect columnar basalt in Oregon's Umpqua National Forest — one of the most photographed waterfalls in the Pacific Northwest."
+description: "A two-tiered 113-foot waterfall framed by perfect columnar basalt in Oregon's Umpqua National Forest — one of the most photographed waterfalls in the…"
 ---
 
 Toketee Falls earns its reputation. The North Umpqua River drops 28 feet into a pool at the base of a columnar basalt alcove, then falls another 85 feet into the main pool below — 113 feet total, framed by hexagonal basalt columns that look cut by machine rather than formed by cooling lava. The effect is architectural in a way that natural formations rarely achieve.

@@ -5,7 +5,7 @@ draft: false
 title: "OPFS: A Real File System in the Browser"
 image: "/images/posts/opfs-a-real-file-system-in-the-browser.jpg"
 topic: "development"
-description: "The Origin Private File System gives you byte-level, synchronous file I/O in the browser. Here's how it works, when to reach for it, and why it's the reason SQLite runs well on the web now."
+description: "The Origin Private File System gives you byte-level, synchronous file I/O in the browser. Here's how it works, when to reach for it, and why it's the reason…"
 ---
 
 Every browser storage API asks you to give something up. `localStorage` is synchronous but strings-only and capped at a few megabytes. IndexedDB will hold structured data and blobs, but its API is a transactional maze and you can't read the middle of a file without pulling the whole thing into memory. The File System Access API can touch real files on disk, but it needs a user gesture, a picker dialog, and a permission grant every session, and Safari on iOS won't give you the picker at all.

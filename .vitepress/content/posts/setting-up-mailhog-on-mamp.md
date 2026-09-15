@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/setting-up-mailhog-on-mamp.jpg"
 title: Setting up Mailhog on MAMP
 topic: development
-description: "How to install and configure Mailhog on MAMP so all outgoing mail is intercepted locally during development — preventing test emails from reaching real users while you build and debug."
+description: "How to install and configure Mailhog on MAMP so all outgoing mail is intercepted locally during development — preventing test emails from reaching real…"
 ---
 
 [Mailhog](https://github.com/mailhog/MailHog) is a tool that allows all of your outgoing mail to be intercepted. This is great for your development environment since you may need to test things incrementally. You really do not want your clients or users receiving your test emails.

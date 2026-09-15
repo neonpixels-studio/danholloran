@@ -13,7 +13,7 @@ draft: false
 title: "Obsidian Properties and Frontmatter: Stop Treating Metadata as an Afterthought"
 image: "/images/posts/obsidian-properties-and-frontmatter-a-practical-guide.jpg"
 topic: "obsidian"
-description: "Obsidian's Properties panel makes YAML frontmatter approachable for every note, and pairing it with typed fields and Dataview queries turns your vault into a genuinely queryable database."
+description: "Obsidian's Properties panel makes YAML frontmatter approachable for every note, and pairing it with typed fields and Dataview queries turns your vault into…"
 ---
 
 You add a tag here, a status field there — and suddenly half your notes have inconsistent frontmatter, your Dataview queries keep returning empty tables, and you're not sure which notes even have a `due_date` key. Metadata in Obsidian is powerful, but it's easy to let it sprawl into something unmaintainable.

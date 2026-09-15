@@ -5,7 +5,7 @@ draft: false
 title: "CSS @property: Typed, Animatable Custom Properties"
 image: "/images/posts/css-property-typed-animatable-custom-properties.jpg"
 topic: "development"
-description: "Unregistered CSS custom properties can't animate — they just snap. @property fixes that by giving the browser a type, a default, and an inheritance rule, unlocking smooth transitions for gradients, counters, and design tokens."
+description: "Unregistered CSS custom properties can't animate — they just snap. @property fixes that by giving the browser a type, a default, and an inheritance rule…"
 ---
 
 There's a quiet frustration that hits every developer who first tries to animate a CSS custom property. You write a clean gradient, put the color stop in a variable, add a `transition` — and it snaps. No animation. Just an instant cut from one value to the next.

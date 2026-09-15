@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/vues-js-component-messaging.jpg"
 title: Vue.js Component Messaging
 topic: development
-description: "A walkthrough of how to pass events between sibling Vue.js components — using the root Vue instance as a message bus to dispatch alerts from any component without creating tight parent-child coupling."
+description: "A walkthrough of how to pass events between sibling Vue.js components — using the root Vue instance as a message bus to dispatch alerts from any component…"
 ---
 
 The other day I was working through how to abstract an alert list into its own component. Basically it is an `ul` where each alert is a `li` pretty simple. So using Vue.js, [Browserify](http://browserify.org/), and [Vueify](https://github.com/vuejs/vueify) this is pretty simple but the problem was how do the other components add alerts. I may be missing something however, it does not seem like Vue.js. offers any sort of component to component event system. Well, at least outside of a parent child relationship which I did not want to go that route since multiple components may need to dispatch alerts.

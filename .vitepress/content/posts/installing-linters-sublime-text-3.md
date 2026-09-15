@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/installing-linters-sublime-text-3.jpg"
 title: Installing Linters Sublime Text 3
 topic: development
-description: "How to install and configure SublimeLinter and its language-specific plugins in Sublime Text 3 via Package Control — the right way to get real-time linting in your editor."
+description: "How to install and configure SublimeLinter and its language-specific plugins in Sublime Text 3 via Package Control — the right way to get real-time linting…"
 ---
 
 Sublime Text is one of my favorite editors I have ever used and it has excellent support for linting. This will cover Sublime Text 3 only since the plugin used SublimeLinter went through a major shift from Sublime text 2 to 3. The biggest difference is in ST2 the linters where bundled with the plugin now in ST3 they are created as plugins.

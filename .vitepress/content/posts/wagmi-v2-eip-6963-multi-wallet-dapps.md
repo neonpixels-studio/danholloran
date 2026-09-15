@@ -5,7 +5,7 @@ draft: false
 title: "Connecting Wallets the Right Way: wagmi v2 and EIP-6963"
 image: "/images/posts/wagmi-v2-eip-6963-multi-wallet-dapps.jpg"
 topic: "development"
-description: "The old window.ethereum trick breaks when users have multiple wallets installed. Here's how EIP-6963 and wagmi v2 solve multi-wallet discovery cleanly, with real TypeScript examples."
+description: "The old window.ethereum trick breaks when users have multiple wallets installed. Here's how EIP-6963 and wagmi v2 solve multi-wallet discovery cleanly, with…"
 ---
 
 If you've ever built a dApp and had a user complain that "your site only shows MetaMask even though I have Coinbase Wallet installed," you've run headfirst into the `window.ethereum` problem. For years, every wallet browser extension raced to claim the same global, and whichever one loaded last won. The result was a constant arms race between wallet vendors and a genuinely terrible user experience.

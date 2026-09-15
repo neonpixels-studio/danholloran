@@ -5,7 +5,7 @@ draft: false
 title: "JavaScript Signals: The New Reactivity Primitive Coming to the Platform"
 image: "/images/posts/javascript-signals-the-new-reactivity-primitive.jpg"
 topic: "development"
-description: "Signals are already powering reactivity in Solid, Preact, and Angular. Now there's a TC39 proposal to bring them to the JavaScript language itself — here's what that means."
+description: "Signals are already powering reactivity in Solid, Preact, and Angular. Now there's a TC39 proposal to bring them to the JavaScript language itself — here's…"
 ---
 
 If you've used SolidJS, Preact Signals, Vue's Composition API, or Angular's new reactivity model, you've already worked with signals — even if they weren't called that. The concept is simple: a signal is a reactive value container. Read it and you automatically subscribe to changes; write to it and dependents update. A TC39 proposal is now working to standardize this pattern at the language level.

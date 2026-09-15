@@ -5,7 +5,7 @@ draft: false
 title: "CSS if(): Inline Conditionals for Smarter Styling"
 image: "/images/posts/css-if-function-inline-conditionals.jpg"
 topic: "development"
-description: "CSS finally has native conditional logic with the new if() function — write style queries, media checks, and feature detection directly inside property declarations without extra selectors or JavaScript."
+description: "CSS finally has native conditional logic with the new if() function — write style queries, media checks, and feature detection directly inside property…"
 ---
 
 There's a moment every CSS developer knows: you want to tweak a single property based on some condition — a viewport width, a user preference, a custom property — and instead of a clean one-liner you end up with a whole new `@media` block, duplicated selectors, and maybe a dash of JavaScript to handle the edge cases. It works, but it never feels right.

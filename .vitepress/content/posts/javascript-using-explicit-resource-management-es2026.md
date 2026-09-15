@@ -5,7 +5,7 @@ draft: false
 title: "JavaScript's using Keyword: Automatic Resource Cleanup in ES2026"
 image: "/images/posts/javascript-using-explicit-resource-management-es2026.jpg"
 topic: "development"
-description: "ES2026 introduces the using and await using keywords for automatic resource cleanup — no more forgetting to close that database connection or file handle in a finally block."
+description: "ES2026 introduces the using and await using keywords for automatic resource cleanup — no more forgetting to close that database connection or file handle in…"
 ---
 
 If you've ever opened a database connection, grabbed a file handle, or spun up a worker — and then watched your `try...finally` block balloon into something that felt more like scaffolding than real code — you know the problem. JavaScript has never had a clean built-in way to say "when this block is done, clean _that_ up." Until now.

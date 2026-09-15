@@ -5,7 +5,7 @@ draft: false
 title: "CSS @starting-style: Animate Elements as They Enter the DOM"
 image: "/images/posts/css-starting-style-entry-animations.jpg"
 topic: "development"
-description: "The @starting-style rule gives CSS transitions a starting point when elements first appear, enabling smooth entry animations from display:none or fresh DOM insertion — no JavaScript required."
+description: "The @starting-style rule gives CSS transitions a starting point when elements first appear, enabling smooth entry animations from display:none or fresh DOM…"
 ---
 
 There's a small but persistent frustration in frontend work: CSS transitions are great at animating _between_ states, but they've never had a clean answer for the moment an element first appears. You toggle a class, the element snaps into view, and you're back to writing JavaScript to add a class on the next frame just to trigger the animation. It works, but it's a hack.

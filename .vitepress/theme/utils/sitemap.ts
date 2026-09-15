@@ -1,4 +1,5 @@
 import { existsSync, statSync } from "fs";
+import { execFileSync } from "child_process";
 import { join } from "path";
 import type { UserConfig } from "vitepress";
 import {
@@ -60,21 +61,48 @@ function postLastmod(
   return null;
 }
 
+// The real last-content-change date for a source file: the author date of its
+// most recent commit. File mtime is unreliable as a freshness signal — on a
+// fresh CI clone git doesn't restore mtimes, so every static page degrades to
+// checkout (build) time and signals false freshness on every deploy. Returns
+// null for an untracked file or when git isn't available, so the caller falls
+// back to mtime.
+function gitLastModified(filePath: string): Date | null {
+  try {
+    const iso = execFileSync(
+      "git",
+      ["log", "-1", "--format=%cI", "--", filePath],
+      { cwd: process.cwd(), encoding: "utf-8" },
+    ).trim();
+    return iso ? new Date(iso) : null;
+  } catch {
+    return null;
+  }
+}
+
 // Resolves a stripped URL to the source file that backs it, returning the final
-// URL and its mtime, or null when no source file is found. Directory-index
-// routes (e.g. posts/index.md) keep their trailing slash because the slashless
-// form 301-redirects to it, and a sitemap must list the final URL.
+// URL and its last-modified date, or null when no source file is found.
+// Prefers the git commit date over mtime so a rebuild of an unchanged page
+// doesn't report today's date. Directory-index routes (e.g. posts/index.md)
+// keep their trailing slash because the slashless form 301-redirects to it, and
+// a sitemap must list the final URL.
 function fileEntry(url: string): { url: string; lastmod: Date } | null {
   const base = url || "index";
 
   const filePath = join(process.cwd(), `${base}.md`);
   if (existsSync(filePath)) {
-    return { url, lastmod: statSync(filePath).mtime };
+    return {
+      url,
+      lastmod: gitLastModified(filePath) ?? statSync(filePath).mtime,
+    };
   }
 
   const indexPath = join(process.cwd(), base, "index.md");
   if (existsSync(indexPath)) {
-    return { url: url ? `${url}/` : url, lastmod: statSync(indexPath).mtime };
+    return {
+      url: url ? `${url}/` : url,
+      lastmod: gitLastModified(indexPath) ?? statSync(indexPath).mtime,
+    };
   }
 
   return null;
@@ -87,6 +115,17 @@ function fileEntry(url: string): { url: string; lastmod: Date } | null {
 // published post's date instead: a real, build-stable signal.
 const ARCHIVE_ROUTE = /^posts\/(page|topic|tag)(\/|$)/;
 
+// Archive URLs kept out of the sitemap because they carry `noindex,follow`
+// (see pageTransform.isIndexableArchive): the unfiltered paginated views, every
+// tag page, and any filter's /page/N views. The only archive surfaces that stay
+// in the sitemap are the topic hub page-1 URLs (posts/topic/<topic>), which the
+// negative lookahead preserves.
+const NONINDEXED_ARCHIVE = /^posts\/(page\/|tag(\/|$)|topic\/[^/]+\/page\/)/;
+
+function isSitemapExcluded(url: string): boolean {
+  return url === "README" || NONINDEXED_ARCHIVE.test(url);
+}
+
 function newestPublishedDate(posts: PublishedPost[]): Date | null {
   const newest = posts.find(hasUsableDate);
   return newest ? new Date(newest.sortTime) : null;
@@ -97,7 +136,7 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
   const publishedBySlug = indexBySlug(published);
   const archiveLastmod = newestPublishedDate(published);
   return items
-    .filter((item) => item.url !== "README")
+    .filter((item) => !isSitemapExcluded(item.url.replace(/\/$/, "")))
     .map((item) => {
       const url = item.url.replace(/\/$/, "");
 

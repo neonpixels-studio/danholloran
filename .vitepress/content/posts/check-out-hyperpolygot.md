@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/check-out-hyperpolygot.jpg"
 title: Check Out Hyperpolygot
 topic: development
-description: "A recommendation for Hyperpolyglot, a site that puts JavaScript, PHP, Python, and Ruby side-by-side to show how similar languages really are at a syntax level — great for picking up a new language faster."
+description: "A recommendation for Hyperpolyglot, a site that puts JavaScript, PHP, Python, and Ruby side-by-side to show how similar languages really are at a syntax…"
 ---
 
 If you've been curious how one programming languages syntax matches with another then you should check out [Hyperpolygot](http://hyperpolyglot.org).

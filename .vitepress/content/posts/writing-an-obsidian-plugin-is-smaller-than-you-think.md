@@ -5,7 +5,7 @@ draft: false
 title: "Writing an Obsidian Plugin Is Smaller Than You Think"
 image: "/images/posts/writing-an-obsidian-plugin-is-smaller-than-you-think.jpg"
 topic: "obsidian"
-description: "Most people patch around a missing Obsidian feature with a Templater script and a CSS snippet. The plugin API is often the shorter path, and the surface area you actually need is tiny."
+description: "Most people patch around a missing Obsidian feature with a Templater script and a CSS snippet. The plugin API is often the shorter path, and the surface…"
 ---
 
 Somewhere in your vault there is a workaround. A Templater script that almost does the thing. A CSS snippet that fakes a view Obsidian doesn't have. A Dataview query with a comment above it apologizing for itself. You built it because writing a plugin felt like a bigger commitment than the annoyance justified.

@@ -5,7 +5,7 @@ draft: false
 title: "Astro 5: Content Collections v2 and Server Islands Explained"
 image: "/images/posts/astro-5-content-collections-and-server-islands.jpg"
 topic: "development"
-description: "Astro 5 ships a redesigned Content Layer and a powerful Server Islands feature that brings dynamic personalization to static sites. Here's what changed and why it matters."
+description: "Astro 5 ships a redesigned Content Layer and a powerful Server Islands feature that brings dynamic personalization to static sites."
 ---
 
 Astro has carved out a clear niche: ship as little JavaScript as possible, use any framework you already know for interactive islands, and make content-heavy sites blazing fast by default. Astro 5 continues this trajectory with two significant additions: a redesigned Content Layer and Server Islands — a pattern that might finally retire the "static vs dynamic" binary for content sites.

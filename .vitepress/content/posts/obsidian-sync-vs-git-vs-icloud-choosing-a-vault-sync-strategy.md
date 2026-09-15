@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Sync vs. Git vs. iCloud: Choosing a Vault Sync Strategy"
 image: "/images/posts/obsidian-sync-vs-git-vs-icloud-choosing-a-vault-sync-strategy.jpg"
 topic: "obsidian"
-description: "Your vault is just a folder of Markdown, which makes syncing it feel like a solved problem. It isn't. Here's how Obsidian Sync, Git, and iCloud actually behave once mobile and plugins enter the picture."
+description: "Your vault is just a folder of Markdown, which makes syncing it feel like a solved problem. It isn't. Here's how Obsidian Sync, Git, and iCloud actually…"
 ---
 
 The pitch for Obsidian is that your notes are just Markdown files in a folder on disk. No lock-in, no proprietary database, no vendor between you and your writing. Which makes syncing sound trivial: drop the folder in a cloud drive and you're done.

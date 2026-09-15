@@ -5,7 +5,7 @@ draft: false
 title: "Excalidraw in Obsidian: Visual Thinking That Lives in Your Vault"
 image: "/images/posts/excalidraw-in-obsidian-visual-thinking-that-lives-in-your-vault.jpg"
 topic: "obsidian"
-description: "A practical guide to the Excalidraw Community plugin for Obsidian — how to embed visual diagrams in your vault, link drawings to notes, and build a visual thinking workflow that actually integrates with your PKM."
+description: "A practical guide to the Excalidraw Community plugin for Obsidian — how to embed visual diagrams in your vault, link drawings to notes, and build a visual…"
 ---
 
 Some ideas just refuse to live comfortably in bullet points. You're trying to map out a system, trace a chain of causality, or sketch a UI concept — and the moment you shove it into prose, something important gets lost in the linearization. This is the gap the **Excalidraw** plugin fills.

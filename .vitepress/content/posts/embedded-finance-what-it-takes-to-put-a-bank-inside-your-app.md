@@ -5,7 +5,7 @@ draft: false
 title: "Embedded Finance: What It Actually Takes to Put a Bank Inside Your App"
 image: "/images/posts/embedded-finance-what-it-takes-to-put-a-bank-inside-your-app.jpg"
 topic: "finance"
-description: "Scheduling apps issue debit cards now, and invoicing tools offer loans. Here is the three-layer stack underneath embedded finance, where the money actually comes from, and what the Synapse collapse changed about who has to keep the ledger."
+description: "Scheduling apps issue debit cards now, and invoicing tools offer loans. Here is the three-layer stack underneath embedded finance, where the money actually…"
 ---
 
 A scheduling app for dog groomers issues debit cards. An invoicing tool for contractors offers a working capital loan on the same screen where you send the invoice. A checkout button says "pay in four" and approves you in under a second without you ever visiting a lender's website.

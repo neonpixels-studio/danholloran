@@ -5,7 +5,7 @@ draft: false
 title: "URLPattern: The Browser Finally Has a Built-In Router"
 image: "/images/posts/urlpattern-the-browser-finally-has-a-built-in-router.jpg"
 topic: "development"
-description: "URLPattern went Baseline in late 2025, giving the platform a native, framework-free way to match and parse URLs. Here is how it works and where it earns its place."
+description: "URLPattern went Baseline in late 2025, giving the platform a native, framework-free way to match and parse URLs."
 ---
 
 Every router you have ever used, from Express to React Router, solves the same small problem in its own slightly different way: take a URL, check it against a pattern, and pull out the interesting pieces. `/products/:category/:id` should match `/products/audio/42` and hand you back `category` and `id`. For years the browser had no opinion about this, so we reached for `path-to-regexp`, hand-rolled regular expressions, or leaned on whatever our framework shipped.

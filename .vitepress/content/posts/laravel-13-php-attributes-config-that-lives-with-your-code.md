@@ -5,7 +5,7 @@ draft: false
 title: "Laravel 13 PHP Attributes: Config That Lives With Your Code"
 image: "/images/posts/laravel-13-php-attributes-config-that-lives-with-your-code.jpg"
 topic: "development"
-description: "Laravel 13 expands first-party PHP attributes across controllers, authorization, and queued jobs. Here is what actually changed, and where attributes are still the wrong tool."
+description: "Laravel 13 expands first-party PHP attributes across controllers, authorization, and queued jobs. Here is what actually changed, and where attributes are…"
 ---
 
 You open a job class to work out why it hammered a third-party API twenty-five times before giving up. The answer is not in the class body. It is in a `$tries` property near the top, or a `backoff()` method near the bottom, or neither, because someone set it on the dispatch call instead. The same scavenger hunt happens with controllers: the middleware protecting an action lives in a route file three directories away from the method it protects.

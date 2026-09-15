@@ -5,7 +5,7 @@ draft: false
 title: "Payment Fraud Detection and the False Decline Problem"
 image: "/images/posts/payment-fraud-detection-and-the-false-decline-problem.jpg"
 topic: "finance"
-description: "Card fraud systems score every transaction in well under a second, but the legitimate orders they wrongly reject cost merchants far more than the fraud they catch. A look at risk scoring, 3-D Secure, and the error nobody instruments."
+description: "Card fraud systems score every transaction in well under a second, but the legitimate orders they wrongly reject cost merchants far more than the fraud they…"
 ---
 
 Every online card payment gets a score before it gets an answer. Somewhere between tapping "Pay" and seeing a confirmation, a model looks at the card, the device, the shipping address, how fast the form got filled out, and how many times that card has been tried in the last hour. It produces a number. That number decides whether the payment is approved, challenged, or quietly rejected.

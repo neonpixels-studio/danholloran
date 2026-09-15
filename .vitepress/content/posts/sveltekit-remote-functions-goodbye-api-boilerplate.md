@@ -5,7 +5,7 @@ draft: false
 title: "SvelteKit Remote Functions: Goodbye, API Boilerplate"
 image: "/images/posts/sveltekit-remote-functions-goodbye-api-boilerplate.jpg"
 topic: "development"
-description: "SvelteKit's remote functions let you call type-safe server code straight from your components — no +server.ts endpoints, no fetch wrappers, no manually synced types."
+description: "SvelteKit's remote functions let you call type-safe server code straight from your components — no +server.ts endpoints, no fetch wrappers, no manually…"
 ---
 
 If you've built anything non-trivial in SvelteKit, you know the dance: create a `+server.ts` endpoint, write a `fetch` call on the client, hand-roll the types on both sides, and hope they never drift apart. It works, but it's ceremony — and every new piece of data means doing the dance again.

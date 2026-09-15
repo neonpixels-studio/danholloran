@@ -5,7 +5,7 @@ draft: false
 title: "The Web Locks API: One Tab Does the Work, the Rest Wait"
 image: "/images/posts/the-web-locks-api-one-tab-does-the-work.jpg"
 topic: "development"
-description: "Your app already runs in five tabs at once, and they all think they are in charge. The Web Locks API gives the browser a real mutex so only one of them does the work."
+description: "Your app already runs in five tabs at once, and they all think they are in charge. The Web Locks API gives the browser a real mutex so only one of them does…"
 ---
 
 A user opens your dashboard, then opens it again in a second tab, then leaves a third one parked on another monitor from yesterday. Their access token expires. All three tabs notice at roughly the same instant, and all three fire a refresh request against your auth endpoint. Two of them get back a rotated refresh token that the third has already invalidated, and now the user is staring at a login screen they did nothing to deserve.

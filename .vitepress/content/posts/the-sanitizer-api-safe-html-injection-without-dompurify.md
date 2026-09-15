@@ -5,7 +5,7 @@ draft: false
 title: "The Sanitizer API: Safe HTML Injection Without DOMPurify"
 image: "/images/posts/the-sanitizer-api-safe-html-injection-without-dompurify.jpg"
 topic: "development"
-description: "The browser can now strip XSS from an HTML string during parsing. Here's how setHTML works, why its config can only narrow the allowlist, and how to ship it before Safari catches up."
+description: "The browser can now strip XSS from an HTML string during parsing. Here's how setHTML works, why its config can only narrow the allowlist, and how to ship it…"
 ---
 
 Every codebase I've worked in has the same line hiding somewhere: an `innerHTML` assignment with a `// TODO: sanitize` comment above it that nobody ever got back to. The usual fix is to reach for DOMPurify, ship another 20-odd kilobytes, and move on. It works, but it's a strange arrangement when you look at it directly. DOMPurify has to parse the HTML itself, walk the result, strip the dangerous parts, and serialize it back to a string, which the browser then parses _again_. Two parsers, two interpretations of the same bytes. Mutation XSS is what happens in the gap between them, when the sanitizer's idea of what a string means and the browser's idea quietly disagree.

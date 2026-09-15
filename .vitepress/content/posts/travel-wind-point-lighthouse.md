@@ -6,7 +6,7 @@ title: "Wind Point Lighthouse"
 image: "/images/posts/travel-wind-point-lighthouse.jpg"
 topic: "travel"
 travel_location: "wind point lighthouse"
-description: "One of the oldest and tallest active lighthouses on the Great Lakes, built in 1880 on Lake Michigan north of Racine — tours available and the grounds are always open."
+description: "One of the oldest and tallest active lighthouses on the Great Lakes, built in 1880 on Lake Michigan north of Racine — tours available and the grounds are…"
 ---
 
 Wind Point Lighthouse stands 108 feet tall on a point of land that juts into Lake Michigan north of Racine, Wisconsin, and it has been lit continuously since November 15, 1880. It was designed by Orlando Metcalfe Poe, a Civil War brigadier general who also designed other Great Lakes lighthouses, and it remains one of the oldest active lighthouses on the lakes.

@@ -5,7 +5,7 @@ draft: false
 title: "revalidateTag vs updateTag: Next.js Split Cache Invalidation in Two"
 image: "/images/posts/revalidatetag-vs-updatetag-nextjs-split-cache-invalidation-in-two.jpg"
 topic: "development"
-description: "Next.js 16 gave cache invalidation two different functions instead of one, and the split maps to a real distinction: content that can lag versus content the user just typed."
+description: "Next.js 16 gave cache invalidation two different functions instead of one, and the split maps to a real distinction: content that can lag versus content the…"
 ---
 
 There is a bug I have written at least three times. An editor updates a product description in the CMS, hits publish, refreshes the page, and sees the old copy. So I add an on-demand revalidation webhook. Then a logged-in user submits a form, gets redirected to the detail page, and sees their own submission missing. Same cache, same invalidation call, two completely different expectations about what "invalidate" means.

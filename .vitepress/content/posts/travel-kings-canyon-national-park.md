@@ -15,7 +15,7 @@ title: "Visiting Kings Canyon National Park"
 image: "/images/posts/travel-kings-canyon-national-park.jpg"
 topic: "travel"
 travel_location: "kings canyon national park"
-description: "Exploring Kings Canyon National Park in California's Sierra Nevada, where one of the deepest canyons in North America meets towering sequoias and pristine granite wilderness."
+description: "Exploring Kings Canyon National Park in California's Sierra Nevada, where one of the deepest canyons in North America meets towering sequoias and pristine…"
 ---
 
 Kings Canyon tends to live in the shadow of its more famous neighbor to the north — Yosemite draws the crowds, the Instagram posts, the bucket lists — but if you show up at Kings Canyon in June you'll find a park that's every bit as spectacular and considerably less packed. The canyon itself, carved by the Kings River through the western slope of the Sierra Nevada, is one of the deepest in North America. Standing at the rim and looking down is one of those disorienting moments where scale stops making sense in the most satisfying way.

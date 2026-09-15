@@ -5,7 +5,7 @@ draft: false
 title: "Vite 8 + Rolldown: Rust-Powered Builds That Are 10–30x Faster"
 image: "/images/posts/vite-8-rolldown-rust-powered-builds.jpg"
 topic: "development"
-description: "Vite 8 replaces its dual esbuild/Rollup pipeline with Rolldown, a Rust-based bundler that delivers 10–30x faster production builds — and real teams are already seeing dramatic results."
+description: "Vite 8 replaces its dual esbuild/Rollup pipeline with Rolldown, a Rust-based bundler that delivers 10–30x faster production builds — and real teams are…"
 ---
 
 If you've ever watched a production build spin for a minute while your terminal mocks you with its progress bar, Vite 8's arrival is worth paying attention to. The headline change is a new bundler under the hood — Rolldown — and the performance numbers coming out of early adopters are hard to ignore.

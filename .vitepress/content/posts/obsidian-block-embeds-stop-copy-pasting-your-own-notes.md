@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Block Embeds: Stop Copy-Pasting Your Own Notes"
 image: "/images/posts/obsidian-block-embeds-stop-copy-pasting-your-own-notes.jpg"
 topic: "obsidian"
-description: "Whole-note embeds are the easy part. Block references are where transclusion in Obsidian actually pays off, and where one misplaced caret silently breaks everything."
+description: "Whole-note embeds are the easy part. Block references are where transclusion in Obsidian actually pays off, and where one misplaced caret silently breaks…"
 ---
 
 You wrote a clean definition of your deploy process once, in a note called `Deploy Runbook`. Six months later that same paragraph lives in four other notes, and three of them are wrong. Copy-paste is the quiet killer of a vault: it feels efficient in the moment, and it guarantees that some day you will trust a stale version of your own thinking.

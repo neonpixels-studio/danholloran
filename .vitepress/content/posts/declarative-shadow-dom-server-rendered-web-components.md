@@ -5,7 +5,7 @@ draft: false
 title: "Declarative Shadow DOM: Web Components That Render Before Your JavaScript Does"
 image: "/images/posts/declarative-shadow-dom-server-rendered-web-components.jpg"
 topic: "development"
-description: "Shadow DOM used to mean a blank page until your bundle loaded. The shadowrootmode attribute changed that, and it has been in every major browser since early 2024."
+description: "Shadow DOM used to mean a blank page until your bundle loaded. The shadowrootmode attribute changed that, and it has been in every major browser since early…"
 ---
 
 The classic knock on web components was never encapsulation. It was the blank rectangle. You shipped a `<user-card>` to the browser, the parser saw an unknown element with nothing inside it, and the actual content did not exist until your JavaScript downloaded, parsed, executed, defined the custom element, called `attachShadow()`, and stamped a template into it. Server rendering, the thing every framework spent a decade optimizing, simply did not work: a shadow root could only be created imperatively, so there was nothing to serialize and nothing to send.

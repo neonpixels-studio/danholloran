@@ -5,7 +5,7 @@ draft: false
 title: "The Navigation API: Stop Wrestling with history.pushState"
 image: "/images/posts/the-navigation-api-stop-wrestling-with-history-pushstate.jpg"
 topic: "development"
-description: "The Navigation API hit Baseline in early 2026, giving SPAs a single, purpose-built place to intercept and manage routing. Here's why it finally replaces the History API."
+description: "The Navigation API hit Baseline in early 2026, giving SPAs a single, purpose-built place to intercept and manage routing."
 ---
 
 If you have ever hand-rolled a router, you know the ritual. You call `history.pushState`, then you wire up a `popstate` listener, then you discover `popstate` does not fire for `pushState` so you patch the URL change separately, then you intercept every link click yourself, then you give up and reach for a framework router. The History API was never designed for single-page apps. It was a thin patch bolted onto multi-page navigation, and we have spent more than a decade working around its gaps.

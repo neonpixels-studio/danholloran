@@ -15,7 +15,7 @@ title: "Visiting Yellowstone National Park"
 image: "/images/posts/travel-yellowstone-national-park.jpg"
 topic: "travel"
 travel_location: "yellowstone national park"
-description: "Exploring Yellowstone in October, when the crowds thin and the elk rut fills the valleys with bugling, and the geysers and hot springs feel all the more surreal against the cool autumn air."
+description: "Exploring Yellowstone in October, when the crowds thin and the elk rut fills the valleys with bugling, and the geysers and hot springs feel all the more…"
 ---
 
 I went to Yellowstone in October because someone told me it was the best month, and they were right. The summer crush had cleared out, the aspen groves around the park perimeter had turned gold, and the elk rut was in full swing — which means that at dawn and dusk, the valleys around Mammoth Hot Springs and the Madison River filled with the strange, haunting sound of bull elk bugling. It's one of those sounds that defies description; somewhere between a screech and a roar, echoing across a landscape that was already behaving in ways that shouldn't be possible.

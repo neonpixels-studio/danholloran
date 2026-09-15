@@ -5,7 +5,7 @@ draft: false
 title: "CSS text-box-trim: The End of Fudging Vertical Padding"
 image: "/images/posts/css-text-box-trim-the-end-of-fudging-vertical-padding.jpg"
 topic: "development"
-description: "Buttons that look bottom-heavy at padding: 12px aren't your fault, they're half-leading. text-box-trim finally lets CSS cut that invisible space, and it goes Baseline this month."
+description: "Buttons that look bottom-heavy at padding: 12px aren't your fault, they're half-leading. text-box-trim finally lets CSS cut that invisible space, and it…"
 ---
 
 You give a button `padding: 12px` and it comes out looking bottom-heavy. So you split it: `padding: 10px 12px 14px`, squint, nudge the numbers, ship it. Two sprints later design swaps the type family and every one of those hand-tuned values is wrong again, because the new font reserves a different amount of invisible space than the old one did.

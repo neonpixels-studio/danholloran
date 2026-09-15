@@ -15,7 +15,7 @@ title: "Visiting Badlands National Park"
 image: "/images/posts/travel-badlands-national-park.jpg"
 topic: "travel"
 travel_location: "badlands national park"
-description: "A November drive through Badlands National Park in South Dakota, where sharply eroded spires and layered clay formations rise abruptly from the prairie in a landscape that looks like it belongs on Mars."
+description: "A November drive through Badlands National Park in South Dakota, where sharply eroded spires and layered clay formations rise abruptly from the prairie in a…"
 ---
 
 The Badlands come at you fast. You're driving through the flat, unbroken grasslands of southwestern South Dakota — which go on for a very long time — and then suddenly the earth drops away and you're looking at something that doesn't look like it belongs on this continent. Sharply eroded spires of clay and siltstone rise from the prairie floor in striped layers of ash-grey, tan, and rust, arranged in formations that look like a city designed by an alien architect. I went in November, when the grass had gone dormant and brown and the formations took on a particularly desolate quality that felt exactly right.

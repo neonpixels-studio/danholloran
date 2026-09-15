@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Workspaces: Stop Rebuilding Your Layout Every Time You Switch Tasks"
 image: "/images/posts/obsidian-workspaces-stop-rebuilding-your-layout-every-time-you-switch-tasks.jpg"
 topic: "obsidian"
-description: "Workspaces is a core Obsidian plugin that saves your entire pane layout under a name and restores it in one command. Here's how to design layouts worth saving, and the gotcha that trips everyone up."
+description: "Workspaces is a core Obsidian plugin that saves your entire pane layout under a name and restores it in one command."
 ---
 
 There is a particular kind of friction that never shows up on anyone's list of Obsidian complaints, because it feels like your own fault. You sit down to write, so you close the graph view, collapse the right sidebar, open the outline pane, and pull up your research note in a split. Twenty minutes later you switch to reviewing tasks, and you tear the whole thing down and build a different arrangement. Then you go to capture something quickly and do it a third time.

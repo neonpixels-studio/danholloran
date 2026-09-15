@@ -6,4 +6,7 @@ public/grimicorn-themes
 .vitepress/data/location-geocache.json
 public/grimicorn-neon-themes
 _scratch.md
+_claude-questions.md
+_claude-todo.md
+_claude-output.md
 .vitepress/data/visited-map-fingerprint.json

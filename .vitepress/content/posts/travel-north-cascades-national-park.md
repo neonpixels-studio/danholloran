@@ -15,7 +15,7 @@ title: "Visiting North Cascades National Park"
 image: "/images/posts/travel-north-cascades-national-park.jpg"
 topic: "travel"
 travel_location: "north cascades national park"
-description: "A trip through North Cascades National Park in Washington, where jagged alpine peaks, the highest concentration of glaciers in the lower 48 states, and jade-green lakes make for some of the most dramatic mountain scenery in North America."
+description: "A trip through North Cascades National Park in Washington, where jagged alpine peaks, the highest concentration of glaciers in the lower 48 states, and…"
 ---
 
 If you want to see mountains that look like mountains — sharp, aggressive, white-capped, serious — North Cascades is the park to go to. It doesn't have the accessibility of Rainier or the fame of Glacier, but the terrain is arguably more dramatic than either: vertical walls of dark metamorphic rock rising above jade-colored lakes, glaciers sitting in cirques at every turn, ridgelines so ragged they look like something tore them apart. I went in late July, which is about as good as it gets — snow cleared from the road, wildflowers out in the meadows, the air cool and dry and impossibly clear.

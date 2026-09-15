@@ -2,6 +2,12 @@ import { SITE_URL } from "./constants";
 import resume from "../../data/resume";
 import socialLinks from "../../data/socialLinks";
 
+// The public brand ("Dan Holloran") shown in the h1, <title>, and og:site_name.
+// The structured-data entity name must match it, with the full legal name
+// ("Danny Holloran") carried as alternateName so both resolve to one entity.
+export const AUTHOR_NAME = `${resume.shortFirstName} ${resume.lastName}`;
+const AUTHOR_ALTERNATE_NAME = `${resume.firstName} ${resume.lastName}`;
+
 // Characters that must be neutralized when embedding JSON inside an HTML
 // <script> element. Unicode escapes keep the payload valid JSON (a parser
 // decodes them back) while preventing a value like "</script>" from breaking
@@ -55,7 +61,8 @@ export function pageMeta(opts: {
 export const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: `${resume.firstName} ${resume.lastName}`,
+  name: AUTHOR_NAME,
+  alternateName: AUTHOR_ALTERNATE_NAME,
   url: SITE_URL,
   image: `${SITE_URL}${resume.photo}`,
   jobTitle: resume.headline,
@@ -80,7 +87,7 @@ export const personJsonLd = {
 // with a logo for Article structured data).
 export const publisherJsonLd = {
   "@type": "Organization",
-  name: `${resume.firstName} ${resume.lastName}`,
+  name: AUTHOR_NAME,
   logo: {
     "@type": "ImageObject",
     url: `${SITE_URL}/images/apple-touch-icon.png`,
@@ -90,7 +97,7 @@ export const publisherJsonLd = {
 export const profilePageJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  name: `${resume.firstName} ${resume.lastName} – Resume`,
+  name: `${AUTHOR_NAME} – Resume`,
   url: `${SITE_URL}/resume`,
   mainEntity: { ...personJsonLd, "@context": undefined },
 };
@@ -124,7 +131,7 @@ export function themeJsonLd(opts: {
     },
     author: {
       "@type": "Person",
-      name: `${resume.firstName} ${resume.lastName}`,
+      name: AUTHOR_NAME,
       url: SITE_URL,
     },
   };

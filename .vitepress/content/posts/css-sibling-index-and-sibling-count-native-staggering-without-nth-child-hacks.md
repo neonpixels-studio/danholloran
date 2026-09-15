@@ -5,7 +5,7 @@ draft: false
 title: "CSS sibling-index() and sibling-count(): Native Staggering Without nth-child Hacks"
 image: "/images/posts/css-sibling-index-and-sibling-count-native-staggering-without-nth-child-hacks.jpg"
 topic: "development"
-description: "CSS sibling-index() and sibling-count() turn an element's position into a number you can drop into calc(), replacing walls of nth-child rules and inline JavaScript for staggered animations and math-driven layouts."
+description: "CSS sibling-index() and sibling-count() turn an element's position into a number you can drop into calc(), replacing walls of nth-child rules and inline…"
 ---
 
 If you have ever built a staggered animation, where menu items or cards fade in one after another instead of all at once, you know the ritual. You reach for `:nth-child()`, then you write out a delay for the first item, the second, the third, and you keep going until you run out of patience or elements. Add a row to the list and the whole hand-tuned ladder is off by one. It is the kind of code that works but quietly resents you.

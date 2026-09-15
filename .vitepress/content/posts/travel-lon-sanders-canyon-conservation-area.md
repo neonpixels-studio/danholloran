@@ -6,7 +6,7 @@ title: "Lon Sanders Canyon Conservation Area"
 image: "/images/posts/travel-lon-sanders-canyon-conservation-area.jpg"
 topic: "travel"
 travel_location: "lon sanders canyon conservation area"
-description: "A short Ozark hike through a rocky gorge with hand-cut stone steps, small waterfalls, and the alleged hideout of the Jesse James gang after the Gads Hill robbery."
+description: "A short Ozark hike through a rocky gorge with hand-cut stone steps, small waterfalls, and the alleged hideout of the Jesse James gang after the Gads Hill…"
 ---
 
 Lon Sanders Canyon Conservation Area is about two and a quarter hours southwest of St. Louis, just outside Piedmont, and it rewards the drive with a compact version of the Ozarks at their most atmospheric.

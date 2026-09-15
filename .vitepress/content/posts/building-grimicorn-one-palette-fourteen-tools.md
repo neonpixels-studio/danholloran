@@ -5,7 +5,7 @@ draft: false
 title: "Building Grimicorn: One Palette, Fourteen Tools"
 image: "/images/posts/building-grimicorn-one-palette-fourteen-tools.jpg"
 topic: "development"
-description: "How I turned a single calm, low-fatigue color palette into matching dark and light themes for VS Code, terminals, Obsidian, Claude Code and ten other tools — all generated from one source of truth."
+description: "How I turned a single calm, low-fatigue color palette into matching dark and light themes for VS Code, terminals, Obsidian, Claude Code and ten other tools…"
 ---
 
 A typical day moves through a lot of windows. Editor, terminal, a git client, a notes app, and lately an agentic coding tool or two. Each one ships its own default theme, and even when you pick a "good" one in each, the seams show: the blue that means _keyword_ in your editor means _directory_ in your shell and _link_ in your notes. Your eyes re-learn the color language every time you switch context. It is a small tax, but you pay it hundreds of times a day.

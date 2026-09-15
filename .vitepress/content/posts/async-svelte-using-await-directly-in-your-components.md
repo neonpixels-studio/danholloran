@@ -5,7 +5,7 @@ draft: false
 title: "Async Svelte: Using await Directly in Your Components"
 image: "/images/posts/async-svelte-using-await-directly-in-your-components.jpg"
 topic: "development"
-description: "Svelte 5.36 lets you use await at the top level of a component, inside $derived, and in your markup. Here is how synchronized updates, boundaries, and $effect.pending() fit together."
+description: "Svelte 5.36 lets you use await at the top level of a component, inside $derived, and in your markup."
 ---
 
 Every Svelte codebase eventually grows a little pile of scaffolding around asynchronous data. A `let data = $state(null)`, an `$effect` that fetches and assigns, a `loading` flag, an `error` flag, and a `{#if loading}` in the template. Or the `{#await}` block, which is fine for one promise but nests badly the moment you need two. Either way, you end up writing plumbing rather than describing your UI.

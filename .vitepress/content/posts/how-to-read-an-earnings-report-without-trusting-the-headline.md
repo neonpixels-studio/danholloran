@@ -5,7 +5,7 @@ draft: false
 title: "How to Read an Earnings Report Without Trusting the Headline"
 image: "/images/posts/how-to-read-an-earnings-report-without-trusting-the-headline.jpg"
 topic: "finance"
-description: "The number at the top of an earnings press release is the number the company chose to put there. Here is where the actual information lives: the reconciliation table, the cash flow statement, and the guidance."
+description: "The number at the top of an earnings press release is the number the company chose to put there. Here is where the actual information lives: the…"
 ---
 
 Four times a year a company publishes a press release with a large, friendly number near the top. "Second quarter adjusted earnings per share of $1.42, up 18% year over year." The headline writes itself, the number is accurate, and the stock drops nine percent in after-hours trading.

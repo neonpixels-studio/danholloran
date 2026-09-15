@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Canvas: Turn Your Vault Into a Visual Thinking Space"
 image: "/images/posts/obsidian-canvas-turn-your-vault-into-a-visual-thinking-space.jpg"
 topic: "obsidian"
-description: "How to use Obsidian's Canvas core plugin for project planning, brainstorming, and connecting notes spatially — plus a look at the open JSON Canvas format and the Advanced Canvas community plugin."
+description: "How to use Obsidian's Canvas core plugin for project planning, brainstorming, and connecting notes spatially — plus a look at the open JSON Canvas format…"
 ---
 
 Some ideas just don't want to live in a linear document. You're planning a project, mapping out an article, or trying to untangle how a dozen notes relate to each other — and a single scrolling Markdown file forces everything into a top-to-bottom order that your brain didn't ask for.

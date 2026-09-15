@@ -5,7 +5,7 @@ draft: false
 title: "GraphQL Fragments: Let Each Component Own Its Data"
 image: "/images/posts/graphql-fragments-let-each-component-own-its-data.jpg"
 topic: "development"
-description: "GraphQL fragments let each component declare exactly the fields it needs, eliminating overfetching and the hidden dependencies that make GraphQL codebases painful to refactor."
+description: "GraphQL fragments let each component declare exactly the fields it needs, eliminating overfetching and the hidden dependencies that make GraphQL codebases…"
 ---
 
 A GraphQL query looks clean when you first write it. One request, all the data you need, no waterfall. Then the app grows. The top-level page query starts picking up fields for five different child components. You add an avatar URL for a new `<UserBadge>` and six weeks later you remove the component but forget the field. Nobody knows what's safe to delete. The query keeps growing.

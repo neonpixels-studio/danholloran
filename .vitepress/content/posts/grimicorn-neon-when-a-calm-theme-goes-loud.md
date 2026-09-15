@@ -5,7 +5,7 @@ draft: false
 title: "Grimicorn Neon: When a Calm Theme Goes Loud"
 image: "/images/posts/grimicorn-neon-when-a-calm-theme-goes-loud.jpg"
 topic: "development"
-description: "The high-voltage variant of Grimicorn keeps every semantic role and swaps in eight electric hexes. Here's what changes, what doesn't, and the contrast tradeoff that makes neon-on-black a deliberate choice."
+description: "The high-voltage variant of Grimicorn keeps every semantic role and swaps in eight electric hexes. Here's what changes, what doesn't, and the contrast…"
 ---
 
 The original Grimicorn was an exercise in restraint: muted pastels on a blue-gray base, tuned so nothing on screen ever burns your eyes. Grimicorn Neon is the opposite impulse. Same grim-reaper-meets-unicorn idea, except this one is plugged into the mains — saturated, glowing accents on a near-black base, dark-only, loud on purpose.

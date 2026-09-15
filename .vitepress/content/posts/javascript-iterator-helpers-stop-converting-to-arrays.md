@@ -5,7 +5,7 @@ draft: false
 title: "JavaScript Iterator Helpers: Stop Converting to Arrays First"
 image: "/images/posts/javascript-iterator-helpers-stop-converting-to-arrays.jpg"
 topic: "development"
-description: "Iterator helpers bring map, filter, take, and drop to any iterator without spreading into an array first. They went Baseline in 2025, and they change how you handle Maps, Sets, and generators."
+description: "Iterator helpers bring map, filter, take, and drop to any iterator without spreading into an array first."
 ---
 
 You have a `Set` of user IDs, or a `Map` of cache entries, or a generator streaming rows out of a parser. You want the first ten that match a condition. So you reach for the move you have made a thousand times: spread it into an array, call `.filter()`, then `.slice(0, 10)`.

@@ -5,7 +5,7 @@ tags: []
 image: "/images/posts/setting-up-your-shell.jpg"
 title: Setting Up Your Shell
 topic: development
-description: "A beginner-friendly guide to setting up a better terminal on Mac — installing iTerm2, switching to zsh, and customizing colors and fonts so the command line feels less intimidating and more powerful."
+description: "A beginner-friendly guide to setting up a better terminal on Mac — installing iTerm2, switching to zsh, and customizing colors and fonts so the command line…"
 ---
 
 So you want to setup your shell thats awesome! This will be primarily relevant to Mac OS X since if your on Linux you should already be comfortable with the shell and if your on Windows I'm sorry even though Windows 10 does look pretty cool. I will go through some basic configuration of iTerm 2 and get zshell setup.

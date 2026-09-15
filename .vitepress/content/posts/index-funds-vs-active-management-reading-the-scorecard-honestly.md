@@ -12,7 +12,7 @@ draft: false
 title: "Index Funds vs. Active Management: Reading the Scorecard Honestly"
 image: "/images/posts/index-funds-vs-active-management-reading-the-scorecard-honestly.jpg"
 topic: "finance"
-description: "The SPIVA scorecards are the most-cited evidence in the passive-versus-active debate. Here is what they actually measure, why survivorship and persistence do more work than any single year's headline, and where the argument gets genuinely interesting."
+description: "The SPIVA scorecards are the most-cited evidence in the passive-versus-active debate. Here is what they actually measure, why survivorship and persistence…"
 ---
 
 Every scorecard season the same headline goes around: most active managers lost to the index again. For 2025 the number was 79% of active U.S. large-cap equity funds trailing the S&P 500, up sharply from 65% the year before, and the fourth-worst showing for stock pickers in the 25-year history of the SPIVA scorecards.

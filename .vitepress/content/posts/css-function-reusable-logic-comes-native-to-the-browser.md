@@ -5,7 +5,7 @@ draft: false
 title: "CSS @function: Reusable Logic Comes Native to the Browser"
 image: "/images/posts/css-function-reusable-logic-comes-native-to-the-browser.jpg"
 topic: "development"
-description: "CSS finally has real, reusable functions. The new @function at-rule lets you define typed helpers that run in the browser with live values — here is how it works and where it is supported today."
+description: "CSS finally has real, reusable functions. The new @function at-rule lets you define typed helpers that run in the browser with live values — here is how it…"
 ---
 
 For years, the honest answer to "can I write my own function in CSS?" was "no, use Sass." You wanted to name a bit of logic, hand it some arguments, and get a value back. CSS gave you custom properties and `calc()`, which are genuinely powerful, but the moment you needed a value that depended on its inputs you were back in a preprocessor. That gap is finally closing. The `@function` at-rule lets you define real, reusable functions that run in the browser, at runtime, with live custom-property values flowing through them.

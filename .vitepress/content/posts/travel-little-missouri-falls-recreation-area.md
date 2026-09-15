@@ -6,7 +6,7 @@ title: "Little Missouri Falls Recreation Area"
 image: "/images/posts/travel-little-missouri-falls-recreation-area.jpg"
 topic: "travel"
 travel_location: "little missouri falls recreation area"
-description: "A series of cascading rock shelves on the Little Missouri River deep in Arkansas Ouachita National Forest — quiet, beautiful, and the start of the Eagle Rock Loop."
+description: "A series of cascading rock shelves on the Little Missouri River deep in Arkansas Ouachita National Forest — quiet, beautiful, and the start of the Eagle…"
 ---
 
 The Little Missouri Falls Recreation Area is located in the southern portion of Ouachita National Forest in Arkansas, about 32 miles northwest of Glenwood, and reaching it requires driving forest roads long enough that you start to feel genuinely remote before you arrive. That feeling is appropriate.

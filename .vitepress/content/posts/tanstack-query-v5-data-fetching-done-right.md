@@ -5,7 +5,7 @@ draft: false
 title: "TanStack Query v5: Data Fetching Done Right"
 image: "/images/posts/tanstack-query-v5-data-fetching-done-right.jpg"
 topic: "development"
-description: "TanStack Query v5 cleaned up the API, unified the mental model, and added first-class support for infinite queries and streaming. Here's what changed and why the library remains the standard."
+description: "TanStack Query v5 cleaned up the API, unified the mental model, and added first-class support for infinite queries and streaming."
 ---
 
 If you've spent any time managing server state in a React app, you've probably reached for TanStack Query (formerly React Query). Version 5 landed with a smaller, more consistent API and a handful of genuinely useful additions. If you're still on v4 or evaluating the library for the first time, here's what you need to know.

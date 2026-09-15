@@ -5,7 +5,7 @@ draft: false
 title: "Vite 6: What's New and Why the Environment API Changes Everything"
 image: "/images/posts/vite-6-whats-new.jpg"
 topic: "development"
-description: "Vite 6 arrived in late 2024 with the new Environment API at its core. Here's what changed, what it means for framework authors, and what you need to update in your projects."
+description: "Vite 6 arrived in late 2024 with the new Environment API at its core. Here's what changed, what it means for framework authors, and what you need to update…"
 ---
 
 Vite 6 dropped in November 2024 and has been described by the core team as the most significant major release since Vite 2. The headline feature is the Environment API — a low-level abstraction that unlocks more accurate SSR dev experiences — but there's plenty more worth knowing before you upgrade.

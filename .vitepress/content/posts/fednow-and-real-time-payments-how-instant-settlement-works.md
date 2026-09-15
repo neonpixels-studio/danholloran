@@ -5,7 +5,7 @@ draft: false
 title: "FedNow and Real-Time Payments: How Instant Settlement Actually Works"
 image: "/images/posts/fednow-and-real-time-payments-how-instant-settlement-works.jpg"
 topic: "finance"
-description: "Most Americans still wait one to three days for bank transfers to clear. FedNow is the Federal Reserve's answer to that — but how does instant settlement actually work under the hood?"
+description: "Most Americans still wait one to three days for bank transfers to clear. FedNow is the Federal Reserve's answer to that — but how does instant settlement…"
 ---
 
 If you've ever sent money to a friend and watched the "pending" status sit there for two days, you've brushed up against one of the stranger anachronisms in modern finance. We can stream 4K video across the planet in milliseconds, but moving money between two U.S. bank accounts often takes longer than mailing a check. The Automated Clearing House (ACH) network, which handles most everyday transfers, was designed in the 1970s and still operates on batch cycles — your transfer sits in a queue until the next processing window, which might not run until the following business day.

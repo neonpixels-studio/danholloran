@@ -5,7 +5,7 @@ draft: false
 title: "How Automated Market Makers Price Your Swap"
 image: "/images/posts/how-automated-market-makers-price-your-swap.jpg"
 topic: "finance"
-description: "There is no order book behind a decentralized exchange swap. There is a formula. Here is the math that sets the price, and why liquidity providers can lose money while doing everything right."
+description: "There is no order book behind a decentralized exchange swap. There is a formula. Here is the math that sets the price, and why liquidity providers can lose…"
 ---
 
 The first time you swap tokens on a decentralized exchange, the thing that should surprise you is that nobody is on the other side of the trade. There is no buyer matching your sell, no market maker quoting a spread, no order book at all. You send tokens into a contract, the contract sends different tokens back, and the price you got was decided by arithmetic that fits on one line.

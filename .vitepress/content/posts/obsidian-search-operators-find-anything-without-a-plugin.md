@@ -12,7 +12,7 @@ draft: false
 title: "Obsidian Search Operators: Find Anything Without a Plugin"
 image: "/images/posts/obsidian-search-operators-find-anything-without-a-plugin.jpg"
 topic: "obsidian"
-description: "Obsidian's core Search has a real query language hiding behind the search box. Here's how file, path, line, block, section, task, and property operators replace half the plugins people install to find things."
+description: "Obsidian's core Search has a real query language hiding behind the search box. Here's how file, path, line, block, section, task, and property operators…"
 ---
 
 You know the note exists. You wrote it. Something about a Postgres connection pool, in a meeting note or a daily note, sometime last spring. So you type `postgres` in the search box, get forty-seven results, and start scrolling. That scroll is the moment most people go looking for a search plugin.

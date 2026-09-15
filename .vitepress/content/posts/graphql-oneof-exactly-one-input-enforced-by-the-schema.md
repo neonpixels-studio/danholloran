@@ -5,7 +5,7 @@ draft: false
 title: "GraphQL @oneOf: Exactly One Input, Enforced by the Schema"
 image: "/images/posts/graphql-oneof-exactly-one-input-enforced-by-the-schema.jpg"
 topic: "development"
-description: "OneOf Input Objects landed in the September 2025 GraphQL spec, which means the exactly-one-of-these-arguments rule you've been enforcing in resolver code is now something the type system can do for you."
+description: "OneOf Input Objects landed in the September 2025 GraphQL spec, which means the exactly-one-of-these-arguments rule you've been enforcing in resolver code is…"
 ---
 
 Every GraphQL schema I've worked on eventually grows a field that can be looked up more than one way. You want a user by ID, or by email, or by username. The type system has no way to say "exactly one of these," so you pick one of two bad options: three root fields that do the same thing, or one field with three nullable arguments and a pile of validation at the top of the resolver.

@@ -5,7 +5,7 @@ draft: false
 title: "GraphQL Trusted Documents: Stop Letting Strangers Write Your Queries"
 image: "/images/posts/graphql-trusted-documents-stop-letting-strangers-write-your-queries.jpg"
 topic: "development"
-description: "Disabling introspection is not security. Trusted documents let your server execute only the operations your own developers wrote, and you probably already have the tooling for it."
+description: "Disabling introspection is not security. Trusted documents let your server execute only the operations your own developers wrote, and you probably already…"
 ---
 
 Somewhere in your codebase there is a GraphQL endpoint sitting on the public internet, and it will happily execute any document a stranger sends it. Maybe you turned off introspection and called it a day. That is security through obscurity, and it holds up about as well as you'd expect: attackers pull field names out of error messages, sniff the network traffic your own app produces, or just fuzz until something returns a 200.

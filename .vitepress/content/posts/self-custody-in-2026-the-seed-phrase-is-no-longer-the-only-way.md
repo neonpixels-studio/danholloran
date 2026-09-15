@@ -5,7 +5,7 @@ draft: false
 title: "Self-Custody in 2026: The Seed Phrase Is No Longer the Only Way"
 image: "/images/posts/self-custody-in-2026-the-seed-phrase-is-no-longer-the-only-way.jpg"
 topic: "finance"
-description: "Twelve words on a piece of paper used to be the whole story of crypto self-custody. Passkeys, MPC, and smart accounts have quietly changed what that phrase actually protects."
+description: "Twelve words on a piece of paper used to be the whole story of crypto self-custody. Passkeys, MPC, and smart accounts have quietly changed what that phrase…"
 ---
 
 For about a decade, the entire user experience of crypto self-custody came down to twelve or twenty-four words scrawled on a piece of paper. Lose the paper, lose the money. Photograph the paper, and anyone who gets into your camera roll owns the money. There was no reset link, no support desk, no second chance. That harshness was sold as a feature: not your keys, not your coins.

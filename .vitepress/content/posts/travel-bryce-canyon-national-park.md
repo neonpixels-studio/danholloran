@@ -13,7 +13,7 @@ title: "Bryce Canyon: The Park That Looks Like a Dream"
 image: "/images/posts/travel-bryce-canyon-national-park.jpg"
 topic: "travel"
 travel_location: "bryce canyon national park"
-description: "Bryce Canyon National Park in southern Utah holds the largest concentration of hoodoos on Earth — thousands of tall, narrow rock spires in shades of red, orange, and white that fill the amphitheater like a frozen crowd."
+description: "Bryce Canyon National Park in southern Utah holds the largest concentration of hoodoos on Earth — thousands of tall, narrow rock spires in shades of red…"
 ---
 
 The first lookout at Bryce Canyon gave me a moment of genuine disorientation. I've seen a lot of desert geology, but nothing that looks like this. The amphitheater below the rim is full of hoodoos — thousands of tall, narrow rock spires ranging from the size of a person to 150 feet high — and they're packed so densely, with such variation in color and shape, that the whole thing reads as visual noise before your brain reassembles it into something coherent. Then you start picking out individual formations: Thor's Hammer, the Wall of Windows, the dark slot canyons between the spires. It takes a few minutes to land.

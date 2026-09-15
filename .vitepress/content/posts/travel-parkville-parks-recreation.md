@@ -6,7 +6,7 @@ title: "Parkville Parks & Recreation"
 image: "/images/posts/travel-parkville-parks-recreation.jpg"
 topic: "travel"
 travel_location: "parkville parks & recreation, Missouri"
-description: "A charming historic town on the Missouri River with riverfront parks, a nature sanctuary, and a downtown that actually delivers on its small-town character promise."
+description: "A charming historic town on the Missouri River with riverfront parks, a nature sanctuary, and a downtown that actually delivers on its small-town character…"
 ---
 
 Parkville sits twenty minutes northwest of downtown Kansas City on the south bank of the Missouri River, and it delivers on its promise in a way that historic small towns don't always. The architecture is intact. The downtown is walkable and has actual things in it — shops, restaurants, art galleries — rather than just storefronts waiting for tenants.

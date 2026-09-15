@@ -5,7 +5,7 @@ draft: false
 title: "Templater for Obsidian: Stop Writing the Same Thing Twice"
 image: "/images/posts/templater-plugin-stop-writing-the-same-thing-twice.jpg"
 topic: "obsidian"
-description: "The Templater plugin turns Obsidian's static template system into a real automation engine — dynamic dates, user prompts, folder triggers, and optional JavaScript make note creation genuinely effortless."
+description: "The Templater plugin turns Obsidian's static template system into a real automation engine — dynamic dates, user prompts, folder triggers, and optional…"
 ---
 
 Every Obsidian user eventually hits the same wall. You create a new meeting note and spend the first thirty seconds typing the date, filling in the same status field, adding the same tags you always add. You do this for project notes, book notes, weekly reviews. The core Templates plugin helps a little — it can insert a fixed block of text — but it has no idea what time it is, it can't ask you for input, and it won't run automatically when you create a new file.

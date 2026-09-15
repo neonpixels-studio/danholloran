@@ -5,7 +5,7 @@ draft: false
 title: "The PARA Method in Obsidian: A Practical Guide to Organizing Your Vault"
 image: "/images/posts/the-para-method-in-obsidian-a-practical-guide.jpg"
 topic: "obsidian"
-description: "Learn how to implement the PARA method in Obsidian to organize your vault by actionability — Projects, Areas, Resources, and Archives — and finally stop losing track of what matters."
+description: "Learn how to implement the PARA method in Obsidian to organize your vault by actionability — Projects, Areas, Resources, and Archives — and finally stop…"
 ---
 
 If you've ever opened Obsidian, stared at a growing pile of notes, and wondered where anything actually goes, you're not alone. Most people start with good intentions — maybe a folder for "Work", one for "Personal", one for "Ideas" — and end up with a chaotic mess within a month. The PARA method offers a different approach: organize by what you're going to _do_ with information, not by what it _is_.

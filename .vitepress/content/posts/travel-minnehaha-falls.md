@@ -6,7 +6,7 @@ title: "Minnehaha Falls"
 image: "/images/posts/travel-minnehaha-falls.jpg"
 topic: "travel"
 travel_location: "minnehaha falls, Minneapolis, MN"
-description: "A 53-foot waterfall tucked inside a park in the middle of Minneapolis — an unexpected natural landmark in an urban setting, with a creek gorge trail that makes you forget you're in a city."
+description: "A 53-foot waterfall tucked inside a park in the middle of Minneapolis — an unexpected natural landmark in an urban setting, with a creek gorge trail that…"
 ---
 
 Minnehaha Falls is not what you expect to find inside a city. Minneapolis, technically — Minnehaha Park is right in the urban grid, surrounded by neighborhoods, accessible by light rail. And then there's this 53-foot waterfall dropping into a limestone gorge, with a creek trail below it that winds through overhanging bluffs and exposed bedrock, and it's just there, in the middle of everything.

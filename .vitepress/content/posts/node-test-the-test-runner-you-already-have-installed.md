@@ -5,7 +5,7 @@ draft: false
 title: "node --test: The Test Runner You Already Have Installed"
 image: "/images/posts/node-test-the-test-runner-you-already-have-installed.jpg"
 topic: "development"
-description: "Node's built-in test runner has been stable since v20 and now handles mocking, coverage, watch mode, and TypeScript files. Here's what it does well and where it still falls short."
+description: "Node's built-in test runner has been stable since v20 and now handles mocking, coverage, watch mode, and TypeScript files."
 ---
 
 Every new Node library starts the same way. `npm init`, write two functions, and then spend twenty minutes deciding between Vitest and Jest for a package that has no browser code, no JSX, and no transform pipeline worth speaking of. You install a test framework, a config file, and a transitive dependency tree that dwarfs the thing you're actually testing.

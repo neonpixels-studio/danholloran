@@ -6,7 +6,7 @@ title: "Mt. Rainier"
 image: "/images/posts/travel-mt-rainier.jpg"
 topic: "travel"
 travel_location: "mt. rainier, Washington"
-description: "An active stratovolcano at 14,410 feet dominating western Washington — glaciers, wildflower meadows at Paradise, and views that make the rest of the range look small."
+description: "An active stratovolcano at 14,410 feet dominating western Washington — glaciers, wildflower meadows at Paradise, and views that make the rest of the range…"
 ---
 
 Mount Rainier is visible from Seattle on clear days, rising above the surrounding Cascades to a height that makes other mountains look like foothills. At 14,410 feet it's the highest peak in the Cascades and the most heavily glaciated mountain in the contiguous United States — 26 named glaciers, including Carbon and Emmons, the latter being the largest glacier by area in the lower 48.

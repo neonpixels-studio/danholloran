@@ -5,7 +5,7 @@ draft: false
 title: "Zustand: Lightweight State Management That Stays Out of Your Way"
 image: "/images/posts/zustand-lightweight-state-management-that-stays-out-of-your-way.jpg"
 topic: "development"
-description: "Zustand is a minimal global state library for React that skips the boilerplate entirely. Here's how it works, when to reach for it, and patterns that scale well."
+description: "Zustand is a minimal global state library for React that skips the boilerplate entirely. Here's how it works, when to reach for it, and patterns that scale…"
 ---
 
 Global state in React has a complicated history. Redux introduced rigorous patterns but at a verbosity cost that led to years of middleware wrappers trying to smooth it over. Context works for low-frequency updates but is famously problematic for high-frequency state. Zustand occupies a comfortable middle ground: it's a tiny library (around 1KB) that gives you a global store with minimal ceremony and no opinions about folder structure.

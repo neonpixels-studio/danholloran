@@ -5,7 +5,7 @@ draft: false
 title: "CSS light-dark(): Stop Duplicating Your Dark Mode Colors"
 image: "/images/posts/css-light-dark-stop-duplicating-your-dark-mode-colors.jpg"
 topic: "development"
-description: "The CSS light-dark() function collapses your two dark-mode palettes into a single declaration. Here is how it works, the color-scheme gotcha that trips everyone up, and how to wire up a manual theme toggle."
+description: "The CSS light-dark() function collapses your two dark-mode palettes into a single declaration. Here is how it works, the color-scheme gotcha that trips…"
 ---
 
 Dark mode used to mean writing every color twice. You would define your palette, then duplicate the whole thing inside a `@media (prefers-color-scheme: dark)` block, flipping each value by hand. Miss one selector and you get white text on a white background in the one theme you forgot to test. The `light-dark()` CSS function collapses that duplication into a single declaration, and it has been Baseline since 2024, so you can reach for it in production today.

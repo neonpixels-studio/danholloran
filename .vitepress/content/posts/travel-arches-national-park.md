@@ -7,7 +7,7 @@ title: "Arches National Park: 2,000 Reasons to Go"
 image: "/images/posts/travel-arches-national-park.jpg"
 topic: "travel"
 travel_location: "arches national park"
-description: "Arches National Park in southeastern Utah holds the world's highest concentration of natural stone arches — over 2,000 of them — in a landscape so otherworldly it barely feels like it belongs to this planet."
+description: "Arches National Park in southeastern Utah holds the world's highest concentration of natural stone arches — over 2,000 of them — in a landscape so…"
 ---
 
 There's a particular light that hits the sandstone at Arches in the late afternoon, just before the sun drops behind the La Sal Mountains, and it turns everything the color of an ember. The rock goes from red to orange to something that doesn't have a good name, and the arches just hang there against whatever blue is left in the sky. I've seen a lot of parks. That light, at that hour, in that place — I'm not sure anything has topped it.

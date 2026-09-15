@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Bases: Native Database Views Without Dataview"
 image: "/images/posts/obsidian-bases-native-database-views-without-dataview.jpg"
 topic: "obsidian"
-description: "Bases is Obsidian's built-in core plugin for turning notes and their properties into live tables and cards. Here's how the syntax works and when to reach for it instead of Dataview."
+description: "Bases is Obsidian's built-in core plugin for turning notes and their properties into live tables and cards."
 ---
 
 For years, the answer to "how do I query my notes like a database?" in Obsidian was a single word: Dataview. It's a brilliant community plugin, but it asks you to learn a query language that lives only inside code blocks, renders read-only output, and quietly breaks the moment you hand your vault to someone who hasn't installed it. Bases changes that calculus. It ships **inside Obsidian** as a core plugin, so there's nothing to install, and it treats your frontmatter properties as columns in a real, interactive table.

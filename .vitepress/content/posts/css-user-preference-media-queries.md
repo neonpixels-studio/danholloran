@@ -5,7 +5,7 @@ draft: false
 title: "CSS User Preference Media Queries: Build Accessible Experiences Without JavaScript"
 image: "/images/posts/css-user-preference-media-queries.jpg"
 topic: "development"
-description: "A practical guide to prefers-reduced-motion, prefers-color-scheme, prefers-contrast, and forced-colors — the CSS media queries that respect user accessibility settings with zero JavaScript."
+description: "A practical guide to prefers-reduced-motion, prefers-color-scheme, prefers-contrast, and forced-colors — the CSS media queries that respect user…"
 ---
 
 Your users have already told your browser what they need. They've toggled "Reduce Motion" in System Settings, switched their OS to dark mode, or cranked up contrast because their display washes out in sunlight. The question is whether your CSS is listening.
