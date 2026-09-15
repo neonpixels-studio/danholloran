@@ -32,16 +32,28 @@ const DEFAULT_FRONTMATTER = {
   description: "An example post.",
 };
 
-// Every case here only varies `tags`; hoisting the rest of the frontmatter
-// keeps each test focused on the one thing it's proving.
-function makeRawPostWithTags(tags: unknown): ContentData {
+const DEFAULT_URL = "/.vitepress/content/posts/example-post";
+
+// Most cases only vary one or two frontmatter fields; hoisting the rest of
+// the frontmatter keeps each test focused on the one thing it's proving.
+// `url` is a separate parameter (not a frontmatter override) so a future
+// frontmatter field literally named `url` can't be silently rerouted onto
+// the ContentData record instead of into frontmatter.
+function makeRawPost(
+  frontmatterOverrides: Record<string, unknown> = {},
+  url: string = DEFAULT_URL,
+): ContentData {
   return {
-    url: "/.vitepress/content/posts/example-post",
+    url,
     src: undefined,
     html: undefined,
     excerpt: undefined,
-    frontmatter: { ...DEFAULT_FRONTMATTER, tags },
+    frontmatter: { ...DEFAULT_FRONTMATTER, ...frontmatterOverrides },
   } as ContentData;
+}
+
+function makeRawPostWithTags(tags: unknown): ContentData {
+  return makeRawPost({ tags });
 }
 
 describe("search.data.ts list loader", () => {
@@ -63,13 +75,10 @@ describe("transformSearchData", () => {
     // so an unescaped version would also match "/xvitepress/content/posts/"
     // and strip it down to "example-post" — the same href as a real post at
     // the actual content-folder path, a silent collision.
-    const rawPost = {
-      url: "/xvitepress/content/posts/example-post",
-      src: undefined,
-      html: undefined,
-      excerpt: undefined,
-      frontmatter: { ...DEFAULT_FRONTMATTER, tags: [] },
-    } as ContentData;
+    const rawPost = makeRawPost(
+      { tags: [] },
+      "/xvitepress/content/posts/example-post",
+    );
 
     const [item] = transformSearchData([rawPost]);
 
@@ -115,6 +124,69 @@ describe("transformSearchData", () => {
     const [item] = transformSearchData([makeRawPostWithTags(["js", 3, null])]);
 
     expect(item.kw).toBe("An example post. development js");
+  });
+
+  it("omits the topic segment from desc and kw when topic is missing, instead of rendering literal undefined", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: undefined, tags: [] }),
+    ]);
+
+    expect(item.desc).not.toContain("undefined");
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("omits the topic segment when topic is a bare null key", () => {
+    // Frontmatter YAML with a bare `topic:` key (no value) parses to `null`;
+    // the `typeof === "string"` guard treats it the same as a missing key.
+    const [item] = transformSearchData([
+      makeRawPost({ topic: null, tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("omits the topic segment when topic is an empty or blank string", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: "   ", tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("drops a non-string topic instead of laundering it into desc/kw", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: 2025, tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("trims whitespace around a valid topic in desc and kw", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: "  development  ", tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("development · Jan 1, 2025");
+    expect(item.kw).toBe("An example post. development");
+  });
+
+  it("does not leave a leading space in kw when description is missing but topic is present", () => {
+    // Pins `.filter(Boolean)` on the kw join: without it, a missing
+    // description leaves an empty leading segment that joins into a
+    // leading space ahead of the topic instead of being dropped.
+    const [item] = transformSearchData([
+      makeRawPost({
+        description: undefined,
+        topic: "development",
+        tags: ["js"],
+      }),
+    ]);
+
+    expect(item.kw).toBe("development js");
   });
 });
 
