@@ -12,7 +12,11 @@ vi.mock("fs", () => {
   };
 });
 
-vi.mock("../../theme/utils/frontmatter", () => ({
+// Only parseFrontmatter needs stubbing (it's the fs/yaml boundary); pull the
+// real coerceFrontmatterString through importOriginal so this suite exercises
+// the actual coercion policy instead of a hand-copy that could drift from it.
+vi.mock("../../theme/utils/frontmatter", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../theme/utils/frontmatter")>()),
   parseFrontmatter: vi.fn(),
 }));
 

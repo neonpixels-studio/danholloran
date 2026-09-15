@@ -2,6 +2,7 @@ import { createContentLoader } from "vitepress";
 import type { ContentData } from "vitepress";
 import { PostSearchItem } from "@typedefs";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
+import { coerceFrontmatterString } from "../../theme/utils/frontmatter.ts";
 import { formatPostDate } from "../../theme/utils/formatDate.ts";
 import { POSTS_GLOB, resolvePublishedDate, toSlug } from "./transformPosts.ts";
 
@@ -45,9 +46,13 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
         const tags = normalizeTags(frontmatter.tags).filter(
           (tag): tag is string => typeof tag === "string",
         );
+        // `title` was previously an unchecked cast, so a post missing/misusing
+        // the frontmatter key reached AppSearch's highlight(), which throws on
+        // .toLowerCase() once a query is typed. coerceFrontmatterString guards it.
+        const title = coerceFrontmatterString(frontmatter.title);
         return {
           type: "post" as const,
-          title: frontmatter.title as string,
+          title,
           // Join only the parts that exist rather than special-casing one
           // side — an absent topic must not leave an orphan " · " leading
           // the date, and an absent date must not leave a trailing one.
