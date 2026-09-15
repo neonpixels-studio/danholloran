@@ -7,5 +7,5 @@ exports[`HomeView > renders correctly 1`] = `
 <home-contact-stub></home-contact-stub>
 <home-travel-map-stub></home-travel-map-stub>
 <home-blog-stub></home-blog-stub>
-<home-instagram-stub></home-instagram-stub>"
+<!-- <HomeInstagram /> hidden while the Instagram account is disabled -->"
 `;

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import type { ContentData } from "vitepress";
 import type { PostSearchItem } from "@typedefs";
 import { transformSearchData } from "../../content/posts/search.data.ts";
@@ -32,13 +32,19 @@ const DEFAULT_FRONTMATTER = {
   description: "An example post.",
 };
 
-// Shared shape for every fixture; each caller only overrides the frontmatter
-// keys it's testing, keeping every test focused on the one thing it's proving.
+const DEFAULT_URL = "/.vitepress/content/posts/example-post";
+
+// Most cases only vary one or two frontmatter fields; hoisting the rest of
+// the frontmatter keeps each test focused on the one thing it's proving.
+// `url` is a separate parameter (not a frontmatter override) so a future
+// frontmatter field literally named `url` can't be silently rerouted onto
+// the ContentData record instead of into frontmatter.
 function makeRawPost(
-  frontmatterOverrides: Record<string, unknown>,
+  frontmatterOverrides: Record<string, unknown> = {},
+  url: string = DEFAULT_URL,
 ): ContentData {
   return {
-    url: "/.vitepress/content/posts/example-post",
+    url,
     src: undefined,
     html: undefined,
     excerpt: undefined,
@@ -69,10 +75,10 @@ describe("transformSearchData", () => {
     // so an unescaped version would also match "/xvitepress/content/posts/"
     // and strip it down to "example-post" — the same href as a real post at
     // the actual content-folder path, a silent collision.
-    const rawPost = {
-      ...makeRawPost({ tags: [] }),
-      url: "/xvitepress/content/posts/example-post",
-    };
+    const rawPost = makeRawPost(
+      { tags: [] },
+      "/xvitepress/content/posts/example-post",
+    );
 
     const [item] = transformSearchData([rawPost]);
 
@@ -123,7 +129,7 @@ describe("transformSearchData", () => {
   // A raw `as string` cast left `title` as whatever the frontmatter key held
   // — including undefined — and AppSearch's highlight() calls .toLowerCase()
   // on `item.title` once a query is typed, throwing on anything non-string.
-  // These three cases pin the coercion policy: missing/null becomes "", and a
+  // These cases pin the coercion policy: missing/null becomes "", and a
   // non-string scalar is stringified rather than silently dropped.
   it("passes a normal string title through unchanged", () => {
     const [item] = transformSearchData([makeRawPostWithTags([])]);
@@ -155,5 +161,163 @@ describe("transformSearchData", () => {
     ]);
 
     expect(item.title).toBe("");
+  });
+
+  it("omits the topic segment from desc and kw when topic is missing, instead of rendering literal undefined", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: undefined, tags: [] }),
+    ]);
+
+    expect(item.desc).not.toContain("undefined");
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("omits the topic segment when topic is a bare null key", () => {
+    // Frontmatter YAML with a bare `topic:` key (no value) parses to `null`;
+    // the `typeof === "string"` guard treats it the same as a missing key.
+    const [item] = transformSearchData([
+      makeRawPost({ topic: null, tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("omits the topic segment when topic is an empty or blank string", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: "   ", tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("drops a non-string topic instead of laundering it into desc/kw", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: 2025, tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.kw).toBe("An example post.");
+  });
+
+  it("trims whitespace around a valid topic in desc and kw", () => {
+    const [item] = transformSearchData([
+      makeRawPost({ topic: "  development  ", tags: [] }),
+    ]);
+
+    expect(item.desc).toBe("development · Jan 1, 2025");
+    expect(item.kw).toBe("An example post. development");
+  });
+
+  it("does not leave a leading space in kw when description is missing but topic is present", () => {
+    // Pins `.filter(Boolean)` on the kw join: without it, a missing
+    // description leaves an empty leading segment that joins into a
+    // leading space ahead of the topic instead of being dropped.
+    const [item] = transformSearchData([
+      makeRawPost({
+        description: undefined,
+        topic: "development",
+        tags: ["js"],
+      }),
+    ]);
+
+    expect(item.kw).toBe("development js");
+  });
+});
+
+describe("transformSearchData date handling", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("sorts a post with an unparseable date last and warns instead of scrambling order", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const goodPost = makeRawPostWithTags([]);
+    const badDatePost = {
+      ...makeRawPostWithTags([]),
+      url: "/.vitepress/content/posts/bad-date-post",
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: "not-a-date", tags: [] },
+    } as ContentData;
+
+    // Bad-date post is passed first to prove it is actively re-sorted last,
+    // not merely left where it started.
+    const sorted = transformSearchData([badDatePost, goodPost]);
+
+    expect(sorted.map((item) => item.href)).toEqual([
+      "/posts/example-post",
+      "/posts/bad-date-post",
+    ]);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("unparseable date"),
+    );
+  });
+
+  it("does not render 'Invalid Date' into desc when the frontmatter date is unparseable", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const badDatePost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: "not-a-date", tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([badDatePost]);
+
+    expect(item.desc).not.toContain("Invalid Date");
+    expect(item.desc).toBe("development");
+  });
+
+  it("renders the formatted date into desc when the frontmatter date is valid", () => {
+    const [item] = transformSearchData([makeRawPostWithTags([])]);
+
+    expect(item.desc).toBe("development · Jan 1, 2025");
+  });
+
+  it("treats a null frontmatter date as unparseable rather than rendering the epoch", () => {
+    // `new Date(null).getTime()` is 0, not NaN — a bare `date:` YAML key
+    // (which parses to `null`) must not silently sort as the epoch and
+    // format as "Jan 1, 1970".
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const nullDatePost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: null, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([nullDatePost]);
+
+    expect(item.desc).toBe("development");
+    expect(item.desc).not.toContain("1970");
+  });
+
+  it("omits the separator instead of leaving a dangling ' · ' when topic is missing", () => {
+    // Special-casing only the date side of the join would leave an orphan
+    // leading " · " once topic is falsy; both sides must be optional.
+    const untopicedPost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, topic: undefined, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([untopicedPost]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.desc.startsWith(" · ")).toBe(false);
+  });
+
+  it("falls back to an empty desc, not a dangling separator, when both topic and date are missing", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const bareRawPost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: {
+        ...DEFAULT_FRONTMATTER,
+        topic: undefined,
+        date: "not-a-date",
+        tags: [],
+      },
+    } as ContentData;
+
+    const [item] = transformSearchData([bareRawPost]);
+
+    expect(item.desc).toBe("");
   });
 });
