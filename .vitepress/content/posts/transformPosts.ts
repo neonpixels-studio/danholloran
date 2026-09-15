@@ -10,36 +10,68 @@ import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 // restart for both loaders to pick up the change.
 export const POSTS_GLOB = ".vitepress/content/posts/*.md";
 
-function toSlug(url: string): string {
+// Shared by transformPosts and search.data.ts so both loaders derive the same
+// href from the same content-loader url. fallow doesn't traverse `*.data.ts`
+// loaders (see ignorePatterns in .fallowrc.json), so it can't see
+// search.data.ts's import of this export — that's why it's also listed in
+// .fallowrc.json's ignoreExports, to avoid a false "unused export" flag.
+export function toSlug(url: string): string {
   return url
     .replace(/\/\.vitepress\/content\/posts\//g, "")
     .replace(/\/posts\//g, "");
 }
 
+// The sort key and "is this safe to format" flag for a post's date.
+// transformPosts and search.data.ts both need this; sharing one resolver
+// means the two loaders can't drift on what counts as an invalid date, and
+// the NaN-detection/warn logic itself lives in exactly one place.
+type PublishedDate = {
+  sortTime: number;
+  isValid: boolean;
+};
+
 // A missing or malformed frontmatter date would make the sort comparator
 // return NaN, which Array.prototype.sort treats as "equal" — leaving the post
-// in its (arbitrary) glob position, possibly the featured slot. Mirror
-// generateFeed's behaviour: warn loudly and sort the post last (oldest)
-// instead of letting a typo scramble the list order.
-function publishedTime(post: ContentData): number {
+// in its (arbitrary) glob position, possibly the featured slot — and would
+// render the literal string "Invalid Date" wherever the raw date gets
+// formatted. `date: null`/`date:` (bare key) parses to
+// `new Date(null).getTime() === 0`, not NaN, so an empty date would otherwise
+// sort to the epoch and format as "Jan 1, 1970" with no warning; the falsy
+// guard below routes it through the same unparseable path as a typo'd
+// string. Mirror generateFeed's behaviour: warn loudly, sort the post last
+// (oldest), and flag the date unusable via `isValid` so a caller that checks
+// it can skip formatting the raw value. `transformPosts` itself does not yet
+// check `isValid` for its own rendered surfaces (HomeBlog/PostsView/PostView
+// format `frontmatter.date` directly) — only search.data.ts consumes the
+// flag today; see the PR's follow-up suggestions.
+export function resolvePublishedDate(post: ContentData): PublishedDate {
+  if (!post.frontmatter.date) {
+    console.warn(
+      `resolvePublishedDate: post "${post.url}" has no date; sorting it last`,
+    );
+    return { sortTime: 0, isValid: false };
+  }
   const time = new Date(post.frontmatter.date).getTime();
   if (Number.isNaN(time)) {
     console.warn(
-      `transformPosts: post "${post.url}" has an unparseable date ` +
+      `resolvePublishedDate: post "${post.url}" has an unparseable date ` +
         `"${post.frontmatter.date}"; sorting it last`,
     );
-    return 0;
+    return { sortTime: 0, isValid: false };
   }
-  return time;
+  return { sortTime: time, isValid: true };
 }
 
 export function transformPosts(raw: ContentData[]): Post[] {
   // Decorate each post with its parsed publish time before sorting so
-  // publishedTime (and its warn on a bad date) runs once per post rather than
-  // once per comparison.
+  // resolvePublishedDate (and its warn on a bad date) runs once per post
+  // rather than once per comparison.
   return raw
     .filter(({ frontmatter }) => !frontmatter.draft)
-    .map((post) => ({ post, publishedAt: publishedTime(post) }))
+    .map((post) => ({
+      post,
+      publishedAt: resolvePublishedDate(post).sortTime,
+    }))
     .sort((a, b) => b.publishedAt - a.publishedAt)
     .map(({ post: { src, excerpt: _excerpt, ...post } }): Post => {
       const slug = toSlug(post.url);
@@ -60,9 +92,10 @@ export function transformPosts(raw: ContentData[]): Post[] {
         frontmatter: {
           // vitepress types raw frontmatter as `Record<string, any>`, so TS
           // can't verify it matches PostMeta at this spread. Malformed dates
-          // already get a loud runtime warning above (publishedTime); other
-          // malformed/missing fields are not yet validated at build time —
-          // this cast only silences the type error, it doesn't add safety.
+          // already get a loud runtime warning above (resolvePublishedDate);
+          // other malformed/missing fields are not yet validated at build
+          // time — this cast only silences the type error, it doesn't add
+          // safety.
           ...(post.frontmatter as PostMeta),
           slug,
           readTime: calculateReadTime(src ?? ""),

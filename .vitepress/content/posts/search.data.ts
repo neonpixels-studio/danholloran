@@ -2,7 +2,8 @@ import { createContentLoader } from "vitepress";
 import type { ContentData } from "vitepress";
 import { PostSearchItem } from "@typedefs";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
-import { POSTS_GLOB } from "./transformPosts.ts";
+import { formatPostDate } from "../../theme/utils/formatDate.ts";
+import { POSTS_GLOB, resolvePublishedDate, toSlug } from "./transformPosts.ts";
 
 declare const data: PostSearchItem[];
 export { data };
@@ -15,37 +16,41 @@ export { data };
 // policy of dropping non-string tags rather than coercing them into a
 // laundered keyword.
 export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
-  return raw
-    .filter(({ frontmatter }) => !frontmatter.draft)
-    .sort(
-      (a, b) =>
-        new Date(b.frontmatter.date).getTime() -
-        new Date(a.frontmatter.date).getTime(),
-    )
-    .map(({ frontmatter, url }) => {
-      const slug = url
-        .replace(/\/\.vitepress\/content\/posts\//g, "")
-        .replace(/\/posts\//g, "");
-      const date = new Date(frontmatter.date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-      const tags = normalizeTags(frontmatter.tags).filter(
-        (tag): tag is string => typeof tag === "string",
-      );
-      return {
-        type: "post" as const,
-        title: frontmatter.title as string,
-        desc: `${frontmatter.topic} · ${date}`,
-        href: `/posts/${slug}`,
-        kw: [
-          frontmatter.description ?? "",
-          frontmatter.topic ?? "",
-          ...tags,
-        ].join(" "),
-      };
-    });
+  return (
+    raw
+      .filter(({ frontmatter }) => !frontmatter.draft)
+      // Decorate each post with its resolved publish date before sorting, so
+      // resolvePublishedDate (and its warn on a bad date) runs once per post
+      // rather than once per comparison — same shape as transformPosts.
+      .map((post) => ({ post, published: resolvePublishedDate(post) }))
+      .sort((a, b) => b.published.sortTime - a.published.sortTime)
+      .map(({ post: { frontmatter, url }, published }) => {
+        const slug = toSlug(url);
+        const topic = (frontmatter.topic as string | undefined) ?? "";
+        // An unparseable date already warned inside resolvePublishedDate;
+        // formatting it anyway would render the literal string "Invalid Date"
+        // into the search result's desc, so fall back to the topic alone.
+        // formatPostDate is the same formatter every other post surface
+        // (HomeBlog, PostsView, PostView) uses, so the search index can't
+        // drift from them on locale/timezone.
+        const date = published.isValid
+          ? formatPostDate(frontmatter.date)
+          : undefined;
+        const tags = normalizeTags(frontmatter.tags).filter(
+          (tag): tag is string => typeof tag === "string",
+        );
+        return {
+          type: "post" as const,
+          title: frontmatter.title as string,
+          // Join only the parts that exist rather than special-casing one
+          // side — an absent topic must not leave an orphan " · " leading
+          // the date, and an absent date must not leave a trailing one.
+          desc: [topic, date].filter(Boolean).join(" · "),
+          href: `/posts/${slug}`,
+          kw: [frontmatter.description ?? "", topic, ...tags].join(" "),
+        };
+      })
+  );
 }
 
 export default createContentLoader(POSTS_GLOB, {

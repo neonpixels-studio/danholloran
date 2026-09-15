@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import type { ContentData } from "vitepress";
 import type { PostSearchItem } from "@typedefs";
 import { transformSearchData } from "../../content/posts/search.data.ts";
@@ -115,5 +115,100 @@ describe("transformSearchData", () => {
     const [item] = transformSearchData([makeRawPostWithTags(["js", 3, null])]);
 
     expect(item.kw).toBe("An example post. development js");
+  });
+});
+
+describe("transformSearchData date handling", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("sorts a post with an unparseable date last and warns instead of scrambling order", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const goodPost = makeRawPostWithTags([]);
+    const badDatePost = {
+      ...makeRawPostWithTags([]),
+      url: "/.vitepress/content/posts/bad-date-post",
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: "not-a-date", tags: [] },
+    } as ContentData;
+
+    // Bad-date post is passed first to prove it is actively re-sorted last,
+    // not merely left where it started.
+    const sorted = transformSearchData([badDatePost, goodPost]);
+
+    expect(sorted.map((item) => item.href)).toEqual([
+      "/posts/example-post",
+      "/posts/bad-date-post",
+    ]);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      expect.stringContaining("unparseable date"),
+    );
+  });
+
+  it("does not render 'Invalid Date' into desc when the frontmatter date is unparseable", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const badDatePost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: "not-a-date", tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([badDatePost]);
+
+    expect(item.desc).not.toContain("Invalid Date");
+    expect(item.desc).toBe("development");
+  });
+
+  it("renders the formatted date into desc when the frontmatter date is valid", () => {
+    const [item] = transformSearchData([makeRawPostWithTags([])]);
+
+    expect(item.desc).toBe("development · Jan 1, 2025");
+  });
+
+  it("treats a null frontmatter date as unparseable rather than rendering the epoch", () => {
+    // `new Date(null).getTime()` is 0, not NaN — a bare `date:` YAML key
+    // (which parses to `null`) must not silently sort as the epoch and
+    // format as "Jan 1, 1970".
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const nullDatePost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, date: null, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([nullDatePost]);
+
+    expect(item.desc).toBe("development");
+    expect(item.desc).not.toContain("1970");
+  });
+
+  it("omits the separator instead of leaving a dangling ' · ' when topic is missing", () => {
+    // Special-casing only the date side of the join would leave an orphan
+    // leading " · " once topic is falsy; both sides must be optional.
+    const untopicedPost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: { ...DEFAULT_FRONTMATTER, topic: undefined, tags: [] },
+    } as ContentData;
+
+    const [item] = transformSearchData([untopicedPost]);
+
+    expect(item.desc).toBe("Jan 1, 2025");
+    expect(item.desc.startsWith(" · ")).toBe(false);
+  });
+
+  it("falls back to an empty desc, not a dangling separator, when both topic and date are missing", () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const bareRawPost = {
+      ...makeRawPostWithTags([]),
+      frontmatter: {
+        ...DEFAULT_FRONTMATTER,
+        topic: undefined,
+        date: "not-a-date",
+        tags: [],
+      },
+    } as ContentData;
+
+    const [item] = transformSearchData([bareRawPost]);
+
+    expect(item.desc).toBe("");
   });
 });
