@@ -62,12 +62,16 @@ export const personJsonLd = {
   description: resume.intro,
   // External profiles from contacts + every linked social account (X, Bluesky,
   // etc.), deduped — keeps sameAs in sync with what the site actually links to.
+  // Instagram is excluded while the account is disabled (@todo re-add when the
+  // "From the Feed" section and social icon come back).
   sameAs: [
     ...new Set([
       ...resume.contacts
         .filter((c) => c.link?.startsWith("https://") && c.link !== SITE_URL)
         .map((c) => c.link as string),
-      ...Object.values(socialLinks),
+      ...Object.values(socialLinks).filter(
+        (url) => url !== socialLinks.INSTAGRAM,
+      ),
     ]),
   ],
 };
