@@ -10,11 +10,12 @@ diff_stdout_file=$(mktemp) || {
   echo "Could not create a temp file to capture git's stdout — proceeding with build."
   exit 1
 }
+trap 'rm -f "$diff_stdout_file" "$diff_stderr_file"' EXIT
+
 diff_stderr_file=$(mktemp) || {
   echo "Could not create a temp file to capture git's stderr — proceeding with build."
   exit 1
 }
-trap 'rm -f "$diff_stdout_file" "$diff_stderr_file"' EXIT
 
 # -z NUL-delimits the output instead of one-per-line, which also stops git
 # from quoting/octal-escaping paths it otherwise would (non-ASCII bytes,
@@ -38,7 +39,11 @@ if [ ! -s "$diff_stdout_file" ]; then
   exit 1
 fi
 
-while IFS= read -r -d '' file; do
+# The `|| [ -n "$file" ]` keeps a final NUL-less record (e.g. from a
+# truncated write) instead of `read` silently discarding it — a dropped
+# path here would fail toward skipping the build instead of this script's
+# fail-safe default of building.
+while IFS= read -r -d '' file || [ -n "$file" ]; do
   if [[ "$file" != *.md ]]; then
     echo "Non-markdown file changed: $file — proceeding with build."
     exit 1

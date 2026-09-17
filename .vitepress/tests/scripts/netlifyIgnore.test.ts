@@ -235,10 +235,10 @@ describe("netlify-ignore.sh", () => {
   });
 
   it("classifies an accented markdown filename as markdown, not skipping the quoted path", () => {
-    // Default git behavior (core.quotePath=true) reports non-ASCII paths
-    // octal-escaped and wrapped in quotes, e.g. "caf\303\251.md" — a string
-    // that does not end in a literal .md and so would be misclassified as
-    // non-markdown without the script's core.quotePath=false override.
+    // Default git behavior reports non-ASCII paths octal-escaped and
+    // wrapped in quotes, e.g. "caf\303\251.md" — a string that does not
+    // end in a literal .md and so would be misclassified as non-markdown
+    // without the script's -z flag (see netlify-ignore.sh).
     commitFile("file.txt", "hello", "init");
     commitFile(
       "café.md",
@@ -276,6 +276,24 @@ describe("netlify-ignore.sh", () => {
       'say "hi".md',
       "---\ndraft: true\n---\nbody\n",
       "add quoted draft",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(0);
+    expect(stdout).toContain("Only draft markdown files changed");
+  });
+
+  it("classifies a markdown filename containing a newline as markdown", () => {
+    // A literal newline in a path is the case where -z matters for record
+    // *splitting*, not just unescaping: a line-oriented `read` loop would
+    // see this as two separate (and individually bogus) paths instead of
+    // one real file.
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      "two\nlines.md",
+      "---\ndraft: true\n---\nbody\n",
+      "add newline draft",
     );
 
     const { status, stdout } = runNetlifyIgnore();
