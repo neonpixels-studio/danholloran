@@ -4,8 +4,15 @@ import { describe, it, expect } from "vitest";
 
 const HEADERS_PATH = resolve(process.cwd(), "public/_headers");
 const CSP_HEADER_NAME = "Content-Security-Policy:";
-const COMPONENTS_DIR = resolve(process.cwd(), ".vitepress/theme/components");
-const OFF_ORIGIN_FORM_ACTION_RE = /<form[^>]*\saction=["']https?:/i;
+// Scoped to the theme, where live templates render — not .vitepress/content,
+// whose posts include fenced ```html/```jsx code samples that legitimately
+// contain literal action="..." strings as prose, not real forms.
+const THEME_DIR = resolve(process.cwd(), ".vitepress/theme");
+// Catches a literal off-origin target on <form action> or <button
+// formaction>, and flags a dynamic :action/v-bind:action binding for manual
+// review since a template expression can't be resolved statically here.
+const OFF_ORIGIN_ACTION_RE = /\b(?:form)?action=["']https?:\/\//i;
+const DYNAMIC_ACTION_RE = /\b(?::|v-bind:)(?:form)?action=/i;
 const SELF_CONNECT_SRC = "'self'";
 const NEWSLETTER_CONNECT_SRC = "https://app.kit.com";
 const ANALYTICS_CONNECT_SOURCES = [
@@ -46,7 +53,13 @@ function readPolicy(): string {
   // Drop the "Content-Security-Policy:" header name so the first `;`-segment
   // is a bare directive like every other segment — otherwise a name-based
   // match against the first segment (e.g. default-src) never fires.
-  return readCspLine().split(CSP_HEADER_NAME)[1] ?? "";
+  const [, policy] = readCspLine().split(CSP_HEADER_NAME);
+  if (!policy) {
+    throw new Error(
+      `CSP line did not contain the "${CSP_HEADER_NAME}" header name`,
+    );
+  }
+  return policy;
 }
 
 function readDirective(name: string): string[] {
@@ -86,6 +99,13 @@ describe("public/_headers connect-src", () => {
       expect(cspLine).toMatch(new RegExp(`[\\s;]${directive}\\s`));
     });
   });
+
+  it("locks the default-src fallback to 'self'", () => {
+    // Regression test: readDirective() used to match against the raw CSP
+    // line (header name included), so a name-based lookup against the first
+    // `;`-segment — default-src — silently never matched.
+    expect(readDirective("default-src")).toEqual(["'self'"]);
+  });
 });
 
 describe("public/_headers legacy-plugin and injection restrictions", () => {
@@ -104,15 +124,29 @@ describe("public/_headers legacy-plugin and injection restrictions", () => {
     expect(readDirective("form-action")).toEqual(["'self'"]);
   });
 
-  it("has no <form> with an off-origin action attribute", () => {
-    // Enforces the invariant the form-action 'self' policy relies on: if a
-    // component ever gains a form that natively posts off-origin (e.g. a
-    // no-JS fallback action pointing at a third-party endpoint), that
-    // submission would be silently blocked in production. Catch it here
-    // instead of in the field.
-    listVueFiles(COMPONENTS_DIR).forEach((path) => {
-      const markup = readFileSync(path, "utf8");
-      expect(markup).not.toMatch(OFF_ORIGIN_FORM_ACTION_RE);
+  describe("form-action 'self' invariant: no off-origin action in the theme", () => {
+    // Enforces the assumption form-action 'self' relies on: every <form>/
+    // <button> in the app targets same-origin (or is submitted via fetch(),
+    // covered by connect-src). If a template ever gains a literal off-origin
+    // action/formaction, or a dynamic :action binding this regex can't
+    // resolve, that submission would be silently blocked in production.
+    const themeFiles = listVueFiles(THEME_DIR);
+
+    it("scans at least one theme file (guards against a vacuous pass)", () => {
+      expect(themeFiles.length).toBeGreaterThan(0);
     });
+
+    it.each(themeFiles)("%s has no off-origin action/formaction", (path) => {
+      const markup = readFileSync(path, "utf8");
+      expect(markup).not.toMatch(OFF_ORIGIN_ACTION_RE);
+    });
+
+    it.each(themeFiles)(
+      "%s has no dynamic :action binding needing manual review",
+      (path) => {
+        const markup = readFileSync(path, "utf8");
+        expect(markup).not.toMatch(DYNAMIC_ACTION_RE);
+      },
+    );
   });
 });
