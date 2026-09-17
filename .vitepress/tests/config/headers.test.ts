@@ -1,8 +1,11 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { readFileSync, readdirSync } from "node:fs";
+import { resolve, join } from "node:path";
 import { describe, it, expect } from "vitest";
 
 const HEADERS_PATH = resolve(process.cwd(), "public/_headers");
+const CSP_HEADER_NAME = "Content-Security-Policy:";
+const COMPONENTS_DIR = resolve(process.cwd(), ".vitepress/theme/components");
+const OFF_ORIGIN_FORM_ACTION_RE = /<form[^>]*\saction=["']https?:/i;
 const SELF_CONNECT_SRC = "'self'";
 const NEWSLETTER_CONNECT_SRC = "https://app.kit.com";
 const ANALYTICS_CONNECT_SOURCES = [
@@ -22,6 +25,12 @@ const EXPECTED_DIRECTIVES = [
   "frame-ancestors",
 ];
 
+function listVueFiles(directory: string): string[] {
+  return readdirSync(directory, { recursive: true })
+    .filter((entry) => typeof entry === "string" && entry.endsWith(".vue"))
+    .map((entry) => join(directory, entry as string));
+}
+
 function readCspLine(): string {
   const contents = readFileSync(HEADERS_PATH, "utf8");
   const cspLine = contents
@@ -33,11 +42,18 @@ function readCspLine(): string {
   return cspLine;
 }
 
+function readPolicy(): string {
+  // Drop the "Content-Security-Policy:" header name so the first `;`-segment
+  // is a bare directive like every other segment — otherwise a name-based
+  // match against the first segment (e.g. default-src) never fires.
+  return readCspLine().split(CSP_HEADER_NAME)[1] ?? "";
+}
+
 function readDirective(name: string): string[] {
-  const directive = readCspLine()
+  const directive = readPolicy()
     .split(";")
     .map((part) => part.trim())
-    .find((part) => new RegExp(`^${name}(\\s|$)`).test(part));
+    .find((part) => part.split(/\s+/)[0] === name);
   if (!directive) {
     throw new Error(`${name} directive not found in CSP`);
   }
@@ -86,5 +102,17 @@ describe("public/_headers legacy-plugin and injection restrictions", () => {
     // fetch() from a JS handler with the native submit prevented, so no form
     // ever navigates to an external action — 'self' matches actual usage.
     expect(readDirective("form-action")).toEqual(["'self'"]);
+  });
+
+  it("has no <form> with an off-origin action attribute", () => {
+    // Enforces the invariant the form-action 'self' policy relies on: if a
+    // component ever gains a form that natively posts off-origin (e.g. a
+    // no-JS fallback action pointing at a third-party endpoint), that
+    // submission would be silently blocked in production. Catch it here
+    // instead of in the field.
+    listVueFiles(COMPONENTS_DIR).forEach((path) => {
+      const markup = readFileSync(path, "utf8");
+      expect(markup).not.toMatch(OFF_ORIGIN_FORM_ACTION_RE);
+    });
   });
 });
