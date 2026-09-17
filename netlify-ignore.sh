@@ -57,7 +57,11 @@ while IFS= read -r -d '' file || [ -n "$file" ]; do
   # Only the leading YAML frontmatter block (between the first pair of "---"
   # delimiters) counts — a "draft: true" line appearing in the post body
   # (e.g. a code sample) must never be mistaken for the post's own status.
-  frontmatter=$(awk 'NR == 1 && $0 != "---" { exit } NR == 1 { next } $0 == "---" { exit } { print }' "$file")
+  # $file is piped in via redirect rather than passed as an awk operand:
+  # awk treats a bare `name=value`-shaped operand (e.g. a real filename
+  # like "draft=true.md") as a variable assignment instead of a filename,
+  # which would make it read stdin (the loop's own diff list) instead.
+  frontmatter=$(awk 'NR == 1 && $0 != "---" { exit } NR == 1 { next } $0 == "---" { exit } { print }' < "$file")
 
   if ! printf '%s\n' "$frontmatter" | grep -qE '^draft:[[:space:]]*true[[:space:]]*$'; then
     echo "Non-draft markdown file changed: $file — proceeding with build."
