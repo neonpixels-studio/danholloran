@@ -12,7 +12,11 @@ diff_stderr_file=$(mktemp) || {
 }
 trap 'rm -f "$diff_stderr_file"' EXIT
 
-changed_files=$(git diff --name-only HEAD^ HEAD 2>"$diff_stderr_file")
+# -c core.quotePath=false stops git from quoting/octal-escaping non-ASCII
+# paths (e.g. an accented filename), which would otherwise come back as
+# "posts/caf\303\251.md" (with a literal trailing quote) and fail the *.md
+# glob check below even though the real file does end in .md.
+changed_files=$(git -c core.quotePath=false diff --name-only HEAD^ HEAD 2>"$diff_stderr_file")
 diff_exit_code=$?
 diff_stderr=$(cat "$diff_stderr_file")
 

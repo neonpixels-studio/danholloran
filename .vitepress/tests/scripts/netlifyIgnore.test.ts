@@ -234,6 +234,38 @@ describe("netlify-ignore.sh", () => {
     expect(stdout).toContain("Only draft markdown files changed");
   });
 
+  it("classifies an accented markdown filename as markdown, not skipping the quoted path", () => {
+    // Default git behavior (core.quotePath=true) reports non-ASCII paths
+    // octal-escaped and wrapped in quotes, e.g. "caf\303\251.md" — a string
+    // that does not end in a literal .md and so would be misclassified as
+    // non-markdown without the script's core.quotePath=false override.
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      "café.md",
+      "---\ndraft: true\n---\nbody\n",
+      "add accented draft",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(0);
+    expect(stdout).toContain("Only draft markdown files changed");
+  });
+
+  it("builds when a non-draft accented markdown filename changed", () => {
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      "café.md",
+      "---\ndraft: false\n---\nbody\n",
+      "publish accented post",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(1);
+    expect(stdout).toContain("Non-draft markdown file changed: café.md");
+  });
+
   it("ignores a stderr warning from an otherwise successful diff", () => {
     commitFile("file.txt", "hello", "init");
     writeFileSync(join(repoDir, "post.md"), "---\ndraft: true\n---\nbody\n");
