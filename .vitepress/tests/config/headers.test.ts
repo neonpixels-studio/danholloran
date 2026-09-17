@@ -9,10 +9,13 @@ const CSP_HEADER_NAME = "Content-Security-Policy:";
 // contain literal action="..." strings as prose, not real forms.
 const THEME_DIR = resolve(process.cwd(), ".vitepress/theme");
 // Catches a literal off-origin target on <form action> or <button
-// formaction>, and flags a dynamic :action/v-bind:action binding for manual
-// review since a template expression can't be resolved statically here.
-const OFF_ORIGIN_ACTION_RE = /\b(?:form)?action=["']https?:\/\//i;
-const DYNAMIC_ACTION_RE = /\b(?::|v-bind:)(?:form)?action=/i;
+// formaction> — any scheme or protocol-relative "//", not just http(s), and
+// regardless of quoting/spacing around "=" — and flags a dynamic
+// :action/v-bind:action binding for manual review since a template
+// expression can't be resolved statically here.
+const OFF_ORIGIN_ACTION_RE =
+  /(?:^|[\s"'])(?:form)?action\s*=\s*["']?(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
+const DYNAMIC_ACTION_RE = /(?:^|[\s"'])(?::|v-bind:)(?:form)?action\s*=/i;
 const SELF_CONNECT_SRC = "'self'";
 const NEWSLETTER_CONNECT_SRC = "https://app.kit.com";
 const ANALYTICS_CONNECT_SOURCES = [
@@ -34,15 +37,16 @@ const EXPECTED_DIRECTIVES = [
 
 function listVueFiles(directory: string): string[] {
   return readdirSync(directory, { recursive: true })
-    .filter((entry) => typeof entry === "string" && entry.endsWith(".vue"))
-    .map((entry) => join(directory, entry as string));
+    .filter((entry): entry is string => typeof entry === "string")
+    .filter((entry) => entry.endsWith(".vue"))
+    .map((entry) => join(directory, entry));
 }
 
 function readCspLine(): string {
   const contents = readFileSync(HEADERS_PATH, "utf8");
   const cspLine = contents
     .split("\n")
-    .find((line) => line.includes("Content-Security-Policy:"));
+    .find((line) => line.includes(CSP_HEADER_NAME));
   if (!cspLine) {
     throw new Error("Content-Security-Policy header not found in _headers");
   }
