@@ -16,6 +16,9 @@ const EXPECTED_DIRECTIVES = [
   "font-src",
   "img-src",
   "connect-src",
+  "object-src",
+  "base-uri",
+  "form-action",
   "frame-ancestors",
 ];
 
@@ -30,15 +33,19 @@ function readCspLine(): string {
   return cspLine;
 }
 
-function readConnectSrc(): string[] {
+function readDirective(name: string): string[] {
   const directive = readCspLine()
     .split(";")
     .map((part) => part.trim())
-    .find((part) => /^connect-src(\s|$)/.test(part));
+    .find((part) => new RegExp(`^${name}(\\s|$)`).test(part));
   if (!directive) {
-    throw new Error("connect-src directive not found in CSP");
+    throw new Error(`${name} directive not found in CSP`);
   }
   return directive.split(/\s+/).slice(1);
+}
+
+function readConnectSrc(): string[] {
+  return readDirective("connect-src");
 }
 
 describe("public/_headers connect-src", () => {
@@ -62,5 +69,22 @@ describe("public/_headers connect-src", () => {
     EXPECTED_DIRECTIVES.forEach((directive) => {
       expect(cspLine).toMatch(new RegExp(`[\\s;]${directive}\\s`));
     });
+  });
+});
+
+describe("public/_headers legacy-plugin and injection restrictions", () => {
+  it("blocks legacy plugin content with object-src 'none'", () => {
+    expect(readDirective("object-src")).toEqual(["'none'"]);
+  });
+
+  it("restricts <base> tag injection with base-uri 'self'", () => {
+    expect(readDirective("base-uri")).toEqual(["'self'"]);
+  });
+
+  it("restricts form submission targets with form-action 'self'", () => {
+    // Every <form> in the app (newsletter signup, contact form) submits via
+    // fetch() from a JS handler with the native submit prevented, so no form
+    // ever navigates to an external action — 'self' matches actual usage.
+    expect(readDirective("form-action")).toEqual(["'self'"]);
   });
 });
