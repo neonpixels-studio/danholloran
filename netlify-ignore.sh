@@ -6,17 +6,25 @@
 # squash, etc.) fails safe and builds — we'd rather build unnecessarily than
 # silently skip a real deploy.
 
+diff_stdout_file=$(mktemp) || {
+  echo "Could not create a temp file to capture git's stdout — proceeding with build."
+  exit 1
+}
 diff_stderr_file=$(mktemp) || {
   echo "Could not create a temp file to capture git's stderr — proceeding with build."
   exit 1
 }
-trap 'rm -f "$diff_stderr_file"' EXIT
+trap 'rm -f "$diff_stdout_file" "$diff_stderr_file"' EXIT
 
-# -c core.quotePath=false stops git from quoting/octal-escaping non-ASCII
-# paths (e.g. an accented filename), which would otherwise come back as
-# "posts/caf\303\251.md" (with a literal trailing quote) and fail the *.md
-# glob check below even though the real file does end in .md.
-changed_files=$(git -c core.quotePath=false diff --name-only HEAD^ HEAD 2>"$diff_stderr_file")
+# -z NUL-delimits the output instead of one-per-line, which also stops git
+# from quoting/octal-escaping paths it otherwise would (non-ASCII bytes,
+# embedded quotes/backslashes, control characters). Without it, e.g. an
+# accented filename comes back as "posts/caf\303\251.md" (with a literal
+# trailing quote) and fails the *.md glob check below even though the real
+# file does end in .md. The NUL-delimited output is written straight to a
+# file rather than captured into a shell variable, since bash command
+# substitution silently truncates at the first NUL byte.
+git diff -z --name-only HEAD^ HEAD >"$diff_stdout_file" 2>"$diff_stderr_file"
 diff_exit_code=$?
 diff_stderr=$(cat "$diff_stderr_file")
 
@@ -25,12 +33,12 @@ if [ "$diff_exit_code" -ne 0 ]; then
   exit 1
 fi
 
-if [ -z "$changed_files" ]; then
+if [ ! -s "$diff_stdout_file" ]; then
   echo "Diff computed successfully but no changed files were reported — proceeding with build."
   exit 1
 fi
 
-while IFS= read -r file; do
+while IFS= read -r -d '' file; do
   if [[ "$file" != *.md ]]; then
     echo "Non-markdown file changed: $file — proceeding with build."
     exit 1
@@ -50,7 +58,7 @@ while IFS= read -r file; do
     echo "Non-draft markdown file changed: $file — proceeding with build."
     exit 1
   fi
-done <<< "$changed_files"
+done < "$diff_stdout_file"
 
 echo "Only draft markdown files changed — skipping build."
 exit 0

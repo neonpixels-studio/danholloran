@@ -266,6 +266,24 @@ describe("netlify-ignore.sh", () => {
     expect(stdout).toContain("Non-draft markdown file changed: café.md");
   });
 
+  it("classifies a markdown filename containing a double quote as markdown", () => {
+    // core.quotePath only governs non-ASCII bytes — git C-quotes a path
+    // containing a double quote (or backslash, or control character)
+    // regardless of that setting, so the fix has to stop quoting entirely
+    // (via -z) rather than special-case accented characters.
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      'say "hi".md',
+      "---\ndraft: true\n---\nbody\n",
+      "add quoted draft",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(0);
+    expect(stdout).toContain("Only draft markdown files changed");
+  });
+
   it("ignores a stderr warning from an otherwise successful diff", () => {
     commitFile("file.txt", "hello", "init");
     writeFileSync(join(repoDir, "post.md"), "---\ndraft: true\n---\nbody\n");
