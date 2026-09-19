@@ -6,13 +6,26 @@
 # squash, etc.) fails safe and builds — we'd rather build unnecessarily than
 # silently skip a real deploy.
 
+diff_stdout_file=$(mktemp) || {
+  echo "Could not create a temp file to capture git's stdout — proceeding with build."
+  exit 1
+}
+trap 'rm -f "$diff_stdout_file" "$diff_stderr_file"' EXIT
+
 diff_stderr_file=$(mktemp) || {
   echo "Could not create a temp file to capture git's stderr — proceeding with build."
   exit 1
 }
-trap 'rm -f "$diff_stderr_file"' EXIT
 
-changed_files=$(git diff --name-only HEAD^ HEAD 2>"$diff_stderr_file")
+# -z NUL-delimits the output instead of one-per-line, which also stops git
+# from quoting/octal-escaping paths it otherwise would (non-ASCII bytes,
+# embedded quotes/backslashes, control characters). Without it, e.g. an
+# accented filename comes back as "posts/caf\303\251.md" (with a literal
+# trailing quote) and fails the *.md glob check below even though the real
+# file does end in .md. The NUL-delimited output is written straight to a
+# file rather than captured into a shell variable, since bash command
+# substitution silently truncates at the first NUL byte.
+git diff -z --name-only HEAD^ HEAD >"$diff_stdout_file" 2>"$diff_stderr_file"
 diff_exit_code=$?
 diff_stderr=$(cat "$diff_stderr_file")
 
@@ -21,12 +34,16 @@ if [ "$diff_exit_code" -ne 0 ]; then
   exit 1
 fi
 
-if [ -z "$changed_files" ]; then
+if [ ! -s "$diff_stdout_file" ]; then
   echo "Diff computed successfully but no changed files were reported — proceeding with build."
   exit 1
 fi
 
-while IFS= read -r file; do
+# The `|| [ -n "$file" ]` keeps a final NUL-less record (e.g. from a
+# truncated write) instead of `read` silently discarding it — a dropped
+# path here would fail toward skipping the build instead of this script's
+# fail-safe default of building.
+while IFS= read -r -d '' file || [ -n "$file" ]; do
   if [[ "$file" != *.md ]]; then
     echo "Non-markdown file changed: $file — proceeding with build."
     exit 1
@@ -40,13 +57,17 @@ while IFS= read -r file; do
   # Only the leading YAML frontmatter block (between the first pair of "---"
   # delimiters) counts — a "draft: true" line appearing in the post body
   # (e.g. a code sample) must never be mistaken for the post's own status.
-  frontmatter=$(awk 'NR == 1 && $0 != "---" { exit } NR == 1 { next } $0 == "---" { exit } { print }' "$file")
+  # $file is piped in via redirect rather than passed as an awk operand:
+  # awk treats a bare `name=value`-shaped operand (e.g. a real filename
+  # like "draft=true.md") as a variable assignment instead of a filename,
+  # which would make it read stdin (the loop's own diff list) instead.
+  frontmatter=$(awk 'NR == 1 && $0 != "---" { exit } NR == 1 { next } $0 == "---" { exit } { print }' < "$file")
 
   if ! printf '%s\n' "$frontmatter" | grep -qE '^draft:[[:space:]]*true[[:space:]]*$'; then
     echo "Non-draft markdown file changed: $file — proceeding with build."
     exit 1
   fi
-done <<< "$changed_files"
+done < "$diff_stdout_file"
 
 echo "Only draft markdown files changed — skipping build."
 exit 0
