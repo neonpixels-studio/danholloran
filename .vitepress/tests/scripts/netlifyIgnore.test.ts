@@ -120,6 +120,37 @@ function createGitDiffStderrWarningShim(): { env: ProcessEnv } {
   return { env: { ...GIT_ENV, PATH: `${shimDir}:${GIT_ENV.PATH}` } };
 }
 
+// Puts a fake `git` ahead of the real one on PATH whose `git diff` prints a
+// fixed two-file, NUL-delimited list with no trailing NUL after the final
+// record (simulating a truncated write) and exits 0; every other git
+// invocation still hands off to the real binary. Used to prove the script's
+// `read -r -d '' file || [ -n "$file" ]` guard doesn't silently drop that
+// final record — a real repo can't reliably produce this exact byte
+// sequence on demand, so the diff output itself is faked here rather than
+// exercised through a real commit.
+function createTruncatedDiffOutputShim(): { env: ProcessEnv } {
+  const realGitPath = locateRealGitBinary();
+  const shimDir = mkdtempSync(join(tmpdir(), "git-shim-"));
+  const shimPath = join(shimDir, "git");
+
+  writeFileSync(
+    shimPath,
+    [
+      "#!/bin/bash",
+      'if [ "$1" = "diff" ]; then',
+      "  printf 'post.md\\0file.txt'",
+      "  exit 0",
+      "fi",
+      `exec "${realGitPath}" "$@"`,
+      "",
+    ].join("\n"),
+  );
+  chmodSync(shimPath, 0o755);
+  shimCleanups.push(() => rmSync(shimDir, { recursive: true, force: true }));
+
+  return { env: { ...GIT_ENV, PATH: `${shimDir}:${GIT_ENV.PATH}` } };
+}
+
 describe("netlify-ignore.sh", () => {
   beforeEach(() => {
     repoDir = mkdtempSync(join(tmpdir(), "netlify-ignore-"));
@@ -232,6 +263,92 @@ describe("netlify-ignore.sh", () => {
 
     expect(status).toBe(0);
     expect(stdout).toContain("Only draft markdown files changed");
+  });
+
+  it("classifies an accented markdown filename as markdown, not skipping the quoted path", () => {
+    // Default git behavior reports non-ASCII paths octal-escaped and
+    // wrapped in quotes, e.g. "caf\303\251.md" — a string that does not
+    // end in a literal .md and so would be misclassified as non-markdown
+    // without the script's -z flag (see netlify-ignore.sh).
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      "café.md",
+      "---\ndraft: true\n---\nbody\n",
+      "add accented draft",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(0);
+    expect(stdout).toContain("Only draft markdown files changed");
+  });
+
+  it("builds when a non-draft accented markdown filename changed", () => {
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      "café.md",
+      "---\ndraft: false\n---\nbody\n",
+      "publish accented post",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(1);
+    expect(stdout).toContain("Non-draft markdown file changed: café.md");
+  });
+
+  it("classifies a markdown filename containing a double quote as markdown", () => {
+    // core.quotePath only governs non-ASCII bytes — git C-quotes a path
+    // containing a double quote (or backslash, or control character)
+    // regardless of that setting, so the fix has to stop quoting entirely
+    // (via -z) rather than special-case accented characters.
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      'say "hi".md',
+      "---\ndraft: true\n---\nbody\n",
+      "add quoted draft",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(0);
+    expect(stdout).toContain("Only draft markdown files changed");
+  });
+
+  it("classifies a markdown filename containing a newline as markdown", () => {
+    // A literal newline in a path is the case where -z matters for record
+    // *splitting*, not just unescaping: a line-oriented `read` loop would
+    // see this as two separate (and individually bogus) paths instead of
+    // one real file.
+    commitFile("file.txt", "hello", "init");
+    commitFile(
+      "two\nlines.md",
+      "---\ndraft: true\n---\nbody\n",
+      "add newline draft",
+    );
+
+    const { status, stdout } = runNetlifyIgnore();
+
+    expect(status).toBe(0);
+    expect(stdout).toContain("Only draft markdown files changed");
+  });
+
+  it("still processes the final diff record when it lacks a NUL terminator", () => {
+    // Guards the `read -r -d '' file || [ -n "$file" ]` fallback: without
+    // it, `read` hits EOF on an unterminated final record and discards it,
+    // which would make this script fail toward skipping a real deploy
+    // instead of its documented fail-safe default of building. Both files
+    // must exist on disk for the shimmed diff list to reach the *.md check
+    // on the (real) trailing record rather than tripping the deleted-file
+    // check first.
+    commitFile("post.md", "---\ndraft: true\n---\nbody\n", "add draft");
+    commitFile("file.txt", "hello", "add source file");
+
+    const { env } = createTruncatedDiffOutputShim();
+    const { status, stdout } = runNetlifyIgnore(env);
+
+    expect(status).toBe(1);
+    expect(stdout).toContain("Non-markdown file changed: file.txt");
   });
 
   it("ignores a stderr warning from an otherwise successful diff", () => {
