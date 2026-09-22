@@ -91,6 +91,27 @@ describe("topic paths", () => {
     });
   });
 
+  // Previously inconsistent: topicBuckets() read post.topic raw, without the
+  // trim search.data.ts and pageTransform.ts both applied, so a whitespace-
+  // padded topic reached the archive route/label untrimmed. Same fix as
+  // normalizeFrontmatterTopic's "trims leading and trailing whitespace" case,
+  // exercised here through the actual archive route consumer.
+  it("trims whitespace around a topic before bucketing and labeling", () => {
+    mockLoad.mockReturnValue(
+      makePosts([
+        { topic: "  development  ", tags: [] },
+        { topic: "development", tags: [] },
+      ]) as any,
+    );
+    const base = topicBasePagePaths();
+    expect(base).toHaveLength(1);
+    expect(base[0].params).toEqual({
+      topic: "development",
+      topicLabel: "development",
+      page: "1",
+    });
+  });
+
   it("paginates a topic that overflows the first page", () => {
     mockLoad.mockReturnValue(
       makePosts(
