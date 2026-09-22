@@ -75,4 +75,10 @@ describe("highlightMatch", () => {
 
     expect(result).toBe(`${MARK_OPEN}i̇${MARK_CLOSE}stanbul`);
   });
+
+  it("escapes HTML characters that fall inside the matched span, not just around it", () => {
+    const result = highlightMatch("use <b> tags", "<b>");
+
+    expect(result).toBe(`use ${MARK_OPEN}&lt;b&gt;${MARK_CLOSE} tags`);
+  });
 });
