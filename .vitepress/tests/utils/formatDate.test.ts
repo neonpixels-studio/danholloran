@@ -45,7 +45,14 @@ describe("formatPostDate", () => {
         "January 15, 2024",
       );
     } finally {
-      process.env.TZ = originalTimeZone;
+      // `process.env.TZ = undefined` would coerce to the string "undefined"
+      // (an unknown zone) rather than clearing it, leaking a bad TZ into
+      // every later test in this worker.
+      if (originalTimeZone === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTimeZone;
+      }
     }
   });
 
@@ -74,6 +81,21 @@ describe("formatPostDate", () => {
     // V8 rolls "2024-02-30" forward to Mar 1 instead of producing NaN; a
     // typo'd day must not silently render a different, wrong date.
     expect(formatPostDate("2024-02-30")).toBe("Unknown date");
+  });
+
+  it("falls back to a safe string for an out-of-range time", () => {
+    // "T24:00" is valid ES date syntax for the start of the next day, and
+    // "T12:60" would parse as NaN anyway — both are still a silent/unclear
+    // day shift risk worth rejecting explicitly at the format boundary.
+    expect(formatPostDate("2024-01-15T24:00:00Z")).toBe("Unknown date");
+    expect(formatPostDate("2024-01-15T12:60:00Z")).toBe("Unknown date");
+  });
+
+  it("formats a date-only value with a genuine two-digit (pre-1900) year", () => {
+    // Date.UTC()/the Date constructor remap a two-digit year into
+    // 1900-1999; the calendar-date validation must not inherit that quirk
+    // and reject an otherwise valid ISO date.
+    expect(formatPostDate("0024-01-15")).toBe("Jan 15, 24");
   });
 
   it("falls back to a safe string for a missing date", () => {
