@@ -18,12 +18,34 @@ describe("formatPostDate", () => {
     expect(formatPostDate("2025-06-15T12:00:00.000Z")).toBe("Jun 15, 2025");
   });
 
+  it("formats an ISO datetime with a timezone offset in UTC calendar terms", () => {
+    // Real frontmatter dates carry an explicit offset (e.g. "-05:00"); the
+    // rendered day must follow UTC, not the source offset or the local
+    // machine's timezone, so server and browser output always agree.
+    expect(formatPostDate("2026-07-26T02:07:35.000-05:00")).toBe(
+      "Jul 26, 2026",
+    );
+  });
+
+  it("keeps the UTC calendar day near a UTC midnight boundary", () => {
+    expect(formatPostDate("2024-01-15T23:30:00.000Z", "long")).toBe(
+      "January 15, 2024",
+    );
+  });
+
   it("formats with the long month style", () => {
     expect(formatPostDate("2024-01-15", "long")).toBe("January 15, 2024");
   });
 
   it("falls back to a safe string for an unparseable date", () => {
     expect(formatPostDate("not-a-date")).toBe("Unknown date");
+  });
+
+  it("falls back to a safe string for a non-ISO date format", () => {
+    // "2024/01/15" and similar formats parse as *local* midnight in
+    // JavaScript, which would silently shift the rendered day depending on
+    // the machine's timezone — treat it as malformed rather than guess.
+    expect(formatPostDate("2024/01/15")).toBe("Unknown date");
   });
 
   it("falls back to a safe string for a missing date", () => {

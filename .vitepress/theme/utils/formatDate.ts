@@ -4,13 +4,21 @@
 // callers must never see "Invalid Date".
 const INVALID_DATE_FALLBACK = "Unknown date";
 
+// Frontmatter dates are authored as ISO ("2026-05-29" or
+// "2026-05-29T07:04:00.000+00:00"). Restricting to that shape (rather than
+// accepting anything `Date` will parse) matters because non-ISO formats like
+// "2024/01/15" or "Jan 15 2024" parse as *local* midnight — the same string
+// can render a different calendar day depending on the machine's timezone,
+// so a build server and a visitor's browser could disagree on the date.
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}(T.*)?$/;
+
 export type PostDateStyle = "short" | "long";
 
 export function formatPostDate(
   date: string | null | undefined,
   style: PostDateStyle = "short",
 ): string {
-  if (!date) {
+  if (!date || !ISO_DATE_PATTERN.test(date)) {
     return INVALID_DATE_FALLBACK;
   }
   const parsed = new Date(date);
