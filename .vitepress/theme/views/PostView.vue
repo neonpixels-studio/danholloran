@@ -4,6 +4,7 @@ import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import ResponsiveImage from "@components/ResponsiveImage.vue";
 import { archiveHref, hasFilterRoute, toFilterSlug } from "@utils/archive";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
@@ -154,8 +155,10 @@ function formatDate(d: string) {
     </div>
 
     <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]">
-      <img
+      <ResponsiveImage
         :src="post.frontmatter.image"
+        variant="hero"
+        sizes="(max-width: 767px) 100vw, 720px"
         class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3"
         :alt="post.frontmatter.title"
         fetchpriority="high"

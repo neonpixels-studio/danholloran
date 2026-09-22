@@ -3,6 +3,10 @@
 .DS_Store
 node_modules
 
+# Responsive post-image variants (avif/webp), generated at `vitepress
+# dev`/`build` time by generateImageVariants.ts — see README.
+public/images/posts/variants/
+
 # Local Netlify folder
 .netlify
 /.envrc

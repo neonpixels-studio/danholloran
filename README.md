@@ -36,6 +36,22 @@ Personal blog and portfolio for Dan Holloran — full-stack developer and photog
    npm run dev
    ```
 
+### Responsive post images
+
+Post cover images (`public/images/posts/*.{jpg,png}`) are served through a shared
+`ResponsiveImage.vue` component that renders a `<picture>` with avif/webp
+variants sized for their context (small list/card thumbnails vs. the larger
+single-post hero), falling back to the original image for anything that can't
+use them.
+
+The variant files themselves aren't committed — they're generated on the fly
+by [`sharp`](https://sharp.pixelplumbing.com/) via `generateImageVariants.ts`,
+which runs automatically at the top of `.vitepress/config.ts` before every
+`npm run dev` and `npm run build`. Output goes to the gitignored
+`public/images/posts/variants/` directory; regeneration is skipped per-file
+once its variants are newer than its source, so only new/changed post images
+get (re)processed on a given run.
+
 ### Available Commands
 
 | Command            | Description                       |

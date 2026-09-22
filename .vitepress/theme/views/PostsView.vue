@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted } from "vue";
 import { Post } from "@typedefs";
 import NewsletterBanner from "@components/NewsletterBanner.vue";
+import ResponsiveImage from "@components/ResponsiveImage.vue";
 import {
   ALL_TOPIC,
   ALL_TAG,
@@ -321,8 +322,14 @@ onUnmounted(() => {
             : ''
         "
       >
-        <img
+        <ResponsiveImage
           :src="post.frontmatter.image"
+          variant="thumb"
+          :sizes="
+            isFeatured(i)
+              ? '(max-width: 767px) 100vw, 45vw'
+              : '(max-width: 767px) 100vw, 320px'
+          "
           class="object.fit h-full w-full"
           :alt="`${post.frontmatter.title} thumbnail`"
         />

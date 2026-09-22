@@ -13,6 +13,7 @@ import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
+import { generateImageVariants } from "./theme/utils/generateImageVariants";
 
 // The Shiki TextMate themes live under public/ so they double as the
 // downloadable Grimicorn port; this blog highlights its own code with them.
@@ -43,6 +44,14 @@ const lightTheme = parsePlist(
 // targets the exact shape vitepress expects.
 type VitePlugins = NonNullable<NonNullable<UserConfig["vite"]>["plugins"]>;
 type VitePluginOption = VitePlugins[number];
+
+// Unlike generateFeed/generateLlmsTxt below (post-build artifacts nothing
+// downstream reads back), ResponsiveImage.vue renders srcset urls that point
+// at these variant files, so they need to exist before any page is served —
+// under `vitepress dev` as much as `vitepress build`. Running it here, ahead
+// of `defineConfig`, covers both; mtime-based skipping (see
+// generateImageVariants.ts) keeps repeat runs fast.
+await generateImageVariants();
 
 export default defineConfig({
   title: "Dan Holloran",

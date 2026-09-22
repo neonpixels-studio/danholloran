@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { data as posts } from "@content/posts/posts.data.ts";
 import { formatPostDate } from "@utils/formatDate";
+import ResponsiveImage from "@components/ResponsiveImage.vue";
 
 const featuredPost = posts[0];
 const recentPosts = posts.slice(1, 9);
@@ -30,8 +31,10 @@ const recentPosts = posts.slice(1, 9);
         :href="featuredPost.url"
         class="reveal border-line text-fg hover:border-accent mb-6 grid grid-cols-2 gap-0 overflow-hidden rounded border no-underline transition-colors duration-200 max-md:grid-cols-1"
       >
-        <img
+        <ResponsiveImage
           :src="featuredPost.frontmatter.image"
+          variant="thumb"
+          sizes="(max-width: 767px) 100vw, 540px"
           class="min-h-60 object-cover"
           :alt="`${featuredPost.frontmatter.title} thumbnail`"
         />
