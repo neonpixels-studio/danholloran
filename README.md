@@ -38,19 +38,27 @@ Personal blog and portfolio for Dan Holloran — full-stack developer and photog
 
 ### Responsive post images
 
-Post cover images (`public/images/posts/*.{jpg,png}`) are served through a shared
-`ResponsiveImage.vue` component that renders a `<picture>` with avif/webp
-variants sized for their context (small list/card thumbnails vs. the larger
-single-post hero), falling back to the original image for anything that can't
-use them.
+Post cover images under `public/images/posts/` (`.jpg`/`.jpeg`/`.png`, directly
+in that directory — see `isVariantEligible` in `responsiveImage.ts`) are served
+through a shared `ResponsiveImage.vue` component that renders a `<picture>`
+with avif/webp variants sized for their context (small list/card thumbnails
+vs. the larger single-post hero). A cover image outside that set (a different
+format/location) renders as a plain `<img>` instead — a `<picture>`'s
+`<source>` does not fall back to the next one on a 404, so `ResponsiveImage`
+only ever points one at variant urls it's sure were generated.
 
 The variant files themselves aren't committed — they're generated on the fly
 by [`sharp`](https://sharp.pixelplumbing.com/) via `generateImageVariants.ts`,
 which runs automatically at the top of `.vitepress/config.ts` before every
 `npm run dev` and `npm run build`. Output goes to the gitignored
 `public/images/posts/variants/` directory; regeneration is skipped per-file
-once its variants are newer than its source, so only new/changed post images
-get (re)processed on a given run.
+once its variants are newer than its source, so a repeat run only
+(re-)processes new/changed post images — a clean checkout still (re-)encodes
+every post image the first time, which takes real time (the avif encoder
+especially); caching that directory between CI runs is a possible follow-up
+if that first-run cost becomes a problem. A failed encode fails the whole
+`dev`/`build` run rather than silently shipping a page with a missing
+variant.
 
 ### Available Commands
 

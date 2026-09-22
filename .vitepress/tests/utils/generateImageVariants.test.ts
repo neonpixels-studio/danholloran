@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { mkdtempSync, rmSync, writeFileSync, utimesSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -10,8 +10,8 @@ import {
 // generateImageVariants orchestrates real filesystem reads/writes and sharp
 // encoding; both are swapped out here (a scratch source/output dir and a
 // fake ImageProcessor) so the orchestration logic — which files get planned,
-// which are skipped as up to date — is testable without touching disk-heavy
-// image encoding.
+// which are skipped as up to date, slug collisions — is testable without
+// touching disk-heavy image encoding.
 function makeFakeProcessor(): ImageProcessor & { calls: string[] } {
   const calls: string[] = [];
   return {
@@ -90,9 +90,18 @@ describe("generateImageVariants", () => {
     expect(processor.calls).toHaveLength(8);
   });
 
-  it("warns and continues past a single failing encode", async () => {
+  it("rejects two source files that resolve to the same slug before encoding anything", async () => {
+    setUpSourceDir(["a.jpg", "a.png"]);
+    const processor = makeFakeProcessor();
+
+    await expect(
+      generateImageVariants({ sourceDir, outputDir, processor }),
+    ).rejects.toThrow(/a\.jpg.*a\.png|a\.png.*a\.jpg/);
+    expect(processor.calls).toHaveLength(0);
+  });
+
+  it("fails the whole run (not just a warning) when an encode fails, naming the file", async () => {
     setUpSourceDir(["a.jpg"]);
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const failingProcessor: ImageProcessor = {
       async resizeToFormat() {
         throw new Error("boom");
@@ -105,9 +114,6 @@ describe("generateImageVariants", () => {
         outputDir,
         processor: failingProcessor,
       }),
-    ).resolves.toBeUndefined();
-
-    expect(warnSpy).toHaveBeenCalled();
-    warnSpy.mockRestore();
+    ).rejects.toThrow(/a\.jpg/);
   });
 });

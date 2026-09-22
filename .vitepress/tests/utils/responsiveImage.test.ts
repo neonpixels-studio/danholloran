@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { resolveResponsiveImageSources } from "../../theme/utils/responsiveImage";
+import {
+  isVariantEligible,
+  resolveResponsiveImageSources,
+} from "../../theme/utils/responsiveImage";
 
 describe("resolveResponsiveImageSources", () => {
   it("builds a thumb srcset from the smaller variant widths", () => {
@@ -50,5 +53,44 @@ describe("resolveResponsiveImageSources", () => {
     );
 
     expect(sources.avifSrcset).toContain("/variants/my-post-thumb-400.avif");
+  });
+
+  it("percent-encodes a filename with a space so it can't be parsed as a second srcset candidate", () => {
+    const sources = resolveResponsiveImageSources(
+      "/images/posts/my post.jpg",
+      "thumb",
+    );
+
+    expect(sources.avifSrcset).toBe(
+      "/images/posts/variants/my%20post-thumb-400.avif 400w, " +
+        "/images/posts/variants/my%20post-thumb-800.avif 800w",
+    );
+  });
+});
+
+describe("isVariantEligible", () => {
+  it("accepts a jpg/png cover image directly under /images/posts/", () => {
+    expect(isVariantEligible("/images/posts/some-post.jpg")).toBe(true);
+    expect(isVariantEligible("/images/posts/some-post.JPG")).toBe(true);
+    expect(isVariantEligible("/images/posts/some-post.png")).toBe(true);
+  });
+
+  it("rejects a format generateImageVariants.ts doesn't process", () => {
+    expect(isVariantEligible("/images/posts/some-post.gif")).toBe(false);
+    expect(isVariantEligible("/images/posts/some-post.svg")).toBe(false);
+  });
+
+  it("rejects a nested path — the generator only reads the top-level directory", () => {
+    expect(isVariantEligible("/images/posts/nested/some-post.jpg")).toBe(false);
+  });
+
+  it("rejects a remote/external image url", () => {
+    expect(isVariantEligible("https://cdn.example.com/some-post.jpg")).toBe(
+      false,
+    );
+  });
+
+  it("rejects a path outside /images/posts/", () => {
+    expect(isVariantEligible("/images/avatars/some-post.jpg")).toBe(false);
   });
 });

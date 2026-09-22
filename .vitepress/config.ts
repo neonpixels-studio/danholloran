@@ -50,7 +50,10 @@ type VitePluginOption = VitePlugins[number];
 // at these variant files, so they need to exist before any page is served —
 // under `vitepress dev` as much as `vitepress build`. Running it here, ahead
 // of `defineConfig`, covers both; mtime-based skipping (see
-// generateImageVariants.ts) keeps repeat runs fast.
+// generateImageVariants.ts) keeps repeat runs fast. A failed encode throws
+// rather than logging and continuing (see generateImageVariants.ts), so a
+// rejection here fails `dev`/`build` loudly instead of letting a page render
+// with a <picture> pointing at a variant that was never produced.
 await generateImageVariants();
 
 export default defineConfig({

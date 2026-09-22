@@ -1,10 +1,12 @@
-import { mkdirSync, readdirSync, statSync } from "fs";
+import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from "fs";
 import { fileURLToPath } from "node:url";
 import { basename, dirname, extname, join } from "path";
 import sharp from "sharp";
 import {
   IMAGE_FORMATS,
   IMAGE_VARIANT_WIDTHS,
+  PROCESSABLE_SOURCE_EXTENSIONS,
+  variantFileName,
   type ImageFormat,
   type ImageVariant,
 } from "./responsiveImage";
@@ -23,7 +25,6 @@ const SOURCE_DIR = join(
 );
 const OUTPUT_DIR = join(SOURCE_DIR, "variants");
 
-const SOURCE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png"]);
 const AVIF_QUALITY = 50;
 const WEBP_QUALITY = 68;
 // Bounds how many sharp encodes run at once. Unbounded Promise.all across the
@@ -31,10 +32,12 @@ const WEBP_QUALITY = 68;
 // queue thousands of concurrent file handles/encodes at once; this keeps
 // resource use predictable without meaningfully slowing the first run.
 const CONCURRENCY = 8;
+const TEMP_SUFFIX = ".tmp";
 
 // The actual image-encoding side effect, isolated behind this interface so
-// the orchestration logic below (which files, which widths, skip-if-fresh)
-// is testable with a fake instead of invoking real image encoding.
+// the orchestration logic below (which files, which widths, skip-if-fresh,
+// slug collisions) is testable with a fake instead of invoking real image
+// encoding.
 export interface ImageProcessor {
   resizeToFormat(
     _sourcePath: string,
@@ -46,6 +49,13 @@ export interface ImageProcessor {
 
 export const sharpImageProcessor: ImageProcessor = {
   async resizeToFormat(sourcePath, outputPath, width, format) {
+    // sharp's toFile writes straight to its target path; a process killed
+    // mid-encode (Ctrl-C during `vitepress dev`, a CI timeout) would leave a
+    // truncated file whose mtime is already newer than the source, and
+    // isUpToDate would treat that corrupt file as fresh forever. Encoding to
+    // a temp path and renaming into place makes the write atomic: either the
+    // final file is a complete, valid encode, or it doesn't exist.
+    const temporaryPath = `${outputPath}${TEMP_SUFFIX}`;
     const pipeline = sharp(sourcePath).resize({
       width,
       // Post images are already at or below the largest variant width, so
@@ -58,7 +68,8 @@ export const sharpImageProcessor: ImageProcessor = {
       format === "avif"
         ? pipeline.avif({ quality: AVIF_QUALITY })
         : pipeline.webp({ quality: WEBP_QUALITY });
-    await encoded.toFile(outputPath);
+    await encoded.toFile(temporaryPath);
+    renameSync(temporaryPath, outputPath);
   },
 };
 
@@ -70,17 +81,35 @@ export interface GenerateImageVariantsOptions {
 
 function listSourceImages(sourceDir: string): string[] {
   return readdirSync(sourceDir).filter((fileName) =>
-    SOURCE_EXTENSIONS.has(extname(fileName).toLowerCase()),
+    PROCESSABLE_SOURCE_EXTENSIONS.has(extname(fileName).toLowerCase()),
   );
 }
 
+// Two source files that share a slug (e.g. "a.jpg" and "a.png") would
+// overwrite each other's variant files, so whichever happens to run last
+// wins and the other silently serves the wrong photo. Fail loud instead of
+// letting that happen quietly.
+function assertNoSlugCollisions(fileNames: string[]): void {
+  const fileNamesBySlug = new Map<string, string[]>();
+  for (const fileName of fileNames) {
+    const slug = basename(fileName, extname(fileName));
+    fileNamesBySlug.set(slug, [...(fileNamesBySlug.get(slug) ?? []), fileName]);
+  }
+  for (const [slug, fileNamesForSlug] of fileNamesBySlug) {
+    if (fileNamesForSlug.length > 1) {
+      throw new Error(
+        `generateImageVariants: "${fileNamesForSlug.join('", "')}" all resolve ` +
+          `to the same slug "${slug}" — rename one so their variants don't collide`,
+      );
+    }
+  }
+}
+
 function isUpToDate(sourcePath: string, outputPath: string): boolean {
-  try {
-    return statSync(outputPath).mtimeMs >= statSync(sourcePath).mtimeMs;
-  } catch {
-    // No existing output (or an unreadable one) is never up to date.
+  if (!existsSync(outputPath)) {
     return false;
   }
+  return statSync(outputPath).mtimeMs >= statSync(sourcePath).mtimeMs;
 }
 
 interface VariantJob {
@@ -92,30 +121,42 @@ interface VariantJob {
   format: ImageFormat;
 }
 
+// Every (variant, width, format) combination the site ships, built once so
+// planJobsForImage can map over it instead of nesting three more loops
+// inside the per-file loop in planJobs.
+const VARIANT_COMBINATIONS: {
+  variant: ImageVariant;
+  width: number;
+  format: ImageFormat;
+}[] = (Object.keys(IMAGE_VARIANT_WIDTHS) as ImageVariant[]).flatMap((variant) =>
+  IMAGE_VARIANT_WIDTHS[variant].flatMap((width) =>
+    IMAGE_FORMATS.map((format) => ({ variant, width, format })),
+  ),
+);
+
+function planJobsForImage(
+  sourceDir: string,
+  outputDir: string,
+  fileName: string,
+): VariantJob[] {
+  const slug = basename(fileName, extname(fileName));
+  const sourcePath = join(sourceDir, fileName);
+  return VARIANT_COMBINATIONS.map(({ variant, width, format }) => ({
+    sourcePath,
+    fileName,
+    outputPath: join(outputDir, variantFileName(slug, variant, width, format)),
+    variant,
+    width,
+    format,
+  }));
+}
+
 function planJobs(sourceDir: string, outputDir: string): VariantJob[] {
-  const jobs: VariantJob[] = [];
-  for (const fileName of listSourceImages(sourceDir)) {
-    const slug = basename(fileName, extname(fileName));
-    const sourcePath = join(sourceDir, fileName);
-    for (const variant of Object.keys(IMAGE_VARIANT_WIDTHS) as ImageVariant[]) {
-      for (const width of IMAGE_VARIANT_WIDTHS[variant]) {
-        for (const format of IMAGE_FORMATS) {
-          jobs.push({
-            sourcePath,
-            fileName,
-            outputPath: join(
-              outputDir,
-              `${slug}-${variant}-${width}.${format}`,
-            ),
-            variant,
-            width,
-            format,
-          });
-        }
-      }
-    }
-  }
-  return jobs;
+  const fileNames = listSourceImages(sourceDir);
+  assertNoSlugCollisions(fileNames);
+  return fileNames.flatMap((fileName) =>
+    planJobsForImage(sourceDir, outputDir, fileName),
+  );
 }
 
 async function runJob(
@@ -133,14 +174,17 @@ async function runJob(
       job.format,
     );
   } catch (error) {
-    // A single bad/corrupt source image shouldn't take down `vitepress
-    // dev`/`build` for every other post — warn loudly (matching
-    // markdownImageHints.ts's readLocalImageDimensions) and let
-    // ResponsiveImage.vue's <picture> fall through to the other format /
-    // the original-image <img> fallback for this one file.
-    console.warn(
+    // ResponsiveImage.vue only points a <picture> at these urls once this
+    // whole function has completed without error (see config.ts) — a
+    // <picture>'s <source> does not fall back to the next one on a 404, so a
+    // silently-skipped variant would ship a broken image to real visitors.
+    // Failing the whole run is the honest outcome: fix the source image (or
+    // its permissions) and re-run, rather than discovering the gap in
+    // production.
+    throw new Error(
       `generateImageVariants: failed "${job.fileName}" ` +
-        `${job.variant}/${job.width}w.${job.format}: ${(error as Error).message}`,
+        `${job.variant}/${job.width}w.${job.format}`,
+      { cause: error },
     );
   }
 }
@@ -160,12 +204,16 @@ async function runWithConcurrency(
 }
 
 // Regenerates only what's missing or stale (mtime-compared against the
-// source), so repeat dev-server restarts and CI runs after the first are
-// fast. Runs at config load (see config.ts) rather than in the `buildEnd`
-// hook used by generateFeed/generateLlmsTxt: those write post-build
-// artifacts nothing downstream reads back, but these variant files back the
-// srcset paths ResponsiveImage.vue renders, so they need to exist for
-// `vitepress dev` too, not just `vitepress build`.
+// source), so a repeat run only (re-)encodes new/changed post images — a
+// clean checkout with no cached public/images/posts/variants/ still
+// (re-)encodes everything the first time a dev server/build starts, which
+// takes real time given the avif encoder's speed; see README for caching
+// this directory in CI if that first-run cost matters. Runs at config load
+// (see config.ts) rather than in the `buildEnd` hook used by
+// generateFeed/generateLlmsTxt: those write post-build artifacts nothing
+// downstream reads back, but these variant files back the srcset paths
+// ResponsiveImage.vue renders, so they need to exist for `vitepress dev`
+// too, not just `vitepress build`.
 export async function generateImageVariants(
   options: GenerateImageVariantsOptions = {},
 ): Promise<void> {

@@ -327,7 +327,7 @@ onUnmounted(() => {
           variant="thumb"
           :sizes="
             isFeatured(i)
-              ? '(max-width: 767px) 100vw, 45vw'
+              ? '(max-width: 767px) 100vw, min(45vw, 495px)'
               : '(max-width: 767px) 100vw, 320px'
           "
           class="object.fit h-full w-full"

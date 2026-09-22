@@ -56,4 +56,21 @@ describe("ResponsiveImage", () => {
       "/images/posts/some-post.jpg",
     );
   });
+
+  it("renders a plain <img> with no <picture> for a src no variants were generated for", () => {
+    const wrapper = mount(ResponsiveImage, {
+      props: {
+        src: "/images/posts/legacy-screenshot.gif",
+        variant: "thumb",
+        sizes: "320px",
+      },
+      attrs: { alt: "Legacy screenshot" },
+    });
+
+    expect(wrapper.find("picture").exists()).toBe(false);
+    const img = wrapper.find("img");
+    expect(img.exists()).toBe(true);
+    expect(img.attributes("src")).toBe("/images/posts/legacy-screenshot.gif");
+    expect(img.attributes("alt")).toBe("Legacy screenshot");
+  });
 });
