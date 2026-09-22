@@ -6,6 +6,7 @@ import {
   toFilterSlug,
 } from "./archive";
 import { normalizeTags } from "./normalizeTags";
+import { normalizeFrontmatterTopic } from "./frontmatter";
 
 // The posts glob every archive `.paths.ts` declares in its `watch` array,
 // mirroring the existing `posts/[slug].paths.ts` convention. Defined once so all
@@ -77,9 +78,10 @@ function addPostToBucket(
 
 function topicBuckets(): FilterBucket[] {
   const posts = loadPublishedPosts();
-  return bucketsFromKeyed(posts, (post) =>
-    typeof post.topic === "string" ? [post.topic] : [],
-  );
+  return bucketsFromKeyed(posts, (post) => {
+    const topic = normalizeFrontmatterTopic(post.topic);
+    return topic ? [topic] : [];
+  });
 }
 
 function tagBuckets(): FilterBucket[] {
