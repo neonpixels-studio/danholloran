@@ -73,6 +73,19 @@ export function variantFileName(
   return `${slug}-${variant}-${width}.${format}`;
 }
 
+// generateImageVariants.ts derives each slug straight from the raw filename
+// on disk — it never decodes anything, since a real filename is never
+// percent-encoded to begin with. A frontmatter src that *is* already
+// percent-encoded (e.g. "/images/posts/my%20post.jpg", a valid way to
+// reference a file literally named "my post.jpg") would, if treated as
+// eligible, get percent-encoded a second time by buildSrcset below,
+// producing a url ("my%2520post-thumb-400.avif") that doesn't match any
+// generated file. Rather than decode-then-re-encode (itself a footgun if the
+// value isn't validly encoded), such a src is simply excluded here, the same
+// way a nested path or unsupported extension already is — it renders as a
+// plain <img> instead of a <picture> pointing at urls nobody produced.
+const HAS_PERCENT_ENCODING = /%[0-9a-fA-F]{2}/;
+
 // True only for a src generateImageVariants.ts actually produces variants
 // for. ResponsiveImage.vue uses this to decide whether to render <source>
 // elements at all — a differently-hosted cover image, a nested path, or a
@@ -84,6 +97,9 @@ export function variantFileName(
 export function isVariantEligible(src: string): boolean {
   const match = src.match(ELIGIBLE_SRC_PATTERN);
   if (!match) {
+    return false;
+  }
+  if (HAS_PERCENT_ENCODING.test(match[1])) {
     return false;
   }
   return isProcessableFileName(match[1]);

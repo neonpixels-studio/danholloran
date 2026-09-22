@@ -118,6 +118,20 @@ describe("generateImageVariants", () => {
     expect(processor.calls).toHaveLength(0);
   });
 
+  it("rejects two source files whose slugs collide only by case", async () => {
+    // "Post.jpg" and "post.png" have distinct slugs on a case-sensitive
+    // filesystem, but the variant filenames they'd produce ("Post-thumb-
+    // 400.avif" vs "post-thumb-400.avif") are the same file on the case-
+    // insensitive filesystems this project actually ships from.
+    setUpSourceDir(["Post.jpg", "post.png"]);
+    const processor = makeFakeProcessor();
+
+    await expect(
+      generateImageVariants({ sourceDir, outputDir, processor }),
+    ).rejects.toThrow(/Post\.jpg.*post\.png|post\.png.*Post\.jpg/);
+    expect(processor.calls).toHaveLength(0);
+  });
+
   it("fails the whole run (not just a warning) when an encode fails, naming the file", async () => {
     setUpSourceDir(["a.jpg"]);
     const failingProcessor: ImageProcessor = {
@@ -136,26 +150,30 @@ describe("generateImageVariants", () => {
   });
 
   it("stops pulling new jobs from the queue once one has failed", async () => {
-    // 2 source images x 8 jobs each = 16, more than CONCURRENCY (8), so the
-    // failure has queued work left to *not* pick up. resizeToFormat fails
-    // every call, so however many run before the shared "failed" flag is
-    // observed, it should be well short of all 16 — proving the other
-    // workers stopped pulling instead of draining the whole queue.
+    // 2 source images x 8 jobs each = 16, more than CONCURRENCY (8). Only the
+    // very first call fails; every other call succeeds after a short delay
+    // (so it doesn't resolve before the failure is observed). Without the
+    // shared "failed" flag, the 7 workers that got a successful first job
+    // would just keep draining the queue after their own job finishes and
+    // reach all 16 — this only stays under 16 because they stop pulling once
+    // the failure is flagged.
     setUpSourceDir(["a.jpg", "b.jpg"]);
     let callCount = 0;
-    const failingProcessor: ImageProcessor = {
-      async resizeToFormat() {
+    let firstCallHasFailed = false;
+    const processor: ImageProcessor = {
+      async resizeToFormat(_sourcePath, outputPath, width, format) {
         callCount += 1;
-        throw new Error("boom");
+        if (!firstCallHasFailed) {
+          firstCallHasFailed = true;
+          throw new Error("boom");
+        }
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        writeFileSync(outputPath, `fake-${width}-${format}`);
       },
     };
 
     await expect(
-      generateImageVariants({
-        sourceDir,
-        outputDir,
-        processor: failingProcessor,
-      }),
+      generateImageVariants({ sourceDir, outputDir, processor }),
     ).rejects.toThrow();
 
     expect(callCount).toBeLessThan(16);

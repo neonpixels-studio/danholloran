@@ -141,4 +141,12 @@ describe("isVariantEligible", () => {
   it("rejects a path outside /images/posts/", () => {
     expect(isVariantEligible("/images/avatars/some-post.jpg")).toBe(false);
   });
+
+  it("rejects an already percent-encoded src instead of risking a double-encoded, 404ing srcset", () => {
+    // generateImageVariants.ts derives every slug from the raw filename on
+    // disk — it never decodes anything. If a pre-encoded src like this were
+    // treated as eligible, buildSrcset would percent-encode it a second
+    // time and point at a url no generated file matches.
+    expect(isVariantEligible("/images/posts/my%20post.jpg")).toBe(false);
+  });
 });

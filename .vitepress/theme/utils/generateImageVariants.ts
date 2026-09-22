@@ -3,8 +3,10 @@ import {
   mkdirSync,
   readdirSync,
   renameSync,
+  rmSync,
   statSync,
   utimesSync,
+  type Stats,
 } from "fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "path";
@@ -64,20 +66,30 @@ export const sharpImageProcessor: ImageProcessor = {
     // a temp path and renaming into place makes the write atomic: either the
     // final file is a complete, valid encode, or it doesn't exist.
     const temporaryPath = `${outputPath}${TEMP_SUFFIX}`;
-    const pipeline = sharp(sourcePath).resize({
-      width,
-      // Post images are already at or below the largest variant width, so
-      // this is a format-conversion no-op for at-size sources — it never
-      // upscales the small legacy assets that are narrower than a given
-      // target width.
-      withoutEnlargement: true,
-    });
-    const encoded =
-      format === "avif"
-        ? pipeline.avif({ quality: AVIF_QUALITY })
-        : pipeline.webp({ quality: WEBP_QUALITY });
-    await encoded.toFile(temporaryPath);
-    renameSync(temporaryPath, outputPath);
+    try {
+      const pipeline = sharp(sourcePath).resize({
+        width,
+        // Post images are already at or below the largest variant width, so
+        // this is a format-conversion no-op for at-size sources — it never
+        // upscales the small legacy assets that are narrower than a given
+        // target width.
+        withoutEnlargement: true,
+      });
+      const encoded =
+        format === "avif"
+          ? pipeline.avif({ quality: AVIF_QUALITY })
+          : pipeline.webp({ quality: WEBP_QUALITY });
+      await encoded.toFile(temporaryPath);
+      renameSync(temporaryPath, outputPath);
+    } catch (error) {
+      // A partial encode that dies before the rename would otherwise leave
+      // its .tmp file sitting in public/images/posts/variants/ forever —
+      // VitePress copies the whole public/ dir into dist/, so an orphaned
+      // .tmp would ride along into every future build even though nothing
+      // references it.
+      rmSync(temporaryPath, { force: true });
+      throw error;
+    }
   },
 };
 
@@ -95,13 +107,22 @@ function listSourceImages(sourceDir: string): string[] {
 
 // Two source files that share a slug (e.g. "a.jpg" and "a.png") would
 // overwrite each other's variant files, so whichever happens to run last
-// wins and the other silently serves the wrong photo. Fail loud instead of
-// letting that happen quietly.
+// wins and the other silently serves the wrong photo. Grouped case-
+// insensitively: "Post.jpg" and "post.png" produce distinct slugs on a
+// case-sensitive filesystem, but the same "post-thumb-400.avif" variant
+// filename on the case-insensitive ones this project actually ships from
+// (macOS/APFS locally, and common CI/deploy images) — so it's a real
+// collision there even though the slugs differ by case. The variant files
+// themselves (see planJobsForImage) still use each slug's original casing;
+// only this collision check folds case.
 function groupFileNamesBySlug(fileNames: string[]): Map<string, string[]> {
   const fileNamesBySlug = new Map<string, string[]>();
   for (const fileName of fileNames) {
-    const slug = slugFromFileName(fileName);
-    fileNamesBySlug.set(slug, [...(fileNamesBySlug.get(slug) ?? []), fileName]);
+    const slugKey = slugFromFileName(fileName).toLowerCase();
+    fileNamesBySlug.set(slugKey, [
+      ...(fileNamesBySlug.get(slugKey) ?? []),
+      fileName,
+    ]);
   }
   return fileNamesBySlug;
 }
@@ -120,6 +141,15 @@ function assertNoSlugCollisions(fileNames: string[]): void {
   );
 }
 
+// mtimeMs carries sub-millisecond precision on most filesystems; truncating
+// to whole milliseconds on both sides of a comparison is what actually
+// round-trips through utimesSync (see syncOutputMtimeToSource) reliably
+// across platforms, rather than relying on exact float equality surviving a
+// double → OS timespec → double conversion.
+function truncatedMtimeMs(stat: Stats): number {
+  return Math.trunc(stat.mtimeMs);
+}
+
 // A source replaced by a different file that happens to carry an older or
 // otherwise-unrelated mtime (e.g. `cp -p`, `rsync -a`, some export tools)
 // would slip past a ">=" check and keep serving the old photo's variants —
@@ -130,7 +160,10 @@ function isUpToDate(sourcePath: string, outputPath: string): boolean {
   if (!existsSync(outputPath)) {
     return false;
   }
-  return statSync(outputPath).mtimeMs === statSync(sourcePath).mtimeMs;
+  return (
+    truncatedMtimeMs(statSync(outputPath)) ===
+    truncatedMtimeMs(statSync(sourcePath))
+  );
 }
 
 interface VariantJob {
@@ -183,16 +216,19 @@ function planJobs(sourceDir: string, outputDir: string): VariantJob[] {
 // Stamps the variant's mtime from its source's (rather than leaving it at
 // "now", when the encode finished) so isUpToDate's equality check is
 // comparing the same source timestamp on every future run, not the moment
-// this variant happened to be built.
+// this variant happened to be built. Takes the already-read source stat
+// (captured before the encode started, see runJob) rather than re-statting
+// after — re-statting after would pick up a newer mtime if the source was
+// replaced mid-encode, and stamp the *old* encode as matching the *new*
+// source, hiding the fact that it needs to be redone.
 //
 // utimesSync takes epoch *seconds* here, not a Date — passing sourceStat's
 // Date objects (millisecond resolution) silently rounds away the sub-ms
 // fraction most filesystems actually store in mtimeMs, so the value read
-// back would never again equal the source's, and isUpToDate would think
-// every variant was perpetually stale.
-function syncOutputMtimeToSource(sourcePath: string, outputPath: string): void {
-  const sourceStat = statSync(sourcePath);
-  utimesSync(outputPath, sourceStat.atimeMs / 1000, sourceStat.mtimeMs / 1000);
+// back would rarely equal the source's again.
+function syncOutputMtimeToSource(sourceStat: Stats, outputPath: string): void {
+  const truncatedMs = truncatedMtimeMs(sourceStat);
+  utimesSync(outputPath, truncatedMs / 1000, truncatedMs / 1000);
 }
 
 async function runJob(
@@ -203,13 +239,14 @@ async function runJob(
     return;
   }
   try {
+    const sourceStat = statSync(job.sourcePath);
     await processor.resizeToFormat(
       job.sourcePath,
       job.outputPath,
       job.width,
       job.format,
     );
-    syncOutputMtimeToSource(job.sourcePath, job.outputPath);
+    syncOutputMtimeToSource(sourceStat, job.outputPath);
   } catch (error) {
     // ResponsiveImage.vue only points a <picture> at these urls once this
     // whole function has completed without error (see config.ts) — a
@@ -226,6 +263,22 @@ async function runJob(
   }
 }
 
+// Runs one job, marking the shared `failed` flag first so every other
+// worker's loop condition sees it as soon as possible, then rethrows so
+// Promise.all still surfaces the original error.
+async function runAndFlagFailureOnError(
+  run: (_job: VariantJob) => Promise<void>,
+  job: VariantJob,
+  onFailure: () => void,
+): Promise<void> {
+  try {
+    await run(job);
+  } catch (error) {
+    onFailure();
+    throw error;
+  }
+}
+
 async function runWithConcurrency(
   jobs: VariantJob[],
   concurrency: number,
@@ -239,12 +292,9 @@ async function runWithConcurrency(
   let failed = false;
   const workers = Array.from({ length: concurrency }, async () => {
     for (let job = queue.shift(); job && !failed; job = queue.shift()) {
-      try {
-        await run(job);
-      } catch (error) {
+      await runAndFlagFailureOnError(run, job, () => {
         failed = true;
-        throw error;
-      }
+      });
     }
   });
   await Promise.all(workers);
@@ -260,7 +310,9 @@ async function runWithConcurrency(
 // generateFeed/generateLlmsTxt: those write post-build artifacts nothing
 // downstream reads back, but these variant files back the srcset paths
 // ResponsiveImage.vue renders, so they need to exist for `vitepress dev`
-// too, not just `vitepress build`.
+// too, not just `vitepress build`. This only runs once, at startup — adding
+// a post image while `vitepress dev` is already running needs a server
+// restart to pick it up (see README).
 export async function generateImageVariants(
   options: GenerateImageVariantsOptions = {},
 ): Promise<void> {

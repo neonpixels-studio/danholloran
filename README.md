@@ -60,6 +60,11 @@ if that first-run cost becomes a problem. A failed encode fails the whole
 `dev`/`build` run rather than silently shipping a page with a missing
 variant.
 
+Generation only runs once, when `.vitepress/config.ts` loads — adding a new
+post (and its cover image) while `npm run dev` is already running needs a
+dev-server restart before that post's `<picture>` has real variants; `npm run
+build` always regenerates fresh since it's a new process.
+
 ### Available Commands
 
 | Command            | Description                       |
