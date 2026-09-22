@@ -19,6 +19,7 @@ import {
 } from "../../data/searchIndex.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
+import { highlightMatch } from "@utils/highlightMatch.ts";
 
 const router = useRouter();
 const { isSearchOpen, openSearch, closeAll } = useNavPanels();
@@ -93,19 +94,6 @@ watch(activeIndex, (i) => {
     resultRefs.value[i]?.scrollIntoView({ block: "nearest" });
   });
 });
-
-function highlight(str: string, q: string): string {
-  if (!q) return str;
-  const i = str.toLowerCase().indexOf(q.toLowerCase());
-  if (i < 0) return str;
-  return (
-    str.slice(0, i) +
-    '<mark class="bg-accent-dim text-on-accent-dim rounded-[2px] px-0.5">' +
-    str.slice(i, i + q.length) +
-    "</mark>" +
-    str.slice(i + q.length)
-  );
-}
 
 async function open() {
   openSearch();
@@ -337,11 +325,11 @@ onUnmounted(() => {
               <div class="min-w-0 flex-1">
                 <div
                   class="text-fg truncate font-mono text-[0.85rem] font-semibold"
-                  v-html="highlight(item.title, query.trim())"
+                  v-html="highlightMatch(item.title, query.trim())"
                 ></div>
                 <div
                   class="text-fg-muted mt-0.5 truncate font-mono text-[0.68rem]"
-                  v-html="highlight(item.desc, query.trim())"
+                  v-html="highlightMatch(item.desc, query.trim())"
                 ></div>
               </div>
               <svg
