@@ -45,12 +45,6 @@ describe("normalizeFrontmatterTopic", () => {
     expect(normalizeFrontmatterTopic("development")).toBe("development");
   });
 
-  // The previously-inconsistent case: search.data.ts and pageTransform.ts
-  // trimmed a padded topic, but archivePaths.ts's topicBuckets() read
-  // post.topic raw and skipped the trim, so a whitespace-padded topic reached
-  // its archive page heading/label untrimmed while the same post's search
-  // result and Article JSON-LD trimmed it. The shared normalizer makes all
-  // three consumers agree.
   it("trims leading and trailing whitespace", () => {
     expect(normalizeFrontmatterTopic("  development  ")).toBe("development");
   });

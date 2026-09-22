@@ -80,8 +80,6 @@ function topicBuckets(): FilterBucket[] {
   const posts = loadPublishedPosts();
   return bucketsFromKeyed(posts, (post) => {
     const topic = normalizeFrontmatterTopic(post.topic);
-    // hasFilterRoute (inside addPostToBucket) drops a blank slug, so an
-    // untopiced or whitespace-only post correctly generates no route.
     return topic ? [topic] : [];
   });
 }

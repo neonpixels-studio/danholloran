@@ -32,9 +32,7 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
         const slug = toSlug(url);
         // frontmatter.topic is optional at runtime even though the Post type
         // marks it required — YAML can omit it, leave it bare (null), or hand
-        // back a non-string scalar. normalizeFrontmatterTopic guards to a
-        // trimmed string so a topicless post never interpolates the literal
-        // "undefined" or launders a number into desc/kw.
+        // back a non-string scalar.
         const topic = normalizeFrontmatterTopic(frontmatter.topic);
         // An unparseable date already warned inside resolvePublishedDate;
         // formatting it anyway would render the literal string "Invalid Date"
