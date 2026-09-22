@@ -3,7 +3,9 @@
 // generateImageVariants.ts (which produces the files at those same urls).
 // Keeping both sides pinned to this one config/helper means the srcset a
 // page ships can never drift from the widths and filenames the generator
-// actually produces.
+// actually produces. This module is imported from both Node (the generator,
+// via config.ts) and the browser (ResponsiveImage.vue's client bundle), so
+// it only ever does pure string work — no `fs`/`path` node builtins.
 
 // "thumb" backs small list/card contexts (HomeBlog's featured card,
 // PostsView's list thumbnails); "hero" backs the larger single-post
@@ -23,17 +25,44 @@ export const IMAGE_VARIANT_WIDTHS: Record<ImageVariant, number[]> = {
 export const IMAGE_VARIANTS_DIR = "/images/posts/variants";
 
 // The only extensions generateImageVariants.ts reads from
-// public/images/posts/ and produces variants for. isVariantEligible checks
-// a src against this same set, so ResponsiveImage.vue never points a
-// <picture> at variant urls that were never generated (see its docstring).
+// public/images/posts/ and produces variants for. isProcessableFileName (and
+// therefore isVariantEligible) checks against this same set, so
+// ResponsiveImage.vue never points a <picture> at variant urls that were
+// never generated.
 export const PROCESSABLE_SOURCE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png"]);
-
-const SOURCE_EXTENSION_PATTERN = /\.[^./]+$/;
 
 // A post image is referenced by its root-absolute public/ path directly
 // under /images/posts/ (e.g. "/images/posts/some-post.jpg"), never nested —
 // that's where generateImageVariants.ts looks for source files.
 const ELIGIBLE_SRC_PATTERN = /^\/images\/posts\/([^/]+)$/;
+
+// Deliberately not Node's path.extname/basename (unavailable in the browser
+// bundle — see the module docstring). A leading-dot name with nothing before
+// it (".jpg") is treated as having no extension, matching path.extname's
+// behavior for dotfiles, so both sides of the generator/component split stay
+// aligned on what counts as "no extension" without either importing `path`.
+function splitExtension(fileName: string): { base: string; extension: string } {
+  const dotIndex = fileName.lastIndexOf(".");
+  if (dotIndex <= 0) {
+    return { base: fileName, extension: "" };
+  }
+  return {
+    base: fileName.slice(0, dotIndex),
+    extension: fileName.slice(dotIndex).toLowerCase(),
+  };
+}
+
+// The one place that decides "is this filename one generateImageVariants.ts
+// processes" — used by the generator (to pick source files) and by
+// isVariantEligible (to decide whether a <picture> is safe to render), so
+// the two can never independently drift on what "processable" means.
+export function isProcessableFileName(fileName: string): boolean {
+  return PROCESSABLE_SOURCE_EXTENSIONS.has(splitExtension(fileName).extension);
+}
+
+export function slugFromFileName(fileName: string): string {
+  return splitExtension(fileName).base;
+}
 
 export function variantFileName(
   slug: string,
@@ -57,19 +86,26 @@ export function isVariantEligible(src: string): boolean {
   if (!match) {
     return false;
   }
-  const fileName = match[1];
-  const extension = fileName.slice(fileName.lastIndexOf(".")).toLowerCase();
-  return PROCESSABLE_SOURCE_EXTENSIONS.has(extension);
+  return isProcessableFileName(match[1]);
 }
 
-function slugFromFileName(fileName: string): string {
-  return fileName.replace(SOURCE_EXTENSION_PATTERN, "");
+// The generator writes each variant's actual filename from the raw
+// (unencoded) source slug — a literal space or comma in a real filename is a
+// perfectly valid thing for a file to be named on disk. A srcset candidate
+// url is not free-form text, though: an unencoded comma reads as the
+// boundary between candidates and an unencoded space/`#` breaks the url, so
+// the slug is percent-encoded only when building the url, never when
+// building the on-disk filename (see generateImageVariants.ts, which never
+// calls this).
+function encodedVariantFileName(
+  slug: string,
+  variant: ImageVariant,
+  width: number,
+  format: ImageFormat,
+): string {
+  return variantFileName(encodeURIComponent(slug), variant, width, format);
 }
 
-// encodeURI so a source filename with a space or other character that's
-// invalid inside an unquoted srcset candidate URL (comma, whitespace)
-// doesn't get parsed as part of the following width descriptor / next
-// candidate.
 function buildSrcset(
   slug: string,
   variant: ImageVariant,
@@ -77,10 +113,8 @@ function buildSrcset(
 ): string {
   return IMAGE_VARIANT_WIDTHS[variant]
     .map((width) => {
-      const url = encodeURI(
-        `${IMAGE_VARIANTS_DIR}/${variantFileName(slug, variant, width, format)}`,
-      );
-      return `${url} ${width}w`;
+      const fileName = encodedVariantFileName(slug, variant, width, format);
+      return `${IMAGE_VARIANTS_DIR}/${fileName} ${width}w`;
     })
     .join(", ");
 }

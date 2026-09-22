@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
+  isProcessableFileName,
   isVariantEligible,
   resolveResponsiveImageSources,
+  slugFromFileName,
 } from "../../theme/utils/responsiveImage";
 
 describe("resolveResponsiveImageSources", () => {
@@ -65,6 +67,52 @@ describe("resolveResponsiveImageSources", () => {
       "/images/posts/variants/my%20post-thumb-400.avif 400w, " +
         "/images/posts/variants/my%20post-thumb-800.avif 800w",
     );
+  });
+
+  it("percent-encodes a comma so it can't be read as the srcset candidate separator", () => {
+    const sources = resolveResponsiveImageSources(
+      "/images/posts/a,b.jpg",
+      "thumb",
+    );
+
+    expect(sources.avifSrcset).toBe(
+      "/images/posts/variants/a%2Cb-thumb-400.avif 400w, " +
+        "/images/posts/variants/a%2Cb-thumb-800.avif 800w",
+    );
+  });
+
+  it("percent-encodes a # so it can't be read as a url fragment", () => {
+    const sources = resolveResponsiveImageSources(
+      "/images/posts/a#b.jpg",
+      "thumb",
+    );
+
+    expect(sources.avifSrcset).toContain("a%23b-thumb-400.avif");
+  });
+});
+
+describe("slugFromFileName / isProcessableFileName", () => {
+  it("strips the extension to derive the slug", () => {
+    expect(slugFromFileName("some-post.jpg")).toBe("some-post");
+    expect(slugFromFileName("some-post.PNG")).toBe("some-post");
+  });
+
+  it("treats a dotfile with nothing before the dot as having no extension", () => {
+    // Matches Node's path.extname(".jpg") === "" — generateImageVariants.ts
+    // reuses this same helper (not path.extname, which the browser bundle
+    // can't import) so the generator and isVariantEligible can't drift on
+    // this edge case the way they once did.
+    expect(isProcessableFileName(".jpg")).toBe(false);
+    expect(slugFromFileName(".jpg")).toBe(".jpg");
+  });
+
+  it("is case-insensitive on the extension", () => {
+    expect(isProcessableFileName("some-post.JPG")).toBe(true);
+    expect(isProcessableFileName("some-post.Png")).toBe(true);
+  });
+
+  it("rejects a filename with no extension at all", () => {
+    expect(isProcessableFileName("some-post")).toBe(false);
   });
 });
 

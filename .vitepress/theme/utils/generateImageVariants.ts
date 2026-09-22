@@ -1,11 +1,19 @@
-import { existsSync, mkdirSync, readdirSync, renameSync, statSync } from "fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  renameSync,
+  statSync,
+  utimesSync,
+} from "fs";
 import { fileURLToPath } from "node:url";
-import { basename, dirname, extname, join } from "path";
+import { dirname, join } from "path";
 import sharp from "sharp";
 import {
   IMAGE_FORMATS,
   IMAGE_VARIANT_WIDTHS,
-  PROCESSABLE_SOURCE_EXTENSIONS,
+  isProcessableFileName,
+  slugFromFileName,
   variantFileName,
   type ImageFormat,
   type ImageVariant,
@@ -81,7 +89,7 @@ export interface GenerateImageVariantsOptions {
 
 function listSourceImages(sourceDir: string): string[] {
   return readdirSync(sourceDir).filter((fileName) =>
-    PROCESSABLE_SOURCE_EXTENSIONS.has(extname(fileName).toLowerCase()),
+    isProcessableFileName(fileName),
   );
 }
 
@@ -89,27 +97,40 @@ function listSourceImages(sourceDir: string): string[] {
 // overwrite each other's variant files, so whichever happens to run last
 // wins and the other silently serves the wrong photo. Fail loud instead of
 // letting that happen quietly.
-function assertNoSlugCollisions(fileNames: string[]): void {
+function groupFileNamesBySlug(fileNames: string[]): Map<string, string[]> {
   const fileNamesBySlug = new Map<string, string[]>();
   for (const fileName of fileNames) {
-    const slug = basename(fileName, extname(fileName));
+    const slug = slugFromFileName(fileName);
     fileNamesBySlug.set(slug, [...(fileNamesBySlug.get(slug) ?? []), fileName]);
   }
-  for (const [slug, fileNamesForSlug] of fileNamesBySlug) {
-    if (fileNamesForSlug.length > 1) {
-      throw new Error(
-        `generateImageVariants: "${fileNamesForSlug.join('", "')}" all resolve ` +
-          `to the same slug "${slug}" — rename one so their variants don't collide`,
-      );
-    }
-  }
+  return fileNamesBySlug;
 }
 
+function assertNoSlugCollisions(fileNames: string[]): void {
+  const collision = [...groupFileNamesBySlug(fileNames)].find(
+    ([, fileNamesForSlug]) => fileNamesForSlug.length > 1,
+  );
+  if (!collision) {
+    return;
+  }
+  const [slug, fileNamesForSlug] = collision;
+  throw new Error(
+    `generateImageVariants: "${fileNamesForSlug.join('", "')}" all resolve ` +
+      `to the same slug "${slug}" — rename one so their variants don't collide`,
+  );
+}
+
+// A source replaced by a different file that happens to carry an older or
+// otherwise-unrelated mtime (e.g. `cp -p`, `rsync -a`, some export tools)
+// would slip past a ">=" check and keep serving the old photo's variants —
+// exact equality catches that too, not just "source became newer". runJob
+// stamps each variant's mtime from its source's on success (see below), so
+// this only ever compares two reads of the same source file.
 function isUpToDate(sourcePath: string, outputPath: string): boolean {
   if (!existsSync(outputPath)) {
     return false;
   }
-  return statSync(outputPath).mtimeMs >= statSync(sourcePath).mtimeMs;
+  return statSync(outputPath).mtimeMs === statSync(sourcePath).mtimeMs;
 }
 
 interface VariantJob {
@@ -139,7 +160,7 @@ function planJobsForImage(
   outputDir: string,
   fileName: string,
 ): VariantJob[] {
-  const slug = basename(fileName, extname(fileName));
+  const slug = slugFromFileName(fileName);
   const sourcePath = join(sourceDir, fileName);
   return VARIANT_COMBINATIONS.map(({ variant, width, format }) => ({
     sourcePath,
@@ -159,6 +180,21 @@ function planJobs(sourceDir: string, outputDir: string): VariantJob[] {
   );
 }
 
+// Stamps the variant's mtime from its source's (rather than leaving it at
+// "now", when the encode finished) so isUpToDate's equality check is
+// comparing the same source timestamp on every future run, not the moment
+// this variant happened to be built.
+//
+// utimesSync takes epoch *seconds* here, not a Date — passing sourceStat's
+// Date objects (millisecond resolution) silently rounds away the sub-ms
+// fraction most filesystems actually store in mtimeMs, so the value read
+// back would never again equal the source's, and isUpToDate would think
+// every variant was perpetually stale.
+function syncOutputMtimeToSource(sourcePath: string, outputPath: string): void {
+  const sourceStat = statSync(sourcePath);
+  utimesSync(outputPath, sourceStat.atimeMs / 1000, sourceStat.mtimeMs / 1000);
+}
+
 async function runJob(
   processor: ImageProcessor,
   job: VariantJob,
@@ -173,6 +209,7 @@ async function runJob(
       job.width,
       job.format,
     );
+    syncOutputMtimeToSource(job.sourcePath, job.outputPath);
   } catch (error) {
     // ResponsiveImage.vue only points a <picture> at these urls once this
     // whole function has completed without error (see config.ts) — a
@@ -195,9 +232,19 @@ async function runWithConcurrency(
   run: (_job: VariantJob) => Promise<void>,
 ): Promise<void> {
   const queue = [...jobs];
+  // A shared flag rather than letting every worker's rejection propagate
+  // independently: once one job fails the whole run is going to fail anyway
+  // (see runJob), so the other workers stop pulling new jobs instead of
+  // continuing to encode files nobody will end up serving.
+  let failed = false;
   const workers = Array.from({ length: concurrency }, async () => {
-    for (let job = queue.shift(); job; job = queue.shift()) {
-      await run(job);
+    for (let job = queue.shift(); job && !failed; job = queue.shift()) {
+      try {
+        await run(job);
+      } catch (error) {
+        failed = true;
+        throw error;
+      }
     }
   });
   await Promise.all(workers);
