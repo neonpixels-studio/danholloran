@@ -5,6 +5,7 @@ import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import { archiveHref, hasFilterRoute, toFilterSlug } from "@utils/archive";
+import { formatPostDate } from "@utils/formatDate";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
 const { post, posts } = defineProps<{
@@ -71,14 +72,6 @@ const prevPost = computed(() =>
 const nextPost = computed(() =>
   postIndex.value > 0 ? posts[postIndex.value - 1] : null,
 );
-
-function formatDate(d: string) {
-  return new Date(d).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-}
 </script>
 
 <template>
@@ -113,7 +106,7 @@ function formatDate(d: string) {
         {{ post.frontmatter.topic }}
       </span>
       <span class="text-fg-subtle font-mono text-[0.72rem]">{{
-        formatDate(post.frontmatter.date)
+        formatPostDate(post.frontmatter.date, "long")
       }}</span>
       <span class="text-fg-subtle font-mono text-[0.72rem]">
         · {{ post.frontmatter.readTime }} min read

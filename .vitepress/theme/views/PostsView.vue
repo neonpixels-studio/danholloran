@@ -14,6 +14,7 @@ import {
   toPageNumber,
   totalPagesForCount,
 } from "@utils/archive";
+import { formatPostDate } from "@utils/formatDate";
 
 // The archive is driven entirely by route params, not client state: each
 // paginated / filtered page is a real, statically generated route (see
@@ -133,14 +134,6 @@ function topicHref(slug: string): string {
 
 function pageHref(targetPage: number): string {
   return archiveHref(targetPage, filterContext.value);
-}
-
-function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
 }
 
 type PaginationItem =
@@ -334,7 +327,7 @@ onUnmounted(() => {
             >{{ post.frontmatter.topic }}</span
           >
           <span class="text-fg-subtle font-mono text-[0.68rem]">{{
-            formatDate(post.frontmatter.date)
+            formatPostDate(post.frontmatter.date)
           }}</span>
           <span class="text-fg-subtle font-mono text-[0.68rem]"
             >· {{ post.frontmatter.readTime }} min</span

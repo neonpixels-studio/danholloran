@@ -17,6 +17,26 @@ describe("formatPostDate", () => {
   it("formats an ISO datetime string", () => {
     expect(formatPostDate("2025-06-15T12:00:00.000Z")).toBe("Jun 15, 2025");
   });
+
+  it("formats with the long month style", () => {
+    expect(formatPostDate("2024-01-15", "long")).toBe("January 15, 2024");
+  });
+
+  it("falls back to a safe string for an unparseable date", () => {
+    expect(formatPostDate("not-a-date")).toBe("Unknown date");
+  });
+
+  it("falls back to a safe string for a missing date", () => {
+    expect(formatPostDate(undefined)).toBe("Unknown date");
+  });
+
+  it("falls back to a safe string for an empty date", () => {
+    expect(formatPostDate("")).toBe("Unknown date");
+  });
+
+  it("falls back to a safe string for a null date", () => {
+    expect(formatPostDate(null)).toBe("Unknown date");
+  });
 });
 
 describe("formatPeriod", () => {
