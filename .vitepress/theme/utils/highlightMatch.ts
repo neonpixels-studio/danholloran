@@ -47,7 +47,11 @@ export function highlightMatch(text: string, query: string): string {
   if (matchIndex < 0) {
     return escapeHtml(text);
   }
-  const matchEnd = matchIndex + query.length;
+  // Use loweredQuery's length, not query's — toLowerCase() can also change
+  // the query's length (e.g. "İ" → "i̇"), and matchIndex was found in
+  // loweredText using loweredQuery, so the span must be measured in the same
+  // lowered units to land on the right end offset.
+  const matchEnd = matchIndex + loweredQuery.length;
   return (
     escapeHtml(text.slice(0, matchIndex)) +
     MARK_OPEN +
