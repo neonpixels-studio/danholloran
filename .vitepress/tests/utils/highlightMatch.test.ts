@@ -55,4 +55,13 @@ describe("highlightMatch", () => {
       'cost: <mark class="bg-accent-dim text-on-accent-dim rounded-[2px] px-0.5">$5 (approx.)</mark>',
     );
   });
+
+  it("skips highlighting rather than mis-slicing when lowercasing changes the string length", () => {
+    // "İ" (U+0130) lowercases to a two-code-unit "i̇", which would desync a
+    // lowercased match index from the original string's slice points.
+    const result = highlightMatch("İstanbul", "stanbul");
+
+    expect(result).toBe("İstanbul");
+    expect(result).not.toContain("<mark");
+  });
 });

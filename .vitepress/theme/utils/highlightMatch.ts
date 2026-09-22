@@ -26,24 +26,33 @@ const MARK_OPEN =
 const MARK_CLOSE = "</mark>";
 
 /**
- * Escapes `str` and wraps the first case-insensitive occurrence of `query`
+ * Escapes `text` and wraps the first case-insensitive occurrence of `query`
  * in a `<mark>` element. Safe to render via `v-html` — every non-markup
  * character is HTML-escaped before the `<mark>` wrapper is added.
  */
-export function highlightMatch(str: string, query: string): string {
+export function highlightMatch(text: string, query: string): string {
   if (!query) {
-    return escapeHtml(str);
+    return escapeHtml(text);
   }
-  const matchIndex = str.toLowerCase().indexOf(query.toLowerCase());
+  const loweredText = text.toLowerCase();
+  const loweredQuery = query.toLowerCase();
+  // toLowerCase() can change a string's length for some Unicode characters
+  // (e.g. "İ" lowercases to two code units), which would desync the index
+  // found here from the original `text` it's about to slice. That's rare
+  // enough to just skip highlighting rather than risk slicing mid-character.
+  if (loweredText.length !== text.length) {
+    return escapeHtml(text);
+  }
+  const matchIndex = loweredText.indexOf(loweredQuery);
   if (matchIndex < 0) {
-    return escapeHtml(str);
+    return escapeHtml(text);
   }
   const matchEnd = matchIndex + query.length;
   return (
-    escapeHtml(str.slice(0, matchIndex)) +
+    escapeHtml(text.slice(0, matchIndex)) +
     MARK_OPEN +
-    escapeHtml(str.slice(matchIndex, matchEnd)) +
+    escapeHtml(text.slice(matchIndex, matchEnd)) +
     MARK_CLOSE +
-    escapeHtml(str.slice(matchEnd))
+    escapeHtml(text.slice(matchEnd))
   );
 }
