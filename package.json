@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vitepress build",
     "preview": "vitepress preview",
-    "dev": "vitepress dev",
+    "dev": "npm run images && vitepress dev",
+    "images": "node .vitepress/scripts/generateImageVariants.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:ci": "vitest run",
