@@ -151,7 +151,12 @@ function createTruncatedDiffOutputShim(): { env: ProcessEnv } {
   return { env: { ...GIT_ENV, PATH: `${shimDir}:${GIT_ENV.PATH}` } };
 }
 
-describe("netlify-ignore.sh", () => {
+// Every test spawns several real processes (git, bash, shims) synchronously,
+// which takes ~200ms alone but can pass vitest's 5s default when the full
+// suite runs under heavy CPU load (e.g. the pre-push hook).
+const SUBPROCESS_TEST_TIMEOUT_MS = 20_000;
+
+describe("netlify-ignore.sh", { timeout: SUBPROCESS_TEST_TIMEOUT_MS }, () => {
   beforeEach(() => {
     repoDir = mkdtempSync(join(tmpdir(), "netlify-ignore-"));
     shimCleanups = [];

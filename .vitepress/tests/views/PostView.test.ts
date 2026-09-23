@@ -71,7 +71,7 @@ describe("PostView", () => {
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
 
     await wrapper
-      .find(`img[src='${mockPosts[0].frontmatter.image}']`)
+      .find(`responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`)
       .trigger("click");
 
     const lightbox = wrapper.findComponent(PostLightbox);
@@ -84,7 +84,7 @@ describe("PostView", () => {
       props: { post: mockPosts[0], posts: mockPosts },
     });
     await wrapper
-      .find(`img[src='${mockPosts[0].frontmatter.image}']`)
+      .find(`responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`)
       .trigger("click");
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(
       mockPosts[0].frontmatter.image,
@@ -100,7 +100,9 @@ describe("PostView", () => {
     const wrapper = shallowMount(PostView, {
       props: { post: mockPosts[0], posts: mockPosts },
     });
-    const hero = wrapper.find(`img[src='${mockPosts[0].frontmatter.image}']`);
+    const hero = wrapper.find(
+      `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
+    );
 
     // Hero is the LCP: prioritize its fetch and never defer it.
     expect(hero.attributes("fetchpriority")).toBe("high");
@@ -114,7 +116,9 @@ describe("PostView", () => {
     const wrapper = shallowMount(PostView, {
       props: { post: mockPosts[0], posts: mockPosts },
     });
-    const hero = wrapper.find(`img[src='${mockPosts[0].frontmatter.image}']`);
+    const hero = wrapper.find(
+      `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
+    );
 
     expect(hero.attributes("role")).toBe("button");
     expect(hero.attributes("tabindex")).toBe("0");
@@ -130,7 +134,7 @@ describe("PostView", () => {
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
 
     await wrapper
-      .find(`img[src='${mockPosts[0].frontmatter.image}']`)
+      .find(`responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`)
       .trigger("keydown", { key: "Enter" });
 
     const lightbox = wrapper.findComponent(PostLightbox);
@@ -144,7 +148,7 @@ describe("PostView", () => {
     });
 
     await wrapper
-      .find(`img[src='${mockPosts[0].frontmatter.image}']`)
+      .find(`responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`)
       .trigger("keydown", { key: " " });
 
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(
@@ -207,7 +211,7 @@ describe("PostView", () => {
     });
 
     const hero = wrapper.find(
-      `img[src='${mockPosts[0].frontmatter.image}']`,
+      `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
     ).element;
     const event = new KeyboardEvent("keydown", {
       key: " ",
