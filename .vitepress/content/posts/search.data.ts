@@ -2,7 +2,10 @@ import { createContentLoader } from "vitepress";
 import type { ContentData } from "vitepress";
 import { PostSearchItem } from "@typedefs";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
-import { coerceFrontmatterString } from "../../theme/utils/frontmatter.ts";
+import {
+  coerceFrontmatterString,
+  normalizeFrontmatterTopic,
+} from "../../theme/utils/frontmatter.ts";
 import { formatPostDate } from "../../theme/utils/formatDate.ts";
 import { POSTS_GLOB, resolvePublishedDate, toSlug } from "./transformPosts.ts";
 
@@ -29,11 +32,8 @@ export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
         const slug = toSlug(url);
         // frontmatter.topic is optional at runtime even though the Post type
         // marks it required — YAML can omit it, leave it bare (null), or hand
-        // back a non-string scalar. Guard to a trimmed string so a topicless
-        // post never interpolates the literal "undefined" or launders a
-        // number into desc/kw.
-        const topic =
-          typeof frontmatter.topic === "string" ? frontmatter.topic.trim() : "";
+        // back a non-string scalar.
+        const topic = normalizeFrontmatterTopic(frontmatter.topic);
         // An unparseable date already warned inside resolvePublishedDate;
         // formatting it anyway would render the literal string "Invalid Date"
         // into the search result's desc, so fall back to the topic alone.

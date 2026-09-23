@@ -91,6 +91,24 @@ describe("topic paths", () => {
     });
   });
 
+  // Padded variant listed first so the bucket label comes from it — fails if
+  // topicBuckets() ever stops trimming before bucketing.
+  it("trims whitespace around a topic before bucketing and labeling", () => {
+    mockLoad.mockReturnValue(
+      makePosts([
+        { topic: "  development  ", tags: [] },
+        { topic: "development", tags: [] },
+      ]) as any,
+    );
+    const base = topicBasePagePaths();
+    expect(base).toHaveLength(1);
+    expect(base[0].params).toEqual({
+      topic: "development",
+      topicLabel: "development",
+      page: "1",
+    });
+  });
+
   it("paginates a topic that overflows the first page", () => {
     mockLoad.mockReturnValue(
       makePosts(

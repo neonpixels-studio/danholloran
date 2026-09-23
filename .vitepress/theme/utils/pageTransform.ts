@@ -1,6 +1,10 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import { coerceFrontmatterString, parseFrontmatter } from "./frontmatter";
+import {
+  coerceFrontmatterString,
+  normalizeFrontmatterTopic,
+  parseFrontmatter,
+} from "./frontmatter";
 import type { PageData } from "vitepress";
 import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
@@ -219,7 +223,7 @@ function buildArticleTopicalFields(data: Record<string, unknown>): {
   keywords?: string;
 } {
   const fields: { articleSection?: string; keywords?: string } = {};
-  const topic = typeof data.topic === "string" ? data.topic.trim() : "";
+  const topic = normalizeFrontmatterTopic(data.topic);
   if (topic.length > 0) {
     fields.articleSection = topic;
   }

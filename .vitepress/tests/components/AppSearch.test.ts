@@ -141,6 +141,12 @@ describe("AppSearch", () => {
     expect(resumeOption).toBeTruthy();
     expect(resumeOption!.text()).toContain("page");
     expect(resumeOption!.attributes("href")).toBe("/resume");
+    // Confirms the title is rendered through highlightMatch's v-html wiring,
+    // not just plain text — the matched substring is wrapped in a real
+    // <mark> element in the DOM.
+    const titleHtml = resumeOption!.find(".font-semibold").html();
+    expect(titleHtml).toContain("<mark");
+    expect(resumeOption!.find(".font-semibold mark").text()).toBe("Resume");
   });
 
   it("returns a project when searching for a project name", async () => {
