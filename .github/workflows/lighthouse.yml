@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Dispatched by image-variants.yml after it pushes a commit (see there).
+  workflow_dispatch:
 
 jobs:
   lighthouse:

@@ -5,6 +5,36 @@
 # failure or ambiguity in computing the diff (shallow clone, first commit,
 # squash, etc.) fails safe and builds — we'd rather build unnecessarily than
 # silently skip a real deploy.
+#
+# Also skips a deploy preview whose post images don't all have committed
+# responsive variants yet: the Image Variants GitHub Action is about to push
+# them, and building now would only fail the variant check in config.ts.
+# Production always builds, so a real gap there fails loudly.
+
+variants_manifest=".vitepress/data/imageVariantsManifest.json"
+
+# A source image counts as covered when the manifest has an entry for it.
+# This is a presence check only; a replaced image with a stale fingerprint
+# still builds here and is caught by the full content-hash check in config.ts.
+has_image_missing_variants() {
+  local image_path image_name
+  shopt -s nullglob nocaseglob
+  for image_path in public/images/posts/*.jpg public/images/posts/*.jpeg public/images/posts/*.png; do
+    image_name=$(basename "$image_path")
+    if [ ! -f "$variants_manifest" ] || ! grep -qF "\"$image_name\":" "$variants_manifest"; then
+      echo "No committed variants for $image_name yet."
+      return 0
+    fi
+  done
+  return 1
+}
+
+if [ "$CONTEXT" = "deploy-preview" ] || [ "$CONTEXT" = "branch-deploy" ]; then
+  if has_image_missing_variants; then
+    echo "Skipping this preview; the Image Variants action will push the variants and trigger a new build."
+    exit 0
+  fi
+fi
 
 diff_stdout_file=$(mktemp) || {
   echo "Could not create a temp file to capture git's stdout — proceeding with build."

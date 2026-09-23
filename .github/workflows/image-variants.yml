@@ -1,0 +1,76 @@
+name: Image Variants
+
+# Encodes responsive avif/webp variants for new or changed post images and
+# commits them back to the PR branch, so builds (Netlify, Lighthouse) only
+# verify variants instead of encoding ~330 images every deploy. Only images
+# whose content fingerprint changed get encoded (see imageVariantManifest.ts).
+on:
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "public/images/posts/**"
+      - ".vitepress/theme/utils/responsiveImage.ts"
+      - ".vitepress/theme/utils/imageVariantManifest.ts"
+      - ".vitepress/theme/utils/generateImageVariants.ts"
+  workflow_dispatch:
+
+concurrency:
+  group: image-variants-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image-variants:
+    # A fork's PR token can't push back to the fork's branch.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          HUSKY: 0
+
+      - name: Generate image variants
+        run: npm run images
+
+      - name: Commit variants
+        id: commit
+        run: |
+          git add public/images/posts/variants .vitepress/data/imageVariantsManifest.json
+          if git diff --cached --quiet; then
+            echo "Variants already up to date."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Generate responsive image variants"
+          git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+
+      # A push made with GITHUB_TOKEN doesn't trigger other workflows, which
+      # would leave the new head commit without the required ci/lighthouse
+      # checks. workflow_dispatch is the exception GitHub allows, so re-run
+      # them explicitly against the branch.
+      - name: Re-run required checks on the new commit
+        if: steps.commit.outputs.pushed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: |
+          gh workflow run ci.yml --ref "$BRANCH"
+          gh workflow run lighthouse.yml --ref "$BRANCH"
