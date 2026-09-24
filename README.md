@@ -74,26 +74,35 @@ variants.
 ### Resume PDF
 
 The downloadable resume (`public/dan_holloran_resume.pdf`, linked from
-`/resume`) is a static export of `.vitepress/data/resume.ts`, kept in sync by
-a human re-running the Claude skill `resume-pdf-export` — it isn't
-regenerated automatically, since that skill isn't available in CI. To guard
-against the PDF silently going stale, content fingerprints of both
-`resume.ts` and the PDF are recorded in
-`.vitepress/data/resumePdfManifest.json`:
+`/resume`) is a static export of the live resume data — `resume.ts` plus
+everything it reads from (`skills.ts`, `past-locations.json`,
+`theme/utils/constants.ts`, `data/location.json`) — kept in sync by a human
+re-running the Claude skill `resume-pdf-export`. It isn't regenerated
+automatically, since that skill isn't available in CI. To guard against the
+PDF silently going stale, a combined content fingerprint of those source
+files, the PDF's own fingerprint, and the "years of experience" value
+computed from the current date (which no file stores, so a year rollover
+alone can go stale) are recorded in `.vitepress/data/resumePdfManifest.json`:
 
-1. Edit `resume.ts`.
+1. Edit `resume.ts` (or one of the files it reads from).
 2. Re-run the `resume-pdf-export` skill to regenerate the PDF.
-3. Run `npm run resume:pdf:sync` to record the new fingerprints.
-4. Commit `resume.ts`, the PDF, and `resumePdfManifest.json` together.
+3. Run `npm run resume:pdf:sync` to record the new state.
+4. Commit the resume source file(s), the PDF, and
+   `resumePdfManifest.json` together.
+
+If the source data changed but the PDF's bytes didn't, `resume:pdf:sync`
+refuses (the export skill most likely never actually ran) unless you pass
+`npm run resume:pdf:sync -- --force` — note the `--`, since a bare `--force`
+is swallowed by npm itself and never reaches the script.
 
 `npm run build` runs `npm run resume:pdf:check` first and fails with a fix-it
-message if either fingerprint is stale or the PDF is missing; the same check
-also runs against the real committed files in
-`resumePdfManifest.test.ts`, so `npm run test:ci` (part of the `ci` GitHub
-Action) catches drift on every PR, not just at deploy time. It intentionally
-does **not** run at `vitepress dev`/`preview` config-load time — nothing
-regenerates the PDF the way `npm run images` does for post images, so that
-would just break local dev the moment `resume.ts` changes.
+message if anything is stale or missing; the same check also runs against
+the real committed files in `resumePdfManifest.test.ts`, so `npm run
+test:ci` (part of the `ci` GitHub Action) catches drift on every PR, not
+just at deploy time. It intentionally does **not** run at `vitepress
+dev`/`preview` config-load time — nothing regenerates the PDF the way `npm
+run images` does for post images, so that would just break local dev the
+moment the resume data changes.
 
 ### Available Commands
 
