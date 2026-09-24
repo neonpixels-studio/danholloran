@@ -5,6 +5,7 @@ import {
   mockSearchItems,
   mockStaticSearchItems,
 } from "../__fixtures__/mockData";
+import { mockGtag, clearGtag } from "../helpers/gtag";
 
 import type { Ref } from "vue";
 
@@ -24,7 +25,14 @@ vi.mock("@composables/useNavPanels.ts", async () => {
     useNavPanels: () => ({
       isSearchOpen: mocks.isSearchOpen,
       openSearch: vi.fn(),
-      closeAll: vi.fn(),
+      // Mirrors the real closeAll(): flips isSearchOpen false, so tests can
+      // exercise AppSearch's isSearchOpen watcher the same way production
+      // reactivity does, not just the direct close()/Escape path.
+      closeAll: vi.fn(() => {
+        if (mocks.isSearchOpen) {
+          mocks.isSearchOpen.value = false;
+        }
+      }),
     }),
   };
 });
@@ -52,6 +60,8 @@ describe("AppSearch", () => {
     wrapper = null;
     mocks.routerGo.mockClear();
     vi.unstubAllGlobals();
+    vi.useRealTimers();
+    clearGtag();
     if (mocks.isSearchOpen) {
       mocks.isSearchOpen.value = true;
     }
@@ -216,5 +226,314 @@ describe("AppSearch", () => {
     await nextTick();
 
     expect(search.find("input").attributes("aria-expanded")).toBe("false");
+  });
+
+  describe("analytics", () => {
+    const QUERY_DEBOUNCE_MS = 500;
+
+    it("fires search_query with the result count once typing settles", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("resume");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+      expect(gtag).toHaveBeenCalledWith("event", "search_query", {
+        query: "resume",
+        results_shown: 1,
+      });
+    });
+
+    it("fires search_no_results for a query with no matches", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("zzzznomatchquery");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+      expect(gtag).toHaveBeenCalledWith("event", "search_no_results", {
+        query: "zzzznomatchquery",
+      });
+    });
+
+    it("debounces rapid typing into a single settled event", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+      const input = search.find("input");
+
+      await input.setValue("r");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS / 2);
+      await input.setValue("re");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS / 2);
+      await input.setValue("resume");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+      expect(gtag).toHaveBeenCalledWith("event", "search_query", {
+        query: "resume",
+        results_shown: 1,
+      });
+    });
+
+    it("fires no query event while the panel sits at the default empty-query state", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      mountSearch();
+
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires no query event once the query is cleared back to empty", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("resume");
+      await search.find("input").setValue("");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).not.toHaveBeenCalled();
+    });
+
+    it("fires search_result_click with the query, href and type on a result click", async () => {
+      // Stubbed like the "navigates external project urls" test above: this
+      // result's href is external, so navigate() writes to window.location.
+      const location = { href: "" };
+      vi.stubGlobal("location", location);
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("Acme Project");
+      await nextTick();
+      const projectOption = search
+        .findAll('[role="option"]')
+        .find((option) => option.text().includes("Acme Project"));
+      await projectOption!.trigger("click");
+
+      expect(gtag).toHaveBeenCalledWith("event", "search_result_click", {
+        query: "Acme Project",
+        href: "https://acme.example",
+        type: "project",
+      });
+    });
+
+    it("flushes the pending search_query event on a fast click, instead of dropping it", async () => {
+      // Regression test: close() (called from navigate()) used to reset
+      // `query` to "" before the debounce timer fired, so a click landing
+      // inside the debounce window silently dropped the settled-query event.
+      vi.useFakeTimers();
+      const location = { href: "" };
+      vi.stubGlobal("location", location);
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("Acme Project");
+      // No advanceTimersByTimeAsync — the click below lands well inside the
+      // QUERY_DEBOUNCE_MS window, before the timer would otherwise fire.
+      const projectOption = search
+        .findAll('[role="option"]')
+        .find((option) => option.text().includes("Acme Project"));
+      await projectOption!.trigger("click");
+
+      // "Acme Project" also fuzzy/prefix-matches the merged "First Post" kw
+      // (see mockStaticSearchItems' "Duplicate Of First Post" collision
+      // fixture), so the panel shows 2 results for this query.
+      expect(gtag).toHaveBeenCalledTimes(2);
+      // The settled-query event reports the funnel step that led to the
+      // click, so it must reach analytics before search_result_click.
+      expect(gtag.mock.calls[0]).toEqual([
+        "event",
+        "search_query",
+        { query: "Acme Project", results_shown: 2 },
+      ]);
+      expect(gtag.mock.calls[1]).toEqual([
+        "event",
+        "search_result_click",
+        {
+          query: "Acme Project",
+          href: "https://acme.example",
+          type: "project",
+        },
+      ]);
+    });
+
+    it("flushes the pending search_no_results event on Escape, instead of dropping it", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("zzzznomatchquery");
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+      // Escape's close() flips isSearchOpen, and the flush runs off that
+      // watcher, not synchronously inside the keydown handler.
+      await nextTick();
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+      expect(gtag).toHaveBeenCalledWith("event", "search_no_results", {
+        query: "zzzznomatchquery",
+      });
+    });
+
+    it("flushes and clears the query when the panel closes via another nav panel, not just close()", async () => {
+      // useNavPanels is a single-slot shared store: opening the mobile menu
+      // flips isSearchOpen false without AppSearch's own close() running.
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("zzzznomatchquery");
+      mocks.isSearchOpen!.value = false;
+      await nextTick();
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+      expect(gtag).toHaveBeenCalledWith("event", "search_no_results", {
+        query: "zzzznomatchquery",
+      });
+      expect((search.find("input").element as HTMLInputElement).value).toBe("");
+    });
+
+    it("does not double-count a settled query re-edited back to the same tracked value", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+      const input = search.find("input");
+
+      await input.setValue("resume");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+      expect(gtag).toHaveBeenCalledTimes(1);
+
+      // Trims back down to the identical already-tracked query.
+      await input.setValue("resume ");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledTimes(1);
+    });
+
+    it("tracks the same query again as a fresh occurrence in a later search", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+      const input = search.find("input");
+
+      await input.setValue("resume");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+      await input.setValue("");
+      await input.setValue("resume");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledTimes(2);
+    });
+
+    it("redacts a query shaped like an email address or a long digit run", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("reader@example.com");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledWith("event", "search_no_results", {
+        query: "[redacted]",
+      });
+    });
+
+    it("redacts a phone-shaped query even with separators between the digits", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("(555) 123-4567");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledWith("event", "search_no_results", {
+        query: "[redacted]",
+      });
+    });
+
+    it("dedupes on the raw query, not the redacted value, so two distinct emails both track", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+      const input = search.find("input");
+
+      await input.setValue("reader@example.com");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+      await input.setValue("other@example.org");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledTimes(2);
+      expect(gtag).toHaveBeenNthCalledWith(1, "event", "search_no_results", {
+        query: "[redacted]",
+      });
+      expect(gtag).toHaveBeenNthCalledWith(2, "event", "search_no_results", {
+        query: "[redacted]",
+      });
+    });
+
+    it("caps the tracked query at the GA4 param limit", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("z".repeat(150));
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledWith("event", "search_no_results", {
+        query: "z".repeat(100),
+      });
+    });
+
+    it("trims surrounding whitespace off the tracked query", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("  resume  ");
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).toHaveBeenCalledWith("event", "search_query", {
+        query: "resume",
+        results_shown: 1,
+      });
+    });
+
+    it("fires search_result_click on ArrowDown + Enter selection", async () => {
+      const gtag = mockGtag();
+      mountSearch();
+
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "ArrowDown" }),
+      );
+      await nextTick();
+      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter" }));
+
+      // Empty-query panel leads with the Resume page (see
+      // "shows posts ahead of projects in the default empty-query panel").
+      expect(gtag).toHaveBeenCalledWith("event", "search_result_click", {
+        query: "",
+        href: "/resume",
+        type: "page",
+      });
+    });
+
+    it("fires no query event when the component unmounts mid-debounce", async () => {
+      vi.useFakeTimers();
+      const gtag = mockGtag();
+      const search = mountSearch();
+
+      await search.find("input").setValue("resume");
+      search.unmount();
+      wrapper = null;
+      await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
+
+      expect(gtag).not.toHaveBeenCalled();
+    });
   });
 });

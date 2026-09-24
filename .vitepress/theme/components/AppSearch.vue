@@ -19,10 +19,46 @@ import {
 } from "../../data/searchIndex.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
+import { useAnalytics } from "@composables/useAnalytics.ts";
 import { highlightMatch } from "@utils/highlightMatch.ts";
+
+// Debounces the query-result analytics ping until typing pauses, so a query
+// typed character-by-character fires one event instead of one per keystroke.
+const QUERY_TRACK_DEBOUNCE_MS = 500;
+// GA4 truncates event param values at 100 characters; cap before sending so a
+// long paste doesn't land in reports half-mangled.
+const MAX_TRACKED_QUERY_LENGTH = 100;
+const SEARCH_QUERY_EVENT = "search_query";
+const SEARCH_NO_RESULTS_EVENT = "search_no_results";
+const SEARCH_RESULT_CLICK_EVENT = "search_result_click";
+const REDACTED_QUERY = "[redacted]";
+
+// Strip common phone-number separators before testing for a long digit run,
+// so "555-123-4567" and "(555) 123-4567" still count as PII-shaped rather
+// than a handful of short digit groups.
+const QUERY_SEPARATORS = /[\s().+-]/g;
+// A query shaped like an email address or a long digit run (phone, account
+// number, etc.) is redacted rather than sent verbatim — truncation alone
+// doesn't stop PII from reaching GA4.
+const PII_SHAPED_QUERY = /@|\d{7,}/;
+
+// Trims and caps the query for dedupe/lookup purposes. Kept separate from
+// redaction: two different PII-shaped queries (e.g. two different emails)
+// must still dedupe as distinct searches, not collapse into one because they
+// redact to the same placeholder.
+function normalizeQuery(value: string): string {
+  return value.trim().slice(0, MAX_TRACKED_QUERY_LENGTH);
+}
+
+// Redacts a normalized query right before it's sent to analytics.
+function redactQuery(normalizedQuery: string): string {
+  const compacted = normalizedQuery.replace(QUERY_SEPARATORS, "");
+  return PII_SHAPED_QUERY.test(compacted) ? REDACTED_QUERY : normalizedQuery;
+}
 
 const router = useRouter();
 const { isSearchOpen, openSearch, closeAll } = useNavPanels();
+const { trackEvent } = useAnalytics();
 
 const ALL_ITEMS: SearchItem[] = mergeSearchIndex(staticItems, postItems);
 
@@ -89,6 +125,81 @@ watch(filteredResults, () => {
   resultRefs.value = [];
 });
 
+let queryTrackTimer: ReturnType<typeof setTimeout> | undefined;
+// Last *normalized* (pre-redaction) query actually sent to analytics, so an
+// edit that trims back down to an already-tracked value (trailing space,
+// type-then-backspace) doesn't double-count. Reset to "" whenever the query
+// goes empty, so the same term searched again in a later session tracks as a
+// fresh occurrence. Deliberately compared before redaction so two distinct
+// PII-shaped queries (e.g. two different emails) don't collapse into one
+// dedupe bucket just because they redact to the same placeholder.
+let lastTrackedQuery = "";
+
+// A hit reports how many results the panel showed, a miss reports the
+// zero-result query, so search quality can be measured. Skips a repeat of
+// the last tracked query.
+function trackQuerySettled(normalizedQuery: string) {
+  if (normalizedQuery === lastTrackedQuery) {
+    return;
+  }
+  lastTrackedQuery = normalizedQuery;
+  const resultsShown = filteredResults.value.length;
+  const trackedQuery = redactQuery(normalizedQuery);
+  if (resultsShown === 0) {
+    trackEvent(SEARCH_NO_RESULTS_EVENT, { query: trackedQuery });
+    return;
+  }
+  trackEvent(SEARCH_QUERY_EVENT, {
+    query: trackedQuery,
+    results_shown: resultsShown,
+  });
+}
+
+// Cancels any pending debounce and, if a query is still in flight, tracks it
+// immediately. Called directly from navigate() (so a fast click/Enter still
+// reports the query it acted on) and from the isSearchOpen watcher below
+// (so any other dismissal doesn't leave the debounce to fire, or drop, on
+// its own) — either way it runs before `query` gets cleared out from under
+// a timer that hasn't fired yet.
+function flushQueryTracking() {
+  clearTimeout(queryTrackTimer);
+  queryTrackTimer = undefined;
+  const normalizedQuery = normalizeQuery(query.value);
+  if (normalizedQuery) {
+    trackQuerySettled(normalizedQuery);
+  }
+}
+
+// Fires exactly one event per settled query, debounced so a query typed
+// character-by-character doesn't fire one event per keystroke.
+watch(query, (value) => {
+  clearTimeout(queryTrackTimer);
+  const normalizedQuery = normalizeQuery(value);
+  if (!normalizedQuery) {
+    lastTrackedQuery = "";
+    return;
+  }
+  queryTrackTimer = setTimeout(
+    () => trackQuerySettled(normalizedQuery),
+    QUERY_TRACK_DEBOUNCE_MS,
+  );
+});
+
+// The shared nav-panel store (useNavPanels) can close this panel without
+// this component's own close() ever running — e.g. switching to the mobile
+// menu while search is open. Watching isSearchOpen (rather than only
+// handling it in close()) guarantees a pending debounce timer is flushed and
+// the query cleared however the panel closes, not just via this file's own
+// dismissal handlers.
+watch(isSearchOpen, (isOpen) => {
+  if (isOpen) {
+    return;
+  }
+  flushQueryTracking();
+  query.value = "";
+  activeIndex.value = -1;
+});
+
 watch(activeIndex, (i) => {
   nextTick(() => {
     resultRefs.value[i]?.scrollIntoView({ block: "nearest" });
@@ -101,10 +212,10 @@ async function open() {
   inputRef.value?.focus();
 }
 
+// Flushing/clearing itself is handled by the isSearchOpen watcher above,
+// which fires for every way the panel can close, this one included.
 function close() {
   closeAll();
-  query.value = "";
-  activeIndex.value = -1;
 }
 
 function toggle() {
@@ -124,13 +235,25 @@ function isExternal(href: string): boolean {
   return EXTERNAL_PROTOCOLS.includes(scheme);
 }
 
-function navigate(href: string) {
+function trackResultClick(item: SearchItem) {
+  trackEvent(SEARCH_RESULT_CLICK_EVENT, {
+    query: redactQuery(normalizeQuery(query.value)),
+    href: item.href,
+    type: item.type,
+  });
+}
+
+function navigate(item: SearchItem) {
+  // Flush first so search_query/search_no_results reaches analytics ahead of
+  // the search_result_click it led to — funnels segment on that order.
+  flushQueryTracking();
+  trackResultClick(item);
   close();
-  if (isExternal(href)) {
-    window.location.href = href;
+  if (isExternal(item.href)) {
+    window.location.href = item.href;
     return;
   }
-  router.go(href);
+  router.go(item.href);
 }
 
 function moveActiveDown() {
@@ -165,7 +288,7 @@ function onResultNavigation(e: KeyboardEvent) {
   }
   if (e.key === "Enter" && activeIndex.value >= 0) {
     e.preventDefault();
-    navigate(filteredResults.value[activeIndex.value].href);
+    navigate(filteredResults.value[activeIndex.value]);
   }
 }
 
@@ -211,6 +334,7 @@ onMounted(() => {
   document.addEventListener("click", onSearchToggleClick);
 });
 onUnmounted(() => {
+  clearTimeout(queryTrackTimer);
   document.removeEventListener("keydown", onKeydown);
   document.removeEventListener("click", onSearchToggleClick);
 });
@@ -315,7 +439,7 @@ onUnmounted(() => {
                   ? 'border-line bg-accent-dim/30'
                   : 'hover:border-line hover:bg-accent-dim/30 border-transparent'
               "
-              @click.prevent="navigate(item.href)"
+              @click.prevent="navigate(item)"
               @mousemove="activeIndex = index"
             >
               <span
