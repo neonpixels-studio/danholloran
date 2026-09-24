@@ -2,9 +2,12 @@ import { readdirSync, readFileSync } from "fs";
 import { join } from "path";
 import { parseFrontmatter } from "./frontmatter";
 
-const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
+// Exported so other consumers that need to locate an individual post file by
+// slug (e.g. pageTransform.ts's canonical-target lookup) share this one
+// definition of where post content lives, rather than re-deriving it.
+export const POSTS_DIR = join(process.cwd(), ".vitepress/content/posts");
 const MARKDOWN_EXTENSION = ".md";
-const INDEX_FILE = "index.md";
+export const INDEX_FILE = "index.md";
 
 // Newest-first sort key. A missing date, or a date that fails to parse, sorts
 // to the end via a finite sentinel (not -Infinity) so `right.sortTime -
