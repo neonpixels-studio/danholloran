@@ -52,6 +52,14 @@ type VitePluginOption = VitePlugins[number];
 // <img>, so a missing variant must fail the build rather than ship.
 assertImageVariantsUpToDate();
 
+// The resume PDF's drift guard (resumePdfManifest.ts) intentionally does
+// NOT run here: unlike post images, nothing regenerates the PDF before
+// `vitepress dev`/`preview` start, so asserting at config-load time would
+// break local dev the moment resume.ts changes. It's enforced instead by
+// `npm run resume:pdf:check` (wired into the `build` script below) and by
+// resumePdfManifest.test.ts against the real committed files, which
+// `npm run test:ci` runs in CI.
+
 export default defineConfig({
   title: "Dan Holloran",
   description: SITE_DESCRIPTION,

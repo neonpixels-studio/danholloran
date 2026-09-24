@@ -1,6 +1,12 @@
 <script setup lang="ts">
 // ================================================
 // Update via Claude skill resume-pdf-export
+//
+// resume.ts (and the files it reads from — skills.ts, past-locations.json,
+// constants.ts, location.json) drives both this view and the downloadable
+// PDF (public/dan_holloran_resume.pdf). After editing any of them, re-run
+// the skill to regenerate the PDF, then `npm run resume:pdf:sync` to record
+// the new state — the build fails otherwise (see resumePdfManifest.ts).
 // ================================================
 import { useRevealAnimations } from "@composables/useRevealAnimations";
 import resume from "@data/resume.ts";
