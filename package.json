@@ -8,6 +8,7 @@
     "preview": "vitepress preview",
     "dev": "npm run images && vitepress dev",
     "images": "node .vitepress/scripts/generateImageVariants.ts",
+    "resume:pdf:sync": "node .vitepress/scripts/markResumePdfSynced.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:ci": "vitest run",

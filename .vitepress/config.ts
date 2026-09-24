@@ -14,6 +14,7 @@ import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
 import { assertImageVariantsUpToDate } from "./theme/utils/imageVariantManifest";
+import { assertResumePdfUpToDate } from "./theme/utils/resumePdfManifest";
 
 // The Shiki TextMate themes live under public/ so they double as the
 // downloadable Grimicorn port; this blog highlights its own code with them.
@@ -51,6 +52,12 @@ type VitePluginOption = VitePlugins[number];
 // a <picture> at them, and a <source> that 404s doesn't fall back to the
 // <img>, so a missing variant must fail the build rather than ship.
 assertImageVariantsUpToDate();
+
+// public/dan_holloran_resume.pdf is a static export of resume.ts kept in
+// sync only by a human re-running the resume-pdf-export skill; without this,
+// an edit to resume.ts can merge with no build/test failure while the
+// downloadable PDF silently goes stale. See resumePdfManifest.ts.
+assertResumePdfUpToDate();
 
 export default defineConfig({
   title: "Dan Holloran",
