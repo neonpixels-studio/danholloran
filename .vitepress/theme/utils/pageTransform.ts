@@ -6,7 +6,12 @@ import {
   parseFrontmatter,
 } from "./frontmatter";
 import type { PageData } from "vitepress";
-import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
+import {
+  INDEX_FILE,
+  isPublished,
+  loadDatedPosts,
+  POSTS_DIR,
+} from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
 import { archiveHref, toPageNumber } from "./archive";
 
@@ -249,30 +254,139 @@ function buildArticleTopicalFields(data: Record<string, unknown>): {
   return fields;
 }
 
+// Reads a post's raw frontmatter by slug without applying the draft filter, so
+// callers can tell "no such post" apart from "post exists but is a draft".
+// Shared by transformPost (its own slug) and the canonical-target lookup
+// below (an arbitrary author-typed slug) so there's one definition of how a
+// slug maps to a post file.
+function loadPostFrontmatterBySlug(
+  slug: string,
+): Record<string, unknown> | null {
+  const fileName = `${slug}.md`;
+  // index.md isn't a post — loadPublishedPosts() excludes it from the corpus
+  // (see INDEX_FILE) — so it must never resolve here either, even though the
+  // file may exist on disk.
+  if (fileName === INDEX_FILE) {
+    return null;
+  }
+  const postPath = join(POSTS_DIR, fileName);
+  if (!existsSync(postPath)) {
+    return null;
+  }
+  return parseFrontmatter(readFileSync(postPath, "utf-8")).data;
+}
+
+// Every real post filename in .vitepress/content/posts matches this shape
+// (lowercase letters, digits, single hyphens). Enforcing it on a canonical
+// slug *before* it ever reaches the filesystem closes off `join`'s silent
+// `..` normalization (a `canonical: ../../../README` would otherwise resolve
+// to a real file outside the posts directory and pass) and mixed-case values
+// that `existsSync` may resolve case-insensitively on some filesystems but
+// that 404 on the case-sensitive production host.
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+// Normalizes frontmatter `canonical` to a target slug, or null when there's
+// no override — absent, blank, a bare `canonical:` key (yaml parses that to
+// null, not a string), and naming the post's own slug are all self-canonical.
+// Throws on a genuinely non-string *value*, or a string that isn't shaped
+// like a real post slug: both are content typos, not a legitimate way of
+// saying "no override", and shouldn't be swallowed silently.
+function resolveCanonicalSlug(
+  data: Record<string, unknown>,
+  slug: string,
+): string | null {
+  if (data.canonical == null) {
+    return null;
+  }
+  if (typeof data.canonical !== "string") {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" has a non-string canonical value ${JSON.stringify(data.canonical)}; it must be a post slug.`,
+    );
+  }
+  const canonicalSlug = data.canonical.trim();
+  if (!canonicalSlug || canonicalSlug === slug) {
+    return null;
+  }
+  if (!SLUG_PATTERN.test(canonicalSlug)) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", which isn't a valid post slug (lowercase letters, digits, and single hyphens only).`,
+    );
+  }
+  return canonicalSlug;
+}
+
+// Throws unless the canonical target both exists and is published, naming the
+// specific reason (missing vs. draft) so the author isn't sent hunting for a
+// typo in a slug that's actually spelled correctly but just unpublished.
+function assertCanonicalTargetIsPublished(
+  targetData: Record<string, unknown> | null,
+  slug: string,
+  canonicalSlug: string,
+): asserts targetData is Record<string, unknown> {
+  if (!targetData) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but no published post with that slug exists. Fix the typo/rename, or remove the canonical override if the target was never meant to publish.`,
+    );
+  }
+  if (!isPublished(targetData, canonicalSlug)) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post is a draft. Publish it, or remove the canonical override until it is.`,
+    );
+  }
+}
+
+// Throws when the canonical target itself declares a different canonical —
+// search engines ignore chained canonicals, so the consolidation signal is
+// silently lost unless authors are pointed at the final target directly.
+function assertCanonicalTargetNotChained(
+  targetData: Record<string, unknown>,
+  slug: string,
+  canonicalSlug: string,
+): void {
+  const targetCanonicalSlug =
+    typeof targetData.canonical === "string" ? targetData.canonical.trim() : "";
+  if (targetCanonicalSlug && targetCanonicalSlug !== canonicalSlug) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post itself canonicals to "${targetCanonicalSlug}". Point "${slug}" directly at the final target — search engines ignore canonical chains.`,
+    );
+  }
+}
+
 // A `canonical` frontmatter slug points a post's canonical link at another post,
 // consolidating the ranking signal for near-duplicate photo posts about the same
 // landmark. og:url and the Article JSON-LD stay self-referential — only the
-// canonical signal is redirected. Absent or blank means self-canonical.
+// canonical signal is redirected.
+//
+// The slug is author-typed YAML with no referential integrity of its own, so a
+// typo, a rename, or a draft-only slug would otherwise ship a canonical tag
+// pointing at a URL that 404s or was never published — a silent SEO footgun
+// that's invisible until a crawler (or a human) follows the link. Fail loud
+// here instead: this runs during `transformPageData`, which VitePress calls
+// for every page at build time, so a bad slug aborts the build rather than
+// shipping (mirrors posts/[slug].paths.ts's fail-loud policy for the same
+// class of content error).
 function resolvePostCanonical(
   data: Record<string, unknown>,
   selfUrl: string,
+  slug: string,
 ): string {
-  const slug = typeof data.canonical === "string" ? data.canonical.trim() : "";
-  return slug ? `${SITE_URL}/posts/${slug}` : selfUrl;
+  const canonicalSlug = resolveCanonicalSlug(data, slug);
+  if (!canonicalSlug) {
+    return selfUrl;
+  }
+  const targetData = loadPostFrontmatterBySlug(canonicalSlug);
+  assertCanonicalTargetIsPublished(targetData, slug, canonicalSlug);
+  assertCanonicalTargetNotChained(targetData, slug, canonicalSlug);
+  return `${SITE_URL}/posts/${canonicalSlug}`;
 }
 
 function transformPost(pageData: PageData): void {
   const slug = pageData.params?.slug;
   if (!slug) return;
 
-  const postPath = join(
-    process.cwd(),
-    ".vitepress/content/posts",
-    `${slug}.md`,
-  );
-  if (!existsSync(postPath)) return;
+  const data = loadPostFrontmatterBySlug(slug);
+  if (!data) return;
 
-  const { data } = parseFrontmatter(readFileSync(postPath, "utf-8"));
   // Defense-in-depth: posts/[slug].paths.ts already drops drafts from route
   // generation, but bail here too so a draft reached through any other route
   // source never emits title/canonical/OG/JSON-LD. Without this a draft would
@@ -314,7 +428,7 @@ function transformPost(pageData: PageData): void {
         publisher: publisherJsonLd,
       },
     },
-    resolvePostCanonical(data, url),
+    resolvePostCanonical(data, url, slug),
   );
 }
 

@@ -549,13 +549,42 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(getJsonLd(pageData).url).toBe(selfUrl);
   });
 
-  it("points the canonical link at another post when canonical frontmatter is set, keeping og:url and JSON-LD self-referential", () => {
-    const pageData = transformPostWithFrontmatter({
-      title: "T",
-      description: "D",
-      date: "2024-03-01",
-      canonical: "the-primary-post",
+  // Distinguishes the post being transformed ("my-post") from the canonical
+  // target it looks up (loadPostFrontmatterBySlug reads the target's own
+  // file directly, by full path) so each fake file can carry distinct
+  // frontmatter — e.g. only one of them declares `canonical`, or the target
+  // is a draft. Matches on the filename, not a substring, so slugs that are
+  // substrings of one another (e.g. "post" vs "primary-post") can't collide.
+  function mockPostFiles(
+    filesBySlug: Record<string, Record<string, unknown>>,
+  ): void {
+    mockReadFileSync.mockImplementation((path) => path as any);
+    mockParseFrontmatter.mockImplementation((raw) => {
+      const matchedSlug = Object.keys(filesBySlug).find((slug) =>
+        (raw as string).endsWith(`/${slug}.md`),
+      );
+      return { data: matchedSlug ? filesBySlug[matchedSlug] : {}, content: "" };
     });
+  }
+
+  it("points the canonical link at another post when canonical frontmatter is set, keeping og:url and JSON-LD self-referential", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockPostFiles({
+      "my-post": {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "the-primary-post",
+      },
+      "the-primary-post": { title: "Primary", date: "2024-01-01" },
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+    transformPageData(pageData);
+
     const selfUrl = `${SITE_URL}/posts/my-post`;
     const canonicalUrl = `${SITE_URL}/posts/the-primary-post`;
 
@@ -565,6 +594,177 @@ describe("transformPageData – posts/[slug].md", () => {
       selfUrl,
     );
     expect(getJsonLd(pageData).url).toBe(selfUrl);
+  });
+
+  it("throws naming both the declaring post and the missing target when canonical points at a slug with no published post at all", () => {
+    // The current post's own file exists; the canonical target's does not —
+    // existsSync must distinguish the two paths for the target lookup to
+    // report "missing" rather than resolving the wrong file. Built manually
+    // rather than via transformPostWithFrontmatter, which forces
+    // mockExistsSync back to an unconditional true.
+    mockExistsSync.mockImplementation(
+      (path) => !(path as string).endsWith("/does-not-exist.md"),
+    );
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "does-not-exist",
+      },
+      content: "",
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+
+    expect(() => transformPageData(pageData)).toThrow(
+      /post "my-post".*canonical "does-not-exist"/s,
+    );
+  });
+
+  it("throws when canonical frontmatter has a non-string value instead of silently self-canonicaling", () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: ["the-primary-post"],
+      }),
+    ).toThrow(/post "my-post".*non-string canonical/s);
+  });
+
+  it("throws on path-traversal characters in canonical instead of ever touching the filesystem with them", () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "../../../README",
+      }),
+    ).toThrow(/isn't a valid post slug/);
+    // The slug-shape guard must reject the value before any existsSync check
+    // reaches the filesystem with it — join() would otherwise silently
+    // normalize the ".." segments onto a real file outside the posts dir.
+    expect(mockExistsSync).not.toHaveBeenCalledWith(
+      expect.stringContaining("README"),
+    );
+  });
+
+  it('throws when canonical points at "index", which is never a real post even if a stray file exists', () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "index",
+      }),
+    ).toThrow(/post "my-post".*canonical "index"/s);
+  });
+
+  it("throws when canonical uses mixed case instead of resolving case-insensitively on some filesystems", () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "The-Primary-Post",
+      }),
+    ).toThrow(/isn't a valid post slug/);
+  });
+
+  it("self-canonicals rather than throwing when canonical frontmatter parses to null (a bare `canonical:` key)", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+      canonical: null,
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeDefined();
+  });
+
+  it("self-canonicals rather than throwing when canonical frontmatter names the post's own slug", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+      canonical: "my-post",
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeDefined();
+  });
+
+  it("throws a draft-specific message when canonical points at a slug that exists but is unpublished", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockPostFiles({
+      "my-post": {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "the-primary-post",
+      },
+      "the-primary-post": { draft: true },
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+
+    expect(() => transformPageData(pageData)).toThrow(
+      /post "my-post".*canonical "the-primary-post".*draft/is,
+    );
+  });
+
+  it("throws when the canonical target itself declares a different canonical, rejecting chained canonicals", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockPostFiles({
+      "my-post": {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "the-primary-post",
+      },
+      "the-primary-post": { canonical: "some-third-post" },
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+
+    expect(() => transformPageData(pageData)).toThrow(
+      /post "my-post".*canonical "the-primary-post".*canonicals to "some-third-post"/s,
+    );
+  });
+
+  it("does not treat a canonical target that canonicals to itself as a chain", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockPostFiles({
+      "my-post": {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "the-primary-post",
+      },
+      "the-primary-post": { canonical: "the-primary-post" },
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+    transformPageData(pageData);
+
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/posts/the-primary-post`),
+    ).toBeDefined();
   });
 
   it("ignores a blank canonical frontmatter value and self-canonicals", () => {
