@@ -271,17 +271,37 @@ function resolvePostCanonical(
   selfUrl: string,
   slug: string,
 ): string {
+  // A non-string canonical (an accidental YAML list/mapping under the key) is
+  // the same class of silent-typo footgun as a bad slug — fail loud instead of
+  // quietly treating it as absent.
+  if (data.canonical !== undefined && typeof data.canonical !== "string") {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" has a non-string canonical value ${JSON.stringify(data.canonical)}; it must be a post slug.`,
+    );
+  }
   const canonicalSlug =
     typeof data.canonical === "string" ? data.canonical.trim() : "";
   if (!canonicalSlug) {
     return selfUrl;
   }
-  const canonicalPostExists = loadPublishedPosts().some(
+  const canonicalTarget = loadPublishedPosts().find(
     (post) => post.slug === canonicalSlug,
   );
-  if (!canonicalPostExists) {
+  if (!canonicalTarget) {
     throw new Error(
       `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but no published post with that slug exists. Fix the typo/rename, or remove the canonical override if the target was never meant to publish.`,
+    );
+  }
+  // A canonical target that itself declares a canonical is a chain — search
+  // engines ignore chained canonicals, so the consolidation signal is silently
+  // lost unless this points authors at the final target directly.
+  const targetCanonicalSlug =
+    typeof canonicalTarget.canonical === "string"
+      ? canonicalTarget.canonical.trim()
+      : "";
+  if (targetCanonicalSlug) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post itself canonicals to "${targetCanonicalSlug}". Point "${slug}" directly at the final target — search engines ignore canonical chains.`,
     );
   }
   return `${SITE_URL}/posts/${canonicalSlug}`;
