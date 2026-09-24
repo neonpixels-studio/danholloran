@@ -550,6 +550,10 @@ describe("transformPageData – posts/[slug].md", () => {
   });
 
   it("points the canonical link at another post when canonical frontmatter is set, keeping og:url and JSON-LD self-referential", () => {
+    // loadPublishedPosts() re-scans the posts directory to confirm the
+    // canonical target actually exists and is published, so the directory
+    // listing must include it.
+    mockReaddirSync.mockReturnValue(["the-primary-post.md"] as any);
     const pageData = transformPostWithFrontmatter({
       title: "T",
       description: "D",
@@ -565,6 +569,50 @@ describe("transformPageData – posts/[slug].md", () => {
       selfUrl,
     );
     expect(getJsonLd(pageData).url).toBe(selfUrl);
+  });
+
+  it("throws when canonical frontmatter points at a slug with no published post at all", () => {
+    // Nothing in the posts directory, so the canonical target can never resolve.
+    mockReaddirSync.mockReturnValue([] as any);
+
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "does-not-exist",
+      }),
+    ).toThrow(/does-not-exist/);
+  });
+
+  it("throws when canonical frontmatter points at a slug that only exists as a draft", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockReaddirSync.mockReturnValue(["the-primary-post.md"] as any);
+    // First call resolves the post being transformed ("my-post"); the second
+    // resolves the canonical target file loadPublishedPosts() scans, which is
+    // draft-only and so must not count as a valid canonical target.
+    mockParseFrontmatter
+      .mockReturnValueOnce({
+        data: {
+          title: "T",
+          description: "D",
+          date: "2024-03-01",
+          canonical: "the-primary-post",
+        },
+        content: "",
+      })
+      .mockReturnValueOnce({
+        data: { draft: true },
+        content: "",
+      });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+
+    expect(() => transformPageData(pageData)).toThrow(/the-primary-post/);
   });
 
   it("ignores a blank canonical frontmatter value and self-canonicals", () => {

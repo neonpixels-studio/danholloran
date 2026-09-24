@@ -6,7 +6,11 @@ import {
   parseFrontmatter,
 } from "./frontmatter";
 import type { PageData } from "vitepress";
-import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
+import {
+  isPublished,
+  loadDatedPosts,
+  loadPublishedPosts,
+} from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
 import { archiveHref, toPageNumber } from "./archive";
 
@@ -253,12 +257,34 @@ function buildArticleTopicalFields(data: Record<string, unknown>): {
 // consolidating the ranking signal for near-duplicate photo posts about the same
 // landmark. og:url and the Article JSON-LD stay self-referential — only the
 // canonical signal is redirected. Absent or blank means self-canonical.
+//
+// The slug is author-typed YAML with no referential integrity of its own, so a
+// typo, a rename, or a draft-only slug would otherwise ship a canonical tag
+// pointing at a URL that 404s or was never published — a silent SEO footgun
+// that's invisible until a crawler (or a human) follows the link. Fail loud
+// here instead: this runs during `transformPageData`, which VitePress calls
+// for every page at build time, so a bad slug aborts the build rather than
+// shipping (mirrors posts/[slug].paths.ts's fail-loud policy for the same
+// class of content error).
 function resolvePostCanonical(
   data: Record<string, unknown>,
   selfUrl: string,
+  slug: string,
 ): string {
-  const slug = typeof data.canonical === "string" ? data.canonical.trim() : "";
-  return slug ? `${SITE_URL}/posts/${slug}` : selfUrl;
+  const canonicalSlug =
+    typeof data.canonical === "string" ? data.canonical.trim() : "";
+  if (!canonicalSlug) {
+    return selfUrl;
+  }
+  const canonicalPostExists = loadPublishedPosts().some(
+    (post) => post.slug === canonicalSlug,
+  );
+  if (!canonicalPostExists) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but no published post with that slug exists. Fix the typo/rename, or remove the canonical override if the target was never meant to publish.`,
+    );
+  }
+  return `${SITE_URL}/posts/${canonicalSlug}`;
 }
 
 function transformPost(pageData: PageData): void {
@@ -314,7 +340,7 @@ function transformPost(pageData: PageData): void {
         publisher: publisherJsonLd,
       },
     },
-    resolvePostCanonical(data, url),
+    resolvePostCanonical(data, url, slug),
   );
 }
 
