@@ -4,10 +4,12 @@
   "description": "Personal blog and portfolio for Dan Holloran — full-stack developer and photographer based in Reno, NV.",
   "type": "module",
   "scripts": {
-    "build": "vitepress build",
+    "build": "npm run resume:pdf:check && vitepress build",
     "preview": "vitepress preview",
     "dev": "npm run images && vitepress dev",
     "images": "node .vitepress/scripts/generateImageVariants.ts",
+    "resume:pdf:check": "node .vitepress/scripts/checkResumePdfSynced.ts",
+    "resume:pdf:sync": "node .vitepress/scripts/markResumePdfSynced.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:ci": "vitest run",
