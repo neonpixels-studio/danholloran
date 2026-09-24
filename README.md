@@ -71,15 +71,41 @@ Adding a post image while `npm run dev` is already running needs a
 dev-server restart (or `npm run images`) before its `<picture>` has real
 variants.
 
+### Resume PDF
+
+The downloadable resume (`public/dan_holloran_resume.pdf`, linked from
+`/resume`) is a static export of `.vitepress/data/resume.ts`, kept in sync by
+a human re-running the Claude skill `resume-pdf-export` — it isn't
+regenerated automatically, since that skill isn't available in CI. To guard
+against the PDF silently going stale, content fingerprints of both
+`resume.ts` and the PDF are recorded in
+`.vitepress/data/resumePdfManifest.json`:
+
+1. Edit `resume.ts`.
+2. Re-run the `resume-pdf-export` skill to regenerate the PDF.
+3. Run `npm run resume:pdf:sync` to record the new fingerprints.
+4. Commit `resume.ts`, the PDF, and `resumePdfManifest.json` together.
+
+`npm run build` runs `npm run resume:pdf:check` first and fails with a fix-it
+message if either fingerprint is stale or the PDF is missing; the same check
+also runs against the real committed files in
+`resumePdfManifest.test.ts`, so `npm run test:ci` (part of the `ci` GitHub
+Action) catches drift on every PR, not just at deploy time. It intentionally
+does **not** run at `vitepress dev`/`preview` config-load time — nothing
+regenerates the PDF the way `npm run images` does for post images, so that
+would just break local dev the moment `resume.ts` changes.
+
 ### Available Commands
 
-| Command            | Description                       |
-| ------------------ | --------------------------------- |
-| `npm run dev`      | Start the development server      |
-| `npm run build`    | Build for production              |
-| `npm run images`   | Generate responsive post images   |
-| `npm run test`     | Run tests in watch mode           |
-| `npm run test:ui`  | Run tests with Vitest UI          |
-| `npm run test:ci`  | Run tests once (CI mode)          |
-| `npm run lint`     | Check formatting and linting      |
-| `npm run lint:fix` | Fix formatting and linting issues |
+| Command                    | Description                               |
+| -------------------------- | ----------------------------------------- |
+| `npm run dev`              | Start the development server              |
+| `npm run build`            | Build for production                      |
+| `npm run images`           | Generate responsive post images           |
+| `npm run resume:pdf:check` | Verify the resume PDF matches resume.ts   |
+| `npm run resume:pdf:sync`  | Record the resume PDF as freshly exported |
+| `npm run test`             | Run tests in watch mode                   |
+| `npm run test:ui`          | Run tests with Vitest UI                  |
+| `npm run test:ci`          | Run tests once (CI mode)                  |
+| `npm run lint`             | Check formatting and linting              |
+| `npm run lint:fix`         | Fix formatting and linting issues         |
