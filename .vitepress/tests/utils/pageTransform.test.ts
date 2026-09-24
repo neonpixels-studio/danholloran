@@ -637,6 +637,45 @@ describe("transformPageData – posts/[slug].md", () => {
     ).toThrow(/post "my-post".*non-string canonical/s);
   });
 
+  it("throws on path-traversal characters in canonical instead of ever touching the filesystem with them", () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "../../../README",
+      }),
+    ).toThrow(/isn't a valid post slug/);
+    // The slug-shape guard must reject the value before any existsSync check
+    // reaches the filesystem with it — join() would otherwise silently
+    // normalize the ".." segments onto a real file outside the posts dir.
+    expect(mockExistsSync).not.toHaveBeenCalledWith(
+      expect.stringContaining("README"),
+    );
+  });
+
+  it('throws when canonical points at "index", which is never a real post even if a stray file exists', () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "index",
+      }),
+    ).toThrow(/post "my-post".*canonical "index"/s);
+  });
+
+  it("throws when canonical uses mixed case instead of resolving case-insensitively on some filesystems", () => {
+    expect(() =>
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "The-Primary-Post",
+      }),
+    ).toThrow(/isn't a valid post slug/);
+  });
+
   it("self-canonicals rather than throwing when canonical frontmatter parses to null (a bare `canonical:` key)", () => {
     const pageData = transformPostWithFrontmatter({
       title: "T",

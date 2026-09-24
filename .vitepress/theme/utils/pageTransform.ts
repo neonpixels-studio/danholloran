@@ -6,7 +6,12 @@ import {
   parseFrontmatter,
 } from "./frontmatter";
 import type { PageData } from "vitepress";
-import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
+import {
+  INDEX_FILE,
+  isPublished,
+  loadDatedPosts,
+  POSTS_DIR,
+} from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
 import { archiveHref, toPageNumber } from "./archive";
 
@@ -250,29 +255,42 @@ function buildArticleTopicalFields(data: Record<string, unknown>): {
 }
 
 // Reads a post's raw frontmatter by slug without applying the draft filter, so
-// callers can tell "no such post" apart from "post exists but is a draft" —
-// mirrors the postPath existence check transformPost does for its own slug
-// below, just parameterized on an arbitrary slug instead of the current one.
+// callers can tell "no such post" apart from "post exists but is a draft".
+// Shared by transformPost (its own slug) and the canonical-target lookup
+// below (an arbitrary author-typed slug) so there's one definition of how a
+// slug maps to a post file.
 function loadPostFrontmatterBySlug(
   slug: string,
 ): Record<string, unknown> | null {
-  const postPath = join(
-    process.cwd(),
-    ".vitepress/content/posts",
-    `${slug}.md`,
-  );
+  const fileName = `${slug}.md`;
+  // index.md isn't a post — loadPublishedPosts() excludes it from the corpus
+  // (see INDEX_FILE) — so it must never resolve here either, even though the
+  // file may exist on disk.
+  if (fileName === INDEX_FILE) {
+    return null;
+  }
+  const postPath = join(POSTS_DIR, fileName);
   if (!existsSync(postPath)) {
     return null;
   }
   return parseFrontmatter(readFileSync(postPath, "utf-8")).data;
 }
 
+// Every real post filename in .vitepress/content/posts matches this shape
+// (lowercase letters, digits, single hyphens). Enforcing it on a canonical
+// slug *before* it ever reaches the filesystem closes off `join`'s silent
+// `..` normalization (a `canonical: ../../../README` would otherwise resolve
+// to a real file outside the posts directory and pass) and mixed-case values
+// that `existsSync` may resolve case-insensitively on some filesystems but
+// that 404 on the case-sensitive production host.
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
 // Normalizes frontmatter `canonical` to a target slug, or null when there's
 // no override — absent, blank, a bare `canonical:` key (yaml parses that to
 // null, not a string), and naming the post's own slug are all self-canonical.
-// Throws on a genuinely non-string *value* (an accidental YAML list/mapping
-// under the key): that's a content typo, not a legitimate way of saying "no
-// override", and shouldn't be swallowed silently.
+// Throws on a genuinely non-string *value*, or a string that isn't shaped
+// like a real post slug: both are content typos, not a legitimate way of
+// saying "no override", and shouldn't be swallowed silently.
 function resolveCanonicalSlug(
   data: Record<string, unknown>,
   slug: string,
@@ -286,7 +304,15 @@ function resolveCanonicalSlug(
     );
   }
   const canonicalSlug = data.canonical.trim();
-  return canonicalSlug && canonicalSlug !== slug ? canonicalSlug : null;
+  if (!canonicalSlug || canonicalSlug === slug) {
+    return null;
+  }
+  if (!SLUG_PATTERN.test(canonicalSlug)) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", which isn't a valid post slug (lowercase letters, digits, and single hyphens only).`,
+    );
+  }
+  return canonicalSlug;
 }
 
 // Throws unless the canonical target both exists and is published, naming the
@@ -358,14 +384,9 @@ function transformPost(pageData: PageData): void {
   const slug = pageData.params?.slug;
   if (!slug) return;
 
-  const postPath = join(
-    process.cwd(),
-    ".vitepress/content/posts",
-    `${slug}.md`,
-  );
-  if (!existsSync(postPath)) return;
+  const data = loadPostFrontmatterBySlug(slug);
+  if (!data) return;
 
-  const { data } = parseFrontmatter(readFileSync(postPath, "utf-8"));
   // Defense-in-depth: posts/[slug].paths.ts already drops drafts from route
   // generation, but bail here too so a draft reached through any other route
   // source never emits title/canonical/OG/JSON-LD. Without this a draft would
