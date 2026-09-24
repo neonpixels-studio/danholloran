@@ -417,13 +417,6 @@ describe("transformPageData – posts/index.md", () => {
 });
 
 describe("transformPageData – posts/[slug].md", () => {
-  // Canonical validation re-scans the posts directory via loadPublishedPosts();
-  // default to an empty corpus so tests that never set a canonical don't
-  // inherit a stale readdirSync mock left over from a differently-ordered test.
-  beforeEach(() => {
-    mockReaddirSync.mockReturnValue([] as any);
-  });
-
   it("sets title, description, and Article JSON-LD for a valid slug", () => {
     mockExistsSync.mockReturnValue(true);
     mockReadFileSync.mockReturnValue("" as any);
@@ -556,29 +549,27 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(getJsonLd(pageData).url).toBe(selfUrl);
   });
 
-  // Reads a fixed frontmatter payload per file, keyed by whether the file path
-  // contains the target slug, rather than a single shared mockReturnValue —
-  // so the post being transformed and the canonical target it looks up can
-  // carry distinct frontmatter (e.g. only one of them declares `canonical`).
-  function mockPostsByPath(
-    payloads: Record<string, Record<string, unknown>>,
+  // Distinguishes the post being transformed ("my-post") from the canonical
+  // target it looks up (loadPostFrontmatterBySlug reads the target's own
+  // file directly, by full path) so each fake file can carry distinct
+  // frontmatter — e.g. only one of them declares `canonical`, or the target
+  // is a draft. Matches on the filename, not a substring, so slugs that are
+  // substrings of one another (e.g. "post" vs "primary-post") can't collide.
+  function mockPostFiles(
+    filesBySlug: Record<string, Record<string, unknown>>,
   ): void {
     mockReadFileSync.mockImplementation((path) => path as any);
     mockParseFrontmatter.mockImplementation((raw) => {
-      const matchedSlug = Object.keys(payloads).find((slug) =>
-        (raw as string).includes(slug),
+      const matchedSlug = Object.keys(filesBySlug).find((slug) =>
+        (raw as string).endsWith(`/${slug}.md`),
       );
-      return { data: matchedSlug ? payloads[matchedSlug] : {}, content: "" };
+      return { data: matchedSlug ? filesBySlug[matchedSlug] : {}, content: "" };
     });
   }
 
   it("points the canonical link at another post when canonical frontmatter is set, keeping og:url and JSON-LD self-referential", () => {
     mockExistsSync.mockReturnValue(true);
-    // loadPublishedPosts() re-scans the posts directory to confirm the
-    // canonical target actually exists and is published, so the directory
-    // listing must include it.
-    mockReaddirSync.mockReturnValue(["the-primary-post.md"] as any);
-    mockPostsByPath({
+    mockPostFiles({
       "my-post": {
         title: "T",
         description: "D",
@@ -606,17 +597,33 @@ describe("transformPageData – posts/[slug].md", () => {
   });
 
   it("throws naming both the declaring post and the missing target when canonical points at a slug with no published post at all", () => {
-    // Nothing in the posts directory, so the canonical target can never resolve.
-    mockReaddirSync.mockReturnValue([] as any);
-
-    expect(() =>
-      transformPostWithFrontmatter({
+    // The current post's own file exists; the canonical target's does not —
+    // existsSync must distinguish the two paths for the target lookup to
+    // report "missing" rather than resolving the wrong file. Built manually
+    // rather than via transformPostWithFrontmatter, which forces
+    // mockExistsSync back to an unconditional true.
+    mockExistsSync.mockImplementation(
+      (path) => !(path as string).endsWith("/does-not-exist.md"),
+    );
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: {
         title: "T",
         description: "D",
         date: "2024-03-01",
         canonical: "does-not-exist",
-      }),
-    ).toThrow(/post "my-post".*canonical "does-not-exist"/s);
+      },
+      content: "",
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+
+    expect(() => transformPageData(pageData)).toThrow(
+      /post "my-post".*canonical "does-not-exist"/s,
+    );
   });
 
   it("throws when canonical frontmatter has a non-string value instead of silently self-canonicaling", () => {
@@ -630,10 +637,33 @@ describe("transformPageData – posts/[slug].md", () => {
     ).toThrow(/post "my-post".*non-string canonical/s);
   });
 
-  it("throws naming both slugs when canonical points at a slug that only exists as a draft", () => {
+  it("self-canonicals rather than throwing when canonical frontmatter parses to null (a bare `canonical:` key)", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+      canonical: null,
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeDefined();
+  });
+
+  it("self-canonicals rather than throwing when canonical frontmatter names the post's own slug", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+      canonical: "my-post",
+    });
+    const selfUrl = `${SITE_URL}/posts/my-post`;
+
+    expect(findHead(pageData, "link", "href", selfUrl)).toBeDefined();
+  });
+
+  it("throws a draft-specific message when canonical points at a slug that exists but is unpublished", () => {
     mockExistsSync.mockReturnValue(true);
-    mockReaddirSync.mockReturnValue(["the-primary-post.md"] as any);
-    mockPostsByPath({
+    mockPostFiles({
       "my-post": {
         title: "T",
         description: "D",
@@ -649,14 +679,13 @@ describe("transformPageData – posts/[slug].md", () => {
     });
 
     expect(() => transformPageData(pageData)).toThrow(
-      /post "my-post".*canonical "the-primary-post"/s,
+      /post "my-post".*canonical "the-primary-post".*draft/is,
     );
   });
 
-  it("throws when the canonical target itself declares a canonical, rejecting chained canonicals", () => {
+  it("throws when the canonical target itself declares a different canonical, rejecting chained canonicals", () => {
     mockExistsSync.mockReturnValue(true);
-    mockReaddirSync.mockReturnValue(["the-primary-post.md"] as any);
-    mockPostsByPath({
+    mockPostFiles({
       "my-post": {
         title: "T",
         description: "D",
@@ -674,6 +703,29 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(() => transformPageData(pageData)).toThrow(
       /post "my-post".*canonical "the-primary-post".*canonicals to "some-third-post"/s,
     );
+  });
+
+  it("does not treat a canonical target that canonicals to itself as a chain", () => {
+    mockExistsSync.mockReturnValue(true);
+    mockPostFiles({
+      "my-post": {
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+        canonical: "the-primary-post",
+      },
+      "the-primary-post": { canonical: "the-primary-post" },
+    });
+
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+    });
+    transformPageData(pageData);
+
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/posts/the-primary-post`),
+    ).toBeDefined();
   });
 
   it("ignores a blank canonical frontmatter value and self-canonicals", () => {

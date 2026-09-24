@@ -6,11 +6,7 @@ import {
   parseFrontmatter,
 } from "./frontmatter";
 import type { PageData } from "vitepress";
-import {
-  isPublished,
-  loadDatedPosts,
-  loadPublishedPosts,
-} from "./loadPublishedPosts";
+import { isPublished, loadDatedPosts } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
 import { archiveHref, toPageNumber } from "./archive";
 
@@ -253,10 +249,87 @@ function buildArticleTopicalFields(data: Record<string, unknown>): {
   return fields;
 }
 
+// Reads a post's raw frontmatter by slug without applying the draft filter, so
+// callers can tell "no such post" apart from "post exists but is a draft" —
+// mirrors the postPath existence check transformPost does for its own slug
+// below, just parameterized on an arbitrary slug instead of the current one.
+function loadPostFrontmatterBySlug(
+  slug: string,
+): Record<string, unknown> | null {
+  const postPath = join(
+    process.cwd(),
+    ".vitepress/content/posts",
+    `${slug}.md`,
+  );
+  if (!existsSync(postPath)) {
+    return null;
+  }
+  return parseFrontmatter(readFileSync(postPath, "utf-8")).data;
+}
+
+// Normalizes frontmatter `canonical` to a target slug, or null when there's
+// no override — absent, blank, a bare `canonical:` key (yaml parses that to
+// null, not a string), and naming the post's own slug are all self-canonical.
+// Throws on a genuinely non-string *value* (an accidental YAML list/mapping
+// under the key): that's a content typo, not a legitimate way of saying "no
+// override", and shouldn't be swallowed silently.
+function resolveCanonicalSlug(
+  data: Record<string, unknown>,
+  slug: string,
+): string | null {
+  if (data.canonical == null) {
+    return null;
+  }
+  if (typeof data.canonical !== "string") {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" has a non-string canonical value ${JSON.stringify(data.canonical)}; it must be a post slug.`,
+    );
+  }
+  const canonicalSlug = data.canonical.trim();
+  return canonicalSlug && canonicalSlug !== slug ? canonicalSlug : null;
+}
+
+// Throws unless the canonical target both exists and is published, naming the
+// specific reason (missing vs. draft) so the author isn't sent hunting for a
+// typo in a slug that's actually spelled correctly but just unpublished.
+function assertCanonicalTargetIsPublished(
+  targetData: Record<string, unknown> | null,
+  slug: string,
+  canonicalSlug: string,
+): asserts targetData is Record<string, unknown> {
+  if (!targetData) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but no published post with that slug exists. Fix the typo/rename, or remove the canonical override if the target was never meant to publish.`,
+    );
+  }
+  if (!isPublished(targetData, canonicalSlug)) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post is a draft. Publish it, or remove the canonical override until it is.`,
+    );
+  }
+}
+
+// Throws when the canonical target itself declares a different canonical —
+// search engines ignore chained canonicals, so the consolidation signal is
+// silently lost unless authors are pointed at the final target directly.
+function assertCanonicalTargetNotChained(
+  targetData: Record<string, unknown>,
+  slug: string,
+  canonicalSlug: string,
+): void {
+  const targetCanonicalSlug =
+    typeof targetData.canonical === "string" ? targetData.canonical.trim() : "";
+  if (targetCanonicalSlug && targetCanonicalSlug !== canonicalSlug) {
+    throw new Error(
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post itself canonicals to "${targetCanonicalSlug}". Point "${slug}" directly at the final target — search engines ignore canonical chains.`,
+    );
+  }
+}
+
 // A `canonical` frontmatter slug points a post's canonical link at another post,
 // consolidating the ranking signal for near-duplicate photo posts about the same
 // landmark. og:url and the Article JSON-LD stay self-referential — only the
-// canonical signal is redirected. Absent or blank means self-canonical.
+// canonical signal is redirected.
 //
 // The slug is author-typed YAML with no referential integrity of its own, so a
 // typo, a rename, or a draft-only slug would otherwise ship a canonical tag
@@ -271,39 +344,13 @@ function resolvePostCanonical(
   selfUrl: string,
   slug: string,
 ): string {
-  // A non-string canonical (an accidental YAML list/mapping under the key) is
-  // the same class of silent-typo footgun as a bad slug — fail loud instead of
-  // quietly treating it as absent.
-  if (data.canonical !== undefined && typeof data.canonical !== "string") {
-    throw new Error(
-      `resolvePostCanonical: post "${slug}" has a non-string canonical value ${JSON.stringify(data.canonical)}; it must be a post slug.`,
-    );
-  }
-  const canonicalSlug =
-    typeof data.canonical === "string" ? data.canonical.trim() : "";
+  const canonicalSlug = resolveCanonicalSlug(data, slug);
   if (!canonicalSlug) {
     return selfUrl;
   }
-  const canonicalTarget = loadPublishedPosts().find(
-    (post) => post.slug === canonicalSlug,
-  );
-  if (!canonicalTarget) {
-    throw new Error(
-      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but no published post with that slug exists. Fix the typo/rename, or remove the canonical override if the target was never meant to publish.`,
-    );
-  }
-  // A canonical target that itself declares a canonical is a chain — search
-  // engines ignore chained canonicals, so the consolidation signal is silently
-  // lost unless this points authors at the final target directly.
-  const targetCanonicalSlug =
-    typeof canonicalTarget.canonical === "string"
-      ? canonicalTarget.canonical.trim()
-      : "";
-  if (targetCanonicalSlug) {
-    throw new Error(
-      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post itself canonicals to "${targetCanonicalSlug}". Point "${slug}" directly at the final target — search engines ignore canonical chains.`,
-    );
-  }
+  const targetData = loadPostFrontmatterBySlug(canonicalSlug);
+  assertCanonicalTargetIsPublished(targetData, slug, canonicalSlug);
+  assertCanonicalTargetNotChained(targetData, slug, canonicalSlug);
   return `${SITE_URL}/posts/${canonicalSlug}`;
 }
 
