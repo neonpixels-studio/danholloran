@@ -48,7 +48,14 @@ export const DEFAULT_RESUME_PDF_MANIFEST_PATHS: ResumePdfManifestPaths = {
   manifestPath: MANIFEST_PATH,
 };
 
-export function fingerprintFile(path: string): string {
+// Null (not a thrown ENOENT) when the file doesn't exist, so every caller —
+// the freshness check, the sync script, the tests — treats a missing
+// resume.ts or missing PDF as "not fresh" instead of crashing with a bare
+// stack trace.
+export function fingerprintFile(path: string): string | null {
+  if (!existsSync(path)) {
+    return null;
+  }
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
@@ -63,9 +70,9 @@ function isValidManifest(value: unknown): value is ResumePdfManifest {
   );
 }
 
-// Malformed JSON (e.g. an unresolved merge conflict left in this one-key
-// file) must read as "out of date", not crash the build with a bare
-// SyntaxError that gives no hint of what to do about it.
+// Malformed JSON (e.g. an unresolved merge conflict left in this file) or a
+// wrong-shaped payload must read as "out of date", not crash the build with
+// a bare SyntaxError that gives no hint of what to do about it.
 export function readResumePdfManifest(
   manifestPath: string,
 ): ResumePdfManifest | null {
@@ -91,12 +98,16 @@ export function isResumePdfUpToDate(
   paths: ResumePdfManifestPaths = DEFAULT_RESUME_PDF_MANIFEST_PATHS,
 ): boolean {
   const manifest = readResumePdfManifest(paths.manifestPath);
-  if (!manifest || !existsSync(paths.pdfPath)) {
+  if (!manifest) {
     return false;
   }
+  const resumeHash = fingerprintFile(paths.resumeDataPath);
+  const pdfHash = fingerprintFile(paths.pdfPath);
   return (
-    manifest.resumeHash === fingerprintFile(paths.resumeDataPath) &&
-    manifest.pdfHash === fingerprintFile(paths.pdfPath)
+    resumeHash !== null &&
+    pdfHash !== null &&
+    manifest.resumeHash === resumeHash &&
+    manifest.pdfHash === pdfHash
   );
 }
 
@@ -111,9 +122,37 @@ export function assertResumePdfUpToDate(
   throw new Error(
     "public/dan_holloran_resume.pdf may be out of sync with resume.ts: " +
       "the content hashes recorded in resumePdfManifest.json don't match " +
-      "resume.ts's and/or the PDF's current content (or the PDF is " +
-      "missing). Re-run the Claude skill `resume-pdf-export` to " +
+      "resume.ts's and/or the PDF's current content (or resume.ts/the PDF " +
+      "is missing). Re-run the Claude skill `resume-pdf-export` to " +
       "regenerate the PDF, then run `npm run resume:pdf:sync` to record " +
       "the new hashes, and commit both.",
   );
+}
+
+export interface ResumeSyncConsistency {
+  // resume.ts's content hash differs from what the manifest last recorded
+  // (or there's no manifest yet).
+  resumeChanged: boolean;
+  // The PDF's content hash is identical to what the manifest last recorded.
+  pdfUnchanged: boolean;
+}
+
+// Pure check, isolated from the sync script's file-writing side effect so it
+// can be unit tested directly: did resume.ts change since the last sync
+// while the PDF's bytes stayed exactly the same? That combination means the
+// resume-pdf-export skill most likely never actually ran, and recording the
+// new resume.ts hash next to the stale PDF hash would make the guard
+// permanently useless (green build, stale PDF, no error ever again).
+export function checkResumeSyncConsistency(
+  paths: ResumePdfManifestPaths = DEFAULT_RESUME_PDF_MANIFEST_PATHS,
+): ResumeSyncConsistency {
+  const previousManifest = readResumePdfManifest(paths.manifestPath);
+  const currentResumeHash = fingerprintFile(paths.resumeDataPath);
+  const currentPdfHash = fingerprintFile(paths.pdfPath);
+  return {
+    resumeChanged:
+      !previousManifest || previousManifest.resumeHash !== currentResumeHash,
+    pdfUnchanged:
+      previousManifest !== null && previousManifest.pdfHash === currentPdfHash,
+  };
 }
