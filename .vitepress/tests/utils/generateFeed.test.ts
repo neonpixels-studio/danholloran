@@ -202,6 +202,29 @@ describe("generateFeed", () => {
     ]);
   });
 
+  it("caps the feed at the 30 most recent posts, dropping the oldest", async () => {
+    // Full content:encoded bodies make an unbounded feed grow with the whole
+    // archive; the cap keeps it a lightweight "latest posts" document. 32 posts
+    // in ascending-date order (so the loader's newest-first sort has real work
+    // to do) must ship the newest 30 and drop the oldest two.
+    const total = 32;
+    const DAY_MS = 24 * 60 * 60 * 1000;
+    const base = new Date("2024-01-01T00:00:00Z").getTime();
+    const files = Array.from({ length: total }, (_, i) => `post-${i}.md`);
+    const frontmatters = Array.from({ length: total }, (_, i) => ({
+      title: `Post ${i}`,
+      date: new Date(base + i * DAY_MS).toISOString().slice(0, 10),
+    }));
+    mockPostFiles(files, frontmatters);
+
+    const titles = itemTitles(generateFeed(passthroughRenderer()));
+
+    expect(titles).toHaveLength(30);
+    expect(titles[0]).toBe("Post 31");
+    expect(titles).not.toContain("Post 1");
+    expect(titles).not.toContain("Post 0");
+  });
+
   it("escapes special XML characters in the title without corrupting content", async () => {
     const specialTitle = 'A & B <script>alert("x")</script> "quoted"';
     mockPostFiles(
