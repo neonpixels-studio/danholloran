@@ -20,6 +20,14 @@ const CDATA_TERMINATOR_SAFE = "]]&gt;";
 // value, so returning an empty string is how a field is deliberately omitted.
 const OMIT_ELEMENT = "";
 
+// Each item embeds its full rendered body in <content:encoded>, so an unbounded
+// feed grows with the whole archive (301 posts ≈ 3.1 MB) — slow for subscribers
+// and large enough that feed-based cross-post importers time out or reject it.
+// Cap the feed at the most recent posts (loadDatedPosts is newest-first) so it
+// stays a lightweight "latest posts" document while keeping full content for the
+// items it does ship; the full archive lives at /posts.
+const FEED_MAX_ITEMS = 30;
+
 // Post bodies use root-relative URLs (e.g. `/images/...`, `/posts/...`) that a
 // feed reader resolves against its own origin, 404-ing every image and dead-
 // linking every internal reference. Rewrite them to absolute site URLs — the
@@ -125,7 +133,7 @@ export function generateFeed(renderer: MarkdownRenderer): string {
 
   // loadDatedPosts already excludes undated and bad-date posts (which the
   // shared loader warned about), so no `Invalid Date` pubDate ever ships.
-  for (const post of loadDatedPosts()) {
+  for (const post of loadDatedPosts().slice(0, FEED_MAX_ITEMS)) {
     const url = `${SITE_URL}/posts/${post.slug}`;
     const description = neutralizeCdata(post.description).trim();
     feed.addItem({
