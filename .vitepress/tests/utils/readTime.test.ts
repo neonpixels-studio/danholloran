@@ -57,7 +57,11 @@ describe("calculateReadTime", () => {
   });
 
   it("counts the same prose word count whether or not frontmatter is present", () => {
-    const prose = makeWords(300);
+    // 299 words sits just under the 1-minute rounding boundary (299 / 200 =
+    // 1.495 -> 1); if even a couple of frontmatter tokens leaked into the
+    // count, the total would cross into rounding up to 2, so this actually
+    // fails if parseFrontmatter isn't wired in.
+    const prose = makeWords(299);
     const frontmatter = `---\ntitle: "Example"\n---\n`;
     expect(calculateReadTime(frontmatter + prose)).toBe(
       calculateReadTime(prose),
@@ -86,9 +90,38 @@ describe("calculateReadTime", () => {
     // repo does this for posts about writing markdown, e.g.
     // dataviewjs-the-escape-hatch-when-bases-and-dql-run-out.md). The whole
     // outer block, nested fence included, must still count as code.
-    const prose = makeWords(300);
+    //
+    // 299 words sits just under the rounding boundary (see the frontmatter
+    // test above); if the backreference were dropped for a generic
+    // `` `{3,}` `` match, the inner ``` line would wrongly end the block
+    // early and leak "console.log(1)\n```\n````" (a few words) into the
+    // count, crossing the boundary and failing this assertion.
+    const prose = makeWords(299);
     const nestedFence = "````md\n```js\nconsole.log(1)\n```\n````";
     expect(calculateReadTime(prose + "\n\n" + nestedFence)).toBe(
+      calculateReadTime(prose),
+    );
+  });
+
+  it("does not treat a fence-shaped line with trailing text as the closer", () => {
+    // CommonMark requires a closing fence line to contain nothing but the
+    // fence characters (plus optional trailing whitespace) - a line like
+    // "```js" appearing mid-block is code content, not a closer, even though
+    // it starts with the same three backticks as the real closer.
+    const prose = makeWords(299);
+    const codeBlock = "```\ncode line one\n```js\ncode line two\n```";
+    expect(calculateReadTime(prose + "\n\n" + codeBlock)).toBe(
+      calculateReadTime(prose),
+    );
+  });
+
+  it("treats an unterminated fence as code through the end of the content", () => {
+    // A fence with no matching closer runs to the end of the document under
+    // CommonMark; this must not fall back to counting the "unclosed" code as
+    // prose.
+    const prose = makeWords(299);
+    const unterminated = "```ts\n" + makeWords(50);
+    expect(calculateReadTime(prose + "\n\n" + unterminated)).toBe(
       calculateReadTime(prose),
     );
   });
