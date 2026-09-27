@@ -161,6 +161,33 @@ describe("useGrimicornToolDownloads", () => {
       expect(copiedIndex.value).toBe(0);
     });
 
+    it("ignores a stale write that resolves after a later click", async () => {
+      let resolveFirstWrite!: () => void;
+      const writeText = vi
+        .fn()
+        .mockImplementationOnce(
+          () =>
+            new Promise<void>((resolve) => {
+              resolveFirstWrite = resolve;
+            }),
+        )
+        .mockResolvedValueOnce(undefined);
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copiedIndex, copyFailedIndex } =
+        useGrimicornToolDownloads(THEME_SLUG, []);
+
+      const firstCopy = copyHex("#123456", 0);
+      await copyHex("#abcdef", 1);
+
+      expect(copiedIndex.value).toBe(1);
+
+      resolveFirstWrite();
+      await firstCopy;
+
+      expect(copiedIndex.value).toBe(1);
+      expect(copyFailedIndex.value).toBeNull();
+    });
+
     it("clears the pending flash timer when its effect scope is disposed", async () => {
       vi.useFakeTimers();
       const scope = effectScope();

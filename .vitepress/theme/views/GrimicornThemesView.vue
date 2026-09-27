@@ -23,6 +23,7 @@ const {
   copiedIndex,
   copyFailedIndex,
   copyHex,
+  copyLabel,
 } = useGrimicornToolDownloads(THEME_SLUG, TOOLS);
 
 const STORAGE_KEY = "gc-preview";
@@ -340,13 +341,7 @@ function bgLabelColor(index: number): string {
                         'copied-flash': copiedIndex === index,
                         'copy-failed-flash': copyFailedIndex === index,
                       }"
-                      >{{
-                        copyFailedIndex === index
-                          ? "couldn't copy"
-                          : copiedIndex === index
-                            ? "copied!"
-                            : swatch.hex
-                      }}</span
+                      >{{ copyLabel(index, swatch.hex) }}</span
                     >
                   </span>
                   <span

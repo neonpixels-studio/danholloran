@@ -18,10 +18,14 @@ const {
   trackDownload,
   trackToolDownload,
   sortedTools,
-  copiedIndex,
   copyFailedIndex,
   copyHex,
+  copyLabel,
 } = useGrimicornToolDownloads(THEME_SLUG, NEON_TOOLS);
+
+// Matches the "Pink = error" convention already used across this theme's
+// status dots and diff markers (see the `.n-dot`/`.gc-dline.del` usages below).
+const COPY_FAILED_COLOR = "#ff2d9b";
 
 // The rainbow stops, looped back to the first so the pan animation is seamless.
 const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW[0]].join(", ")})`;
@@ -251,16 +255,10 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             <span
               class="font-mono text-[0.62rem]"
               :style="{
-                color: copyFailedIndex === index ? '#ff2d9b' : hue.hex,
+                color: copyFailedIndex === index ? COPY_FAILED_COLOR : hue.hex,
               }"
             >
-              {{
-                copyFailedIndex === index
-                  ? "couldn't copy"
-                  : copiedIndex === index
-                    ? "copied!"
-                    : hue.hex
-              }}
+              {{ copyLabel(index, hue.hex) }}
             </span>
             <span
               class="mt-1 font-mono text-[0.58rem] leading-[1.5]"

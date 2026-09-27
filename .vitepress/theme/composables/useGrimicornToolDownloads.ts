@@ -4,7 +4,23 @@ import type { GrimicornTool, GrimicornToolFile } from "@typedefs";
 
 const COPY_FLASH_MS = 1100;
 
+export const COPIED_LABEL = "copied!";
+export const COPY_FAILED_LABEL = "couldn't copy";
+
 type DownloadFormat = "palette" | "bundle" | "tool";
+
+/** Isolates the external Clipboard API so `copyHex` stays testable without it. */
+async function writeToClipboard(text: string): Promise<boolean> {
+  if (!navigator.clipboard) {
+    return false;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /** Featured tools first, then alphabetical by name within each group. */
 function byFeaturedThenName(
@@ -71,19 +87,32 @@ export function useGrimicornToolDownloads(
     }, COPY_FLASH_MS);
   }
 
+  // Tags each call so a slow write that resolves after a later click can't
+  // steal the flash (or plant a stale failure) from the swatch the user is
+  // now looking at.
+  let latestCopyRequest = 0;
+
   async function copyHex(hex: string, index: number) {
     // Await the write before flashing anything: only a resolved write counts
     // as "copied!", and a rejection (permission denial, missing clipboard
     // API) must surface as a visible failure rather than a silent success.
-    try {
-      if (!navigator.clipboard) {
-        throw new Error("Clipboard API unavailable");
-      }
-      await navigator.clipboard.writeText(hex);
-      flashFeedback(copiedIndex, index);
-    } catch {
-      flashFeedback(copyFailedIndex, index);
+    const request = ++latestCopyRequest;
+    const succeeded = await writeToClipboard(hex);
+    if (request !== latestCopyRequest) {
+      return;
     }
+    flashFeedback(succeeded ? copiedIndex : copyFailedIndex, index);
+  }
+
+  /** Shared label logic so both theme views render identical copy feedback. */
+  function copyLabel(index: number, hex: string): string {
+    if (copyFailedIndex.value === index) {
+      return COPY_FAILED_LABEL;
+    }
+    if (copiedIndex.value === index) {
+      return COPIED_LABEL;
+    }
+    return hex;
   }
 
   return {
@@ -93,5 +122,6 @@ export function useGrimicornToolDownloads(
     copiedIndex,
     copyFailedIndex,
     copyHex,
+    copyLabel,
   };
 }
