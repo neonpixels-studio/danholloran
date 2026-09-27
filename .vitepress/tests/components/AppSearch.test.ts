@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { shallowMount, mount, VueWrapper } from "@vue/test-utils";
+import {
+  shallowMount,
+  mount,
+  flushPromises,
+  VueWrapper,
+} from "@vue/test-utils";
 import { nextTick } from "vue";
 import {
   mockSearchItems,
@@ -226,6 +231,133 @@ describe("AppSearch", () => {
     await nextTick();
 
     expect(search.find("input").attributes("aria-expanded")).toBe("false");
+  });
+
+  describe("dialog semantics + focus trap", () => {
+    function createTrigger(): HTMLButtonElement {
+      const trigger = document.createElement("button");
+      document.body.appendChild(trigger);
+      trigger.focus();
+      return trigger;
+    }
+
+    function panelElement(search: VueWrapper): HTMLElement {
+      const panel = search.find('[role="dialog"]');
+      expect(panel.exists()).toBe(true);
+      return panel.element as HTMLElement;
+    }
+
+    it("declares dialog/modal semantics on the overlay panel", () => {
+      const search = mountSearch();
+
+      const panel = search.find('[role="dialog"]');
+      expect(panel.attributes("aria-modal")).toBe("true");
+      expect(panel.attributes("aria-hidden")).toBe("false");
+    });
+
+    it("hides the panel from assistive tech while closed", async () => {
+      const search = mountSearch();
+      mocks.isSearchOpen!.value = false;
+      await nextTick();
+
+      expect(search.find('[role="dialog"]').attributes("aria-hidden")).toBe(
+        "true",
+      );
+    });
+
+    it("moves focus into the panel when it opens", async () => {
+      createTrigger();
+      mocks.isSearchOpen!.value = false;
+      const search = mount(AppSearch, {
+        attachTo: document.body,
+        global: { stubs: { Teleport: true } },
+      });
+
+      mocks.isSearchOpen!.value = true;
+      await flushPromises();
+
+      expect(panelElement(search).contains(document.activeElement)).toBe(true);
+      expect(document.activeElement).toBe(search.find("input").element);
+
+      search.unmount();
+    });
+
+    it("restores focus to the trigger when it closes", async () => {
+      const trigger = createTrigger();
+      mocks.isSearchOpen!.value = false;
+      const search = mount(AppSearch, {
+        attachTo: document.body,
+        global: { stubs: { Teleport: true } },
+      });
+
+      mocks.isSearchOpen!.value = true;
+      await flushPromises();
+      expect(document.activeElement).toBe(search.find("input").element);
+
+      mocks.isSearchOpen!.value = false;
+      await flushPromises();
+      expect(document.activeElement).toBe(trigger);
+
+      search.unmount();
+      trigger.remove();
+    });
+
+    it("traps Tab focus within the panel while open", async () => {
+      createTrigger();
+      const search = mount(AppSearch, {
+        attachTo: document.body,
+        global: { stubs: { Teleport: true } },
+      });
+      await flushPromises();
+
+      // The result options carry tabindex="-1" (roving activedescendant, not
+      // real Tab order), so the only genuinely focusable controls here are
+      // the input and the close button.
+      const first = search.find("input").element as HTMLElement;
+      const last = search.find('button[aria-label="Close search"]')
+        .element as HTMLElement;
+
+      first.focus();
+      const shiftTab = new KeyboardEvent("keydown", {
+        key: "Tab",
+        shiftKey: true,
+        cancelable: true,
+      });
+      document.dispatchEvent(shiftTab);
+      expect(shiftTab.defaultPrevented).toBe(true);
+      expect(document.activeElement).toBe(last);
+
+      const tab = new KeyboardEvent("keydown", {
+        key: "Tab",
+        cancelable: true,
+      });
+      document.dispatchEvent(tab);
+      expect(tab.defaultPrevented).toBe(true);
+      expect(document.activeElement).toBe(first);
+
+      search.unmount();
+    });
+
+    it("stops trapping Tab once the panel closes", async () => {
+      createTrigger();
+      const search = mount(AppSearch, {
+        attachTo: document.body,
+        global: { stubs: { Teleport: true } },
+      });
+      await flushPromises();
+
+      mocks.isSearchOpen!.value = false;
+      await flushPromises();
+
+      const tab = new KeyboardEvent("keydown", {
+        key: "Tab",
+        cancelable: true,
+      });
+      document.dispatchEvent(tab);
+      expect(tab.defaultPrevented).toBe(false);
+
+      search.unmount();
+    });
   });
 
   describe("analytics", () => {
