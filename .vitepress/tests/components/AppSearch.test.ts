@@ -406,6 +406,28 @@ describe("AppSearch", () => {
       const tab = pressTab();
       expect(tab.defaultPrevented).toBe(false);
     });
+
+    it("moves focus into the panel when it mounts already open", async () => {
+      createTrigger();
+      mocks.isSearchOpen!.value = true;
+      const search = mountAttached();
+      await flushPromises();
+
+      expect(document.activeElement).toBe(search.find("input").element);
+    });
+
+    it("stops trapping Tab once the panel unmounts while open", async () => {
+      createTrigger();
+      mocks.isSearchOpen!.value = true;
+      mountAttached();
+      await flushPromises();
+
+      wrapper?.unmount();
+      wrapper = null;
+
+      const tab = pressTab();
+      expect(tab.defaultPrevented).toBe(false);
+    });
   });
 
   describe("analytics", () => {
