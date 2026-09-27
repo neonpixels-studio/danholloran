@@ -234,11 +234,29 @@ describe("AppSearch", () => {
   });
 
   describe("dialog semantics + focus trap", () => {
+    // Triggers are plain DOM nodes (not part of any wrapper), so they need
+    // their own cleanup list rather than piggybacking on `wrapper`'s
+    // afterEach. Tracking them here (rather than removing inline after each
+    // assertion) means a failed expectation still leaves the DOM clean for
+    // the next test.
+    let triggers: HTMLButtonElement[] = [];
+
     function createTrigger(): HTMLButtonElement {
       const trigger = document.createElement("button");
       document.body.appendChild(trigger);
       trigger.focus();
+      triggers.push(trigger);
       return trigger;
+    }
+
+    // Reuses the outer `wrapper` variable so the outer afterEach's
+    // `wrapper?.unmount()` covers cleanup even when an assertion throws.
+    function mountAttached(): VueWrapper {
+      wrapper = mount(AppSearch, {
+        attachTo: document.body,
+        global: { stubs: { Teleport: true } },
+      });
+      return wrapper;
     }
 
     function panelElement(search: VueWrapper): HTMLElement {
@@ -246,6 +264,21 @@ describe("AppSearch", () => {
       expect(panel.exists()).toBe(true);
       return panel.element as HTMLElement;
     }
+
+    function pressTab(shiftKey = false): KeyboardEvent {
+      const event = new KeyboardEvent("keydown", {
+        key: "Tab",
+        shiftKey,
+        cancelable: true,
+      });
+      document.dispatchEvent(event);
+      return event;
+    }
+
+    afterEach(() => {
+      triggers.forEach((trigger) => trigger.remove());
+      triggers = [];
+    });
 
     it("declares dialog/modal semantics on the overlay panel", () => {
       const search = mountSearch();
@@ -268,27 +301,19 @@ describe("AppSearch", () => {
     it("moves focus into the panel when it opens", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = false;
-      const search = mount(AppSearch, {
-        attachTo: document.body,
-        global: { stubs: { Teleport: true } },
-      });
+      const search = mountAttached();
 
       mocks.isSearchOpen!.value = true;
       await flushPromises();
 
       expect(panelElement(search).contains(document.activeElement)).toBe(true);
       expect(document.activeElement).toBe(search.find("input").element);
-
-      search.unmount();
     });
 
     it("restores focus to the trigger when it closes", async () => {
       const trigger = createTrigger();
       mocks.isSearchOpen!.value = false;
-      const search = mount(AppSearch, {
-        attachTo: document.body,
-        global: { stubs: { Teleport: true } },
-      });
+      const search = mountAttached();
 
       mocks.isSearchOpen!.value = true;
       await flushPromises();
@@ -297,17 +322,29 @@ describe("AppSearch", () => {
       mocks.isSearchOpen!.value = false;
       await flushPromises();
       expect(document.activeElement).toBe(trigger);
+    });
 
-      search.unmount();
+    it("does not throw restoring focus when the trigger was removed while open", async () => {
+      const trigger = createTrigger();
+      mocks.isSearchOpen!.value = false;
+      mountAttached();
+
+      mocks.isSearchOpen!.value = true;
+      await flushPromises();
       trigger.remove();
+      triggers = triggers.filter((candidate) => candidate !== trigger);
+
+      // Restoring focus to a detached node must fall back gracefully rather
+      // than throw; an unhandled rejection here would fail the test anyway,
+      // so simply completing the flush is the assertion.
+      mocks.isSearchOpen!.value = false;
+      await flushPromises();
     });
 
     it("traps Tab focus within the panel while open", async () => {
       createTrigger();
-      const search = mount(AppSearch, {
-        attachTo: document.body,
-        global: { stubs: { Teleport: true } },
-      });
+      mocks.isSearchOpen!.value = true;
+      const search = mountAttached();
       await flushPromises();
 
       // The result options carry tabindex="-1" (roving activedescendant, not
@@ -318,45 +355,53 @@ describe("AppSearch", () => {
         .element as HTMLElement;
 
       first.focus();
-      const shiftTab = new KeyboardEvent("keydown", {
-        key: "Tab",
-        shiftKey: true,
-        cancelable: true,
-      });
-      document.dispatchEvent(shiftTab);
+      const shiftTab = pressTab(true);
       expect(shiftTab.defaultPrevented).toBe(true);
       expect(document.activeElement).toBe(last);
 
-      const tab = new KeyboardEvent("keydown", {
-        key: "Tab",
-        cancelable: true,
-      });
-      document.dispatchEvent(tab);
+      const tab = pressTab();
       expect(tab.defaultPrevented).toBe(true);
       expect(document.activeElement).toBe(first);
+    });
 
-      search.unmount();
+    it("does not intercept Tab moving between two panel-internal controls", async () => {
+      createTrigger();
+      mocks.isSearchOpen!.value = true;
+      const search = mountAttached();
+      await flushPromises();
+
+      const first = search.find("input").element as HTMLElement;
+      first.focus();
+
+      // Only two focusable controls exist (input, close button); Tab off the
+      // first isn't a wrap, so the trap must leave the browser default alone.
+      const tab = pressTab();
+      expect(tab.defaultPrevented).toBe(false);
+    });
+
+    it("pulls focus back into the panel if it escapes to outside content", async () => {
+      const trigger = createTrigger();
+      mocks.isSearchOpen!.value = true;
+      const search = mountAttached();
+      await flushPromises();
+
+      trigger.focus();
+      const tab = pressTab();
+      expect(tab.defaultPrevented).toBe(true);
+      expect(document.activeElement).toBe(search.find("input").element);
     });
 
     it("stops trapping Tab once the panel closes", async () => {
       createTrigger();
-      const search = mount(AppSearch, {
-        attachTo: document.body,
-        global: { stubs: { Teleport: true } },
-      });
+      mocks.isSearchOpen!.value = true;
+      mountAttached();
       await flushPromises();
 
       mocks.isSearchOpen!.value = false;
       await flushPromises();
 
-      const tab = new KeyboardEvent("keydown", {
-        key: "Tab",
-        cancelable: true,
-      });
-      document.dispatchEvent(tab);
+      const tab = pressTab();
       expect(tab.defaultPrevented).toBe(false);
-
-      search.unmount();
     });
   });
 
