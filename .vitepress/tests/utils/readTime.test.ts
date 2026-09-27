@@ -115,6 +115,16 @@ describe("calculateReadTime", () => {
     );
   });
 
+  it("accepts a closing fence longer than the opening fence", () => {
+    // CommonMark allows the closer to be *at least* as long as the opener
+    // (not just an exact match), e.g. a ``` opener closed by a ```` line.
+    const prose = makeWords(299);
+    const codeBlock = "```\ncode line\n````";
+    expect(calculateReadTime(prose + "\n\n" + codeBlock)).toBe(
+      calculateReadTime(prose),
+    );
+  });
+
   it("treats an unterminated fence as code through the end of the content", () => {
     // A fence with no matching closer runs to the end of the document under
     // CommonMark; this must not fall back to counting the "unclosed" code as

@@ -2,11 +2,13 @@ import { parseFrontmatter } from "./frontmatter";
 
 // Matches a fenced code block from its opening fence through the matching
 // closing fence:
-//  - The backreference (`\1`) pins the closer to the exact same fence string
-//    the opener used (e.g. ` ``` ` vs ` ```` `), which is how CommonMark lets
-//    a longer outer fence safely contain a shorter one nested inside (see
+//  - Group 1 (`\1`) is the whole opening fence string, group 2 (`\2`) is just
+//    its fence character. The closer must repeat group 1 verbatim, optionally
+//    followed by more of the same character (`\1\2*`) - i.e. it must be at
+//    least as long as the opener, per CommonMark. This is also how a longer
+//    outer fence safely contains a shorter one nested inside (see
 //    dataviewjs-the-escape-hatch-when-bases-and-dql-run-out.md, which nests
-//    ``` inside ````).
+//    ``` inside ````): the inner ``` can't match the outer ```` opener's \1.
 //  - The closer alternative requires the fence characters to be the only
 //    non-whitespace content on the line (`[ \t]*\r?$`), matching CommonMark:
 //    a mid-block line like "```js" is code content, not a closer, even
@@ -14,14 +16,12 @@ import { parseFrontmatter } from "./frontmatter";
 //  - The final `|[\s\S]*$` alternative handles an unclosed fence (runs to
 //    end of content), matching CommonMark's rule that an unterminated fence
 //    still counts as one code block rather than leaking as prose.
-// Only fenced blocks are stripped, not 4-space-indented code or fences
-// nested under list markers, since every well-formed post in this repo's
-// corpus fences its code at the top level; list-nested fences are also
-// legitimately ambiguous in this corpus (see
-// installing-linters-atom.md, which mixes 3- and 4-backtick fences
-// inconsistently) and are flagged as a follow-up rather than guessed at here.
+// @todo Strip fences nested under list markers once a real corpus need
+// shows up cleanly (installing-linters-atom.md mixes 3-/4-backtick fences
+// inconsistently under list items, so it's not a safe pattern to guess at
+// with a regex today - see the PR follow-up suggestion).
 const FENCED_CODE_BLOCK =
-  /^ {0,3}(`{3,}|~{3,})[^\n]*\n(?:[\s\S]*?^ {0,3}\1[ \t]*\r?$|[\s\S]*$)/gm;
+  /^ {0,3}((`|~)\2{2,})[^\n]*\n(?:[\s\S]*?^ {0,3}\1\2*[ \t]*\r?$|[\s\S]*$)/gm;
 
 export function calculateReadTime(content: string): number {
   const { content: withoutFrontmatter } = parseFrontmatter(content);
