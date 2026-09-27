@@ -203,7 +203,7 @@ describe("useGrimicornToolDownloads", () => {
       const { copyHex, copiedIndex, copyFailedIndex } =
         useGrimicornToolDownloads(THEME_SLUG, []);
 
-      const firstCopy = copyHex("#123456", 0).catch(() => undefined);
+      const firstCopy = copyHex("#123456", 0);
       await copyHex("#abcdef", 1);
 
       expect(copiedIndex.value).toBe(1);

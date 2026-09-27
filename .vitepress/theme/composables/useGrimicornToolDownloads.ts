@@ -108,12 +108,20 @@ export function useGrimicornToolDownloads(
     flashFeedback(succeeded ? copiedIndex : copyFailedIndex, index);
   }
 
+  function isCopied(index: number): boolean {
+    return copiedIndex.value === index;
+  }
+
+  function isCopyFailed(index: number): boolean {
+    return copyFailedIndex.value === index;
+  }
+
   /** Shared label logic so both theme views render identical copy feedback. */
   function copyLabel(index: number, hex: string): string {
-    if (copyFailedIndex.value === index) {
+    if (isCopyFailed(index)) {
       return COPY_FAILED_LABEL;
     }
-    if (copiedIndex.value === index) {
+    if (isCopied(index)) {
       return COPIED_LABEL;
     }
     return hex;
@@ -125,6 +133,8 @@ export function useGrimicornToolDownloads(
     sortedTools,
     copiedIndex,
     copyFailedIndex,
+    isCopied,
+    isCopyFailed,
     copyHex,
     copyLabel,
   };
