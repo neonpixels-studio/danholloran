@@ -3,17 +3,21 @@ import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 
 const CONFIG_PATH = resolve(process.cwd(), ".vitepress/config.ts");
-// Matches only a top-level `appearance: true,` property of the
-// defineConfig({...}) object (2-space indent, per this repo's prettier
-// config) so a comment or a nested object's same-named key can't fake a pass.
+const DEFINE_CONFIG_CALL = "defineConfig(";
+// Matches only a top-level `appearance: true,` property (2-space indent, per
+// this repo's prettier config). The indent alone already rejects a commented-
+// out `// appearance: true,` line, since `//` sits where `appearance:` must
+// start; slicing the source to start at defineConfig(...) below additionally
+// rejects a same-named key on some unrelated object above it in the file.
 const TOP_LEVEL_APPEARANCE_TRUE_RE = /^ {2}appearance:\s*true,?\s*$/m;
 
-function stripComments(source: string): string {
-  return source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
-}
-
-function readConfigSource(): string {
-  return stripComments(readFileSync(CONFIG_PATH, "utf8"));
+function readDefineConfigBody(): string {
+  const source = readFileSync(CONFIG_PATH, "utf8");
+  const callIndex = source.indexOf(DEFINE_CONFIG_CALL);
+  if (callIndex === -1) {
+    throw new Error(`${DEFINE_CONFIG_CALL} not found in ${CONFIG_PATH}`);
+  }
+  return source.slice(callIndex);
 }
 
 describe("VitePress appearance config", () => {
@@ -23,6 +27,6 @@ describe("VitePress appearance config", () => {
   // emit a script keyed on STORAGE_KEY) is covered there via
   // resolveSiteData(). This test only pins that *this repo's config* opts in.
   it("explicitly enables VitePress's blocking dark-mode script", () => {
-    expect(readConfigSource()).toMatch(TOP_LEVEL_APPEARANCE_TRUE_RE);
+    expect(readDefineConfigBody()).toMatch(TOP_LEVEL_APPEARANCE_TRUE_RE);
   });
 });

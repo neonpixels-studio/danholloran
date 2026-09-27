@@ -132,12 +132,16 @@ describe("useAppearance", () => {
         appearance: true,
         head: [],
       });
-      const [, , scriptBody] =
-        siteData.head.find(
-          ([tag, attrs]) => tag === "script" && attrs?.id === "check-dark-mode",
-        ) ?? [];
+      const darkModeScript = siteData.head.find(
+        ([tag, attrs]) => tag === "script" && attrs?.id === "check-dark-mode",
+      );
 
-      expect(scriptBody).toContain(STORAGE_KEY);
+      // Asserted separately from the STORAGE_KEY check below: if VitePress
+      // ever stops emitting this script, failing here says so directly
+      // instead of reporting a confusing "undefined does not contain
+      // STORAGE_KEY".
+      expect(darkModeScript).toBeDefined();
+      expect(darkModeScript?.[2]).toContain(STORAGE_KEY);
     });
   });
 
