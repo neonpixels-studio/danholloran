@@ -18,19 +18,26 @@ export interface MapUpdatedDates {
 declare const data: MapUpdatedDates;
 export { data };
 
-function isoOrNull(date: Date | null): string | null {
-  return date ? date.toISOString() : null;
+// A null result (untracked file, no git history, git unavailable) silently
+// degrades the card to "updated automatically" with no build-time signal
+// that anything went wrong — warn so a broken path or a missing image is
+// visible in build logs instead of only in the rendered page months later.
+function resolveDate(filePath: string): string | null {
+  const date = gitLastModified(filePath);
+  if (!date) {
+    console.warn(
+      `mapUpdated.data.ts: no git history for ${filePath}; HomeTravelMap will show "updated automatically"`,
+    );
+    return null;
+  }
+  return date.toISOString();
 }
 
 export default {
   load(): MapUpdatedDates {
     return {
-      light: isoOrNull(
-        gitLastModified(join(MAP_IMAGES_DIR, "visited-locations-light.png")),
-      ),
-      dark: isoOrNull(
-        gitLastModified(join(MAP_IMAGES_DIR, "visited-locations-dark.png")),
-      ),
+      light: resolveDate(join(MAP_IMAGES_DIR, "visited-locations-light.png")),
+      dark: resolveDate(join(MAP_IMAGES_DIR, "visited-locations-dark.png")),
     };
   },
 };

@@ -145,9 +145,34 @@ describe("formatMapUpdatedDate", () => {
     );
   });
 
+  it("renders in UTC regardless of the local machine timezone", () => {
+    // A build server (UTC) and a visitor's browser (any offset) must render
+    // the same calendar day for the same instant — otherwise a negative-
+    // offset browser can render a day earlier than the static HTML did.
+    const originalTimeZone = process.env.TZ;
+    process.env.TZ = "Pacific/Kiritimati"; // UTC+14
+    try {
+      expect(formatMapUpdatedDate("2025-01-01T00:00:00.000Z")).toBe(
+        "updated Jan 1, 2025",
+      );
+    } finally {
+      if (originalTimeZone === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTimeZone;
+      }
+    }
+  });
+
   it("falls back to a generic label when no date is available", () => {
     // Expected when the backing image is untracked or git isn't available
     // at build time — not a bug, so it must not render "Invalid Date".
     expect(formatMapUpdatedDate(null)).toBe("updated automatically");
+  });
+
+  it("falls back to a generic label for an unparseable date instead of 'Invalid Date'", () => {
+    expect(formatMapUpdatedDate("not-a-real-date")).toBe(
+      "updated automatically",
+    );
   });
 });

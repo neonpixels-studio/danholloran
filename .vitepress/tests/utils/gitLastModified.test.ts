@@ -42,6 +42,16 @@ describe("gitLastModified", () => {
     expect(gitLastModified("/repo/public/images/map.png")).toBeNull();
   });
 
+  it("returns null instead of an Invalid Date for unparseable git output", () => {
+    // Defensive: a well-formed `git log --format=%cI` never prints this, but
+    // a caller (e.g. mapUpdated.data.ts) calls toISOString() on the result,
+    // which throws a RangeError on an Invalid Date rather than degrading
+    // gracefully — this must not reach that caller.
+    mockExecFileSync.mockReturnValue("not-a-date\n" as any);
+
+    expect(gitLastModified("/repo/public/images/map.png")).toBeNull();
+  });
+
   it("runs git in the provided cwd instead of process.cwd() when given", () => {
     mockExecFileSync.mockReturnValue("2025-02-10T08:30:00.000Z\n" as any);
 

@@ -52,4 +52,19 @@ describe("mapUpdated.data.ts loader", () => {
 
     expect(mapUpdatedLoader.load()).toEqual({ light: null, dark: null });
   });
+
+  it("warns when an image resolves to no git history, so a broken build-time path is visible in logs", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockGitLastModified.mockReturnValue(null);
+
+    mapUpdatedLoader.load();
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("visited-locations-light.png"),
+    );
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("visited-locations-dark.png"),
+    );
+    warnSpy.mockRestore();
+  });
 });
