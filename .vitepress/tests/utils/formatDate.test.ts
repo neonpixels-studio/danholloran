@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { formatPostDate, formatPeriod } from "../../theme/utils/formatDate";
+import {
+  formatPostDate,
+  formatPeriod,
+  formatMapUpdatedDate,
+} from "../../theme/utils/formatDate";
 
 describe("formatPostDate", () => {
   it("formats a date string to short month, day, year", () => {
@@ -131,5 +135,19 @@ describe("formatPeriod", () => {
     expect(formatPeriod(new Date("2020-01-01"), undefined)).toBe(
       "Jan 2020 – Present",
     );
+  });
+});
+
+describe("formatMapUpdatedDate", () => {
+  it("formats an ISO date string with the 'updated' prefix", () => {
+    expect(formatMapUpdatedDate("2025-01-01T00:00:00.000Z")).toBe(
+      "updated Jan 1, 2025",
+    );
+  });
+
+  it("falls back to a generic label when no date is available", () => {
+    // Expected when the backing image is untracked or git isn't available
+    // at build time — not a bug, so it must not render "Invalid Date".
+    expect(formatMapUpdatedDate(null)).toBe("updated automatically");
   });
 });

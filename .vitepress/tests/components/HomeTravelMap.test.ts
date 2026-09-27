@@ -4,8 +4,9 @@ import { ref } from "vue";
 
 vi.setSystemTime(new Date("2026-06-12"));
 
+const isDark = ref(false);
 vi.mock("vitepress", () => ({
-  useData: () => ({ isDark: ref(false) }),
+  useData: () => ({ isDark }),
 }));
 
 // `posts.data` is transformPosts' output, which normalizes `tags` to an array
@@ -23,25 +24,42 @@ vi.mock("@content/posts/posts.data.ts", () => ({
   ],
 }));
 
-global.fetch = vi.fn().mockResolvedValue({
-  headers: { get: () => "Sat, 01 Jan 2025 00:00:00 GMT" },
-  ok: true,
-});
+// mapUpdated.data.ts is a build-time (Node-only) data loader — its `data`
+// export only exists once vitepress's own vite plugin processes the file, so
+// tests mock it directly rather than exercising the real loader (same
+// convention as posts.data.ts above). Null/formatting edge cases for the
+// dates themselves are covered by formatDate.test.ts's formatMapUpdatedDate
+// suite; this file only needs to prove the component wires light vs. dark to
+// the right theme.
+vi.mock("@data/mapUpdated.data.ts", () => ({
+  data: {
+    light: "2025-01-01T00:00:00.000Z",
+    dark: "2025-06-15T00:00:00.000Z",
+  },
+}));
 
 import HomeTravelMap from "@components/HomeTravelMap.vue";
 
 describe("HomeTravelMap", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn().mockResolvedValue({
-      headers: { get: () => "Sat, 01 Jan 2025 00:00:00 GMT" },
-      ok: true,
-    });
+    isDark.value = false;
   });
 
   it("renders correctly", () => {
     const wrapper = shallowMount(HomeTravelMap);
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("shows the light map's git-derived date when light mode is active", () => {
+    const wrapper = shallowMount(HomeTravelMap);
+    expect(wrapper.find("#mapUpdated").text()).toBe("updated Jan 1, 2025");
+  });
+
+  it("shows the dark map's git-derived date when dark mode is active", () => {
+    isDark.value = true;
+    const wrapper = shallowMount(HomeTravelMap);
+    expect(wrapper.find("#mapUpdated").text()).toBe("updated Jun 15, 2025");
   });
 
   it("counts only posts carrying the national-park tag", () => {

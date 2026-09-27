@@ -88,3 +88,22 @@ export function formatPeriod(
     ? `${fmt(start)} – Present`
     : `${fmt(start)} – ${fmt(end)}`;
 }
+
+// Shared by HomeTravelMap: formats the build-time, git-derived "last
+// modified" date for the travel map image (see mapUpdated.data.ts). `iso` is
+// null when the image is untracked or git isn't available at build time —
+// that's expected on a fresh working copy, not a bug, so it degrades to a
+// generic label instead of showing "Invalid Date".
+export function formatMapUpdatedDate(iso: string | null): string {
+  if (!iso) {
+    return "updated automatically";
+  }
+  return (
+    "updated " +
+    new Date(iso).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  );
+}
