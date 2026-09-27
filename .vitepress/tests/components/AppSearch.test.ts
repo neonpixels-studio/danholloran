@@ -260,9 +260,9 @@ describe("AppSearch", () => {
     }
 
     function panelElement(search: VueWrapper): HTMLElement {
-      const panel = search.find('[role="dialog"]');
-      expect(panel.exists()).toBe(true);
-      return panel.element as HTMLElement;
+      // `.get()` throws a clear "not found" error on its own, so the lookup
+      // doubles as the existence check without a separate assertion here.
+      return search.get('[role="dialog"]').element as HTMLElement;
     }
 
     function pressTab(shiftKey = false): KeyboardEvent {
@@ -334,11 +334,14 @@ describe("AppSearch", () => {
       trigger.remove();
       triggers = triggers.filter((candidate) => candidate !== trigger);
 
-      // Restoring focus to a detached node must fall back gracefully rather
-      // than throw; an unhandled rejection here would fail the test anyway,
-      // so simply completing the flush is the assertion.
       mocks.isSearchOpen!.value = false;
       await flushPromises();
+
+      // A detached previously-focused element can't be refocused, so the
+      // trap falls back to document.body rather than leaving activeElement
+      // stale or throwing.
+      expect(document.activeElement).not.toBe(trigger);
+      expect(document.activeElement).toBe(document.body);
     });
 
     it("traps Tab focus within the panel while open", async () => {
