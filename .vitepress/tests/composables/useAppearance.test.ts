@@ -8,6 +8,7 @@ import {
   type MockInstance,
 } from "vitest";
 import { createApp, defineComponent, type App } from "vue";
+import { resolveSiteData } from "vitepress";
 import {
   readStored,
   STORAGE_KEY,
@@ -119,16 +120,24 @@ describe("useAppearance", () => {
     vi.restoreAllMocks();
   });
 
-  describe("STORAGE_KEY", () => {
-    // Regression pin: VitePress hardcodes this exact string (not
-    // configurable) as the localStorage key its `appearance: true`
-    // blocking `#check-dark-mode` <head> script reads to set the `dark`
-    // class before first paint (see .vitepress/config.ts). If this ever
-    // drifts from that literal, the pre-mount script and this composable
-    // would read different keys and the flash-of-wrong-theme bug (#399)
-    // comes back.
-    it("matches VitePress's hardcoded appearance localStorage key", () => {
-      expect(STORAGE_KEY).toBe("vitepress-theme-appearance");
+  describe("STORAGE_KEY vs. VitePress's pre-paint dark-mode script (#399)", () => {
+    // Behavioral regression test, not a literal-vs-literal pin: asks
+    // VitePress's own public resolveSiteData() what `appearance: true` (set
+    // in .vitepress/config.ts) actually generates, then asserts the emitted
+    // `#check-dark-mode` <head> script reads STORAGE_KEY. If a VitePress
+    // upgrade ever renames its internal appearance key, this fails instead of
+    // silently reintroducing the flash-of-wrong-theme bug.
+    it("is the key VitePress's generated pre-paint script reads", async () => {
+      const siteData = await resolveSiteData("/virtual-root", {
+        appearance: true,
+        head: [],
+      });
+      const [, , scriptBody] =
+        siteData.head.find(
+          ([tag, attrs]) => tag === "script" && attrs?.id === "check-dark-mode",
+        ) ?? [];
+
+      expect(scriptBody).toContain(STORAGE_KEY);
     });
   });
 
