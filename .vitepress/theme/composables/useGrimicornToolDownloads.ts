@@ -69,11 +69,20 @@ export function useGrimicornToolDownloads(
   const copiedIndex = ref<number | null>(null);
   const copyFailedIndex = ref<number | null>(null);
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
+  // Tags each copyHex call so a slow write that resolves after a later click
+  // (or after the component unmounts) can't steal the flash — or plant a
+  // stale failure — from whatever the user is now looking at.
+  let latestCopyRequest = 0;
   // Guarded: callers outside a component/effect scope (e.g. calling this
   // composable directly in a unit test) have nothing to dispose into, and an
   // unconditional call would only log a Vue dev warning.
   if (getCurrentScope()) {
-    onScopeDispose(() => clearTimeout(copyTimer));
+    onScopeDispose(() => {
+      // Invalidates any write still in flight so it can't schedule a new
+      // timer or write to these refs after this component is gone.
+      latestCopyRequest++;
+      clearTimeout(copyTimer);
+    });
   }
 
   /** Flashes `index` on `target`, clearing whichever ref flashed last. */
@@ -86,11 +95,6 @@ export function useGrimicornToolDownloads(
       target.value = null;
     }, COPY_FLASH_MS);
   }
-
-  // Tags each call so a slow write that resolves after a later click can't
-  // steal the flash (or plant a stale failure) from the swatch the user is
-  // now looking at.
-  let latestCopyRequest = 0;
 
   async function copyHex(hex: string, index: number) {
     // Await the write before flashing anything: only a resolved write counts

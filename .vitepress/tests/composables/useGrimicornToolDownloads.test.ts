@@ -188,6 +188,35 @@ describe("useGrimicornToolDownloads", () => {
       expect(copyFailedIndex.value).toBeNull();
     });
 
+    it("ignores a stale write that rejects after a later click already succeeded", async () => {
+      let rejectFirstWrite!: (_reason: Error) => void;
+      const writeText = vi
+        .fn()
+        .mockImplementationOnce(
+          () =>
+            new Promise<void>((_resolve, reject) => {
+              rejectFirstWrite = reject;
+            }),
+        )
+        .mockResolvedValueOnce(undefined);
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copiedIndex, copyFailedIndex } =
+        useGrimicornToolDownloads(THEME_SLUG, []);
+
+      const firstCopy = copyHex("#123456", 0).catch(() => undefined);
+      await copyHex("#abcdef", 1);
+
+      expect(copiedIndex.value).toBe(1);
+
+      rejectFirstWrite(new Error("denied"));
+      await firstCopy;
+
+      // The stale rejection must not plant a failure on the swatch the user
+      // already moved on from.
+      expect(copiedIndex.value).toBe(1);
+      expect(copyFailedIndex.value).toBeNull();
+    });
+
     it("clears the pending flash timer when its effect scope is disposed", async () => {
       vi.useFakeTimers();
       const scope = effectScope();
@@ -201,6 +230,72 @@ describe("useGrimicornToolDownloads", () => {
 
       // The timer's clearTimeout ran on dispose, so the flash is never reset.
       expect(copiedIndex.value).toBe(0);
+    });
+
+    it("does not flash or leak a timer for a write that resolves after the scope is disposed", async () => {
+      vi.useFakeTimers();
+      let resolvePendingWrite!: () => void;
+      const writeText = vi.fn().mockImplementationOnce(
+        () =>
+          new Promise<void>((resolve) => {
+            resolvePendingWrite = resolve;
+          }),
+      );
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const scope = effectScope();
+      const { copyHex, copiedIndex, copyFailedIndex } = scope.run(() =>
+        useGrimicornToolDownloads(THEME_SLUG, []),
+      )!;
+
+      const pendingCopy = copyHex("#123456", 0);
+      scope.stop();
+      resolvePendingWrite();
+      await pendingCopy;
+
+      expect(copiedIndex.value).toBeNull();
+      expect(copyFailedIndex.value).toBeNull();
+      expect(vi.getTimerCount()).toBe(0);
+    });
+  });
+
+  describe("copyLabel", () => {
+    it("returns the hex until a copy is in flight", () => {
+      const { copyLabel } = useGrimicornToolDownloads(THEME_SLUG, []);
+
+      expect(copyLabel(0, "#123456")).toBe("#123456");
+    });
+
+    it("returns the copied label for the successful index and the hex for others", async () => {
+      const writeText = vi.fn().mockResolvedValue(undefined);
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copyLabel } = useGrimicornToolDownloads(THEME_SLUG, []);
+
+      await copyHex("#123456", 0);
+
+      expect(copyLabel(0, "#123456")).toBe("copied!");
+      expect(copyLabel(1, "#abcdef")).toBe("#abcdef");
+    });
+
+    it("returns the failure label for the failed index", async () => {
+      const writeText = vi.fn().mockRejectedValue(new Error("denied"));
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copyLabel } = useGrimicornToolDownloads(THEME_SLUG, []);
+
+      await copyHex("#123456", 0);
+
+      expect(copyLabel(0, "#123456")).toBe("couldn't copy");
+    });
+
+    it("falls back to the hex once the flash clears", async () => {
+      vi.useFakeTimers();
+      const writeText = vi.fn().mockResolvedValue(undefined);
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copyLabel } = useGrimicornToolDownloads(THEME_SLUG, []);
+
+      await copyHex("#123456", 0);
+      vi.advanceTimersByTime(FLASH_MS);
+
+      expect(copyLabel(0, "#123456")).toBe("#123456");
     });
   });
 
