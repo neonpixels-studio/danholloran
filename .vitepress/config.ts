@@ -63,6 +63,14 @@ assertImageVariantsUpToDate();
 export default defineConfig({
   title: "Dan Holloran",
   description: SITE_DESCRIPTION,
+  // Explicit even though it's VitePress's own default: this is what makes
+  // VitePress inject a synchronous, blocking `#check-dark-mode` <script> into
+  // <head> (ahead of every stylesheet/app script below) that reads the
+  // "vitepress-theme-appearance" localStorage key and sets the `dark` class
+  // before first paint. useAppearance.ts's STORAGE_KEY intentionally matches
+  // that hardcoded key, so together they prevent a flash of the wrong theme
+  // on load/navigation without this head array needing its own inline script.
+  appearance: true,
   sitemap: {
     hostname: SITE_URL,
     transformItems: transformSitemapItems,

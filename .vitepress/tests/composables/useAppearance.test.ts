@@ -10,10 +10,10 @@ import {
 import { createApp, defineComponent, type App } from "vue";
 import {
   readStored,
+  STORAGE_KEY,
   useAppearance,
 } from "../../theme/composables/useAppearance";
 
-const STORAGE_KEY = "vitepress-theme-appearance";
 const DARK_CLASS = "dark";
 
 const CHANGE_EVENT = "change";
@@ -117,6 +117,19 @@ describe("useAppearance", () => {
   afterEach(() => {
     mountedApps.splice(0).forEach((app) => app.unmount());
     vi.restoreAllMocks();
+  });
+
+  describe("STORAGE_KEY", () => {
+    // Regression pin: VitePress hardcodes this exact string (not
+    // configurable) as the localStorage key its `appearance: true`
+    // blocking `#check-dark-mode` <head> script reads to set the `dark`
+    // class before first paint (see .vitepress/config.ts). If this ever
+    // drifts from that literal, the pre-mount script and this composable
+    // would read different keys and the flash-of-wrong-theme bug (#399)
+    // comes back.
+    it("matches VitePress's hardcoded appearance localStorage key", () => {
+      expect(STORAGE_KEY).toBe("vitepress-theme-appearance");
+    });
   });
 
   describe("readStored", () => {
