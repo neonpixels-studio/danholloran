@@ -94,8 +94,8 @@ describe("calculateReadTime", () => {
     // 299 words sits just under the rounding boundary (see the frontmatter
     // test above); if the backreference were dropped for a generic
     // `` `{3,}` `` match, the inner ``` line would wrongly end the block
-    // early and leak "console.log(1)\n```\n````" (a few words) into the
-    // count, crossing the boundary and failing this assertion.
+    // early, leaving the orphaned "````" line to leak in as one stray word,
+    // crossing the boundary and failing this assertion.
     const prose = makeWords(299);
     const nestedFence = "````md\n```js\nconsole.log(1)\n```\n````";
     expect(calculateReadTime(prose + "\n\n" + nestedFence)).toBe(
@@ -118,11 +118,16 @@ describe("calculateReadTime", () => {
   it("accepts a closing fence longer than the opening fence", () => {
     // CommonMark allows the closer to be *at least* as long as the opener
     // (not just an exact match), e.g. a ``` opener closed by a ```` line.
-    const prose = makeWords(299);
+    // Prose follows the code block (not just precedes it): if the ```` line
+    // weren't recognized as a closer, the block would run unclosed to the
+    // end of the content and swallow the trailing prose too, so this would
+    // fail with a lower count than expected.
+    const leading = makeWords(150);
+    const trailing = makeWords(149);
     const codeBlock = "```\ncode line\n````";
-    expect(calculateReadTime(prose + "\n\n" + codeBlock)).toBe(
-      calculateReadTime(prose),
-    );
+    expect(
+      calculateReadTime(leading + "\n\n" + codeBlock + "\n\n" + trailing),
+    ).toBe(calculateReadTime(makeWords(299)));
   });
 
   it("treats an unterminated fence as code through the end of the content", () => {
