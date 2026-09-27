@@ -103,29 +103,62 @@ describe("useGrimicornToolDownloads", () => {
       expect(writeText).toHaveBeenCalledWith("#123456");
     });
 
-    it("still flashes the copied index when the clipboard write is blocked", async () => {
+    it("flashes a failure state instead of 'copied!' when the clipboard write is rejected", async () => {
       const writeText = vi.fn().mockRejectedValue(new Error("denied"));
       vi.stubGlobal("navigator", { clipboard: { writeText } });
-      const { copyHex, copiedIndex } = useGrimicornToolDownloads(
+      const { copyHex, copiedIndex, copyFailedIndex } =
+        useGrimicornToolDownloads(THEME_SLUG, []);
+
+      await copyHex("#123456", 3);
+
+      expect(copyFailedIndex.value).toBe(3);
+      expect(copiedIndex.value).toBeNull();
+    });
+
+    it("clears the failure flash after the flash duration", async () => {
+      vi.useFakeTimers();
+      const writeText = vi.fn().mockRejectedValue(new Error("denied"));
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copyFailedIndex } = useGrimicornToolDownloads(
         THEME_SLUG,
         [],
       );
 
       await copyHex("#123456", 3);
+      expect(copyFailedIndex.value).toBe(3);
 
-      expect(copiedIndex.value).toBe(3);
+      vi.advanceTimersByTime(FLASH_MS);
+
+      expect(copyFailedIndex.value).toBeNull();
     });
 
-    it("still flashes the copied index when the clipboard API is unavailable", async () => {
+    it("flashes a failure state instead of 'copied!' when the clipboard API is unavailable", async () => {
       vi.stubGlobal("navigator", {});
-      const { copyHex, copiedIndex } = useGrimicornToolDownloads(
-        THEME_SLUG,
-        [],
-      );
+      const { copyHex, copiedIndex, copyFailedIndex } =
+        useGrimicornToolDownloads(THEME_SLUG, []);
 
       await copyHex("#123456", 1);
 
-      expect(copiedIndex.value).toBe(1);
+      expect(copyFailedIndex.value).toBe(1);
+      expect(copiedIndex.value).toBeNull();
+    });
+
+    it("clears a stale failure flash when a later copy on the same index succeeds", async () => {
+      const writeText = vi
+        .fn()
+        .mockRejectedValueOnce(new Error("denied"))
+        .mockResolvedValueOnce(undefined);
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      const { copyHex, copiedIndex, copyFailedIndex } =
+        useGrimicornToolDownloads(THEME_SLUG, []);
+
+      await copyHex("#123456", 0);
+      expect(copyFailedIndex.value).toBe(0);
+
+      await copyHex("#123456", 0);
+
+      expect(copyFailedIndex.value).toBeNull();
+      expect(copiedIndex.value).toBe(0);
     });
 
     it("clears the pending flash timer when its effect scope is disposed", async () => {

@@ -16,8 +16,14 @@ import { GRIMICORN_TOOL_ICON_PATHS } from "@data/grimicornToolIcons";
 useRevealAnimations();
 
 const THEME_SLUG = "grimicorn";
-const { trackDownload, trackToolDownload, sortedTools, copiedIndex, copyHex } =
-  useGrimicornToolDownloads(THEME_SLUG, TOOLS);
+const {
+  trackDownload,
+  trackToolDownload,
+  sortedTools,
+  copiedIndex,
+  copyFailedIndex,
+  copyHex,
+} = useGrimicornToolDownloads(THEME_SLUG, TOOLS);
 
 const STORAGE_KEY = "gc-preview";
 
@@ -330,9 +336,16 @@ function bgLabelColor(index: number): string {
                     >
                     <span
                       class="copy-hex text-fg-subtle font-mono text-[0.64rem] tracking-[0.02em]"
-                      :class="{ 'copied-flash': copiedIndex === index }"
+                      :class="{
+                        'copied-flash': copiedIndex === index,
+                        'copy-failed-flash': copyFailedIndex === index,
+                      }"
                       >{{
-                        copiedIndex === index ? "copied!" : swatch.hex
+                        copyFailedIndex === index
+                          ? "couldn't copy"
+                          : copiedIndex === index
+                            ? "copied!"
+                            : swatch.hex
                       }}</span
                     >
                   </span>
@@ -1138,6 +1151,9 @@ function bgLabelColor(index: number): string {
 }
 .copied-flash {
   color: var(--color-accent) !important;
+}
+.copy-failed-flash {
+  color: var(--gc-salmon) !important;
 }
 
 /* install disclosure */

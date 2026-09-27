@@ -1,4 +1,4 @@
-import { computed, getCurrentScope, onScopeDispose, ref } from "vue";
+import { computed, getCurrentScope, onScopeDispose, ref, type Ref } from "vue";
 import { useAnalytics } from "@composables/useAnalytics";
 import type { GrimicornTool, GrimicornToolFile } from "@typedefs";
 
@@ -51,6 +51,7 @@ export function useGrimicornToolDownloads(
   const sortedTools = computed(() => [...tools].sort(byFeaturedThenName));
 
   const copiedIndex = ref<number | null>(null);
+  const copyFailedIndex = ref<number | null>(null);
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
   // Guarded: callers outside a component/effect scope (e.g. calling this
   // composable directly in a unit test) have nothing to dispose into, and an
@@ -59,20 +60,29 @@ export function useGrimicornToolDownloads(
     onScopeDispose(() => clearTimeout(copyTimer));
   }
 
-  async function copyHex(hex: string, index: number) {
-    // Flash before awaiting the clipboard write: a slow/blocked write (e.g. a
-    // permission prompt) must not let an out-of-order resolution steal the
-    // flash from a swatch clicked afterward.
-    copiedIndex.value = index;
+  /** Flashes `index` on `target`, clearing whichever ref flashed last. */
+  function flashFeedback(target: Ref<number | null>, index: number) {
+    copiedIndex.value = null;
+    copyFailedIndex.value = null;
+    target.value = index;
     clearTimeout(copyTimer);
     copyTimer = setTimeout(() => {
-      copiedIndex.value = null;
+      target.value = null;
     }, COPY_FLASH_MS);
+  }
+
+  async function copyHex(hex: string, index: number) {
+    // Await the write before flashing anything: only a resolved write counts
+    // as "copied!", and a rejection (permission denial, missing clipboard
+    // API) must surface as a visible failure rather than a silent success.
     try {
-      await navigator.clipboard?.writeText(hex);
+      if (!navigator.clipboard) {
+        throw new Error("Clipboard API unavailable");
+      }
+      await navigator.clipboard.writeText(hex);
+      flashFeedback(copiedIndex, index);
     } catch {
-      // Clipboard blocked — the flash already fired so the hex stays visible
-      // to copy by hand.
+      flashFeedback(copyFailedIndex, index);
     }
   }
 
@@ -81,6 +91,7 @@ export function useGrimicornToolDownloads(
     trackToolDownload,
     sortedTools,
     copiedIndex,
+    copyFailedIndex,
     copyHex,
   };
 }
