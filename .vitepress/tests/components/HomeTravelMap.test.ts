@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { shallowMount } from "@vue/test-utils";
 
 vi.setSystemTime(new Date("2026-06-12"));
@@ -36,10 +36,6 @@ vi.mock("@data/mapUpdated.data.ts", () => ({
 import HomeTravelMap from "@components/HomeTravelMap.vue";
 
 describe("HomeTravelMap", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   it("renders correctly", () => {
     const wrapper = shallowMount(HomeTravelMap);
     expect(wrapper.html()).toMatchSnapshot();

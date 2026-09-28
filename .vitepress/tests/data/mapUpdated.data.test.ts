@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { join } from "path";
 
 vi.mock("../../theme/utils/gitLastModified", () => ({
@@ -10,8 +10,19 @@ import mapUpdatedLoader from "../../data/mapUpdated.data";
 
 const mockGitLastModified = vi.mocked(gitLastModified);
 
+// `load()` always warns for a null date (the common case in these tests,
+// since most cases mock `gitLastModified` to return null), so the spy lives
+// here rather than per-test — that also guarantees `mockRestore` runs even
+// if an assertion in the test body throws.
+let warnSpy: ReturnType<typeof vi.spyOn>;
+
 beforeEach(() => {
   vi.resetAllMocks();
+  warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+});
+
+afterEach(() => {
+  warnSpy.mockRestore();
 });
 
 describe("mapUpdated.data.ts loader", () => {
@@ -54,7 +65,6 @@ describe("mapUpdated.data.ts loader", () => {
   });
 
   it("warns when an image resolves to no git history, so a broken build-time path is visible in logs", () => {
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     mockGitLastModified.mockReturnValue(null);
 
     mapUpdatedLoader.load();
@@ -65,6 +75,5 @@ describe("mapUpdated.data.ts loader", () => {
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining("visited-locations-dark.png"),
     );
-    warnSpy.mockRestore();
   });
 });
