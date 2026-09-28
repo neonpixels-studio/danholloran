@@ -39,7 +39,7 @@ exports[`HomeTravelMap > renders correctly 1`] = `
         <div data-v-d657fdb1="" class="text-fg-subtle mt-2.5 font-mono text-[0.6rem] tracking-widest uppercase"> years on the road </div>
       </div>
     </div>
-    <div data-v-d657fdb1="" class="reveal text-fg-subtle in mt-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[0.62rem] tracking-[0.08em] uppercase"><span data-v-d657fdb1=""> // still to come — Louisiana, Alaska, &amp; Hawaii</span><span data-v-d657fdb1="" class="inline-flex items-center gap-2"><span data-v-d657fdb1="" class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"></span><span data-v-d657fdb1="" id="mapUpdated">updated Jan 1, 2025</span></span></div>
+    <div data-v-d657fdb1="" class="reveal text-fg-subtle in mt-8 flex flex-wrap items-center justify-between gap-3 font-mono text-[0.62rem] tracking-[0.08em] uppercase"><span data-v-d657fdb1=""> // still to come — Louisiana, Alaska, &amp; Hawaii</span><span data-v-d657fdb1="" class="inline-flex items-center gap-2"><span data-v-d657fdb1="" class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"></span><span data-v-d657fdb1="" id="mapUpdated"><span data-v-d657fdb1="" class="map-date-light">updated Jan 1, 2025</span><span data-v-d657fdb1="" class="map-date-dark">updated Jun 15, 2025</span></span></span></div>
   </div>
 </section>"
 `;

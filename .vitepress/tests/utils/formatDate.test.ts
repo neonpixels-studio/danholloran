@@ -149,8 +149,11 @@ describe("formatMapUpdatedDate", () => {
     // A build server (UTC) and a visitor's browser (any offset) must render
     // the same calendar day for the same instant — otherwise a negative-
     // offset browser can render a day earlier than the static HTML did.
+    // Los_Angeles (UTC-8) is deliberate: a positive-offset zone can't catch
+    // a local-time regression here, since midnight UTC is still "today" for
+    // every zone ahead of UTC.
     const originalTimeZone = process.env.TZ;
-    process.env.TZ = "Pacific/Kiritimati"; // UTC+14
+    process.env.TZ = "America/Los_Angeles"; // UTC-8
     try {
       expect(formatMapUpdatedDate("2025-01-01T00:00:00.000Z")).toBe(
         "updated Jan 1, 2025",
