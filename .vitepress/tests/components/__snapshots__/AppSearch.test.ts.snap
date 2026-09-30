@@ -2,7 +2,7 @@
 
 exports[`AppSearch > renders correctly 1`] = `
 "<teleport-stub to="body">
-  <div class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-300 visible translate-y-0 opacity-100" style="box-shadow: 0 12px 40px rgba(17, 17, 16, 0.06);">
+  <div tabindex="-1" role="dialog" aria-modal="true" aria-label="Site search" aria-hidden="false" class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-300 visible translate-y-0 opacity-100" style="box-shadow: 0 12px 40px rgba(17, 17, 16, 0.06);">
     <div class="mx-auto max-w-[1100px] px-8 py-5 max-md:px-4">
       <div class="border-line flex items-center gap-4 border-b pb-3"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 16 16" fill="none" class="text-fg-subtle shrink-0">
           <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"></circle>
