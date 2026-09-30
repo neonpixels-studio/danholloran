@@ -10,10 +10,10 @@ import {
 import { createApp, defineComponent, type App } from "vue";
 import {
   readStored,
+  STORAGE_KEY,
   useAppearance,
 } from "../../theme/composables/useAppearance";
 
-const STORAGE_KEY = "vitepress-theme-appearance";
 const DARK_CLASS = "dark";
 
 const CHANGE_EVENT = "change";

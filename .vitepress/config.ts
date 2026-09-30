@@ -63,6 +63,10 @@ assertImageVariantsUpToDate();
 export default defineConfig({
   title: "Dan Holloran",
   description: SITE_DESCRIPTION,
+  // Explicit even though it's VitePress's own default: this is what generates
+  // the pre-paint dark-mode script that prevents a flash of the wrong theme
+  // (#399). Full rationale next to STORAGE_KEY in useAppearance.ts.
+  appearance: true,
   sitemap: {
     hostname: SITE_URL,
     transformItems: transformSitemapItems,
