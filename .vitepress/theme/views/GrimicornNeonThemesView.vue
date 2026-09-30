@@ -14,8 +14,19 @@ import { GRIMICORN_TOOL_ICON_PATHS } from "@data/grimicornToolIcons";
 useRevealAnimations();
 
 const THEME_SLUG = "grimicorn-neon";
-const { trackDownload, trackToolDownload, sortedTools, copiedIndex, copyHex } =
-  useGrimicornToolDownloads(THEME_SLUG, NEON_TOOLS);
+const {
+  trackDownload,
+  trackToolDownload,
+  sortedTools,
+  isCopyFailed,
+  copyHex,
+  copyLabel,
+} = useGrimicornToolDownloads(THEME_SLUG, NEON_TOOLS);
+
+// Reuses the palette's own pink stop for the failure color, matching the
+// "Pink = error" convention already used across this theme's status dots and
+// diff markers (see the `.n-dot`/`.gc-dline.del` usages below).
+const COPY_FAILED_COLOR = NEON_RAINBOW[0];
 
 // The rainbow stops, looped back to the first so the pan animation is seamless.
 const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW[0]].join(", ")})`;
@@ -242,8 +253,13 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
               style="color: #e7e5e4"
               >{{ hue.role }}</span
             >
-            <span class="font-mono text-[0.62rem]" :style="{ color: hue.hex }">
-              {{ copiedIndex === index ? "copied!" : hue.hex }}
+            <span
+              class="font-mono text-[0.62rem]"
+              :style="{
+                color: isCopyFailed(index) ? COPY_FAILED_COLOR : hue.hex,
+              }"
+            >
+              {{ copyLabel(index, hue.hex) }}
             </span>
             <span
               class="mt-1 font-mono text-[0.58rem] leading-[1.5]"
