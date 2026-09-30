@@ -19,6 +19,7 @@ import {
 } from "../../data/searchIndex.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
+import { useFocusTrap } from "@composables/useFocusTrap.ts";
 import { useAnalytics } from "@composables/useAnalytics.ts";
 import { highlightMatch } from "@utils/highlightMatch.ts";
 
@@ -59,6 +60,9 @@ function redactQuery(normalizedQuery: string): string {
 const router = useRouter();
 const { isSearchOpen, openSearch, closeAll } = useNavPanels();
 const { trackEvent } = useAnalytics();
+
+const panel = ref<HTMLElement | null>(null);
+useFocusTrap(panel, isSearchOpen);
 
 const ALL_ITEMS: SearchItem[] = mergeSearchIndex(staticItems, postItems);
 
@@ -343,6 +347,12 @@ onUnmounted(() => {
 <template>
   <Teleport to="body">
     <div
+      ref="panel"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site search"
+      :aria-hidden="!isSearchOpen"
       class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-300"
       :class="
         isSearchOpen
