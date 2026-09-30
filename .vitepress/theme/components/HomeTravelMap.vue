@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { data as posts } from "@content/posts/posts.data.ts";
-import { ref, watch, onMounted, computed } from "vue";
-import { useData } from "vitepress";
-const { isDark } = useData();
-const mapUpdatedText = ref("updated automatically");
+import { data as mapUpdated } from "@data/mapUpdated.data.ts";
+import { computed } from "vue";
+import { formatMapUpdatedDate } from "@utils/formatDate";
+
+// Baked in at build time from git history (see mapUpdated.data.ts) rather
+// than an HTTP HEAD request's `Last-Modified` header, which on a freshly
+// built/deployed site reflects checkout time, not real image freshness.
+// Both variants render unconditionally and CSS picks one (same pattern as
+// the light/dark map images below) rather than switching on `isDark` here:
+// `isDark` isn't yet known to be true or false during SSR, so a computed
+// keyed on it would render the light date into the static HTML and then
+// flip to the dark date the instant the client hydrates — a visible
+// mismatch for every dark-mode visitor.
+const mapUpdatedTextLight = formatMapUpdatedDate(mapUpdated.light);
+const mapUpdatedTextDark = formatMapUpdatedDate(mapUpdated.dark);
 
 const nationalParkCount = computed(() => {
   return posts.filter((post) => post.frontmatter.tags.includes("national-park"))
@@ -28,31 +39,6 @@ const formatter = new Intl.ListFormat("en", {
 });
 const statesToVisit = ["Louisiana", "Alaska", "Hawaii"];
 const statesVisitedLength = computed(() => 50 - statesToVisit.length);
-
-async function fetchMapDate() {
-  const url = isDark.value
-    ? "/images/visited-locations-dark.png"
-    : "/images/visited-locations-light.png";
-  try {
-    const r = await fetch(url, { method: "HEAD", cache: "no-store" });
-    const lm = r.headers.get("last-modified");
-    const d = lm ? new Date(lm) : null;
-    if (d && !Number.isNaN(d.getTime())) {
-      mapUpdatedText.value =
-        "updated " +
-        d.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        });
-    }
-  } catch {
-    // ignore fetch errors — date display is best-effort
-  }
-}
-
-onMounted(fetchMapDate);
-watch(isDark, fetchMapDate);
 </script>
 
 <template>
@@ -239,7 +225,8 @@ watch(isDark, fetchMapDate);
             class="live-dot inline-block h-1.5 w-1.5 rounded-full bg-green-500"
           ></span>
           <span id="mapUpdated">
-            {{ mapUpdatedText }}
+            <span class="map-date-light">{{ mapUpdatedTextLight }}</span>
+            <span class="map-date-dark">{{ mapUpdatedTextDark }}</span>
           </span>
         </span>
       </div>
@@ -251,10 +238,19 @@ watch(isDark, fetchMapDate);
 .map-img-dark {
   display: none;
 }
+.map-date-dark {
+  display: none;
+}
 html.dark .map-img-light {
   display: none;
 }
 html.dark .map-img-dark {
   display: block;
+}
+html.dark .map-date-light {
+  display: none;
+}
+html.dark .map-date-dark {
+  display: inline;
 }
 </style>
