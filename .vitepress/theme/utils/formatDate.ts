@@ -88,3 +88,21 @@ export function formatPeriod(
     ? `${fmt(start)} – Present`
     : `${fmt(start)} – ${fmt(end)}`;
 }
+
+// Shared by HomeTravelMap: formats the build-time, git-derived "last
+// modified" date for the travel map image (see mapUpdated.data.ts). Delegates
+// to formatPostDate so the two dates on the page render with the same
+// month/day/year style and, critically, the same fixed UTC calendar day —
+// without that, a US-timezone browser could render a day earlier than the
+// UTC build server rendered into the static HTML.
+// `iso` is null when the image is untracked or git isn't available at build
+// time — that's expected on a fresh working copy, not a bug — and an
+// unparseable date is defensive (gitLastModified already filters these out),
+// so both degrade to a generic label instead of "Unknown date"/"Invalid Date".
+export function formatMapUpdatedDate(iso: string | null): string {
+  const formatted = formatPostDate(iso);
+  if (formatted === INVALID_DATE_FALLBACK) {
+    return "updated automatically";
+  }
+  return `updated ${formatted}`;
+}

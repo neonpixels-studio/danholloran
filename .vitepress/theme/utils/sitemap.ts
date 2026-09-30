@@ -1,5 +1,4 @@
 import { existsSync, statSync } from "fs";
-import { execFileSync } from "child_process";
 import { join } from "path";
 import type { UserConfig } from "vitepress";
 import {
@@ -7,6 +6,7 @@ import {
   hasUsableDate,
   type PublishedPost,
 } from "./loadPublishedPosts";
+import { gitLastModified } from "./gitLastModified";
 
 // vitepress doesn't export `SitemapItem` directly; derive it from the public
 // `sitemap.transformItems` config type so this stays in sync with vitepress's
@@ -59,25 +59,6 @@ function postLastmod(
   }
 
   return null;
-}
-
-// The real last-content-change date for a source file: the author date of its
-// most recent commit. File mtime is unreliable as a freshness signal — on a
-// fresh CI clone git doesn't restore mtimes, so every static page degrades to
-// checkout (build) time and signals false freshness on every deploy. Returns
-// null for an untracked file or when git isn't available, so the caller falls
-// back to mtime.
-function gitLastModified(filePath: string): Date | null {
-  try {
-    const iso = execFileSync(
-      "git",
-      ["log", "-1", "--format=%cI", "--", filePath],
-      { cwd: process.cwd(), encoding: "utf-8" },
-    ).trim();
-    return iso ? new Date(iso) : null;
-  } catch {
-    return null;
-  }
 }
 
 // Resolves a stripped URL to the source file that backs it, returning the final

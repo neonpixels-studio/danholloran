@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { formatPostDate, formatPeriod } from "../../theme/utils/formatDate";
+import {
+  formatPostDate,
+  formatPeriod,
+  formatMapUpdatedDate,
+} from "../../theme/utils/formatDate";
 
 describe("formatPostDate", () => {
   it("formats a date string to short month, day, year", () => {
@@ -130,6 +134,48 @@ describe("formatPeriod", () => {
   it("renders 'Present' when end is undefined", () => {
     expect(formatPeriod(new Date("2020-01-01"), undefined)).toBe(
       "Jan 2020 – Present",
+    );
+  });
+});
+
+describe("formatMapUpdatedDate", () => {
+  it("formats an ISO date string with the 'updated' prefix", () => {
+    expect(formatMapUpdatedDate("2025-01-01T00:00:00.000Z")).toBe(
+      "updated Jan 1, 2025",
+    );
+  });
+
+  it("renders in UTC regardless of the local machine timezone", () => {
+    // A build server (UTC) and a visitor's browser (any offset) must render
+    // the same calendar day for the same instant — otherwise a negative-
+    // offset browser can render a day earlier than the static HTML did.
+    // Los_Angeles (UTC-8) is deliberate: a positive-offset zone can't catch
+    // a local-time regression here, since midnight UTC is still "today" for
+    // every zone ahead of UTC.
+    const originalTimeZone = process.env.TZ;
+    process.env.TZ = "America/Los_Angeles"; // UTC-8
+    try {
+      expect(formatMapUpdatedDate("2025-01-01T00:00:00.000Z")).toBe(
+        "updated Jan 1, 2025",
+      );
+    } finally {
+      if (originalTimeZone === undefined) {
+        delete process.env.TZ;
+      } else {
+        process.env.TZ = originalTimeZone;
+      }
+    }
+  });
+
+  it("falls back to a generic label when no date is available", () => {
+    // Expected when the backing image is untracked or git isn't available
+    // at build time — not a bug, so it must not render "Invalid Date".
+    expect(formatMapUpdatedDate(null)).toBe("updated automatically");
+  });
+
+  it("falls back to a generic label for an unparseable date instead of 'Invalid Date'", () => {
+    expect(formatMapUpdatedDate("not-a-real-date")).toBe(
+      "updated automatically",
     );
   });
 });

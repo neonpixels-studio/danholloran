@@ -28,15 +28,6 @@ set -euo pipefail
 # High/critical advisories accepted because no patched version exists upstream.
 # Remove an entry the moment its package ships a fix.
 ALLOWLISTED_ADVISORIES=(
-  # image-size <=2.0.2: crafted ICNS/JXL/HEIF inputs cause an infinite-loop DoS.
-  # No patched version exists (latest published image-size is 2.0.2, and the
-  # GHSA range is <=2.0.2). Used directly by
-  # .vitepress/theme/utils/markdownImageHints.ts to read dimensions of the
-  # blog's own committed post images at build time — never fed untrusted or
-  # attacker-controlled bytes at runtime. Drop both ids once image-size
-  # publishes a fix.
-  "GHSA-w3rx-r6r6-pgpr@node_modules/image-size" # image-size: ICNS parser DoS
-  "GHSA-5p2g-fcmc-qvqq@node_modules/image-size" # image-size: JXL/HEIF parser DoS
   # vite <=6.4.2, specifically vitepress's own bundled copy at
   # node_modules/vitepress/node_modules/vite (currently 5.4.21): `server.fs.deny`
   # bypass on Windows alternate paths. No fix available — vitepress pins its own

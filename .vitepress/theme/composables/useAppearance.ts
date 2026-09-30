@@ -2,7 +2,13 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 
 type Theme = "auto" | "light" | "dark";
 
-const STORAGE_KEY = "vitepress-theme-appearance";
+// Must stay literally "vitepress-theme-appearance" — VitePress's generated
+// blocking `#check-dark-mode` <head> script (from `appearance: true` in
+// .vitepress/config.ts) always reads this exact, hardcoded key. That script —
+// not this composable — is what sets the `dark` class before first paint and
+// prevents the flash; changing this key desyncs the two and reintroduces it
+// (#399).
+export const STORAGE_KEY = "vitepress-theme-appearance";
 const DEFAULT_THEME: Theme = "auto";
 // Legal persisted values (data concern), independent of CYCLE_ORDER (the UI toggle sequence).
 const THEMES: readonly Theme[] = ["auto", "light", "dark"];
