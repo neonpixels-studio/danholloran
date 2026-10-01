@@ -40,7 +40,10 @@ async function vitepressScript(): Promise<string> {
   const entry = siteData.head.find(
     ([, attrs]) => attrs?.id === "check-dark-mode",
   );
-  return entry?.[2] as string;
+  if (!entry) {
+    throw new Error("VitePress check-dark-mode head script not found");
+  }
+  return entry[2] as string;
 }
 
 describe("buildThemeSanitizeScript", () => {
