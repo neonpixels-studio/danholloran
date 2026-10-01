@@ -178,4 +178,15 @@ describe("formatMapUpdatedDate", () => {
       "updated automatically",
     );
   });
+
+  it("renders the fallback when the load-time verdict says the date is invalid", () => {
+    // The raw string is a perfectly formatted ISO date; only the isValid flag
+    // can make this fall back, so it proves the flag is actually consumed.
+    expect(formatPostDate("2024-01-15", "short", false)).toBe("Unknown date");
+    expect(formatPostDate("2024-01-15", "long", false)).toBe("Unknown date");
+  });
+
+  it("formats normally when the load-time verdict says the date is valid", () => {
+    expect(formatPostDate("2024-01-15", "short", true)).toBe("Jan 15, 2024");
+  });
 });

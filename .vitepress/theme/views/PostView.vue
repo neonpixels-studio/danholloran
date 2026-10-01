@@ -107,7 +107,7 @@ const nextPost = computed(() =>
         {{ post.frontmatter.topic }}
       </span>
       <span class="text-fg-subtle font-mono text-[0.72rem]">{{
-        formatPostDate(post.frontmatter.date, "long")
+        formatPostDate(post.frontmatter.date, "long", post.dateIsValid)
       }}</span>
       <span class="text-fg-subtle font-mono text-[0.72rem]">
         · {{ post.frontmatter.readTime }} min read

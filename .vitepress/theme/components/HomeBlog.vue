@@ -44,8 +44,14 @@ const recentPosts = posts.slice(1, 9);
               featuredPost.frontmatter.topic
             }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]"
-              >{{ formatPostDate(featuredPost.frontmatter.date) }} ·
-              {{ featuredPost.frontmatter.readTime }} min</span
+              >{{
+                formatPostDate(
+                  featuredPost.frontmatter.date,
+                  "short",
+                  featuredPost.dateIsValid,
+                )
+              }}
+              · {{ featuredPost.frontmatter.readTime }} min</span
             >
           </div>
           <div
@@ -70,7 +76,7 @@ const recentPosts = posts.slice(1, 9);
           <div class="flex flex-wrap items-center gap-2">
             <span class="blog-tag-pill">{{ post.frontmatter.topic }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]">{{
-              formatPostDate(post.frontmatter.date)
+              formatPostDate(post.frontmatter.date, "short", post.dateIsValid)
             }}</span>
           </div>
           <div

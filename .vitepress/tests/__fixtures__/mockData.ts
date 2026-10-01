@@ -93,6 +93,7 @@ export const mockQuotes: QuoteInterface[] = [
 export const mockPosts: Post[] = [
   {
     url: "/posts/first-post",
+    dateIsValid: true,
     frontmatter: {
       title: "First Post",
       slug: "first-post",
@@ -107,6 +108,7 @@ export const mockPosts: Post[] = [
   },
   {
     url: "/posts/second-post",
+    dateIsValid: true,
     frontmatter: {
       title: "Second Post",
       slug: "second-post",

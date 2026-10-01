@@ -316,4 +316,20 @@ describe("PostView", () => {
     expect(wrapper.html()).toContain("#→");
     expect(wrapper.html()).not.toContain('href="/posts/tag/"');
   });
+
+  it("renders the date fallback when the post's date is flagged invalid", () => {
+    const flaggedPost = { ...mockPosts[0], dateIsValid: false };
+    const wrapper = shallowMount(PostView, {
+      props: { post: flaggedPost, posts: [flaggedPost] },
+    });
+    expect(wrapper.text()).toContain("Unknown date");
+    expect(wrapper.text()).not.toContain("January 1, 2025");
+  });
+
+  it("renders the long date for a valid post", () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    expect(wrapper.text()).toContain("January 1, 2025");
+  });
 });

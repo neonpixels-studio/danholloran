@@ -334,7 +334,7 @@ onUnmounted(() => {
             >{{ post.frontmatter.topic }}</span
           >
           <span class="text-fg-subtle font-mono text-[0.68rem]">{{
-            formatPostDate(post.frontmatter.date)
+            formatPostDate(post.frontmatter.date, "short", post.dateIsValid)
           }}</span>
           <span class="text-fg-subtle font-mono text-[0.68rem]"
             >· {{ post.frontmatter.readTime }} min</span

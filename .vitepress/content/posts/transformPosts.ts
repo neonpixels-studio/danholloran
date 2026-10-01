@@ -40,10 +40,9 @@ type PublishedDate = {
 // guard below routes it through the same unparseable path as a typo'd
 // string. Mirror generateFeed's behaviour: warn loudly, sort the post last
 // (oldest), and flag the date unusable via `isValid` so a caller that checks
-// it can skip formatting the raw value. `transformPosts` itself does not yet
-// check `isValid` for its own rendered surfaces (HomeBlog/PostsView/PostView
-// format `frontmatter.date` directly) — only search.data.ts consumes the
-// flag today; see the PR's follow-up suggestions.
+// it can skip formatting the raw value. transformPosts carries the flag onto
+// each Post as `dateIsValid` so HomeBlog/PostsView/PostView (via
+// formatPostDate) and search.data.ts all consume the one load-time decision.
 export function resolvePublishedDate(post: ContentData): PublishedDate {
   if (!post.frontmatter.date) {
     console.warn(
@@ -70,10 +69,10 @@ export function transformPosts(raw: ContentData[]): Post[] {
     .filter(({ frontmatter }) => !frontmatter.draft)
     .map((post) => ({
       post,
-      publishedAt: resolvePublishedDate(post).sortTime,
+      published: resolvePublishedDate(post),
     }))
-    .sort((a, b) => b.publishedAt - a.publishedAt)
-    .map(({ post: { src, excerpt: _excerpt, ...post } }): Post => {
+    .sort((a, b) => b.published.sortTime - a.published.sortTime)
+    .map(({ post: { src, excerpt: _excerpt, ...post }, published }): Post => {
       const slug = toSlug(post.url);
 
       // Build a new object rather than mutating `post` in place: VitePress
@@ -89,6 +88,7 @@ export function transformPosts(raw: ContentData[]): Post[] {
       return {
         ...post,
         url: `/posts/${slug}`,
+        dateIsValid: published.isValid,
         frontmatter: {
           // vitepress types raw frontmatter as `Record<string, any>`, so TS
           // can't verify it matches PostMeta at this spread. Malformed dates

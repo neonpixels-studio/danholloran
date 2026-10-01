@@ -239,4 +239,32 @@ describe("transformPosts", () => {
     const [secondPass] = transformPosts([cachedRawPost]);
     expect(secondPass).toStrictEqual(firstPass);
   });
+
+  it("flags each post's date validity once at load time", () => {
+    const datedPost = makeRawPost({
+      url: "/.vitepress/content/posts/dated-post",
+    });
+    const undatedPost = makeRawPost({
+      url: "/.vitepress/content/posts/undated-post",
+      frontmatter: { ...makeRawPost().frontmatter, date: undefined },
+    });
+    const unparseablePost = makeRawPost({
+      url: "/.vitepress/content/posts/unparseable-post",
+      frontmatter: { ...makeRawPost().frontmatter, date: "not-a-date" },
+    });
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const validityByUrl = Object.fromEntries(
+      transformPosts([undatedPost, unparseablePost, datedPost]).map((post) => [
+        post.url,
+        post.dateIsValid,
+      ]),
+    );
+
+    expect(validityByUrl).toEqual({
+      "/posts/dated-post": true,
+      "/posts/undated-post": false,
+      "/posts/unparseable-post": false,
+    });
+  });
 });
