@@ -14,7 +14,7 @@ describe("GrimicornWindowTitlebar", () => {
     const wrapper = mount(GrimicornWindowTitlebar, {
       slots: { default: "<em>label</em>" },
     });
-    const children = Array.from(wrapper.element.children);
+    const children = Array.from((wrapper.element as HTMLElement).children);
 
     expect(wrapper.findAll(".gc-dot")).toHaveLength(3);
     expect(children[3]?.tagName).toBe("EM");
