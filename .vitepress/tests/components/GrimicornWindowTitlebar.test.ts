@@ -26,4 +26,13 @@ describe("GrimicornWindowTitlebar", () => {
     );
     expect(children[DOT_COUNT]?.tagName).toBe("EM");
   });
+
+  it("colors the dots in traffic-light order", () => {
+    const wrapper = mount(GrimicornWindowTitlebar);
+    const backgrounds = wrapper
+      .findAll(".gc-dot")
+      .map((dot) => (dot.element as HTMLElement).style.background);
+
+    expect(backgrounds).toEqual(["#dd9787", "#dada93", "#a9ce93"]);
+  });
 });
