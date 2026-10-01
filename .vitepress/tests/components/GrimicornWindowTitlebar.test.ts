@@ -2,6 +2,8 @@ import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import GrimicornWindowTitlebar from "@components/GrimicornWindowTitlebar.vue";
 
+const DOT_COUNT = 3;
+
 describe("GrimicornWindowTitlebar", () => {
   it("renders correctly", () => {
     const wrapper = mount(GrimicornWindowTitlebar, {
@@ -16,7 +18,12 @@ describe("GrimicornWindowTitlebar", () => {
     });
     const children = Array.from((wrapper.element as HTMLElement).children);
 
-    expect(wrapper.findAll(".gc-dot")).toHaveLength(3);
-    expect(children[3]?.tagName).toBe("EM");
+    const dots = children.slice(0, DOT_COUNT);
+
+    expect(wrapper.findAll(".gc-dot")).toHaveLength(DOT_COUNT);
+    expect(dots.every((child) => child.classList.contains("gc-dot"))).toBe(
+      true,
+    );
+    expect(children[DOT_COUNT]?.tagName).toBe("EM");
   });
 });
