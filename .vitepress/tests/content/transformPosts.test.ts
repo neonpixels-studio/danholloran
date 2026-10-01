@@ -252,7 +252,7 @@ describe("transformPosts", () => {
       url: "/.vitepress/content/posts/unparseable-post",
       frontmatter: { ...makeRawPost().frontmatter, date: "not-a-date" },
     });
-    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
     const validityByUrl = Object.fromEntries(
       transformPosts([undatedPost, unparseablePost, datedPost]).map((post) => [
@@ -266,5 +266,6 @@ describe("transformPosts", () => {
       "/posts/undated-post": false,
       "/posts/unparseable-post": false,
     });
+    expect(warn).toHaveBeenCalledTimes(2);
   });
 });
