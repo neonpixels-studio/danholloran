@@ -26,7 +26,7 @@ vi.mock("child_process", () => {
 import { existsSync, readFileSync, statSync, readdirSync } from "fs";
 import { execFileSync } from "child_process";
 import { transformSitemapItems } from "../../theme/utils/sitemap";
-import { resetShallowRepositoryCache } from "../../theme/utils/gitLastModified";
+import { resetGitDatesUsableCache } from "../../theme/utils/gitLastModified";
 import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockExistsSync = vi.mocked(existsSync);
@@ -45,7 +45,7 @@ function contentPath(slug: string): string {
 
 beforeEach(() => {
   vi.resetAllMocks();
-  resetShallowRepositoryCache();
+  resetGitDatesUsableCache();
   mockReaddirSync.mockReturnValue([] as any);
   mockReadFileSync.mockReturnValue("" as any);
   // Default to "untracked" so file-backed pages fall through to their mtime;

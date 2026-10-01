@@ -8,14 +8,14 @@ vi.mock("child_process", () => {
 import { execFileSync } from "child_process";
 import {
   gitLastModified,
-  resetShallowRepositoryCache,
+  resetGitDatesUsableCache,
 } from "../../theme/utils/gitLastModified";
 
 const mockExecFileSync = vi.mocked(execFileSync);
 
 beforeEach(() => {
   vi.resetAllMocks();
-  resetShallowRepositoryCache();
+  resetGitDatesUsableCache();
 });
 
 afterEach(() => {

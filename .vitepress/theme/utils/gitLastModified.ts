@@ -36,7 +36,7 @@ function canUseGitDates(cwd: string): boolean {
   return usable;
 }
 
-export function resetShallowRepositoryCache(): void {
+export function resetGitDatesUsableCache(): void {
   gitDatesUsableByCwd.clear();
 }
 
