@@ -75,17 +75,33 @@ describe("buildThemeSanitizeScript", () => {
     },
   );
 
-  it("does not throw when storage access fails", () => {
-    const script = buildThemeSanitizeScript();
+  it("does not write when nothing is stored", async () => {
+    const vitepress = await vitepressScript();
+
+    const { store, isDark } = runScriptsAgainst(null, true, [
+      buildThemeSanitizeScript(),
+      vitepress,
+    ]);
+
+    expect(isDark).toBe(true);
+    expect(store.size).toBe(0);
+  });
+
+  it("swallows a storage failure after reaching storage", () => {
+    let reads = 0;
     const sandbox = {
       localStorage: {
         getItem: () => {
+          reads += 1;
           throw new Error("blocked");
         },
       },
     };
 
-    expect(() => runInNewContext(script, sandbox)).not.toThrow();
+    expect(() =>
+      runInNewContext(buildThemeSanitizeScript(), sandbox),
+    ).not.toThrow();
+    expect(reads).toBe(1);
   });
 
   it("is emitted before VitePress's script when placed first in head", async () => {
