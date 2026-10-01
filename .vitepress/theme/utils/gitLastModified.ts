@@ -17,15 +17,29 @@ const shallowByCwd = new Map<string, boolean>();
 
 // Checked once per cwd: sitemap generation calls gitLastModified per page, and
 // the answer can't change mid-build. Also keeps the warning to a single line.
+function readShallowFlag(cwd: string): string | null {
+  try {
+    return execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
+      cwd,
+      encoding: "utf-8",
+    }).trim();
+  } catch {
+    return null;
+  }
+}
+
+// A failed check (git missing, not a repo) is cached as "not usable" without
+// a warning: gitLastModified would return null for it anyway.
 function isShallowRepository(cwd: string): boolean {
   const cached = shallowByCwd.get(cwd);
   if (cached !== undefined) {
     return cached;
   }
-  const output = execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
-    cwd,
-    encoding: "utf-8",
-  }).trim();
+  const output = readShallowFlag(cwd);
+  if (output === null) {
+    shallowByCwd.set(cwd, true);
+    return true;
+  }
   const isShallow = output === "true";
   if (isShallow) {
     console.warn(

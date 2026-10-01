@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 vi.mock("child_process", () => {
   const execFileSync = vi.fn();
@@ -16,6 +16,10 @@ const mockExecFileSync = vi.mocked(execFileSync);
 beforeEach(() => {
   vi.resetAllMocks();
   resetShallowRepositoryCache();
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 describe("gitLastModified", () => {
@@ -88,7 +92,6 @@ describe("gitLastModified", () => {
         expect.arrayContaining(["log"]),
         expect.anything(),
       );
-      warn.mockRestore();
     });
 
     it("checks shallowness in the provided cwd", () => {
@@ -110,7 +113,37 @@ describe("gitLastModified", () => {
         new Date("2025-02-10T08:30:00.000Z"),
       );
       expect(warn).not.toHaveBeenCalled();
-      warn.mockRestore();
+    });
+
+    it("returns null without running git log when the shallow check throws, and caches it", () => {
+      mockExecFileSync.mockImplementation(() => {
+        throw new Error("not a git repository");
+      });
+
+      expect(gitLastModified("/repo/a.md")).toBeNull();
+      expect(gitLastModified("/repo/b.md")).toBeNull();
+
+      expect(mockExecFileSync).toHaveBeenCalledTimes(1);
+    });
+
+    it("treats unrecognized rev-parse output (git < 2.15) as not shallow", () => {
+      mockGit("--is-shallow-repository\n", "2025-02-10T08:30:00.000Z\n");
+
+      expect(gitLastModified("/repo/a.md")).toEqual(
+        new Date("2025-02-10T08:30:00.000Z"),
+      );
+    });
+
+    it("checks each cwd separately", () => {
+      mockGit("false\n", "2025-02-10T08:30:00.000Z\n");
+
+      gitLastModified("a.md", "/repo-one");
+      gitLastModified("a.md", "/repo-two");
+
+      const shallowChecks = mockExecFileSync.mock.calls.filter(
+        ([, args]) => (args as string[])[0] === "rev-parse",
+      );
+      expect(shallowChecks).toHaveLength(2);
     });
 
     it("checks once per cwd and warns once across many files", () => {
@@ -122,7 +155,6 @@ describe("gitLastModified", () => {
 
       expect(warn).toHaveBeenCalledOnce();
       expect(mockExecFileSync).toHaveBeenCalledTimes(1);
-      warn.mockRestore();
     });
   });
 });
