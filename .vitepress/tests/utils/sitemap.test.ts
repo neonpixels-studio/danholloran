@@ -82,7 +82,6 @@ describe("transformSitemapItems", () => {
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(mtime);
-    expect(warn).toHaveBeenCalledOnce();
   });
 
   it("falls through to the source file mtime for a draft post rather than its frontmatter date", () => {
@@ -221,6 +220,7 @@ describe("transformSitemapItems", () => {
 
     const result = transformSitemapItems([{ url: "about" }]);
     expect(result[0].lastmod).toEqual(mtime);
+    expect(warn).toHaveBeenCalledOnce();
   });
 
   it("does not treat a post slug prefixed page-/tag- as an archive route", () => {
