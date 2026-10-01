@@ -33,7 +33,7 @@ vi.mock("@data/skills.ts", () => ({ default: mockSkills }));
 vi.mock("@data/projects", () => ({ default: mockProjects }));
 vi.mock("@data/socialLinks.ts", () => ({ default: mockSocialLinks }));
 vi.mock("@utils/formatDate", () => ({
-  formatPostDate: () => "January 1, 2025",
+  formatPostDateFor: () => "January 1, 2025",
 }));
 
 import HomeView from "@views/HomeView.vue";

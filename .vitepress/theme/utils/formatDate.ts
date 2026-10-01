@@ -1,3 +1,5 @@
+import type { Post } from "@typedefs";
+
 // Shared by HomeBlog, PostsView, and PostView so a post's date renders
 // identically (and safely) everywhere. Frontmatter dates come from hand-authored
 // markdown, so a missing or malformed value is expected input, not a bug —
@@ -73,6 +75,16 @@ export function formatPostDate(
     day: "numeric",
     year: "numeric",
   });
+}
+
+// The entry point for every surface that holds a Post (HomeBlog, PostsView,
+// PostView): it always applies the post's load-time verdict so a caller can't
+// forget to pass it.
+export function formatPostDateFor(
+  post: Post,
+  style: PostDateStyle = "short",
+): string {
+  return formatPostDate(post.frontmatter.date, style, post.dateIsValid);
 }
 
 // Shared by the resume timeline components (HomeExperience, ResumeView) so a

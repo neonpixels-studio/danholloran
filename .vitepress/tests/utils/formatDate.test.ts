@@ -189,4 +189,8 @@ describe("formatMapUpdatedDate", () => {
   it("formats normally when the load-time verdict says the date is valid", () => {
     expect(formatPostDate("2024-01-15", "short", true)).toBe("Jan 15, 2024");
   });
+
+  it("still rejects an impossible calendar date when the load-time verdict is valid", () => {
+    expect(formatPostDate("2024-02-30", "short", true)).toBe("Unknown date");
+  });
 });

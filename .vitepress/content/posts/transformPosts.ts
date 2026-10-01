@@ -42,7 +42,8 @@ type PublishedDate = {
 // (oldest), and flag the date unusable via `isValid` so a caller that checks
 // it can skip formatting the raw value. transformPosts carries the flag onto
 // each Post as `dateIsValid` so HomeBlog/PostsView/PostView (via
-// formatPostDate) and search.data.ts all consume the one load-time decision.
+// formatPostDateFor) consume the load-time decision; search.data.ts calls
+// resolvePublishedDate itself because it builds from raw content, not Posts.
 export function resolvePublishedDate(post: ContentData): PublishedDate {
   if (!post.frontmatter.date) {
     console.warn(
