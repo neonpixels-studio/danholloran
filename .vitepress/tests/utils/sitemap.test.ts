@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 vi.mock("fs", () => {
   const existsSync = vi.fn();
@@ -26,6 +26,7 @@ vi.mock("child_process", () => {
 import { existsSync, readFileSync, statSync, readdirSync } from "fs";
 import { execFileSync } from "child_process";
 import { transformSitemapItems } from "../../theme/utils/sitemap";
+import { resetGitDatesUsableCache } from "../../theme/utils/gitLastModified";
 import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockExistsSync = vi.mocked(existsSync);
@@ -44,11 +45,16 @@ function contentPath(slug: string): string {
 
 beforeEach(() => {
   vi.resetAllMocks();
+  resetGitDatesUsableCache();
   mockReaddirSync.mockReturnValue([] as any);
   mockReadFileSync.mockReturnValue("" as any);
   // Default to "untracked" so file-backed pages fall through to their mtime;
   // git-date tests override this per case.
   mockExecFileSync.mockReturnValue("" as any);
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 describe("transformSitemapItems", () => {
@@ -200,6 +206,21 @@ describe("transformSitemapItems", () => {
 
     const result = transformSitemapItems([{ url: "about" }]);
     expect(result[0].lastmod).toEqual(new Date(commitDate));
+  });
+
+  it("falls back to mtime instead of a git date on a shallow clone", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const mtime = new Date("2024-01-01");
+    mockExistsSync.mockReturnValue(true);
+    mockStatSync.mockReturnValue({ mtime } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse"
+        ? "true\n"
+        : "2025-02-10T08:30:00.000Z\n") as any);
+
+    const result = transformSitemapItems([{ url: "about" }]);
+    expect(result[0].lastmod).toEqual(mtime);
+    expect(warn).toHaveBeenCalledOnce();
   });
 
   it("does not treat a post slug prefixed page-/tag- as an archive route", () => {
