@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GrimicornWindowTitlebar > renders correctly 1`] = `"<div data-v-faa0c4ea="" class="gc-titlebar"><span data-v-faa0c4ea="" class="gc-dot" style="background: #dd9787;"></span><span data-v-faa0c4ea="" class="gc-dot" style="background: #dada93;"></span><span data-v-faa0c4ea="" class="gc-dot" style="background: #a9ce93;"></span><span class="gc-chrome-label">notes.md</span></div>"`;
