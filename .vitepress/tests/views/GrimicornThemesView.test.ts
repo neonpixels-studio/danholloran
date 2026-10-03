@@ -24,6 +24,11 @@ describe("GrimicornThemesView", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  it("renders the full tree including window chrome", () => {
+    const wrapper = mount(GrimicornThemesView);
+    expect(wrapper.html()).toMatchSnapshot();
+  });
+
   it("defaults to the dark preview and shows the dark hex values", () => {
     const wrapper = mount(GrimicornThemesView);
 

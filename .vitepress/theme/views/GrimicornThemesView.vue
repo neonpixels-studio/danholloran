@@ -3,6 +3,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useRevealAnimations } from "@composables/useRevealAnimations";
 import { useGrimicornToolDownloads } from "@composables/useGrimicornToolDownloads";
 import GrimicornPreviewToggle from "@components/GrimicornPreviewToggle.vue";
+import GrimicornWindowTitlebar from "@components/GrimicornWindowTitlebar.vue";
 import {
   HUES,
   BG_DARK,
@@ -138,16 +139,13 @@ function bgLabelColor(index: number): string {
             <GrimicornPreviewToggle v-model="previewMode" />
           </div>
           <div class="gc-win">
-            <div class="gc-titlebar">
-              <span class="gc-dot" style="background: #dd9787"></span>
-              <span class="gc-dot" style="background: #dada93"></span>
-              <span class="gc-dot" style="background: #a9ce93"></span>
+            <GrimicornWindowTitlebar>
               <span class="gc-tab" style="margin-left: 0.6rem">theme.ts</span>
               <span class="gc-tab-dim">palette.ts</span>
               <span class="gc-chrome-label" style="margin-left: auto"
                 >Grimicorn</span
               >
-            </div>
+            </GrimicornWindowTitlebar>
             <div class="gc-code">
               <div class="gc-line">
                 <span class="gc-ln">1</span
@@ -429,14 +427,11 @@ function bgLabelColor(index: number): string {
                 terminal · ANSI palette
               </div>
               <div class="gc-win">
-                <div class="gc-titlebar">
-                  <span class="gc-dot" style="background: #dd9787"></span>
-                  <span class="gc-dot" style="background: #dada93"></span>
-                  <span class="gc-dot" style="background: #a9ce93"></span>
+                <GrimicornWindowTitlebar>
                   <span class="gc-chrome-label" style="margin-left: 0.6rem"
                     >grimicorn — zsh — 96×24</span
                   >
-                </div>
+                </GrimicornWindowTitlebar>
                 <div class="gc-term">
                   <div>
                     <span class="u">grimicorn</span><span class="at">@</span
@@ -487,14 +482,11 @@ function bgLabelColor(index: number): string {
                 git diff · Git Tower
               </div>
               <div class="gc-win">
-                <div class="gc-titlebar">
-                  <span class="gc-dot" style="background: #dd9787"></span>
-                  <span class="gc-dot" style="background: #dada93"></span>
-                  <span class="gc-dot" style="background: #a9ce93"></span>
+                <GrimicornWindowTitlebar>
                   <span class="gc-chrome-label" style="margin-left: 0.6rem"
                     >theme.ts — Tower</span
                   >
-                </div>
+                </GrimicornWindowTitlebar>
                 <div class="gc-diff">
                   <div class="gc-dhunk">
                     @@ -11,8 +11,8 @@ export const grimicorn
@@ -561,14 +553,11 @@ function bgLabelColor(index: number): string {
               markdown · heading waterfall
             </div>
             <div class="gc-win">
-              <div class="gc-titlebar">
-                <span class="gc-dot" style="background: #dd9787"></span>
-                <span class="gc-dot" style="background: #dada93"></span>
-                <span class="gc-dot" style="background: #a9ce93"></span>
+              <GrimicornWindowTitlebar>
                 <span class="gc-chrome-label" style="margin-left: 0.6rem"
                   >notes.md — Obsidian</span
                 >
-              </div>
+              </GrimicornWindowTitlebar>
               <div class="gc-md">
                 <div class="h1"># Grimicorn</div>
                 <p>The grim reaper, reimagined as a <i>unicorn</i>.</p>
@@ -852,21 +841,6 @@ function bgLabelColor(index: number): string {
   transition:
     background 0.4s ease,
     border-color 0.4s ease;
-}
-.gc-titlebar {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.65rem 0.95rem;
-  background: var(--gc-deep);
-  border-bottom: 1px solid var(--gc-border);
-  transition: background 0.4s ease;
-}
-.gc-dot {
-  display: inline-block;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
 }
 .gc-tab {
   padding: 0.2rem 0.7rem;
