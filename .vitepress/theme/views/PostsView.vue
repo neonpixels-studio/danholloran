@@ -15,7 +15,7 @@ import {
   toPageNumber,
   totalPagesForCount,
 } from "@utils/archive";
-import { formatPostDate } from "@utils/formatDate";
+import { formatPostDateFor } from "@utils/formatDate";
 
 // The archive is driven entirely by route params, not client state: each
 // paginated / filtered page is a real, statically generated route (see
@@ -334,7 +334,7 @@ onUnmounted(() => {
             >{{ post.frontmatter.topic }}</span
           >
           <span class="text-fg-subtle font-mono text-[0.68rem]">{{
-            formatPostDate(post.frontmatter.date)
+            formatPostDateFor(post)
           }}</span>
           <span class="text-fg-subtle font-mono text-[0.68rem]"
             >· {{ post.frontmatter.readTime }} min</span
