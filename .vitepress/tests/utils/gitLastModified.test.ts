@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 vi.mock("child_process", () => {
   const execFileSync = vi.fn();
@@ -6,12 +6,20 @@ vi.mock("child_process", () => {
 });
 
 import { execFileSync } from "child_process";
-import { gitLastModified } from "../../theme/utils/gitLastModified";
+import {
+  gitLastModified,
+  resetGitDatesUsableCache,
+} from "../../theme/utils/gitLastModified";
 
 const mockExecFileSync = vi.mocked(execFileSync);
 
 beforeEach(() => {
   vi.resetAllMocks();
+  resetGitDatesUsableCache();
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 describe("gitLastModified", () => {
@@ -62,5 +70,91 @@ describe("gitLastModified", () => {
       ["log", "-1", "--format=%cI", "--", "public/images/map.png"],
       { cwd: "/custom/repo", encoding: "utf-8" },
     );
+  });
+
+  describe("shallow clone guard", () => {
+    const SHALLOW_ARGS = ["rev-parse", "--is-shallow-repository"];
+
+    function mockGit(shallowOutput: string, logOutput: string) {
+      mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+        args[0] === "rev-parse" ? shallowOutput : logOutput) as any);
+    }
+
+    it("returns null and warns without running git log on a shallow clone", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockGit("true\n", "2025-02-10T08:30:00.000Z\n");
+
+      expect(gitLastModified("/repo/a.md")).toBeNull();
+
+      expect(warn).toHaveBeenCalledOnce();
+      expect(mockExecFileSync).not.toHaveBeenCalledWith(
+        "git",
+        expect.arrayContaining(["log"]),
+        expect.anything(),
+      );
+    });
+
+    it("checks shallowness in the provided cwd", () => {
+      mockGit("false\n", "2025-02-10T08:30:00.000Z\n");
+
+      gitLastModified("a.md", "/custom/repo");
+
+      expect(mockExecFileSync).toHaveBeenCalledWith("git", SHALLOW_ARGS, {
+        cwd: "/custom/repo",
+        encoding: "utf-8",
+      });
+    });
+
+    it("returns the commit date on a full clone without warning", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockGit("false\n", "2025-02-10T08:30:00.000Z\n");
+
+      expect(gitLastModified("/repo/a.md")).toEqual(
+        new Date("2025-02-10T08:30:00.000Z"),
+      );
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it("returns null without running git log when the shallow check throws, and caches it", () => {
+      mockExecFileSync.mockImplementation(() => {
+        throw new Error("not a git repository");
+      });
+
+      expect(gitLastModified("/repo/a.md")).toBeNull();
+      expect(gitLastModified("/repo/b.md")).toBeNull();
+
+      expect(mockExecFileSync).toHaveBeenCalledTimes(1);
+    });
+
+    it("treats unrecognized rev-parse output (git < 2.15) as not shallow", () => {
+      mockGit("--is-shallow-repository\n", "2025-02-10T08:30:00.000Z\n");
+
+      expect(gitLastModified("/repo/a.md")).toEqual(
+        new Date("2025-02-10T08:30:00.000Z"),
+      );
+    });
+
+    it("checks each cwd separately", () => {
+      mockGit("false\n", "2025-02-10T08:30:00.000Z\n");
+
+      gitLastModified("a.md", "/repo-one");
+      gitLastModified("a.md", "/repo-two");
+
+      const shallowChecks = mockExecFileSync.mock.calls.filter(
+        ([, args]) => (args as string[])[0] === "rev-parse",
+      );
+      expect(shallowChecks).toHaveLength(2);
+    });
+
+    it("checks once per cwd and warns once across many files", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockGit("true\n", "");
+
+      gitLastModified("/repo/a.md");
+      gitLastModified("/repo/b.md");
+
+      expect(warn).toHaveBeenCalledOnce();
+      expect(mockExecFileSync).toHaveBeenCalledTimes(1);
+    });
   });
 });
