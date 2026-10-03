@@ -10,6 +10,7 @@ import PostsView from "@views/PostsView.vue";
 function buildPosts(count: number): Post[] {
   return Array.from({ length: count }, (_unused, index) => ({
     url: `/posts/post-${index}`,
+    dateIsValid: true,
     frontmatter: {
       title: `Post ${index}`,
       slug: `post-${index}`,
@@ -129,5 +130,17 @@ describe("PostsView", () => {
       props: { posts: mockPosts, tag: "javascript", tagLabel: "javascript" },
     });
     expect(tagWrapper.get("h1").text()).toBe("Posts tagged #javascript");
+  });
+
+  it("renders the date fallback for a post flagged with an invalid date", () => {
+    const [validPost, secondPost] = mockPosts;
+    const flaggedPost = { ...secondPost, dateIsValid: false };
+    const wrapper = shallowMount(PostsView, {
+      props: { posts: [validPost, flaggedPost] },
+    });
+    const text = wrapper.text();
+    expect(text).toContain("Jan 1, 2025");
+    expect(text).toContain("Unknown date");
+    expect(text).not.toContain("Feb 1, 2025");
   });
 });

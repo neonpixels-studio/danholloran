@@ -7,7 +7,7 @@ vi.mock("@content/posts/posts.data.ts", () => ({
 }));
 
 vi.mock("@utils/formatDate", () => ({
-  formatPostDate: () => "January 1, 2025",
+  formatPostDateFor: () => "January 1, 2025",
 }));
 
 import HomeBlog from "@components/HomeBlog.vue";

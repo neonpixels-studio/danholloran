@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { data as posts } from "@content/posts/posts.data.ts";
-import { formatPostDate } from "@utils/formatDate";
+import { formatPostDateFor } from "@utils/formatDate";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 
 const featuredPost = posts[0];
@@ -44,7 +44,7 @@ const recentPosts = posts.slice(1, 9);
               featuredPost.frontmatter.topic
             }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]"
-              >{{ formatPostDate(featuredPost.frontmatter.date) }} ·
+              >{{ formatPostDateFor(featuredPost) }} ·
               {{ featuredPost.frontmatter.readTime }} min</span
             >
           </div>
@@ -70,7 +70,7 @@ const recentPosts = posts.slice(1, 9);
           <div class="flex flex-wrap items-center gap-2">
             <span class="blog-tag-pill">{{ post.frontmatter.topic }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]">{{
-              formatPostDate(post.frontmatter.date)
+              formatPostDateFor(post)
             }}</span>
           </div>
           <div

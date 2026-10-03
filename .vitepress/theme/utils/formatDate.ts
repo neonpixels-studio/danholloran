@@ -1,3 +1,5 @@
+import type { Post } from "@typedefs";
+
 // Shared by HomeBlog, PostsView, and PostView so a post's date renders
 // identically (and safely) everywhere. Frontmatter dates come from hand-authored
 // markdown, so a missing or malformed value is expected input, not a bug —
@@ -41,11 +43,16 @@ function isValidCalendarDate(
 
 export type PostDateStyle = "short" | "long";
 
+// `isValid` is resolvePublishedDate's load-time verdict (Post.dateIsValid).
+// Callers holding a Post pass it so a date flagged there never renders; callers
+// with only a raw string (e.g. an ISO timestamp from git) omit it and rely on
+// the format checks below.
 export function formatPostDate(
   date: string | null | undefined,
   style: PostDateStyle = "short",
+  isValid = true,
 ): string {
-  if (!date) {
+  if (!isValid || !date) {
     return INVALID_DATE_FALLBACK;
   }
   const match = ISO_DATE_PATTERN.exec(date);
@@ -68,6 +75,16 @@ export function formatPostDate(
     day: "numeric",
     year: "numeric",
   });
+}
+
+// The entry point for every surface that holds a Post (HomeBlog, PostsView,
+// PostView): it always applies the post's load-time verdict so a caller can't
+// forget to pass it.
+export function formatPostDateFor(
+  post: Post,
+  style: PostDateStyle = "short",
+): string {
+  return formatPostDate(post.frontmatter.date, style, post.dateIsValid);
 }
 
 // Shared by the resume timeline components (HomeExperience, ResumeView) so a

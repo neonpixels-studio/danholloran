@@ -14,4 +14,7 @@ export interface Post {
   html?: string;
   frontmatter: PostMeta;
   url: string;
+  // Decided once at load time by resolvePublishedDate; render surfaces read it
+  // via formatPostDateFor instead of re-deriving validity from the raw date.
+  dateIsValid: boolean;
 }
