@@ -11,7 +11,7 @@ type Theme = "auto" | "light" | "dark";
 export const STORAGE_KEY = "vitepress-theme-appearance";
 const DEFAULT_THEME: Theme = "auto";
 // Legal persisted values (data concern), independent of CYCLE_ORDER (the UI toggle sequence).
-const THEMES: readonly Theme[] = ["auto", "light", "dark"];
+export const THEMES: readonly Theme[] = ["auto", "light", "dark"];
 const CYCLE_ORDER: Theme[] = ["auto", "light", "dark"];
 
 function isTheme(value: string | null): value is Theme {

@@ -13,6 +13,7 @@ import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
+import { buildThemeSanitizeScript } from "./theme/utils/themeStorageSanitizer";
 import { assertImageVariantsUpToDate } from "./theme/utils/imageVariantManifest";
 
 // The Shiki TextMate themes live under public/ so they double as the
@@ -130,6 +131,9 @@ export default defineConfig({
   // (e.g. the downloadable grimicorn-palette.md) out of page routing.
   srcExclude: ["public/**"],
   head: [
+    // Must precede VitePress's appended #check-dark-mode script (see
+    // themeStorageSanitizer.ts); user head entries are emitted first.
+    ["script", { id: "sanitize-theme-storage" }, buildThemeSanitizeScript()],
     ["meta", { property: "og:site_name", content: "Dan Holloran" }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }],
     [
