@@ -10,6 +10,7 @@
   cache-control: max-age=31536000
   cache-control: immutable
 
+# Font file names are not versioned: rename a file whenever its contents change.
 /fonts/*
   cache-control: max-age=31536000
   cache-control: immutable

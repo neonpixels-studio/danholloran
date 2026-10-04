@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
-/* Self-hosted latin-subset variable fonts (SIL OFL 1.1, see public/fonts/OFL-*.txt). */
+/* Self-hosted latin-subset variable fonts (SIL OFL 1.1, see public/fonts/OFL-*.txt).
+   Latin only is deliberate: the site's content uses nothing beyond it except a
+   few arrows/symbols (e.g. U+2192) that Google's own latin subset also omitted
+   and a stray U+0130; add a latin-ext subset if real non-latin content lands. */
 @font-face {
   font-family: "Inter";
   font-style: normal;

@@ -65,12 +65,15 @@ describe("self-hosted fonts", () => {
     const declared = declaredFontFiles();
     PRELOADED_FONT_FILES.forEach((fileName) => {
       expect(declared).toContain(fileName);
+      expect(existsSync(resolve(FONTS_DIRECTORY, fileName))).toBe(true);
     });
   });
 
   it("emits crossorigin font preload links", () => {
     const entries = buildFontPreloadHeadEntries();
-    expect(entries).toHaveLength(PRELOADED_FONT_FILES.length);
+    expect(entries.map(([, attributes]) => attributes.href)).toEqual(
+      PRELOADED_FONT_FILES.map((fileName) => `/fonts/${fileName}`),
+    );
     entries.forEach(([tag, attributes]) => {
       expect(tag).toBe("link");
       expect(attributes).toMatchObject({
