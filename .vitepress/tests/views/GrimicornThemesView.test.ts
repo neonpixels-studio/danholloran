@@ -128,10 +128,12 @@ describe("GrimicornThemesView", () => {
         Promise.reject(new Error("denied")),
       );
 
-      await wrapper.find(".gc-swatch").trigger("click");
+      await wrapper.findAll(".gc-swatch")[1].trigger("click");
       await flushPromises();
 
-      const label = wrapper.find(".copy-hex");
+      const labels = wrapper.findAll(".copy-hex");
+      const label = labels[1];
+      expect(labels[0].classes()).not.toContain("copy-failed-flash");
       expect(label.text()).toBe("couldn't copy");
       expect(label.classes()).toContain("copy-failed-flash");
       expect(label.html()).toMatchSnapshot();

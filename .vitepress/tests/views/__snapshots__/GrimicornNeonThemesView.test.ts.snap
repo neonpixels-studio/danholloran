@@ -385,7 +385,7 @@ exports[`GrimicornNeonThemesView > renders correctly 1`] = `
 </div>"
 `;
 
-exports[`GrimicornNeonThemesView > swatch copy feedback styling > applies the copy-failed styling hook after a rejected copy 1`] = `"<span data-v-c47154f1="" class="copy-hex font-mono text-[0.62rem] copy-failed-flash" style="color: #2323FF;">couldn't copy</span>"`;
+exports[`GrimicornNeonThemesView > swatch copy feedback styling > applies the copy-failed styling hook after a rejected copy 1`] = `"<span data-v-c47154f1="" class="copy-hex font-mono text-[0.62rem] copy-failed-flash" style="color: #A855F7;">couldn't copy</span>"`;
 
 exports[`GrimicornNeonThemesView > swatch copy feedback styling > has no flash classes while idle 1`] = `"<span data-v-c47154f1="" class="copy-hex font-mono text-[0.62rem]" style="color: #2323FF;">#2323FF</span>"`;
 
