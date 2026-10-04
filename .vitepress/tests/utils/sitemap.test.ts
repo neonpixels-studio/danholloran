@@ -273,6 +273,13 @@ describe("transformSitemapItems", () => {
       expect(warnSpy).toHaveBeenCalledOnce();
     });
 
+    it("drops a lastmod already present on the incoming item", () => {
+      const result = transformSitemapItems([
+        { url: "about", lastmod: new Date("2020-01-01").getTime() },
+      ]);
+      expect(result[0]).not.toHaveProperty("lastmod");
+    });
+
     it("omits lastmod for a directory-index route and keeps its trailing slash", () => {
       mockExistsSync.mockImplementation(
         (path: any) => !String(path).endsWith("about.md"),

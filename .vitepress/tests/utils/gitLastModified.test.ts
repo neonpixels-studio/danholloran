@@ -165,9 +165,11 @@ describe("gitLastModified", () => {
     }
 
     it("is false on a shallow clone", () => {
-      vi.spyOn(console, "warn").mockImplementation(() => {});
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
       mockRevParse("true\n");
       expect(isGitHistoryAvailable("/repo")).toBe(false);
+      expect(isGitHistoryAvailable("/repo")).toBe(false);
+      expect(warn).toHaveBeenCalledOnce();
     });
 
     it("is false when git cannot answer", () => {

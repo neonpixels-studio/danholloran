@@ -151,6 +151,13 @@ function listingLastmod(
   return null;
 }
 
+// The entry decides lastmod (including "none"), so an incoming item's own
+// lastmod must not leak through when the entry omits it.
+function withoutLastmod(item: SitemapItem): SitemapItem {
+  const { lastmod: _discarded, ...rest } = item;
+  return rest;
+}
+
 export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
   const published = loadPublishedPosts();
   const publishedBySlug = indexBySlug(published);
@@ -177,6 +184,6 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
       if (freshListingLastmod) {
         return { ...item, ...entry, lastmod: freshListingLastmod };
       }
-      return { ...item, ...entry };
+      return { ...withoutLastmod(item), ...entry };
     });
 }
