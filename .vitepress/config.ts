@@ -14,6 +14,7 @@ import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
 import { buildThemeSanitizeScript } from "./theme/utils/themeStorageSanitizer";
+import { buildFontPreloadHeadEntries } from "./theme/utils/fonts";
 import { assertImageVariantsUpToDate } from "./theme/utils/imageVariantManifest";
 
 // The Shiki TextMate themes live under public/ so they double as the
@@ -185,29 +186,7 @@ export default defineConfig({
     ],
     ["meta", { name: "apple-mobile-web-app-title", content: "Dan Holloran" }],
     ["link", { rel: "manifest", href: "/images/site.webmanifest?v=20260515" }],
-    ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
-    [
-      "link",
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossorigin: "",
-      },
-    ],
-    [
-      "link",
-      {
-        rel: "preload",
-        as: "style",
-        href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
-        onload: "this.onload=null;this.rel='stylesheet'",
-      },
-    ],
-    [
-      "noscript",
-      {},
-      '<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">',
-    ],
+    ...buildFontPreloadHeadEntries(),
     // Reveal JS-driven entrance animations for no-JS clients. Without this the
     // .fade-in / .reveal elements stay at opacity:0 (their observer never runs),
     // hiding the statically-rendered archive content from no-JS visitors.
