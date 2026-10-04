@@ -19,6 +19,7 @@ updates:
           - "eslint"
           - "eslint-*"
           - "@eslint/*"
+          - "typescript"
           - "typescript-eslint"
           - "@typescript-eslint/*"
       vue:

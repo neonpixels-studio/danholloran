@@ -89,6 +89,7 @@ describe("dependabot.yml groups", () => {
       "eslint-plugin-vue": "eslint",
       "eslint-config-prettier": "eslint",
       "@typescript-eslint/parser": "eslint",
+      typescript: "eslint",
       vue: "vue",
       "vue-tsc": "vue",
       "@vue/test-utils": "vue",
