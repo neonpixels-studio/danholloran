@@ -8,8 +8,13 @@ const CI_JOB_KEY = "ci";
 const INSTALL_COMMAND = "npm ci";
 const BUILD_COMMAND = "npm run build";
 
-type WorkflowStep = { name?: string; run?: string };
-type Workflow = { jobs: Record<string, { steps: WorkflowStep[] }> };
+type WorkflowStep = {
+  name?: string;
+  run?: string;
+  if?: string;
+  "continue-on-error"?: boolean;
+};
+type Workflow = { jobs?: Record<string, { steps?: WorkflowStep[] }> };
 
 function readCiSteps(): WorkflowStep[] {
   const filePath = join(process.cwd(), CI_WORKFLOW_PATH);
@@ -17,6 +22,9 @@ function readCiSteps(): WorkflowStep[] {
   const job = workflow.jobs?.[CI_JOB_KEY];
   if (!job) {
     throw new Error(`Job "${CI_JOB_KEY}" not found in ${CI_WORKFLOW_PATH}`);
+  }
+  if (!job.steps) {
+    throw new Error(`Job "${CI_JOB_KEY}" has no steps in ${CI_WORKFLOW_PATH}`);
   }
   return job.steps;
 }
@@ -30,7 +38,16 @@ function stepIndexRunning(steps: WorkflowStep[], command: string): number {
 // main CI job those only surface in lighthouse.yml or Netlify.
 describe("ci.yml main job", () => {
   it("runs a production build", () => {
-    expect(stepIndexRunning(readCiSteps(), BUILD_COMMAND)).toBeGreaterThan(-1);
+    const steps = readCiSteps();
+    const buildStep = steps[stepIndexRunning(steps, BUILD_COMMAND)];
+    expect(buildStep).toBeDefined();
+  });
+
+  it("does not let the build step be skipped or ignored on failure", () => {
+    const steps = readCiSteps();
+    const buildStep = steps[stepIndexRunning(steps, BUILD_COMMAND)];
+    expect(buildStep["continue-on-error"]).not.toBe(true);
+    expect(buildStep.if).toBeUndefined();
   });
 
   it("builds after dependencies are installed", () => {
