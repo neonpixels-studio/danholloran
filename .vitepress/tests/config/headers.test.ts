@@ -112,6 +112,13 @@ describe("public/_headers connect-src", () => {
   });
 });
 
+describe("public/_headers font and style sources", () => {
+  it("keeps font-src and style-src same-origin (fonts are self-hosted)", () => {
+    expect(readDirective("font-src")).toEqual(["'self'"]);
+    expect(readDirective("style-src")).toEqual(["'self'", "'unsafe-inline'"]);
+  });
+});
+
 describe("public/_headers legacy-plugin and injection restrictions", () => {
   it("blocks legacy plugin content with object-src 'none'", () => {
     expect(readDirective("object-src")).toEqual(["'none'"]);
