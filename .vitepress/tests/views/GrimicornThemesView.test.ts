@@ -16,6 +16,7 @@ describe("GrimicornThemesView", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
     clearGtag();
   });
 
@@ -94,5 +95,45 @@ describe("GrimicornThemesView", () => {
       "theme_download",
       expect.objectContaining({ theme: "grimicorn", format: "tool" }),
     );
+  });
+  describe("swatch copy feedback styling", () => {
+    function mountWithClipboard(writeText: () => Promise<void>) {
+      vi.stubGlobal("navigator", { clipboard: { writeText } });
+      return mount(GrimicornThemesView);
+    }
+
+    it("has no flash classes while idle", () => {
+      const label = mount(GrimicornThemesView).find(".copy-hex");
+
+      expect(label.classes()).not.toContain("copy-failed-flash");
+      expect(label.classes()).not.toContain("copied-flash");
+      expect(label.html()).toMatchSnapshot();
+    });
+
+    it("applies the copied styling hook after a successful copy", async () => {
+      const wrapper = mountWithClipboard(() => Promise.resolve());
+
+      await wrapper.find(".gc-swatch").trigger("click");
+      await flushPromises();
+
+      const label = wrapper.find(".copy-hex");
+      expect(label.text()).toBe("copied!");
+      expect(label.classes()).not.toContain("copy-failed-flash");
+      expect(label.html()).toMatchSnapshot();
+    });
+
+    it("applies the copy-failed styling hook after a rejected copy", async () => {
+      const wrapper = mountWithClipboard(() =>
+        Promise.reject(new Error("denied")),
+      );
+
+      await wrapper.find(".gc-swatch").trigger("click");
+      await flushPromises();
+
+      const label = wrapper.find(".copy-hex");
+      expect(label.text()).toBe("couldn't copy");
+      expect(label.classes()).toContain("copy-failed-flash");
+      expect(label.html()).toMatchSnapshot();
+    });
   });
 });
