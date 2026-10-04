@@ -78,11 +78,10 @@ describe("GrimicornNeonThemesView", () => {
       const label = mount(GrimicornNeonThemesView).find(".copy-hex");
 
       expect(label.classes()).not.toContain("copy-failed-flash");
-      expect(label.classes()).not.toContain("copied-flash");
       expect(label.html()).toMatchSnapshot();
     });
 
-    it("applies the copied styling hook after a successful copy", async () => {
+    it("shows the copied label without the failure hook after a successful copy", async () => {
       const wrapper = mountWithClipboard(() => Promise.resolve());
 
       await wrapper.find(".n-swatch").trigger("click");

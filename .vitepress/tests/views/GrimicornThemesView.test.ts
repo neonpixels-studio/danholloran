@@ -118,6 +118,7 @@ describe("GrimicornThemesView", () => {
 
       const label = wrapper.find(".copy-hex");
       expect(label.text()).toBe("copied!");
+      expect(label.classes()).toContain("copied-flash");
       expect(label.classes()).not.toContain("copy-failed-flash");
       expect(label.html()).toMatchSnapshot();
     });
