@@ -71,7 +71,7 @@ function matchesPattern(packageName: string, pattern: string): boolean {
 function groupFor(
   packageName: string,
   groups: Record<string, DependabotGroup>,
-) {
+): string | undefined {
   return Object.keys(groups).find((groupName) =>
     groups[groupName].patterns.some((pattern) =>
       matchesPattern(packageName, pattern),
