@@ -36,6 +36,13 @@ function canUseGitDates(cwd: string): boolean {
   return usable;
 }
 
+// Lets callers tell "untracked file" (null from gitLastModified, history is
+// fine) apart from "history unavailable" (shallow clone, no git), so they can
+// omit a date instead of substituting a misleading mtime.
+export function isGitHistoryAvailable(cwd: string = process.cwd()): boolean {
+  return canUseGitDates(cwd);
+}
+
 export function resetGitDatesUsableCache(): void {
   gitDatesUsableByCwd.clear();
 }

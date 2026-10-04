@@ -8,6 +8,7 @@ vi.mock("child_process", () => {
 import { execFileSync } from "child_process";
 import {
   gitLastModified,
+  isGitHistoryAvailable,
   resetGitDatesUsableCache,
 } from "../../theme/utils/gitLastModified";
 
@@ -155,6 +156,32 @@ describe("gitLastModified", () => {
 
       expect(warn).toHaveBeenCalledOnce();
       expect(mockExecFileSync).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("isGitHistoryAvailable", () => {
+    function mockRevParse(output: string) {
+      mockExecFileSync.mockReturnValue(output as any);
+    }
+
+    it("is false on a shallow clone", () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockRevParse("true\n");
+      expect(isGitHistoryAvailable("/repo")).toBe(false);
+      expect(isGitHistoryAvailable("/repo")).toBe(false);
+      expect(warn).toHaveBeenCalledOnce();
+    });
+
+    it("is false when git cannot answer", () => {
+      mockExecFileSync.mockImplementation(() => {
+        throw new Error("not a git repository");
+      });
+      expect(isGitHistoryAvailable("/repo")).toBe(false);
+    });
+
+    it("is true on a full clone", () => {
+      mockRevParse("false\n");
+      expect(isGitHistoryAvailable("/repo")).toBe(true);
     });
   });
 });
