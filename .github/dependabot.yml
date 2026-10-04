@@ -6,9 +6,43 @@ updates:
       interval: "weekly"
     assignees:
       - "grimicorn"
+    # A dependency joins the first group it matches, so the coupled toolchain
+    # families come before the minor/patch catch-all. Coupled families have no
+    # update-types filter so their major bumps land together in one PR.
+    groups:
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "typescript-eslint"
+          - "@typescript-eslint/*"
+      vue:
+        patterns:
+          - "vue"
+          - "vue-tsc"
+          - "@vue/*"
+      tailwindcss:
+        patterns:
+          - "tailwindcss"
+          - "@tailwindcss/*"
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
     assignees:
       - "grimicorn"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
