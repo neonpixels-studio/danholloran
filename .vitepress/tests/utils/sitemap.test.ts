@@ -248,19 +248,56 @@ describe("transformSitemapItems", () => {
     expect(result[0].lastmod).toEqual(new Date(commitDate));
   });
 
-  it("falls back to mtime instead of a git date on a shallow clone", () => {
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+  describe("shallow clone", () => {
+    function mockShallowGit() {
+      mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+        args[0] === "rev-parse"
+          ? "true\n"
+          : "2025-02-10T08:30:00.000Z\n") as any);
+    }
+
+    beforeEach(() => {
+      vi.spyOn(console, "warn").mockImplementation(() => {});
+      mockExistsSync.mockReturnValue(true);
+      mockStatSync.mockReturnValue({ mtime: new Date("2024-01-01") } as any);
+      mockShallowGit();
+    });
+
+    it("omits lastmod instead of using mtime (checkout time) for a source file", () => {
+      const result = transformSitemapItems([{ url: "about" }]);
+      expect(result[0].url).toBe("about");
+      expect(result[0]).not.toHaveProperty("lastmod");
+      expect(mockStatSync).not.toHaveBeenCalled();
+    });
+
+    it("omits lastmod for a directory-index route and keeps its trailing slash", () => {
+      mockExistsSync.mockImplementation(
+        (path: any) => !String(path).endsWith("about.md"),
+      );
+
+      const result = transformSitemapItems([{ url: "about" }]);
+      expect(result[0].url).toBe("about/");
+      expect(result[0]).not.toHaveProperty("lastmod");
+    });
+
+    it("still stamps a post-listing page with the newest post date", () => {
+      const newest = "2026-09-25";
+      mockPostFiles(["newer.md"], [{ date: newest }]);
+
+      const result = transformSitemapItems([{ url: "" }]);
+      expect(result[0].lastmod).toEqual(new Date(newest));
+    });
+  });
+
+  it("still uses mtime for an untracked file when git history is complete", () => {
     const mtime = new Date("2024-01-01");
     mockExistsSync.mockReturnValue(true);
     mockStatSync.mockReturnValue({ mtime } as any);
     mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
-      args[0] === "rev-parse"
-        ? "true\n"
-        : "2025-02-10T08:30:00.000Z\n") as any);
+      args[0] === "rev-parse" ? "false\n" : "") as any);
 
     const result = transformSitemapItems([{ url: "about" }]);
     expect(result[0].lastmod).toEqual(mtime);
-    expect(warn).toHaveBeenCalledOnce();
   });
 
   it("does not treat a post slug prefixed page-/tag- as an archive route", () => {
