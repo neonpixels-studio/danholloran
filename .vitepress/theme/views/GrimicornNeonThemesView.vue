@@ -33,7 +33,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
 </script>
 
 <template>
-  <div class="n-scope">
+  <div class="n-scope" :style="{ '--n-copy-failed': COPY_FAILED_COLOR }">
     <!-- HERO -->
     <section
       class="n-hero relative overflow-hidden px-8 pt-32 pb-20 max-md:px-4"
@@ -254,10 +254,9 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
               >{{ hue.role }}</span
             >
             <span
-              class="font-mono text-[0.62rem]"
-              :style="{
-                color: isCopyFailed(index) ? COPY_FAILED_COLOR : hue.hex,
-              }"
+              class="copy-hex font-mono text-[0.62rem]"
+              :class="{ 'copy-failed-flash': isCopyFailed(index) }"
+              :style="{ color: hue.hex }"
             >
               {{ copyLabel(index, hue.hex) }}
             </span>
@@ -653,6 +652,11 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
   color: #e7e5e4;
   /* Always-on rave: push the saturation site-wide. */
   filter: saturate(1.2);
+}
+
+/* Wins over the swatch's inline hue color, like the Grimicorn view's flash. */
+.copy-failed-flash {
+  color: var(--n-copy-failed) !important;
 }
 
 .n-hero {

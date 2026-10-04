@@ -943,3 +943,9 @@ exports[`GrimicornThemesView > renders the full tree including window chrome 1`]
   </section>
 </div>"
 `;
+
+exports[`GrimicornThemesView > swatch copy feedback styling > applies the copied styling hook after a successful copy 1`] = `"<span data-v-45fa8901="" class="copy-hex text-fg-subtle font-mono text-[0.64rem] tracking-[0.02em] copied-flash">copied!</span>"`;
+
+exports[`GrimicornThemesView > swatch copy feedback styling > applies the copy-failed styling hook after a rejected copy 1`] = `"<span data-v-45fa8901="" class="copy-hex text-fg-subtle font-mono text-[0.64rem] tracking-[0.02em] copy-failed-flash">couldn't copy</span>"`;
+
+exports[`GrimicornThemesView > swatch copy feedback styling > has no flash classes while idle 1`] = `"<span data-v-45fa8901="" class="copy-hex text-fg-subtle font-mono text-[0.64rem] tracking-[0.02em]">#99BDEA</span>"`;
