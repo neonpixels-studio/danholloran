@@ -171,6 +171,46 @@ describe("transformSitemapItems", () => {
     expect(result[0].lastmod).toEqual(mtime);
   });
 
+  it("stamps the homepage with the newest post date when it is newer than the source date", () => {
+    const newest = "2026-09-25";
+    const staleMtime = new Date("2026-05-14");
+    mockPostFiles(["newer.md"], [{ date: newest }]);
+    mockExistsSync.mockImplementation(
+      (path: any) => typeof path === "string" && path.endsWith("index.md"),
+    );
+    mockStatSync.mockReturnValue({ mtime: staleMtime } as any);
+
+    const result = transformSitemapItems([{ url: "" }]);
+    expect(result[0].url).toBe("");
+    expect(result[0].lastmod).toEqual(new Date(newest));
+  });
+
+  it("stamps the /posts/ index with the newest post date when it is newer than the source date", () => {
+    const newest = "2026-09-25";
+    const staleMtime = new Date("2026-05-14");
+    mockPostFiles(["newer.md"], [{ date: newest }]);
+    mockExistsSync.mockImplementation(
+      (path: any) => typeof path === "string" && path.endsWith("index.md"),
+    );
+    mockStatSync.mockReturnValue({ mtime: staleMtime } as any);
+
+    const result = transformSitemapItems([{ url: "posts/" }]);
+    expect(result[0].url).toBe("posts/");
+    expect(result[0].lastmod).toEqual(new Date(newest));
+  });
+
+  it("keeps the listing page source date when it is newer than the newest post", () => {
+    const freshMtime = new Date("2026-10-01");
+    mockPostFiles(["older.md"], [{ date: "2026-05-14" }]);
+    mockExistsSync.mockImplementation(
+      (path: any) => typeof path === "string" && path.endsWith("index.md"),
+    );
+    mockStatSync.mockReturnValue({ mtime: freshMtime } as any);
+
+    const result = transformSitemapItems([{ url: "" }]);
+    expect(result[0].lastmod).toEqual(freshMtime);
+  });
+
   it("stamps the indexable topic hub with the newest published post date", () => {
     const newest = "2024-06-01";
     mockPostFiles(

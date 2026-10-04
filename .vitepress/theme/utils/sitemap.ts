@@ -107,6 +107,14 @@ function isSitemapExcluded(url: string): boolean {
   return url === "README" || NONINDEXED_ARCHIVE.test(url);
 }
 
+// Index pages that render the post list: the homepage ("") and the /posts/
+// landing ("posts" after the trailing slash is stripped). Their own source file
+// rarely changes, but their rendered content changes every time a post
+// publishes, so pinning lastmod to the source commit date alone goes stale the
+// moment a newer post lands. For these the freshness signal is the later of the
+// file date and the newest published post's date.
+const POST_LISTING_URLS = new Set(["", "posts"]);
+
 function newestPublishedDate(posts: PublishedPost[]): Date | null {
   const newest = posts.find(hasUsableDate);
   return newest ? new Date(newest.sortTime) : null;
@@ -131,6 +139,14 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
       }
 
       const entry = fileEntry(url);
+      if (
+        entry &&
+        POST_LISTING_URLS.has(url) &&
+        archiveLastmod &&
+        archiveLastmod > entry.lastmod
+      ) {
+        return { ...item, ...entry, lastmod: archiveLastmod };
+      }
       if (entry) {
         return { ...item, ...entry };
       }
