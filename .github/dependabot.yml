@@ -6,6 +6,11 @@ updates:
       interval: "weekly"
     assignees:
       - "grimicorn"
+    # @todo Remove once @typescript-eslint/parser's typescript peer range allows 7.x.
+    ignore:
+      - dependency-name: "typescript"
+        update-types:
+          - "version-update:semver-major"
     # A dependency joins the first group it matches, so the coupled toolchain
     # families come before the minor/patch catch-all. Coupled families have no
     # update-types filter so their major bumps land together in one PR.
