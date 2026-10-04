@@ -136,16 +136,19 @@ function newestPublishedDate(posts: PublishedPost[]): Date | null {
 }
 
 // A listing page takes the newest post date when its own source date is absent
-// (shallow clone) or older.
-function isStaleListing(
+// (shallow clone) or older. Returns the date to stamp, or null to keep the entry.
+function listingLastmod(
   url: string,
   entry: { lastmod?: Date },
   archiveLastmod: Date | null,
-): archiveLastmod is Date {
+): Date | null {
   if (!POST_LISTING_URLS.has(url) || !archiveLastmod) {
-    return false;
+    return null;
   }
-  return !entry.lastmod || archiveLastmod > entry.lastmod;
+  if (!entry.lastmod || archiveLastmod > entry.lastmod) {
+    return archiveLastmod;
+  }
+  return null;
 }
 
 export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
@@ -170,8 +173,9 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
       if (!entry) {
         return { ...item, url, lastmod: new Date() };
       }
-      if (isStaleListing(url, entry, archiveLastmod)) {
-        return { ...item, ...entry, lastmod: archiveLastmod };
+      const freshListingLastmod = listingLastmod(url, entry, archiveLastmod);
+      if (freshListingLastmod) {
+        return { ...item, ...entry, lastmod: freshListingLastmod };
       }
       return { ...item, ...entry };
     });

@@ -256,8 +256,10 @@ describe("transformSitemapItems", () => {
           : "2025-02-10T08:30:00.000Z\n") as any);
     }
 
+    let warnSpy: ReturnType<typeof vi.spyOn>;
+
     beforeEach(() => {
-      vi.spyOn(console, "warn").mockImplementation(() => {});
+      warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
       mockExistsSync.mockReturnValue(true);
       mockStatSync.mockReturnValue({ mtime: new Date("2024-01-01") } as any);
       mockShallowGit();
@@ -268,6 +270,7 @@ describe("transformSitemapItems", () => {
       expect(result[0].url).toBe("about");
       expect(result[0]).not.toHaveProperty("lastmod");
       expect(mockStatSync).not.toHaveBeenCalled();
+      expect(warnSpy).toHaveBeenCalledOnce();
     });
 
     it("omits lastmod for a directory-index route and keeps its trailing slash", () => {
@@ -277,6 +280,13 @@ describe("transformSitemapItems", () => {
 
       const result = transformSitemapItems([{ url: "about" }]);
       expect(result[0].url).toBe("about/");
+      expect(result[0]).not.toHaveProperty("lastmod");
+    });
+
+    it("omits lastmod for a post-listing page when no post has a usable date", () => {
+      mockPostFiles([], []);
+
+      const result = transformSitemapItems([{ url: "" }]);
       expect(result[0]).not.toHaveProperty("lastmod");
     });
 
