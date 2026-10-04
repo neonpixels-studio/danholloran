@@ -6,7 +6,7 @@ import {
   hasUsableDate,
   type PublishedPost,
 } from "./loadPublishedPosts";
-import { gitLastModified } from "./gitLastModified";
+import { gitLastModified, isGitHistoryAvailable } from "./gitLastModified";
 
 // vitepress doesn't export `SitemapItem` directly; derive it from the public
 // `sitemap.transformItems` config type so this stays in sync with vitepress's
@@ -61,29 +61,44 @@ function postLastmod(
   return null;
 }
 
+// Last-modified date for a source file, or undefined when no trustworthy date
+// exists. mtime is only used for a genuinely untracked file (git history is
+// fine, the file just isn't committed). When history is unavailable (shallow CI
+// clone, no git) mtime is checkout time, i.e. build time, so lastmod is omitted
+// rather than telling crawlers every page changed on every deploy.
+function sourceLastmod(filePath: string): Date | undefined {
+  const gitDate = gitLastModified(filePath);
+  if (gitDate) {
+    return gitDate;
+  }
+  if (!isGitHistoryAvailable()) {
+    return undefined;
+  }
+  return statSync(filePath).mtime;
+}
+
+function withLastmod(url: string, lastmod: Date | undefined) {
+  return lastmod ? { url, lastmod } : { url };
+}
+
 // Resolves a stripped URL to the source file that backs it, returning the final
-// URL and its last-modified date, or null when no source file is found.
+// URL and its last-modified date (absent when git history is unavailable), or
+// null when no source file is found.
 // Prefers the git commit date over mtime so a rebuild of an unchanged page
 // doesn't report today's date. Directory-index routes (e.g. posts/index.md)
 // keep their trailing slash because the slashless form 301-redirects to it, and
 // a sitemap must list the final URL.
-function fileEntry(url: string): { url: string; lastmod: Date } | null {
+function fileEntry(url: string): { url: string; lastmod?: Date } | null {
   const base = url || "index";
 
   const filePath = join(process.cwd(), `${base}.md`);
   if (existsSync(filePath)) {
-    return {
-      url,
-      lastmod: gitLastModified(filePath) ?? statSync(filePath).mtime,
-    };
+    return withLastmod(url, sourceLastmod(filePath));
   }
 
   const indexPath = join(process.cwd(), base, "index.md");
   if (existsSync(indexPath)) {
-    return {
-      url: url ? `${url}/` : url,
-      lastmod: gitLastModified(indexPath) ?? statSync(indexPath).mtime,
-    };
+    return withLastmod(url ? `${url}/` : url, sourceLastmod(indexPath));
   }
 
   return null;
@@ -120,6 +135,29 @@ function newestPublishedDate(posts: PublishedPost[]): Date | null {
   return newest ? new Date(newest.sortTime) : null;
 }
 
+// A listing page takes the newest post date when its own source date is absent
+// (shallow clone) or older. Returns the date to stamp, or null to keep the entry.
+function listingLastmod(
+  url: string,
+  entry: { lastmod?: Date },
+  archiveLastmod: Date | null,
+): Date | null {
+  if (!POST_LISTING_URLS.has(url) || !archiveLastmod) {
+    return null;
+  }
+  if (!entry.lastmod || archiveLastmod > entry.lastmod) {
+    return archiveLastmod;
+  }
+  return null;
+}
+
+// The entry decides lastmod (including "none"), so an incoming item's own
+// lastmod must not leak through when the entry omits it.
+function withoutLastmod(item: SitemapItem): SitemapItem {
+  const { lastmod: _discarded, ...rest } = item;
+  return rest;
+}
+
 export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
   const published = loadPublishedPosts();
   const publishedBySlug = indexBySlug(published);
@@ -139,18 +177,13 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
       }
 
       const entry = fileEntry(url);
-      if (
-        entry &&
-        POST_LISTING_URLS.has(url) &&
-        archiveLastmod &&
-        archiveLastmod > entry.lastmod
-      ) {
-        return { ...item, ...entry, lastmod: archiveLastmod };
+      if (!entry) {
+        return { ...item, url, lastmod: new Date() };
       }
-      if (entry) {
-        return { ...item, ...entry };
+      const freshListingLastmod = listingLastmod(url, entry, archiveLastmod);
+      if (freshListingLastmod) {
+        return { ...item, ...entry, lastmod: freshListingLastmod };
       }
-
-      return { ...item, url, lastmod: new Date() };
+      return { ...withoutLastmod(item), ...entry };
     });
 }
