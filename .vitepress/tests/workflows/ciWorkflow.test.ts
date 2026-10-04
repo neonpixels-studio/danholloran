@@ -4,6 +4,8 @@ import { describe, it, expect } from "vitest";
 import { parse } from "yaml";
 
 const CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
+const CI_JOB_KEY = "ci";
+const INSTALL_COMMAND = "npm ci";
 const BUILD_COMMAND = "npm run build";
 
 type WorkflowStep = { name?: string; run?: string };
@@ -12,7 +14,11 @@ type Workflow = { jobs: Record<string, { steps: WorkflowStep[] }> };
 function readCiSteps(): WorkflowStep[] {
   const filePath = join(process.cwd(), CI_WORKFLOW_PATH);
   const workflow = parse(readFileSync(filePath, "utf8")) as Workflow;
-  return workflow.jobs.ci.steps;
+  const job = workflow.jobs?.[CI_JOB_KEY];
+  if (!job) {
+    throw new Error(`Job "${CI_JOB_KEY}" not found in ${CI_WORKFLOW_PATH}`);
+  }
+  return job.steps;
 }
 
 function stepIndexRunning(steps: WorkflowStep[], command: string): number {
@@ -29,7 +35,7 @@ describe("ci.yml main job", () => {
 
   it("builds after dependencies are installed", () => {
     const steps = readCiSteps();
-    const installIndex = stepIndexRunning(steps, "npm ci");
+    const installIndex = stepIndexRunning(steps, INSTALL_COMMAND);
     const buildIndex = stepIndexRunning(steps, BUILD_COMMAND);
     expect(installIndex).toBeGreaterThan(-1);
     expect(buildIndex).toBeGreaterThan(installIndex);
