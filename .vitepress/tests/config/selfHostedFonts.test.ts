@@ -39,7 +39,9 @@ describe("self-hosted fonts", () => {
   it("declares a woff2 @font-face for every face with font-display: swap", () => {
     const files = declaredFontFiles();
     expect(files).toHaveLength(4);
-    expect(readSource(STYLE_PATH).match(/font-display: swap/g)).toHaveLength(4);
+    expect(
+      readSource(STYLE_PATH).match(/font-display: swap/g) ?? [],
+    ).toHaveLength(4);
   });
 
   it("ships every declared font file plus both OFL license texts", () => {
@@ -56,7 +58,8 @@ describe("self-hosted fonts", () => {
     const headers = readSource(HEADERS_PATH);
     const block = headers
       .split("\n\n")
-      .find((part) => part.startsWith("/fonts/*"));
+      .find((part) => /^\/fonts\/\*$/m.test(part));
+    expect(block).toBeDefined();
     expect(block).toContain("max-age=31536000");
     expect(block).toContain("immutable");
   });
