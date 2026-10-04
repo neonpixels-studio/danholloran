@@ -29,11 +29,11 @@
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.11.0",
-    "fallow": "^3.28.0",
-    "globals": "^17.12.0",
-    "happy-dom": "^20.14.3",
+    "fallow": "^3.31.0",
+    "globals": "^17.13.0",
+    "happy-dom": "^20.14.5",
     "husky": "^9.1.7",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^6.0.3",
     "vitest": "^5.0.2",
@@ -47,10 +47,10 @@
     "image-size": "^2.0.4",
     "minisearch": "^7.2.0",
     "plist": "^5.0.0",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "vitepress": "^1.6.4",
-    "yaml": "^2.9.0"
+    "yaml": "^2.9.1"
   },
   "overrides": {
     "brace-expansion": "^5.0.12"
