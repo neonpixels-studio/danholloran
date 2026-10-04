@@ -4,8 +4,9 @@ import { describe, it, expect } from "vitest";
 import { parse } from "yaml";
 
 // Dependabot assigns a dependency to the first group whose patterns match it, so
-// these tests mirror that rule against the real package.json to prove the coupled
-// toolchain families stay together and are not swallowed by the catch-all group.
+// these tests mirror that pattern order (not update-types filtering) against the
+// real package.json to prove the coupled toolchain families stay together and are
+// not swallowed by the catch-all group.
 // Paths resolve from `process.cwd()` (the repo root vitest runs in).
 const VALID_UPDATE_TYPES = ["major", "minor", "patch"];
 const CATCH_ALL_GROUP = "npm-minor-patch";
@@ -133,10 +134,12 @@ describe("dependabot.yml groups", () => {
       ...Object.values(readUpdate("github-actions").groups ?? {}),
     ];
 
-    for (const group of allGroups) {
-      for (const updateType of group["update-types"] ?? []) {
-        expect(VALID_UPDATE_TYPES).toContain(updateType);
-      }
+    const updateTypes = allGroups.flatMap(
+      (group) => group["update-types"] ?? [],
+    );
+
+    for (const updateType of updateTypes) {
+      expect(VALID_UPDATE_TYPES).toContain(updateType);
     }
   });
 
