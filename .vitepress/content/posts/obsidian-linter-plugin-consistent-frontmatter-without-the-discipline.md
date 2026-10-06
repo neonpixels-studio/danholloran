@@ -75,11 +75,11 @@ disabled rules: [capitalize-headings, header-increment]
 
 Or protect just part of a note with a range ignore. Obsidian comments work, so the markers stay invisible in Reading view:
 
-```markdown
+```text
 Normal text gets linted.
 
 %%linter-disable%%
-This block keeps its weird spacing.
+   This block keeps     its weird spacing.
 %%linter-enable%%
 
 Back to normal.
