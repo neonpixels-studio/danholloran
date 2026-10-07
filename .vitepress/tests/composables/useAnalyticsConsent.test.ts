@@ -35,6 +35,10 @@ describe("useAnalyticsConsent", () => {
     gaScript()?.remove();
     clearGtag();
     delete (window as unknown as { dataLayer?: unknown }).dataLayer;
+    delete (window as unknown as Record<string, unknown>)[
+      `ga-disable-${GA_MEASUREMENT_ID}`
+    ];
+    document.cookie = `_ga=; expires=${new Date(0).toUTCString()}; path=/`;
     vi.restoreAllMocks();
   });
 
@@ -151,7 +155,7 @@ describe("useAnalyticsConsent", () => {
   it("disables an already-loaded GA when consent is withdrawn", () => {
     localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
     initAnalyticsConsent();
-    document.cookie = "_ga=abc; path=/";
+    document.cookie = `_ga=abc; path=/; domain=${location.hostname}`;
     const gtag = vi.fn();
     (window as unknown as { gtag: typeof gtag }).gtag = gtag;
 
@@ -166,9 +170,25 @@ describe("useAnalyticsConsent", () => {
       analytics_storage: "denied",
     });
     expect(document.cookie).not.toContain("_ga=");
-    delete (window as unknown as Record<string, unknown>)[
-      `ga-disable-${GA_MEASUREMENT_ID}`
-    ];
+  });
+
+  it("re-enables a loaded GA when consent is granted again", () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    initAnalyticsConsent();
+    const gtag = vi.fn();
+    (window as unknown as { gtag: typeof gtag }).gtag = gtag;
+
+    useAnalyticsConsent().decline();
+    useAnalyticsConsent().accept();
+
+    expect(
+      (window as unknown as Record<string, unknown>)[
+        `ga-disable-${GA_MEASUREMENT_ID}`
+      ],
+    ).toBe(false);
+    expect(gtag).toHaveBeenLastCalledWith("consent", "update", {
+      analytics_storage: "granted",
+    });
   });
 
   it("treats the legacy 'yes' Do Not Track value as opt-out", () => {
@@ -178,9 +198,9 @@ describe("useAnalyticsConsent", () => {
 
   it("reads the legacy window.doNotTrack signal", () => {
     stubDoNotTrack(null);
-    expect(hasBrowserOptOut(navigator, { doNotTrack: "1" } as Window)).toBe(
-      true,
-    );
+    expect(
+      hasBrowserOptOut(navigator, { doNotTrack: "1" } as unknown as Window),
+    ).toBe(true);
   });
 
   it("hasBrowserOptOut is false when no signal is present", () => {
