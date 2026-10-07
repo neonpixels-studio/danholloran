@@ -358,7 +358,7 @@ describe("transformSitemapItems", () => {
   });
 
   it("omits lastmod for an undated post on a shallow clone instead of using checkout-time mtime", () => {
-    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     mockPostFiles(["my-post.md"], [{}]);
     mockExistsSync.mockImplementation((path: any) =>
       String(path).endsWith(contentPath("my-post")),
@@ -374,6 +374,8 @@ describe("transformSitemapItems", () => {
     ]);
     expect(result[0].url).toBe("posts/my-post");
     expect(result[0]).not.toHaveProperty("lastmod");
+    expect(warnSpy).toHaveBeenCalled();
+    expect(mockStatSync).not.toHaveBeenCalled();
   });
 
   it("falls back to mtime for an untracked undated post when git history is complete", () => {
@@ -388,5 +390,19 @@ describe("transformSitemapItems", () => {
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(mtime);
+  });
+
+  it("uses the git date for a draft post rather than mtime", () => {
+    const commitDate = "2025-02-10T08:30:00.000Z";
+    mockPostFiles(["draft-post.md"], [{ date: "2024-03-15", draft: true }]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("draft-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse" ? "false\n" : `${commitDate}\n`) as any);
+
+    const result = transformSitemapItems([{ url: "posts/draft-post" }]);
+    expect(result[0].lastmod).toEqual(new Date(commitDate));
   });
 });
