@@ -10,7 +10,8 @@ const POSTS_DIR = ".vitepress/content/posts";
 // lhci's static server (staticDistDir) does not apply cleanUrls, so
 // extensionless URLs 404; audited pages must name the built .html file.
 const HTML_EXTENSION = ".html";
-const POST_URL_PREFIX = `${LIGHTHOUSE_ORIGIN}/posts/`;
+const POSTS_PATH_PREFIX = "posts/";
+const POST_URL_PREFIX = `${LIGHTHOUSE_ORIGIN}/${POSTS_PATH_PREFIX}`;
 const IMAGE_HEAVY_POST_SLUG = "wp-better-attachments";
 const CODE_HEAVY_POST_SLUG = "laravel-and-websockets";
 const MARKDOWN_IMAGE = /!\[[^\]]*\]\(/g;
@@ -24,7 +25,7 @@ function readAuditedUrls(): string[] {
   const config = JSON.parse(
     readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
   );
-  const urls = config.ci.collect.url;
+  const urls = config?.ci?.collect?.url;
   expect(Array.isArray(urls), "ci.collect.url must be an array").toBe(true);
   return urls;
 }
@@ -34,13 +35,21 @@ function pageUrl(pagePath: string): string {
 }
 
 function postUrl(slug: string): string {
-  return pageUrl(`posts/${slug}`);
+  return pageUrl(`${POSTS_PATH_PREFIX}${slug}`);
 }
 
 function readPost(slug: string) {
   const filePath = join(process.cwd(), POSTS_DIR, `${slug}.md`);
   expect(existsSync(filePath), `${filePath} must exist`).toBe(true);
   return parseFrontmatter(readFileSync(filePath, "utf8"));
+}
+
+function readAuditedPagePaths(): string[] {
+  return readAuditedUrls()
+    .filter((url) => url.endsWith(HTML_EXTENSION))
+    .map((url) =>
+      url.slice(`${LIGHTHOUSE_ORIGIN}/`.length, -HTML_EXTENSION.length),
+    );
 }
 
 function countMatches(text: string, pattern: RegExp): number {
@@ -69,26 +78,20 @@ describe(".lighthouserc.json collect.url", () => {
   });
 
   it("backs every non-post page URL with a root-level markdown source", () => {
-    const pagePaths = readAuditedUrls()
-      .filter((url) => url.endsWith(HTML_EXTENSION))
-      .filter((url) => !url.startsWith(POST_URL_PREFIX))
-      .map((url) =>
-        url.slice(`${LIGHTHOUSE_ORIGIN}/`.length, -HTML_EXTENSION.length),
-      );
-    expect(pagePaths).toContain("resume");
+    const pagePaths = readAuditedPagePaths().filter(
+      (pagePath) => !pagePath.startsWith(POSTS_PATH_PREFIX),
+    );
+    expect(pagePaths.length).toBeGreaterThan(0);
     pagePaths.forEach((pagePath) => {
-      expect(existsSync(join(process.cwd(), `${pagePath}.md`))).toBe(true);
+      const sourcePath = join(process.cwd(), `${pagePath}.md`);
+      expect(existsSync(sourcePath), `${sourcePath} must exist`).toBe(true);
     });
   });
 
   it("only points at published posts so the audited URL never 404s", () => {
-    const slugs = readAuditedUrls()
-      .filter(
-        (url) =>
-          url.startsWith(POST_URL_PREFIX) && url.endsWith(HTML_EXTENSION),
-      )
-      .map((url) => url.slice(POST_URL_PREFIX.length, -HTML_EXTENSION.length))
-      .filter(Boolean);
+    const slugs = readAuditedPagePaths()
+      .filter((pagePath) => pagePath.startsWith(POSTS_PATH_PREFIX))
+      .map((pagePath) => pagePath.slice(POSTS_PATH_PREFIX.length));
     expect(slugs.length).toBeGreaterThan(0);
     slugs.forEach((slug) => {
       const { data } = readPost(slug);
