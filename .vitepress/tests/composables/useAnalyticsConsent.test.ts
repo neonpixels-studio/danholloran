@@ -1,13 +1,16 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
   CONSENT_STORAGE_KEY,
-  GA_SCRIPT_ELEMENT_ID,
-  GA_SCRIPT_URL,
   hasBrowserOptOut,
   initAnalyticsConsent,
   resetAnalyticsConsentState,
   useAnalyticsConsent,
 } from "../../theme/composables/useAnalyticsConsent";
+import {
+  GA_MEASUREMENT_ID,
+  GA_SCRIPT_ELEMENT_ID,
+  GA_SCRIPT_URL,
+} from "../../theme/utils/googleAnalytics";
 import { clearGtag } from "../helpers/gtag";
 import { silenceScriptLoading } from "../helpers/gaScript";
 
@@ -143,6 +146,41 @@ describe("useAnalyticsConsent", () => {
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
+  });
+
+  it("disables an already-loaded GA when consent is withdrawn", () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    initAnalyticsConsent();
+    document.cookie = "_ga=abc; path=/";
+    const gtag = vi.fn();
+    (window as unknown as { gtag: typeof gtag }).gtag = gtag;
+
+    useAnalyticsConsent().decline();
+
+    expect(
+      (window as unknown as Record<string, unknown>)[
+        `ga-disable-${GA_MEASUREMENT_ID}`
+      ],
+    ).toBe(true);
+    expect(gtag).toHaveBeenCalledWith("consent", "update", {
+      analytics_storage: "denied",
+    });
+    expect(document.cookie).not.toContain("_ga=");
+    delete (window as unknown as Record<string, unknown>)[
+      `ga-disable-${GA_MEASUREMENT_ID}`
+    ];
+  });
+
+  it("treats the legacy 'yes' Do Not Track value as opt-out", () => {
+    stubDoNotTrack("yes");
+    expect(hasBrowserOptOut()).toBe(true);
+  });
+
+  it("reads the legacy window.doNotTrack signal", () => {
+    stubDoNotTrack(null);
+    expect(hasBrowserOptOut(navigator, { doNotTrack: "1" } as Window)).toBe(
+      true,
+    );
   });
 
   it("hasBrowserOptOut is false when no signal is present", () => {

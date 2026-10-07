@@ -1,15 +1,19 @@
 import { ref, readonly } from "vue";
+import {
+  disableGoogleAnalytics,
+  loadGoogleAnalytics,
+} from "../utils/googleAnalytics";
 
 export type ConsentChoice = "granted" | "denied";
 type ConsentState = ConsentChoice | "unset";
 
 export const CONSENT_STORAGE_KEY = "analytics-consent";
-export const GA_MEASUREMENT_ID = "G-HRDP48J1X5";
-export const GA_SCRIPT_URL = "https://www.googletagmanager.com/gtag/js";
-export const GA_SCRIPT_ELEMENT_ID = "ga-script";
+// Legacy value sent by older Firefox.
+const DO_NOT_TRACK_ENABLED = ["1", "yes"];
 
 // navigator.globalPrivacyControl is not in lib.dom yet.
 type PrivacySignals = Navigator & { globalPrivacyControl?: boolean };
+type PrivacySignalWindow = Window & { doNotTrack?: string };
 
 const state = ref<ConsentState>("unset");
 const bannerVisible = ref(false);
@@ -23,12 +27,14 @@ function isChoice(value: string | null): value is ConsentChoice {
 /** Do Not Track or Global Privacy Control: never load, never ask. */
 export function hasBrowserOptOut(
   browserNavigator: Navigator = navigator,
+  browserWindow: Window = window,
 ): boolean {
   const signals = browserNavigator as PrivacySignals;
+  const legacyWindowSignal = (browserWindow as PrivacySignalWindow).doNotTrack;
   return (
-    signals.doNotTrack === "1" ||
-    signals.globalPrivacyControl === true ||
-    (window as unknown as { doNotTrack?: string }).doNotTrack === "1"
+    DO_NOT_TRACK_ENABLED.includes(signals.doNotTrack ?? "") ||
+    DO_NOT_TRACK_ENABLED.includes(legacyWindowSignal ?? "") ||
+    signals.globalPrivacyControl === true
   );
 }
 
@@ -47,31 +53,6 @@ function persistConsent(choice: ConsentChoice): void {
   } catch {
     // Storage blocked: the choice still applies for this page view.
   }
-}
-
-/** The only place the GA script is added to the page. */
-export function loadGoogleAnalytics(): void {
-  if (document.getElementById(GA_SCRIPT_ELEMENT_ID)) {
-    return;
-  }
-  const win = window as unknown as {
-    dataLayer?: unknown[];
-    gtag?: (..._args: unknown[]) => void;
-  };
-  win.dataLayer = win.dataLayer || [];
-  win.gtag = function gtag(..._args: unknown[]) {
-    // GA reads the real `arguments` object, not a rest array.
-    // eslint-disable-next-line prefer-rest-params
-    win.dataLayer!.push(arguments);
-  };
-  win.gtag("js", new Date());
-  win.gtag("config", GA_MEASUREMENT_ID);
-
-  const script = document.createElement("script");
-  script.id = GA_SCRIPT_ELEMENT_ID;
-  script.async = true;
-  script.src = `${GA_SCRIPT_URL}?id=${GA_MEASUREMENT_ID}`;
-  document.head.appendChild(script);
 }
 
 /** Call once on the client after mount. */
@@ -95,7 +76,9 @@ function choose(choice: ConsentChoice): void {
   bannerVisible.value = false;
   if (choice === "granted") {
     loadGoogleAnalytics();
+    return;
   }
+  disableGoogleAnalytics();
 }
 
 export function useAnalyticsConsent() {

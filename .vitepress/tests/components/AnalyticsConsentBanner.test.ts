@@ -3,9 +3,9 @@ import { mount, flushPromises } from "@vue/test-utils";
 import AnalyticsConsentBanner from "@components/AnalyticsConsentBanner.vue";
 import {
   CONSENT_STORAGE_KEY,
-  GA_SCRIPT_ELEMENT_ID,
   resetAnalyticsConsentState,
 } from "@composables/useAnalyticsConsent";
+import { GA_SCRIPT_ELEMENT_ID } from "../../theme/utils/googleAnalytics";
 import { clearGtag } from "../helpers/gtag";
 import { silenceScriptLoading } from "../helpers/gaScript";
 
@@ -33,7 +33,10 @@ describe("AnalyticsConsentBanner", () => {
   it("loads analytics only after Allow is clicked", async () => {
     const wrapper = mount(AnalyticsConsentBanner);
     await flushPromises();
-    await wrapper.findAll("button")[0].trigger("click");
+    await wrapper
+      .findAll("button")
+      .find((button) => button.text() === "Allow")!
+      .trigger("click");
 
     expect(document.getElementById(GA_SCRIPT_ELEMENT_ID)).not.toBeNull();
     expect(wrapper.find("section").exists()).toBe(false);
@@ -42,7 +45,10 @@ describe("AnalyticsConsentBanner", () => {
   it("stays off and hides after Decline is clicked", async () => {
     const wrapper = mount(AnalyticsConsentBanner);
     await flushPromises();
-    await wrapper.findAll("button")[1].trigger("click");
+    await wrapper
+      .findAll("button")
+      .find((button) => button.text() === "Decline")!
+      .trigger("click");
 
     expect(document.getElementById(GA_SCRIPT_ELEMENT_ID)).toBeNull();
     expect(localStorage.getItem(CONSENT_STORAGE_KEY)).toBe("denied");
