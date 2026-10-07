@@ -14,15 +14,28 @@ const POST_URL_PREFIX = `${LIGHTHOUSE_ORIGIN}/posts/`;
 const IMAGE_HEAVY_POST_SLUG = "wp-better-attachments";
 const CODE_HEAVY_POST_SLUG = "laravel-and-websockets";
 const MARKDOWN_IMAGE = /!\[[^\]]*\]\(/g;
-const CODE_FENCE = /^```/gm;
+// Counts opening and closing fence lines, so two per code block.
+const CODE_FENCE = /^(```|~~~)/gm;
+const FENCES_PER_CODE_BLOCK = 2;
+const RESUME_SOURCE_PATH = "resume.md";
 const MIN_BODY_IMAGES = 3;
-const MIN_CODE_FENCES = 6;
+const MIN_CODE_BLOCKS = 3;
 
 function readAuditedUrls(): string[] {
   const config = JSON.parse(
     readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
   );
-  return config.ci.collect.url;
+  const urls = config.ci.collect.url;
+  expect(Array.isArray(urls), "ci.collect.url must be an array").toBe(true);
+  return urls;
+}
+
+function pageUrl(pagePath: string): string {
+  return `${LIGHTHOUSE_ORIGIN}/${pagePath}${HTML_EXTENSION}`;
+}
+
+function postUrl(slug: string): string {
+  return `${POST_URL_PREFIX}${slug}${HTML_EXTENSION}`;
 }
 
 function readPost(slug: string) {
@@ -40,17 +53,24 @@ describe(".lighthouserc.json collect.url", () => {
     const urls = readAuditedUrls();
     expect(urls).toContain(`${LIGHTHOUSE_ORIGIN}/`);
     expect(urls).toContain(POST_URL_PREFIX);
-    expect(urls).toContain(`${LIGHTHOUSE_ORIGIN}/resume${HTML_EXTENSION}`);
+    expect(urls).toContain(pageUrl("resume"));
   });
 
   it("audits an image-heavy and a code-heavy post page", () => {
     const urls = readAuditedUrls();
-    expect(urls).toContain(
-      `${POST_URL_PREFIX}${IMAGE_HEAVY_POST_SLUG}${HTML_EXTENSION}`,
+    expect(urls).toContain(postUrl(IMAGE_HEAVY_POST_SLUG));
+    expect(urls).toContain(postUrl(CODE_HEAVY_POST_SLUG));
+  });
+
+  it("only uses URLs the static server can resolve", () => {
+    const unresolvable = readAuditedUrls().filter(
+      (url) => !url.endsWith("/") && !url.endsWith(HTML_EXTENSION),
     );
-    expect(urls).toContain(
-      `${POST_URL_PREFIX}${CODE_HEAVY_POST_SLUG}${HTML_EXTENSION}`,
-    );
+    expect(unresolvable).toEqual([]);
+  });
+
+  it("points the resume URL at an existing page source", () => {
+    expect(existsSync(join(process.cwd(), RESUME_SOURCE_PATH))).toBe(true);
   });
 
   it("only points at published posts so the audited URL never 404s", () => {
@@ -78,8 +98,8 @@ describe(".lighthouserc.json collect.url", () => {
 
   it("keeps the code-heavy post code-heavy", () => {
     const { content } = readPost(CODE_HEAVY_POST_SLUG);
-    expect(countMatches(content, CODE_FENCE)).toBeGreaterThanOrEqual(
-      MIN_CODE_FENCES,
-    );
+    const codeBlocks =
+      countMatches(content, CODE_FENCE) / FENCES_PER_CODE_BLOCK;
+    expect(codeBlocks).toBeGreaterThanOrEqual(MIN_CODE_BLOCKS);
   });
 });
