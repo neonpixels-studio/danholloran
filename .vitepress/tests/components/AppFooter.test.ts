@@ -8,6 +8,10 @@ vi.mock("vitepress", () => ({
 }));
 
 import AppFooter from "@components/AppFooter.vue";
+import {
+  initAnalyticsConsent,
+  resetAnalyticsConsentState,
+} from "@composables/useAnalyticsConsent";
 
 const ROTATE_MS = 3000;
 
@@ -32,6 +36,18 @@ describe("AppFooter", () => {
     frontmatterState.value = {};
     const wrapper = shallowMount(AppFooter);
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("offers an analytics preferences button once choice is available", async () => {
+    frontmatterState.value = {};
+    const wrapper = shallowMount(AppFooter);
+    expect(wrapper.find("button").exists()).toBe(false);
+
+    initAnalyticsConsent();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find("button").text()).toBe("analytics");
+    resetAnalyticsConsentState();
   });
 
   it("is not forced dark without the frontmatter flag", () => {

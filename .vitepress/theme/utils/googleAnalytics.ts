@@ -28,6 +28,7 @@ export function loadGoogleAnalytics(): void {
     return;
   }
   const target = analyticsWindow();
+  target[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
   target.dataLayer = target.dataLayer || [];
   target.gtag = function gtag(..._args: unknown[]) {
     // GA reads the real `arguments` object, not a rest array.
@@ -57,7 +58,7 @@ function expireCookie(name: string, domain?: string): void {
   document.cookie = `${name}=; expires=${EPOCH}; path=/${domainAttribute}`;
 }
 
-function expireGaCookies(): void {
+export function expireGaCookies(): void {
   const names = document.cookie
     .split(";")
     .map((cookie) => cookie.split("=")[0].trim())

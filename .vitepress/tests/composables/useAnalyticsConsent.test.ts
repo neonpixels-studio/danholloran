@@ -191,6 +191,34 @@ describe("useAnalyticsConsent", () => {
     });
   });
 
+  it("loads GA after declining first, then allowing without a reload", () => {
+    initAnalyticsConsent();
+    useAnalyticsConsent().decline();
+    useAnalyticsConsent().accept();
+
+    expect(gaScript()).not.toBeNull();
+    expect(
+      (window as unknown as Record<string, unknown>)[
+        `ga-disable-${GA_MEASUREMENT_ID}`
+      ],
+    ).toBe(false);
+  });
+
+  it("clears earlier GA cookies when the browser opts out", () => {
+    document.cookie = "_ga=abc; path=/";
+    stubDoNotTrack("1");
+    initAnalyticsConsent();
+
+    expect(document.cookie).not.toContain("_ga=");
+  });
+
+  it("only offers a choice when the browser has not opted out", () => {
+    stubDoNotTrack(null);
+    initAnalyticsConsent();
+
+    expect(useAnalyticsConsent().canChoose.value).toBe(true);
+  });
+
   it("treats the legacy 'yes' Do Not Track value as opt-out", () => {
     stubDoNotTrack("yes");
     expect(hasBrowserOptOut()).toBe(true);

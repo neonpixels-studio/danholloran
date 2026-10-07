@@ -1,6 +1,7 @@
 import { ref, readonly } from "vue";
 import {
   disableGoogleAnalytics,
+  expireGaCookies,
   loadGoogleAnalytics,
 } from "../utils/googleAnalytics";
 
@@ -17,8 +18,9 @@ type PrivacySignalWindow = Window & { doNotTrack?: string };
 
 const state = ref<ConsentState>("unset");
 const bannerVisible = ref(false);
-// False once the browser itself signals opt-out; there is nothing to ask.
-const canChoose = ref(true);
+// Off until the client confirms the browser has not opted out, so opted-out
+// readers never see a control that does nothing.
+const canChoose = ref(false);
 
 function isChoice(value: string | null): value is ConsentChoice {
   return value === "granted" || value === "denied";
@@ -59,9 +61,10 @@ function persistConsent(choice: ConsentChoice): void {
 export function initAnalyticsConsent(): void {
   if (hasBrowserOptOut()) {
     state.value = "denied";
-    canChoose.value = false;
+    expireGaCookies();
     return;
   }
+  canChoose.value = true;
   state.value = readConsent();
   if (state.value === "granted") {
     loadGoogleAnalytics();
@@ -98,5 +101,5 @@ export function useAnalyticsConsent() {
 export function resetAnalyticsConsentState(): void {
   state.value = "unset";
   bannerVisible.value = false;
-  canChoose.value = true;
+  canChoose.value = false;
 }
