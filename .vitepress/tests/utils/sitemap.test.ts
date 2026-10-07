@@ -361,4 +361,18 @@ describe("transformSitemapItems", () => {
     expect(result[0].url).toBe("posts/my-post");
     expect(result[0]).not.toHaveProperty("lastmod");
   });
+
+  it("falls back to mtime for an untracked undated post when git history is complete", () => {
+    const mtime = new Date("2024-05-01");
+    mockPostFiles(["my-post.md"], [{}]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("my-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse" ? "false\n" : "") as any);
+
+    const result = transformSitemapItems([{ url: "posts/my-post" }]);
+    expect(result[0].lastmod).toEqual(mtime);
+  });
 });

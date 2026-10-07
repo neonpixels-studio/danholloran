@@ -61,7 +61,7 @@ function withLastmod(url: string, lastmod: Date | undefined) {
 function postEntry(
   url: string,
   publishedBySlug: Map<string, PublishedPost>,
-): { lastmod?: Date } | null {
+): { url: string; lastmod?: Date } | null {
   const postSlug = url.match(/^posts\/(.+)$/)?.[1];
   if (!postSlug) {
     return null;
@@ -69,13 +69,12 @@ function postEntry(
 
   const post = publishedBySlug.get(postSlug);
   if (post && hasUsableDate(post)) {
-    return { lastmod: new Date(post.sortTime) };
+    return { url, lastmod: new Date(post.sortTime) };
   }
 
   const contentPath = join(POSTS_CONTENT_DIR, `${postSlug}.md`);
   if (existsSync(contentPath)) {
-    const lastmod = sourceLastmod(contentPath);
-    return lastmod ? { lastmod } : {};
+    return withLastmod(url, sourceLastmod(contentPath));
   }
 
   return null;
@@ -170,7 +169,7 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
 
       const postResult = postEntry(url, publishedBySlug);
       if (postResult) {
-        return { ...withoutLastmod(item), url, ...postResult };
+        return { ...withoutLastmod(item), ...postResult };
       }
 
       if (ARCHIVE_ROUTE.test(url) && archiveLastmod) {
