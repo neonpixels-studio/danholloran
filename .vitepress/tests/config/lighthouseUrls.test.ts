@@ -17,7 +17,6 @@ const MARKDOWN_IMAGE = /!\[[^\]]*\]\(/g;
 // Counts opening and closing fence lines, so two per code block.
 const CODE_FENCE = /^(```|~~~)/gm;
 const FENCES_PER_CODE_BLOCK = 2;
-const RESUME_SOURCE_PATH = "resume.md";
 const MIN_BODY_IMAGES = 3;
 const MIN_CODE_BLOCKS = 3;
 
@@ -35,7 +34,7 @@ function pageUrl(pagePath: string): string {
 }
 
 function postUrl(slug: string): string {
-  return `${POST_URL_PREFIX}${slug}${HTML_EXTENSION}`;
+  return pageUrl(`posts/${slug}`);
 }
 
 function readPost(slug: string) {
@@ -69,8 +68,17 @@ describe(".lighthouserc.json collect.url", () => {
     expect(unresolvable).toEqual([]);
   });
 
-  it("points the resume URL at an existing page source", () => {
-    expect(existsSync(join(process.cwd(), RESUME_SOURCE_PATH))).toBe(true);
+  it("backs every non-post page URL with a root-level markdown source", () => {
+    const pagePaths = readAuditedUrls()
+      .filter((url) => url.endsWith(HTML_EXTENSION))
+      .filter((url) => !url.startsWith(POST_URL_PREFIX))
+      .map((url) =>
+        url.slice(`${LIGHTHOUSE_ORIGIN}/`.length, -HTML_EXTENSION.length),
+      );
+    expect(pagePaths).toContain("resume");
+    pagePaths.forEach((pagePath) => {
+      expect(existsSync(join(process.cwd(), `${pagePath}.md`))).toBe(true);
+    });
   });
 
   it("only points at published posts so the audited URL never 404s", () => {
