@@ -7,7 +7,7 @@ import {
   useAnalyticsConsent,
 } from "../../theme/composables/useAnalyticsConsent";
 import {
-  GA_MEASUREMENT_ID,
+  GA_DISABLE_FLAG,
   GA_SCRIPT_ELEMENT_ID,
   GA_SCRIPT_URL,
 } from "../../theme/utils/googleAnalytics";
@@ -18,6 +18,10 @@ function gaScript(): HTMLScriptElement | null {
   return document.getElementById(
     GA_SCRIPT_ELEMENT_ID,
   ) as HTMLScriptElement | null;
+}
+
+function gaDisabledFlag(): unknown {
+  return (window as unknown as Record<string, unknown>)[GA_DISABLE_FLAG];
 }
 
 function stubDoNotTrack(value: string | null): void {
@@ -35,9 +39,7 @@ describe("useAnalyticsConsent", () => {
     gaScript()?.remove();
     clearGtag();
     delete (window as unknown as { dataLayer?: unknown }).dataLayer;
-    delete (window as unknown as Record<string, unknown>)[
-      `ga-disable-${GA_MEASUREMENT_ID}`
-    ];
+    delete (window as unknown as Record<string, unknown>)[GA_DISABLE_FLAG];
     document.cookie = `_ga=; expires=${new Date(0).toUTCString()}; path=/`;
     vi.restoreAllMocks();
   });
@@ -161,11 +163,7 @@ describe("useAnalyticsConsent", () => {
 
     useAnalyticsConsent().decline();
 
-    expect(
-      (window as unknown as Record<string, unknown>)[
-        `ga-disable-${GA_MEASUREMENT_ID}`
-      ],
-    ).toBe(true);
+    expect(gaDisabledFlag()).toBe(true);
     expect(gtag).toHaveBeenCalledWith("consent", "update", {
       analytics_storage: "denied",
     });
@@ -181,11 +179,7 @@ describe("useAnalyticsConsent", () => {
     useAnalyticsConsent().decline();
     useAnalyticsConsent().accept();
 
-    expect(
-      (window as unknown as Record<string, unknown>)[
-        `ga-disable-${GA_MEASUREMENT_ID}`
-      ],
-    ).toBe(false);
+    expect(gaDisabledFlag()).toBe(false);
     expect(gtag).toHaveBeenLastCalledWith("consent", "update", {
       analytics_storage: "granted",
     });
@@ -197,11 +191,7 @@ describe("useAnalyticsConsent", () => {
     useAnalyticsConsent().accept();
 
     expect(gaScript()).not.toBeNull();
-    expect(
-      (window as unknown as Record<string, unknown>)[
-        `ga-disable-${GA_MEASUREMENT_ID}`
-      ],
-    ).toBe(false);
+    expect(gaDisabledFlag()).toBe(false);
   });
 
   it("clears earlier GA cookies when the browser opts out", () => {

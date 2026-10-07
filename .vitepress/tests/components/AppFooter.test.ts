@@ -32,6 +32,15 @@ function locationLabel(index: number): string {
 }
 
 describe("AppFooter", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    resetAnalyticsConsentState();
+  });
+
+  afterEach(() => {
+    resetAnalyticsConsentState();
+  });
+
   it("renders correctly", () => {
     frontmatterState.value = {};
     const wrapper = shallowMount(AppFooter);
@@ -47,7 +56,6 @@ describe("AppFooter", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find("button").text()).toBe("analytics");
-    resetAnalyticsConsentState();
   });
 
   it("is not forced dark without the frontmatter flag", () => {

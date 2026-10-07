@@ -1,14 +1,19 @@
 export const GA_MEASUREMENT_ID = "G-HRDP48J1X5";
 export const GA_SCRIPT_URL = "https://www.googletagmanager.com/gtag/js";
 export const GA_SCRIPT_ELEMENT_ID = "ga-script";
+export const GA_DISABLE_FLAG = `ga-disable-${GA_MEASUREMENT_ID}` as const;
 const GA_COOKIE_PREFIX = "_ga";
 const EPOCH = "Thu, 01 Jan 1970 00:00:00 GMT";
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[];
   gtag?: (..._args: unknown[]) => void;
-  [disableFlag: `ga-disable-${string}`]: boolean | undefined;
+  [GA_DISABLE_FLAG]?: boolean;
 };
+
+function setAnalyticsDisabled(disabled: boolean): void {
+  analyticsWindow()[GA_DISABLE_FLAG] = disabled;
+}
 
 function analyticsWindow(): AnalyticsWindow {
   return window as unknown as AnalyticsWindow;
@@ -16,9 +21,10 @@ function analyticsWindow(): AnalyticsWindow {
 
 /** Re-grants consent on a page where GA was loaded, then withdrawn. */
 function enableGoogleAnalytics(): void {
-  const target = analyticsWindow();
-  target[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
-  target.gtag?.("consent", "update", { analytics_storage: "granted" });
+  setAnalyticsDisabled(false);
+  analyticsWindow().gtag?.("consent", "update", {
+    analytics_storage: "granted",
+  });
 }
 
 /** The only place the GA script is added to the page. */
@@ -27,8 +33,8 @@ export function loadGoogleAnalytics(): void {
     enableGoogleAnalytics();
     return;
   }
+  setAnalyticsDisabled(false);
   const target = analyticsWindow();
-  target[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
   target.dataLayer = target.dataLayer || [];
   target.gtag = function gtag(..._args: unknown[]) {
     // GA reads the real `arguments` object, not a rest array.
@@ -58,15 +64,18 @@ function expireCookie(name: string, domain?: string): void {
   document.cookie = `${name}=; expires=${EPOCH}; path=/${domainAttribute}`;
 }
 
-export function expireGaCookies(): void {
-  const names = document.cookie
+function gaCookieNames(): string[] {
+  return document.cookie
     .split(";")
     .map((cookie) => cookie.split("=")[0].trim())
     .filter((name) => name.startsWith(GA_COOKIE_PREFIX));
-  names.forEach((name) => {
-    expireCookie(name);
-    cookieDomains().forEach((domain) => expireCookie(name, domain));
-  });
+}
+
+export function expireGaCookies(): void {
+  const domains = [undefined, ...cookieDomains()];
+  gaCookieNames()
+    .flatMap((name) => domains.map((domain) => ({ name, domain })))
+    .forEach(({ name, domain }) => expireCookie(name, domain));
 }
 
 /**
@@ -75,8 +84,9 @@ export function expireGaCookies(): void {
  * reporting page views after a user withdraws consent.
  */
 export function disableGoogleAnalytics(): void {
-  const target = analyticsWindow();
-  target[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
-  target.gtag?.("consent", "update", { analytics_storage: "denied" });
+  setAnalyticsDisabled(true);
+  analyticsWindow().gtag?.("consent", "update", {
+    analytics_storage: "denied",
+  });
   expireGaCookies();
 }
