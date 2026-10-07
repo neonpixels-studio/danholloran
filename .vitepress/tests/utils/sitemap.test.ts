@@ -339,10 +339,22 @@ describe("transformSitemapItems", () => {
       String(path).endsWith(contentPath("my-post")),
     );
     mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
-    mockExecFileSync.mockReturnValue(`${commitDate}\n` as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse" ? "false\n" : `${commitDate}\n`) as any);
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(new Date(commitDate));
+    expect(mockExecFileSync).toHaveBeenCalledWith(
+      "git",
+      [
+        "log",
+        "-1",
+        "--format=%cI",
+        "--",
+        expect.stringContaining(contentPath("my-post")),
+      ],
+      expect.anything(),
+    );
   });
 
   it("omits lastmod for an undated post on a shallow clone instead of using checkout-time mtime", () => {
@@ -357,7 +369,9 @@ describe("transformSitemapItems", () => {
         ? "true\n"
         : "2025-02-10T08:30:00.000Z\n") as any);
 
-    const result = transformSitemapItems([{ url: "posts/my-post" }]);
+    const result = transformSitemapItems([
+      { url: "posts/my-post", lastmod: new Date("2020-01-01").getTime() },
+    ]);
     expect(result[0].url).toBe("posts/my-post");
     expect(result[0]).not.toHaveProperty("lastmod");
   });

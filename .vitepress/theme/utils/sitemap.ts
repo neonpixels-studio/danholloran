@@ -107,8 +107,8 @@ function fileEntry(url: string): { url: string; lastmod?: Date } | null {
 // no single backing source file, so both post- and file-lookups miss and they
 // would otherwise get no trustworthy date (and `new Date()` used to be stamped
 // here, telling crawlers every one of the ~500 archive pages changed on every
-// build). Anchor them to the newest
-// published post's date instead: a real, build-stable signal.
+// build). Anchor them to the newest published post's date instead: a real,
+// build-stable signal.
 const ARCHIVE_ROUTE = /^posts\/(page|topic|tag)(\/|$)/;
 
 // Archive URLs kept out of the sitemap because they carry `noindex,follow`
