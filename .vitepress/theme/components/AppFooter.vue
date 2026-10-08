@@ -2,6 +2,9 @@
 import { PAST_LOCATIONS } from "@data/resume.ts";
 import { computed, ref, onMounted, onUnmounted } from "vue";
 import { useData } from "vitepress";
+import { useAnalyticsConsent } from "@composables/useAnalyticsConsent";
+
+const { canChoose, reopen: reopenAnalyticsConsent } = useAnalyticsConsent();
 
 const { frontmatter } = useData();
 // Pages that are dark regardless of the site's light/dark setting (e.g.
@@ -58,6 +61,16 @@ onUnmounted(() => {
       <a href="/posts/" class="text-fg-subtle hover:text-accent no-underline">
         blog
       </a>
+      <template v-if="canChoose">
+        ·
+        <button
+          type="button"
+          class="text-fg-subtle hover:text-accent cursor-pointer border-0 bg-transparent p-0 font-mono text-[0.7rem]"
+          @click="reopenAnalyticsConsent"
+        >
+          analytics
+        </button>
+      </template>
       · Built with Vue.js + Tailwind CSS +
       <svg
         aria-hidden="true"
