@@ -16,6 +16,17 @@ const THEME_DIR = resolve(process.cwd(), ".vitepress/theme");
 const OFF_ORIGIN_ACTION_RE =
   /(?:^|[\s"'])(?:form)?action\s*=\s*["']?(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 const DYNAMIC_ACTION_RE = /(?:^|[\s"'])(?::|v-bind:)(?:form)?action\s*=/i;
+const PERMISSIONS_POLICY_HEADER_NAME = "Permissions-Policy:";
+const DISABLED_FEATURES = [
+  "accelerometer",
+  "camera",
+  "geolocation",
+  "gyroscope",
+  "magnetometer",
+  "microphone",
+  "payment",
+  "usb",
+];
 const SELF_CONNECT_SRC = "'self'";
 const NEWSLETTER_CONNECT_SRC = "https://app.kit.com";
 const ANALYTICS_CONNECT_SOURCES = [
@@ -75,6 +86,21 @@ function readDirective(name: string): string[] {
     throw new Error(`${name} directive not found in CSP`);
   }
   return directive.split(/\s+/).slice(1);
+}
+
+function readPermissionsPolicy(): string[] {
+  const contents = readFileSync(HEADERS_PATH, "utf8");
+  const policyLine = contents
+    .split("\n")
+    .find((line) => line.trim().startsWith(PERMISSIONS_POLICY_HEADER_NAME));
+  if (!policyLine) {
+    throw new Error("Permissions-Policy header not found in _headers");
+  }
+  return policyLine
+    .trim()
+    .slice(PERMISSIONS_POLICY_HEADER_NAME.length)
+    .split(",")
+    .map((part) => part.trim());
 }
 
 function readConnectSrc(): string[] {
@@ -160,4 +186,13 @@ describe("public/_headers legacy-plugin and injection restrictions", () => {
       },
     );
   });
+});
+
+describe("public/_headers Permissions-Policy", () => {
+  it.each(DISABLED_FEATURES)(
+    "disables %s for every origin with an empty allowlist",
+    (feature) => {
+      expect(readPermissionsPolicy()).toContain(`${feature}=()`);
+    },
+  );
 });
