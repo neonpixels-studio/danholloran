@@ -124,20 +124,15 @@ describe("transformSitemapItems", () => {
     expect(result[0].lastmod).toEqual(mtime);
   });
 
-  it("falls back to a current date when no file is found", () => {
+  it("omits lastmod instead of stamping build time when no file is found", () => {
     mockExistsSync.mockReturnValue(false);
 
-    const before = new Date();
-    const result = transformSitemapItems([{ url: "mystery-page" }]);
-    const after = new Date();
+    const result = transformSitemapItems([
+      { url: "mystery-page", lastmod: new Date("2020-01-01").getTime() },
+    ]);
 
-    expect(result[0].lastmod).toBeInstanceOf(Date);
-    expect((result[0].lastmod as Date).getTime()).toBeGreaterThanOrEqual(
-      before.getTime(),
-    );
-    expect((result[0].lastmod as Date).getTime()).toBeLessThanOrEqual(
-      after.getTime(),
-    );
+    expect(result[0].url).toBe("mystery-page");
+    expect(result[0]).not.toHaveProperty("lastmod");
   });
 
   it("handles trailing slashes by stripping them from the output URL", () => {
@@ -326,17 +321,88 @@ describe("transformSitemapItems", () => {
     expect(result[0].lastmod).toEqual(new Date(postDate));
   });
 
-  it("falls back to the current date for an archive route when nothing is dated", () => {
-    const now = new Date("2026-08-20T00:00:00.000Z");
-    vi.useFakeTimers();
-    vi.setSystemTime(now);
+  it("omits lastmod for an archive route when nothing is dated", () => {
     // No post carries a usable date (archiveLastmod is null) and no backing file
-    // exists, so the archive route drops through to the current-date fallback.
+    // exists, so the route has no trustworthy date and must not get build time.
     mockPostFiles(["undated.md"], [{ title: "Undated" }]);
     mockExistsSync.mockReturnValue(false);
 
     const result = transformSitemapItems([{ url: "posts/topic/travel" }]);
-    expect(result[0].lastmod).toEqual(now);
-    vi.useRealTimers();
+    expect(result[0].url).toBe("posts/topic/travel");
+    expect(result[0]).not.toHaveProperty("lastmod");
+  });
+
+  it("uses the git date for an undated post instead of mtime", () => {
+    const commitDate = "2025-02-10T08:30:00.000Z";
+    mockPostFiles(["my-post.md"], [{}]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("my-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse" ? "false\n" : `${commitDate}\n`) as any);
+
+    const result = transformSitemapItems([{ url: "posts/my-post" }]);
+    expect(result[0].lastmod).toEqual(new Date(commitDate));
+    expect(mockExecFileSync).toHaveBeenCalledWith(
+      "git",
+      [
+        "log",
+        "-1",
+        "--format=%cI",
+        "--",
+        expect.stringContaining(contentPath("my-post")),
+      ],
+      expect.anything(),
+    );
+  });
+
+  it("omits lastmod for an undated post on a shallow clone instead of using checkout-time mtime", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockPostFiles(["my-post.md"], [{}]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("my-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse"
+        ? "true\n"
+        : "2025-02-10T08:30:00.000Z\n") as any);
+
+    const result = transformSitemapItems([
+      { url: "posts/my-post", lastmod: new Date("2020-01-01").getTime() },
+    ]);
+    expect(result[0].url).toBe("posts/my-post");
+    expect(result[0]).not.toHaveProperty("lastmod");
+    expect(warnSpy).toHaveBeenCalled();
+    expect(mockStatSync).not.toHaveBeenCalled();
+  });
+
+  it("falls back to mtime for an untracked undated post when git history is complete", () => {
+    const mtime = new Date("2024-05-01");
+    mockPostFiles(["my-post.md"], [{}]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("my-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse" ? "false\n" : "") as any);
+
+    const result = transformSitemapItems([{ url: "posts/my-post" }]);
+    expect(result[0].lastmod).toEqual(mtime);
+  });
+
+  it("uses the git date for a draft post rather than mtime", () => {
+    const commitDate = "2025-02-10T08:30:00.000Z";
+    mockPostFiles(["draft-post.md"], [{ date: "2024-03-15", draft: true }]);
+    mockExistsSync.mockImplementation((path: any) =>
+      String(path).endsWith(contentPath("draft-post")),
+    );
+    mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
+    mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
+      args[0] === "rev-parse" ? "false\n" : `${commitDate}\n`) as any);
+
+    const result = transformSitemapItems([{ url: "posts/draft-post" }]);
+    expect(result[0].lastmod).toEqual(new Date(commitDate));
   });
 });
