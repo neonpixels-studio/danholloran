@@ -2,7 +2,13 @@
   "ci": {
     "collect": {
       "staticDistDir": ".vitepress/dist",
-      "url": ["http://localhost/", "http://localhost/posts/"]
+      "url": [
+        "http://localhost/",
+        "http://localhost/posts/",
+        "http://localhost/posts/wp-better-attachments.html",
+        "http://localhost/posts/laravel-and-websockets.html",
+        "http://localhost/resume.html"
+      ]
     },
     "assert": {
       "assertions": {
