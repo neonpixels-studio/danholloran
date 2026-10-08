@@ -30,37 +30,6 @@ function indexBySlug(posts: PublishedPost[]): Map<string, PublishedPost> {
   return bySlug;
 }
 
-// Post pages carry their published date as lastmod. A published post with a
-// usable date uses that date; anything else (a draft, an undated post, or one
-// with a date the shared loader warned about rather than threw on) falls back
-// to the source file's mtime. That mtime is a meaningful "last changed" signal
-// when the working tree is preserved between builds; on a fresh CI clone git
-// doesn't restore mtimes, so it degrades to checkout time (a git-log-derived
-// date would be the fully robust fix — see follow-up).
-// Returns null only when the URL isn't a post or no source file backs it, so
-// the caller can fall through to its own handling.
-function postLastmod(
-  url: string,
-  publishedBySlug: Map<string, PublishedPost>,
-): Date | null {
-  const postSlug = url.match(/^posts\/(.+)$/)?.[1];
-  if (!postSlug) {
-    return null;
-  }
-
-  const post = publishedBySlug.get(postSlug);
-  if (post && hasUsableDate(post)) {
-    return new Date(post.sortTime);
-  }
-
-  const contentPath = join(POSTS_CONTENT_DIR, `${postSlug}.md`);
-  if (existsSync(contentPath)) {
-    return statSync(contentPath).mtime;
-  }
-
-  return null;
-}
-
 // Last-modified date for a source file, or undefined when no trustworthy date
 // exists. mtime is only used for a genuinely untracked file (git history is
 // fine, the file just isn't committed). When history is unavailable (shallow CI
@@ -79,6 +48,36 @@ function sourceLastmod(filePath: string): Date | undefined {
 
 function withLastmod(url: string, lastmod: Date | undefined) {
   return lastmod ? { url, lastmod } : { url };
+}
+
+// Post pages carry their published date as lastmod. A published post with a
+// usable date uses that date; anything else (a draft, an undated post, or one
+// with a date the shared loader warned about rather than threw on) falls back
+// to the source file's git date, then mtime only for an untracked file. On a
+// shallow CI clone neither is trustworthy, so lastmod is omitted instead of
+// stamping checkout time.
+// Returns null only when the URL isn't a post or no source file backs it, so
+// the caller can fall through to its own handling.
+function postEntry(
+  url: string,
+  publishedBySlug: Map<string, PublishedPost>,
+): { url: string; lastmod?: Date } | null {
+  const postSlug = url.match(/^posts\/(.+)$/)?.[1];
+  if (!postSlug) {
+    return null;
+  }
+
+  const post = publishedBySlug.get(postSlug);
+  if (post && hasUsableDate(post)) {
+    return { url, lastmod: new Date(post.sortTime) };
+  }
+
+  const contentPath = join(POSTS_CONTENT_DIR, `${postSlug}.md`);
+  if (existsSync(contentPath)) {
+    return withLastmod(url, sourceLastmod(contentPath));
+  }
+
+  return null;
 }
 
 // Resolves a stripped URL to the source file that backs it, returning the final
@@ -106,9 +105,10 @@ function fileEntry(url: string): { url: string; lastmod?: Date } | null {
 
 // Paginated / filtered archive routes (posts/page, posts/topic, posts/tag) have
 // no single backing source file, so both post- and file-lookups miss and they
-// would otherwise fall through to `new Date()` — telling crawlers every one of
-// the ~500 archive pages changed on every build. Anchor them to the newest
-// published post's date instead: a real, build-stable signal.
+// would otherwise get no trustworthy date (and `new Date()` used to be stamped
+// here, telling crawlers every one of the ~500 archive pages changed on every
+// build). Anchor them to the newest published post's date instead: a real,
+// build-stable signal.
 const ARCHIVE_ROUTE = /^posts\/(page|topic|tag)(\/|$)/;
 
 // Archive URLs kept out of the sitemap because they carry `noindex,follow`
@@ -167,9 +167,9 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
     .map((item) => {
       const url = item.url.replace(/\/$/, "");
 
-      const postDate = postLastmod(url, publishedBySlug);
-      if (postDate) {
-        return { ...item, url, lastmod: postDate };
+      const postResult = postEntry(url, publishedBySlug);
+      if (postResult) {
+        return { ...withoutLastmod(item), ...postResult };
       }
 
       if (ARCHIVE_ROUTE.test(url) && archiveLastmod) {
@@ -178,7 +178,7 @@ export function transformSitemapItems(items: SitemapItem[]): SitemapItem[] {
 
       const entry = fileEntry(url);
       if (!entry) {
-        return { ...item, url, lastmod: new Date() };
+        return { ...withoutLastmod(item), url };
       }
       const freshListingLastmod = listingLastmod(url, entry, archiveLastmod);
       if (freshListingLastmod) {
