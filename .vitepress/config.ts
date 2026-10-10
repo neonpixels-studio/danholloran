@@ -103,6 +103,8 @@ export default defineConfig({
     },
   },
   transformPageData,
+  // Fonts are content-hashed by Vite, so preload URLs are only known at build.
+  transformHead: ({ assets }) => buildFontPreloadHeadEntries(assets),
   async buildEnd(siteConfig) {
     const feedRenderer = await createMarkdownRenderer(
       siteConfig.srcDir,
@@ -174,7 +176,6 @@ export default defineConfig({
     ],
     ["meta", { name: "apple-mobile-web-app-title", content: "Dan Holloran" }],
     ["link", { rel: "manifest", href: "/images/site.webmanifest?v=20260515" }],
-    ...buildFontPreloadHeadEntries(),
     // Reveal JS-driven entrance animations for no-JS clients. Without this the
     // .fade-in / .reveal elements stay at opacity:0 (their observer never runs),
     // hiding the statically-rendered archive content from no-JS visitors.
