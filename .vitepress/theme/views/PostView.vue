@@ -396,8 +396,57 @@ const nextPost = computed(() =>
   @apply mb-6 pl-6;
 }
 
+/* Tailwind preflight strips list markers; posts need them back. */
+.post-body ul {
+  @apply list-disc;
+}
+
+.post-body ol {
+  @apply list-decimal;
+}
+
+.post-body ul ul {
+  @apply list-[circle];
+}
+
+.post-body li > ul,
+.post-body li > ol {
+  @apply mt-2 mb-0;
+}
+
 .post-body li {
-  @apply mb-2;
+  @apply mb-2 pl-1;
+}
+
+.post-body li::marker {
+  @apply text-accent;
+}
+
+.post-body ol > li::marker {
+  @apply font-mono text-[0.85em];
+}
+
+/* Block display lets wide tables scroll horizontally on small screens. */
+.post-body table {
+  @apply border-line my-8 block w-full max-w-full overflow-x-auto rounded border text-[0.9rem] leading-[1.6];
+  border-collapse: collapse;
+}
+
+.post-body th,
+.post-body td {
+  @apply border-line border-b px-4 py-2.5 text-left align-top;
+}
+
+.post-body th {
+  @apply bg-bg-soft text-fg-muted font-mono text-[0.7rem] font-semibold tracking-[0.08em] whitespace-nowrap uppercase;
+}
+
+.post-body tbody tr:last-child td {
+  @apply border-b-0;
+}
+
+.post-body tbody tr:hover {
+  @apply bg-bg-soft;
 }
 
 .post-body hr {
