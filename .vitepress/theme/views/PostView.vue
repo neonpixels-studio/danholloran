@@ -5,7 +5,12 @@ import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
-import { archiveHref, hasFilterRoute, toFilterSlug } from "@utils/archive";
+import {
+  archiveHref,
+  hasFilterRoute,
+  toFilterSlug,
+  topicLabel,
+} from "@utils/archive";
 import { formatPostDateFor } from "@utils/formatDate";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
@@ -104,7 +109,7 @@ const nextPost = computed(() =>
       <span
         class="text-on-accent-dim bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"
       >
-        {{ post.frontmatter.topic }}
+        {{ topicLabel(post.frontmatter.topic) }}
       </span>
       <span class="text-fg-subtle font-mono text-[0.72rem]">{{
         formatPostDateFor(post, "long")

@@ -129,6 +129,61 @@ describe("generateLlmsTxt", () => {
     expect(output).not.toContain("## Travel & Photography");
   });
 
+  it("lists an ai post under '## AI' and not under 'Other'", () => {
+    mockPostFiles(
+      ["agents.md"],
+      [{ title: "Building Agents", date: "2024-01-01", topic: "ai" }],
+    );
+
+    const output = generateLlmsTxt();
+
+    expect(sectionItems(output, "AI")).toEqual([
+      `- [Building Agents](${SITE_URL}/posts/agents)`,
+    ]);
+    expect(sectionItems(output, "Other")).toEqual([]);
+    expect(output).not.toContain("## Other");
+  });
+
+  it("does not warn about an ai post", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockPostFiles(
+      ["agents.md"],
+      [{ title: "Building Agents", date: "2024-01-01", topic: "ai" }],
+    );
+
+    generateLlmsTxt();
+
+    expect(warnSpy).not.toHaveBeenCalled();
+  });
+
+  it("orders the AI section after Development and before the remaining topics", () => {
+    mockPostFiles(
+      ["dev.md", "ai.md", "obs.md", "fin.md", "trav.md"],
+      [
+        { title: "Dev", date: "2024-01-01", topic: "development" },
+        { title: "Ai", date: "2024-01-01", topic: "ai" },
+        { title: "Obs", date: "2024-01-01", topic: "obsidian" },
+        { title: "Fin", date: "2024-01-01", topic: "finance" },
+        { title: "Trav", date: "2024-01-01", topic: "travel" },
+      ],
+    );
+
+    const output = generateLlmsTxt();
+
+    expect(output.indexOf("## Development")).toBeLessThan(
+      output.indexOf("## AI"),
+    );
+    expect(output.indexOf("## AI")).toBeLessThan(
+      output.indexOf("## Obsidian & Productivity"),
+    );
+    expect(output.indexOf("## Obsidian & Productivity")).toBeLessThan(
+      output.indexOf("## Finance"),
+    );
+    expect(output.indexOf("## Finance")).toBeLessThan(
+      output.indexOf("## Travel & Photography"),
+    );
+  });
+
   it("lists posts whose topic matches no known section under 'Other' and warns", () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     mockPostFiles(
