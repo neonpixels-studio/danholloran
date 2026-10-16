@@ -9,6 +9,7 @@ import {
   pickRepresentativeLabel,
   toFilterSlug,
   toPageNumber,
+  topicLabel,
   totalPagesForCount,
 } from "@utils/archive";
 
@@ -145,5 +146,22 @@ describe("archiveHref", () => {
     expect(archiveHref(1, { topicSlug: "travel", tagSlug: "css" })).toBe(
       "/posts/topic/travel",
     );
+  });
+});
+
+describe("topicLabel", () => {
+  it("maps the ai topic to its cased AI display label", () => {
+    expect(topicLabel("ai")).toBe("AI");
+  });
+
+  it("returns existing topics unchanged", () => {
+    expect(topicLabel("development")).toBe("development");
+    expect(topicLabel("obsidian")).toBe("obsidian");
+    expect(topicLabel("finance")).toBe("finance");
+    expect(topicLabel("travel")).toBe("travel");
+  });
+
+  it("passes through an unknown topic verbatim", () => {
+    expect(topicLabel("cooking")).toBe("cooking");
   });
 });

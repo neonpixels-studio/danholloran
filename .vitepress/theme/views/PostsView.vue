@@ -13,6 +13,7 @@ import {
   pickRepresentativeLabel,
   toFilterSlug,
   toPageNumber,
+  topicLabel,
   totalPagesForCount,
 } from "@utils/archive";
 import { formatPostDateFor } from "@utils/formatDate";
@@ -112,7 +113,7 @@ const pageSuffix = computed(() =>
 
 const pageHeading = computed(() => {
   if (activeTopicSlug.value !== null) {
-    return `Posts on ${activeTopicLabel.value || topic}${pageSuffix.value}`;
+    return `Posts on ${topicLabel(activeTopicLabel.value || topic)}${pageSuffix.value}`;
   }
   if (activeTagSlug.value !== null) {
     return `Posts tagged #${tagLabel || tag}${pageSuffix.value}`;
@@ -261,7 +262,7 @@ onUnmounted(() => {
       class="filter-btn border-line text-fg-muted hover:border-accent hover:text-accent inline-flex items-center gap-1.5 rounded-xs border bg-transparent px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.02em] lowercase no-underline transition-all"
       :class="{ active: activeTopicSlug === entry.slug }"
     >
-      {{ entry.label
+      {{ topicLabel(entry.label)
       }}<span v-if="activeTopicSlug === entry.slug" aria-hidden="true">×</span>
     </a>
   </nav>
@@ -331,7 +332,7 @@ onUnmounted(() => {
         <div class="mb-3 flex flex-wrap items-center gap-3">
           <span
             class="text-on-accent-dim bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase"
-            >{{ post.frontmatter.topic }}</span
+            >{{ topicLabel(post.frontmatter.topic) }}</span
           >
           <span class="text-fg-subtle font-mono text-[0.68rem]">{{
             formatPostDateFor(post)
