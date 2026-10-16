@@ -1,0 +1,78 @@
+name: Daily production deploy
+
+# The cron is the single place the deploy cadence lives (daily 22:00 Pacific).
+on:
+  schedule:
+    - cron: "0 22 * * *"
+      timezone: "America/Los_Angeles"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    # The hook always builds main, so a run dispatched from another branch must not deploy.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # Covers the Netlify build (tests, build) polled by the verify step.
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Compares main to the last successful production deploy instead of a time
+      # window, so a late cron start or an earlier failed deploy cannot strand a
+      # commit. Any lookup problem deploys rather than skips.
+      - name: Skip when main is already deployed
+        id: recent
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ "$EVENT_NAME" != "schedule" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          CURRENT_SHA="$(git rev-parse HEAD)" node scripts/check-undeployed-commits.mjs
+
+      - name: Trigger Netlify production build hook
+        id: trigger
+        if: steps.recent.outputs.skip != 'true'
+        env:
+          NETLIFY_BUILD_HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          if [ -z "$NETLIFY_BUILD_HOOK_URL" ]; then
+            echo "::error::Repository secret NETLIFY_BUILD_HOOK_URL is not set; cannot trigger the production deploy."
+            exit 1
+          fi
+          trigger_title="Manual+production+deploy"
+          if [ "$EVENT_NAME" = "schedule" ]; then
+            trigger_title="Daily+production+deploy"
+          fi
+          # The hook answers 200 with an empty body (no build id), so the verify
+          # step finds the deploy by this title and time instead.
+          triggered_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          curl --fail --silent --show-error --max-time 30 -X POST -d '{}' "$NETLIFY_BUILD_HOOK_URL?trigger_title=$trigger_title"
+          echo "Triggered Netlify production build ($trigger_title) at $triggered_at."
+          echo "trigger_title=${trigger_title//+/ }" >> "$GITHUB_OUTPUT"
+          echo "triggered_at=$triggered_at" >> "$GITHUB_OUTPUT"
+
+      # A 2xx from the hook only means the build was queued; fail this run (and so
+      # notify the owner) if the build fails, is cancelled, or never finishes.
+      - name: Verify the Netlify production deploy
+        if: steps.recent.outputs.skip != 'true'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_TRIGGER_TITLE: ${{ steps.trigger.outputs.trigger_title }}
+          NETLIFY_TRIGGERED_AT: ${{ steps.trigger.outputs.triggered_at }}
+        run: node scripts/verify-netlify-deploy.mjs

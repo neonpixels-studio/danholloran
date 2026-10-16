@@ -14,6 +14,9 @@
     "ignoreDeprecations": "6.0",
     "noEmit": true,
     "allowImportingTsExtensions": true,
+    // Lets the tests infer types from the plain-JS deploy scripts in scripts/
+    // (no parallel .d.ts to drift). They are read for inference, not checked.
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [".vitepress/*"],
