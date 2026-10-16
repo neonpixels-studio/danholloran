@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { data as posts } from "@content/posts/posts.data.ts";
 import { formatPostDateFor } from "@utils/formatDate";
+import { topicLabel } from "@utils/archive";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 
 const featuredPost = posts[0];
@@ -41,7 +42,7 @@ const recentPosts = posts.slice(1, 9);
         <div class="flex flex-col justify-center p-8">
           <div class="flex flex-wrap items-center gap-2">
             <span class="blog-tag-pill">{{
-              featuredPost.frontmatter.topic
+              topicLabel(featuredPost.frontmatter.topic)
             }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]"
               >{{ formatPostDateFor(featuredPost) }} ·
@@ -68,7 +69,9 @@ const recentPosts = posts.slice(1, 9);
           class="border-line text-fg hover:border-accent block rounded border p-5 no-underline transition-[border-color,transform] duration-200 hover:-translate-y-0.5"
         >
           <div class="flex flex-wrap items-center gap-2">
-            <span class="blog-tag-pill">{{ post.frontmatter.topic }}</span>
+            <span class="blog-tag-pill">{{
+              topicLabel(post.frontmatter.topic)
+            }}</span>
             <span class="text-fg-subtle font-mono text-[0.65rem]">{{
               formatPostDateFor(post)
             }}</span>

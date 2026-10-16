@@ -13,6 +13,21 @@ export const REST_PAGE_SIZE = 9;
 export const ALL_TOPIC = "all";
 export const ALL_TAG = "all";
 
+// Display overrides for topic values whose raw frontmatter form reads wrong when
+// shown verbatim. Slugs and URLs stay the raw lowercase value (`/posts/topic/ai`);
+// only the human-facing label changes. An acronym like "ai" must render "AI" in a
+// heading such as "Posts on AI" (headings apply no text-transform), where the raw
+// "ai" would look like a typo. Keyed by the raw lowercase topic value.
+const TOPIC_LABELS: Record<string, string> = {
+  ai: "AI",
+};
+
+// Human-facing label for a topic value. Topics without an override render exactly
+// as their raw frontmatter value, so existing topics are unaffected.
+export function topicLabel(topic: string): string {
+  return TOPIC_LABELS[topic] ?? topic;
+}
+
 export const POSTS_BASE = "/posts";
 // The blog index is a directory route (posts/index.html), so a slashless
 // /posts 301-redirects to /posts/ on Netlify. Link the trailing-slash form

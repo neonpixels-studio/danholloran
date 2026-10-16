@@ -13,7 +13,7 @@ import {
   POSTS_DIR,
 } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
-import { archiveHref, toPageNumber } from "./archive";
+import { archiveHref, toPageNumber, topicLabel } from "./archive";
 
 // The blog index's JSON-LD lists at most this many recent posts.
 const MAX_BLOG_POSTING_ENTRIES = 10;
@@ -434,7 +434,7 @@ function transformPost(pageData: PageData): void {
 
 // Paginated / filtered archive routes. Every archive page stays crawlable
 // (noindex,follow) so posts remain discoverable, but only the topic hub pages
-// (development, finance, obsidian, travel — page 1) are indexable. Tag pages
+// (ai, development, finance, obsidian, travel — page 1) are indexable. Tag pages
 // duplicate the topic hubs, split subjects across synonym slugs, and are often
 // a single thin post; paginated views (/page/N of any filter) duplicate posts
 // already indexed at their own URLs. Both are excluded from the index and the
@@ -468,7 +468,9 @@ function resolveArchiveScope(pageData: PageData): ArchiveScope | null {
     };
   }
   if (pageData.filePath.startsWith("posts/topic/")) {
-    const label = (params.topicLabel ?? params.topic ?? "") as string;
+    const label = topicLabel(
+      (params.topicLabel ?? params.topic ?? "") as string,
+    );
     return {
       heading: `Posts on ${label}`,
       subject: `posts on ${label}`,
