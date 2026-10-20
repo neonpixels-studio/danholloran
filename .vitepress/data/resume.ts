@@ -132,7 +132,7 @@ export default {
       skills: [skills.PHOTOGRAPHY],
     },
     {
-      role: "Senior Frontend Developer",
+      role: "Lead Developer",
       company: "Tradier",
       start: new Date("02/29/2021"),
       end: new Date("03/15/2025"),
