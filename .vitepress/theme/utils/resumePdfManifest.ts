@@ -30,12 +30,12 @@ const THEME_UTILS_DIR = join(PROJECT_ROOT, ".vitepress", "theme", "utils");
 // Every file resume.ts reads from, directly or transitively, that changes
 // what the rendered resume (and therefore the PDF) shows. Order is fixed so
 // the combined fingerprint is reproducible regardless of directory order.
+// location.json and past-locations.json are deliberately excluded: the
+// resume hardcodes its location, so travel updates don't touch the PDF.
 const RESUME_SOURCE_PATHS = [
   join(DATA_DIR, "resume.ts"),
   join(DATA_DIR, "skills.ts"),
-  join(DATA_DIR, "past-locations.json"),
   join(THEME_UTILS_DIR, "constants.ts"),
-  join(DATA_DIR, "location.json"),
 ];
 
 const PDF_PATH = join(PROJECT_ROOT, "public", "dan_holloran_resume.pdf");
