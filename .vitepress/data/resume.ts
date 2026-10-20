@@ -10,7 +10,6 @@ export const getExperienceLength = () => {
 // Use a relative path (not the @utils alias): this module is pulled into the
 // VitePress config bundle, where aliases aren't resolved yet.
 export { CURRENT_LOCATION } from "../theme/utils/constants";
-import { CURRENT_LOCATION } from "../theme/utils/constants";
 
 export const PAST_LOCATIONS = Object.freeze([...new Set(pastLocations)]);
 
@@ -50,7 +49,7 @@ export default {
       label: "linkedin.com/in/dan-holloran",
     },
     {
-      label: CURRENT_LOCATION,
+      label: "St. Louis, MO",
     },
   ],
   skills() {
