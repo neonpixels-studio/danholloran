@@ -38,12 +38,6 @@ export default {
       link: "https://github.com/grimicorn",
       label: "github.com/grimicorn",
     },
-    // @todo Instagram contact hidden while the account is disabled. Restore to
-    // bring the @grimicornsparkles link back to the resume and SEO sameAs.
-    // {
-    //   link: "https://instagram.com/grimicornsparkles/",
-    //   label: "@grimicornsparkles",
-    // },
     {
       link: "https://linkedin.com/in/dan-holloran/",
       label: "linkedin.com/in/dan-holloran",
@@ -122,8 +116,6 @@ export default {
       company: "Life",
       start: new Date("03/15/2025"),
       end: new Date("09/28/2025"),
-      // @todo url removed while the Instagram account is disabled.
-      // url: "https://instagram.com/grimicornsparkles",
       location: "United States",
       remote: true,
       details: [

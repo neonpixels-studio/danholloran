@@ -6,7 +6,6 @@ import {
   mockSkills,
   mockProjects,
   mockPosts,
-  mockInstagramPosts,
   mockSocialLinks,
 } from "../__fixtures__/mockData";
 
@@ -17,9 +16,6 @@ vi.mock("@composables/useRevealAnimations", () => ({
 }));
 
 vi.mock("@content/posts/posts.data.ts", () => ({ data: mockPosts }));
-vi.mock("@content/instagram/instagram.data.ts", () => ({
-  data: mockInstagramPosts,
-}));
 vi.mock("@data/resume", () => ({
   default: mockResume,
   CURRENT_LOCATION: "Reno, NV",

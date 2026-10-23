@@ -13,10 +13,6 @@
   "ignoreExports": [
     { "file": ".vitepress/types/search.ts", "exports": ["PostSearchItem"] },
     {
-      "file": ".vitepress/types/instagram.ts",
-      "exports": ["InstagramContentItem"]
-    },
-    {
       "file": ".vitepress/content/posts/transformPosts.ts",
       "exports": ["resolvePublishedDate", "toSlug"]
     }
