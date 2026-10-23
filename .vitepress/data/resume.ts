@@ -18,8 +18,8 @@ export default {
   shortFirstName: "Dan",
   lastName: "Holloran",
   photo: "/images/profile.png",
-  headline: "Senior Frontend & Fullstack Developer",
-  intro: `Senior Frontend & Fullstack Developer with ${getExperienceLength()}+ years building performant, scalable web applications. Passionate about architecture, mentorship, and finding the right tool for the job.`,
+  headline: "Senior Fullstack Developer",
+  intro: `Senior Fullstack Developer with ${getExperienceLength()}+ years building performant, scalable web applications. Passionate about architecture, mentorship, and finding the right tool for the job.`,
   summary: `Dynamic Senior Frontend &amp; Fullstack Developer with <strong class="text-fg font-semibold">${getExperienceLength()}+ years</strong> of experience building responsive, performant web applications and leading engineering teams. Proven track record of reducing load times, improving user engagement, and directing cross-functional teams of 10+ developers. Equally comfortable owning complex frontend architecture with Vue.js and React, diving into Fullstack work with Laravel and PHP, or stepping into an engineering leadership role. I build and operate my own AI agent tooling and fold AI coding agents into my daily development workflow, with 5+ years of TypeScript across Vue/Nuxt and React work. Looking to bring deep technical expertise and a collaborative leadership style to an innovative startup or mid-sized product team, remotely.`,
   contacts: [
     {
@@ -89,34 +89,12 @@ export default {
       ],
     },
     {
-      role: "Creator & Maintainer",
-      company: "AI Automation Platform (Personal Project)",
-      start: new Date("06/01/2025"),
-      end: null,
-      url: "/posts/turning-a-base-m4-mac-mini-into-an-always-on-automation-box",
-      location: "St. Louis, MO",
-      remote: true,
-      details: [
-        "Designed and operate ~10 scheduled AI agent skills on an always-on Mac mini server, automating real workflows: blog cross-posting, SEO and accessibility audits, and content ingestion",
-        "Run an issue-to-PR agent workflow where agents author branches overnight through a dedicated bot account and I review every PR, gated by CLAUDE.md guidelines and a deterministic codebase audit (dead code, duplication, boundary drift) in CI and pre-commit",
-        "Built deterministic safety tooling around the agents: a packaging/publish guard that blocks destructive operations, secret scanning (gitleaks) and dependency audits (npm audit) in CI, all wired into pre-commit hooks",
-        "Write publicly about AI-assisted development at danholloran.me",
-      ],
-      skills: [
-        skills.AI_DEVELOPMENT,
-        skills.ARCHITECTURE,
-        skills.GIT,
-        skills.GITHUB,
-        skills.NODE_JS,
-        skills.TYPESCRIPT,
-      ],
-    },
-    {
       role: "Career Sabbatical",
       company: "Life",
       start: new Date("03/15/2025"),
       end: new Date("09/28/2025"),
       location: "United States",
+      url: "/posts/topic/travel",
       remote: true,
       details: [
         "My position was eliminated and decided to take it as a career sabbatical to travel, recharge, and return with a fresh perspective and renewed focus.",
