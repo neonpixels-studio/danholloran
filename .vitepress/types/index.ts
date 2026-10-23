@@ -5,5 +5,4 @@ export type * from "./quotes";
 export type * from "./post";
 export type * from "./search";
 export type * from "./nav";
-export type * from "./instagram";
 export type * from "./grimicornTheme";

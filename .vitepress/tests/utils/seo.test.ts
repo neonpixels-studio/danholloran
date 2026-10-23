@@ -170,12 +170,6 @@ describe("personJsonLd", () => {
       expect(url).not.toBe(SITE_URL);
     }
   });
-
-  it("excludes Instagram from sameAs while the account is disabled", () => {
-    expect(personJsonLd.sameAs.some((url) => url.includes("instagram"))).toBe(
-      false,
-    );
-  });
 });
 
 describe("profilePageJsonLd", () => {

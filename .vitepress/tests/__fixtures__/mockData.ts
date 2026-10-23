@@ -5,7 +5,6 @@ import type {
   QuoteInterface,
   Post,
   SearchItem,
-  InstagramContentItem,
 } from "@typedefs";
 export const mockSkill = {
   image: "vue-js.svg",
@@ -158,46 +157,8 @@ export const mockStaticSearchItems: SearchItem[] = [
   },
 ];
 
-// Real posts carry a single image; the synthetic second image per post gives
-// the permalink-seeded pick more than one bucket to land in. The two permalinks
-// straddle buckets on purpose (photo1 → shortcode `aaa000`, index 0 → -a;
-// photo2 → shortcode `def456`, index 1 → -b), so a test expecting a single
-// fixed position would fail. photo2 also uses the production `www.` + trailing
-// slash shape to prove the shortcode seed ignores URL cosmetics.
-// Mirrors transformInstagram.ts's trimmed output shape. `satisfies` (rather
-// than a per-field `as`) keeps this honest: an extra key like `tags` or a
-// top-level `url` the real loader no longer emits would fail the type check
-// instead of silently passing tests against a shape production never sends.
-export const mockInstagramPosts = [
-  {
-    frontmatter: {
-      created_at: "2025-01-01T00:00:00.000Z",
-      caption: "A great photo",
-      location: "Yosemite",
-      images: [
-        "/images/instagram/photo1-a.jpg",
-        "/images/instagram/photo1-b.jpg",
-      ],
-      url: "https://instagram.com/p/aaa000",
-    },
-  },
-  {
-    frontmatter: {
-      created_at: "2025-02-01T00:00:00.000Z",
-      caption: "Another great photo",
-      location: "Grand Canyon",
-      images: [
-        "/images/instagram/photo2-a.jpg",
-        "/images/instagram/photo2-b.jpg",
-      ],
-      url: "https://www.instagram.com/p/def456/",
-    },
-  },
-] satisfies InstagramContentItem[];
-
 export const mockSocialLinks = Object.freeze({
   GITHUB: "https://github.com/testuser",
-  INSTAGRAM: "https://instagram.com/testuser/",
   LINKEDIN: "https://linkedin.com/in/testuser/",
   X: "https://x.com/testuser",
   BLUE_SKY: "https://bsky.app/profile/testuser.bsky.social",

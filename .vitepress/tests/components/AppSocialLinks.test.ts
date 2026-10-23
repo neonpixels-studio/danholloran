@@ -6,9 +6,7 @@ vi.mock("@data/socialLinks", () => ({ default: mockSocialLinks }));
 
 import AppSocialLinks from "@components/AppSocialLinks.vue";
 
-// Instagram is intentionally excluded from the rendered row while the account
-// is disabled, so the component renders one fewer link than the data has keys.
-const expectedLinkCount = Object.keys(mockSocialLinks).length - 1;
+const expectedLinkCount = Object.keys(mockSocialLinks).length;
 
 describe("AppSocialLinks", () => {
   it("renders the social links list", () => {
@@ -16,25 +14,15 @@ describe("AppSocialLinks", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it("renders a link for every platform in the real data module except the excluded Instagram", async () => {
+  it("renders a link for every platform in the real data module", async () => {
     const actual = await vi.importActual<{ default: Record<string, string> }>(
       "@data/socialLinks",
     );
     const wrapper = mount(AppSocialLinks);
 
     expect(wrapper.findAll("li a")).toHaveLength(
-      Object.keys(actual.default).length - 1,
+      Object.keys(actual.default).length,
     );
-  });
-
-  it("does not render an Instagram link", () => {
-    const wrapper = mount(AppSocialLinks);
-
-    const labels = wrapper
-      .findAll("li a")
-      .map((link) => link.attributes("aria-label"));
-
-    expect(labels).not.toContain("Instagram");
   });
 
   it("renders each platform's label bound to its href", () => {
