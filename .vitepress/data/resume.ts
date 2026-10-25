@@ -66,7 +66,7 @@ export default {
       remote: true,
       details: [
         "Architected and maintain crossroads.net, driving ongoing performance improvements and reducing technical debt across a modern JavaScript stack",
-        "Collaborate cross-functionally with designers, translating product requirements into polished frontend experience",
+        "Collaborate cross-functionally with designers, translating product requirements into a polished frontend experience",
         "Lead pair programming sessions and code reviews to elevate team code quality and accelerate junior developer growth",
         "Drive adoption of AI coding agents across the team, running Claude Code as the primary workflow for backend feature development and bringing AI-authored changes through pairing and code review",
         "Leveraged AI agents to close testing gaps that time constraints previously left open: built a full Playwright e2e suite (sign-in, sign-up, password reset, profile updates) for an inherited, half-finished Auth0 integration, and codified always-on unit tests in a project CLAUDE.md so agent-written code ships tested and reviewable by default",
@@ -97,7 +97,7 @@ export default {
       url: "/posts/topic/travel",
       remote: true,
       details: [
-        "My position was eliminated and decided to take it as a career sabbatical to travel, recharge, and return with a fresh perspective and renewed focus.",
+        "My position was eliminated, and I decided to take it as a career sabbatical to travel, recharge, and return with a fresh perspective and renewed focus.",
       ],
       skills: [skills.PHOTOGRAPHY],
     },
@@ -194,7 +194,7 @@ export default {
       start: new Date("05/01/2012"),
       end: new Date("10/31/2012"),
       url: "https://freemanmarketinginc.com",
-      location: "St. Louis, MO",
+      location: "St. Charles, MO",
       remote: false,
       details: [
         "Built and launched 3–5 custom WordPress sites for local businesses from Photoshop designs, with on-page SEO, and mentored a web development intern.",
