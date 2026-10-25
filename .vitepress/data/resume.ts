@@ -194,7 +194,7 @@ export default {
       start: new Date("05/01/2012"),
       end: new Date("10/31/2012"),
       url: "https://freemanmarketinginc.com",
-      location: "St. Louis, MO",
+      location: "St. Charles, MO",
       remote: false,
       details: [
         "Built and launched 3–5 custom WordPress sites for local businesses from Photoshop designs, with on-page SEO, and mentored a web development intern.",
