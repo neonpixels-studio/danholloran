@@ -97,7 +97,7 @@ export default {
       url: "/posts/topic/travel",
       remote: true,
       details: [
-        "My position was eliminated and decided to take it as a career sabbatical to travel, recharge, and return with a fresh perspective and renewed focus.",
+        "My position was eliminated, and I decided to take it as a career sabbatical to travel, recharge, and return with a fresh perspective and renewed focus.",
       ],
       skills: [skills.PHOTOGRAPHY],
     },
