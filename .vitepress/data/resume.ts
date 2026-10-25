@@ -135,7 +135,7 @@ export default {
       role: "Senior Fullstack Developer / Lead Developer",
       company: "Ample",
       start: new Date("10/31/2019"),
-      end: new Date("02/29/2021"),
+      end: new Date("02/28/2021"),
       url: "https://ample.co",
       location: "Cincinnati, OH",
       remote: true,
