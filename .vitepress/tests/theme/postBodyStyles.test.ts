@@ -46,9 +46,15 @@ describe("post body styles", () => {
   });
 
   it("lets wide tables scroll horizontally instead of overflowing the column", () => {
+    expect(ruleBodyFor(css, ".post-body .table-scroll")).toMatch(
+      /\boverflow-x-auto\b/,
+    );
+  });
+
+  it("stretches narrow tables to fill the column with no gap on the right", () => {
     const tableRule = ruleBodyFor(css, ".post-body table");
-    expect(tableRule).toMatch(/\bblock\b/);
-    expect(tableRule).toMatch(/\boverflow-x-auto\b/);
+    expect(tableRule).toMatch(/\bw-full\b/);
+    expect(tableRule).not.toMatch(/\bblock\b/);
   });
 
   it("distinguishes table headers from body cells", () => {
