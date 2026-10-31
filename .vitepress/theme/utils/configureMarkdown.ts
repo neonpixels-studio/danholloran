@@ -3,6 +3,7 @@ import {
   applyMarkdownImageHints,
   readLocalImageDimensions,
 } from "./markdownImageHints";
+import { applyMarkdownTableScroll } from "./markdownTableScroll";
 import { applyMarkdownZoomImageHints } from "./markdownZoomImages";
 
 // The site's markdown.config wiring, extracted out of config.ts so tests can
@@ -14,4 +15,5 @@ import { applyMarkdownZoomImageHints } from "./markdownZoomImages";
 export function configureMarkdown(md: MarkdownRenderer): void {
   applyMarkdownImageHints(md, readLocalImageDimensions);
   applyMarkdownZoomImageHints(md);
+  applyMarkdownTableScroll(md);
 }

@@ -431,9 +431,14 @@ const nextPost = computed(() =>
   @apply font-mono text-[0.85em];
 }
 
-/* Block display lets wide tables scroll horizontally on small screens. */
+/* The wrapper scrolls wide tables on small screens so the table itself can stay
+   display: table and fill the column when its content is narrow. */
+.post-body .table-scroll {
+  @apply border-line my-8 overflow-x-auto rounded border;
+}
+
 .post-body table {
-  @apply border-line my-8 block w-full max-w-full overflow-x-auto rounded border text-[0.9rem] leading-[1.6];
+  @apply w-full text-[0.9rem] leading-[1.6];
   border-collapse: collapse;
 }
 
