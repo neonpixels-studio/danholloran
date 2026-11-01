@@ -13,6 +13,7 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write
 
 jobs:
   deploy:
@@ -76,3 +77,27 @@ jobs:
           NETLIFY_TRIGGER_TITLE: ${{ steps.trigger.outputs.trigger_title }}
           NETLIFY_TRIGGERED_AT: ${{ steps.trigger.outputs.triggered_at }}
         run: node scripts/verify-netlify-deploy.mjs
+
+      # The scheduled run is unattended, so a failure otherwise surfaces only as
+      # an easily-missed email. Open a tracking issue instead; reuse the open one
+      # so repeated nightly failures add a comment rather than pile up duplicates.
+      - name: Open a tracking issue when the scheduled deploy fails
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create deploy-failure \
+            --color B60205 \
+            --description "A scheduled production deploy failed" \
+            --force
+          existing_issue="$(gh issue list --state open --label deploy-failure --limit 1 --json number --jq '.[0].number')"
+          if [ -n "$existing_issue" ]; then
+            gh issue comment "$existing_issue" --body "The nightly production deploy failed again: $RUN_URL"
+            exit 0
+          fi
+          gh issue create \
+            --title "Nightly production deploy failed" \
+            --body "The scheduled production deploy failed. Review the run logs and redeploy once \`main\` is healthy: $RUN_URL" \
+            --label deploy-failure \
+            --assignee grimicorn
