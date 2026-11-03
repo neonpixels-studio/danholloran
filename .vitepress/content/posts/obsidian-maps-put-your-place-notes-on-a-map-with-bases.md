@@ -66,27 +66,27 @@ tags:
 ---
 ```
 
-Then add a formula property to the Base and pick it as the marker icon:
+Then add a formula property to the Base and pick it as the marker icon. In the `.base` file it looks like this (or paste just the expression into the formula editor):
 
-```js
-list(type)[0].asFile().properties.icon;
+```yaml
+formulas:
+  type_icon: "list(type)[0].asFile().properties.icon"
 ```
 
 Now changing one category note re-skins every pin of that type. The same pattern works for color, or you can compute color from state. This one turns places you've already been to green and leaves the rest gray:
 
-```js
-if(visited, "green", "gray")
+```yaml
+formulas:
+  visited_color: 'if(visited, "green", "gray")'
 ```
 
 If an older batch of notes stores `latitude` and `longitude` as separate properties, you don't have to rewrite them. Add a formula property defined as `[latitude, longitude]` and use that as the marker coordinates.
 
 You can also add a formula that links out to a real mapping app, so the preview card does double duty as directions:
 
-```js
-link(
-  "https://www.google.com/maps/search/" + file.name.replace(" ", "+"),
-  "Google Maps",
-);
+```yaml
+formulas:
+  directions: 'link("https://www.google.com/maps/search/" + file.name.replace(" ", "+"), "Google Maps")'
 ```
 
 ## Where it earns its place (and where it doesn't)
