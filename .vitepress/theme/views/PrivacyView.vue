@@ -50,7 +50,7 @@ const { canChoose, reopen: reopenAnalyticsConsent } = useAnalyticsConsent();
           data resets it.
         </li>
         <li>
-          If the "analytics" link in the footer or the button below is shown,
+          If the "analytics" button in the footer or the button below is shown,
           use it to withdraw consent and choose Decline. This stops further
           reporting and removes the Google Analytics cookies.
         </li>

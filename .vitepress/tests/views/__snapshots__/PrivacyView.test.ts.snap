@@ -15,7 +15,7 @@ exports[`PrivacyView > renders correctly 1`] = `
       <li> Analytics stays off until you click Allow on the banner. Nothing from Google is loaded before that. </li>
       <li> If your browser sends Do Not Track or Global Privacy Control, the site never loads analytics and does not ask. </li>
       <li> Your choice is saved in this browser's local storage. Clearing site data resets it. </li>
-      <li> If the "analytics" link in the footer or the button below is shown, use it to withdraw consent and choose Decline. This stops further reporting and removes the Google Analytics cookies. </li>
+      <li> If the "analytics" button in the footer or the button below is shown, use it to withdraw consent and choose Decline. This stops further reporting and removes the Google Analytics cookies. </li>
     </ul>
     <!--v-if-->
   </section>
