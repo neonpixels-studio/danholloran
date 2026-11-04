@@ -124,6 +124,21 @@ describe("pageMeta", () => {
     ]);
   });
 
+  it("falls back to the title when imageAlt is blank", () => {
+    const result = pageMeta({
+      title: "My Post",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+      imageAlt: "  ",
+      readImageDimensions: () => null,
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:alt", content: "My Post" },
+    ]);
+  });
+
   it("omits dimensions when the image cannot be measured", () => {
     const result = pageMeta({
       title: "T",
@@ -174,6 +189,8 @@ describe("pageMeta", () => {
   it("derives an @handle from a profile URL", () => {
     expect(twitterHandle("https://x.com/someone")).toBe("@someone");
     expect(twitterHandle("https://x.com/")).toBeNull();
+    expect(twitterHandle("not a url")).toBeNull();
+    expect(twitterHandle(undefined)).toBeNull();
   });
 
   it("omits image tags when no image is provided", () => {

@@ -4,6 +4,7 @@ import socialLinks from "../../data/socialLinks";
 import {
   readLocalImageDimensions,
   type ImageDimensionReader,
+  type ImageDimensions,
 } from "./markdownImageHints";
 
 // The public brand ("Dan Holloran") shown in the h1, <title>, and og:site_name.
@@ -29,33 +30,38 @@ function escapeJsonForScript(json: string): string {
 
 // The site's X account as an @handle, derived from the linked profile URL so
 // it stays in sync with socialLinks. Null when the URL has no handle segment.
-export function twitterHandle(profileUrl: string): string | null {
+export function twitterHandle(profileUrl: string | undefined): string | null {
+  if (!profileUrl || !URL.canParse(profileUrl)) {
+    return null;
+  }
   const handle = new URL(profileUrl).pathname.split("/").filter(Boolean)[0];
   return handle ? `@${handle}` : null;
 }
 
 const TWITTER_HANDLE = twitterHandle(socialLinks.X);
 
+function imageDimensionMeta(dimensions: ImageDimensions | null): any[] {
+  if (!dimensions) {
+    return [];
+  }
+  return [
+    ["meta", { property: "og:image:width", content: String(dimensions.width) }],
+    [
+      "meta",
+      { property: "og:image:height", content: String(dimensions.height) },
+    ],
+  ];
+}
+
 function imageMeta(
   imageUrl: string,
   alt: string,
-  dimensions: { width: number; height: number } | null,
+  dimensions: ImageDimensions | null,
 ): any[] {
   return [
     ["meta", { property: "og:image", content: imageUrl }],
     ["meta", { property: "og:image:alt", content: alt }],
-    ...(dimensions
-      ? [
-          [
-            "meta",
-            { property: "og:image:width", content: String(dimensions.width) },
-          ],
-          [
-            "meta",
-            { property: "og:image:height", content: String(dimensions.height) },
-          ],
-        ]
-      : []),
+    ...imageDimensionMeta(dimensions),
     ["meta", { name: "twitter:image", content: imageUrl }],
     ["meta", { name: "twitter:image:alt", content: alt }],
   ];
@@ -78,12 +84,11 @@ export function pageMeta(opts: {
     description,
     url,
     image,
-    imageAlt = title,
+    imageAlt,
     readImageDimensions = readLocalImageDimensions,
     type = "website",
     jsonLd,
   } = opts;
-  const imageUrl = image ? `${SITE_URL}${image}` : undefined;
   const meta: any[] = [
     ["meta", { property: "og:type", content: type }],
     ["meta", { property: "og:title", content: title }],
@@ -99,8 +104,14 @@ export function pageMeta(opts: {
       ["meta", { name: "twitter:creator", content: TWITTER_HANDLE }],
     );
   }
-  if (image && imageUrl) {
-    meta.push(...imageMeta(imageUrl, imageAlt, readImageDimensions(image)));
+  if (image) {
+    meta.push(
+      ...imageMeta(
+        `${SITE_URL}${image}`,
+        imageAlt?.trim() || title,
+        readImageDimensions(image),
+      ),
+    );
   }
   if (jsonLd) {
     meta.push([
