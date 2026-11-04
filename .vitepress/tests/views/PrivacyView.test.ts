@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { shallowMount } from "@vue/test-utils";
 import PrivacyView from "@views/PrivacyView.vue";
 import {
@@ -40,5 +40,16 @@ describe("PrivacyView", () => {
     await wrapper.find("button").trigger("click");
 
     expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+  });
+
+  it("hides the control when the browser sends Do Not Track", async () => {
+    vi.spyOn(navigator, "doNotTrack", "get").mockReturnValue("1");
+    const wrapper = shallowMount(PrivacyView);
+
+    initAnalyticsConsent();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find("button").exists()).toBe(false);
+    vi.restoreAllMocks();
   });
 });
