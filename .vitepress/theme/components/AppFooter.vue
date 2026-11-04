@@ -61,6 +61,10 @@ onUnmounted(() => {
       <a href="/posts/" class="text-fg-subtle hover:text-accent no-underline">
         blog
       </a>
+      ·
+      <a href="/privacy" class="text-fg-subtle hover:text-accent no-underline">
+        privacy
+      </a>
       <template v-if="canChoose">
         ·
         <button

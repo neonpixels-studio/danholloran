@@ -58,6 +58,12 @@ describe("AppFooter", () => {
     expect(wrapper.find("button").text()).toBe("analytics");
   });
 
+  it("links to the privacy note", () => {
+    frontmatterState.value = {};
+    const wrapper = shallowMount(AppFooter);
+    expect(wrapper.find('a[href="/privacy"]').text()).toBe("privacy");
+  });
+
   it("is not forced dark without the frontmatter flag", () => {
     frontmatterState.value = {};
     const wrapper = shallowMount(AppFooter);

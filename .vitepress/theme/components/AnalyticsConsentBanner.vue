@@ -24,7 +24,8 @@ onMounted(initAnalyticsConsent);
     </h2>
     <p class="text-fg-muted text-[0.8rem] leading-normal">
       This site can use Google Analytics to count visits. It stays off unless
-      you allow it, and your choice is saved in this browser.
+      you allow it, and your choice is saved in this browser. Read the
+      <a href="/privacy" class="text-accent underline">privacy note</a>.
     </p>
     <div class="flex flex-wrap gap-2">
       <button
