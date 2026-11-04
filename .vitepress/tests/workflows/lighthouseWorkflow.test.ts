@@ -7,7 +7,9 @@ const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/lighthouse.yml";
 const LIGHTHOUSE_JOB_KEY = "lighthouse";
 const LIGHTHOUSE_SCRIPT_NAME = "lighthouse";
 const LHCI_PACKAGE = "@lhci/cli";
-const NPX_FETCH_PATTERN = /\bnpx\b.*(@lhci\/cli|\blhci\b)/;
+const RUNTIME_FETCH_PATTERN =
+  /\b(npx|npm\s+(exec|x)|pnpm\s+dlx|yarn\s+dlx)\b.*(@lhci\/cli|\blhci\b)/;
+const LIGHTHOUSE_SCRIPT_COMMAND = "lhci autorun";
 const VERSION_RANGE_PATTERN = /^[\^~]?\d+\.\d+\.\d+$/;
 
 type WorkflowStep = { name?: string; run?: string };
@@ -38,9 +40,9 @@ describe("lighthouse workflow", () => {
     );
   });
 
-  it("does not fetch the CLI with npx", () => {
+  it("does not fetch the CLI at run time", () => {
     const fetchesWithNpx = readLighthouseRunCommands().some((command) =>
-      NPX_FETCH_PATTERN.test(command),
+      RUNTIME_FETCH_PATTERN.test(command),
     );
     expect(fetchesWithNpx).toBe(false);
   });
@@ -50,6 +52,8 @@ describe("lighthouse workflow", () => {
     expect(packageJson.devDependencies?.[LHCI_PACKAGE]).toMatch(
       VERSION_RANGE_PATTERN,
     );
-    expect(packageJson.scripts?.[LIGHTHOUSE_SCRIPT_NAME]).toBe("lhci autorun");
+    expect(packageJson.scripts?.[LIGHTHOUSE_SCRIPT_NAME]).toBe(
+      LIGHTHOUSE_SCRIPT_COMMAND,
+    );
   });
 });
