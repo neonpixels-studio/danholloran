@@ -8,6 +8,10 @@ import socialLinks from "../../data/socialLinks";
 export const AUTHOR_NAME = `${resume.shortFirstName} ${resume.lastName}`;
 const AUTHOR_ALTERNATE_NAME = `${resume.firstName} ${resume.lastName}`;
 
+// Twitter/X handle used for twitter:site / twitter:creator attribution tags.
+// Kept in sync with `.vitepress/data/socialLinks.ts` X entry.
+const TWITTER_HANDLE = "@grimicorn";
+
 // Characters that must be neutralized when embedding JSON inside an HTML
 // <script> element. Unicode escapes keep the payload valid JSON (a parser
 // decodes them back) while preventing a value like "</script>" from breaking
@@ -30,8 +34,21 @@ export function pageMeta(opts: {
   image?: string;
   type?: "website" | "article";
   jsonLd?: Record<string, unknown>;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }): any[] {
-  const { title, description, url, image, type = "website", jsonLd } = opts;
+  const {
+    title,
+    description,
+    url,
+    image,
+    type = "website",
+    jsonLd,
+    imageAlt,
+    imageWidth,
+    imageHeight,
+  } = opts;
   const imageUrl = image ? `${SITE_URL}${image}` : undefined;
   const meta: any[] = [
     ["meta", { property: "og:type", content: type }],
@@ -41,10 +58,29 @@ export function pageMeta(opts: {
     ["meta", { property: "og:locale", content: "en_US" }],
     ["meta", { name: "twitter:title", content: title }],
     ["meta", { name: "twitter:description", content: description }],
+    ["meta", { name: "twitter:site", content: TWITTER_HANDLE }],
+    ["meta", { name: "twitter:creator", content: TWITTER_HANDLE }],
   ];
   if (imageUrl) {
     meta.push(
       ["meta", { property: "og:image", content: imageUrl }],
+      ["meta", { property: "og:image:alt", content: imageAlt ?? title }],
+      ...(imageWidth !== undefined
+        ? [
+            [
+              "meta",
+              { property: "og:image:width", content: String(imageWidth) },
+            ],
+          ]
+        : []),
+      ...(imageHeight !== undefined
+        ? [
+            [
+              "meta",
+              { property: "og:image:height", content: String(imageHeight) },
+            ],
+          ]
+        : []),
       ["meta", { name: "twitter:image", content: imageUrl }],
     );
   }

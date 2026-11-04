@@ -147,6 +147,80 @@ describe("pageMeta", () => {
     expect(parsed.headline).toBe(jsonLd.headline);
     expect(parsed.keywords).toEqual(jsonLd.keywords);
   });
+
+  it("includes twitter:site and twitter:creator attribution tags", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { name: "twitter:site", content: "@grimicorn" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { name: "twitter:creator", content: "@grimicorn" },
+    ]);
+  });
+
+  it("adds og:image:alt defaulting to the page title", () => {
+    const result = pageMeta({
+      title: "Post Title",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:alt", content: "Post Title" },
+    ]);
+  });
+
+  it("honors an explicit og:image alt", () => {
+    const result = pageMeta({
+      title: "Post Title",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+      imageAlt: "Custom cover description",
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:alt", content: "Custom cover description" },
+    ]);
+  });
+
+  it("adds og:image:width and height when provided", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+      imageWidth: 1200,
+      imageHeight: 675,
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:width", content: "1200" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:height", content: "675" },
+    ]);
+  });
+
+  it("omits og:image:width/height when dimensions are unknown", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+    });
+    const tags = result.map((r) => JSON.stringify(r));
+    expect(tags.some((t) => t.includes("og:image:width"))).toBe(false);
+    expect(tags.some((t) => t.includes("og:image:height"))).toBe(false);
+  });
 });
 
 describe("personJsonLd", () => {

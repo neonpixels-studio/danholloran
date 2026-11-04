@@ -38,6 +38,25 @@ function applyTitleTemplate(pageData: PageData, title: string): void {
 // is fed by the postsDetail content loader, not this transform. The blog-index
 // BlogPosting list entries intentionally stay image-optional.)
 const DEFAULT_SOCIAL_IMAGE = "/images/default-social.png";
+
+// Known pixel dimensions of the default social card (public/images/default-social.png).
+// Emitted from pageMeta so link-preview crawlers don't fetch the image to size it.
+const DEFAULT_SOCIAL_IMAGE_WIDTH = 1200;
+const DEFAULT_SOCIAL_IMAGE_HEIGHT = 675;
+
+// Exactly-known og:image dimensions for an asset. Only the default social card
+// has fixed dimensions in this codebase; post covers and the profile photo vary.
+function socialImageDimensions(image: string | undefined): {
+  imageWidth?: number;
+  imageHeight?: number;
+} {
+  return image === DEFAULT_SOCIAL_IMAGE
+    ? {
+        imageWidth: DEFAULT_SOCIAL_IMAGE_WIDTH,
+        imageHeight: DEFAULT_SOCIAL_IMAGE_HEIGHT,
+      }
+    : {};
+}
 import {
   AUTHOR_NAME,
   pageMeta,
@@ -88,7 +107,7 @@ function setStandardPageMeta(
     ...(noindex
       ? [["meta", { name: "robots", content: "noindex,follow" }]]
       : []),
-    ...pageMeta(meta),
+    ...pageMeta({ ...meta, ...socialImageDimensions(meta.image) }),
   ];
 }
 
@@ -193,6 +212,8 @@ function transformPostsIndex(pageData: PageData): void {
   // Trailing slash: /posts is a directory index that 301-redirects to /posts/,
   // so the self-canonical (and JSON-LD url) must be the final /posts/ URL.
   const url = `${SITE_URL}/posts/`;
+  const image =
+    (pageData.frontmatter.image as string | undefined) ?? DEFAULT_SOCIAL_IMAGE;
   pageData.frontmatter.head = [
     ...cleanHead(pageData.frontmatter.head ?? []),
     ["link", { rel: "canonical", href: url }],
@@ -200,9 +221,8 @@ function transformPostsIndex(pageData: PageData): void {
       title,
       description,
       url,
-      image:
-        (pageData.frontmatter.image as string | undefined) ??
-        DEFAULT_SOCIAL_IMAGE,
+      image,
+      ...socialImageDimensions(image),
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Blog",
