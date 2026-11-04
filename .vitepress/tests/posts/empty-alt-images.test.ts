@@ -54,15 +54,20 @@ describe("findEmptyAltImages edge cases", () => {
 });
 
 describe("post markdown images", () => {
+  const postFiles = readdirSync(POSTS_DIR, { recursive: true })
+    .map(String)
+    .filter((fileName) => fileName.endsWith(".md"));
+
+  it("finds the post files to check", () => {
+    expect(postFiles.length).toBeGreaterThan(0);
+  });
+
   it("every post image has alt text", () => {
-    const offenders = readdirSync(POSTS_DIR, { recursive: true })
-      .map(String)
-      .filter((fileName) => fileName.endsWith(".md"))
-      .flatMap((fileName) =>
-        findEmptyAltImages(readFileSync(join(POSTS_DIR, fileName), "utf8")).map(
-          (entry) => `${fileName}:${entry.line}`,
-        ),
-      );
+    const offenders = postFiles.flatMap((fileName) =>
+      findEmptyAltImages(readFileSync(join(POSTS_DIR, fileName), "utf8")).map(
+        (entry) => `${fileName}:${entry.line}`,
+      ),
+    );
     expect(offenders).toEqual([]);
   });
 });
