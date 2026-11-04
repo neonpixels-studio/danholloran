@@ -54,7 +54,7 @@ function expectUngated(target: GatingFields) {
 
 // `.vitepress/config.ts` `buildEnd` throws on 404 template drift, feed
 // generation errors, and variant manifest mismatches. Without a build in the
-// main CI job those only surface in lighthouse.yml or Netlify.
+// main CI job those only surface in the lighthouse job or Netlify.
 describe("ci.yml main job", () => {
   it("runs a production build", () => {
     expect(findStepRunning(BUILD_COMMAND)).toBeDefined();

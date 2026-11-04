@@ -1,15 +1,17 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import { parse } from "yaml";
 
 const CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
 const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/lighthouse.yml";
+const LHCI_COMMAND = "npx @lhci/cli@0.14.x autorun";
+const LIGHTHOUSE_JOB_KEY = "lighthouse";
 const BUILD_COMMAND = "npm run build";
 const BUILD_ARTIFACT_NAME = "site-build";
 const BUILD_OUTPUT_DIRECTORY = ".vitepress/dist";
 const LIGHTHOUSE_CONFIG_PATH = ".lighthouserc.json";
-const REBUILD_PATTERN = /npm ci|vitepress build|run build/;
+const REBUILD_PATTERN = /vitepress build|run build/;
 
 type WorkflowStep = {
   name?: string;
@@ -18,6 +20,7 @@ type WorkflowStep = {
   with?: Record<string, unknown>;
 };
 type WorkflowJob = {
+  name?: string;
   needs?: string | string[];
   uses?: string;
   steps?: WorkflowStep[];
@@ -44,9 +47,9 @@ function findStepUsing(steps: WorkflowStep[], action: string) {
 }
 
 // The site is built once in ci.yml; Lighthouse downloads that artifact.
-describe("lighthouse.yml build reuse", () => {
+describe("ci.yml lighthouse job build reuse", () => {
   it("does not rebuild the site", () => {
-    const steps = readSteps(LIGHTHOUSE_WORKFLOW_PATH, "lighthouse");
+    const steps = readSteps(CI_WORKFLOW_PATH, LIGHTHOUSE_JOB_KEY);
     const rebuilds = steps.filter((step) =>
       REBUILD_PATTERN.test(step.run ?? ""),
     );
@@ -55,7 +58,7 @@ describe("lighthouse.yml build reuse", () => {
 
   it("downloads the build artifact CI uploads, into the directory lhci serves", () => {
     const download = findStepUsing(
-      readSteps(LIGHTHOUSE_WORKFLOW_PATH, "lighthouse"),
+      readSteps(CI_WORKFLOW_PATH, LIGHTHOUSE_JOB_KEY),
       "actions/download-artifact",
     );
     expect(download?.with?.name).toBe(BUILD_ARTIFACT_NAME);
@@ -88,15 +91,22 @@ describe("lighthouse.yml build reuse", () => {
     expect(uploadIndex).toBeGreaterThan(buildIndex);
   });
 
-  it("only runs when called from ci.yml, never on its own events", () => {
-    expect(
-      Object.keys(readWorkflow(LIGHTHOUSE_WORKFLOW_PATH).on ?? {}),
-    ).toEqual(["workflow_call"]);
+  it("is an inline job named exactly lighthouse, after the ci job", () => {
+    const job = readWorkflow(CI_WORKFLOW_PATH).jobs?.[LIGHTHOUSE_JOB_KEY];
+    expect(job?.uses).toBeUndefined();
+    expect(job?.name).toBeUndefined();
+    expect([job?.needs].flat()).toContain("ci");
   });
 
-  it("is called from ci.yml after the ci job succeeds", () => {
-    const job = readWorkflow(CI_WORKFLOW_PATH).jobs?.lighthouse;
-    expect(job?.uses).toBe("./.github/workflows/lighthouse.yml");
-    expect([job?.needs].flat()).toContain("ci");
+  it("has no separate lighthouse workflow producing a differently named check", () => {
+    expect(existsSync(join(process.cwd(), LIGHTHOUSE_WORKFLOW_PATH))).toBe(
+      false,
+    );
+  });
+
+  it("installs dependencies and keeps the lhci autorun invocation", () => {
+    const steps = readSteps(CI_WORKFLOW_PATH, LIGHTHOUSE_JOB_KEY);
+    expect(steps.some((step) => step.run?.trim() === "npm ci")).toBe(true);
+    expect(steps.some((step) => step.run?.trim() === LHCI_COMMAND)).toBe(true);
   });
 });
