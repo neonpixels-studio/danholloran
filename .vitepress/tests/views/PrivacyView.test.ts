@@ -33,7 +33,10 @@ describe("PrivacyView", () => {
     expect(wrapper.find("button").exists()).toBe(false);
 
     initAnalyticsConsent();
+    useAnalyticsConsent().decline();
     await wrapper.vm.$nextTick();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
+
     await wrapper.find("button").trigger("click");
 
     expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
