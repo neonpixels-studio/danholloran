@@ -14,6 +14,7 @@ import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
 import { buildThemeSanitizeScript } from "./theme/utils/themeStorageSanitizer";
+import { buildThemeColorHeadEntries } from "./theme/utils/themeColor";
 import { buildFontPreloadHeadEntries } from "./theme/utils/fonts";
 import { assertImageVariantsUpToDate } from "./theme/utils/imageVariantManifest";
 
@@ -184,21 +185,6 @@ export default defineConfig({
       {},
       "<style>.fade-in,.reveal,.reveal-left,.reveal-right,.stagger>*,.accent-line{opacity:1!important;transform:none!important;}</style>",
     ],
-    [
-      "meta",
-      {
-        name: "theme-color",
-        content: "#fafaf9",
-        media: "(prefers-color-scheme: light)",
-      },
-    ],
-    [
-      "meta",
-      {
-        name: "theme-color",
-        content: "#0e0e10",
-        media: "(prefers-color-scheme: dark)",
-      },
-    ],
+    ...buildThemeColorHeadEntries(),
   ],
 });
