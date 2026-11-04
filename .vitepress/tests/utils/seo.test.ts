@@ -122,6 +122,10 @@ describe("pageMeta", () => {
       "meta",
       { property: "og:image:alt", content: "A photo of a hill" },
     ]);
+    expect(result).toContainEqual([
+      "meta",
+      { name: "twitter:image:alt", content: "A photo of a hill" },
+    ]);
   });
 
   it("falls back to the title when imageAlt is blank", () => {
