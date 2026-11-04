@@ -59,3 +59,19 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Upload build output
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: site-build
+          path: .vitepress/dist
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 1
+
+  # Reuses the build above instead of rebuilding; see lighthouse.yml.
+  lighthouse:
+    needs: ci
+    permissions:
+      contents: read
+    uses: ./.github/workflows/lighthouse.yml
