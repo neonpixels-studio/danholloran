@@ -31,7 +31,8 @@ type Workflow = {
 };
 
 function readWorkflow(path: string): Workflow {
-  return parse(readFileSync(join(process.cwd(), path), "utf8")) as Workflow;
+  return (parse(readFileSync(join(process.cwd(), path), "utf8")) ??
+    {}) as Workflow;
 }
 
 function readSteps(path: string, jobKey: string): WorkflowStep[] {
@@ -117,5 +118,17 @@ describe("ci.yml lighthouse job build reuse", () => {
     const steps = readSteps(CI_WORKFLOW_PATH, LIGHTHOUSE_JOB_KEY);
     expect(steps.some((step) => step.run?.trim() === "npm ci")).toBe(true);
     expect(steps.some((step) => step.run?.trim() === LHCI_COMMAND)).toBe(true);
+  });
+
+  it("downloads the artifact before running lhci", () => {
+    const steps = readSteps(CI_WORKFLOW_PATH, LIGHTHOUSE_JOB_KEY);
+    const downloadIndex = steps.findIndex((step) =>
+      step.uses?.startsWith("actions/download-artifact@"),
+    );
+    const lhciIndex = steps.findIndex(
+      (step) => step.run?.trim() === LHCI_COMMAND,
+    );
+    expect(downloadIndex).toBeGreaterThan(-1);
+    expect(lhciIndex).toBeGreaterThan(downloadIndex);
   });
 });
