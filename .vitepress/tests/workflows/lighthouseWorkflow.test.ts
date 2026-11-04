@@ -8,6 +8,8 @@ const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/lighthouse.yml";
 const BUILD_COMMAND = "npm run build";
 const BUILD_ARTIFACT_NAME = "site-build";
 const BUILD_OUTPUT_DIRECTORY = ".vitepress/dist";
+const LIGHTHOUSE_CONFIG_PATH = ".lighthouserc.json";
+const REBUILD_PATTERN = /npm ci|vitepress build|run build/;
 
 type WorkflowStep = {
   name?: string;
@@ -45,7 +47,9 @@ function findStepUsing(steps: WorkflowStep[], action: string) {
 describe("lighthouse.yml build reuse", () => {
   it("does not rebuild the site", () => {
     const steps = readSteps(LIGHTHOUSE_WORKFLOW_PATH, "lighthouse");
-    const rebuilds = steps.filter((step) => step.run?.includes(BUILD_COMMAND));
+    const rebuilds = steps.filter((step) =>
+      REBUILD_PATTERN.test(step.run ?? ""),
+    );
     expect(rebuilds).toEqual([]);
   });
 
@@ -57,12 +61,31 @@ describe("lighthouse.yml build reuse", () => {
     expect(download?.with?.name).toBe(BUILD_ARTIFACT_NAME);
     expect(download?.with?.path).toBe(BUILD_OUTPUT_DIRECTORY);
 
+    const lighthouseConfig = JSON.parse(
+      readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
+    );
+    expect(lighthouseConfig.ci.collect.staticDistDir).toBe(
+      BUILD_OUTPUT_DIRECTORY,
+    );
+
     const upload = findStepUsing(
       readSteps(CI_WORKFLOW_PATH, "ci"),
       "actions/upload-artifact",
     );
     expect(upload?.with?.name).toBe(BUILD_ARTIFACT_NAME);
     expect(upload?.with?.path).toBe(BUILD_OUTPUT_DIRECTORY);
+  });
+
+  it("uploads the artifact after the build step", () => {
+    const steps = readSteps(CI_WORKFLOW_PATH, "ci");
+    const buildIndex = steps.findIndex(
+      (step) => step.run?.trim() === BUILD_COMMAND,
+    );
+    const uploadIndex = steps.findIndex((step) =>
+      step.uses?.startsWith("actions/upload-artifact@"),
+    );
+    expect(buildIndex).toBeGreaterThan(-1);
+    expect(uploadIndex).toBeGreaterThan(buildIndex);
   });
 
   it("only runs when called from ci.yml, never on its own events", () => {
@@ -74,6 +97,6 @@ describe("lighthouse.yml build reuse", () => {
   it("is called from ci.yml after the ci job succeeds", () => {
     const job = readWorkflow(CI_WORKFLOW_PATH).jobs?.lighthouse;
     expect(job?.uses).toBe("./.github/workflows/lighthouse.yml");
-    expect(job?.needs).toBe("ci");
+    expect([job?.needs].flat()).toContain("ci");
   });
 });
