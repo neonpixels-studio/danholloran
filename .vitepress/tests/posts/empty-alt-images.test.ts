@@ -27,9 +27,28 @@ describe("findEmptyAltImages", () => {
   });
 });
 
+describe("findEmptyAltImages fenced code edge cases", () => {
+  it("ignores tilde fences", () => {
+    expect(findEmptyAltImages("~~~\n![](/a.png)\n~~~")).toEqual([]);
+  });
+
+  it("ignores indented fences inside list items", () => {
+    const markdown = "- item\n\n  ```md\n  ![](/a.png)\n  ```";
+    expect(findEmptyAltImages(markdown)).toEqual([]);
+  });
+
+  it("keeps a four-backtick fence open past an inner three-backtick line", () => {
+    const markdown = "````md\n```\n![](/a.png)\n````\n![](/b.png)";
+    expect(findEmptyAltImages(markdown).map((entry) => entry.line)).toEqual([
+      5,
+    ]);
+  });
+});
+
 describe("post markdown images", () => {
   it("every post image has alt text", () => {
-    const offenders = readdirSync(POSTS_DIR)
+    const offenders = readdirSync(POSTS_DIR, { recursive: true })
+      .map(String)
       .filter((fileName) => fileName.endsWith(".md"))
       .flatMap((fileName) =>
         findEmptyAltImages(readFileSync(join(POSTS_DIR, fileName), "utf8")).map(

@@ -1,4 +1,5 @@
-const FENCED_CODE_BLOCK = /^(```|~~~)[\s\S]*?^\1/gm;
+const FENCED_CODE_BLOCK =
+  /^([ \t]*)(`{3,}|~{3,})[^\n]*\n[\s\S]*?^\1\2[ \t]*$/gm;
 const EMPTY_ALT_IMAGE = /!\[\s*\]\(/;
 
 export interface EmptyAltImage {
