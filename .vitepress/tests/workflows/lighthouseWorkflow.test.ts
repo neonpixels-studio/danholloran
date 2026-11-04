@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import { parse } from "yaml";
 
-const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/lighthouse.yml";
+const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/ci.yml";
 const LIGHTHOUSE_JOB_KEY = "lighthouse";
 const LIGHTHOUSE_SCRIPT_NAME = "lighthouse";
 const LHCI_PACKAGE = "@lhci/cli";

@@ -59,3 +59,45 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Upload build output
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: site-build
+          path: .vitepress/dist
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  # Reuses the build above instead of rebuilding. Kept as an inline job (not a
+  # reusable workflow) so the check context is exactly "lighthouse", which the
+  # main ruleset requires.
+  lighthouse:
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        env:
+          HUSKY: 0
+
+      - name: Download build output
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: site-build
+          path: .vitepress/dist
+
+      - name: Run Lighthouse CI
+        run: npm run lighthouse
