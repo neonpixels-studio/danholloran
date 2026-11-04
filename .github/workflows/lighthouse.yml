@@ -31,4 +31,4 @@ jobs:
         run: npm run build
 
       - name: Run Lighthouse CI
-        run: npx @lhci/cli@0.14.x autorun
+        run: npm run lighthouse
