@@ -52,7 +52,7 @@ function parseRedirects(source: string): {
     }
     const match = STATUS_RE.exec(status);
     if (!match || !VALID_STATUS_CODES.includes(Number(match[1]))) {
-      errors.push(`line ${lineNumber}: missing or invalid status "${status}"`);
+      errors.push(`line ${lineNumber}: invalid status "${status}"`);
       return;
     }
     rules.push({ line: lineNumber, from, to, status });
@@ -190,7 +190,7 @@ describe("parseRedirects", () => {
     expect(parseRedirects("a /b 301\n").errors).toHaveLength(1);
   });
 
-  it("flags a missing or invalid status", () => {
+  it("flags a invalid status", () => {
     expect(parseRedirects("/a /b\n").errors).toHaveLength(1);
     expect(parseRedirects("/a /b 999\n").errors).toHaveLength(1);
     expect(parseRedirects("/a /b 999!\n").errors).toHaveLength(1);
