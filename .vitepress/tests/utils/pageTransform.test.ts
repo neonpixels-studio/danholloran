@@ -20,7 +20,12 @@ vi.mock("../../theme/utils/frontmatter", async (importOriginal) => ({
   parseFrontmatter: vi.fn(),
 }));
 
+vi.mock("../../theme/utils/gitLastModified", () => ({
+  gitLastModified: vi.fn(() => null),
+}));
+
 import { existsSync, readFileSync, readdirSync } from "fs";
+import { gitLastModified } from "../../theme/utils/gitLastModified";
 import { parseFrontmatter } from "../../theme/utils/frontmatter";
 import { transformPageData } from "../../theme/utils/pageTransform";
 import { SITE_URL } from "../../theme/utils/constants";
@@ -29,6 +34,7 @@ const mockExistsSync = vi.mocked(existsSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockParseFrontmatter = vi.mocked(parseFrontmatter);
+const mockGitLastModified = vi.mocked(gitLastModified);
 
 function makePageData(overrides: Record<string, unknown> = {}) {
   return {
@@ -73,6 +79,7 @@ function getJsonLd(pageData: any) {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mockGitLastModified.mockReturnValue(null);
 });
 
 describe("transformPageData – index.md", () => {
@@ -813,6 +820,109 @@ describe("transformPageData – posts/[slug].md", () => {
     );
     const ld = JSON.parse(scriptTag[2]);
     expect(ld.dateModified).toBe("2024-03-01");
+  });
+
+  it("uses the git last-modified date for dateModified when frontmatter has none", () => {
+    mockGitLastModified.mockReturnValue(new Date("2024-09-10T12:00:00.000Z"));
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "2024-03-01",
+      }),
+    );
+
+    expect(ld.dateModified).toBe("2024-09-10T12:00:00.000Z");
+  });
+
+  it("emits article:published_time and article:modified_time matching the JSON-LD", () => {
+    mockGitLastModified.mockReturnValue(new Date("2024-09-10T12:00:00.000Z"));
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+    });
+    const ld = getJsonLd(pageData);
+
+    const published = findHead(
+      pageData,
+      "meta",
+      "property",
+      "article:published_time",
+    );
+    const modified = findHead(
+      pageData,
+      "meta",
+      "property",
+      "article:modified_time",
+    );
+    expect(published[1].content).toBe(ld.datePublished);
+    expect(modified[1].content).toBe(ld.dateModified);
+    expect(modified[1].content).toBe("2024-09-10T12:00:00.000Z");
+  });
+
+  it("does not duplicate article meta when the transform runs twice", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "2024-03-01",
+    });
+    transformPageData(pageData);
+
+    const tags = pageData.frontmatter.head.filter((tag: any[]) =>
+      ["article:published_time", "article:modified_time"].includes(
+        tag[1]?.property,
+      ),
+    );
+    expect(tags).toHaveLength(2);
+  });
+
+  it("keeps a frontmatter dateModified in JSON-LD when the date is not ISO", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "March 1, 2024",
+        dateModified: "2024-06-15",
+      }),
+    );
+
+    expect(ld.dateModified).toBe("2024-06-15");
+  });
+
+  it("keeps hand-authored article:tag meta from frontmatter head", () => {
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+      frontmatter: {
+        head: [["meta", { property: "article:tag", content: "x" }]],
+      },
+    });
+    mockExistsSync.mockReturnValue(true);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: { title: "T", description: "D", date: "2024-03-01" },
+      content: "",
+    });
+    transformPageData(pageData);
+
+    expect(findHead(pageData, "meta", "property", "article:tag")).toBeDefined();
+  });
+
+  it("emits no article time meta and keeps the raw date when the date is not ISO", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "March 1, 2024",
+    });
+
+    expect(getJsonLd(pageData).datePublished).toBe("March 1, 2024");
+    expect(
+      findHead(pageData, "meta", "property", "article:published_time"),
+    ).toBeUndefined();
+    expect(
+      findHead(pageData, "meta", "property", "article:modified_time"),
+    ).toBeUndefined();
   });
 
   it("uses a separate dateModified when provided in frontmatter", () => {

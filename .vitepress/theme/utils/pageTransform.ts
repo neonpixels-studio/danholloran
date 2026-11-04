@@ -13,6 +13,7 @@ import {
   POSTS_DIR,
 } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
+import { resolvePostDates } from "./postDates";
 import { archiveHref, toPageNumber, topicLabel } from "./archive";
 
 // The blog index's JSON-LD lists at most this many recent posts.
@@ -50,6 +51,13 @@ import resume, { getExperienceLength } from "../../data/resume.ts";
 import { ZIP_HREF } from "../../data/grimicornTheme.ts";
 import { NEON_ZIP_HREF } from "../../data/grimicornNeonTheme.ts";
 
+// Only the date tags are generated here; hand-authored article:tag/section etc.
+// in frontmatter head must survive the transform.
+const TRANSFORM_OWNED_ARTICLE_PROPERTIES = new Set([
+  "article:published_time",
+  "article:modified_time",
+]);
+
 // Returns true for head entries owned by our transforms (canonical, OG, JSON-LD).
 // Keeping this as a named predicate limits cyclomatic complexity per function.
 function isTransformOwned(tag: any[]): boolean {
@@ -58,6 +66,7 @@ function isTransformOwned(tag: any[]): boolean {
   if (tag[0] !== "meta") return false;
   return (
     tag[1]?.property?.startsWith("og:") ||
+    TRANSFORM_OWNED_ARTICLE_PROPERTIES.has(tag[1]?.property) ||
     tag[1]?.name?.startsWith("twitter:") ||
     tag[1]?.name === "robots"
   );
@@ -412,6 +421,7 @@ function transformPost(pageData: PageData): void {
   const image =
     typeof data.image === "string" ? data.image : DEFAULT_SOCIAL_IMAGE;
   const url = `${SITE_URL}/posts/${slug}`;
+  const dates = resolvePostDates(data, slug);
   setStandardPageMeta(
     pageData,
     {
@@ -420,13 +430,17 @@ function transformPost(pageData: PageData): void {
       url,
       image,
       type: "article",
+      publishedTime: dates?.published,
+      modifiedTime: dates?.modified,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: title,
         description,
-        datePublished: data.date,
-        dateModified: data.dateModified ?? data.date,
+        // Raw frontmatter values remain the fallback when the date is unusable,
+        // preserving the pre-existing behavior for malformed posts.
+        datePublished: dates?.published ?? data.date,
+        dateModified: dates?.modified ?? data.dateModified ?? data.date,
         url,
         ...buildArticleTopicalFields(data),
         image: `${SITE_URL}${image}`,
