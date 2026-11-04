@@ -46,6 +46,7 @@ describe("resolvePostDates", () => {
 
   it("rejects impossible calendar dates", () => {
     expect(resolvePostDates({ date: "2024-02-30" }, "a")).toBeNull();
+    expect(resolvePostDates({ date: "2024-02-30T10:00:00Z" }, "a")).toBeNull();
   });
 
   it("accepts datetimes with an offset and rejects ones without", () => {

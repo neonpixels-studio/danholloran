@@ -440,7 +440,7 @@ function transformPost(pageData: PageData): void {
         // Raw frontmatter values remain the fallback when the date is unusable,
         // preserving the pre-existing behavior for malformed posts.
         datePublished: dates?.published ?? data.date,
-        dateModified: dates?.modified ?? data.date,
+        dateModified: dates?.modified ?? data.dateModified ?? data.date,
         url,
         ...buildArticleTopicalFields(data),
         image: `${SITE_URL}${image}`,

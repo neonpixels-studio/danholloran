@@ -877,6 +877,19 @@ describe("transformPageData – posts/[slug].md", () => {
     expect(tags).toHaveLength(2);
   });
 
+  it("keeps a frontmatter dateModified in JSON-LD when the date is not ISO", () => {
+    const ld = getJsonLd(
+      transformPostWithFrontmatter({
+        title: "T",
+        description: "D",
+        date: "March 1, 2024",
+        dateModified: "2024-06-15",
+      }),
+    );
+
+    expect(ld.dateModified).toBe("2024-06-15");
+  });
+
   it("keeps hand-authored article:tag meta from frontmatter head", () => {
     const pageData = makePageData({
       filePath: "posts/[slug].md",

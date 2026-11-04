@@ -13,12 +13,14 @@ const ISO_8601_PATTERN =
   /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2}))?$/;
 
 // V8 rolls an impossible day like "2024-02-30" forward instead of returning
-// NaN. A date-only string parses as UTC midnight, so it must round-trip.
-function isSameCalendarDay(parsed: Date, value: string): boolean {
-  if (value.includes("T")) {
-    return true;
-  }
-  return parsed.toISOString().startsWith(value);
+// NaN. Only the leading date part is checked, since an offset can legitimately
+// move the UTC day of a full datetime.
+function isRealCalendarDay(value: string): boolean {
+  const datePart = value.slice(0, 10);
+  const parsed = new Date(datePart);
+  return (
+    !Number.isNaN(parsed.getTime()) && parsed.toISOString().startsWith(datePart)
+  );
 }
 
 // Frontmatter dates are YAML: usually an ISO string, but yaml parses YAML 1.1
@@ -32,7 +34,7 @@ function toIsoString(value: unknown): string | null {
     return null;
   }
   const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime()) || !isSameCalendarDay(parsed, value)) {
+  if (Number.isNaN(parsed.getTime()) || !isRealCalendarDay(value)) {
     return null;
   }
   return value;
