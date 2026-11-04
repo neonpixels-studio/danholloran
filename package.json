@@ -7,6 +7,7 @@
     "build": "npm run resume:pdf:check && vitepress build",
     "preview": "vitepress preview",
     "dev": "npm run images && vitepress dev",
+    "grimicorn:zips": "node .vitepress/scripts/buildGrimicornZips.ts",
     "images": "node .vitepress/scripts/generateImageVariants.ts",
     "resume:pdf:check": "node .vitepress/scripts/checkResumePdfSynced.ts",
     "resume:pdf:sync": "node .vitepress/scripts/markResumePdfSynced.ts",
