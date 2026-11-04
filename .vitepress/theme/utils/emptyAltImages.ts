@@ -1,6 +1,6 @@
 const FENCED_CODE_BLOCK =
   /^([ \t]*)(`{3,}|~{3,})[^\n]*\n[\s\S]*?^\1\2[ \t]*$/gm;
-const EMPTY_ALT_IMAGE = /!\[\s*\]\(/;
+const EMPTY_ALT_IMAGE = /!\[\s*\][([]/;
 
 export interface EmptyAltImage {
   line: number;
@@ -16,7 +16,7 @@ function maskFencedCode(markdown: string): string {
 }
 
 export function findEmptyAltImages(markdown: string): EmptyAltImage[] {
-  return maskFencedCode(markdown)
+  return maskFencedCode(markdown.replace(/\r\n?/g, "\n"))
     .split("\n")
     .map((text, index) => ({ line: index + 1, text: text.trim() }))
     .filter((entry) => EMPTY_ALT_IMAGE.test(entry.text));

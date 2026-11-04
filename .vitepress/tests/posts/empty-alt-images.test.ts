@@ -27,7 +27,15 @@ describe("findEmptyAltImages", () => {
   });
 });
 
-describe("findEmptyAltImages fenced code edge cases", () => {
+describe("findEmptyAltImages edge cases", () => {
+  it("handles CRLF line endings around fenced code", () => {
+    expect(findEmptyAltImages("```md\r\n![](/a.png)\r\n```\r\n")).toEqual([]);
+  });
+
+  it("flags reference-style images with empty alt", () => {
+    expect(findEmptyAltImages("![][logo]")).toHaveLength(1);
+  });
+
   it("ignores tilde fences", () => {
     expect(findEmptyAltImages("~~~\n![](/a.png)\n~~~")).toEqual([]);
   });
