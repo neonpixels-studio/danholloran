@@ -15,6 +15,8 @@ describe("PrivacyView", () => {
 
   afterEach(() => {
     resetAnalyticsConsentState();
+    vi.restoreAllMocks();
+    Reflect.deleteProperty(navigator, "globalPrivacyControl");
   });
 
   it("renders correctly", () => {
@@ -25,7 +27,7 @@ describe("PrivacyView", () => {
   it("covers Google Analytics and the newsletter provider", () => {
     const text = shallowMount(PrivacyView).text();
     expect(text).toContain("Google Analytics");
-    expect(text).toContain("Kit");
+    expect(text).toContain("Kit (app.kit.com)");
   });
 
   it("offers a way to change the choice once choosing is available", async () => {
@@ -37,6 +39,7 @@ describe("PrivacyView", () => {
     await wrapper.vm.$nextTick();
     expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
 
+    expect(wrapper.find("button").text()).toBe("Change analytics choice");
     await wrapper.find("button").trigger("click");
 
     expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
@@ -50,6 +53,18 @@ describe("PrivacyView", () => {
     await wrapper.vm.$nextTick();
 
     expect(wrapper.find("button").exists()).toBe(false);
-    vi.restoreAllMocks();
+  });
+
+  it("hides the control when the browser sends Global Privacy Control", async () => {
+    Object.defineProperty(navigator, "globalPrivacyControl", {
+      configurable: true,
+      get: () => true,
+    });
+    const wrapper = shallowMount(PrivacyView);
+
+    initAnalyticsConsent();
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find("button").exists()).toBe(false);
   });
 });

@@ -50,9 +50,9 @@ const { canChoose, reopen: reopenAnalyticsConsent } = useAnalyticsConsent();
           data resets it.
         </li>
         <li>
-          To withdraw consent, use the button below or the "analytics" link in
-          the footer, then choose Decline. This stops further reporting and
-          removes the Google Analytics cookies.
+          If the "analytics" link in the footer or the button below is shown,
+          use it to withdraw consent and choose Decline. This stops further
+          reporting and removes the Google Analytics cookies.
         </li>
       </ul>
       <p v-if="canChoose" class="mt-4">
