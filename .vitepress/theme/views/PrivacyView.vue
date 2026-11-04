@@ -1,0 +1,91 @@
+<script setup lang="ts">
+import { useAnalyticsConsent } from "@composables/useAnalyticsConsent";
+
+const { canChoose, reopen: reopenAnalyticsConsent } = useAnalyticsConsent();
+</script>
+
+<template>
+  <div class="mx-auto max-w-225 px-8 pt-30 pb-24">
+    <div
+      class="text-accent mb-6 font-mono text-[0.68rem] tracking-widest uppercase"
+    >
+      // privacy
+    </div>
+    <h1 class="text-fg mb-6 text-3xl font-semibold">Privacy</h1>
+    <p class="text-fg-muted mb-8 leading-relaxed">
+      This is a personal site. This page is a plain description of what it does
+      with your data, not a legal document.
+    </p>
+
+    <section class="mb-8" aria-labelledby="privacy-analytics">
+      <h2 id="privacy-analytics" class="text-fg mb-3 text-xl font-semibold">
+        Google Analytics
+      </h2>
+      <p class="text-fg-muted mb-3 leading-relaxed">
+        If you allow it, this site loads Google Analytics (from Google's
+        servers) to count visits. Google Analytics typically collects things
+        like the pages you view, your approximate location, your browser and
+        device type, how you arrived at the site, and an identifier stored in a
+        cookie so repeat visits can be recognized. The site also sends a few
+        events, such as newsletter signups. Google processes this data under its
+        own privacy policy.
+      </p>
+    </section>
+
+    <section class="mb-8" aria-labelledby="privacy-consent">
+      <h2 id="privacy-consent" class="text-fg mb-3 text-xl font-semibold">
+        Your choice
+      </h2>
+      <ul class="text-fg-muted flex list-disc flex-col gap-2 pl-6">
+        <li>
+          Analytics stays off until you click Allow on the banner. Nothing from
+          Google is loaded before that.
+        </li>
+        <li>
+          If your browser sends Do Not Track or Global Privacy Control, the site
+          never loads analytics and does not ask.
+        </li>
+        <li>
+          Your choice is saved in this browser's local storage. Clearing site
+          data resets it.
+        </li>
+        <li>
+          If the "analytics" button in the footer or the button below is shown,
+          use it to withdraw consent and choose Decline. This stops further
+          reporting and removes the Google Analytics cookies.
+        </li>
+      </ul>
+      <p v-if="canChoose" class="mt-4">
+        <button
+          type="button"
+          class="btn-base border-accent text-accent hover:bg-accent-dim cursor-pointer border bg-transparent"
+          @click="reopenAnalyticsConsent"
+        >
+          Change analytics choice
+        </button>
+      </p>
+    </section>
+
+    <section class="mb-8" aria-labelledby="privacy-newsletter">
+      <h2 id="privacy-newsletter" class="text-fg mb-3 text-xl font-semibold">
+        Newsletter
+      </h2>
+      <p class="text-fg-muted leading-relaxed">
+        If you subscribe to the newsletter, the email address you enter is sent
+        to Kit (app.kit.com), the service that sends it. Nothing is sent unless
+        you submit the form.
+      </p>
+    </section>
+
+    <section aria-labelledby="privacy-other">
+      <h2 id="privacy-other" class="text-fg mb-3 text-xl font-semibold">
+        Everything else
+      </h2>
+      <p class="text-fg-muted leading-relaxed">
+        Fonts and images are served from this site, not a third party. The site
+        has no ads and no accounts. Individual blog posts may link to or embed
+        outside content, which is governed by those sites' own policies.
+      </p>
+    </section>
+  </div>
+</template>
