@@ -170,6 +170,18 @@ describe("pageMeta", () => {
     ]);
   });
 
+  it("omits dimensions for a missing image file without throwing", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/does-not-exist.png",
+    });
+    const tags = JSON.stringify(result);
+    expect(tags).toContain("og:image:alt");
+    expect(tags).not.toContain("og:image:width");
+  });
+
   it("emits twitter:site and twitter:creator from the linked X profile", () => {
     const result = pageMeta({
       title: "T",
