@@ -7,6 +7,7 @@ import {
   NEON_PALETTE_HREF,
   NEON_ZIP_HREF,
 } from "@data/grimicornNeonTheme";
+import { findStaleEntries } from "@utils/grimicornZip";
 import type { GrimicornTool, GrimicornToolFile } from "@typedefs";
 
 /**
@@ -110,6 +111,29 @@ function unbundledFileNames(tools: GrimicornTool[], zipHref: string): string[] {
   return fileNames.filter((fileName) => !archiveText.includes(fileName));
 }
 
+const REBUILD_COMMAND = "npm run grimicorn:zips";
+
+/**
+ * The name check above only proves each file is present. This compares the
+ * CRC32 recorded in the zip's central directory against the current file in
+ * public/, so editing a theme file without rebuilding the zip fails here
+ * instead of silently shipping old colors in "Download all". Also flags
+ * files in the theme directory the zip lacks, and zip entries whose source
+ * file is gone.
+ */
+function staleZipEntries(zipHref: string, filesBase: string): string[] {
+  const zipPath = publicPathFor(zipHref);
+  if (!zipPath || !existsSync(zipPath)) {
+    return [`${zipHref}: zip not found in public/`];
+  }
+  const rootName = filesBase.replaceAll("/", "");
+  return findStaleEntries(
+    readFileSync(zipPath),
+    resolve(PUBLIC_DIR, rootName),
+    rootName,
+  );
+}
+
 describe.each([
   {
     themeName: "grimicorn",
@@ -191,6 +215,13 @@ describe.each([
 
     it("bundles every tool file into the zip", () => {
       expect(unbundledFileNames(tools, zipHref)).toEqual([]);
+    });
+
+    it("keeps the zip content in sync with public/", () => {
+      const stale = staleZipEntries(zipHref, filesBase);
+      const message = `Stale zip entries, run \`${REBUILD_COMMAND}\` to rebuild:\n${stale.join("\n")}`;
+
+      expect(stale, message).toEqual([]);
     });
   },
 );
