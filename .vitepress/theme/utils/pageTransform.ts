@@ -122,6 +122,16 @@ function transformResume(pageData: PageData): void {
   });
 }
 
+function transformPrivacy(pageData: PageData): void {
+  setStandardPageMeta(pageData, {
+    title: "Privacy",
+    description:
+      "What Google Analytics collects on danholloran.me, how consent works and how to withdraw it, and which other services the site uses.",
+    url: `${SITE_URL}/privacy`,
+    image: DEFAULT_SOCIAL_IMAGE,
+  });
+}
+
 function transformGrimicornThemes(pageData: PageData): void {
   const title = "Grimicorn – a calm, low-fatigue color theme";
   const description =
@@ -516,6 +526,8 @@ export function transformPageData(pageData: PageData): void {
       return transformHome(pageData);
     case "resume.md":
       return transformResume(pageData);
+    case "privacy.md":
+      return transformPrivacy(pageData);
     case "themes/grimicorn.md":
       return transformGrimicornThemes(pageData);
     case "themes/grimicorn-neon.md":

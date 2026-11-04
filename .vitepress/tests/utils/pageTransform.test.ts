@@ -160,6 +160,20 @@ describe("transformPageData – resume.md", () => {
   });
 });
 
+describe("transformPageData – privacy.md", () => {
+  it("sets title, canonical link, and is indexable", () => {
+    const pageData = makePageData({ filePath: "privacy.md" });
+    transformPageData(pageData);
+
+    expect(pageData.title).toBe("Privacy");
+    expect(pageData.description).toContain("Google Analytics");
+    expect(
+      findHead(pageData, "link", "href", `${SITE_URL}/privacy`),
+    ).toBeDefined();
+    expect(findHead(pageData, "meta", "name", "robots")).toBeUndefined();
+  });
+});
+
 describe("transformPageData – themes/grimicorn.md", () => {
   it("sets a Grimicorn title, description, and head tags", () => {
     const pageData = makePageData({ filePath: "themes/grimicorn.md" });

@@ -30,6 +30,13 @@ describe("AnalyticsConsentBanner", () => {
     expect(document.getElementById(GA_SCRIPT_ELEMENT_ID)).toBeNull();
   });
 
+  it("links to the privacy note", async () => {
+    const wrapper = mount(AnalyticsConsentBanner);
+    await flushPromises();
+
+    expect(wrapper.find('a[href="/privacy"]').exists()).toBe(true);
+  });
+
   it("loads analytics only after Allow is clicked", async () => {
     const wrapper = mount(AnalyticsConsentBanner);
     await flushPromises();
