@@ -44,6 +44,21 @@ describe("resolvePostDates", () => {
     expect(resolvePostDates({ date: "March 1, 2024" }, "a")).toBeNull();
   });
 
+  it("rejects impossible calendar dates", () => {
+    expect(resolvePostDates({ date: "2024-02-30" }, "a")).toBeNull();
+  });
+
+  it("accepts datetimes with an offset and rejects ones without", () => {
+    expect(
+      resolvePostDates({ date: "2024-03-01T10:00:00+02:00" }, "a"),
+    ).toEqual({
+      published: "2024-03-01T10:00:00+02:00",
+      modified: "2024-03-01T10:00:00+02:00",
+    });
+    expect(resolvePostDates({ date: "2024-03-01T10:00Z" }, "a")).not.toBeNull();
+    expect(resolvePostDates({ date: "2024-03-01T10:00:00" }, "a")).toBeNull();
+  });
+
   it("clamps a frontmatter dateModified earlier than the publish date", () => {
     expect(
       resolvePostDates({ date: "2024-03-01", dateModified: "2023-01-01" }, "a")

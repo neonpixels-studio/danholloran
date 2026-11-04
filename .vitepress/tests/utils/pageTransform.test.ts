@@ -869,10 +869,47 @@ describe("transformPageData – posts/[slug].md", () => {
     });
     transformPageData(pageData);
 
-    const tags = pageData.frontmatter.head.filter(
-      (tag: any[]) => tag[1]?.property === "article:modified_time",
+    const tags = pageData.frontmatter.head.filter((tag: any[]) =>
+      ["article:published_time", "article:modified_time"].includes(
+        tag[1]?.property,
+      ),
     );
-    expect(tags).toHaveLength(1);
+    expect(tags).toHaveLength(2);
+  });
+
+  it("keeps hand-authored article:tag meta from frontmatter head", () => {
+    const pageData = makePageData({
+      filePath: "posts/[slug].md",
+      params: { slug: "my-post" },
+      frontmatter: {
+        head: [["meta", { property: "article:tag", content: "x" }]],
+      },
+    });
+    mockExistsSync.mockReturnValue(true);
+    mockReadFileSync.mockReturnValue("" as any);
+    mockParseFrontmatter.mockReturnValue({
+      data: { title: "T", description: "D", date: "2024-03-01" },
+      content: "",
+    });
+    transformPageData(pageData);
+
+    expect(findHead(pageData, "meta", "property", "article:tag")).toBeDefined();
+  });
+
+  it("emits no article time meta and keeps the raw date when the date is not ISO", () => {
+    const pageData = transformPostWithFrontmatter({
+      title: "T",
+      description: "D",
+      date: "March 1, 2024",
+    });
+
+    expect(getJsonLd(pageData).datePublished).toBe("March 1, 2024");
+    expect(
+      findHead(pageData, "meta", "property", "article:published_time"),
+    ).toBeUndefined();
+    expect(
+      findHead(pageData, "meta", "property", "article:modified_time"),
+    ).toBeUndefined();
   });
 
   it("uses a separate dateModified when provided in frontmatter", () => {

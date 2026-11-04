@@ -51,6 +51,13 @@ import resume, { getExperienceLength } from "../../data/resume.ts";
 import { ZIP_HREF } from "../../data/grimicornTheme.ts";
 import { NEON_ZIP_HREF } from "../../data/grimicornNeonTheme.ts";
 
+// Only the date tags are generated here; hand-authored article:tag/section etc.
+// in frontmatter head must survive the transform.
+const TRANSFORM_OWNED_ARTICLE_PROPERTIES = new Set([
+  "article:published_time",
+  "article:modified_time",
+]);
+
 // Returns true for head entries owned by our transforms (canonical, OG, JSON-LD).
 // Keeping this as a named predicate limits cyclomatic complexity per function.
 function isTransformOwned(tag: any[]): boolean {
@@ -59,7 +66,7 @@ function isTransformOwned(tag: any[]): boolean {
   if (tag[0] !== "meta") return false;
   return (
     tag[1]?.property?.startsWith("og:") ||
-    tag[1]?.property?.startsWith("article:") ||
+    TRANSFORM_OWNED_ARTICLE_PROPERTIES.has(tag[1]?.property) ||
     tag[1]?.name?.startsWith("twitter:") ||
     tag[1]?.name === "robots"
   );
