@@ -67,7 +67,7 @@ jobs:
           path: .vitepress/dist
           include-hidden-files: true
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 7
 
   # Reuses the build above instead of rebuilding. Kept as an inline job (not a
   # reusable workflow) so the check context is exactly "lighthouse", which the

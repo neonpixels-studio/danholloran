@@ -1,10 +1,10 @@
-import { existsSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import { parse } from "yaml";
 
 const CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
-const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/lighthouse.yml";
+const WORKFLOWS_DIRECTORY = ".github/workflows";
 const LHCI_COMMAND = "npx @lhci/cli@0.14.x autorun";
 const LIGHTHOUSE_JOB_KEY = "lighthouse";
 const BUILD_COMMAND = "npm run build";
@@ -77,6 +77,8 @@ describe("ci.yml lighthouse job build reuse", () => {
     );
     expect(upload?.with?.name).toBe(BUILD_ARTIFACT_NAME);
     expect(upload?.with?.path).toBe(BUILD_OUTPUT_DIRECTORY);
+    expect(upload?.with?.["if-no-files-found"]).toBe("error");
+    expect(upload?.with?.["include-hidden-files"]).toBe(true);
   });
 
   it("uploads the artifact after the build step", () => {
@@ -98,10 +100,17 @@ describe("ci.yml lighthouse job build reuse", () => {
     expect([job?.needs].flat()).toContain("ci");
   });
 
-  it("has no separate lighthouse workflow producing a differently named check", () => {
-    expect(existsSync(join(process.cwd(), LIGHTHOUSE_WORKFLOW_PATH))).toBe(
-      false,
+  it("defines the lighthouse job only in ci.yml", () => {
+    const workflowFiles = readdirSync(
+      join(process.cwd(), WORKFLOWS_DIRECTORY),
+    ).filter((file) => /\.ya?ml$/.test(file));
+    const filesWithLighthouseJob = workflowFiles.filter(
+      (file) =>
+        readWorkflow(`${WORKFLOWS_DIRECTORY}/${file}`).jobs?.[
+          LIGHTHOUSE_JOB_KEY
+        ],
     );
+    expect(filesWithLighthouseJob).toEqual(["ci.yml"]);
   });
 
   it("installs dependencies and keeps the lhci autorun invocation", () => {
