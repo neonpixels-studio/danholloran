@@ -77,6 +77,9 @@ export function pageMeta(opts: {
   // Injected so tests can avoid reading real files.
   readImageDimensions?: ImageDimensionReader;
   type?: "website" | "article";
+  // ISO 8601; emitted as article:published_time / article:modified_time.
+  publishedTime?: string;
+  modifiedTime?: string;
   jsonLd?: Record<string, unknown>;
 }): any[] {
   const {
@@ -87,6 +90,8 @@ export function pageMeta(opts: {
     imageAlt,
     readImageDimensions = readLocalImageDimensions,
     type = "website",
+    publishedTime,
+    modifiedTime,
     jsonLd,
   } = opts;
   const meta: any[] = [
@@ -112,6 +117,18 @@ export function pageMeta(opts: {
         readImageDimensions(image),
       ),
     );
+  }
+  if (publishedTime) {
+    meta.push([
+      "meta",
+      { property: "article:published_time", content: publishedTime },
+    ]);
+  }
+  if (modifiedTime) {
+    meta.push([
+      "meta",
+      { property: "article:modified_time", content: modifiedTime },
+    ]);
   }
   if (jsonLd) {
     meta.push([

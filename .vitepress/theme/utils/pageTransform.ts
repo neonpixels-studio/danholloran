@@ -13,6 +13,7 @@ import {
   POSTS_DIR,
 } from "./loadPublishedPosts";
 import { SITE_URL } from "./constants";
+import { resolvePostDates } from "./postDates";
 import { archiveHref, toPageNumber, topicLabel } from "./archive";
 
 // The blog index's JSON-LD lists at most this many recent posts.
@@ -58,6 +59,7 @@ function isTransformOwned(tag: any[]): boolean {
   if (tag[0] !== "meta") return false;
   return (
     tag[1]?.property?.startsWith("og:") ||
+    tag[1]?.property?.startsWith("article:") ||
     tag[1]?.name?.startsWith("twitter:") ||
     tag[1]?.name === "robots"
   );
@@ -412,6 +414,7 @@ function transformPost(pageData: PageData): void {
   const image =
     typeof data.image === "string" ? data.image : DEFAULT_SOCIAL_IMAGE;
   const url = `${SITE_URL}/posts/${slug}`;
+  const dates = resolvePostDates(data, slug);
   setStandardPageMeta(
     pageData,
     {
@@ -420,13 +423,15 @@ function transformPost(pageData: PageData): void {
       url,
       image,
       type: "article",
+      publishedTime: dates?.published,
+      modifiedTime: dates?.modified,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "Article",
         headline: title,
         description,
-        datePublished: data.date,
-        dateModified: data.dateModified ?? data.date,
+        datePublished: dates?.published ?? data.date,
+        dateModified: dates?.modified ?? data.date,
         url,
         ...buildArticleTopicalFields(data),
         image: `${SITE_URL}${image}`,
