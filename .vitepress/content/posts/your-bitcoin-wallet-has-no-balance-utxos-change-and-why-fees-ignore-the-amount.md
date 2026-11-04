@@ -1,10 +1,10 @@
 ---
-date: '2026-11-04T02:14:37.000-08:00'
-tags: ['finance', 'crypto', 'bitcoin', 'blockchain', 'utxo']
+date: "2026-11-04T02:14:37.000-08:00"
+tags: ["finance", "crypto", "bitcoin", "blockchain", "utxo"]
 draft: false
 title: "Your Bitcoin Wallet Has No Balance: UTXOs, Change, and Why Fees Ignore the Amount"
-image: '/images/posts/your-bitcoin-wallet-has-no-balance-utxos-change-and-why-fees-ignore-the-amount.jpg'
-topic: 'finance'
+image: "/images/posts/your-bitcoin-wallet-has-no-balance-utxos-change-and-why-fees-ignore-the-amount.jpg"
+topic: "finance"
 description: "Bitcoin doesn't track balances, it tracks unspent outputs. Here's how the UTXO model works, where change goes, and why sending $50 can cost more than sending $50,000."
 ---
 
@@ -37,21 +37,21 @@ For the common native SegWit (P2WPKH) address type, the widely used reference si
 
 ```js
 // Rough size for a P2WPKH transaction, in virtual bytes
-const OVERHEAD = 10.5
-const INPUT = 68
-const OUTPUT = 31
+const OVERHEAD = 10.5;
+const INPUT = 68;
+const OUTPUT = 31;
 
 function estimateFee({ inputs, outputs, satPerVb }) {
-  const vbytes = OVERHEAD + inputs * INPUT + outputs * OUTPUT
-  return { vbytes, sats: Math.ceil(vbytes * satPerVb) }
+  const vbytes = OVERHEAD + inputs * INPUT + outputs * OUTPUT;
+  return { vbytes, sats: Math.ceil(vbytes * satPerVb) };
 }
 
 // Wallet A: one 0.05 BTC UTXO, sends 0.01 BTC (recipient + change)
-estimateFee({ inputs: 1, outputs: 2, satPerVb: 5 })
+estimateFee({ inputs: 1, outputs: 2, satPerVb: 5 });
 // -> { vbytes: 140.5, sats: 703 }
 
 // Wallet B: twenty-one 0.0005 BTC UTXOs, sends the same 0.01 BTC
-estimateFee({ inputs: 21, outputs: 2, satPerVb: 5 })
+estimateFee({ inputs: 21, outputs: 2, satPerVb: 5 });
 // -> { vbytes: 1500.5, sats: 7503 }
 ```
 
