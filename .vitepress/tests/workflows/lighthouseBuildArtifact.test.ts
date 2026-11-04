@@ -5,7 +5,7 @@ import { parse } from "yaml";
 
 const CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
 const WORKFLOWS_DIRECTORY = ".github/workflows";
-const LHCI_COMMAND = "npx @lhci/cli@0.14.x autorun";
+const LHCI_COMMAND = "npm run lighthouse";
 const LIGHTHOUSE_JOB_KEY = "lighthouse";
 const BUILD_COMMAND = "npm run build";
 const BUILD_ARTIFACT_NAME = "site-build";
