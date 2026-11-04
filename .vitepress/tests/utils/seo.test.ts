@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   pageMeta,
+  twitterHandle,
   personJsonLd,
   profilePageJsonLd,
 } from "../../theme/utils/seo";
@@ -80,6 +81,99 @@ describe("pageMeta", () => {
       "meta",
       { name: "twitter:image", content: `${SITE_URL}/images/photo.png` },
     ]);
+  });
+
+  it("emits alt text defaulting to the title and measured dimensions", () => {
+    const result = pageMeta({
+      title: "My Post",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+      readImageDimensions: () => ({ width: 1200, height: 675 }),
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:alt", content: "My Post" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { name: "twitter:image:alt", content: "My Post" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:width", content: "1200" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:height", content: "675" },
+    ]);
+  });
+
+  it("prefers an explicit imageAlt over the title", () => {
+    const result = pageMeta({
+      title: "My Post",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+      imageAlt: "A photo of a hill",
+      readImageDimensions: () => null,
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:alt", content: "A photo of a hill" },
+    ]);
+  });
+
+  it("omits dimensions when the image cannot be measured", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/photo.png",
+      readImageDimensions: () => null,
+    });
+    const tags = JSON.stringify(result);
+    expect(tags).toContain("og:image:alt");
+    expect(tags).not.toContain("og:image:width");
+    expect(tags).not.toContain("og:image:height");
+  });
+
+  it("reads the real default social image dimensions from disk", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+      image: "/images/default-social.png",
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:width", content: "1200" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { property: "og:image:height", content: "675" },
+    ]);
+  });
+
+  it("emits twitter:site and twitter:creator from the linked X profile", () => {
+    const result = pageMeta({
+      title: "T",
+      description: "D",
+      url: "https://example.com",
+    });
+    expect(result).toContainEqual([
+      "meta",
+      { name: "twitter:site", content: "@grimicorn" },
+    ]);
+    expect(result).toContainEqual([
+      "meta",
+      { name: "twitter:creator", content: "@grimicorn" },
+    ]);
+  });
+
+  it("derives an @handle from a profile URL", () => {
+    expect(twitterHandle("https://x.com/someone")).toBe("@someone");
+    expect(twitterHandle("https://x.com/")).toBeNull();
   });
 
   it("omits image tags when no image is provided", () => {
