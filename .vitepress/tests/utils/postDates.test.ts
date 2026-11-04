@@ -4,6 +4,8 @@ vi.mock("../../theme/utils/gitLastModified", () => ({
   gitLastModified: vi.fn(),
 }));
 
+import { join } from "path";
+import { POSTS_DIR } from "../../theme/utils/loadPublishedPosts";
 import { gitLastModified } from "../../theme/utils/gitLastModified";
 import { resolvePostDates } from "../../theme/utils/postDates";
 
@@ -35,6 +37,27 @@ describe("resolvePostDates", () => {
       published: "2024-03-01",
       modified: "2024-09-10T00:00:00.000Z",
     });
+    expect(mockGitLastModified).toHaveBeenCalledWith(join(POSTS_DIR, "a.md"));
+  });
+
+  it("rejects non-ISO date strings", () => {
+    expect(resolvePostDates({ date: "March 1, 2024" }, "a")).toBeNull();
+  });
+
+  it("clamps a frontmatter dateModified earlier than the publish date", () => {
+    expect(
+      resolvePostDates({ date: "2024-03-01", dateModified: "2023-01-01" }, "a")
+        ?.modified,
+    ).toBe("2024-03-01");
+  });
+
+  it("ignores an unparseable frontmatter dateModified in favor of git", () => {
+    mockGitLastModified.mockReturnValue(new Date("2024-09-10T00:00:00.000Z"));
+
+    expect(
+      resolvePostDates({ date: "2024-03-01", dateModified: "garbage" }, "a")
+        ?.modified,
+    ).toBe("2024-09-10T00:00:00.000Z");
   });
 
   it("falls back to the publish date when git is unavailable (shallow clone)", () => {

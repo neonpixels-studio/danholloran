@@ -430,6 +430,8 @@ function transformPost(pageData: PageData): void {
         "@type": "Article",
         headline: title,
         description,
+        // Raw frontmatter values remain the fallback when the date is unusable,
+        // preserving the pre-existing behavior for malformed posts.
         datePublished: dates?.published ?? data.date,
         dateModified: dates?.modified ?? data.date,
         url,

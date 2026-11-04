@@ -7,6 +7,11 @@ export interface PostDates {
   modified: string;
 }
 
+// Date-only or full datetime with an offset. Anything else Date.parse accepts
+// ("March 1, 2024") is not valid ISO 8601 for article:* meta or schema.org.
+const ISO_8601_PATTERN =
+  /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2}))?$/;
+
 // Frontmatter dates are YAML: usually an ISO string, but yaml parses YAML 1.1
 // timestamps into real Date objects. Returns an ISO 8601 string, or null when
 // the value is absent or unparseable.
@@ -14,7 +19,11 @@ function toIsoString(value: unknown): string | null {
   if (value instanceof Date) {
     return Number.isNaN(value.getTime()) ? null : value.toISOString();
   }
-  if (typeof value !== "string" || Number.isNaN(Date.parse(value))) {
+  if (
+    typeof value !== "string" ||
+    !ISO_8601_PATTERN.test(value) ||
+    Number.isNaN(Date.parse(value))
+  ) {
     return null;
   }
   return value;
