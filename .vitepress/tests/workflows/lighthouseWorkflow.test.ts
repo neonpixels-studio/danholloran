@@ -7,6 +7,8 @@ const LIGHTHOUSE_WORKFLOW_PATH = ".github/workflows/lighthouse.yml";
 const LIGHTHOUSE_JOB_KEY = "lighthouse";
 const LIGHTHOUSE_SCRIPT_NAME = "lighthouse";
 const LHCI_PACKAGE = "@lhci/cli";
+const NPX_FETCH_PATTERN = /\bnpx\b.*(@lhci\/cli|\blhci\b)/;
+const VERSION_RANGE_PATTERN = /^[\^~]?\d+\.\d+\.\d+$/;
 
 type WorkflowStep = { name?: string; run?: string };
 type Workflow = { jobs?: Record<string, { steps?: WorkflowStep[] }> };
@@ -15,8 +17,8 @@ type PackageJson = {
   devDependencies?: Record<string, string>;
 };
 
-function readJson(path: string): PackageJson {
-  return JSON.parse(readFileSync(join(process.cwd(), path), "utf8"));
+function readPackageJson(): PackageJson {
+  return JSON.parse(readFileSync(join(process.cwd(), "package.json"), "utf8"));
 }
 
 function readLighthouseRunCommands(): string[] {
@@ -38,14 +40,16 @@ describe("lighthouse workflow", () => {
 
   it("does not fetch the CLI with npx", () => {
     const fetchesWithNpx = readLighthouseRunCommands().some((command) =>
-      command.includes(`npx ${LHCI_PACKAGE}`),
+      NPX_FETCH_PATTERN.test(command),
     );
     expect(fetchesWithNpx).toBe(false);
   });
 
   it("declares the CLI as a devDependency and the script invokes it", () => {
-    const packageJson = readJson("package.json");
-    expect(packageJson.devDependencies?.[LHCI_PACKAGE]).toBeDefined();
+    const packageJson = readPackageJson();
+    expect(packageJson.devDependencies?.[LHCI_PACKAGE]).toMatch(
+      VERSION_RANGE_PATTERN,
+    );
     expect(packageJson.scripts?.[LIGHTHOUSE_SCRIPT_NAME]).toBe("lhci autorun");
   });
 });
