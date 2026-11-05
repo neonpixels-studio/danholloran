@@ -1,10 +1,10 @@
 ---
-date: '2026-11-05T08:06:24.000-08:00'
-tags: ['tooling', 'javascript', 'typescript', 'testing']
+date: "2026-11-05T08:06:24.000-08:00"
+tags: ["tooling", "javascript", "typescript", "testing"]
 draft: false
 title: "Oxlint JS Plugins: Your Custom ESLint Rules No Longer Keep You on ESLint"
-image: '/images/posts/oxlint-js-plugins-your-custom-eslint-rules-no-longer-keep-you-on-eslint.jpg'
-topic: 'development'
+image: "/images/posts/oxlint-js-plugins-your-custom-eslint-rules-no-longer-keep-you-on-eslint.jpg"
+topic: "development"
 description: "Oxlint now runs ESLint plugins and your own custom rules, so the last excuse for a slow lint step is gone. Here's how JS plugins work, how to migrate, and where the gaps still are."
 ---
 
@@ -48,27 +48,27 @@ If you've written an ESLint rule before, you already know how to write an Oxlint
 
 ```js
 // lint/local-rules.js
-import { eslintCompatPlugin } from '@oxlint/plugins'
+import { eslintCompatPlugin } from "@oxlint/plugins";
 
 const noLegacyApiClient = {
   createOnce(context) {
     return {
       ImportDeclaration(node) {
-        if (node.source.value === '@/lib/legacy-api') {
+        if (node.source.value === "@/lib/legacy-api") {
           context.report({
             node,
-            message: 'Use the generated client in @/lib/api instead.',
-          })
+            message: "Use the generated client in @/lib/api instead.",
+          });
         }
       },
-    }
+    };
   },
-}
+};
 
 export default eslintCompatPlugin({
-  meta: { name: 'local-rules' },
-  rules: { 'no-legacy-api-client': noLegacyApiClient },
-})
+  meta: { name: "local-rules" },
+  rules: { "no-legacy-api-client": noLegacyApiClient },
+});
 ```
 
 The difference is that ESLint's `create` runs once per file, so the linter has to call into JavaScript just to find out which AST nodes your rule cares about. `createOnce` runs a single time, which lets Oxlint learn your visitor up front and, eventually, skip files that contain none of those nodes without crossing the Rust/JS boundary at all. Any per-file state moves into a `before()` hook. The docs are candid that this doesn't make rules faster yet; it positions them to get faster for free in later releases. And because `eslintCompatPlugin` adds a `create` shim, the same plugin still runs in plain ESLint, which matters during a gradual migration.
