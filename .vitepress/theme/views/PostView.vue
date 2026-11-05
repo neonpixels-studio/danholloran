@@ -5,6 +5,7 @@ import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
+import StaticImage from "@components/StaticImage.vue";
 import {
   archiveHref,
   hasFilterRoute,
@@ -138,10 +139,12 @@ const nextPost = computed(() =>
       <div
         class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2"
       >
-        <img
+        <StaticImage
           :src="resume.photo"
           alt="Dan Holloran"
           class="h-full w-full object-cover"
+          width="40"
+          height="40"
         />
       </div>
       <div class="flex-1">

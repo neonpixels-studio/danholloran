@@ -10,6 +10,7 @@
 // ================================================
 import { useRevealAnimations } from "@composables/useRevealAnimations";
 import resume from "@data/resume.ts";
+import StaticImage from "@components/StaticImage.vue";
 import { formatPeriod } from "@utils/formatDate";
 
 useRevealAnimations();
@@ -65,10 +66,12 @@ useRevealAnimations();
           <div
             class="border-accent h-24 w-24 shrink-0 overflow-hidden rounded-full border-[3px] shadow-[0_8px_32px_rgba(173,70,255,0.15)] print:shadow-none"
           >
-            <img
+            <StaticImage
               :src="resume.photo"
               alt="Dan Holloran"
               class="h-full w-full object-cover"
+              width="96"
+              height="96"
             />
           </div>
           <div>

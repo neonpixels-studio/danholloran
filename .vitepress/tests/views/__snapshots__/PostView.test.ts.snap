@@ -8,7 +8,9 @@ exports[`PostView > hides the finance disclaimer for non-finance posts 1`] = `
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
-    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2"><img src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover"></div>
+    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
+      <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
+    </div>
     <div class="flex-1">
       <div class="font-mono text-[0.8rem] font-semibold">Dan Holloran</div>
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
@@ -40,7 +42,9 @@ exports[`PostView > renders correctly 1`] = `
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
-    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2"><img src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover"></div>
+    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
+      <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
+    </div>
     <div class="flex-1">
       <div class="font-mono text-[0.8rem] font-semibold">Dan Holloran</div>
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
@@ -72,7 +76,9 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">Second Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The second post description.</p>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
-    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2"><img src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover"></div>
+    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
+      <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
+    </div>
     <div class="flex-1">
       <div class="font-mono text-[0.8rem] font-semibold">Dan Holloran</div>
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
@@ -105,7 +111,9 @@ exports[`PostView > shows the finance disclaimer for finance posts 1`] = `
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
-    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2"><img src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover"></div>
+    <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
+      <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
+    </div>
     <div class="flex-1">
       <div class="font-mono text-[0.8rem] font-semibold">Dan Holloran</div>
       <div class="text-fg-subtle font-mono text-[0.7rem]">Senior Frontend Developer</div>
