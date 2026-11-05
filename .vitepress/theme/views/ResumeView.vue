@@ -22,7 +22,7 @@ useRevealAnimations();
   >
     <!-- ACTION BAR -->
     <div
-      class="no-print reveal mb-8 flex flex-wrap items-center justify-between gap-3"
+      class="no-print reveal in mb-8 flex flex-wrap items-center justify-between gap-3"
     >
       <div
         class="text-accent font-mono text-[0.68rem] tracking-widest uppercase"
@@ -59,7 +59,7 @@ useRevealAnimations();
 
     <div id="resume">
       <!-- HEADER -->
-      <header class="reveal border-line mb-10 pb-10 print:mb-6 print:pb-6">
+      <header class="reveal in border-line mb-10 pb-10 print:mb-6 print:pb-6">
         <div
           class="grid grid-cols-[auto_1fr] items-center gap-8 max-md:grid-cols-1 max-md:gap-6"
         >
@@ -123,12 +123,12 @@ useRevealAnimations();
           class="grid grid-cols-[180px_1fr] items-start gap-12 max-md:grid-cols-1 max-md:gap-3"
         >
           <h2
-            class="reveal text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
+            class="reveal in text-accent pt-1 font-mono text-[0.75rem] tracking-widest uppercase"
           >
             // summary
           </h2>
           <p
-            class="reveal text-fg-muted text-[0.95rem] leading-[1.75]"
+            class="reveal in text-fg-muted text-[0.95rem] leading-[1.75]"
             v-html="resume.summary"
           ></p>
         </div>
