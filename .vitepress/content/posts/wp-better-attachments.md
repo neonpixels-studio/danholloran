@@ -128,7 +128,7 @@ wpba_attachment_list( array(
 
 ## Getting Started
 
-To get started with WP Better Attachments you can download it directly [here](https://github.com/DHolloran/wp-better-attachments/archive/master.zip), search for WP Github Recent Commit in your administrator section's Plugins > Add New, or you can download it from the [Wordpress plugins directory](http://wordpress.org/extend/plugins/wp-github-recent-commit/)
+To get started with WP Better Attachments you can [download the WP Better Attachments zip from GitHub](https://github.com/DHolloran/wp-better-attachments/archive/master.zip), search for WP Github Recent Commit in your administrator section's Plugins > Add New, or you can download it from the [Wordpress plugins directory](http://wordpress.org/extend/plugins/wp-github-recent-commit/)
 
 ### Wordpress Plugin Directory Instructions
 
