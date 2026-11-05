@@ -35,6 +35,16 @@ describe("PostsView", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  it("crops thumbnails to their 16:9 box instead of stretching them", () => {
+    const wrapper = shallowMount(PostsView, { props: { posts: mockPosts } });
+    const thumbnails = wrapper.findAll("responsive-image-stub");
+
+    expect(thumbnails.length).toBeGreaterThan(0);
+    thumbnails.forEach((thumbnail) =>
+      expect(thumbnail.classes()).toContain("object-cover"),
+    );
+  });
+
   it("renders with empty posts list", () => {
     const wrapper = shallowMount(PostsView, { props: { posts: [] } });
     expect(wrapper.html()).toMatchSnapshot();

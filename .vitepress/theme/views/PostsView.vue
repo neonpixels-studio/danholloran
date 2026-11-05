@@ -324,7 +324,7 @@ onUnmounted(() => {
               ? '(max-width: 767px) 100vw, min(45vw, 495px)'
               : '(max-width: 767px) 100vw, 320px'
           "
-          class="object.fit h-full w-full"
+          class="h-full w-full object-cover"
           :alt="`${post.frontmatter.title} thumbnail`"
         />
       </div>

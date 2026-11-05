@@ -160,7 +160,7 @@ const nextPost = computed(() =>
         :src="post.frontmatter.image"
         variant="hero"
         sizes="(max-width: 767px) 100vw, 720px"
-        class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3"
+        class="focus-visible:outline-accent h-full w-full cursor-zoom-in object-cover focus-visible:outline-2 focus-visible:-outline-offset-3"
         :alt="post.frontmatter.title"
         fetchpriority="high"
         role="button"

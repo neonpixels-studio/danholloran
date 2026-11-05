@@ -112,6 +112,17 @@ describe("PostView", () => {
     expect(hero.element.parentElement?.className).toContain("aspect-video");
   });
 
+  it("crops the hero to its 16:9 box instead of stretching it", () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    const hero = wrapper.find(
+      `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
+    );
+
+    expect(hero.classes()).toContain("object-cover");
+  });
+
   it("exposes the hero image as a keyboard-operable control", () => {
     const wrapper = shallowMount(PostView, {
       props: { post: mockPosts[0], posts: mockPosts },
