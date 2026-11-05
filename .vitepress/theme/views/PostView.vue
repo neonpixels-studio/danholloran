@@ -15,6 +15,8 @@ import {
 import { formatPostDateFor } from "@utils/formatDate";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
+// The post body is the default slot: posts/[slug].md compiles it into that
+// page's own chunk, so no page ships any other post's html.
 const { post, posts } = defineProps<{
   post: Post;
   posts: Post[];
@@ -177,8 +179,9 @@ const nextPost = computed(() =>
       class="post-body text-fg text-base leading-[1.85]"
       @click="onArticleClick"
       @keydown="onArticleKeydown"
-      v-html="post.html"
-    ></article>
+    >
+      <slot />
+    </article>
 
     <!-- DISCLAIMER -->
     <aside

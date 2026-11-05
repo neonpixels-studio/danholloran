@@ -5,9 +5,9 @@ import { POSTS_GLOB, transformPosts } from "./transformPosts.ts";
 declare const data: Post[];
 export { data };
 
-// List loader used by Home and the blog index. render:false so those list
-// surfaces never download any post's rendered html; only the detail loader
-// (postsDetail.data.ts) carries html, and only post detail pages import it.
+// Post metadata for Home, the blog index, and each post page's prev/next
+// links. render:false so no surface downloads any post's rendered html; each
+// post page compiles only its own body (see posts/[slug].paths.ts).
 export default createContentLoader(POSTS_GLOB, {
   // includeSrc is needed only so `transform` can compute readTime; src itself
   // is stripped before the payload leaves `transform`.
