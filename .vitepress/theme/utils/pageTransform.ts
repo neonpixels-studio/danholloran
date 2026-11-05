@@ -36,7 +36,7 @@ function applyTitleTemplate(pageData: PageData, title: string): void {
 
 // Fallback social image for pages without a frontmatter `image`, so og:image,
 // twitter:image, and the Article JSON-LD image always resolve. (The post hero
-// is fed by the postsDetail content loader, not this transform. The blog-index
+// is fed by the posts content loader, not this transform. The blog-index
 // BlogPosting list entries intentionally stay image-optional.)
 const DEFAULT_SOCIAL_IMAGE = "/images/default-social.png";
 import {
@@ -409,7 +409,7 @@ function transformPost(pageData: PageData): void {
   // Defense-in-depth: posts/[slug].paths.ts already drops drafts from route
   // generation, but bail here too so a draft reached through any other route
   // source never emits title/canonical/OG/JSON-LD. Without this a draft would
-  // ship rich SEO metadata over a body PostView renders blank (postsDetail.data
+  // ship rich SEO metadata over a body PostView renders blank (posts.data
   // excludes it) — a reachable, indexable, empty page.
   if (!isPublished(data, slug)) return;
 

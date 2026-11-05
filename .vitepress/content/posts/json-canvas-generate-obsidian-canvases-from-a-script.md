@@ -141,13 +141,13 @@ console.log(`Wrote ${cards.length} cards across ${STATUSES.length} groups`);
 
 Run it with `node scripts/build-project-canvas.mjs ~/Vault` and open `Project Board.canvas`. File paths in `file` nodes are vault-relative, which is why the script stores `Projects/<name>.md` rather than an absolute path.
 
-The frontmatter parsing here is intentionally naive. If your properties get more complex, swap in a YAML parser, or pair this with [the Obsidian CLI](/posts/the-obsidian-cli-script-your-vault-from-the-terminal/) to pull note metadata instead of regexing it yourself.
+The frontmatter parsing here is intentionally naive. If your properties get more complex, swap in a YAML parser, or pair this with [the Obsidian CLI](/posts/the-obsidian-cli-script-your-vault-from-the-terminal) to pull note metadata instead of regexing it yourself.
 
 ## When generating beats dragging
 
 Generated canvases shine when the layout is derived from data you already maintain: status boards, a reading list grouped by tag, a map of every note linking to a given MOC, or a dependency graph built from a `blockedBy` property. Rerun the script and the board catches up.
 
-They're a worse fit for freeform thinking. If you rearrange cards by hand and then regenerate, your layout is gone. A practical compromise is to generate into a file named something like `Project Board (generated).canvas` and treat it as read-only, keeping your hand-tuned canvases separate. The [Canvas core plugin](/posts/obsidian-canvas-turn-your-vault-into-a-visual-thinking-space/) is still the right tool when the arrangement itself is the thinking.
+They're a worse fit for freeform thinking. If you rearrange cards by hand and then regenerate, your layout is gone. A practical compromise is to generate into a file named something like `Project Board (generated).canvas` and treat it as read-only, keeping your hand-tuned canvases separate. The [Canvas core plugin](/posts/obsidian-canvas-turn-your-vault-into-a-visual-thinking-space) is still the right tool when the arrangement itself is the thinking.
 
 Also note that the spec is, in the Obsidian team's own words, "relatively conservative." It covers the shared core, not every feature an app might add, so stick to the documented fields if you want files that other JSON Canvas apps can open too.
 

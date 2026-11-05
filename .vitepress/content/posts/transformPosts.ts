@@ -3,11 +3,10 @@ import type { Post, PostMeta } from "@typedefs";
 import { calculateReadTime } from "../../theme/utils/readTime.ts";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 
-// Both the list loader (posts.data.ts) and the detail loader
-// (postsDetail.data.ts) match the same posts and share this transform; the
-// only difference between them is the `render` flag they pass to
-// createContentLoader. Editing this shared module may need a dev-server
-// restart for both loaders to pick up the change.
+// Used by the posts list loader (posts.data.ts). Post bodies are not loaded
+// here: posts/[slug].paths.ts injects each body into its own page. Editing
+// this module may need a dev-server restart for the loader to pick up the
+// change.
 export const POSTS_GLOB = ".vitepress/content/posts/*.md";
 
 // Shared by transformPosts and search.data.ts so both loaders derive the same
@@ -82,10 +81,6 @@ export function transformPosts(raw: ContentData[]): Post[] {
       // leak into the cache and corrupt the next transform pass. This does
       // not deep-copy nested frontmatter values (e.g. `tags`); transform
       // never writes to those, so the shared reference is safe.
-      //
-      // `html` is spread through `...post` only when the loader ran with
-      // render:true (the detail loader); the render:false list loader never
-      // receives it, so list surfaces ship no rendered post html.
       return {
         ...post,
         url: `/posts/${slug}`,

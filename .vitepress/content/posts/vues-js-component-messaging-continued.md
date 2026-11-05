@@ -8,7 +8,7 @@ topic: development
 description: "A follow-up to the Vue.js component messaging post — exploring a prop-based approach to namespaced events so multiple instances of the same component on a…"
 ---
 
-So yesterday I posted about Vue.js component messaging. This is in a way a continuation so you will want to read that first "[Vue.js Component Messaging](/2015/12/07/vues-js-component-messaging/)".
+So yesterday I posted about Vue.js component messaging. This is in a way a continuation so you will want to read that first "[Vue.js Component Messaging](/posts/vues-js-component-messaging)".
 
 I had suggested that firing an event off of a common element wether that is the body or the main Vue.js instance really does not matter. However I kind of got to thinking more about it and that would work but there may be a problem if there are multiple instances of the same component on the same page. In the example of an Alert component if for some reason there was one Alert component in the header and one in the footer an alert message would be added to both.
 

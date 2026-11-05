@@ -10,7 +10,7 @@ description: "How to install and configure SublimeLinter and its language-specif
 
 Sublime Text is one of my favorite editors I have ever used and it has excellent support for linting. This will cover Sublime Text 3 only since the plugin used SublimeLinter went through a major shift from Sublime text 2 to 3. The biggest difference is in ST2 the linters where bundled with the plugin now in ST3 they are created as plugins.
 
-So we will go through the steps to get them setup and configured for Sublime Text 3. The linter plugins all have some requirements you can check out [Linting Your Code: Installing the Linters](/2015/08/27/linting-your-code-installing-the-linters/) to get all of the requirements installed.
+So we will go through the steps to get them setup and configured for Sublime Text 3. The linter plugins all have some requirements you can check out [Linting Your Code: Installing the Linters](/posts/linting-your-code-installing-the-linters) to get all of the requirements installed.
 
 _Everything with a $ should be ran in the terminal without the ($ )._
 

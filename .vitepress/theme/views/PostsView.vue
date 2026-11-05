@@ -130,6 +130,23 @@ function isFeatured(index: number): boolean {
   return currentPage.value === FIRST_PAGE && index === 0;
 }
 
+// The first card is the page's LCP on every page, so it renders visible
+// without waiting for the fade observer and fetches its thumbnail first.
+function isLeadCard(index: number): boolean {
+  return index === 0;
+}
+
+function cardClass(index: number): Record<string, boolean> {
+  return {
+    "col-span-full flex-row! max-md:flex-col!": isFeatured(index),
+    visible: isLeadCard(index),
+  };
+}
+
+function thumbnailFetchPriority(index: number): "high" | undefined {
+  return isLeadCard(index) ? "high" : undefined;
+}
+
 function topicHref(slug: string): string {
   return archiveHref(FIRST_PAGE, { topicSlug: slug });
 }
@@ -212,7 +229,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header class="fade-in bg-topography-edge mx-auto max-w-275 px-8 pt-35 pb-12">
+  <header
+    class="fade-in bg-topography-edge visible mx-auto max-w-275 px-8 pt-35 pb-12"
+  >
     <div
       class="text-accent mb-4 font-mono text-[0.7rem] -tracking-widest uppercase"
     >
@@ -305,7 +324,7 @@ onUnmounted(() => {
       :key="post.frontmatter.slug"
       :href="post.url"
       class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5"
-      :class="{ 'col-span-full flex-row! max-md:flex-col!': isFeatured(i) }"
+      :class="cardClass(i)"
       :style="`transition-delay:${i * 60}ms`"
     >
       <div
@@ -324,8 +343,9 @@ onUnmounted(() => {
               ? '(max-width: 767px) 100vw, min(45vw, 495px)'
               : '(max-width: 767px) 100vw, 320px'
           "
-          class="object.fit h-full w-full"
+          class="h-full w-full object-cover"
           :alt="`${post.frontmatter.title} thumbnail`"
+          :fetchpriority="thumbnailFetchPriority(i)"
         />
       </div>
       <div class="flex flex-1 flex-col p-6">

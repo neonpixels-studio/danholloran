@@ -1,4 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
+import { readFileSync } from "fs";
+import { join } from "path";
+import { parseFrontmatter } from "../../theme/utils/frontmatter";
 import { createMarkdownRenderer, disposeMdItInstance } from "vitepress";
 import {
   zoomLabelFor,
@@ -6,6 +9,7 @@ import {
   setMarkdownZoomImageHints,
   applyMarkdownZoomImageHints,
   GENERIC_TOTAL_ENV_KEY,
+  POST_BODY_FRONTMATTER_KEY,
   type ZoomToken,
   type AltTextResolver,
 } from "../../theme/utils/markdownZoomImages";
@@ -296,6 +300,28 @@ describe("applyMarkdownZoomImageHints (integration)", () => {
     expect(html).toContain('aria-label="Zoom image: Inline diagram"');
   });
 
+  // posts/[slug].md hosts every post body (injected at its @content marker),
+  // so env.frontmatter there is [slug].md's own block, not the post's.
+  it("enriches an image in the post route page via its postBody marker", async () => {
+    const html = await renderWithZoomHints(
+      `---\n${POST_BODY_FRONTMATTER_KEY}: true\n---\n\n![Inline diagram](/images/a.jpg)\n`,
+    );
+
+    expect(html).toContain('role="button"');
+    expect(html).toContain('aria-label="Zoom image: Inline diagram"');
+  });
+
+  it("is wired to the real post route page's frontmatter", () => {
+    const routePage = readFileSync(
+      join(process.cwd(), "posts", "[slug].md"),
+      "utf-8",
+    );
+
+    expect(parseFrontmatter(routePage).data[POST_BODY_FRONTMATTER_KEY]).toBe(
+      true,
+    );
+  });
+
   it("leaves an image in a non-post document untouched", async () => {
     // No frontmatter at all — matches index.md/resume.md/themes/*.md, which
     // have no click/keydown handler ready to open a lightbox.
@@ -420,9 +446,9 @@ describe("applyMarkdownZoomImageHints (integration)", () => {
 
   // Every other test in this file wires applyMarkdownZoomImageHints through
   // a hand-written config callback, which proves the module works but not
-  // that it's actually reachable from postsDetail.data.ts's real render
-  // path — createContentLoader always builds its renderer from the site's
-  // own .vitepress/config.ts markdown options. configureMarkdown is the
+  // that it's actually reachable from the site's real render path — post
+  // pages and the feed both render with the site's own .vitepress/config.ts
+  // markdown options. configureMarkdown is the
   // exact function config.ts wires as `markdown.config`, so importing it
   // here (rather than config.ts itself, which has unrelated top-level side
   // effects that don't survive a test runner's module loader) is the one
@@ -469,6 +495,21 @@ describe("applyMarkdownZoomImageHints (integration)", () => {
       await renderWithZoomHints('<img src="/images/a.jpg">');
 
       expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it("names the page path in the warning when frontmatter has no slug or title", async () => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+      const md = await createZoomRenderer();
+
+      md.render(
+        `---\n${POST_BODY_FRONTMATTER_KEY}: true\n---\n\n<img src="/images/a.jpg">\n`,
+        { relativePath: "posts/some-post.md" },
+      );
+
+      expect(warn).toHaveBeenCalledWith(
+        expect.stringContaining("posts/some-post.md"),
+      );
       warn.mockRestore();
     });
 

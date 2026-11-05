@@ -8,7 +8,7 @@ topic: development
 description: "A walkthrough for setting up and configuring linter plugins in the Atom text editor — covering both the Preferences UI and the APM command-line tool for…"
 ---
 
-Atom is an awesome new editor built by Github it has some really good linter plugins. So we will go through the steps to get them setup and configured for Atom. The linter plugins all have some requirements you can check out [Linting Your Code: Installing the Linters](/posts/linting-your-code-installing-the-linters/) to get all of the requirements installed.
+Atom is an awesome new editor built by Github it has some really good linter plugins. So we will go through the steps to get them setup and configured for Atom. The linter plugins all have some requirements you can check out [Linting Your Code: Installing the Linters](/posts/linting-your-code-installing-the-linters) to get all of the requirements installed.
 
 _Everything with a $ should be ran in the terminal without the ($ )._
 

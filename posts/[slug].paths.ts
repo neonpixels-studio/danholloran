@@ -6,21 +6,19 @@ import { isPublished } from "../.vitepress/theme/utils/loadPublishedPosts";
 const POSTS_DIR = "./.vitepress/content/posts";
 const MARKDOWN_EXTENSION = ".md";
 
-// Primary gate keeping drafts out of the build: a draft generates no route at
-// all. Filter on the shared draft policy so drafts are dropped here exactly as
-// they are in the content loaders and the SEO transform (pageTransform.ts keeps
-// a matching guard as defense-in-depth for any draft reached another way).
-function isPublishedPostFile(file: string): boolean {
-  if (path.extname(file) !== MARKDOWN_EXTENSION) {
-    return false;
-  }
+interface PostFile {
+  slug: string;
+  data: Record<string, unknown>;
+  content: string;
+}
+
+function readPostFile(file: string): PostFile {
   try {
-    const { data } = parseFrontmatter(
+    const { data, content } = parseFrontmatter(
       fs.readFileSync(path.join(POSTS_DIR, file), "utf-8"),
     );
-    return isPublished(data, file);
+    return { slug: path.parse(file).name, data, content };
   } catch (error) {
-    // The read/parse are new throw sites in what was a pure extension filter.
     // Fail loud (a broken post shouldn't ship as a missing route) but name the
     // file, or the raw ENOENT/YAML error points at no post.
     throw new Error(`posts/[slug].paths: cannot read frontmatter for ${file}`, {
@@ -32,11 +30,21 @@ function isPublishedPostFile(file: string): boolean {
 export default {
   watch: [`${POSTS_DIR}/*${MARKDOWN_EXTENSION}`],
   paths() {
-    return fs
-      .readdirSync(POSTS_DIR)
-      .filter(isPublishedPostFile)
-      .map((file) => {
-        return { params: { slug: path.parse(file).name } };
-      });
+    return (
+      fs
+        .readdirSync(POSTS_DIR)
+        .filter((file) => path.extname(file) === MARKDOWN_EXTENSION)
+        .map(readPostFile)
+        // Primary gate keeping drafts out of the build: a draft generates no
+        // route at all. Filter on the shared draft policy so drafts are
+        // dropped here exactly as they are in the content loaders and the SEO
+        // transform (pageTransform.ts keeps a matching guard as
+        // defense-in-depth for any draft reached another way).
+        .filter((post) => isPublished(post.data, `${post.slug}.md`))
+        // `content` (the body, frontmatter stripped) replaces the
+        // <!-- @content --> marker in [slug].md, so each post page compiles
+        // only its own body instead of shipping every post's html.
+        .map((post) => ({ params: { slug: post.slug }, content: post.content }))
+    );
   },
 };
