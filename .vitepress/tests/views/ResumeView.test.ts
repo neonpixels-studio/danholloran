@@ -17,4 +17,15 @@ describe("ResumeView", () => {
     const wrapper = shallowMount(ResumeView);
     expect(wrapper.html()).toMatchSnapshot();
   });
+
+  // useRevealAnimations is mocked, so anything still at opacity 0 here would
+  // stay invisible until hydration, delaying LCP on the header and summary.
+  it("renders above-the-fold reveals already visible, without waiting on JS", () => {
+    const wrapper = shallowMount(ResumeView);
+    const header = wrapper.find("header.reveal");
+    const summary = wrapper.find("p.reveal");
+
+    expect(header.classes()).toContain("in");
+    expect(summary.classes()).toContain("in");
+  });
 });

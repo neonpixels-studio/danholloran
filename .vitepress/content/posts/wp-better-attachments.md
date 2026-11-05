@@ -13,7 +13,7 @@ description: "An overview of WP Better Attachments, a WordPress plugin for addin
 
 **Plugin Home Page:** [http://wordpress.org/extend/plugins/wp-better-attachments/](http://wordpress.org/extend/plugins/wp-better-attachments/)
 
-#### Thanks to these projects:
+## Thanks to these projects:
 
 - [WP Settings API Bootstrap](https://github.com/DerekMarcinyshyn/wp-settings-api-bootstrap)
 - [FlexSlider 2](http://www.woothemes.com/flexslider/2/)
@@ -128,7 +128,7 @@ wpba_attachment_list( array(
 
 ## Getting Started
 
-To get started with WP Better Attachments you can download it directly [here](https://github.com/DHolloran/wp-better-attachments/archive/master.zip), search for WP Github Recent Commit in your administrator section's Plugins > Add New, or you can download it from the [Wordpress plugins directory](http://wordpress.org/extend/plugins/wp-github-recent-commit/)
+To get started with WP Better Attachments you can [download the WP Better Attachments zip from GitHub](https://github.com/DHolloran/wp-better-attachments/archive/master.zip), search for WP Github Recent Commit in your administrator section's Plugins > Add New, or you can download it from the [Wordpress plugins directory](http://wordpress.org/extend/plugins/wp-github-recent-commit/)
 
 ### Wordpress Plugin Directory Instructions
 

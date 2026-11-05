@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`PostsView > renders correctly 1`] = `
-"<header class="fade-in bg-topography-edge mx-auto max-w-275 px-8 pt-35 pb-12">
+"<header class="fade-in bg-topography-edge visible mx-auto max-w-275 px-8 pt-35 pb-12">
   <div class="text-accent mb-4 font-mono text-[0.7rem] -tracking-widest uppercase"> // writing </div>
   <h1 class="mb-4 font-mono leading-[1.1] font-bold" style="letter-spacing: -0.04em;"> Thoughts on code,<br>craft &amp; exploration. </h1>
   <p class="text-fg-muted max-w-120 text-base"> A mix of technical deep-dives, career reflections, and dispatches from the road. </p>
@@ -12,9 +12,9 @@ exports[`PostsView > renders correctly 1`] = `
     <!--v-if-->
   </a></nav>
 <!--v-if-->
-<div class="mx-auto grid max-w-275 gap-6 px-8" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));"><a href="/posts/first-post" class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5 col-span-full flex-row! max-md:flex-col!" style="transition-delay: 0ms;">
+<div class="mx-auto grid max-w-275 gap-6 px-8" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));"><a href="/posts/first-post" class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5 col-span-full flex-row! max-md:flex-col! visible" style="transition-delay: 0ms;">
     <div class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1] aspect-auto w-[45%] max-md:aspect-video max-md:w-full">
-      <responsive-image-stub src="/images/posts/first-post.jpg" variant="thumb" sizes="(max-width: 767px) 100vw, min(45vw, 495px)" class="object.fit h-full w-full" alt="First Post thumbnail"></responsive-image-stub>
+      <responsive-image-stub src="/images/posts/first-post.jpg" variant="thumb" sizes="(max-width: 767px) 100vw, min(45vw, 495px)" class="h-full w-full object-cover" alt="First Post thumbnail" fetchpriority="high"></responsive-image-stub>
     </div>
     <div class="flex flex-1 flex-col p-6">
       <div class="mb-3 flex flex-wrap items-center gap-3"><span class="text-on-accent-dim bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase">development</span><span class="text-fg-subtle font-mono text-[0.68rem]">Jan 1, 2025</span><span class="text-fg-subtle font-mono text-[0.68rem]">· 5 min</span></div>
@@ -24,7 +24,7 @@ exports[`PostsView > renders correctly 1`] = `
     </div>
   </a><a href="/posts/second-post" class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5" style="transition-delay: 60ms;">
     <div class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1]">
-      <responsive-image-stub src="/images/posts/second-post.jpg" variant="thumb" sizes="(max-width: 767px) 100vw, 320px" class="object.fit h-full w-full" alt="Second Post thumbnail"></responsive-image-stub>
+      <responsive-image-stub src="/images/posts/second-post.jpg" variant="thumb" sizes="(max-width: 767px) 100vw, 320px" class="h-full w-full object-cover" alt="Second Post thumbnail"></responsive-image-stub>
     </div>
     <div class="flex flex-1 flex-col p-6">
       <div class="mb-3 flex flex-wrap items-center gap-3"><span class="text-on-accent-dim bg-accent-dim rounded-xs px-2 py-0.5 font-mono text-[0.62rem] font-semibold tracking-[0.08em] uppercase">career</span><span class="text-fg-subtle font-mono text-[0.68rem]">Feb 1, 2025</span><span class="text-fg-subtle font-mono text-[0.68rem]">· 3 min</span></div>
@@ -39,7 +39,7 @@ exports[`PostsView > renders correctly 1`] = `
 `;
 
 exports[`PostsView > renders with empty posts list 1`] = `
-"<header class="fade-in bg-topography-edge mx-auto max-w-275 px-8 pt-35 pb-12">
+"<header class="fade-in bg-topography-edge visible mx-auto max-w-275 px-8 pt-35 pb-12">
   <div class="text-accent mb-4 font-mono text-[0.7rem] -tracking-widest uppercase"> // writing </div>
   <h1 class="mb-4 font-mono leading-[1.1] font-bold" style="letter-spacing: -0.04em;"> Thoughts on code,<br>craft &amp; exploration. </h1>
   <p class="text-fg-muted max-w-120 text-base"> A mix of technical deep-dives, career reflections, and dispatches from the road. </p>

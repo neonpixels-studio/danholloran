@@ -5,6 +5,7 @@ import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
+import StaticImage from "@components/StaticImage.vue";
 import {
   archiveHref,
   hasFilterRoute,
@@ -14,6 +15,8 @@ import {
 import { formatPostDateFor } from "@utils/formatDate";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
+// The post body is the default slot: posts/[slug].md compiles it into that
+// page's own chunk, so no page ships any other post's html.
 const { post, posts } = defineProps<{
   post: Post;
   posts: Post[];
@@ -138,10 +141,12 @@ const nextPost = computed(() =>
       <div
         class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2"
       >
-        <img
+        <StaticImage
           :src="resume.photo"
           alt="Dan Holloran"
           class="h-full w-full object-cover"
+          width="40"
+          height="40"
         />
       </div>
       <div class="flex-1">
@@ -157,7 +162,7 @@ const nextPost = computed(() =>
         :src="post.frontmatter.image"
         variant="hero"
         sizes="(max-width: 767px) 100vw, 720px"
-        class="focus-visible:outline-accent h-full w-full cursor-zoom-in focus-visible:outline-2 focus-visible:-outline-offset-3"
+        class="focus-visible:outline-accent h-full w-full cursor-zoom-in object-cover focus-visible:outline-2 focus-visible:-outline-offset-3"
         :alt="post.frontmatter.title"
         fetchpriority="high"
         role="button"
@@ -174,8 +179,9 @@ const nextPost = computed(() =>
       class="post-body text-fg text-base leading-[1.85]"
       @click="onArticleClick"
       @keydown="onArticleKeydown"
-      v-html="post.html"
-    ></article>
+    >
+      <slot />
+    </article>
 
     <!-- DISCLAIMER -->
     <aside

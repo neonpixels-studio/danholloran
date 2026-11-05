@@ -24,13 +24,16 @@ import type { MarkdownRenderer } from "vitepress";
 // lightbox — an aria-haspopup="dialog" control with nothing listening is
 // worse than no control. VitePress's bundled frontmatter core rule populates
 // `env.frontmatter` from the file's YAML block even when the caller passes
-// no env at all (createContentLoader's `md.render(src)` call — the path that
-// produces post.html — passes none), so gating on the Post-only `topic`
-// field scopes this to post bodies specifically. `topic` alone (not also
-// `date`) is deliberate: loadPublishedPosts.ts documents that an undated
-// post is legitimate (e.g. some travel entries), and an unquoted YAML date
-// parses as a `Date` object rather than a string anyway — `topic` has
-// neither risk and no other page or content type in this repo sets it.
+// no env at all, so the gate reads frontmatter. Post pages render their body
+// inside posts/[slug].md (the post's markdown is injected at its @content
+// marker), so env.frontmatter there is [slug].md's own block, which sets
+// `postBody: true` (POST_BODY_FRONTMATTER_KEY). Post files themselves are
+// still recognized by their `topic` field, for renders of the raw post
+// source such as the feed. `topic` alone (not also `date`) is deliberate:
+// loadPublishedPosts.ts documents that an undated post is legitimate (e.g.
+// some travel entries), and an unquoted YAML date parses as a `Date` object
+// rather than a string anyway — `topic` has neither risk and no other page
+// or content type in this repo sets it.
 //
 // An image token's `alt` attr is still the empty placeholder markdown-it
 // seeds at parse time — the real text is only written into attrs by the
@@ -120,20 +123,31 @@ export interface ZoomToken {
 // injected so tests can drive the logic with a trivial fake.
 export type AltTextResolver = (_children: ZoomToken[] | null) => string;
 
+export const POST_BODY_FRONTMATTER_KEY = "postBody";
+
 function isPostFrontmatter(frontmatter: unknown): boolean {
   if (!frontmatter || typeof frontmatter !== "object") {
     return false;
   }
   const record = frontmatter as Record<string, unknown>;
-  return typeof record.topic === "string";
+  return (
+    typeof record.topic === "string" ||
+    record[POST_BODY_FRONTMATTER_KEY] === true
+  );
 }
 
-function postLabelFor(frontmatter: Record<string, unknown>): string {
+function postLabelFor(env: Record<string, unknown>): string {
+  const frontmatter = env.frontmatter as Record<string, unknown>;
   if (typeof frontmatter.slug === "string") {
     return frontmatter.slug;
   }
   if (typeof frontmatter.title === "string") {
     return frontmatter.title;
+  }
+  // [slug].md's frontmatter is shared by every post, so the page path is
+  // what identifies the post there.
+  if (typeof env.relativePath === "string") {
+    return env.relativePath;
   }
   return "unknown post";
 }
@@ -370,10 +384,7 @@ export function applyMarkdownZoomImageHints(md: MarkdownRenderer): void {
     // across multiple render() calls — the position count must never leak
     // across documents.
     state.env[GENERIC_POSITION_ENV_KEY] = 0;
-    warnAboutRawImgTags(
-      state.tokens,
-      postLabelFor(state.env.frontmatter as Record<string, unknown>),
-    );
+    warnAboutRawImgTags(state.tokens, postLabelFor(state.env));
   });
 
   const renderImage = md.renderer.rules.image!;

@@ -35,6 +35,38 @@ describe("PostsView", () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
+  it("crops thumbnails to their 16:9 box instead of stretching them", () => {
+    const wrapper = shallowMount(PostsView, { props: { posts: mockPosts } });
+    const thumbnails = wrapper.findAll("responsive-image-stub");
+
+    expect(thumbnails.length).toBeGreaterThan(0);
+    thumbnails.forEach((thumbnail) =>
+      expect(thumbnail.classes()).toContain("object-cover"),
+    );
+  });
+
+  it("renders the header and lead card visible and prioritizes the lead thumbnail", () => {
+    const wrapper = shallowMount(PostsView, { props: { posts: mockPosts } });
+    const cards = wrapper.findAll("a.fade-in");
+    const thumbnails = wrapper.findAll("responsive-image-stub");
+
+    // The fade observer is client-only, so anything without `visible` here
+    // stays at opacity 0 until hydration, delaying LCP.
+    expect(wrapper.find("header.fade-in").classes()).toContain("visible");
+    expect(cards[0].classes()).toContain("visible");
+    expect(thumbnails[0].attributes("fetchpriority")).toBe("high");
+  });
+
+  it("leaves later cards to the fade observer at normal fetch priority", () => {
+    const wrapper = shallowMount(PostsView, { props: { posts: mockPosts } });
+    const cards = wrapper.findAll("a.fade-in");
+    const thumbnails = wrapper.findAll("responsive-image-stub");
+
+    expect(cards.length).toBeGreaterThan(1);
+    expect(cards[1].classes()).not.toContain("visible");
+    expect(thumbnails[1].attributes("fetchpriority")).toBeUndefined();
+  });
+
   it("renders with empty posts list", () => {
     const wrapper = shallowMount(PostsView, { props: { posts: [] } });
     expect(wrapper.html()).toMatchSnapshot();

@@ -17,6 +17,11 @@ import { buildThemeSanitizeScript } from "./theme/utils/themeStorageSanitizer";
 import { buildThemeColorHeadEntries } from "./theme/utils/themeColor";
 import { buildFontPreloadHeadEntries } from "./theme/utils/fonts";
 import { assertImageVariantsUpToDate } from "./theme/utils/imageVariantManifest";
+import {
+  ICONS_STYLESHEET_FILE,
+  assertIconsStylesheetEmpty,
+  removeIconsStylesheetLink,
+} from "./theme/utils/iconsStylesheet";
 
 // The Shiki TextMate themes live under public/ so they double as the
 // downloadable Grimicorn port; this blog highlights its own code with them.
@@ -106,7 +111,12 @@ export default defineConfig({
   transformPageData,
   // Fonts are content-hashed by Vite, so preload URLs are only known at build.
   transformHead: ({ assets }) => buildFontPreloadHeadEntries(assets),
+  transformHtml: (html) => removeIconsStylesheetLink(html),
   async buildEnd(siteConfig) {
+    assertIconsStylesheetEmpty(
+      readFileSync(join(siteConfig.outDir, ICONS_STYLESHEET_FILE), "utf-8"),
+    );
+
     const feedRenderer = await createMarkdownRenderer(
       siteConfig.srcDir,
       siteConfig.markdown,

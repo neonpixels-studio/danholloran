@@ -10,6 +10,14 @@ import PostView from "@views/PostView.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import { toFilterSlug } from "@utils/archive";
 
+// posts/[slug].md passes the compiled post body as PostView's default slot.
+function mountWithBody(body: string) {
+  return shallowMount(PostView, {
+    props: { post: mockPosts[0], posts: mockPosts },
+    slots: { default: body },
+  });
+}
+
 describe("PostView", () => {
   it("renders correctly", () => {
     const wrapper = shallowMount(PostView, {
@@ -112,6 +120,17 @@ describe("PostView", () => {
     expect(hero.element.parentElement?.className).toContain("aspect-video");
   });
 
+  it("crops the hero to its 16:9 box instead of stretching it", () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    const hero = wrapper.find(
+      `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
+    );
+
+    expect(hero.classes()).toContain("object-cover");
+  });
+
   it("exposes the hero image as a keyboard-operable control", () => {
     const wrapper = shallowMount(PostView, {
       props: { post: mockPosts[0], posts: mockPosts },
@@ -156,22 +175,17 @@ describe("PostView", () => {
     );
   });
 
-  // Zoom-control attributes (role/tabindex/aria-haspopup/aria-label) are now
-  // baked into post.html at markdown build time (markdownZoomImages.ts), so
+  // Zoom-control attributes (role/tabindex/aria-haspopup/aria-label) are
+  // baked into the body at markdown build time (markdownZoomImages.ts), so
   // this fixture pre-declares them as the real pipeline would; PostView's
   // job is only wiring the click/keydown interaction on top.
   it("opens the lightbox when Enter is pressed on an operable in-body image", async () => {
-    const post = {
-      ...mockPosts[0],
-      html:
-        "<p>Body</p>" +
+    const wrapper = mountWithBody(
+      "<p>Body</p>" +
         '<img src="/images/posts/inline.jpg" alt="Inline diagram" ' +
         'role="button" tabindex="0" aria-haspopup="dialog" ' +
         'aria-label="Zoom image: Inline diagram" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
+    );
 
     const inlineImage = wrapper.find("article img");
     expect(inlineImage.attributes("role")).toBe("button");
@@ -189,13 +203,9 @@ describe("PostView", () => {
   });
 
   it("does not make linked in-body images zoom controls", async () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<a href="/x"><img src="/images/posts/linked.jpg" alt="Linked" /></a>',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
+    const wrapper = mountWithBody(
+      '<a href="/x"><img src="/images/posts/linked.jpg" alt="Linked" /></a>',
+    );
 
     const linkedImage = wrapper.find("article img");
     expect(linkedImage.attributes("role")).toBeUndefined();
@@ -224,13 +234,9 @@ describe("PostView", () => {
   });
 
   it("prevents the default Space action so the page does not scroll", async () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<img src="/images/posts/inline.jpg" alt="Inline diagram" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
+    const wrapper = mountWithBody(
+      '<img src="/images/posts/inline.jpg" alt="Inline diagram" />',
+    );
 
     const image = wrapper.find("article img").element;
     const event = new KeyboardEvent("keydown", {
@@ -249,35 +255,25 @@ describe("PostView", () => {
   });
 
   it("ignores keys other than Enter and Space on in-body images", async () => {
-    const post = {
-      ...mockPosts[0],
-      html: '<img src="/images/posts/inline.jpg" alt="Inline diagram" />',
-    };
-    const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
-    });
+    const wrapper = mountWithBody(
+      '<img src="/images/posts/inline.jpg" alt="Inline diagram" />',
+    );
 
     await wrapper.find("article img").trigger("keydown", { key: "a" });
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
   });
 
-  // Since attribute enrichment now happens at build time, "the post changes"
-  // just re-renders the incoming html as-is — verify the click delegation
-  // (bound once on the article container) still routes interaction to the
-  // new post's images rather than being stuck on the old one.
-  it("routes interaction to the new post's in-body images after the post changes", async () => {
-    const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
-    });
-
-    const nextPost = {
-      ...mockPosts[1],
-      html:
-        '<img src="/images/posts/next.jpg" alt="Next diagram" ' +
+  // The click/keydown delegation is bound once on the <article>, so it must
+  // keep routing interaction to the slotted body after the post prop changes
+  // (client-side navigation between posts reuses the component).
+  it("keeps routing in-body image interaction after the post changes", async () => {
+    const wrapper = mountWithBody(
+      '<img src="/images/posts/next.jpg" alt="Next diagram" ' +
         'role="button" tabindex="0" aria-haspopup="dialog" ' +
         'aria-label="Zoom image: Next diagram" />',
-    };
-    await wrapper.setProps({ post: nextPost });
+    );
+
+    await wrapper.setProps({ post: mockPosts[1] });
 
     const inlineImage = wrapper.find("article img");
     await inlineImage.trigger("keydown", { key: "Enter" });
@@ -285,6 +281,12 @@ describe("PostView", () => {
     const lightbox = wrapper.findComponent(PostLightbox);
     expect(lightbox.props("src")).toContain("/images/posts/next.jpg");
     expect(lightbox.props("alt")).toBe("Next diagram");
+  });
+
+  it("renders the slotted post body inside the article", () => {
+    const wrapper = mountWithBody("<p>Slotted body</p>");
+
+    expect(wrapper.find("article.post-body p").text()).toBe("Slotted body");
   });
 
   it("links each tag to its crawlable tag archive route", () => {

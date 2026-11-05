@@ -90,12 +90,6 @@ describe("transformPosts", () => {
     expect(post).not.toHaveProperty("excerpt");
   });
 
-  it("keeps rendered html when the raw post carries it (detail loader path)", () => {
-    const [post] = transformPosts([makeRawPost()]);
-
-    expect(post.html).toBe("<p>Rendered content</p>");
-  });
-
   it("omits html when the raw post has none (render:false list loader path)", () => {
     // The list loader runs with render:false, so VitePress never attaches an
     // `html` key to the raw data it hands the transform. This proves the list

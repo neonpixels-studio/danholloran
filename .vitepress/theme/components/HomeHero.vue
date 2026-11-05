@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
 import resume, { CURRENT_LOCATION } from "@data/resume";
+import StaticImage from "@components/StaticImage.vue";
 import quotes from "@data/quotes";
 import skills from "@data/skills.ts";
 import { SkillInterface } from "@typedefs";
@@ -81,10 +82,12 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           <div
             class="border-accent h-25 w-25 shrink-0 overflow-hidden rounded-full border-[3px] shadow-[0_8px_32px_rgba(173,70,255,0.15)]"
           >
-            <img
+            <StaticImage
               :src="resume.photo"
               alt="Dan Holloran"
               class="h-full w-full object-cover"
+              width="100"
+              height="100"
               @error="
                 ($event.target as HTMLElement).outerHTML =
                   '<div class=\'w-full h-full bg-accent-dim flex items-center justify-center font-mono text-[1.4rem] text-accent font-bold\'>DH</div>'
