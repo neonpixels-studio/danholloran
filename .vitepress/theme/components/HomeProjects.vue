@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import projects from "@data/projects";
+import StaticImage from "@components/StaticImage.vue";
 </script>
 
 <template>
@@ -29,10 +30,12 @@ import projects from "@data/projects";
           class="group border-t-2 pt-5 transition-colors duration-300"
           :class="project.featured ? 'border-accent' : 'border-line'"
         >
-          <img
+          <StaticImage
             :src="project.image"
             class="mb-4 aspect-video w-full rounded-xs object-cover transition-transform duration-400 group-hover:scale-[1.02]"
             :alt="`${project.title} thumbnail`"
+            loading="lazy"
+            decoding="async"
           />
           <div
             class="tracking-tighter-2 mb-1 font-mono text-[0.85rem] font-bold"

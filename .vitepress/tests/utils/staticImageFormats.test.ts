@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { existsSync } from "fs";
 import { join } from "path";
+import projects from "@data/projects";
 import resume from "@data/resume";
 import {
   PROFILE_PHOTO_SOURCE,
@@ -45,9 +46,9 @@ describe("generated static image formats", () => {
     expect(PROFILE_PHOTO_SOURCE.src).toBe(resume.photo);
   });
 
-  // Fails when a source image changes without re-running
-  // `npm run images:static`, instead of shipping a broken <source>.
-  const sources = [resume.photo];
+  // Fails when a project image is added or the photo is swapped without
+  // re-running `npm run images:static`, instead of shipping a broken <source>.
+  const sources = [resume.photo, ...projects.map((project) => project.image)];
   const expected = sources.flatMap((src) =>
     STATIC_IMAGE_FORMATS.map((format) => staticImageFormatSrc(src, format)),
   );

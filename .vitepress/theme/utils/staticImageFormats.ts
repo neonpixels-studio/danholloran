@@ -1,5 +1,5 @@
-// Modern-format (avif/webp) copies of the site's non-post images, such as
-// the profile photo. Post images go
+// Modern-format (avif/webp) copies of the site's non-post images: the
+// profile photo and the home page project screenshots. Post images go
 // through the responsive variant pipeline instead (responsiveImage.ts); these
 // are a handful of fixed assets, so each gets one avif and one webp written
 // next to the original, sharing its basename. The original stays the <img>
@@ -21,11 +21,15 @@ export interface StaticImageSource {
 
 // The profile photo renders at 100px CSS at most, so 320px covers 3x DPR.
 const PROFILE_PHOTO_MAX_WIDTH = 320;
+// Project cards top out around 610px CSS, so 1200px covers 2x DPR.
+export const PROJECT_IMAGE_MAX_WIDTH = 1200;
 
 export const PROFILE_PHOTO_SOURCE: StaticImageSource = {
   src: "/images/profile.png",
   maxWidth: PROFILE_PHOTO_MAX_WIDTH,
 };
+
+export const PROJECT_IMAGES_DIRECTORY = "/images/projects";
 
 const CONVERTIBLE_EXTENSION = /\.(png|jpe?g)$/i;
 
