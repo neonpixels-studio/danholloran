@@ -13,7 +13,7 @@ description: "An overview of WP Better Attachments, a WordPress plugin for addin
 
 **Plugin Home Page:** [http://wordpress.org/extend/plugins/wp-better-attachments/](http://wordpress.org/extend/plugins/wp-better-attachments/)
 
-#### Thanks to these projects:
+## Thanks to these projects:
 
 - [WP Settings API Bootstrap](https://github.com/DerekMarcinyshyn/wp-settings-api-bootstrap)
 - [FlexSlider 2](http://www.woothemes.com/flexslider/2/)
