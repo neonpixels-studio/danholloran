@@ -7,6 +7,16 @@ vi.mock("vitepress", () => ({
   useData: () => ({ frontmatter: frontmatterState }),
 }));
 
+const FORCED_LOCATION = { city: "Testville", state: "TX" };
+const forcedLocationState = {
+  value: null as { city: string; state: string } | null,
+};
+vi.mock("@data/footerLocation.ts", () => ({
+  get FORCED_FOOTER_LOCATION() {
+    return forcedLocationState.value;
+  },
+}));
+
 import AppFooter from "@components/AppFooter.vue";
 import {
   initAnalyticsConsent,
@@ -33,6 +43,7 @@ function locationLabel(index: number): string {
 
 describe("AppFooter", () => {
   beforeEach(() => {
+    forcedLocationState.value = null;
     localStorage.clear();
     resetAnalyticsConsentState();
   });
@@ -79,6 +90,7 @@ describe("AppFooter", () => {
 
 describe("AppFooter location rotation", () => {
   beforeEach(() => {
+    forcedLocationState.value = null;
     frontmatterState.value = {};
     vi.useFakeTimers();
   });
@@ -102,5 +114,17 @@ describe("AppFooter location rotation", () => {
     vi.advanceTimersByTime(ROTATE_MS * 3);
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain(locationLabel(0));
+  });
+
+  it("shows only the forced location and never rotates it", async () => {
+    forcedLocationState.value = FORCED_LOCATION;
+    stubReducedMotion(false);
+    const wrapper = shallowMount(AppFooter);
+    const forcedLabel = `${FORCED_LOCATION.city}, ${FORCED_LOCATION.state}`;
+    expect(wrapper.text()).toContain(forcedLabel);
+    vi.advanceTimersByTime(ROTATE_MS * 3);
+    await wrapper.vm.$nextTick();
+    expect(wrapper.text()).toContain(forcedLabel);
+    expect(wrapper.text()).not.toContain(locationLabel(0));
   });
 });

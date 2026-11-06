@@ -43,7 +43,7 @@ export default {
       label: "linkedin.com/in/dan-holloran",
     },
     {
-      label: "St. Louis, MO",
+      label: "St. Louis, MO 63129",
     },
   ],
   skills() {

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { PAST_LOCATIONS } from "@data/resume.ts";
+import { FORCED_FOOTER_LOCATION } from "@data/footerLocation.ts";
 import { computed, ref, onMounted, onUnmounted } from "vue";
 import { useData } from "vitepress";
 import { useAnalyticsConsent } from "@composables/useAnalyticsConsent";
@@ -14,9 +15,15 @@ const isAlwaysDark = computed(() => frontmatter.value.forceDarkFooter === true);
 const LOCATION_ROTATE_MS = 3000;
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
+const footerLocations = FORCED_FOOTER_LOCATION
+  ? [FORCED_FOOTER_LOCATION]
+  : PAST_LOCATIONS;
+const canRotate = footerLocations.length > 1;
+
 const locationIndex = ref(0);
 const maxLocationWidth =
-  Math.max(...PAST_LOCATIONS.map((l) => `${l.city}, ${l.state}`.length)) + "ch";
+  Math.max(...footerLocations.map((l) => `${l.city}, ${l.state}`.length)) +
+  "ch";
 
 let interval: ReturnType<typeof setInterval> | undefined;
 // Assigned in onMounted before applyMotionPreference is ever called; declared
@@ -31,11 +38,11 @@ let reducedMotion: MediaQueryList;
 // 2.2.2). Re-evaluated on preference change so a mid-session flip takes hold.
 function applyMotionPreference() {
   clearInterval(interval);
-  if (reducedMotion.matches) {
+  if (!canRotate || reducedMotion.matches) {
     return;
   }
   interval = setInterval(() => {
-    locationIndex.value = (locationIndex.value + 1) % PAST_LOCATIONS.length;
+    locationIndex.value = (locationIndex.value + 1) % footerLocations.length;
   }, LOCATION_ROTATE_MS);
 }
 
@@ -94,8 +101,8 @@ onUnmounted(() => {
       >
         <Transition name="location-fade" mode="out-in">
           <span :key="locationIndex">
-            {{ PAST_LOCATIONS[locationIndex].city }},
-            {{ PAST_LOCATIONS[locationIndex].state }}
+            {{ footerLocations[locationIndex].city }},
+            {{ footerLocations[locationIndex].state }}
           </span>
         </Transition>
       </span>
