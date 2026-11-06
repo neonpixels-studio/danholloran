@@ -9,6 +9,7 @@ import {
   currentExperienceYears,
   fingerprintFile,
   fingerprintResumeSources,
+  isForceRequested,
   isResumePdfUpToDate,
   markResumePdfSynced,
   writeResumePdfManifest,
@@ -283,5 +284,24 @@ describe("currentExperienceYears", () => {
   // thing standing between the two constants silently drifting apart.
   it("matches resume.ts's getExperienceLength()", () => {
     expect(currentExperienceYears()).toBe(getExperienceLength());
+  });
+});
+
+describe("isForceRequested", () => {
+  const NODE_ARGV = ["node", "markResumePdfSynced.ts"];
+
+  it("honors --force passed through to argv (npm run x -- --force, yarn x --force)", () => {
+    expect(isForceRequested([...NODE_ARGV, "--force"], {})).toBe(true);
+  });
+
+  it("honors a bare npm --force, which npm exposes as npm_config_force", () => {
+    expect(isForceRequested(NODE_ARGV, { npm_config_force: "true" })).toBe(
+      true,
+    );
+  });
+
+  it("is off when neither argv nor npm config asks for it", () => {
+    expect(isForceRequested(NODE_ARGV, {})).toBe(false);
+    expect(isForceRequested(NODE_ARGV, { npm_config_force: "" })).toBe(false);
   });
 });

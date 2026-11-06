@@ -92,8 +92,9 @@ alone can go stale) are recorded in `.vitepress/data/resumePdfManifest.json`:
 
 If the source data changed but the PDF's bytes didn't, `resume:pdf:sync`
 refuses (the export skill most likely never actually ran) unless you pass
-`npm run resume:pdf:sync -- --force` — note the `--`, since a bare `--force`
-is swallowed by npm itself and never reaches the script.
+`npm run resume:pdf:sync --force` (or `npm run resume:pdf:sync -- --force`;
+both work, since the script also reads the `npm_config_force` variable npm
+sets when it claims a bare `--force` for itself).
 
 `npm run build` runs `npm run resume:pdf:check` first and fails with a fix-it
 message if anything is stale or missing; the same check also runs against
