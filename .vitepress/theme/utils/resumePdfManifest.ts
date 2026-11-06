@@ -43,6 +43,17 @@ const MANIFEST_PATH = join(DATA_DIR, "resumePdfManifest.json");
 
 export const FORCE_FLAG = "--force";
 
+// `npm run resume:pdf:sync --force` (no `--`) never reaches argv: npm claims
+// the flag as its own config and exposes it to the script as this env var.
+const NPM_FORCE_ENV = "npm_config_force";
+
+export function isForceRequested(
+  argv: readonly string[],
+  env: Record<string, string | undefined>,
+): boolean {
+  return argv.includes(FORCE_FLAG) || env[NPM_FORCE_ENV] === "true";
+}
+
 // Mirrors getExperienceLength() in .vitepress/data/resume.ts. Duplicated
 // rather than imported: resume.ts's own imports are extensionless (resolved
 // by Vite/vitest, not by plain `node`), and this module is loaded directly

@@ -9,13 +9,13 @@
 // updated resumePdfManifest.json. This does not touch the PDF itself.
 import {
   DEFAULT_RESUME_PDF_MANIFEST_PATHS,
-  FORCE_FLAG,
+  isForceRequested,
   markResumePdfSynced,
 } from "../theme/utils/resumePdfManifest.ts";
 
 try {
   markResumePdfSynced(DEFAULT_RESUME_PDF_MANIFEST_PATHS, {
-    force: process.argv.includes(FORCE_FLAG),
+    force: isForceRequested(process.argv, process.env),
   });
   console.log(
     "Recorded the resume data's and the PDF's current content hashes in " +
