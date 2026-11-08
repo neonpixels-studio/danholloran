@@ -5,7 +5,7 @@ draft: false
 title: "Mermaid Diagrams in Obsidian: Architecture Docs That Live Next to Your Notes"
 image: "/images/posts/mermaid-diagrams-in-obsidian-architecture-docs-that-live-next-to-your-notes.jpg"
 topic: "obsidian"
-description: "Obsidian renders Mermaid out of the box, so flowcharts, sequence diagrams, and state machines can live as plain text in your vault, link to your notes, and diff cleanly in git."
+description: "Obsidian renders Mermaid out of the box, so flowcharts, sequence diagrams, and state machines can live as plain text in your vault and diff cleanly in git."
 ---
 
 Every developer vault eventually grows a folder of screenshots: a whiteboard photo from a planning meeting, an exported PNG of a sequence diagram, a draw.io file nobody can open on their phone. They rot fast. The code changes, the picture doesn't, and six months later you're squinting at boxes that describe a system that no longer exists.

@@ -5,7 +5,7 @@ draft: false
 title: "Position Sizing: The Risk Decision That Matters More Than Your Entry"
 image: "/images/posts/position-sizing-the-risk-decision-that-matters-more-than-your-entry.jpg"
 topic: "finance"
-description: "How much you put into a trade quietly decides whether you survive a losing streak. Here is the math behind fixed fractional sizing, the 1% rule, and why practitioners cut the Kelly criterion in half."
+description: "How much you put into a trade decides whether you survive a losing streak. Here's the math behind fixed fractional sizing, the 1% rule, and half-Kelly."
 ---
 
 Most conversations about trading are about _what_ to buy and _when_. Which stock, which setup, which entry. Far less attention goes to the question that actually decides whether an account survives a bad month: _how much_.

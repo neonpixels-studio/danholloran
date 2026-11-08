@@ -5,7 +5,7 @@ draft: false
 title: "Subpath Imports With #/: The Path Alias Node Actually Understands"
 image: "/images/posts/subpath-imports-with-the-path-alias-node-actually-understands.jpg"
 topic: "development"
-description: "Node 24.14 and TypeScript 6.0 finally allow a bare #/ prefix in package.json imports. Here's how to replace tsconfig paths, Vite aliases, and post-build rewrites with one alias every tool reads."
+description: "Node 24.14 and TypeScript 6.0 allow a bare #/ prefix in package.json imports. Here's how one alias can replace tsconfig paths, Vite aliases, and build rewrites."
 ---
 
 Count the places your `@/` import alias is defined. There's `paths` in `tsconfig.json` so the editor stops complaining. There's `resolve.alias` in `vite.config.ts` so the dev server can find the file. If you run tests, there's probably `vite-tsconfig-paths` or a Jest `moduleNameMapper` doing the same job a third time. And if any of that code ever runs directly in Node, none of those configs help, because Node has never read a tsconfig in its life.

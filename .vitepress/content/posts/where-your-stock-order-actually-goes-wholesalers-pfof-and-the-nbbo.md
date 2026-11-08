@@ -5,7 +5,7 @@ draft: false
 title: "Where Your Stock Order Actually Goes: Wholesalers, PFOF, and the NBBO"
 image: "/images/posts/where-your-stock-order-actually-goes-wholesalers-pfof-and-the-nbbo.jpg"
 topic: "finance"
-description: "Most retail stock orders in the US never touch an exchange. Here is how wholesalers, payment for order flow, and the NBBO decide what price you actually get, and what changed in 2026."
+description: "Most US retail stock orders never touch an exchange. Here's how wholesalers, payment for order flow, and the NBBO decide your price, and what changed in 2026."
 ---
 
 When you tap "buy" in a commission-free brokerage app, it is natural to picture your order landing on the New York Stock Exchange or Nasdaq. For most US retail orders, that is not what happens. A typical marketable order from a retail account is sent to a firm you have probably never thought about, a wholesale market maker, which fills it from its own inventory in a fraction of a second. The exchange never sees it.

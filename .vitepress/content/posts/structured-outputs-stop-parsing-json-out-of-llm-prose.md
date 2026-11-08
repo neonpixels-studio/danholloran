@@ -5,7 +5,7 @@ draft: false
 title: "Structured Outputs: Stop Parsing JSON Out of LLM Prose"
 image: "/images/posts/structured-outputs-stop-parsing-json-out-of-llm-prose.jpg"
 topic: "ai"
-description: "Constrained decoding means the model can't return malformed JSON. Here's how structured outputs work with Zod in TypeScript, and the edge cases they still don't cover."
+description: "Constrained decoding means the model can't return malformed JSON. Here's how structured outputs work with Zod in TypeScript, and the edge cases they miss."
 ---
 
 Every team that ships an LLM feature eventually writes the same function. It takes the model's reply, strips the stray markdown fence, hunts for the first `{`, calls `JSON.parse` inside a `try`, and on failure asks the model again with a sterner prompt. It works most of the time. "Most of the time" is a terrible property for code that sits between a model and your database.

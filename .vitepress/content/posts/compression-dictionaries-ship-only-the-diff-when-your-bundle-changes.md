@@ -5,7 +5,7 @@ draft: false
 title: "Compression Dictionaries: Ship Only the Diff When Your Bundle Changes"
 image: "/images/posts/compression-dictionaries-ship-only-the-diff-when-your-bundle-changes.jpg"
 topic: "development"
-description: "Compression Dictionary Transport (RFC 9842) lets the browser tell your server which cached file it already has, so a redeployed bundle can arrive as a few-kilobyte delta instead of a full download."
+description: "Compression Dictionary Transport (RFC 9842) lets the browser tell your server which file it has cached, so a redeployed bundle can arrive as a tiny delta."
 ---
 
 You ship a one-line bug fix. Your bundler dutifully produces `app.8f3c1a.js`, a brand new filename, and every returning visitor downloads the whole 270 KB file again. The browser already has 99% of those bytes sitting in its cache under the old hash, but HTTP compression has no way to say "you already know most of this." Gzip and Brotli compress each response in isolation, so a tiny code change costs a full re-download.

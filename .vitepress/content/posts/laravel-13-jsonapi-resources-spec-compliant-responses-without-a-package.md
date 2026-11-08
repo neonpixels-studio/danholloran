@@ -5,7 +5,7 @@ draft: false
 title: "Laravel 13 JSON:API Resources: Spec-Compliant Responses Without a Package"
 image: "/images/posts/laravel-13-jsonapi-resources-spec-compliant-responses-without-a-package.jpg"
 topic: "development"
-description: "Laravel 13 ships a first-party JsonApiResource that handles type/id objects, includes, sparse fieldsets, and the right Content-Type header. Here's how it works and where you still need to do the work yourself."
+description: "Laravel 13 ships a first-party JsonApiResource that handles type/id objects, includes, sparse fieldsets, and Content-Type. Here's how it works and its limits."
 ---
 
 Every team that builds a JSON API eventually has the same argument. Should relationships be nested or side-loaded? Is the ID a string or an integer? How does the client ask for fewer fields? You can settle it in a wiki page, or you can adopt [JSON:API](https://jsonapi.org/), a spec that already answered all of those questions. The catch in Laravel has always been that adopting the spec meant adopting a package, plus that package's opinions about routing, schemas, and controllers.

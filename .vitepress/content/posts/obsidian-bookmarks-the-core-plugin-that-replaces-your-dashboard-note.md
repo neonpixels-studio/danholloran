@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Bookmarks: The Core Plugin That Replaces Your Dashboard Note"
 image: "/images/posts/obsidian-bookmarks-the-core-plugin-that-replaces-your-dashboard-note.jpg"
 topic: "obsidian"
-description: "Bookmarks is a core plugin most people use to pin three notes and forget about. It can pin saved searches, headings, blocks, and whole tab groups, which makes the hand-maintained dashboard note redundant."
+description: "Bookmarks can pin saved searches, headings, blocks, and whole tab groups, not just three notes, which makes the hand-maintained dashboard note redundant."
 ---
 
 Almost everyone who has used Obsidian for more than a month has built the same note. It's called `Home` or `Dashboard` or `000 Index`, it's a pile of wikilinks to the things you open most, and you stopped updating it months ago. It probably still links to a project that shipped two years back, under a heading called "Read Later" with nothing beneath it.

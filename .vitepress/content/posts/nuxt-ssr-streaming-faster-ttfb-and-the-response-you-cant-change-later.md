@@ -5,7 +5,7 @@ draft: false
 title: "Nuxt SSR Streaming: Faster TTFB and the Response You Can't Change Later"
 image: "/images/posts/nuxt-ssr-streaming-faster-ttfb-and-the-response-you-cant-change-later.jpg"
 topic: "development"
-description: "Nuxt 4.5 can flush your HTML shell before the page finishes rendering. Here's how to turn on experimental SSR streaming, what it actually speeds up, and the one rule about status codes, headers, and cookies you need to know first."
+description: "Nuxt 4.5 can flush your HTML shell before the page finishes rendering. Here's what experimental SSR streaming speeds up and the status code rule you need first."
 ---
 
 Classic server rendering in Nuxt is all or nothing. The server runs every plugin, resolves every awaited `useFetch`, renders the whole Vue tree to a string, and only then sends a single byte back. If one API call on the page takes 600ms, the browser sits staring at a blank tab for 600ms, unable to even start downloading your CSS. Streaming SSR has been one of the longest-standing open issues in the Nuxt repo, and as of Nuxt 4.5 it finally ships behind a flag.

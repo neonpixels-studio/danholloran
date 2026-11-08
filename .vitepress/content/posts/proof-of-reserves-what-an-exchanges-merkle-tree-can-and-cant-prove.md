@@ -5,7 +5,7 @@ draft: false
 title: "Proof of Reserves: What an Exchange's Merkle Tree Can and Can't Prove"
 image: "/images/posts/proof-of-reserves-what-an-exchanges-merkle-tree-can-and-cant-prove.jpg"
 topic: "finance"
-description: "Exchanges publish proof of reserves to show customer funds are backed. Here's how the Merkle sum tree behind it works, and the liabilities it was never designed to see."
+description: "Exchanges publish proof of reserves to show customer funds are backed. Here's how the Merkle sum tree works, and the liabilities it was never built to see."
 ---
 
 When FTX collapsed in November 2022, customers learned the hard way that a balance on an exchange screen is a promise, not a possession. Within weeks, nearly every large exchange started publishing "proof of reserves" reports, and many of them now link one from their homepage with a green checkmark next to it.

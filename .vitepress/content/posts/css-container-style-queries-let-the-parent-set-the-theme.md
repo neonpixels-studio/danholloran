@@ -5,7 +5,7 @@ draft: false
 title: "CSS Container Style Queries: Let the Parent Set the Theme"
 image: "/images/posts/css-container-style-queries-let-the-parent-set-the-theme.jpg"
 topic: "development"
-description: "Container style queries hit Baseline in May 2026. Here's how to let a parent's custom property drive its children's styles, plus the one gotcha that trips everyone up."
+description: "Container style queries hit Baseline in May 2026. Here's how to let a parent's custom property drive its children's styles, and the one gotcha to watch for."
 ---
 
 Every design system eventually grows a modifier class problem. The card needs a dark version for the footer, a compact version for the sidebar, and a "highlighted" version for the pricing page. So you add `.card--dark`, `.card--compact`, `.card--featured`, and then you need a dark _compact_ card, and then the button inside the card also needs to know it's on a dark background. Now the class has to be threaded through three components, or you're writing selectors like `.card--dark .button`.

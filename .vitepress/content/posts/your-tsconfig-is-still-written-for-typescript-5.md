@@ -5,7 +5,7 @@ draft: false
 title: "Your tsconfig Is Still Written for TypeScript 5. Here's the Cleanup TS 7 Forces"
 image: "/images/posts/your-tsconfig-is-still-written-for-typescript-5.jpg"
 topic: "development"
-description: "TypeScript 6 flipped half a dozen compiler defaults and TypeScript 7 deleted the options it deprecated. Here's the tsconfig audit that gets you onto the native compiler without a wall of red."
+description: "TypeScript 6 flipped half a dozen compiler defaults and TypeScript 7 deleted deprecated options. Here's the tsconfig audit for the native compiler."
 ---
 
 Most `tsconfig.json` files are archaeology. Somebody copied one from a starter repo in 2021, somebody else added `baseUrl` so the `@/` imports would work, and a third person set `moduleResolution: "node"` because a Stack Overflow answer said so. Nobody has touched it since, because it worked.

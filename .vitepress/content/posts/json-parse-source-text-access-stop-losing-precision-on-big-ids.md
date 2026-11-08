@@ -5,7 +5,7 @@ draft: false
 title: "JSON.parse Source Text Access: Stop Losing Precision on Big IDs"
 image: "/images/posts/json-parse-source-text-access-stop-losing-precision-on-big-ids.jpg"
 topic: "development"
-description: "JSON.parse can now hand your reviver the original source text of every number, and JSON.rawJSON lets you write it back out exactly. Here's how to round-trip 64-bit IDs and decimals without string hacks."
+description: "JSON.parse can now hand your reviver the original source text of numbers, and JSON.rawJSON writes it back exactly. Here's how to round-trip big IDs."
 ---
 
 Your API returns an order ID of `9007199254740993`. Your frontend logs `9007199254740992`. Nobody touched it. `JSON.parse` quietly rounded it, because every JSON number becomes a JavaScript double, and doubles only hold integers exactly up to `Number.MAX_SAFE_INTEGER` (`9007199254740991`). Anything bigger gets snapped to the nearest representable value before your code ever sees it.

@@ -5,7 +5,7 @@ draft: false
 title: "Dependency Cooldowns: Make Your Package Manager Wait Before It Trusts New Code"
 image: "/images/posts/dependency-cooldowns-make-your-package-manager-wait-before-it-trusts-new-code.jpg"
 topic: "development"
-description: "npm, pnpm, Yarn, and Bun can all refuse package versions that are only hours old. Here's how each one's release-age gate works, why the units don't match, and where it bites in CI."
+description: "npm, pnpm, Yarn, and Bun can all refuse package versions that are only hours old. Here's how each release-age gate works, why units differ, and where CI bites."
 ---
 
 Most npm supply-chain attacks follow the same script. Someone phishes a maintainer or steals a publish token, pushes a poisoned patch release, and then waits for every `^1.2.3` range on the planet to pick it up on the next install. The malicious version usually gets spotted and pulled within hours. The damage is done in those hours, by machines that installed it before anyone noticed.

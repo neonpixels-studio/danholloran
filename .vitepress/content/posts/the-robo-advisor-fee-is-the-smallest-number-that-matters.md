@@ -5,7 +5,7 @@ draft: false
 title: "The Robo-Advisor Fee Is the Smallest Number That Matters"
 image: "/images/posts/the-robo-advisor-fee-is-the-smallest-number-that-matters.jpg"
 topic: "finance"
-description: "Robo-advisors advertise a single advisory fee, usually a quarter of a percent. That number is real, and it is nowhere near the full cost. Here is what the machine is actually doing with your money, and where the rest of the bill hides."
+description: "Robo-advisors advertise one advisory fee, usually a quarter of a percent. That number is real, but it's not the full cost. Here's where the rest hides."
 ---
 
 Every robo-advisor comparison eventually collapses into one column: the advisory fee. Betterment and Wealthfront sit at 0.25%. Vanguard Digital Advisor comes in lower. Schwab Intelligent Portfolios charges zero. Read enough of these tables and you walk away believing the cheapest robo-advisor is the one charging the least, which is exactly what the tables are designed to make you believe.

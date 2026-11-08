@@ -5,7 +5,7 @@ draft: false
 title: "React Fragment Refs: Attach Behavior Without the Wrapper Div"
 image: "/images/posts/react-fragment-refs-attach-behavior-without-a-wrapper-div.jpg"
 topic: "development"
-description: "React 19.3 made Fragment refs stable. Here's how FragmentInstance lets you listen, observe, and move focus across a group of elements without adding a wrapper div or touching child components."
+description: "React 19.3 made Fragment refs stable. Here's how FragmentInstance lets you listen, observe, and move focus across a group of elements without a wrapper div."
 ---
 
 Every React codebase has at least one of these: a `<div>` that exists for no reason except to hold a ref. Maybe it wraps a list so an `IntersectionObserver` has something to watch. Maybe it wraps a group of form fields so you can focus the first one. It works, right up until it breaks a flex layout, adds a stray grid item, or lands inside a `<ul>` where only `<li>` belongs.

@@ -5,7 +5,7 @@ draft: false
 title: "Your Bitcoin Wallet Has No Balance: UTXOs, Change, and Why Fees Ignore the Amount"
 image: "/images/posts/your-bitcoin-wallet-has-no-balance-utxos-change-and-why-fees-ignore-the-amount.jpg"
 topic: "finance"
-description: "Bitcoin doesn't track balances, it tracks unspent outputs. Here's how the UTXO model works, where change goes, and why sending $50 can cost more than sending $50,000."
+description: "Bitcoin tracks unspent outputs, not balances. Here's how the UTXO model works, where change goes, and why sending $50 can cost more than sending $50,000."
 ---
 
 Open almost any Bitcoin wallet and you'll see a single number at the top: your balance. It's a comforting fiction. The Bitcoin ledger has no concept of an account, and nothing on-chain says "this address holds 0.05 BTC." What actually exists is a pile of separate, indivisible chunks of bitcoin called **unspent transaction outputs**, or UTXOs. Your wallet adds them up and shows you the total.

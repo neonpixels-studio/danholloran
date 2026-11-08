@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Keychain: Get Your API Keys Out of data.json"
 image: "/images/posts/obsidian-keychain-get-your-api-keys-out-of-data-json.jpg"
 topic: "obsidian"
-description: "Obsidian's Keychain gives plugins one shared, device-local place to keep API keys instead of plaintext in data.json. Here's how it works, what it fixes, and where it still trips people up."
+description: "Obsidian's Keychain gives plugins one shared, device-local home for API keys instead of plaintext in data.json. Here's how it works and where it falls short."
 ---
 
 Open your vault folder, find `.obsidian/plugins/`, and look inside a few `data.json` files. If you use any AI, sync, or publishing plugin, there is a good chance you will find an API key sitting there in plain text. That file lives inside your vault, which means it rides along with whatever you use to sync or back up that vault: iCloud, Obsidian Sync, a Git repo you push to GitHub. Most of us never meant to publish our OpenAI key to a private repo, but plenty of us have.

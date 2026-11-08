@@ -5,7 +5,7 @@ draft: false
 title: "The Obsidian CLI: Script Your Vault From the Terminal"
 image: "/images/posts/the-obsidian-cli-script-your-vault-from-the-terminal.jpg"
 topic: "obsidian"
-description: "Obsidian 1.12 ships an official command line interface. Here's how to use it to capture notes, query tasks and Bases, and run vault health checks from shell scripts."
+description: "Obsidian 1.12 ships an official command line interface. Here's how to capture notes, query tasks and Bases, and run vault health checks from shell scripts."
 ---
 
 For years, automating Obsidian from outside the app meant picking your poison. You could write directly to the Markdown files and hope Obsidian noticed, lean on Obsidian URIs that open windows you did not ask for, or install a community plugin that exposes a local REST API. All of them worked, sort of, and none of them understood your vault the way Obsidian does: how wikilinks resolve, which note is today's daily note, what your templates expand to.

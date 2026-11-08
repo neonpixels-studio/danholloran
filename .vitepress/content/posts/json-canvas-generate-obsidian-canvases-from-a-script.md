@@ -5,7 +5,7 @@ draft: false
 title: "JSON Canvas: Generate Obsidian Canvases From a Script"
 image: "/images/posts/json-canvas-generate-obsidian-canvases-from-a-script.jpg"
 topic: "obsidian"
-description: "A .canvas file is just JSON with an open spec. Here's how the format works and how to build a canvas from your notes with a short Node script instead of dragging cards by hand."
+description: "A .canvas file is just JSON with an open spec. Here's how the format works and how to build a canvas from your notes with a short Node script."
 ---
 
 Canvas is one of those Obsidian features that feels great for the first ten cards and tedious by the fiftieth. You want a board of every project note, grouped by status, with arrows to the notes they depend on. Dragging that together by hand is slow, and the moment a status changes in frontmatter, the board is stale.

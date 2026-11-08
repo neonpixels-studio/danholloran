@@ -5,7 +5,7 @@ draft: false
 title: "How Ethereum Gas Fees Actually Work: Base Fee, Tip, and Burn"
 image: "/images/posts/how-ethereum-gas-fees-actually-work-base-fee-tip-and-burn.jpg"
 topic: "finance"
-description: "Your wallet shows one number, but an Ethereum fee is really three: a protocol-set base fee that gets burned, a tip for the validator, and a ceiling you mostly get refunded."
+description: "Your wallet shows one number, but an Ethereum fee is really three: a burned base fee, a tip for the validator, and a ceiling you mostly get refunded."
 ---
 
 Open a wallet, hit send, and you get a single line: "Network fee: $0.04." It looks like a price tag. It is closer to a bid in a tiny auction that reruns every twelve seconds, with one part of the price set by the protocol, one part set by you, and a safety ceiling that you will usually not pay at all.

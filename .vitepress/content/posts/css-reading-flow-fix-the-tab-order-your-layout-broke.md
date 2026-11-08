@@ -5,7 +5,7 @@ draft: false
 title: "CSS reading-flow: Fix the Tab Order Your Layout Broke"
 image: "/images/posts/css-reading-flow-fix-the-tab-order-your-layout-broke.jpg"
 topic: "development"
-description: "Grid and flexbox let you rearrange a layout without touching the DOM, which quietly breaks keyboard navigation. The reading-flow and reading-order properties finally let CSS tell the browser which order actually counts."
+description: "Grid and flexbox let you rearrange a layout without touching the DOM, which quietly breaks keyboard navigation. The reading-flow property fixes the order."
 ---
 
 Put a card grid on a page, give one card `grid-row: 1 / 3` so it sits up top as the hero, and the layout looks exactly right. Then press Tab. Focus lands somewhere in the middle of the page, jumps back up to the hero, skips sideways, and generally behaves like it is reading a different document than the one on screen. It is, in a way: the browser follows DOM order, and you just spent an afternoon making the visual order disagree with it.

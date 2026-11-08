@@ -5,7 +5,7 @@ draft: false
 title: "Network Tokenization: Why the Card Number in Your Wallet Isn't Your Card Number"
 image: "/images/posts/network-tokenization-why-the-card-number-in-your-wallet-isnt-your-card-number.jpg"
 topic: "finance"
-description: "Network tokens swap your 16-digit card number for a merchant- or device-bound stand-in plus a one-time cryptogram. Here's how the vault, the token, and the cryptogram fit together, and why issuers approve more of them."
+description: "Network tokens swap your 16-digit card number for a merchant- or device-bound token plus a one-time cryptogram. Here's how the pieces fit together."
 ---
 
 Open the card details for anything you've added to Apple Pay or Google Wallet and look at the last four digits. They often don't match the plastic in your pocket. That's not a bug. The phone never received your real card number at all. It got a stand-in, and every tap sends that stand-in along with a fresh, single-use code.

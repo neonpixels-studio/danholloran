@@ -10,7 +10,7 @@ tags: []
 image: "/images/posts/missing-content.jpg"
 title: Missing Content
 topic: development
-description: "A showcase of the Missing Content WordPress plugin — a shortcode-based placeholder tool that generates lorem ipsum, bacon ipsum, hipster ipsum, Blokk font blocks, and placeholder images during development."
+description: "A showcase of the Missing Content WordPress plugin, a shortcode tool that generates lorem ipsum, bacon ipsum, hipster ipsum, and placeholder images for dev."
 ---
 
 ## Cache

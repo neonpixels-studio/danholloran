@@ -5,7 +5,7 @@ draft: false
 title: "Astro Live Content Collections: Fresh CMS Data Without a Rebuild"
 image: "/images/posts/astro-live-content-collections-fresh-cms-data-without-a-rebuild.jpg"
 topic: "development"
-description: "Astro's live content collections fetch CMS and API data at request time with the same typed API as build-time collections, and Astro 7's route caching keeps them fast."
+description: "Astro's live content collections fetch CMS and API data at request time with the same typed API as build-time collections, and route caching keeps them fast."
 ---
 
 Every Jamstack site eventually hits the same wall. The marketing team fixes a typo in the CMS, hits publish, and then asks why the site still shows the old copy. The honest answer is "because the site is a pile of HTML that was generated twenty minutes ago, and the rebuild is still in the queue." Webhooks, incremental builds, and on-demand revalidation all exist to paper over that gap, and each one adds another moving part you have to babysit.

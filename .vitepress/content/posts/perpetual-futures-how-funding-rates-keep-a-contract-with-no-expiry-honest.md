@@ -5,7 +5,7 @@ draft: false
 title: "Perpetual Futures: How Funding Rates Keep a Contract With No Expiry Honest"
 image: "/images/posts/perpetual-futures-how-funding-rates-keep-a-contract-with-no-expiry-honest.jpg"
 topic: "finance"
-description: "Perpetual futures are the most traded product in crypto, and they never expire. Here's how the funding rate keeps them pinned to spot, what it costs to hold one, and why leverage makes the math unforgiving."
+description: "Perpetual futures never expire. Here's how the funding rate keeps them pinned to spot, what it costs to hold one, and why leverage makes the math unforgiving."
 ---
 
 If you have looked at crypto trading volume, you have probably noticed something odd: most of it does not happen in the spot market where people actually buy and sell coins. It happens in a derivative called the **perpetual future**, or "perp." On busy days, perp volume dwarfs spot volume by several times.

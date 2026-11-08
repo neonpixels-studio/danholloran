@@ -5,7 +5,7 @@ draft: false
 title: "LLM Evals Start as Thirty Test Cases, Not a Platform"
 image: "/images/posts/llm-evals-start-as-thirty-test-cases-not-a-platform.jpg"
 topic: "ai"
-description: "Most LLM features ship on vibes and break on the next prompt tweak. A small regression set, cheap deterministic checks, and a judge you actually calibrate will catch most of it."
+description: "Most LLM features ship on vibes and break on the next prompt tweak. A small regression set, cheap deterministic checks, and a calibrated judge catch most of it."
 ---
 
 You tweak a system prompt to fix one bad answer a user reported. You try it on that example, it looks great, you ship. Two days later someone notices the feature now ignores the output format half the time, or started apologizing in every reply, or quietly stopped handling a whole category of input. Nothing failed in CI, because nothing in CI knew what "correct" meant.

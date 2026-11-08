@@ -5,7 +5,7 @@ draft: false
 title: "Prompt Caching: Your Prompt's Prefix Is a Cache Key"
 image: "/images/posts/prompt-caching-your-prompt-prefix-is-a-cache-key.jpg"
 topic: "ai"
-description: "Prompt caching can cut repeated input costs by around 80%, but only if your prompt is ordered so the stable parts come first. Here's how it works and the mistakes that quietly break it."
+description: "Prompt caching can cut repeated input costs by around 80%, but only if the stable parts of your prompt come first. Here's how it works and what breaks it."
 ---
 
 Look at the input token count on a typical LLM feature and most of it is the same on every request. The system prompt, the tool definitions, the twelve few-shot examples, the product docs you stuffed in for grounding: thousands of tokens, identical every time, paid for every time. The user's actual question is a rounding error at the end.

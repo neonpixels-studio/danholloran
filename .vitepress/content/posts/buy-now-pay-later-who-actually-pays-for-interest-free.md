@@ -5,7 +5,7 @@ draft: false
 title: "Buy Now, Pay Later: Who Actually Pays for Interest-Free"
 image: "/images/posts/buy-now-pay-later-who-actually-pays-for-interest-free.jpg"
 topic: "finance"
-description: "Pay-in-four loans cost the shopper nothing when things go right, so someone else is paying. Here's how the BNPL money flows, why merchants eat the cost, and what changes as these loans start hitting credit reports."
+description: "Pay-in-four loans cost the shopper nothing when things go right, so someone else pays. Here's how BNPL money flows, why merchants eat it, and what's changing."
 ---
 
 Click "Pay in 4" at checkout and a $200 pair of shoes becomes four $50 payments, no interest, no hard credit pull, approved in about the time it takes to blink. Lending money costs something, so if the shopper isn't paying interest, who is?

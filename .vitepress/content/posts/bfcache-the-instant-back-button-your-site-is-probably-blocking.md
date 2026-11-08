@@ -5,7 +5,7 @@ draft: false
 title: "bfcache: The Instant Back Button Your Site Is Probably Blocking"
 image: "/images/posts/bfcache-the-instant-back-button-your-site-is-probably-blocking.jpg"
 topic: "development"
-description: "The back/forward cache restores whole pages from memory in an instant, but an unload listener, a no-store header, or an open connection can quietly opt you out. Here's how to find and fix the blockers."
+description: "The back/forward cache restores pages from memory instantly, but an unload listener or no-store header can opt you out. Here's how to find and fix the blockers."
 ---
 
 You can spend weeks shaving 200ms off your Largest Contentful Paint and still lose to a feature you never touched. Chrome's usage data shows that about 1 in 10 desktop navigations and 1 in 5 mobile navigations are a back or forward button press. For those navigations, the browser can skip the network entirely and restore the page from memory, scroll position, JavaScript heap and all. That's the back/forward cache, or bfcache, and it ships in Chrome, Firefox, and Safari.

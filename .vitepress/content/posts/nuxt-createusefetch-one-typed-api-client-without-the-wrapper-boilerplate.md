@@ -5,7 +5,7 @@ draft: false
 title: "Nuxt createUseFetch: One Typed API Client Without the Wrapper Boilerplate"
 image: "/images/posts/nuxt-createusefetch-one-typed-api-client-without-the-wrapper-boilerplate.jpg"
 topic: "development"
-description: "Nuxt 4.4 added createUseFetch and createUseAsyncData, factories that bake your base URL, auth headers, and error handling into a fully typed useFetch you can call anywhere."
+description: "Nuxt 4.4 added createUseFetch and createUseAsyncData, factories that bake your base URL, auth headers, and error handling into a typed useFetch."
 ---
 
 Every Nuxt app that talks to a real backend ends up with the same problem. You call `useFetch('/users')` in one page, then `useFetch('/orders')` in another, and before long every call site is repeating the same `baseURL`, the same `Authorization` header, and the same "redirect to login on 401" logic. So you write a wrapper. Then you discover the wrapper loses some of `useFetch`'s typing, or its generics get ugly, or you are not sure it still plays nicely with SSR deduplication.

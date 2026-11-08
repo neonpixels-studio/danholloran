@@ -5,7 +5,7 @@ draft: false
 title: "React's browser() API: Opt Out of SSR Without the Mounted-State Hack"
 image: "/images/posts/reacts-browser-api-opt-out-of-ssr-without-the-mounted-state-hack.jpg"
 topic: "development"
-description: "React 19.3 adds use(browser()), a first-class way to mark a component as browser-only during server rendering, replacing typeof window checks and useEffect mounted flags with a Suspense fallback."
+description: "React 19.3 adds use(browser()), a first-class way to mark a component browser-only during SSR, replacing typeof window checks and useEffect mounted flags."
 ---
 
 Every server-rendered React app eventually grows a component that just can't render on the server. It reads a draft from `localStorage`, shows the visitor's time zone, or wraps a charting library that touches `window` on import. So you reach for the usual workaround: a `mounted` flag set in an effect, or a `typeof window !== 'undefined'` check sprinkled through render.
