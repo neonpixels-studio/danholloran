@@ -1,68 +1,59 @@
 ---
-date: "2026-09-30T02:15:18.000-07:00"
-tags: ["finance", "fintech", "payments", "regulation", "buy-now-pay-later"]
+date: "2026-11-07T16:23:40.000-08:00"
+tags: ["finance", "fintech", "payments", "bnpl"]
 draft: false
-title: "Buy Now, Pay Later: Who Actually Pays for Interest-Free"
+title: "Buy Now, Pay Later: Who Actually Pays for 'Interest-Free'"
 image: "/images/posts/buy-now-pay-later-who-actually-pays-for-interest-free.jpg"
 topic: "finance"
-description: "Pay-in-four loans cost the shopper nothing when things go right, so someone else is paying. Here's how the BNPL money flows, why merchants eat the cost, and what changes as these loans start hitting credit reports."
+description: "Pay-in-4 plans charge shoppers no interest, so where does the money come from? A walk through BNPL economics, from merchant fees to credit losses to the regulators who still disagree on what it is."
 ---
 
-Click "Pay in 4" at checkout and a $200 pair of shoes becomes four $50 payments, no interest, no hard credit pull, approved in about the time it takes to blink. Lending money costs something, so if the shopper isn't paying interest, who is?
+Split a $400 jacket into four payments of $100 and nobody charges you a cent of interest. No APR, no finance charge, no fee if you pay on time. It feels like the lender is doing you a favor, and that should make you curious, because lenders do not hand out six-week loans for free.
 
-The short answer is the merchant, mostly. The longer answer explains why BNPL grew so fast, why it's still small next to credit cards, and why 2025 and 2026 have been the years it started getting treated like real credit.
+They don't. Someone is paying for "interest-free," and for most pay-in-4 plans it is not the shopper. It is the store. Once you see buy now, pay later (BNPL) as a loan the merchant subsidizes, the whole industry makes a lot more sense, including why checkout pages push it so hard and why regulators spent years arguing about what it even is.
 
-## The mechanics of pay-in-four
+## The merchant discount is the business model
 
-The BNPL product most people mean is **pay-in-four**: a short-term, zero-interest loan split into four equal installments. The first 25% is due at checkout, and the remaining three are pulled automatically from your card or bank account every two weeks. Six weeks later, you're done.
+When you check out with a BNPL provider, the provider pays the merchant almost immediately, minus a fee called the merchant discount rate. You then repay the provider on a schedule, typically four installments two weeks apart, with the first due at purchase.
 
-The flow looks like this:
+That merchant fee is meaningfully higher than what a card swipe costs. Industry estimates put BNPL merchant fees roughly in the 2% to 8% range, with many plans landing between 3% and 6%, while a typical US credit card transaction costs the merchant somewhere around 2% to 3%. Affirm's fiscal 2026 annual report, for the year ended June 30, 2026, puts its merchant network revenue at about $1.15 billion, or 2.3% of its $50.2 billion in gross merchandise volume. That blended figure is lower than headline pay-in-4 rates because it mixes in large merchants who negotiate hard and longer loans where the shopper pays interest instead.
 
-1. You choose the BNPL option at checkout. The provider (Affirm, Klarna, Afterpay, PayPal, Sezzle, Zip) runs a quick eligibility check, usually a **soft inquiry** that doesn't affect your credit score.
-2. If you're approved, the provider pays the merchant the full purchase price up front, minus a fee.
-3. The provider now holds the loan and the **credit risk**. If you miss payments, that's the provider's problem, not the store's.
+Why would a store accept a fee that's double a card fee? Because the pitch is not "cheaper payments," it is "more sales." BNPL providers sell themselves on higher conversion rates and bigger average orders. A shopper who hesitates at $400 often says yes to "$100 today." Whether that trade actually pays off depends on a question the merchant can rarely answer cleanly: would this sale have happened anyway?
 
-The merchant gets paid immediately, like a card sale, while the BNPL company quietly becomes your lender for six weeks.
+## A worked example: following the $400
 
-## Follow the money: a worked example
+Here is a simplified pay-in-4 purchase with a 4% merchant fee. These numbers are illustrative, not any specific provider's terms.
 
-Take that $200 purchase and trace where the dollars go.
+| Day | Event                                   | Provider cash position |
+| --- | --------------------------------------- | ---------------------- |
+| 0   | Pays merchant $384 ($400 minus $16 fee) | -$384                  |
+| 0   | Collects your first $100                | -$284                  |
+| 14  | Collects $100                           | -$184                  |
+| 28  | Collects $100                           | -$84                   |
+| 42  | Collects final $100                     | +$16                   |
 
-**The merchant's side.** BNPL providers charge merchants a percentage fee, commonly in the **2% to 6% range plus a fixed per-transaction fee**, depending on the provider, volume, and loan terms. Standard card processing typically runs somewhere around 1.5% to 3%. Using round numbers:
+The provider earns $16 over six weeks. That sounds small, but the money is only out for six weeks, and the average outstanding balance is roughly $180. Earning about $16 on $180 over six weeks works out to a gross annualized yield well north of 50%, before you subtract the things that make this hard:
 
-- Card sale at ~2.5%: merchant receives about **$195**
-- BNPL sale at ~5%: merchant receives about **$190**
+- **Credit losses.** Some shoppers never pay the last installments. A few percent of losses wipes out a large share of that fee.
+- **Funding costs.** The provider borrows the $384 from somewhere, usually warehouse credit lines or by selling loans to investors. When interest rates rise, this squeeze is immediate.
+- **Fraud and operations.** Instant approvals at checkout are an attractive target.
 
-So the merchant pays roughly twice as much to accept BNPL. Why would anyone agree to that? Because processors pitch it as a way to get larger orders and fewer abandoned carts. Take vendor numbers with some skepticism, but that's the bet retailers are making.
+That is why the economics of pay-in-4 are a volume game with thin margins. It is also why the larger players lean on longer-term loans with real interest. In the same Affirm filing, interest income, about $2.05 billion, was larger than merchant fees. "Interest-free" is the front door; interest-bearing loans are a large part of the house.
 
-**The shopper's side.** If you pay on time, you pay $200 total. Compare that to putting $150 (the amount financed after the first installment) on a credit card you carry a balance on. With a 24% APR and a balance that falls from $150 to zero over six weeks, your average balance is about $100:
+## Where the shopper does pay
 
-```
-interest ≈ average balance × APR × (weeks / 52)
-         ≈ $100 × 0.24 × (6 / 52)
-         ≈ $2.77
-```
+For the consumer, the risk is not usually the interest rate. It is the structure:
 
-Not a fortune, but for someone who already revolves card debt, BNPL is cheaper credit. The Richmond Fed makes the same point: for card revolvers, swapping in BNPL can lower borrowing costs.
+- **Late fees** on some platforms, though policies differ widely (Affirm, for example, markets itself on charging none).
+- **Loan stacking.** Four or five small plans across different apps can add up to a payment schedule that no single provider can see in full.
+- **Overdraft collisions.** Autopay pulls from a checking account on fixed dates whether or not your paycheck has landed.
 
-**The provider's side.** Its revenue is that $10 merchant fee, plus late fees where allowed, plus interest on the longer-term, interest-bearing installment loans many of these companies also sell. The CFPB found that pay-in-four charge-off rates were **2.63% in 2022 and 1.83% in 2023**, compared with a bank credit card charge-off rate of 4.19% in late 2023. Short terms and small balances keep losses low.
+For years that stacking problem was made worse by thin credit reporting. That has been changing. Affirm began reporting pay-over-time loans, including Pay in 4, to Experian and TransUnion in 2025, and FICO has announced scoring models that incorporate BNPL data. The bureaus have been cautious about folding it into traditional scores, so how much a BNPL plan moves your score still depends on which model a lender uses.
 
-## How big is it, really?
+## Regulators still disagree on what it is
 
-BNPL feels ubiquitous, but the numbers are modest. A February 2026 Richmond Fed economic brief estimates U.S. pay-in-four volume at roughly **$70 billion in 2025**, growing around 20% a year in real terms since 2021. That's about **1.1% of credit card spending**, which likely topped $6.3 trillion the same year.
-
-Because each loan lasts six weeks and a quarter is paid up front, the brief estimates about **$3 billion** in BNPL debt outstanding at any moment, against roughly $1.23 trillion in credit card balances.
-
-That doesn't mean it's risk-free for individuals. A 2025 LendingTree survey found **41% of BNPL users** made at least one late payment in the past year, up from 34% the year before. The real danger is **loan stacking**: four or five small plans from different providers, each one reasonable on its own, all drafting from the same checking account in the same week. Until recently, no credit bureau could see that pile-up.
-
-## The rules are catching up
-
-Two things are changing that.
-
-**Credit reporting.** Affirm began reporting pay-in-four loans to Experian and TransUnion in 2025, and FICO introduced Score 10 BNPL and Score 10 T BNPL models built to read these loans. Other providers, including Klarna and Afterpay, have been more cautious, arguing that scoring models built for credit cards and mortgages may misread frequent small loans as risk. For consumers, on-time payments can now help a thin credit file, and missed ones may start to show up.
-
-**Regulation.** Federal oversight has pulled back. The CFPB withdrew its 2024 interpretive rule treating BNPL lenders like credit card issuers in 2025. States are filling the gap. New York passed a Buy Now Pay Later Act in its 2025 budget, and in 2026 its Department of Financial Services proposed rules requiring BNPL lenders to be licensed, with disclosure requirements, dispute protections, and limits on fees. The law takes effect after those rules are finalized, so the details may still shift.
+The US and UK have gone in opposite directions. In 2024 the CFPB issued an interpretive rule treating BNPL providers like credit card issuers for dispute and refund rights. In 2025 it withdrew that rule and later said it would not issue a revised one, leaving states to fill gaps. The UK went the other way: interest-free BNPL, called "deferred payment credit," became regulated consumer credit on July 15, 2026, with affordability checks, clearer disclosures, and access to the Financial Ombudsman Service.
 
 ## The takeaway
 
-"Interest-free" is accurate for the shopper who pays on time, because the merchant is paying the lender instead. The weak spot has always been visibility: small loans spread across providers where nobody sees the total. Credit reporting and state licensing are starting to close that gap. For a deeper look at the data, the Richmond Fed's [Buy Now, Pay Later: Recent Developments and Implications](https://www.richmondfed.org/publications/research/economic_brief/2026/eb_26-05) and the CFPB's [BNPL market report](https://www.consumerfinance.gov/data-research/research-reports/the-buy-now-pay-later-market/) are both worth reading.
+Interest-free is a pricing decision, not a gift. On a short pay-in-4 plan the merchant usually funds your loan through a fee that is higher than a card swipe, and the provider bets that fee covers defaults, funding, and fraud. Knowing that does not make BNPL good or bad. It just tells you where the costs went, and it is a useful habit to ask that same question any time a financial product is advertised as free. If you want to dig further, the risk-factors section of any public BNPL provider's 10-K is a surprisingly readable map of everything that can go wrong.
