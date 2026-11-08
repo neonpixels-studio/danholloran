@@ -182,6 +182,9 @@ export function resolveResponsiveImageSources(
 ): ResponsiveImageSources {
   const fileName = src.split("/").pop() ?? "";
   const slug = slugFromFileName(fileName);
+  if (!Object.hasOwn(fingerprints, fileName)) {
+    throw new Error(`No image variant fingerprint for "${fileName}"`);
+  }
   const version = variantVersion(fingerprints[fileName]);
   return {
     avifSrcset: buildSrcset(slug, variant, "avif", version),

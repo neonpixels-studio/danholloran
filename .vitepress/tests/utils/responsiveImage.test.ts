@@ -41,6 +41,12 @@ describe("resolveResponsiveImageSources", () => {
     }
   });
 
+  it("throws instead of emitting unversioned urls for an image with no fingerprint", () => {
+    expect(() =>
+      resolveResponsiveImageSources("/images/posts/unknown.jpg", "thumb", {}),
+    ).toThrow(/No image variant fingerprint/);
+  });
+
   it("changes the variant urls when the source image content changes", () => {
     const before = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
