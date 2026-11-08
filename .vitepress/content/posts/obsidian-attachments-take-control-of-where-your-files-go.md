@@ -12,7 +12,7 @@ draft: false
 title: "Obsidian Attachments: Take Control of Where Your Files Actually Go"
 image: "/images/posts/obsidian-attachments-take-control-of-where-your-files-go.jpg"
 topic: "obsidian"
-description: "Obsidian drops pasted images wherever its default setting says, which for most vaults means the root folder. Here is how the attachment location and link format settings interact, and how to clean up the pile you already have."
+description: "Obsidian drops pasted images wherever its default says, usually the vault root. Here's how the attachment settings interact, and how to clean up the pile."
 ---
 
 Open the file explorer in a vault you have used for a year and scroll to the bottom. If you see a wall of files named `Pasted image 20260918020412.png` sitting at the root next to your actual notes, you are not doing anything wrong. That is the default. Obsidian ships with new attachments going to the vault folder, and every screenshot, diagram, and dragged-in PDF has been piling up there since the day you started.

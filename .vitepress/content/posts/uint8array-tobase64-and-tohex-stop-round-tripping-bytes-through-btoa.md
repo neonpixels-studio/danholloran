@@ -5,7 +5,7 @@ draft: false
 title: "Uint8Array toBase64 and toHex: Stop Round-Tripping Bytes Through btoa"
 image: "/images/posts/uint8array-tobase64-and-tohex-stop-round-tripping-bytes-through-btoa.jpg"
 topic: "development"
-description: "JavaScript can finally turn bytes into base64 and hex (and back) without the String.fromCharCode and btoa dance. Here's how Uint8Array's new encoding methods work and where they replace the helpers you've been copy-pasting."
+description: "JavaScript can finally turn bytes into base64 and hex without the String.fromCharCode and btoa dance. Here's how Uint8Array's new encoding methods work."
 ---
 
 Every codebase that touches binary data has the same little helper buried in a `utils` folder. It takes a `Uint8Array`, spreads it into `String.fromCharCode`, hands the result to `btoa`, and hopes for the best. Its sibling goes the other way with `atob` and a `charCodeAt` loop. And somewhere nearby there's a third helper that maps each byte to `toString(16).padStart(2, '0')` so you can print a hash.

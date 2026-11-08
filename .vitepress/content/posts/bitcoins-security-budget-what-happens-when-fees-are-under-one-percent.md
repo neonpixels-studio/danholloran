@@ -5,7 +5,7 @@ draft: false
 title: "Bitcoin's Security Budget: What Happens When Fees Are Under 1% of Miner Revenue"
 image: "/images/posts/bitcoins-security-budget-what-happens-when-fees-are-under-one-percent.jpg"
 topic: "finance"
-description: "Bitcoin pays miners mostly with newly issued coins, a subsidy that halves every four years. In 2026 transaction fees cover less than 1% of that bill. Here's how the security budget works and why the fee share matters."
+description: "Bitcoin pays miners mostly in newly issued coins, and in 2026 fees cover under 1% of that bill. Here's how the security budget works and why fees matter."
 ---
 
 Bitcoin has no company, no treasury, and no security team on payroll. Its defense against someone rewriting the ledger is economic: miners spend real money on hardware and electricity to add blocks, and the network pays them for it. That payment is what people mean by Bitcoin's **security budget**, and the source of it is quietly changing.

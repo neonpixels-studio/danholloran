@@ -5,7 +5,7 @@ draft: false
 title: "Ethereum Staking Explained: What Validators Actually Earn and Risk"
 image: "/images/posts/ethereum-staking-explained-what-validators-actually-earn-and-risk.jpg"
 topic: "finance"
-description: "Staking gets pitched as a savings account for crypto. Here's how Ethereum validators really earn rewards, why the yield keeps shrinking, and what slashing, queues, and liquid staking tokens add to the risk."
+description: "Staking gets pitched as a savings account for crypto. Here's how Ethereum validators really earn rewards, why yield keeps shrinking, and what the risks are."
 ---
 
 "Earn 3% on your ETH" sounds a lot like a high-yield savings account. It isn't. There's no bank, no deposit insurance, and no fixed rate. The yield comes from a security mechanism: Ethereum pays people to lock up capital and run software that keeps the chain honest, and it can take some of that capital away if they misbehave.

@@ -12,7 +12,7 @@ draft: false
 title: "Technical vs. Fundamental Analysis: Two Questions, Not Two Teams"
 image: "/images/posts/technical-vs-fundamental-analysis-two-questions-not-two-teams.jpg"
 topic: "finance"
-description: "Fundamental analysis asks what a business is worth. Technical analysis asks what the price is doing. Here's how each one works, what the research says, and why the rivalry is mostly a category error."
+description: "Fundamental analysis asks what a business is worth; technical analysis asks what price is doing. Here's how each works and why the rivalry is a category error."
 ---
 
 Spend ten minutes in any investing forum and you will find two camps talking past each other. One side posts discounted cash flow spreadsheets and quotes Benjamin Graham. The other posts candlestick charts covered in trendlines and argues that "price is the only truth." Each side tends to treat the other as astrology.

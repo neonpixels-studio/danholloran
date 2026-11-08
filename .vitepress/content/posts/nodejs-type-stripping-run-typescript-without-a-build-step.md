@@ -5,7 +5,7 @@ draft: false
 title: "Node.js Type Stripping: Run TypeScript Without a Build Step"
 image: "/images/posts/nodejs-type-stripping-run-typescript-without-a-build-step.jpg"
 topic: "development"
-description: "Node.js now runs .ts files out of the box by erasing types, not compiling them. Here's what that buys you, what it refuses to do, and the tsconfig that keeps you honest."
+description: "Node.js now runs .ts files by erasing types, not compiling them. Here's what that buys you, what it refuses to do, and the tsconfig that keeps you honest."
 ---
 
 Every Node project written in TypeScript used to carry the same small tax. You wanted to run a one-off script, so you reached for `ts-node`, then fought its ESM loader, then switched to `tsx`, then added a `build` step so production wouldn't depend on either. None of that was hard. It was just friction, repeated in every repo.

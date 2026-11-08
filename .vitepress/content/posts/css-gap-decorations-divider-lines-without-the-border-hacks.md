@@ -5,7 +5,7 @@ draft: false
 title: "CSS Gap Decorations: Divider Lines Without the Border Hacks"
 image: "/images/posts/css-gap-decorations-divider-lines-without-the-border-hacks.jpg"
 topic: "development"
-description: "Chrome and Edge 149 let column-rule and the new row-rule draw lines in grid and flexbox gaps, so you can delete the border and pseudo-element tricks you've been maintaining."
+description: "Chrome and Edge 149 let column-rule and row-rule draw lines in grid and flexbox gaps, so you can delete the border and pseudo-element tricks you maintain."
 ---
 
 You have a three-column card grid and the design calls for thin lines between the cards. Not around them, between them. So you reach for the usual tricks: a `border-right` on every card except the last in each row, an `:nth-child(3n)` selector to remove it, a matching `border-bottom` that has to vanish on the final row, and a media query that rewrites all of it when the grid drops to two columns. Or you give up and fake it with a background color showing through a `1px` gap.

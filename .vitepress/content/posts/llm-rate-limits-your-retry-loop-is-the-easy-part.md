@@ -5,7 +5,7 @@ draft: false
 title: "LLM Rate Limits: Your Retry Loop Is the Easy Part"
 image: "/images/posts/llm-rate-limits-your-retry-loop-is-the-easy-part.jpg"
 topic: "ai"
-description: "Not every 429 is worth retrying. How to handle LLM API rate limits without stacking retries, burning budget on spend-cap errors, or discovering your limits by failing."
+description: "Not every 429 is worth retrying. How to handle LLM API rate limits without stacking retries, burning budget on spend-cap errors, or finding limits by failing."
 ---
 
 The first time an LLM feature hits real traffic, the logs fill with 429s and somebody writes a retry loop. It usually looks like the one from the last REST API they integrated: catch the error, sleep, try again, maybe double the sleep. It ships, the errors drop, and everyone moves on.

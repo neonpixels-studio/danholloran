@@ -5,7 +5,7 @@ draft: false
 title: "import defer: Lazy Modules Without Going Async"
 image: "/images/posts/import-defer-lazy-modules-without-going-async.jpg"
 topic: "development"
-description: "ES2026's import defer evaluates a module the first time you touch its namespace, not at startup, so you can move heavy work off the cold path without turning half your call stack async."
+description: "ES2026's import defer evaluates a module the first time you touch its namespace, not at startup, so heavy work leaves the cold path without going async."
 ---
 
 Every codebase has that one import. A syntax highlighter, a PDF renderer, a date-formatting library with a locale table the size of a small novel. It sits at the top of a file, it gets evaluated the moment the module graph runs, and it is needed on exactly one code path that most users never hit.

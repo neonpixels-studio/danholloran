@@ -5,7 +5,7 @@ draft: false
 title: "Writing an MCP Server: The Tool Description Is the Whole API"
 image: "/images/posts/writing-an-mcp-server-the-tool-description-is-the-whole-api.jpg"
 topic: "ai"
-description: "A practical walkthrough of building an MCP server with the v2 TypeScript SDK, and why the schemas, descriptions, and error messages you write matter more than the protocol plumbing."
+description: "A walkthrough of building an MCP server with the v2 TypeScript SDK, and why your schemas, descriptions, and error messages matter more than protocol plumbing."
 ---
 
 Most first MCP servers look the same: someone wraps their existing REST API, exposes one tool per endpoint, ships it, and then watches the model call the wrong tool with the wrong arguments. The protocol worked fine. The design didn't.

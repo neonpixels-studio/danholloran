@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Bases Kanban: A Board That Is Just Your Notes"
 image: "/images/posts/obsidian-bases-kanban-a-board-that-is-just-your-notes.jpg"
 topic: "obsidian"
-description: "Obsidian 1.14 adds a native kanban layout to Bases. Here's how to build a board where dragging a card rewrites a property, where it beats the Kanban plugin, and where it still falls short."
+description: "Obsidian 1.14 adds a native kanban layout to Bases. Here's how to build a board where dragging a card rewrites a property, and where it still falls short."
 ---
 
 If you've ever run a project board with the community Kanban plugin, you know the quiet problem with it. The board is its own Markdown file. Your project notes say `status: drafting`, the board says the card is in "Review", and nothing keeps the two in sync except you. Move a card and the note doesn't change. Edit the note and the board doesn't notice.
