@@ -27,6 +27,8 @@ describe("readDescription", () => {
     expect(readDescription("---\ntitle: A\n---\nBody")).toBe("");
     expect(readDescription("---\ndescription:\n---\nBody")).toBe("");
     expect(readDescription("Body only")).toBe("");
+    expect(readDescription('---\ndescription: "   "\n---\nBody')).toBe("");
+    expect(readDescription("---\ndescription: [a, b]\n---\nBody")).toBe("");
   });
 });
 
