@@ -11,6 +11,7 @@ describe("posts index page", () => {
     const raw = readFileSync(join(process.cwd(), POSTS_INDEX_PATH), "utf8");
     const { data } = parseFrontmatter(raw);
 
-    expect(String(data.title)).toMatch(BLOG_KEYWORD);
+    expect(data.title).toBeTypeOf("string");
+    expect(data.title).toMatch(BLOG_KEYWORD);
   });
 });
