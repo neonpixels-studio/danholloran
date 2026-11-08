@@ -3,3 +3,5 @@ https://danholloran.netlify.app/* https://danholloran.me/:splat 301!
 # Retired the unmaintained Missing Content plugin showcase (raw WP shortcodes
 # that never rendered). Send its previously indexed URL to the blog index.
 /posts/missing-content /posts/ 301!
+# Post image variants moved out of /images; keeps pages cached before the move working.
+/images/posts/variants/* /image-variants/:splat 301!

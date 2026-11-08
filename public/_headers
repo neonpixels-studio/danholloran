@@ -15,3 +15,10 @@
 # Vite content-hashes everything it bundles (JS, CSS, fonts), so these never change.
 /assets/*
   cache-control: public, max-age=31536000, immutable
+
+# Every variant url carries a ?v= content version (responsiveImage.ts), so a
+# replaced image gets a new url and these never need to revalidate. Lives
+# outside /images because Netlify merges overlapping rules, which would
+# concatenate this with the /images/* value above.
+/image-variants/*
+  cache-control: public, max-age=31536000, immutable

@@ -12,6 +12,7 @@ import {
   resolveResponsiveImageSources,
   type ImageVariant,
 } from "@utils/responsiveImage";
+import imageFingerprints from "../../data/imageVariantsManifest.json";
 
 // Non-prop attrs (class, alt, event listeners, aria-*, fetchpriority, role,
 // tabindex, …) are meant for the rendered <img>, not the <picture> wrapper,
@@ -28,8 +29,10 @@ const { src, variant, sizes } = defineProps<{
   sizes: string;
 }>();
 
-const eligible = computed(() => isVariantEligible(src));
-const sources = computed(() => resolveResponsiveImageSources(src, variant));
+const eligible = computed(() => isVariantEligible(src, imageFingerprints));
+const sources = computed(() =>
+  resolveResponsiveImageSources(src, variant, imageFingerprints),
+);
 </script>
 
 <template>
