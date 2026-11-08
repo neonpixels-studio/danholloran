@@ -1,25 +1,76 @@
 import { describe, it, expect } from "vitest";
 import {
   isProcessableFileName,
+  variantVersion,
   isVariantEligible,
   resolveResponsiveImageSources,
   slugFromFileName,
 } from "../../theme/utils/responsiveImage";
 
+const FINGERPRINT = "0123456789abcdef".repeat(4);
+const VERSION = "0123456789";
+const FINGERPRINTS: Record<string, string> = Object.fromEntries(
+  [
+    "some-post.jpg",
+    "some-post.JPG",
+    "some-post.png",
+    "some-post.gif",
+    "my-post.png",
+    "my post.jpg",
+    "a,b.jpg",
+    "a#b.jpg",
+  ].map((fileName) => [fileName, FINGERPRINT]),
+);
+
 describe("resolveResponsiveImageSources", () => {
+  it("appends a content version to every variant url so it can be cached immutably", () => {
+    for (const variant of ["thumb", "hero"] as const) {
+      const sources = resolveResponsiveImageSources(
+        "/images/posts/some-post.jpg",
+        variant,
+        FINGERPRINTS,
+      );
+      const urls = [sources.avifSrcset, sources.webpSrcset]
+        .flatMap((srcset) => srcset.split(", "))
+        .map((candidate) => candidate.split(" ")[0]);
+
+      expect(urls).toHaveLength(4);
+      for (const url of urls) {
+        expect(url).toMatch(new RegExp(`^/image-variants/.+\\?v=${VERSION}$`));
+      }
+    }
+  });
+
+  it("changes the variant urls when the source image content changes", () => {
+    const before = resolveResponsiveImageSources(
+      "/images/posts/some-post.jpg",
+      "thumb",
+      FINGERPRINTS,
+    );
+    const after = resolveResponsiveImageSources(
+      "/images/posts/some-post.jpg",
+      "thumb",
+      { "some-post.jpg": "f".repeat(64) },
+    );
+
+    expect(after.avifSrcset).not.toBe(before.avifSrcset);
+    expect(after.avifSrcset).toContain("?v=ffffffffff");
+  });
+
   it("builds a thumb srcset from the smaller variant widths", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
       "thumb",
+      FINGERPRINTS,
     );
 
     expect(sources.avifSrcset).toBe(
-      "/images/posts/variants/some-post-thumb-400.avif 400w, " +
-        "/images/posts/variants/some-post-thumb-800.avif 800w",
+      "/image-variants/some-post-thumb-400.avif?v=0123456789 400w, " +
+        "/image-variants/some-post-thumb-800.avif?v=0123456789 800w",
     );
     expect(sources.webpSrcset).toBe(
-      "/images/posts/variants/some-post-thumb-400.webp 400w, " +
-        "/images/posts/variants/some-post-thumb-800.webp 800w",
+      "/image-variants/some-post-thumb-400.webp?v=0123456789 400w, " +
+        "/image-variants/some-post-thumb-800.webp?v=0123456789 800w",
     );
   });
 
@@ -27,15 +78,16 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
       "hero",
+      FINGERPRINTS,
     );
 
     expect(sources.avifSrcset).toBe(
-      "/images/posts/variants/some-post-hero-800.avif 800w, " +
-        "/images/posts/variants/some-post-hero-1200.avif 1200w",
+      "/image-variants/some-post-hero-800.avif?v=0123456789 800w, " +
+        "/image-variants/some-post-hero-1200.avif?v=0123456789 1200w",
     );
     expect(sources.webpSrcset).toBe(
-      "/images/posts/variants/some-post-hero-800.webp 800w, " +
-        "/images/posts/variants/some-post-hero-1200.webp 1200w",
+      "/image-variants/some-post-hero-800.webp?v=0123456789 800w, " +
+        "/image-variants/some-post-hero-1200.webp?v=0123456789 1200w",
     );
   });
 
@@ -43,6 +95,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
       "thumb",
+      FINGERPRINTS,
     );
 
     expect(sources.fallbackSrc).toBe("/images/posts/some-post.jpg");
@@ -52,20 +105,24 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/my-post.png",
       "thumb",
+      FINGERPRINTS,
     );
 
-    expect(sources.avifSrcset).toContain("/variants/my-post-thumb-400.avif");
+    expect(sources.avifSrcset).toContain(
+      "/image-variants/my-post-thumb-400.avif",
+    );
   });
 
   it("percent-encodes a filename with a space so it can't be parsed as a second srcset candidate", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/my post.jpg",
       "thumb",
+      FINGERPRINTS,
     );
 
     expect(sources.avifSrcset).toBe(
-      "/images/posts/variants/my%20post-thumb-400.avif 400w, " +
-        "/images/posts/variants/my%20post-thumb-800.avif 800w",
+      "/image-variants/my%20post-thumb-400.avif?v=0123456789 400w, " +
+        "/image-variants/my%20post-thumb-800.avif?v=0123456789 800w",
     );
   });
 
@@ -73,11 +130,12 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/a,b.jpg",
       "thumb",
+      FINGERPRINTS,
     );
 
     expect(sources.avifSrcset).toBe(
-      "/images/posts/variants/a%2Cb-thumb-400.avif 400w, " +
-        "/images/posts/variants/a%2Cb-thumb-800.avif 800w",
+      "/image-variants/a%2Cb-thumb-400.avif?v=0123456789 400w, " +
+        "/image-variants/a%2Cb-thumb-800.avif?v=0123456789 800w",
     );
   });
 
@@ -85,6 +143,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/a#b.jpg",
       "thumb",
+      FINGERPRINTS,
     );
 
     expect(sources.avifSrcset).toContain("a%23b-thumb-400.avif");
@@ -116,30 +175,57 @@ describe("slugFromFileName / isProcessableFileName", () => {
   });
 });
 
+describe("variantVersion", () => {
+  it("is a short prefix of the fingerprint", () => {
+    expect(variantVersion(FINGERPRINT)).toBe(VERSION);
+  });
+});
+
 describe("isVariantEligible", () => {
+  it("is not eligible without a manifest fingerprint, since its variant urls could not be versioned", () => {
+    expect(isVariantEligible("/images/posts/unknown.jpg", FINGERPRINTS)).toBe(
+      false,
+    );
+    expect(isVariantEligible("/images/posts/toString.jpg", {})).toBe(false);
+  });
+
   it("accepts a jpg/png cover image directly under /images/posts/", () => {
-    expect(isVariantEligible("/images/posts/some-post.jpg")).toBe(true);
-    expect(isVariantEligible("/images/posts/some-post.JPG")).toBe(true);
-    expect(isVariantEligible("/images/posts/some-post.png")).toBe(true);
+    expect(isVariantEligible("/images/posts/some-post.jpg", FINGERPRINTS)).toBe(
+      true,
+    );
+    expect(isVariantEligible("/images/posts/some-post.JPG", FINGERPRINTS)).toBe(
+      true,
+    );
+    expect(isVariantEligible("/images/posts/some-post.png", FINGERPRINTS)).toBe(
+      true,
+    );
   });
 
   it("rejects a format generateImageVariants.ts doesn't process", () => {
-    expect(isVariantEligible("/images/posts/some-post.gif")).toBe(false);
-    expect(isVariantEligible("/images/posts/some-post.svg")).toBe(false);
-  });
-
-  it("rejects a nested path — the generator only reads the top-level directory", () => {
-    expect(isVariantEligible("/images/posts/nested/some-post.jpg")).toBe(false);
-  });
-
-  it("rejects a remote/external image url", () => {
-    expect(isVariantEligible("https://cdn.example.com/some-post.jpg")).toBe(
+    expect(isVariantEligible("/images/posts/some-post.gif", FINGERPRINTS)).toBe(
+      false,
+    );
+    expect(isVariantEligible("/images/posts/some-post.svg", FINGERPRINTS)).toBe(
       false,
     );
   });
 
+  it("rejects a nested path — the generator only reads the top-level directory", () => {
+    expect(
+      isVariantEligible("/images/posts/nested/some-post.jpg", FINGERPRINTS),
+    ).toBe(false);
+  });
+
+  it("rejects a remote/external image url", () => {
+    expect(
+      isVariantEligible("https://cdn.example.com/some-post.jpg", FINGERPRINTS),
+    ).toBe(false);
+  });
+
   it("rejects a path outside /images/posts/", () => {
-    expect(isVariantEligible("/images/avatars/some-post.jpg")).toBe(false);
+    expect(
+      isVariantEligible("/images/avatars/some-post.jpg", FINGERPRINTS),
+    ).toBe(false);
   });
 
   it("rejects an already percent-encoded src instead of risking a double-encoded, 404ing srcset", () => {
@@ -147,6 +233,8 @@ describe("isVariantEligible", () => {
     // disk — it never decodes anything. If a pre-encoded src like this were
     // treated as eligible, buildSrcset would percent-encode it a second
     // time and point at a url no generated file matches.
-    expect(isVariantEligible("/images/posts/my%20post.jpg")).toBe(false);
+    expect(isVariantEligible("/images/posts/my%20post.jpg", FINGERPRINTS)).toBe(
+      false,
+    );
   });
 });

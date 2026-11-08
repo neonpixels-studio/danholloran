@@ -22,7 +22,24 @@ export const IMAGE_VARIANT_WIDTHS: Record<ImageVariant, number[]> = {
   hero: [800, 1200],
 };
 
-export const IMAGE_VARIANTS_DIR = "/images/posts/variants";
+// Deliberately outside /images: /images/* revalidates (file names there are
+// not versioned), while every url under this directory carries a ?v= content
+// version (see variantVersion), so public/_headers can cache it as immutable.
+export const IMAGE_VARIANTS_DIR = "/image-variants";
+
+// Source file name (e.g. "some-post.jpg") -> content fingerprint, as recorded
+// in imageVariantsManifest.json.
+export type ImageFingerprints = Record<string, string>;
+
+const VARIANT_VERSION_LENGTH = 10;
+
+// The ?v= token appended to every variant url. It derives from the same
+// fingerprint that decides whether a variant is stale, so re-encoding a
+// variant always changes the url and a replaced image can never be served
+// from a cache that was told the old url was immutable.
+export function variantVersion(fingerprint: string): string {
+  return fingerprint.slice(0, VARIANT_VERSION_LENGTH);
+}
 
 // The only extensions generateImageVariants.ts reads from
 // public/images/posts/ and produces variants for. isProcessableFileName (and
@@ -94,12 +111,22 @@ const HAS_PERCENT_ENCODING = /%[0-9a-fA-F]{2}/;
 // whose <source> 404s does *not* fall back to the next <source>/<img> the
 // way a broken <img src> would, so this check has to happen before we ever
 // commit to the <picture> markup, not after.
-export function isVariantEligible(src: string): boolean {
+//
+// An image with no manifest fingerprint is ineligible too: its variants
+// either don't exist yet or couldn't be given a versioned (immutable-cached)
+// url.
+export function isVariantEligible(
+  src: string,
+  fingerprints: ImageFingerprints,
+): boolean {
   const match = src.match(ELIGIBLE_SRC_PATTERN);
   if (!match) {
     return false;
   }
   if (HAS_PERCENT_ENCODING.test(match[1])) {
+    return false;
+  }
+  if (!Object.hasOwn(fingerprints, match[1])) {
     return false;
   }
   return isProcessableFileName(match[1]);
@@ -126,11 +153,12 @@ function buildSrcset(
   slug: string,
   variant: ImageVariant,
   format: ImageFormat,
+  version: string,
 ): string {
   return IMAGE_VARIANT_WIDTHS[variant]
     .map((width) => {
       const fileName = encodedVariantFileName(slug, variant, width, format);
-      return `${IMAGE_VARIANTS_DIR}/${fileName} ${width}w`;
+      return `${IMAGE_VARIANTS_DIR}/${fileName}?v=${version} ${width}w`;
     })
     .join(", ");
 }
@@ -150,12 +178,14 @@ export interface ResponsiveImageSources {
 export function resolveResponsiveImageSources(
   src: string,
   variant: ImageVariant,
+  fingerprints: ImageFingerprints,
 ): ResponsiveImageSources {
   const fileName = src.split("/").pop() ?? "";
   const slug = slugFromFileName(fileName);
+  const version = variantVersion(fingerprints[fileName]);
   return {
-    avifSrcset: buildSrcset(slug, variant, "avif"),
-    webpSrcset: buildSrcset(slug, variant, "webp"),
+    avifSrcset: buildSrcset(slug, variant, "avif", version),
+    webpSrcset: buildSrcset(slug, variant, "webp", version),
     fallbackSrc: src,
   };
 }

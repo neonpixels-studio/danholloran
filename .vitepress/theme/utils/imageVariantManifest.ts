@@ -30,7 +30,7 @@ const PROJECT_ROOT = join(
 );
 
 const SOURCE_DIR = join(PROJECT_ROOT, "public", "images", "posts");
-const OUTPUT_DIR = join(SOURCE_DIR, "variants");
+const OUTPUT_DIR = join(PROJECT_ROOT, "public", "image-variants");
 const MANIFEST_PATH = join(
   PROJECT_ROOT,
   ".vitepress",
