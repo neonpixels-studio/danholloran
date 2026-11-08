@@ -5,7 +5,7 @@ import { SITE_URL, CURRENT_LOCATION } from "./constants";
 export const CAREER_START_YEAR = 2012;
 
 /** Display names and ordering for the `topic` frontmatter field. */
-const TOPIC_SECTIONS: { topic: string; heading: string }[] = [
+export const TOPIC_SECTIONS: { topic: string; heading: string }[] = [
   { topic: "development", heading: "Development" },
   { topic: "ai", heading: "AI" },
   { topic: "obsidian", heading: "Obsidian & Productivity" },
