@@ -8,6 +8,10 @@ export interface PostMeta {
   description: string;
   tags: string[];
   readTime: number;
+  // Snake_case to match the existing legacy WordPress-era frontmatter key.
+  // Optional notice shown as a banner above the post body (e.g. a project is
+  // no longer maintained).
+  alert_message?: string;
 }
 
 export interface Post {

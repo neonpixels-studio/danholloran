@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
+import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 import StaticImage from "@components/StaticImage.vue";
@@ -134,6 +135,8 @@ const nextPost = computed(() =>
     >
       {{ post.frontmatter.description }}
     </p>
+
+    <PostAlertMessage :message="post.frontmatter.alert_message" />
 
     <div
       class="border-line mb-12 flex items-center gap-4 border-t border-b py-5"

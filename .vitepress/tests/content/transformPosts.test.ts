@@ -54,6 +54,21 @@ describe("transformPosts", () => {
     expect(post.frontmatter.readTime).toBe(2);
   });
 
+  it("passes the alert_message frontmatter through to the post", () => {
+    const [post] = transformPosts([
+      makeRawPost({
+        frontmatter: {
+          ...makeRawPost().frontmatter,
+          alert_message: "This project is no longer maintained.",
+        },
+      }),
+    ]);
+
+    expect(post.frontmatter.alert_message).toBe(
+      "This project is no longer maintained.",
+    );
+  });
+
   it("passes an array of tags through unchanged", () => {
     const [post] = transformPosts([makeRawPost()]);
 
