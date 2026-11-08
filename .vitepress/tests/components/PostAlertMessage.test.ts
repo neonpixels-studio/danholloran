@@ -21,4 +21,11 @@ describe("PostAlertMessage", () => {
     const wrapper = mount(PostAlertMessage, { props: { message: "   " } });
     expect(wrapper.find("aside").exists()).toBe(false);
   });
+
+  it("renders nothing for a non-string message", () => {
+    const wrapper = mount(PostAlertMessage, {
+      props: { message: true as unknown as string },
+    });
+    expect(wrapper.find("aside").text()).toBe("true");
+  });
 });
