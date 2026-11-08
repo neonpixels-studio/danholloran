@@ -5,6 +5,7 @@ export const KNOWN_TOPICS: string[] = TOPIC_SECTIONS.map(
 );
 
 const REQUIRED_STRING_KEYS = ["title", "description", "date", "image", "topic"];
+const DATE_KEYS = ["date", "created_at"];
 const OPTIONAL_STRING_KEYS = [
   "alert_message",
   "canonical",
@@ -35,12 +36,23 @@ function optionalStringProblems(data: Record<string, unknown>): string[] {
   ).map((key) => `"${key}" must be a string when present`);
 }
 
-function dateProblems(data: Record<string, unknown>): string[] {
-  const { date } = data;
-  if (!isNonEmptyString(date) || Number.isFinite(Date.parse(date as string))) {
+const ISO_DATE_PATTERN =
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?(Z|[+-]\d{2}:\d{2})$/;
+
+function isIsoDate(value: string): boolean {
+  return ISO_DATE_PATTERN.test(value) && Number.isFinite(Date.parse(value));
+}
+
+function dateProblem(data: Record<string, unknown>, key: string): string[] {
+  const value = data[key];
+  if (typeof value !== "string" || value.trim() === "" || isIsoDate(value)) {
     return [];
   }
-  return [`"date" is not a parseable date: ${date}`];
+  return [`"${key}" is not an ISO 8601 date-time: ${value}`];
+}
+
+function dateProblems(data: Record<string, unknown>): string[] {
+  return DATE_KEYS.flatMap((key) => dateProblem(data, key));
 }
 
 function topicProblems(data: Record<string, unknown>): string[] {
@@ -51,18 +63,16 @@ function topicProblems(data: Record<string, unknown>): string[] {
   return [`"topic" ${topic} is not one of: ${KNOWN_TOPICS.join(", ")}`];
 }
 
-function tagsAndDraftProblems(data: Record<string, unknown>): string[] {
-  const problems: string[] = [];
-  const { tags, draft } = data;
-  const tagsValid =
-    Array.isArray(tags) && tags.every((tag) => typeof tag === "string");
-  if (!tagsValid) {
-    problems.push('"tags" must be an array of strings (use [] for none)');
+function tagsProblems(data: Record<string, unknown>): string[] {
+  const { tags } = data;
+  if (Array.isArray(tags) && tags.every((tag) => typeof tag === "string")) {
+    return [];
   }
-  if (typeof draft !== "boolean") {
-    problems.push('"draft" must be a boolean');
-  }
-  return problems;
+  return ['"tags" must be an array of strings (use [] for none)'];
+}
+
+function draftProblems(data: Record<string, unknown>): string[] {
+  return typeof data.draft === "boolean" ? [] : ['"draft" must be a boolean'];
 }
 
 function unknownKeyProblems(data: Record<string, unknown>): string[] {
@@ -80,7 +90,8 @@ export function validatePostFrontmatter(
     ...optionalStringProblems(data),
     ...dateProblems(data),
     ...topicProblems(data),
-    ...tagsAndDraftProblems(data),
+    ...tagsProblems(data),
+    ...draftProblems(data),
     ...unknownKeyProblems(data),
   ];
 }

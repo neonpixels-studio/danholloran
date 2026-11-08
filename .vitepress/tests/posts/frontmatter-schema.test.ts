@@ -30,7 +30,7 @@ describe("validatePostFrontmatter", () => {
         alert_message: "Heads up",
         canonical: "other-post",
         travel_location: "zion national park",
-        created_at: "2026-01-01",
+        created_at: "2025-05-22T09:00:00.000-06:00",
       }),
     ).toEqual([]);
   });
@@ -58,13 +58,34 @@ describe("validatePostFrontmatter", () => {
   it("rejects a topic outside the known set", () => {
     expect(
       validatePostFrontmatter({ ...validFrontmatter, topic: "devlopment" }),
-    ).toHaveLength(1);
+    ).toEqual([expect.stringContaining('"topic"')]);
   });
 
-  it("rejects an unparseable date", () => {
+  it("rejects a non-string topic with a single problem", () => {
+    expect(validatePostFrontmatter({ ...validFrontmatter, topic: 5 })).toEqual([
+      expect.stringContaining('"topic"'),
+    ]);
+  });
+
+  it("rejects a whitespace-only title", () => {
     expect(
-      validatePostFrontmatter({ ...validFrontmatter, date: "not a date" }),
-    ).toHaveLength(1);
+      validatePostFrontmatter({ ...validFrontmatter, title: "   " }),
+    ).toEqual([expect.stringContaining('"title"')]);
+  });
+
+  it.each(["not a date", "Jan 5", "1", "2026-06-11"])(
+    "rejects the non-ISO date %s",
+    (date) => {
+      expect(validatePostFrontmatter({ ...validFrontmatter, date })).toEqual([
+        expect.stringContaining('"date"'),
+      ]);
+    },
+  );
+
+  it("rejects an invalid created_at", () => {
+    expect(
+      validatePostFrontmatter({ ...validFrontmatter, created_at: "yesterday" }),
+    ).toEqual([expect.stringContaining('"created_at"')]);
   });
 
   it("rejects wrongly typed tags and draft", () => {
@@ -74,7 +95,16 @@ describe("validatePostFrontmatter", () => {
         tags: "a, b",
         draft: "false",
       }),
-    ).toHaveLength(2);
+    ).toEqual([
+      expect.stringContaining('"tags"'),
+      expect.stringContaining('"draft"'),
+    ]);
+  });
+
+  it("rejects a tag list containing a non-string", () => {
+    expect(
+      validatePostFrontmatter({ ...validFrontmatter, tags: ["a", 1] }),
+    ).toEqual([expect.stringContaining('"tags"')]);
   });
 
   it("rejects unknown and typo'd keys", () => {
@@ -86,7 +116,7 @@ describe("validatePostFrontmatter", () => {
   it("rejects a non-string optional field", () => {
     expect(
       validatePostFrontmatter({ ...validFrontmatter, alert_message: 5 }),
-    ).toHaveLength(1);
+    ).toEqual([expect.stringContaining('"alert_message"')]);
   });
 });
 
