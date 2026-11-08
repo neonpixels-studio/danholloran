@@ -16,4 +16,9 @@ describe("PostAlertMessage", () => {
     const wrapper = mount(PostAlertMessage);
     expect(wrapper.find("aside").exists()).toBe(false);
   });
+
+  it("renders nothing for a whitespace-only message", () => {
+    const wrapper = mount(PostAlertMessage, { props: { message: "   " } });
+    expect(wrapper.find("aside").exists()).toBe(false);
+  });
 });
