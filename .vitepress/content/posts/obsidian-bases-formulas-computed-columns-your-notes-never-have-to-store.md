@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Bases Formulas: Computed Columns Your Notes Never Have to Store"
 image: "/images/posts/obsidian-bases-formulas-computed-columns-your-notes-never-have-to-store.jpg"
 topic: "obsidian"
-description: "Bases formulas let you calculate deadlines, flags, scores, and labels from the properties you already have, so your frontmatter stays small and your views stay smart."
+description: "Bases formulas let you calculate deadlines, flags, scores, and labels from properties you already have, so your frontmatter stays small and views stay smart."
 ---
 
 Every vault eventually grows a property that shouldn't exist. A `days_left` field you update by hand. An `overdue: true` checkbox you forget to tick. A `price_per_page` number you calculated once in your head and never touched again. These are values derived from other values, and storing them in frontmatter means they go stale the moment the inputs change.

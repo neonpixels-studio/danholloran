@@ -5,7 +5,7 @@ draft: false
 title: "Turbopack's Persistent Build Cache Only Helps If Your CI Keeps It"
 image: "/images/posts/turbopacks-persistent-build-cache-only-helps-if-your-ci-keeps-it.jpg"
 topic: "development"
-description: "Next.js 16.3 turned on Turbopack's persistent build cache by default and published numbers as high as 5.5x. Most CI pipelines will see exactly zero of that, because the cache is a directory and containers start empty."
+description: "Next.js 16.3 turned on Turbopack's persistent build cache with claimed speedups up to 5.5x. Most CI pipelines see none of it, because containers start empty."
 ---
 
 You upgrade to Next.js 16.3, read that Turbopack's persistent file system cache is now on by default for `next build`, see a chart claiming up to 5.5x faster builds, push to CI, and watch your pipeline take exactly as long as it did yesterday. Nothing is broken. The feature is doing precisely what it says. The problem is that "persistent" means persisted to a directory, and your build container throws that directory away the moment it exits.

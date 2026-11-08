@@ -5,7 +5,7 @@ draft: false
 title: "How ACH Actually Moves Money: Batches, Windows, and Nacha's 2026 Rules"
 image: "/images/posts/how-ach-actually-moves-money-batches-windows-and-nachas-2026-rules.jpg"
 topic: "finance"
-description: "Why bank transfers take the time they do, how ACH files and settlement windows work, and what Nacha's 2026 fraud-monitoring rules changed for everyone sending payments."
+description: "Why bank transfers take the time they do, how ACH files and settlement windows work, and what Nacha's 2026 fraud-monitoring rules changed for senders."
 ---
 
 Your paycheck shows up on Friday morning. Your rent "pending" sits in your banking app for two days. A transfer between your own accounts at two different banks somehow takes longer than a wire to another country. None of this is your bank being lazy. It is what happens when a huge share of the US economy still runs on a network built around batch files, and once you see how those batches move, the delays start to make sense.

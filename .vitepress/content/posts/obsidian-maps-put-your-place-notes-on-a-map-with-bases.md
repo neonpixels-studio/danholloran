@@ -5,7 +5,7 @@ draft: false
 title: "Obsidian Maps: Put Your Place Notes on a Map With Bases"
 image: "/images/posts/obsidian-maps-put-your-place-notes-on-a-map-with-bases.jpg"
 topic: "obsidian"
-description: "The official Maps plugin turns any Base into an interactive map. Here's how to structure coordinates, drive marker icons and colors from properties, and avoid the setup traps."
+description: "The official Maps plugin turns any Base into an interactive map. Here's how to structure coordinates, drive marker icons from properties, and avoid setup traps."
 ---
 
 Most vaults are full of places. Restaurants you want to try, apartments you toured, a client's office, the trailhead from last spring, every city you've worked from. They usually live as a folder of notes or a tag, and the only way to answer "what's near here?" is to open each one and squint at an address.

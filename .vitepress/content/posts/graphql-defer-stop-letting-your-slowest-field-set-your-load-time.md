@@ -5,7 +5,7 @@ draft: false
 title: "GraphQL @defer: Stop Letting Your Slowest Field Set Your Load Time"
 image: "/images/posts/graphql-defer-stop-letting-your-slowest-field-set-your-load-time.jpg"
 topic: "development"
-description: "One slow resolver can hold an entire GraphQL response hostage. Here's how @defer and @stream split a query into an initial payload and later patches, and what to check before you ship it."
+description: "One slow resolver can hold a whole GraphQL response hostage. Here's how @defer and @stream split a query into an initial payload and patches, and what to check."
 ---
 
 The pitch for GraphQL is that a page asks for everything it needs in one request. The catch nobody puts on the slide: that one request is only as fast as its slowest field. Your product page has `name`, `price`, and `image` ready in 20ms, but `reviews` calls a service that takes 900ms, so the whole response waits 900ms. The user stares at a spinner for data you already had.

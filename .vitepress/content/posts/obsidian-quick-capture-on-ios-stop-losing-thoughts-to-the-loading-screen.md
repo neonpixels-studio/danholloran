@@ -6,7 +6,7 @@ draft: false
 title: "Obsidian Quick Capture on iOS: Stop Losing Thoughts to the Loading Screen"
 image: "/images/posts/obsidian-quick-capture-on-ios-stop-losing-thoughts-to-the-loading-screen.jpg"
 topic: "obsidian"
-description: "Obsidian's native Quick Capture for iOS 26 lets you jot a note from the Lock Screen, Control Center, or Shortcuts without waiting for your vault to load. Here's how Locations, templates, and widgets fit together."
+description: "Obsidian's Quick Capture for iOS 26 lets you jot a note from the Lock Screen or Control Center without waiting for your vault to load. Here's how it works."
 ---
 
 Every Obsidian mobile user knows this moment. You're in line at the grocery store, an idea shows up, you tap the Obsidian icon, and then you wait. The vault indexes, plugins load, the sync indicator spins. By the time the editor is ready, half the thought is gone and the other half is competing with the cashier.

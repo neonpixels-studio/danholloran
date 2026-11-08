@@ -5,7 +5,7 @@ draft: false
 title: "What DAO Vote Counts Say About Decentralized Governance"
 image: "/images/posts/what-dao-vote-counts-say-about-decentralized-governance.jpg"
 topic: "finance"
-description: "DAOs promise governance without a boardroom. The actual turnout numbers, delegate concentration, and a few expensive attacks tell a more complicated story about how these organizations really run."
+description: "DAOs promise governance without a boardroom. Turnout, delegate concentration, and a few expensive attacks tell a more complicated story about how they run."
 ---
 
 The pitch for a DAO is easy to summarize: instead of a board of directors deciding what a protocol does with its money, token holders vote, and a smart contract executes whatever wins. No registered agent, no quarterly meeting, no CEO. A decentralized autonomous organization is supposed to be governance reduced to arithmetic.

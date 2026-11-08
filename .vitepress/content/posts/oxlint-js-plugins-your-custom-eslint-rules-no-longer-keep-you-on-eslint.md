@@ -5,7 +5,7 @@ draft: false
 title: "Oxlint JS Plugins: Your Custom ESLint Rules No Longer Keep You on ESLint"
 image: "/images/posts/oxlint-js-plugins-your-custom-eslint-rules-no-longer-keep-you-on-eslint.jpg"
 topic: "development"
-description: "Oxlint now runs ESLint plugins and your own custom rules, so the last excuse for a slow lint step is gone. Here's how JS plugins work, how to migrate, and where the gaps still are."
+description: "Oxlint now runs ESLint plugins and your own custom rules, so the last excuse for a slow lint step is gone. Here's how JS plugins work and where the gaps are."
 ---
 
 Every team that has looked at Oxlint has hit the same wall. The benchmarks are great, the built-in rules cover most of what you use, and then someone remembers the twelve custom rules in `eslint-local-rules/`, plus `eslint-plugin-testing-library`, plus that one SonarJS rule the security folks insisted on. None of that exists in Rust, so the migration dies in the planning doc and CI keeps spending two minutes on linting.
