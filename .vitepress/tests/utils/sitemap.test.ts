@@ -26,7 +26,7 @@ vi.mock("child_process", () => {
 import { existsSync, readFileSync, statSync, readdirSync } from "fs";
 import { execFileSync } from "child_process";
 import { transformSitemapItems } from "../../theme/utils/sitemap";
-import { resetGitDatesUsableCache } from "../../theme/utils/gitLastModified";
+import { resetGitCaches } from "../../theme/utils/gitLastModified";
 import { mockPostFiles } from "../helpers/mockPostFiles";
 
 const mockExistsSync = vi.mocked(existsSync);
@@ -34,6 +34,10 @@ const mockReadFileSync = vi.mocked(readFileSync);
 const mockStatSync = vi.mocked(statSync);
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockExecFileSync = vi.mocked(execFileSync);
+
+function commitLog(isoDate: string): string {
+  return `abc123\x1f${isoDate}\x1f\x1e\n`;
+}
 
 // The post-source directory holds the real files that back `/posts/<slug>`,
 // so a path-aware existsSync/statSync pins which file supplies an mtime.
@@ -45,7 +49,7 @@ function contentPath(slug: string): string {
 
 beforeEach(() => {
   vi.resetAllMocks();
-  resetGitDatesUsableCache();
+  resetGitCaches();
   mockReaddirSync.mockReturnValue([] as any);
   mockReadFileSync.mockReturnValue("" as any);
   // Default to "untracked" so file-backed pages fall through to their mtime;
@@ -237,7 +241,7 @@ describe("transformSitemapItems", () => {
     const commitDate = "2025-02-10T08:30:00.000Z";
     mockExistsSync.mockReturnValue(true);
     mockStatSync.mockReturnValue({ mtime: new Date("2024-01-01") } as any);
-    mockExecFileSync.mockReturnValue(`${commitDate}\n` as any);
+    mockExecFileSync.mockReturnValue(commitLog(commitDate) as any);
 
     const result = transformSitemapItems([{ url: "about" }]);
     expect(result[0].lastmod).toEqual(new Date(commitDate));
@@ -248,7 +252,7 @@ describe("transformSitemapItems", () => {
       mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
         args[0] === "rev-parse"
           ? "true\n"
-          : "2025-02-10T08:30:00.000Z\n") as any);
+          : commitLog("2025-02-10T08:30:00.000Z")) as any);
     }
 
     let warnSpy: ReturnType<typeof vi.spyOn>;
@@ -340,19 +344,17 @@ describe("transformSitemapItems", () => {
     );
     mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
     mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
-      args[0] === "rev-parse" ? "false\n" : `${commitDate}\n`) as any);
+      args[0] === "rev-parse" ? "false\n" : commitLog(commitDate)) as any);
 
     const result = transformSitemapItems([{ url: "posts/my-post" }]);
     expect(result[0].lastmod).toEqual(new Date(commitDate));
     expect(mockExecFileSync).toHaveBeenCalledWith(
       "git",
-      [
+      expect.arrayContaining([
         "log",
-        "-1",
-        "--format=%cI",
         "--",
         expect.stringContaining(contentPath("my-post")),
-      ],
+      ]),
       expect.anything(),
     );
   });
@@ -367,7 +369,7 @@ describe("transformSitemapItems", () => {
     mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
       args[0] === "rev-parse"
         ? "true\n"
-        : "2025-02-10T08:30:00.000Z\n") as any);
+        : commitLog("2025-02-10T08:30:00.000Z")) as any);
 
     const result = transformSitemapItems([
       { url: "posts/my-post", lastmod: new Date("2020-01-01").getTime() },
@@ -400,7 +402,7 @@ describe("transformSitemapItems", () => {
     );
     mockStatSync.mockReturnValue({ mtime: new Date("2024-05-01") } as any);
     mockExecFileSync.mockImplementation(((_cmd: string, args: string[]) =>
-      args[0] === "rev-parse" ? "false\n" : `${commitDate}\n`) as any);
+      args[0] === "rev-parse" ? "false\n" : commitLog(commitDate)) as any);
 
     const result = transformSitemapItems([{ url: "posts/draft-post" }]);
     expect(result[0].lastmod).toEqual(new Date(commitDate));
