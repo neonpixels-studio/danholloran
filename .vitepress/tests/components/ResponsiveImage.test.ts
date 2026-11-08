@@ -1,6 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { mount } from "@vue/test-utils";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
+
+vi.mock("../../data/imageVariantsManifest.json", () => ({
+  default: { "some-post.jpg": "0123456789abcdef".repeat(4) },
+}));
 
 describe("ResponsiveImage", () => {
   it("renders a picture with avif/webp sources and an original-image fallback", () => {

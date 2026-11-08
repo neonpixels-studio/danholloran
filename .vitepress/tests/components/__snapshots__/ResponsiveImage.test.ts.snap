@@ -2,7 +2,7 @@
 
 exports[`ResponsiveImage > renders a picture with avif/webp sources and an original-image fallback 1`] = `
 "<picture>
-  <source srcset="/images/posts/variants/some-post-thumb-400.avif 400w, /images/posts/variants/some-post-thumb-800.avif 800w" type="image/avif" sizes="(max-width: 767px) 100vw, 320px">
-  <source srcset="/images/posts/variants/some-post-thumb-400.webp 400w, /images/posts/variants/some-post-thumb-800.webp 800w" type="image/webp" sizes="(max-width: 767px) 100vw, 320px"><img src="/images/posts/some-post.jpg" alt="Some post thumbnail" class="h-full w-full">
+  <source srcset="/image-variants/some-post-thumb-400.avif?v=0123456789 400w, /image-variants/some-post-thumb-800.avif?v=0123456789 800w" type="image/avif" sizes="(max-width: 767px) 100vw, 320px">
+  <source srcset="/image-variants/some-post-thumb-400.webp?v=0123456789 400w, /image-variants/some-post-thumb-800.webp?v=0123456789 800w" type="image/webp" sizes="(max-width: 767px) 100vw, 320px"><img src="/images/posts/some-post.jpg" alt="Some post thumbnail" class="h-full w-full">
 </picture>"
 `;

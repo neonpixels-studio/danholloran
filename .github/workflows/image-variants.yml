@@ -51,7 +51,7 @@ jobs:
       # checks on the new head commit on its own. No explicit re-run needed.
       - name: Commit variants
         run: |
-          git add public/images/posts/variants .vitepress/data/imageVariantsManifest.json
+          git add public/image-variants .vitepress/data/imageVariantsManifest.json
           if git diff --cached --quiet; then
             echo "Variants already up to date."
             exit 0
