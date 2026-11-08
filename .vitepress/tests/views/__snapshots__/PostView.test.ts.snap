@@ -7,6 +7,7 @@ exports[`PostView > hides the finance disclaimer for non-finance posts 1`] = `
   <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-on-accent-dim bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">development</span><span class="text-fg-subtle font-mono text-[0.72rem]">January 1, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 5 min read </span></div>
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
+  <post-alert-message-stub></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
@@ -41,6 +42,7 @@ exports[`PostView > renders correctly 1`] = `
   <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-on-accent-dim bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">development</span><span class="text-fg-subtle font-mono text-[0.72rem]">January 1, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 5 min read </span></div>
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
+  <post-alert-message-stub></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
@@ -75,6 +77,7 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
   <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-on-accent-dim bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">career</span><span class="text-fg-subtle font-mono text-[0.72rem]">February 1, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 3 min read </span></div>
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">Second Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The second post description.</p>
+  <post-alert-message-stub></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
@@ -110,6 +113,7 @@ exports[`PostView > shows the finance disclaimer for finance posts 1`] = `
   <div class="mb-6 flex flex-wrap items-center gap-4"><span class="text-on-accent-dim bg-accent-dim rounded-xs px-2.5 py-1 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase">finance</span><span class="text-fg-subtle font-mono text-[0.72rem]">January 1, 2025</span><span class="text-fg-subtle font-mono text-[0.72rem]"> · 5 min read </span></div>
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
+  <post-alert-message-stub></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
