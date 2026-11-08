@@ -5,9 +5,11 @@ const { message } = defineProps<{
   message?: string;
 }>();
 
-// Frontmatter is untyped YAML at runtime, so coerce and trim before deciding
-// whether there is anything to show.
-const trimmedMessage = computed(() => String(message ?? "").trim());
+// Frontmatter is untyped YAML at runtime; ignore anything that is not a string
+// (a stray boolean or date is a typo, not a notice).
+const trimmedMessage = computed(() =>
+  typeof message === "string" ? message.trim() : "",
+);
 </script>
 
 <template>

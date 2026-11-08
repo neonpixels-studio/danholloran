@@ -26,6 +26,6 @@ describe("PostAlertMessage", () => {
     const wrapper = mount(PostAlertMessage, {
       props: { message: true as unknown as string },
     });
-    expect(wrapper.find("aside").text()).toBe("true");
+    expect(wrapper.find("aside").exists()).toBe(false);
   });
 });
