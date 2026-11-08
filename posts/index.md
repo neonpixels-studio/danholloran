@@ -1,5 +1,5 @@
 ---
-title: "Thoughts on code, craft & exploration."
+title: "Blog: Thoughts on code, craft & exploration."
 description: "A mix of technical deep-dives, career reflections, and dispatches from the road."
 ---
 
