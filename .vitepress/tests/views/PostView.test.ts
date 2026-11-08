@@ -7,6 +7,7 @@ vi.mock("@data/resume.ts", () => ({
 }));
 
 import PostView from "@views/PostView.vue";
+import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import { toFilterSlug } from "@utils/archive";
 
@@ -51,6 +52,32 @@ describe("PostView", () => {
       },
     });
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("renders the frontmatter alert_message as a notice banner", () => {
+    const alertPost = {
+      ...mockPosts[0],
+      frontmatter: {
+        ...mockPosts[0].frontmatter,
+        alert_message: "This project is no longer maintained.",
+      },
+    };
+    const wrapper = shallowMount(PostView, {
+      props: { post: alertPost, posts: [alertPost] },
+    });
+    const banner = wrapper.findComponent(PostAlertMessage);
+    expect(banner.props("message")).toBe(
+      "This project is no longer maintained.",
+    );
+  });
+
+  it("passes no message to the banner when alert_message is absent", () => {
+    const wrapper = shallowMount(PostView, {
+      props: { post: mockPosts[0], posts: mockPosts },
+    });
+    expect(wrapper.findComponent(PostAlertMessage).props("message")).toBe(
+      undefined,
+    );
   });
 
   it("shows the finance disclaimer for finance posts", () => {
