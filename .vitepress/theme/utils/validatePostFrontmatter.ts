@@ -39,8 +39,26 @@ function optionalStringProblems(data: Record<string, unknown>): string[] {
 const ISO_DATE_PATTERN =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?(Z|[+-]\d{2}:\d{2})$/;
 
+// Date.parse rolls day overflow (Feb 30) into the next month instead of rejecting it.
+function isRealCalendarDay(value: string): boolean {
+  const [year, month, day] = value.slice(0, 10).split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day)).getUTCDate() === day;
+}
+
 function isIsoDate(value: string): boolean {
-  return ISO_DATE_PATTERN.test(value) && Number.isFinite(Date.parse(value));
+  return (
+    ISO_DATE_PATTERN.test(value) &&
+    isRealCalendarDay(value) &&
+    Number.isFinite(Date.parse(value))
+  );
+}
+
+function imageProblems(data: Record<string, unknown>): string[] {
+  const { image } = data;
+  if (!isNonEmptyString(image) || image.startsWith("/")) {
+    return [];
+  }
+  return ['"image" must be a root-relative path starting with "/"'];
 }
 
 function dateProblem(data: Record<string, unknown>, key: string): string[] {
@@ -85,10 +103,14 @@ function unknownKeyProblems(data: Record<string, unknown>): string[] {
 export function validatePostFrontmatter(
   data: Record<string, unknown>,
 ): string[] {
+  if (typeof data !== "object" || data === null || Array.isArray(data)) {
+    return ["frontmatter must be a YAML mapping"];
+  }
   return [
     ...requiredStringProblems(data),
     ...optionalStringProblems(data),
     ...dateProblems(data),
+    ...imageProblems(data),
     ...topicProblems(data),
     ...tagsProblems(data),
     ...draftProblems(data),

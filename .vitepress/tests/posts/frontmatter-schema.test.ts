@@ -74,13 +74,31 @@ describe("validatePostFrontmatter", () => {
     ]);
   });
 
+  it.each(["a string", ["a"], null])(
+    "rejects non-mapping frontmatter %j",
+    (data) => {
+      expect(validatePostFrontmatter(data as never)).toEqual([
+        "frontmatter must be a YAML mapping",
+      ]);
+    },
+  );
+
+  it.each(["images/a.jpg", "https://example.com/a.jpg"])(
+    "rejects the non-root-relative image %s",
+    (image) => {
+      expect(validatePostFrontmatter({ ...validFrontmatter, image })).toEqual([
+        expect.stringContaining('"image"'),
+      ]);
+    },
+  );
+
   it("rejects a whitespace-only title", () => {
     expect(
       validatePostFrontmatter({ ...validFrontmatter, title: "   " }),
     ).toEqual([expect.stringContaining('"title"')]);
   });
 
-  it.each(["not a date", "Jan 5", "1", "2026-06-11"])(
+  it.each(["not a date", "Jan 5", "1", "2026-06-11", "2026-02-30T00:00:00Z"])(
     "rejects the non-ISO date %s",
     (date) => {
       expect(validatePostFrontmatter({ ...validFrontmatter, date })).toEqual([
