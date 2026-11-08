@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseFrontmatter } from "../../theme/utils/frontmatter";
+import { TOPIC_SECTIONS } from "../../theme/utils/generateLlmsTxt";
 import {
   KNOWN_TOPICS,
   validatePostFrontmatter,
@@ -37,8 +38,14 @@ describe("validatePostFrontmatter", () => {
 
   it("derives the topic set from the llms.txt sections", () => {
     expect(KNOWN_TOPICS).toEqual(
-      expect.arrayContaining(["development", "ai", "obsidian", "finance"]),
+      TOPIC_SECTIONS.map((section) => section.topic),
     );
+  });
+
+  it.each(["", "   "])("rejects an empty created_at %j", (created_at) => {
+    expect(
+      validatePostFrontmatter({ ...validFrontmatter, created_at }),
+    ).toEqual([expect.stringContaining('"created_at"')]);
   });
 
   it.each(["title", "description", "date", "image", "topic", "tags", "draft"])(
@@ -120,18 +127,34 @@ describe("validatePostFrontmatter", () => {
   });
 });
 
+function parsePost(fileName: string): {
+  fileName: string;
+  data: Record<string, unknown>;
+  parseError?: string;
+} {
+  try {
+    const raw = readFileSync(join(POSTS_DIR, fileName), "utf8");
+    return { fileName, data: parseFrontmatter(raw).data };
+  } catch (error) {
+    return { fileName, data: {}, parseError: String(error) };
+  }
+}
+
 describe("post frontmatter schema", () => {
   const postFiles = readdirSync(POSTS_DIR)
     .filter((fileName) => fileName.endsWith(".md") && fileName !== INDEX_FILE)
     .sort();
-  const parsedPosts = postFiles.map((fileName) => ({
-    fileName,
-    data: parseFrontmatter(readFileSync(join(POSTS_DIR, fileName), "utf8"))
-      .data,
-  }));
+  const parsedPosts = postFiles.map(parsePost);
 
   it("finds the post files to check", () => {
     expect(postFiles.length).toBeGreaterThan(0);
+  });
+
+  it("every post's frontmatter parses as YAML", () => {
+    const offenders = parsedPosts
+      .filter(({ parseError }) => parseError)
+      .map(({ fileName, parseError }) => `${fileName}: ${parseError}`);
+    expect(offenders).toEqual([]);
   });
 
   it("every post matches the frontmatter schema", () => {

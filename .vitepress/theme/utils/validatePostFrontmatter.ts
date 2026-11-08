@@ -20,7 +20,7 @@ export const ALLOWED_KEYS: string[] = [
   "draft",
 ];
 
-function isNonEmptyString(value: unknown): boolean {
+function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim() !== "";
 }
 
@@ -32,8 +32,8 @@ function requiredStringProblems(data: Record<string, unknown>): string[] {
 
 function optionalStringProblems(data: Record<string, unknown>): string[] {
   return OPTIONAL_STRING_KEYS.filter(
-    (key) => key in data && typeof data[key] !== "string",
-  ).map((key) => `"${key}" must be a string when present`);
+    (key) => key in data && !isNonEmptyString(data[key]),
+  ).map((key) => `"${key}" must be a non-empty string when present`);
 }
 
 const ISO_DATE_PATTERN =
@@ -57,7 +57,7 @@ function dateProblems(data: Record<string, unknown>): string[] {
 
 function topicProblems(data: Record<string, unknown>): string[] {
   const { topic } = data;
-  if (!isNonEmptyString(topic) || KNOWN_TOPICS.includes(topic as string)) {
+  if (!isNonEmptyString(topic) || KNOWN_TOPICS.includes(topic)) {
     return [];
   }
   return [`"topic" ${topic} is not one of: ${KNOWN_TOPICS.join(", ")}`];
