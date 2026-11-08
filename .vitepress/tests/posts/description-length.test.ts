@@ -22,6 +22,8 @@ describe("readDescription", () => {
   it("returns undefined when there is no description or frontmatter", () => {
     expect(readDescription("---\ntitle: A\n---\nBody")).toBeUndefined();
     expect(readDescription("Body only")).toBeUndefined();
+    expect(readDescription("---\ndescription: 123\n---\nBody")).toBeUndefined();
+    expect(readDescription("---\ndescription:\n---\nBody")).toBeUndefined();
   });
 });
 
@@ -44,6 +46,15 @@ describe("isDescriptionTooLong", () => {
 });
 
 describe("post descriptions", () => {
+  function readPostDescription(fileName: string): string | undefined {
+    const markdown = readFileSync(join(POSTS_DIR, fileName), "utf8");
+    try {
+      return readDescription(markdown);
+    } catch (error) {
+      throw new Error(`${fileName}: ${(error as Error).message}`);
+    }
+  }
+
   const postFiles = readdirSync(POSTS_DIR, { recursive: true })
     .map(String)
     .filter((fileName) => fileName.endsWith(".md"));
@@ -52,13 +63,18 @@ describe("post descriptions", () => {
     expect(postFiles.length).toBeGreaterThan(0);
   });
 
+  it("every post has a readable description", () => {
+    const missing = postFiles.filter(
+      (fileName) => readPostDescription(fileName) === undefined,
+    );
+    expect(missing).toEqual([]);
+  });
+
   it(`every post description is at most ${MAX_DESCRIPTION_LENGTH} characters`, () => {
     const offenders = postFiles
       .map((fileName) => ({
         fileName,
-        description: readDescription(
-          readFileSync(join(POSTS_DIR, fileName), "utf8"),
-        ),
+        description: readPostDescription(fileName),
       }))
       .filter((entry) => isDescriptionTooLong(entry.description))
       .map((entry) => `${entry.fileName} (${entry.description?.length})`);
