@@ -5,7 +5,7 @@ draft: false
 title: "Laravel 13 Vector Search: Semantic Queries Without a Search Service"
 image: "/images/posts/laravel-13-vector-search-semantic-queries-without-a-search-service.jpg"
 topic: "development"
-description: "Laravel 13 adds whereVectorSimilarTo, vector columns, and an AsVector cast, so meaning-based search can live in the Postgres or MariaDB database you already run."
+description: "Laravel 13 adds whereVectorSimilarTo, vector columns, and an AsVector cast, so meaning-based search can live in the Postgres or MariaDB database you run."
 ---
 
 A user types "cheap places to stay near the beach" into your help center search, and your `LIKE '%beach%'` query returns an article about beach volleyball rules. Meanwhile, the article titled "Budget Coastal Rentals" sits unfound because none of its words match. Full-text search helps with stemming, but it still matches words, not meaning.
