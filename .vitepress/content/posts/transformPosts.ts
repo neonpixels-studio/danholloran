@@ -3,7 +3,7 @@ import type { Post, PostMeta } from "@typedefs";
 import { calculateReadTime } from "../../theme/utils/readTime.ts";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
 
-// Used by the posts list loader (posts.data.ts). Post bodies are not loaded
+// Used by the posts list loader (postPageData.ts). Post bodies are not loaded
 // here: posts/[slug].paths.ts injects each body into its own page. Editing
 // this module may need a dev-server restart for the loader to pick up the
 // change.

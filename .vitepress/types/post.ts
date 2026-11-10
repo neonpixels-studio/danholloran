@@ -21,3 +21,30 @@ export interface Post {
   // via formatPostDateFor instead of re-deriving validity from the raw date.
   dateIsValid: boolean;
 }
+
+// One topic chip on the archive filter row, de-duped by slug.
+export interface ArchiveTopic {
+  slug: string;
+  label: string;
+}
+
+// What one archive page renders, computed at build time (see postViews.ts) so
+// the page ships only its own slice instead of every post's metadata.
+export interface ArchiveView {
+  posts: Post[];
+  topics: ArchiveTopic[];
+  totalPages: number;
+}
+
+// The posts on either side of a post in newest-first order. `prevPost` is the
+// older neighbor and `nextPost` the newer one, matching PostView's links.
+export interface PostNeighbors {
+  post: Post;
+  prevPost: Post | null;
+  nextPost: Post | null;
+}
+
+export interface HomePosts {
+  latestPosts: Post[];
+  nationalParkCount: number;
+}

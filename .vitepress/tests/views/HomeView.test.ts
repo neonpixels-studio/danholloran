@@ -15,7 +15,6 @@ vi.mock("@composables/useRevealAnimations", () => ({
   useRevealAnimations: vi.fn(),
 }));
 
-vi.mock("@content/posts/posts.data.ts", () => ({ data: mockPosts }));
 vi.mock("@data/resume", () => ({
   default: mockResume,
   CURRENT_LOCATION: "Reno, NV",
@@ -36,7 +35,9 @@ import HomeView from "@views/HomeView.vue";
 
 describe("HomeView", () => {
   it("renders correctly", () => {
-    const wrapper = shallowMount(HomeView);
+    const wrapper = shallowMount(HomeView, {
+      props: { home: { latestPosts: mockPosts, nationalParkCount: 26 } },
+    });
     expect(wrapper.html()).toMatchSnapshot();
   });
 });
