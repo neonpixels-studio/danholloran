@@ -55,9 +55,10 @@ describe("PostsView", () => {
     expect(wrapper.find("header.fade-in").classes()).toContain("visible");
     expect(cards[0].classes()).toContain("visible");
     expect(thumbnails[0].attributes("fetchpriority")).toBe("high");
+    expect(thumbnails[0].attributes("loading")).toBeUndefined();
   });
 
-  it("leaves later cards to the fade observer at normal fetch priority", () => {
+  it("leaves later cards to the fade observer and lazy-loads their thumbnails", () => {
     const wrapper = shallowMount(PostsView, { props: { posts: mockPosts } });
     const cards = wrapper.findAll("a.fade-in");
     const thumbnails = wrapper.findAll("responsive-image-stub");
@@ -65,6 +66,7 @@ describe("PostsView", () => {
     expect(cards.length).toBeGreaterThan(1);
     expect(cards[1].classes()).not.toContain("visible");
     expect(thumbnails[1].attributes("fetchpriority")).toBeUndefined();
+    expect(thumbnails[1].attributes("loading")).toBe("lazy");
   });
 
   it("renders with empty posts list", () => {

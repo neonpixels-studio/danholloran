@@ -147,6 +147,12 @@ function thumbnailFetchPriority(index: number): "high" | undefined {
   return isLeadCard(index) ? "high" : undefined;
 }
 
+// Only the lead card is above the fold on mobile; the rest would otherwise
+// compete with it for bandwidth during the initial load.
+function thumbnailLoading(index: number): "lazy" | undefined {
+  return isLeadCard(index) ? undefined : "lazy";
+}
+
 function topicHref(slug: string): string {
   return archiveHref(FIRST_PAGE, { topicSlug: slug });
 }
@@ -346,6 +352,8 @@ onUnmounted(() => {
           class="h-full w-full object-cover"
           :alt="`${post.frontmatter.title} thumbnail`"
           :fetchpriority="thumbnailFetchPriority(i)"
+          :loading="thumbnailLoading(i)"
+          decoding="async"
         />
       </div>
       <div class="flex flex-1 flex-col p-6">

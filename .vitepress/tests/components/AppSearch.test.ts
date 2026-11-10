@@ -55,8 +55,16 @@ import AppSearch from "@components/AppSearch.vue";
 describe("AppSearch", () => {
   let wrapper: VueWrapper | null = null;
 
-  function mountSearch(): VueWrapper {
+  // The search index is dynamic-imported once the panel opens (it starts open
+  // in these tests), so results only render after that import settles.
+  async function settleSearchIndex(): Promise<void> {
+    await vi.dynamicImportSettled();
+    await nextTick();
+  }
+
+  async function mountSearch(): Promise<VueWrapper> {
     wrapper = mount(AppSearch, { global: { stubs: { Teleport: true } } });
+    await settleSearchIndex();
     return wrapper;
   }
 
@@ -72,15 +80,16 @@ describe("AppSearch", () => {
     }
   });
 
-  it("renders correctly", () => {
+  it("renders correctly", async () => {
     wrapper = shallowMount(AppSearch, {
       global: { stubs: { Teleport: true } },
     });
+    await settleSearchIndex();
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it("exposes combobox/listbox ARIA semantics", () => {
-    const search = mountSearch();
+  it("exposes combobox/listbox ARIA semantics", async () => {
+    const search = await mountSearch();
 
     const input = search.find("input");
     expect(input.attributes("role")).toBe("combobox");
@@ -91,7 +100,7 @@ describe("AppSearch", () => {
   });
 
   it("reflects the active result into aria-activedescendant + aria-selected on ArrowDown", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
 
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
     await nextTick();
@@ -107,7 +116,7 @@ describe("AppSearch", () => {
   });
 
   it("leaves no dangling aria-activedescendant when ArrowDown fires with no results", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
 
     await search.find("input").setValue("zzzznomatchquery");
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
@@ -120,7 +129,7 @@ describe("AppSearch", () => {
   });
 
   it("does not throw or navigate on ArrowDown + Enter when there are no results", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
 
     await search.find("input").setValue("zzzznomatchquery");
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
@@ -133,7 +142,7 @@ describe("AppSearch", () => {
   });
 
   it("navigates to the active result on ArrowDown + Enter", async () => {
-    mountSearch();
+    await mountSearch();
 
     document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
     await nextTick();
@@ -143,7 +152,7 @@ describe("AppSearch", () => {
   });
 
   it("returns the Resume page when searching for a page keyword", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
 
     await search.find("input").setValue("resume");
     await nextTick();
@@ -165,7 +174,7 @@ describe("AppSearch", () => {
   });
 
   it("returns a project when searching for a project name", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
 
     await search.find("input").setValue("Acme Project");
     await nextTick();
@@ -184,7 +193,7 @@ describe("AppSearch", () => {
     const location = { href: "" };
     vi.stubGlobal("location", location);
 
-    const search = mountSearch();
+    const search = await mountSearch();
     await search.find("input").setValue("Acme Project");
     await nextTick();
     const projectOption = search
@@ -197,7 +206,7 @@ describe("AppSearch", () => {
   });
 
   it("folds a project that links to its own post into a single post result", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
 
     await search.find("input").setValue("collision");
     await nextTick();
@@ -211,8 +220,8 @@ describe("AppSearch", () => {
     expect(options[0].text()).not.toContain("Duplicate Of First Post");
   });
 
-  it("shows posts ahead of projects in the default empty-query panel", () => {
-    const search = mountSearch();
+  it("shows posts ahead of projects in the default empty-query panel", async () => {
+    const search = await mountSearch();
 
     const optionHrefs = search
       .findAll('[role="option"]')
@@ -225,8 +234,18 @@ describe("AppSearch", () => {
     expect(postIndex).toBeLessThan(projectIndex);
   });
 
+  it("does not load the search index until the panel opens", async () => {
+    mocks.isSearchOpen!.value = false;
+    const search = await mountSearch();
+    expect(search.findAll('[role="option"]')).toHaveLength(0);
+
+    mocks.isSearchOpen!.value = true;
+    await settleSearchIndex();
+    expect(search.findAll('[role="option"]').length).toBeGreaterThan(0);
+  });
+
   it("collapses aria-expanded when the search panel is closed", async () => {
-    const search = mountSearch();
+    const search = await mountSearch();
     mocks.isSearchOpen!.value = false;
     await nextTick();
 
@@ -251,18 +270,30 @@ describe("AppSearch", () => {
 
     // Reuses the outer `wrapper` variable so the outer afterEach's
     // `wrapper?.unmount()` covers cleanup even when an assertion throws.
-    function mountAttached(): VueWrapper {
-      wrapper = mount(AppSearch, {
-        attachTo: document.body,
-        global: { stubs: { Teleport: true } },
-      });
-      return wrapper;
+    // Uses the real Teleport rather than VTU's stub: the stub re-creates its
+    // children when the lazily loaded results render, detaching the focused
+    // input, while the real Teleport patches in place like production does.
+    async function mountAttached(): Promise<void> {
+      wrapper = mount(AppSearch, { attachTo: document.body });
+      await settleSearchIndex();
     }
 
-    function panelElement(search: VueWrapper): HTMLElement {
-      // `.get()` throws a clear "not found" error on its own, so the lookup
-      // doubles as the existence check without a separate assertion here.
-      return search.get('[role="dialog"]').element as HTMLElement;
+    // Teleported content renders outside the wrapper, so it's queried from the
+    // document. Throws on a miss so the lookup doubles as an existence check.
+    function getElement(selector: string): HTMLElement {
+      const element = document.querySelector<HTMLElement>(selector);
+      if (!element) {
+        throw new Error(`No element matches ${selector}`);
+      }
+      return element;
+    }
+
+    function panelElement(): HTMLElement {
+      return getElement('[role="dialog"]');
+    }
+
+    function inputElement(): HTMLElement {
+      return getElement('input[role="combobox"]');
     }
 
     function pressTab(shiftKey = false): KeyboardEvent {
@@ -280,8 +311,8 @@ describe("AppSearch", () => {
       triggers = [];
     });
 
-    it("declares dialog/modal semantics on the overlay panel", () => {
-      const search = mountSearch();
+    it("declares dialog/modal semantics on the overlay panel", async () => {
+      const search = await mountSearch();
 
       const panel = search.find('[role="dialog"]');
       expect(panel.attributes("aria-modal")).toBe("true");
@@ -289,7 +320,7 @@ describe("AppSearch", () => {
     });
 
     it("hides the panel from assistive tech while closed", async () => {
-      const search = mountSearch();
+      const search = await mountSearch();
       mocks.isSearchOpen!.value = false;
       await nextTick();
 
@@ -301,23 +332,23 @@ describe("AppSearch", () => {
     it("moves focus into the panel when it opens", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = false;
-      const search = mountAttached();
+      await mountAttached();
 
       mocks.isSearchOpen!.value = true;
       await flushPromises();
 
-      expect(panelElement(search).contains(document.activeElement)).toBe(true);
-      expect(document.activeElement).toBe(search.find("input").element);
+      expect(panelElement().contains(document.activeElement)).toBe(true);
+      expect(document.activeElement).toBe(inputElement());
     });
 
     it("restores focus to the trigger when it closes", async () => {
       const trigger = createTrigger();
       mocks.isSearchOpen!.value = false;
-      const search = mountAttached();
+      await mountAttached();
 
       mocks.isSearchOpen!.value = true;
       await flushPromises();
-      expect(document.activeElement).toBe(search.find("input").element);
+      expect(document.activeElement).toBe(inputElement());
 
       mocks.isSearchOpen!.value = false;
       await flushPromises();
@@ -327,7 +358,7 @@ describe("AppSearch", () => {
     it("does not throw restoring focus when the trigger was removed while open", async () => {
       const trigger = createTrigger();
       mocks.isSearchOpen!.value = false;
-      mountAttached();
+      await mountAttached();
 
       mocks.isSearchOpen!.value = true;
       await flushPromises();
@@ -347,15 +378,14 @@ describe("AppSearch", () => {
     it("traps Tab focus within the panel while open", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = true;
-      const search = mountAttached();
+      await mountAttached();
       await flushPromises();
 
       // The result options carry tabindex="-1" (roving activedescendant, not
       // real Tab order), so the only genuinely focusable controls here are
       // the input and the close button.
-      const first = search.find("input").element as HTMLElement;
-      const last = search.find('button[aria-label="Close search"]')
-        .element as HTMLElement;
+      const first = inputElement();
+      const last = getElement('button[aria-label="Close search"]');
 
       first.focus();
       const shiftTab = pressTab(true);
@@ -370,10 +400,10 @@ describe("AppSearch", () => {
     it("does not intercept Tab moving between two panel-internal controls", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = true;
-      const search = mountAttached();
+      await mountAttached();
       await flushPromises();
 
-      const first = search.find("input").element as HTMLElement;
+      const first = inputElement();
       first.focus();
 
       // Only two focusable controls exist (input, close button); Tab off the
@@ -385,19 +415,19 @@ describe("AppSearch", () => {
     it("pulls focus back into the panel if it escapes to outside content", async () => {
       const trigger = createTrigger();
       mocks.isSearchOpen!.value = true;
-      const search = mountAttached();
+      await mountAttached();
       await flushPromises();
 
       trigger.focus();
       const tab = pressTab();
       expect(tab.defaultPrevented).toBe(true);
-      expect(document.activeElement).toBe(search.find("input").element);
+      expect(document.activeElement).toBe(inputElement());
     });
 
     it("stops trapping Tab once the panel closes", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = true;
-      mountAttached();
+      await mountAttached();
       await flushPromises();
 
       mocks.isSearchOpen!.value = false;
@@ -410,16 +440,16 @@ describe("AppSearch", () => {
     it("moves focus into the panel when it mounts already open", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = true;
-      const search = mountAttached();
+      await mountAttached();
       await flushPromises();
 
-      expect(document.activeElement).toBe(search.find("input").element);
+      expect(document.activeElement).toBe(inputElement());
     });
 
     it("stops trapping Tab once the panel unmounts while open", async () => {
       createTrigger();
       mocks.isSearchOpen!.value = true;
-      mountAttached();
+      await mountAttached();
       await flushPromises();
 
       wrapper?.unmount();
@@ -436,7 +466,7 @@ describe("AppSearch", () => {
     it("fires search_query with the result count once typing settles", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("resume");
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
@@ -451,7 +481,7 @@ describe("AppSearch", () => {
     it("fires search_no_results for a query with no matches", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("zzzznomatchquery");
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
@@ -465,7 +495,7 @@ describe("AppSearch", () => {
     it("debounces rapid typing into a single settled event", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
       const input = search.find("input");
 
       await input.setValue("r");
@@ -485,7 +515,7 @@ describe("AppSearch", () => {
     it("fires no query event while the panel sits at the default empty-query state", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      mountSearch();
+      await mountSearch();
 
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
 
@@ -495,7 +525,7 @@ describe("AppSearch", () => {
     it("fires no query event once the query is cleared back to empty", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("resume");
       await search.find("input").setValue("");
@@ -510,7 +540,7 @@ describe("AppSearch", () => {
       const location = { href: "" };
       vi.stubGlobal("location", location);
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("Acme Project");
       await nextTick();
@@ -534,7 +564,7 @@ describe("AppSearch", () => {
       const location = { href: "" };
       vi.stubGlobal("location", location);
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("Acme Project");
       // No advanceTimersByTimeAsync — the click below lands well inside the
@@ -569,7 +599,7 @@ describe("AppSearch", () => {
     it("flushes the pending search_no_results event on Escape, instead of dropping it", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("zzzznomatchquery");
       document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
@@ -588,7 +618,7 @@ describe("AppSearch", () => {
       // flips isSearchOpen false without AppSearch's own close() running.
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("zzzznomatchquery");
       mocks.isSearchOpen!.value = false;
@@ -604,7 +634,7 @@ describe("AppSearch", () => {
     it("does not double-count a settled query re-edited back to the same tracked value", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
       const input = search.find("input");
 
       await input.setValue("resume");
@@ -621,7 +651,7 @@ describe("AppSearch", () => {
     it("tracks the same query again as a fresh occurrence in a later search", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
       const input = search.find("input");
 
       await input.setValue("resume");
@@ -636,7 +666,7 @@ describe("AppSearch", () => {
     it("redacts a query shaped like an email address or a long digit run", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("reader@example.com");
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
@@ -649,7 +679,7 @@ describe("AppSearch", () => {
     it("redacts a phone-shaped query even with separators between the digits", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("(555) 123-4567");
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
@@ -662,7 +692,7 @@ describe("AppSearch", () => {
     it("dedupes on the raw query, not the redacted value, so two distinct emails both track", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
       const input = search.find("input");
 
       await input.setValue("reader@example.com");
@@ -682,7 +712,7 @@ describe("AppSearch", () => {
     it("caps the tracked query at the GA4 param limit", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("z".repeat(150));
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
@@ -695,7 +725,7 @@ describe("AppSearch", () => {
     it("trims surrounding whitespace off the tracked query", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("  resume  ");
       await vi.advanceTimersByTimeAsync(QUERY_DEBOUNCE_MS);
@@ -708,7 +738,7 @@ describe("AppSearch", () => {
 
     it("fires search_result_click on ArrowDown + Enter selection", async () => {
       const gtag = mockGtag();
-      mountSearch();
+      await mountSearch();
 
       document.dispatchEvent(
         new KeyboardEvent("keydown", { key: "ArrowDown" }),
@@ -728,7 +758,7 @@ describe("AppSearch", () => {
     it("fires no query event when the component unmounts mid-debounce", async () => {
       vi.useFakeTimers();
       const gtag = mockGtag();
-      const search = mountSearch();
+      const search = await mountSearch();
 
       await search.find("input").setValue("resume");
       search.unmount();
