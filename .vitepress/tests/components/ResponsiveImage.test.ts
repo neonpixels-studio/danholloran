@@ -1,10 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 
-vi.mock("../../data/imageVariantsManifest.json", () => ({
-  default: { "some-post.jpg": "0123456789abcdef".repeat(4) },
-}));
+// A post's build-time imageVersion (see imageVersionFor).
+const VERSION = "0123456789";
 
 describe("ResponsiveImage", () => {
   it("renders a picture with avif/webp sources and an original-image fallback", () => {
@@ -13,6 +12,7 @@ describe("ResponsiveImage", () => {
         src: "/images/posts/some-post.jpg",
         variant: "thumb",
         sizes: "(max-width: 767px) 100vw, 320px",
+        version: VERSION,
       },
       attrs: { alt: "Some post thumbnail", class: "h-full w-full" },
     });
@@ -27,6 +27,7 @@ describe("ResponsiveImage", () => {
         src: "/images/posts/some-post.jpg",
         variant: "hero",
         sizes: "(max-width: 767px) 100vw, 720px",
+        version: VERSION,
       },
       attrs: {
         alt: "Some post hero",
@@ -53,6 +54,7 @@ describe("ResponsiveImage", () => {
         src: "/images/posts/some-post.jpg",
         variant: "hero",
         sizes: "100vw",
+        version: VERSION,
       },
     });
 
@@ -76,5 +78,21 @@ describe("ResponsiveImage", () => {
     expect(img.exists()).toBe(true);
     expect(img.attributes("src")).toBe("/images/posts/legacy-screenshot.gif");
     expect(img.attributes("alt")).toBe("Legacy screenshot");
+  });
+
+  it("renders a plain <img> for an image without a build-time version", () => {
+    const wrapper = mount(ResponsiveImage, {
+      props: {
+        src: "/images/posts/some-post.jpg",
+        variant: "thumb",
+        sizes: "320px",
+        version: null,
+      },
+    });
+
+    expect(wrapper.find("picture").exists()).toBe(false);
+    expect(wrapper.find("img").attributes("src")).toBe(
+      "/images/posts/some-post.jpg",
+    );
   });
 });

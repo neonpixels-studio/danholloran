@@ -40,6 +40,7 @@ const recentPosts = computed(() => posts.slice(1));
       >
         <ResponsiveImage
           :src="featuredPost.frontmatter.image"
+          :version="featuredPost.imageVersion"
           variant="thumb"
           sizes="(max-width: 767px) 100vw, 540px"
           class="min-h-60 object-cover"

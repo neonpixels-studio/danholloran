@@ -20,6 +20,10 @@ export interface Post {
   // Decided once at load time by resolvePublishedDate; render surfaces read it
   // via formatPostDateFor instead of re-deriving validity from the raw date.
   dateIsValid: boolean;
+  // The ?v= token for the cover image's responsive variants, or null when it
+  // has none; resolved at load time by imageVersionFor so the browser never
+  // needs the fingerprint manifest. Passed to ResponsiveImage as `version`.
+  imageVersion: string | null;
 }
 
 // One topic chip on the archive filter row, de-duped by slug.

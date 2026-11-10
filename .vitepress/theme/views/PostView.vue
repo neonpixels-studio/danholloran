@@ -158,6 +158,7 @@ function onArticleKeydown(event: KeyboardEvent) {
     <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]">
       <ResponsiveImage
         :src="post.frontmatter.image"
+        :version="post.imageVersion"
         variant="hero"
         sizes="(max-width: 767px) 100vw, 720px"
         class="focus-visible:outline-accent h-full w-full cursor-zoom-in object-cover focus-visible:outline-2 focus-visible:-outline-offset-3"

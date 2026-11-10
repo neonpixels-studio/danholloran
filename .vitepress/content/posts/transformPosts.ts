@@ -2,6 +2,12 @@ import type { ContentData } from "vitepress";
 import type { Post, PostMeta } from "@typedefs";
 import { calculateReadTime } from "../../theme/utils/readTime.ts";
 import { normalizeTags } from "../../theme/utils/normalizeTags.ts";
+import { imageVersionFor } from "../../theme/utils/responsiveImage.ts";
+import {
+  DEFAULT_IMAGE_VARIANT_PATHS,
+  readManifest,
+  type ImageVariantManifest,
+} from "../../theme/utils/imageVariantManifest.ts";
 
 // Used by the posts list loader (postPageData.ts). Post bodies are not loaded
 // here: posts/[slug].paths.ts injects each body into its own page. Editing
@@ -61,7 +67,19 @@ export function resolvePublishedDate(post: ContentData): PublishedDate {
   return { sortTime: time, isValid: true };
 }
 
+// A non-string image (malformed frontmatter) has no variants to version.
+function resolveImageVersion(
+  image: unknown,
+  fingerprints: ImageVariantManifest,
+): string | null {
+  if (typeof image !== "string") {
+    return null;
+  }
+  return imageVersionFor(image, fingerprints);
+}
+
 export function transformPosts(raw: ContentData[]): Post[] {
+  const fingerprints = readManifest(DEFAULT_IMAGE_VARIANT_PATHS.manifestPath);
   // Decorate each post with its parsed publish time before sorting so
   // resolvePublishedDate (and its warn on a bad date) runs once per post
   // rather than once per comparison.
@@ -85,6 +103,7 @@ export function transformPosts(raw: ContentData[]): Post[] {
         ...post,
         url: `/posts/${slug}`,
         dateIsValid: published.isValid,
+        imageVersion: resolveImageVersion(post.frontmatter.image, fingerprints),
         frontmatter: {
           // vitepress types raw frontmatter as `Record<string, any>`, so TS
           // can't verify it matches PostMeta at this spread. Malformed dates

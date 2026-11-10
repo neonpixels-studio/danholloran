@@ -301,6 +301,7 @@ onUnmounted(() => {
       >
         <ResponsiveImage
           :src="post.frontmatter.image"
+          :version="post.imageVersion"
           variant="thumb"
           :sizes="
             isFeatured(i)

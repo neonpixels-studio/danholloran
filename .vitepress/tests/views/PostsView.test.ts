@@ -12,6 +12,7 @@ function buildPosts(count: number): Post[] {
   return Array.from({ length: count }, (_unused, index) => ({
     url: `/posts/post-${index}`,
     dateIsValid: true,
+    imageVersion: null,
     frontmatter: {
       title: `Post ${index}`,
       slug: `post-${index}`,

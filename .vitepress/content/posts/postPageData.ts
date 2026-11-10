@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { createContentLoader, type PageData } from "vitepress";
 import type { Post } from "@typedefs";
 import { POSTS_DIR } from "../../theme/utils/loadPublishedPosts";
+import { DEFAULT_IMAGE_VARIANT_PATHS } from "../../theme/utils/imageVariantManifest";
 import {
   buildArchiveView,
   buildHomePosts,
@@ -48,13 +49,19 @@ function postsLoader(): PostsLoader {
   return loader;
 }
 
+function modifiedAt(path: string): string {
+  return `${path}:${statSync(path, { throwIfNoEntry: false })?.mtimeMs}`;
+}
+
 // transformPageData runs once per page (~1600 at build), and each load()
-// re-globs and re-runs transformPosts over every post. Names plus mtimes are
+// re-globs and re-runs transformPosts over every post. Post names plus mtimes
+// (and the image manifest's, which transformPosts reads for imageVersion) are
 // enough to tell when a reload is needed, including in dev after an edit.
 function postsFingerprint(): string {
   return readdirSync(POSTS_DIR)
     .filter((file) => file.endsWith(MARKDOWN_EXTENSION))
-    .map((file) => `${file}:${statSync(join(POSTS_DIR, file)).mtimeMs}`)
+    .map((file) => modifiedAt(join(POSTS_DIR, file)))
+    .concat(modifiedAt(DEFAULT_IMAGE_VARIANT_PATHS.manifestPath))
     .join("|");
 }
 
