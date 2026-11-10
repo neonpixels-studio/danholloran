@@ -20,4 +20,35 @@ export interface Post {
   // Decided once at load time by resolvePublishedDate; render surfaces read it
   // via formatPostDateFor instead of re-deriving validity from the raw date.
   dateIsValid: boolean;
+  // The ?v= token for the cover image's responsive variants, or null when it
+  // has none; resolved at load time by imageVersionFor so the browser never
+  // needs the fingerprint manifest. Passed to ResponsiveImage as `version`.
+  imageVersion: string | null;
+}
+
+// One topic chip on the archive filter row, de-duped by slug.
+export interface ArchiveTopic {
+  slug: string;
+  label: string;
+}
+
+// What one archive page renders, computed at build time (see postViews.ts) so
+// the page ships only its own slice instead of every post's metadata.
+export interface ArchiveView {
+  posts: Post[];
+  topics: ArchiveTopic[];
+  totalPages: number;
+}
+
+// The posts on either side of a post in newest-first order. `prevPost` is the
+// older neighbor and `nextPost` the newer one, matching PostView's links.
+export interface PostNeighbors {
+  post: Post;
+  prevPost: Post | null;
+  nextPost: Post | null;
+}
+
+export interface HomePosts {
+  latestPosts: Post[];
+  nationalParkCount: number;
 }

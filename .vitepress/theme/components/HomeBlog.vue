@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { data as posts } from "@content/posts/posts.data.ts";
+import { computed } from "vue";
+import type { Post } from "@typedefs";
 import { formatPostDateFor } from "@utils/formatDate";
 import { topicLabel } from "@utils/archive";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 
-const featuredPost = posts[0];
-const recentPosts = posts.slice(1, 9);
+// Newest first: the first renders as the featured card, the rest as the grid.
+const { posts } = defineProps<{
+  posts: Post[];
+}>();
+
+const featuredPost = computed(() => posts[0]);
+const recentPosts = computed(() => posts.slice(1));
 </script>
 
 <template>
@@ -34,6 +40,7 @@ const recentPosts = posts.slice(1, 9);
       >
         <ResponsiveImage
           :src="featuredPost.frontmatter.image"
+          :version="featuredPost.imageVersion"
           variant="thumb"
           sizes="(max-width: 767px) 100vw, 540px"
           class="min-h-60 object-cover"

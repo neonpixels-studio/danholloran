@@ -10,11 +10,23 @@ import PostView from "@views/PostView.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
 import { toFilterSlug } from "@utils/archive";
+import { findPostNeighbors } from "@utils/postViews";
+import type { Post } from "@typedefs";
+
+// The props posts/[slug].md passes: the post plus the neighbors postPageData.ts
+// finds for it at build time.
+function postProps(post: Post, posts: Post[]) {
+  const neighbors = findPostNeighbors(posts, post.frontmatter.slug);
+  if (!neighbors) {
+    throw new Error(`${post.frontmatter.slug} is not in the post list`);
+  }
+  return neighbors;
+}
 
 // posts/[slug].md passes the compiled post body as PostView's default slot.
 function mountWithBody(body: string) {
   return shallowMount(PostView, {
-    props: { post: mockPosts[0], posts: mockPosts },
+    props: postProps(mockPosts[0], mockPosts),
     slots: { default: body },
   });
 }
@@ -22,10 +34,7 @@ function mountWithBody(body: string) {
 describe("PostView", () => {
   it("renders correctly", () => {
     const wrapper = shallowMount(PostView, {
-      props: {
-        post: mockPosts[0],
-        posts: mockPosts,
-      },
+      props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.html()).toMatchSnapshot();
   });
@@ -46,10 +55,7 @@ describe("PostView", () => {
       },
     ];
     const wrapper = shallowMount(PostView, {
-      props: {
-        post: threePosts[1],
-        posts: threePosts,
-      },
+      props: postProps(threePosts[1], threePosts),
     });
     expect(wrapper.html()).toMatchSnapshot();
   });
@@ -63,7 +69,7 @@ describe("PostView", () => {
       },
     };
     const wrapper = shallowMount(PostView, {
-      props: { post: alertPost, posts: [alertPost] },
+      props: postProps(alertPost, [alertPost]),
     });
     const banner = wrapper.findComponent(PostAlertMessage);
     expect(banner.props("message")).toBe(
@@ -73,7 +79,7 @@ describe("PostView", () => {
 
   it("passes no message to the banner when alert_message is absent", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.findComponent(PostAlertMessage).props("message")).toBe(
       undefined,
@@ -86,14 +92,14 @@ describe("PostView", () => {
       frontmatter: { ...mockPosts[0].frontmatter, topic: "finance" },
     };
     const wrapper = shallowMount(PostView, {
-      props: { post: financePost, posts: [financePost] },
+      props: postProps(financePost, [financePost]),
     });
     expect(wrapper.html()).toMatchSnapshot();
   });
 
   it("hides the finance disclaimer for non-finance posts", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.find("aside[aria-label='Disclaimer']").exists()).toBe(false);
     expect(wrapper.html()).toMatchSnapshot();
@@ -101,7 +107,7 @@ describe("PostView", () => {
 
   it("opens the lightbox with the hero image when it is clicked", async () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
 
@@ -116,7 +122,7 @@ describe("PostView", () => {
 
   it("closes the lightbox when PostLightbox emits close", async () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     await wrapper
       .find(`responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`)
@@ -133,7 +139,7 @@ describe("PostView", () => {
 
   it("prioritizes the hero image and reserves its space without lazy loading", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     const hero = wrapper.find(
       `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
@@ -149,7 +155,7 @@ describe("PostView", () => {
 
   it("crops the hero to its 16:9 box instead of stretching it", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     const hero = wrapper.find(
       `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
@@ -160,7 +166,7 @@ describe("PostView", () => {
 
   it("exposes the hero image as a keyboard-operable control", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     const hero = wrapper.find(
       `responsive-image-stub[src='${mockPosts[0].frontmatter.image}']`,
@@ -175,7 +181,7 @@ describe("PostView", () => {
 
   it("opens the lightbox when Enter is pressed on the hero image", async () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.findComponent(PostLightbox).props("src")).toBe(null);
 
@@ -190,7 +196,7 @@ describe("PostView", () => {
 
   it("opens the lightbox when Space is pressed on the hero image", async () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
 
     await wrapper
@@ -244,7 +250,7 @@ describe("PostView", () => {
 
   it("prevents the default Space action on the hero image", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
 
     const hero = wrapper.find(
@@ -318,10 +324,7 @@ describe("PostView", () => {
 
   it("links each tag to its crawlable tag archive route", () => {
     const wrapper = shallowMount(PostView, {
-      props: {
-        post: mockPosts[0],
-        posts: mockPosts,
-      },
+      props: postProps(mockPosts[0], mockPosts),
     });
     const tagLinks = wrapper.findAll("a[href^='/posts/tag/']");
     expect(tagLinks).toHaveLength(mockPosts[0].frontmatter.tags.length);
@@ -338,7 +341,7 @@ describe("PostView", () => {
       frontmatter: { ...mockPosts[0].frontmatter, tags: ["→", "react"] },
     };
     const wrapper = shallowMount(PostView, {
-      props: { post, posts: mockPosts },
+      props: { post },
     });
     // The unroutable tag has no /posts/tag/ link, the routable one does.
     expect(wrapper.findAll("a[href^='/posts/tag/']")).toHaveLength(1);
@@ -349,7 +352,7 @@ describe("PostView", () => {
   it("renders the date fallback when the post's date is flagged invalid", () => {
     const flaggedPost = { ...mockPosts[0], dateIsValid: false };
     const wrapper = shallowMount(PostView, {
-      props: { post: flaggedPost, posts: [flaggedPost] },
+      props: postProps(flaggedPost, [flaggedPost]),
     });
     expect(wrapper.text()).toContain("Unknown date");
     expect(wrapper.text()).not.toContain("January 1, 2025");
@@ -357,7 +360,7 @@ describe("PostView", () => {
 
   it("renders the long date for a valid post", () => {
     const wrapper = shallowMount(PostView, {
-      props: { post: mockPosts[0], posts: mockPosts },
+      props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.text()).toContain("January 1, 2025");
   });

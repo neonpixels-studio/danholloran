@@ -13,6 +13,10 @@ import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
+import {
+  attachPostPageData,
+  refreshPostPagesInDev,
+} from "./content/posts/postPageData";
 import { buildThemeSanitizeScript } from "./theme/utils/themeStorageSanitizer";
 import { buildThemeColorHeadEntries } from "./theme/utils/themeColor";
 import { buildFontPreloadHeadEntries } from "./theme/utils/fonts";
@@ -86,10 +90,16 @@ export default defineConfig({
     },
     codeTransformers: [injectThemeBgTransformer],
     config: configureMarkdown,
+    // Dev only (builds always cache). Lets refreshPostPagesInDev re-run
+    // transformPageData after a post edit; see postPageData.ts.
+    cache: false,
   },
   vite: {
     build: { cssMinify: "esbuild" },
-    plugins: [tailwindcss() as unknown as VitePluginOption],
+    plugins: [
+      tailwindcss() as unknown as VitePluginOption,
+      refreshPostPagesInDev() as unknown as VitePluginOption,
+    ],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL(".", import.meta.url)),
@@ -108,7 +118,10 @@ export default defineConfig({
       },
     },
   },
-  transformPageData,
+  async transformPageData(pageData) {
+    transformPageData(pageData);
+    await attachPostPageData(pageData);
+  },
   // Fonts are content-hashed by Vite, so preload URLs are only known at build.
   transformHead: ({ assets }) => buildFontPreloadHeadEntries(assets),
   transformHtml: (html) => removeIconsStylesheetLink(html),

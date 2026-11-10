@@ -3,12 +3,10 @@ postBody: true
 ---
 
 <script setup>
-import { data as posts } from '@content/posts/posts.data.ts'
 import { useData } from 'vitepress'
 import PostView from '@views/PostView.vue'
 
 const { params } = useData()
-const post = posts.find(item => item.frontmatter.slug === params.value.slug)
 </script>
 
 <!--
@@ -18,7 +16,7 @@ const post = posts.find(item => item.frontmatter.slug === params.value.slug)
   compiled as a Vue expression. postBody in the frontmatter above is what
   markdownZoomImages.ts gates on to make in-body images zoom controls.
 -->
-<PostView :post="post" :posts="posts">
+<PostView v-bind="params.postNeighbors">
 <div v-pre>
 
 <!-- @content -->

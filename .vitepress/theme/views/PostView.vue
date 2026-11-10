@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
@@ -18,9 +18,16 @@ import { zoomLabelFor } from "@utils/markdownZoomImages";
 
 // The post body is the default slot: posts/[slug].md compiles it into that
 // page's own chunk, so no page ships any other post's html.
-const { post, posts } = defineProps<{
+// prevPost/nextPost (older/newer) come from findPostNeighbors at build time,
+// so the page doesn't need the full post list to link them.
+const {
+  post,
+  prevPost = null,
+  nextPost = null,
+} = defineProps<{
   post: Post;
-  posts: Post[];
+  prevPost?: Post | null;
+  nextPost?: Post | null;
 }>();
 
 const lightbox = ref<{ src: string; alt: string } | null>(null);
@@ -70,18 +77,6 @@ function onArticleKeydown(event: KeyboardEvent) {
   event.preventDefault();
   openLightboxFromImage(target);
 }
-
-const postIndex = computed(() =>
-  posts.findIndex((p) => p.frontmatter.slug === post.frontmatter.slug),
-);
-
-const prevPost = computed(() =>
-  postIndex.value < posts.length - 1 ? posts[postIndex.value + 1] : null,
-);
-
-const nextPost = computed(() =>
-  postIndex.value > 0 ? posts[postIndex.value - 1] : null,
-);
 </script>
 
 <template>
@@ -163,6 +158,7 @@ const nextPost = computed(() =>
     <div class="mb-12 aspect-video w-full overflow-hidden rounded bg-[#e8e6e1]">
       <ResponsiveImage
         :src="post.frontmatter.image"
+        :version="post.imageVersion"
         variant="hero"
         sizes="(max-width: 767px) 100vw, 720px"
         class="focus-visible:outline-accent h-full w-full cursor-zoom-in object-cover focus-visible:outline-2 focus-visible:-outline-offset-3"

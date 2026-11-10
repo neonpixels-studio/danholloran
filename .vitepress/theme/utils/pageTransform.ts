@@ -409,7 +409,7 @@ function transformPost(pageData: PageData): void {
   // Defense-in-depth: posts/[slug].paths.ts already drops drafts from route
   // generation, but bail here too so a draft reached through any other route
   // source never emits title/canonical/OG/JSON-LD. Without this a draft would
-  // ship rich SEO metadata over a body PostView renders blank (posts.data
+  // ship rich SEO metadata over a body PostView renders blank (postPageData
   // excludes it) — a reachable, indexable, empty page.
   if (!isPublished(data, slug)) return;
 

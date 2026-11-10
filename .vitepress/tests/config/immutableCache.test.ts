@@ -4,6 +4,7 @@ import { describe, it, expect } from "vitest";
 import fingerprints from "../../data/imageVariantsManifest.json";
 import {
   IMAGE_VARIANTS_DIR,
+  imageVersionFor,
   resolveResponsiveImageSources,
 } from "../../theme/utils/responsiveImage";
 import { DEFAULT_IMAGE_VARIANT_PATHS } from "../../theme/utils/imageVariantManifest";
@@ -105,11 +106,12 @@ describe("immutable cache headers", () => {
   it("serves every committed variant from a versioned url that exists on disk", () => {
     const urls = Object.keys(fingerprints).flatMap((fileName) =>
       (["thumb", "hero"] as const).flatMap((variant) => {
-        const sources = resolveResponsiveImageSources(
-          `/images/posts/${fileName}`,
-          variant,
-          fingerprints,
-        );
+        const src = `/images/posts/${fileName}`;
+        const version = imageVersionFor(src, fingerprints);
+        if (version === null) {
+          throw new Error(`${fileName} has no variant version`);
+        }
+        const sources = resolveResponsiveImageSources(src, variant, version);
         return [sources.avifSrcset, sources.webpSrcset]
           .flatMap((srcset) => srcset.split(", "))
           .map((candidate) => candidate.split(" ")[0]);

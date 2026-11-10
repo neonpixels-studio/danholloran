@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted } from "vue";
-import { Post } from "@typedefs";
+import type { ArchiveView } from "@typedefs";
 import NewsletterBanner from "@components/NewsletterBanner.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 import {
@@ -8,31 +8,28 @@ import {
   ALL_TAG,
   POSTS_INDEX,
   archiveHref,
-  hasFilterRoute,
-  pageSlice,
-  pickRepresentativeLabel,
-  toFilterSlug,
   toPageNumber,
   topicLabel,
-  totalPagesForCount,
 } from "@utils/archive";
 import { formatPostDateFor } from "@utils/formatDate";
 
 // The archive is driven entirely by route params, not client state: each
 // paginated / filtered page is a real, statically generated route (see
 // posts/page, posts/topic, posts/tag) so the whole archive is crawlable and
-// works with JS off. `topic`/`tag` are filter *slugs* (matched against
-// toFilterSlug of each post's value); `tagLabel` is the human label shown in
-// the active-tag chip. Navigation is plain <a href> links — VitePress upgrades
-// them to instant client-side transitions when JS is available.
+// works with JS off. `view` is that route's slice, built at build time by
+// buildArchiveView (see postPageData.ts) so the page never ships the full
+// post list. `topic`/`tag` are the route's filter *slugs*; `tagLabel` is the
+// human label shown in the active-tag chip. Navigation is plain <a href>
+// links — VitePress upgrades them to instant client-side transitions when JS
+// is available.
 const {
-  posts,
+  view,
   topic = ALL_TOPIC,
   tag = ALL_TAG,
   tagLabel = "",
   page = 1,
 } = defineProps<{
-  posts: Post[];
+  view: ArchiveView;
   topic?: string;
   tag?: string;
   tagLabel?: string;
@@ -55,48 +52,9 @@ const filterContext = computed(() => ({
   tagSlug: activeTagSlug.value,
 }));
 
-// De-duped by slug (not label) and stripped of route-less labels, so the row
-// never renders two chips pointing at one route or a dead /posts/topic/ link.
-const topicEntries = computed(() => {
-  const bySlug = new Map<string, string>();
-  for (const label of posts.map((post) => post.frontmatter.topic)) {
-    registerTopic(bySlug, label);
-  }
-  return [...bySlug.entries()]
-    .map(([slug, label]) => ({ slug, label }))
-    .sort((left, right) => left.label.localeCompare(right.label));
-});
-
-function registerTopic(bySlug: Map<string, string>, label: string): void {
-  if (!hasFilterRoute(label)) {
-    return;
-  }
-  const slug = toFilterSlug(label);
-  bySlug.set(slug, pickRepresentativeLabel(bySlug.get(slug), label));
-}
-
-function matchesTopic(post: Post): boolean {
-  if (activeTopicSlug.value === null) {
-    return true;
-  }
-  return toFilterSlug(post.frontmatter.topic) === activeTopicSlug.value;
-}
-
-function matchesTag(post: Post): boolean {
-  if (activeTagSlug.value === null) {
-    return true;
-  }
-  return post.frontmatter.tags.some(
-    (postTag) => toFilterSlug(postTag) === activeTagSlug.value,
-  );
-}
-
-const filtered = computed(() =>
-  posts.filter((post) => matchesTopic(post) && matchesTag(post)),
-);
-
-const totalPages = computed(() => totalPagesForCount(filtered.value.length));
-const pagePosts = computed(() => pageSlice(filtered.value, currentPage.value));
+const topicEntries = computed(() => view.topics);
+const totalPages = computed(() => view.totalPages);
+const pagePosts = computed(() => view.posts);
 
 // A per-filter heading so each topic/tag page is a distinct indexable surface
 // rather than repeating the blog index's H1. Null keeps the default two-line
@@ -145,6 +103,12 @@ function cardClass(index: number): Record<string, boolean> {
 
 function thumbnailFetchPriority(index: number): "high" | undefined {
   return isLeadCard(index) ? "high" : undefined;
+}
+
+// Only the lead card is above the fold on mobile; the rest would otherwise
+// compete with it for bandwidth during the initial load.
+function thumbnailLoading(index: number): "lazy" | undefined {
+  return isLeadCard(index) ? undefined : "lazy";
 }
 
 function topicHref(slug: string): string {
@@ -300,7 +264,7 @@ onUnmounted(() => {
   </div>
 
   <div
-    v-if="filtered.length === 0"
+    v-if="pagePosts.length === 0"
     class="mx-auto max-w-275 px-8 pt-8 pb-24 text-center"
   >
     <p class="text-fg-muted font-mono text-[0.9rem]">
@@ -337,6 +301,7 @@ onUnmounted(() => {
       >
         <ResponsiveImage
           :src="post.frontmatter.image"
+          :version="post.imageVersion"
           variant="thumb"
           :sizes="
             isFeatured(i)
@@ -346,6 +311,8 @@ onUnmounted(() => {
           class="h-full w-full object-cover"
           :alt="`${post.frontmatter.title} thumbnail`"
           :fetchpriority="thumbnailFetchPriority(i)"
+          :loading="thumbnailLoading(i)"
+          decoding="async"
         />
       </div>
       <div class="flex flex-1 flex-col p-6">

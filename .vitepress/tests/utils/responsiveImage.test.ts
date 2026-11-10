@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   isProcessableFileName,
   variantVersion,
+  imageVersionFor,
   isVariantEligible,
   resolveResponsiveImageSources,
   slugFromFileName,
@@ -28,7 +29,7 @@ describe("resolveResponsiveImageSources", () => {
       const sources = resolveResponsiveImageSources(
         "/images/posts/some-post.jpg",
         variant,
-        FINGERPRINTS,
+        VERSION,
       );
       const urls = [sources.avifSrcset, sources.webpSrcset]
         .flatMap((srcset) => srcset.split(", "))
@@ -41,33 +42,11 @@ describe("resolveResponsiveImageSources", () => {
     }
   });
 
-  it("throws instead of emitting unversioned urls for an image with no fingerprint", () => {
-    expect(() =>
-      resolveResponsiveImageSources("/images/posts/unknown.jpg", "thumb", {}),
-    ).toThrow(/No image variant fingerprint/);
-  });
-
-  it("changes the variant urls when the source image content changes", () => {
-    const before = resolveResponsiveImageSources(
-      "/images/posts/some-post.jpg",
-      "thumb",
-      FINGERPRINTS,
-    );
-    const after = resolveResponsiveImageSources(
-      "/images/posts/some-post.jpg",
-      "thumb",
-      { "some-post.jpg": "f".repeat(64) },
-    );
-
-    expect(after.avifSrcset).not.toBe(before.avifSrcset);
-    expect(after.avifSrcset).toContain("?v=ffffffffff");
-  });
-
   it("builds a thumb srcset from the smaller variant widths", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
       "thumb",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.avifSrcset).toBe(
@@ -84,7 +63,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
       "hero",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.avifSrcset).toBe(
@@ -101,7 +80,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/some-post.jpg",
       "thumb",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.fallbackSrc).toBe("/images/posts/some-post.jpg");
@@ -111,7 +90,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/my-post.png",
       "thumb",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.avifSrcset).toContain(
@@ -123,7 +102,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/my post.jpg",
       "thumb",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.avifSrcset).toBe(
@@ -136,7 +115,7 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/a,b.jpg",
       "thumb",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.avifSrcset).toBe(
@@ -149,10 +128,38 @@ describe("resolveResponsiveImageSources", () => {
     const sources = resolveResponsiveImageSources(
       "/images/posts/a#b.jpg",
       "thumb",
-      FINGERPRINTS,
+      VERSION,
     );
 
     expect(sources.avifSrcset).toContain("a%23b-thumb-400.avif");
+  });
+});
+
+describe("imageVersionFor", () => {
+  it("returns the fingerprint's short version for an image with variants", () => {
+    expect(imageVersionFor("/images/posts/some-post.jpg", FINGERPRINTS)).toBe(
+      VERSION,
+    );
+  });
+
+  it("returns null instead of an unversioned url for an image with no fingerprint", () => {
+    expect(imageVersionFor("/images/posts/unknown.jpg", {})).toBeNull();
+  });
+
+  it("returns null for an image the generator doesn't process", () => {
+    expect(
+      imageVersionFor("/images/posts/some-post.gif", FINGERPRINTS),
+    ).toBeNull();
+  });
+
+  it("changes when the source image content changes", () => {
+    const before = imageVersionFor("/images/posts/some-post.jpg", FINGERPRINTS);
+    const after = imageVersionFor("/images/posts/some-post.jpg", {
+      "some-post.jpg": "f".repeat(64),
+    });
+
+    expect(after).not.toBe(before);
+    expect(after).toBe("ffffffffff");
   });
 });
 
