@@ -173,19 +173,30 @@ export interface ResponsiveImageSources {
   fallbackSrc: string;
 }
 
-// Only meaningful for an isVariantEligible src — callers gate on that first
-// (see ResponsiveImage.vue).
+// The ?v= token for a post image's variants, or null when it has none (see
+// isVariantEligible). Resolved at build time onto each Post as imageVersion
+// (see transformPosts.ts), so ResponsiveImage.vue never ships the whole
+// fingerprint manifest to the browser just to look up one image.
+export function imageVersionFor(
+  src: string,
+  fingerprints: ImageFingerprints,
+): string | null {
+  if (!isVariantEligible(src, fingerprints)) {
+    return null;
+  }
+  const fileName = src.split("/").pop() ?? "";
+  return variantVersion(fingerprints[fileName]);
+}
+
+// `version` comes from imageVersionFor; callers only reach this for an image
+// that has one (see ResponsiveImage.vue).
 export function resolveResponsiveImageSources(
   src: string,
   variant: ImageVariant,
-  fingerprints: ImageFingerprints,
+  version: string,
 ): ResponsiveImageSources {
   const fileName = src.split("/").pop() ?? "";
   const slug = slugFromFileName(fileName);
-  if (!Object.hasOwn(fingerprints, fileName)) {
-    throw new Error(`No image variant fingerprint for "${fileName}"`);
-  }
-  const version = variantVersion(fingerprints[fileName]);
   return {
     avifSrcset: buildSrcset(slug, variant, "avif", version),
     webpSrcset: buildSrcset(slug, variant, "webp", version),
