@@ -27,7 +27,7 @@ exports[`HomeTravelMap > renders correctly 1`] = `
         <div data-v-d657fdb1="" class="text-fg-subtle mt-2.5 font-mono text-[0.6rem] tracking-widest uppercase"> miles driven </div>
       </div>
       <div data-v-d657fdb1="" class="border-line border-t-2 pt-4">
-        <div data-v-d657fdb1="" class="tracking-tightest font-mono leading-none font-bold">2<span data-v-d657fdb1="" class="text-accent ml-0.5 text-[1.1rem]">+</span></div>
+        <div data-v-d657fdb1="" class="tracking-tightest font-mono leading-none font-bold">26<span data-v-d657fdb1="" class="text-accent ml-0.5 text-[1.1rem]">+</span></div>
         <div data-v-d657fdb1="" class="text-fg-subtle mt-2.5 font-mono text-[0.6rem] tracking-widest uppercase"> national parks </div>
       </div>
       <div data-v-d657fdb1="" class="border-line border-t-2 pt-4">

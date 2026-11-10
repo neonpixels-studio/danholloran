@@ -8,18 +8,21 @@
 // fails the whole build rather than shipping a gap).
 import { computed } from "vue";
 import {
-  isVariantEligible,
   resolveResponsiveImageSources,
   type ImageVariant,
 } from "@utils/responsiveImage";
-import imageFingerprints from "../../data/imageVariantsManifest.json";
 
 // Non-prop attrs (class, alt, event listeners, aria-*, fetchpriority, role,
 // tabindex, …) are meant for the rendered <img>, not the <picture> wrapper,
 // so fallthrough is disabled here and applied manually below.
 defineOptions({ inheritAttrs: false });
 
-const { src, variant, sizes } = defineProps<{
+const {
+  src,
+  variant,
+  sizes,
+  version = null,
+} = defineProps<{
   // Root-absolute path to the original post image, e.g.
   // "/images/posts/some-post.jpg".
   src: string;
@@ -27,16 +30,20 @@ const { src, variant, sizes } = defineProps<{
   // Passed straight through to each <source>/<img>'s `sizes` attribute; the
   // caller knows its own layout (card width vs. full-bleed hero).
   sizes: string;
+  // The post's imageVersion, resolved at build time by imageVersionFor. Null
+  // (or absent) means no variants exist, so only the original renders.
+  version?: string | null;
 }>();
 
-const eligible = computed(() => isVariantEligible(src, imageFingerprints));
 const sources = computed(() =>
-  resolveResponsiveImageSources(src, variant, imageFingerprints),
+  version === null
+    ? null
+    : resolveResponsiveImageSources(src, variant, version),
 );
 </script>
 
 <template>
-  <picture v-if="eligible">
+  <picture v-if="sources">
     <source :srcset="sources.avifSrcset" type="image/avif" :sizes="sizes" />
     <source :srcset="sources.webpSrcset" type="image/webp" :sizes="sizes" />
     <img :src="sources.fallbackSrc" v-bind="$attrs" />

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   ref,
+  shallowRef,
   computed,
   watch,
   onMounted,
@@ -8,15 +9,9 @@ import {
   nextTick,
   useId,
 } from "vue";
-import MiniSearch from "minisearch";
 import { SearchItem } from "@typedefs";
-import { data as postItems } from "../../content/posts/search.data.ts";
-import { data as staticItems } from "../../data/staticSearch.data.ts";
-import {
-  mergeSearchIndex,
-  buildEmptyQueryResults,
-  SEARCH_PANEL_SIZE,
-} from "../../data/searchIndex.ts";
+import { buildEmptyQueryResults } from "../../data/searchIndex.ts";
+import type { SearchEngine } from "../../data/searchEngine.ts";
 import { useRouter } from "vitepress";
 import { useNavPanels } from "@composables/useNavPanels.ts";
 import { useFocusTrap } from "@composables/useFocusTrap.ts";
@@ -64,18 +59,26 @@ const { trackEvent } = useAnalytics();
 const panel = ref<HTMLElement | null>(null);
 useFocusTrap(panel, isSearchOpen);
 
-const ALL_ITEMS: SearchItem[] = mergeSearchIndex(staticItems, postItems);
+// Loaded the first time the panel opens rather than during hydration; see
+// searchEngine.ts for why.
+const searchEngine = shallowRef<SearchEngine | null>(null);
+let searchEngineLoad: Promise<void> | null = null;
 
-const ms = new MiniSearch<SearchItem & { id: number }>({
-  fields: ["title", "desc", "kw"],
-  storeFields: ["type", "title", "desc", "href"],
-  searchOptions: {
-    boost: { title: 3, kw: 2 },
-    fuzzy: 0.2,
-    prefix: true,
-  },
-});
-ms.addAll(ALL_ITEMS.map((item, id) => ({ ...item, id })));
+function loadSearchEngine(): Promise<void> {
+  if (searchEngineLoad) {
+    return searchEngineLoad;
+  }
+  searchEngineLoad = import("../../data/searchEngine.ts")
+    .then(({ createSearchEngine }) => {
+      searchEngine.value = createSearchEngine();
+    })
+    .catch((error: unknown) => {
+      // Clear the cached attempt so reopening the panel retries the load.
+      searchEngineLoad = null;
+      console.error("AppSearch: failed to load the search index", error);
+    });
+  return searchEngineLoad;
+}
 
 // Per-instance prefix keeps combobox ids unique if the component mounts more than once.
 const componentUid = useId();
@@ -91,11 +94,15 @@ const activeIndex = ref(-1);
 const resultRefs = ref<HTMLElement[]>([]);
 
 const filteredResults = computed((): SearchItem[] => {
+  const engine = searchEngine.value;
+  if (!engine) {
+    return [];
+  }
   const q = query.value.trim();
   if (!q) {
-    return buildEmptyQueryResults(ALL_ITEMS);
+    return buildEmptyQueryResults(engine.items);
   }
-  return ms.search(q).slice(0, SEARCH_PANEL_SIZE) as unknown as SearchItem[];
+  return engine.search(q);
 });
 
 const activeDescendantId = computed(() => {
@@ -120,8 +127,12 @@ const resultCountLabel = computed(() => {
   return `${count} ${count === 1 ? "result" : "results"}`;
 });
 
+// Waits for the index so a query typed while it loads isn't told "no results".
 const showNoResults = computed(
-  () => query.value.length > 0 && filteredResults.value.length === 0,
+  () =>
+    searchEngine.value !== null &&
+    query.value.length > 0 &&
+    filteredResults.value.length === 0,
 );
 
 watch(filteredResults, () => {
@@ -188,6 +199,19 @@ watch(query, (value) => {
     QUERY_TRACK_DEBOUNCE_MS,
   );
 });
+
+// Covers every way the panel opens (toggle, shortcuts, the shared nav-panel
+// store) and a panel that mounts already open.
+watch(
+  isSearchOpen,
+  (isOpen) => {
+    if (!isOpen) {
+      return;
+    }
+    void loadSearchEngine();
+  },
+  { immediate: true },
+);
 
 // The shared nav-panel store (useNavPanels) can close this panel without
 // this component's own close() ever running — e.g. switching to the mobile

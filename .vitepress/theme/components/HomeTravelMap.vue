@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { data as posts } from "@content/posts/posts.data.ts";
 import { data as mapUpdated } from "@data/mapUpdated.data.ts";
 import { computed } from "vue";
 import { formatMapUpdatedDate } from "@utils/formatDate";
@@ -16,10 +15,10 @@ import { formatMapUpdatedDate } from "@utils/formatDate";
 const mapUpdatedTextLight = formatMapUpdatedDate(mapUpdated.light);
 const mapUpdatedTextDark = formatMapUpdatedDate(mapUpdated.dark);
 
-const nationalParkCount = computed(() => {
-  return posts.filter((post) => post.frontmatter.tags.includes("national-park"))
-    .length;
-});
+// Counted at build time by buildHomePosts so the map doesn't need every post.
+const { nationalParkCount } = defineProps<{
+  nationalParkCount: number;
+}>();
 
 const yearsOnRoad = computed(() => {
   const start = new Date("2024-11-01");

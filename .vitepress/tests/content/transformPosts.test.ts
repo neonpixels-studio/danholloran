@@ -4,6 +4,8 @@ import {
   POSTS_GLOB,
   transformPosts,
 } from "../../content/posts/transformPosts.ts";
+import fingerprints from "../../data/imageVariantsManifest.json";
+import { variantVersion } from "../../theme/utils/responsiveImage";
 
 function makeRawPost(overrides: Record<string, unknown> = {}): ContentData {
   return {
@@ -67,6 +69,33 @@ describe("transformPosts", () => {
     expect(post.frontmatter.alert_message).toBe(
       "This project is no longer maintained.",
     );
+  });
+
+  it("stamps each post with its cover image's variant version from the manifest", () => {
+    const [fileName, fingerprint] = Object.entries(fingerprints)[0];
+    const [post] = transformPosts([
+      makeRawPost({
+        frontmatter: {
+          ...makeRawPost().frontmatter,
+          image: `/images/posts/${fileName}`,
+        },
+      }),
+    ]);
+
+    expect(post.imageVersion).toBe(variantVersion(fingerprint));
+  });
+
+  it("leaves imageVersion null for an image with no variants or a non-string image", () => {
+    const [unknownImage, malformedImage] = transformPosts([
+      makeRawPost(),
+      makeRawPost({
+        url: "/.vitepress/content/posts/malformed-image",
+        frontmatter: { ...makeRawPost().frontmatter, image: 42 },
+      }),
+    ]);
+
+    expect(unknownImage.imageVersion).toBeNull();
+    expect(malformedImage.imageVersion).toBeNull();
   });
 
   it("passes an array of tags through unchanged", () => {
