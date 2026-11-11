@@ -68,7 +68,9 @@ const TRANSFORM_OWNED_ARTICLE_PROPERTIES = new Set([
 // site-wide alternate lives in config.ts head and never passes through here.
 function isOwnedLink(tag: any[]): boolean {
   const isTopicFeed =
-    tag[1]?.rel === "alternate" && tag[1]?.type === "application/rss+xml";
+    tag[1]?.rel === "alternate" &&
+    tag[1]?.type === "application/rss+xml" &&
+    String(tag[1]?.href ?? "").startsWith(`${SITE_URL}/topic/`);
   return tag[1]?.rel === "canonical" || isTopicFeed;
 }
 

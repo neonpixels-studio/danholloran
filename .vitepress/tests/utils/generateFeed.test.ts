@@ -648,12 +648,13 @@ describe("generateTopicFeeds", () => {
 
   function mockTopicPosts() {
     mockPostFiles(
-      ["a.md", "b.md", "c.md", "d.md"],
+      ["a.md", "b.md", "c.md", "d.md", "e.md"],
       [
         { title: "Dev One", date: "2024-01-01", topic: "development" },
         { title: "Obsidian One", date: "2024-02-01", topic: "obsidian" },
         { title: "Dev Two", date: "2024-03-01", topic: " Development " },
         { title: "Undated Travel", topic: "travel" },
+        { title: "No Topic", date: "2024-04-01" },
       ],
     );
   }
@@ -680,6 +681,8 @@ describe("generateTopicFeeds", () => {
       "Dev Two",
       "Dev One",
     ]);
+    const allTitles = feeds.flatMap((feed) => itemTitles(feed.xml));
+    expect(allTitles).not.toContain("No Topic");
     expect(itemTitles(topicFeed(feeds, "obsidian"))).toEqual(["Obsidian One"]);
   });
 

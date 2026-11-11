@@ -1226,6 +1226,30 @@ describe("transformPageData – archive routes", () => {
     expect(findTopicFeedLinks(pageData)).toHaveLength(1);
   });
 
+  it("keeps a page-authored RSS alternate link outside /topic/ when transforming an archive", () => {
+    const pageData = makePageData({
+      filePath: "posts/topic/[topic].md",
+      params: { topic: "ai", topicLabel: "ai", page: "1" },
+    });
+    pageData.frontmatter.head = [
+      [
+        "link",
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          href: "https://example.com/other.xml",
+        },
+      ],
+    ];
+    transformPageData(pageData);
+
+    const hrefs = findTopicFeedLinks(pageData).map((tag: any[]) => tag[1].href);
+    expect(hrefs).toEqual([
+      "https://example.com/other.xml",
+      `${SITE_URL}/topic/ai/feed.xml`,
+    ]);
+  });
+
   it("adds no topic feed link to tag or unfiltered archive pages", () => {
     const tagPage = transformArchivePage("posts/tag/[tag].md", {
       tag: "vue",
