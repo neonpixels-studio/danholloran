@@ -6,7 +6,8 @@ import type { UserConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 import { POST_MARKDOWN_HEADERS } from "./theme/utils/postHeaders";
-import { generateFeed } from "./theme/utils/generateFeed";
+import { generateFeed, generateTopicFeeds } from "./theme/utils/generateFeed";
+import { writeTopicFeeds } from "./theme/utils/writeTopicFeeds";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
 import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
 import { parse as parsePlist } from "plist";
@@ -144,6 +145,7 @@ export default defineConfig({
       join(siteConfig.outDir, "feed.xml"),
       generateFeed(feedRenderer),
     );
+    writeTopicFeeds(siteConfig.outDir, generateTopicFeeds(feedRenderer));
     writeFileSync(join(siteConfig.outDir, "llms.txt"), generateLlmsTxt());
 
     // Give the client-rendered 404 a static, no-JS recovery block so agents and

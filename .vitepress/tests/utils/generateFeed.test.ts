@@ -8,13 +8,17 @@ vi.mock("fs", () => {
   return { default: { readdirSync, readFileSync }, readdirSync, readFileSync };
 });
 
-vi.mock("../../theme/utils/frontmatter", () => ({
+vi.mock("../../theme/utils/frontmatter", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../../theme/utils/frontmatter")>()),
   parseFrontmatter: vi.fn(),
 }));
 
 import { readdirSync, readFileSync } from "fs";
 import { parseFrontmatter } from "../../theme/utils/frontmatter";
-import { generateFeed } from "../../theme/utils/generateFeed";
+import {
+  generateFeed,
+  generateTopicFeeds,
+} from "../../theme/utils/generateFeed";
 import { SITE_URL } from "../../theme/utils/constants";
 import { mockPostFiles } from "../helpers/mockPostFiles";
 
@@ -630,5 +634,120 @@ describe("generateFeed", () => {
       "<script>",
       "one ]]> two",
     ]);
+  });
+});
+
+describe("generateTopicFeeds", () => {
+  function topicFeed(feeds: { slug: string; xml: string }[], slug: string) {
+    const feed = feeds.find((entry) => entry.slug === slug);
+    if (!feed) {
+      throw new Error(`no feed for ${slug}`);
+    }
+    return feed.xml;
+  }
+
+  function mockTopicPosts() {
+    mockPostFiles(
+      ["a.md", "b.md", "c.md", "d.md", "e.md"],
+      [
+        { title: "Dev One", date: "2024-01-01", topic: "development" },
+        { title: "Obsidian One", date: "2024-02-01", topic: "obsidian" },
+        { title: "Dev Two", date: "2024-03-01", topic: " Development " },
+        { title: "Undated Travel", topic: "travel" },
+        { title: "No Topic", date: "2024-04-01" },
+      ],
+    );
+  }
+
+  it("emits one feed per topic archive, including topics with no dated posts", () => {
+    mockTopicPosts();
+
+    const feeds = generateTopicFeeds(passthroughRenderer());
+
+    expect(feeds.map((feed) => feed.slug).sort()).toEqual([
+      "development",
+      "obsidian",
+      "travel",
+    ]);
+    expect(feedItems(topicFeed(feeds, "travel"))).toHaveLength(0);
+  });
+
+  it("includes only that topic's posts, newest first, reusing the site feed item shape", () => {
+    mockTopicPosts();
+
+    const feeds = generateTopicFeeds(passthroughRenderer());
+
+    expect(itemTitles(topicFeed(feeds, "development"))).toEqual([
+      "Dev Two",
+      "Dev One",
+    ]);
+    const allTitles = feeds.flatMap((feed) => itemTitles(feed.xml));
+    expect(allTitles).not.toContain("No Topic");
+    expect(itemTitles(topicFeed(feeds, "obsidian"))).toEqual(["Obsidian One"]);
+  });
+
+  it("gives each feed a topic-specific title and self link", () => {
+    mockTopicPosts();
+
+    const xml = topicFeed(
+      generateTopicFeeds(passthroughRenderer()),
+      "obsidian",
+    );
+    const channel = parseFeedXml(xml).rss.channel;
+
+    expect(nodeText(channel.title)).toBe("Dan Holloran - obsidian");
+    expect(xml).toContain(`${SITE_URL}/topic/obsidian/feed.xml`);
+  });
+
+  it("links each topic feed to its archive and applies topic label overrides", () => {
+    mockPostFiles(["a.md"], [{ title: "A", date: "2024-01-01", topic: "ai" }]);
+
+    const xml = topicFeed(generateTopicFeeds(passthroughRenderer()), "ai");
+    const channel = parseFeedXml(xml).rss.channel;
+
+    expect(nodeText(channel.title)).toBe("Dan Holloran - AI");
+    expect(nodeText(channel.link)).toBe(`${SITE_URL}/posts/topic/ai`);
+  });
+
+  it("merges topics that slug to the same value into one feed", () => {
+    mockPostFiles(
+      ["a.md", "b.md"],
+      [
+        { title: "A", date: "2024-01-01", topic: "tailwind.css" },
+        { title: "B", date: "2024-01-02", topic: "tailwind-css" },
+      ],
+    );
+
+    const feeds = generateTopicFeeds(passthroughRenderer());
+
+    expect(feeds.map((feed) => feed.slug)).toEqual(["tailwind-css"]);
+    expect(itemTitles(feeds[0].xml)).toEqual(["B", "A"]);
+  });
+
+  it("caps each topic feed at 30 items", () => {
+    const total = 35;
+    mockPostFiles(
+      Array.from({ length: total }, (_, index) => `p${index}.md`),
+      Array.from({ length: total }, (_, index) => ({
+        title: `Post ${index}`,
+        date: new Date(2024, 0, index + 1).toISOString(),
+        topic: "development",
+      })),
+    );
+
+    const feeds = generateTopicFeeds(passthroughRenderer());
+
+    expect(feedItems(topicFeed(feeds, "development"))).toHaveLength(30);
+  });
+
+  it("leaves the site-wide feed channel unchanged", () => {
+    mockPostFiles(["a.md"], [{ title: "A", date: "2024-01-01", topic: "ai" }]);
+
+    const xml = generateFeed(passthroughRenderer());
+    const channel = parseFeedXml(xml).rss.channel;
+
+    expect(nodeText(channel.title)).toBe("Dan Holloran");
+    expect(xml).toContain(`${SITE_URL}/feed.xml`);
+    expect(xml).not.toContain("/topic/");
   });
 });
