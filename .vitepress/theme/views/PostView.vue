@@ -5,6 +5,7 @@ import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import PostTableOfContents from "@components/PostTableOfContents.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 import StaticImage from "@components/StaticImage.vue";
 import {
@@ -13,6 +14,7 @@ import {
   toFilterSlug,
   topicLabel,
 } from "@utils/archive";
+import type { PostHeader } from "@utils/postHeaders";
 import { formatPostDateFor } from "@utils/formatDate";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
@@ -24,10 +26,13 @@ const {
   post,
   prevPost = null,
   nextPost = null,
+  headers = [],
 } = defineProps<{
   post: Post;
   prevPost?: Post | null;
   nextPost?: Post | null;
+  // The page's h2 headers VitePress extracted (page.headers); see markdown.headers in config.ts.
+  headers?: PostHeader[];
 }>();
 
 const lightbox = ref<{ src: string; alt: string } | null>(null);
@@ -173,6 +178,8 @@ function onArticleKeydown(event: KeyboardEvent) {
         @keydown.space.prevent="openHeroLightbox"
       />
     </div>
+
+    <PostTableOfContents :headers="headers" />
 
     <article
       class="post-body text-fg text-base leading-[1.85]"
