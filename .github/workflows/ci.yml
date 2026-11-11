@@ -31,14 +31,9 @@ jobs:
         env:
           HUSKY: 0
 
-      - name: Exclude draft posts from Prettier
-        run: |
-          grep -rl "^draft: true" .vitepress/content/posts/ 2>/dev/null \
-            >> .prettierignore || true
-
       - name: Lint
         run: |
-          npx prettier --check .
+          node scripts/prettier-skip-drafts.mjs --check .
           npx eslint .
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             BASE="${{ github.event.pull_request.base.sha }}"
