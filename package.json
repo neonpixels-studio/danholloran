@@ -17,8 +17,8 @@
     "test:ci": "vitest run",
     "typecheck": "vue-tsc --noEmit",
     "lighthouse": "lhci autorun",
-    "lint": "prettier --check . && eslint . && fallow audit",
-    "lint:fix": "prettier --write . && eslint . --fix && fallow fix",
+    "lint": "node scripts/prettier-skip-drafts.mjs --check . && eslint . && fallow audit",
+    "lint:fix": "node scripts/prettier-skip-drafts.mjs --write . && eslint . --fix && fallow fix",
     "prepare": "husky || true"
   },
   "author": "Dan Holloran",
