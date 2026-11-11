@@ -1,13 +1,17 @@
 import { describe, it, expect } from "vitest";
-import { readFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import {
   extractInternalLinks,
   isResolvableLink,
-  parseRedirectSources,
+  parseRedirectRules,
   type RouteTable,
 } from "../../theme/utils/internalLinks";
-import { loadPublishedPosts } from "../../theme/utils/loadPublishedPosts";
+import {
+  loadPublishedPosts,
+  type PublishedPost,
+} from "../../theme/utils/loadPublishedPosts";
 import {
   tagBasePagePaths,
   tagExtraPagePaths,
@@ -18,7 +22,7 @@ import {
 const ROOT = process.cwd();
 const REDIRECTS_PATH = resolve(ROOT, "public/_redirects");
 
-function filterRoutes(
+function archiveRoutes(
   entries: { params: Record<string, string> }[],
   kind: "topic" | "tag",
 ): string[] {
@@ -29,21 +33,18 @@ function filterRoutes(
   });
 }
 
-function buildRouteTable(): RouteTable {
-  const posts = loadPublishedPosts();
+function buildRouteTable(posts: PublishedPost[]): RouteTable {
   const routes = new Set<string>([
     "/posts",
     ...posts.map((post) => `/posts/${post.slug}`),
-    ...filterRoutes(topicBasePagePaths(), "topic"),
-    ...filterRoutes(topicExtraPagePaths(), "topic"),
-    ...filterRoutes(tagBasePagePaths(), "tag"),
-    ...filterRoutes(tagExtraPagePaths(), "tag"),
+    ...archiveRoutes(topicBasePagePaths(), "topic"),
+    ...archiveRoutes(topicExtraPagePaths(), "topic"),
+    ...archiveRoutes(tagBasePagePaths(), "tag"),
+    ...archiveRoutes(tagExtraPagePaths(), "tag"),
   ]);
   return {
     routes,
-    redirectSources: parseRedirectSources(
-      readFileSync(REDIRECTS_PATH, "utf-8"),
-    ),
+    redirects: parseRedirectRules(readFileSync(REDIRECTS_PATH, "utf-8")),
     publicDir: resolve(ROOT, "public"),
     pageDir: ROOT,
   };
@@ -51,7 +52,14 @@ function buildRouteTable(): RouteTable {
 
 const TABLE: RouteTable = {
   routes: new Set(["/posts", "/posts/real", "/posts/topic/ai"]),
-  redirectSources: ["/old", "/blog/*", "/legacy/:name"],
+  redirects: [
+    { from: "/old", to: "/posts/real" },
+    { from: "/blog/*", to: "/posts/:splat" },
+    { from: "/legacy/:name", to: "/posts/:name" },
+    { from: "/a.b", to: "/posts/real" },
+    { from: "/away", to: "https://example.com/" },
+    { from: "/loop", to: "/loop" },
+  ],
   publicDir: "/nonexistent/public",
   pageDir: "/nonexistent/pages",
 };
@@ -94,6 +102,70 @@ describe("extractInternalLinks", () => {
   });
 });
 
+describe("extractInternalLinks edge cases", () => {
+  it("finds reference definitions and single-quoted titles", () => {
+    const markdown = "[a][ref]\n\n[ref]: /posts/ref\n[b](/posts/b 'Title')";
+    expect(extractInternalLinks(markdown).map((link) => link.href)).toEqual([
+      "/posts/ref",
+      "/posts/b",
+    ]);
+  });
+
+  it("accepts http and www variants of the site origin and a bare origin", () => {
+    const markdown =
+      "[a](http://danholloran.me/posts/a) [b](https://www.danholloran.me/posts/b) [c](https://danholloran.me)";
+    expect(extractInternalLinks(markdown).map((link) => link.href)).toEqual([
+      "/posts/a",
+      "/posts/b",
+      "/",
+    ]);
+  });
+
+  it("keeps a fence open past a shorter inner fence and honours tilde fences", () => {
+    const markdown = "````md\n```\n[a](/x)\n````\n~~~\n[b](/y)\n~~~\n[c](/z)";
+    expect(extractInternalLinks(markdown)).toEqual([{ line: 8, href: "/z" }]);
+  });
+});
+
+describe("parseRedirectRules", () => {
+  it("skips comments and blank lines and reads from/to", () => {
+    const source = "# note\n\n/a /b 301!\r\n/c/* /d/:splat 301";
+    expect(parseRedirectRules(source)).toEqual([
+      { from: "/a", to: "/b" },
+      { from: "/c/*", to: "/d/:splat" },
+    ]);
+  });
+});
+
+describe("isResolvableLink static targets", () => {
+  const root = mkdtempSync(resolve(tmpdir(), "internal-links-"));
+  const publicDir = resolve(root, "public");
+  const pageDir = resolve(root, "pages");
+  mkdirSync(resolve(pageDir, "section"), { recursive: true });
+  mkdirSync(publicDir);
+  writeFileSync(resolve(publicDir, "my doc.pdf"), "");
+  writeFileSync(resolve(pageDir, "about.md"), "");
+  writeFileSync(resolve(root, "outside.md"), "");
+  writeFileSync(resolve(pageDir, "section/index.md"), "");
+  const table: RouteTable = {
+    routes: new Set(),
+    redirects: [],
+    publicDir,
+    pageDir,
+  };
+
+  it.each(["/my%20doc.pdf", "/about", "/section/"])("accepts %s", (href) => {
+    expect(isResolvableLink(href, table)).toBe(true);
+  });
+
+  it.each(["/missing.pdf", "/../outside", "/%E0%A4%A"])(
+    "rejects %s",
+    (href) => {
+      expect(isResolvableLink(href, table)).toBe(false);
+    },
+  );
+});
+
 describe("isResolvableLink", () => {
   it.each([
     "/posts/real",
@@ -102,24 +174,31 @@ describe("isResolvableLink", () => {
     "/posts/",
     "/posts/topic/ai/",
     "/old",
-    "/blog/anything/here",
-    "/legacy/some-name",
+    "/blog/real",
+    "/away",
+    "/legacy/real",
   ])("accepts %s", (href) => {
     expect(isResolvableLink(href, TABLE)).toBe(true);
   });
 
-  it.each(["/posts/missing", "/posts/topic/nope", "/posts/real/extra"])(
-    "rejects %s",
-    (href) => {
-      expect(isResolvableLink(href, TABLE)).toBe(false);
-    },
-  );
+  it.each([
+    "/posts/missing",
+    "/posts/topic/nope",
+    "/posts/real/extra",
+    "/blog/deleted",
+    "/legacy/deleted",
+    "/axb",
+    "/loop",
+  ])("rejects %s", (href) => {
+    expect(isResolvableLink(href, TABLE)).toBe(false);
+  });
 });
 
 describe("internal links in published posts", () => {
   it("all resolve to a real post, topic/tag page, redirect or static file", () => {
-    const table = buildRouteTable();
-    const broken = loadPublishedPosts().flatMap((post) =>
+    const posts = loadPublishedPosts();
+    const table = buildRouteTable(posts);
+    const broken = posts.flatMap((post) =>
       extractInternalLinks(post.body)
         .filter((link) => !isResolvableLink(link.href, table))
         .map(
