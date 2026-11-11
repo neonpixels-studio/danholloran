@@ -1,11 +1,11 @@
 ---
-date: '2026-11-11T02:14:57.000-08:00'
-tags: ['finance', 'fintech', 'payments', 'compliance', 'buy-now-pay-later']
+date: "2026-11-11T02:14:57.000-08:00"
+tags: ["finance", "fintech", "payments", "compliance", "buy-now-pay-later"]
 draft: false
 title: "Buy Now, Pay Later: Who Actually Pays for Your Interest-Free Loan"
-image: '/images/posts/buy-now-pay-later-who-actually-pays-for-your-interest-free-loan.jpg'
-topic: 'finance'
-description: "Pay-in-4 looks like free money, but somebody is paying for it. Here is how BNPL economics work, why merchants foot the bill, and why the loans are so hard for anyone else to see."
+image: "/images/posts/buy-now-pay-later-who-actually-pays-for-your-interest-free-loan.jpg"
+topic: "finance"
+description: "Pay-in-4 looks like free money, but somebody pays. Here is how BNPL economics work, why merchants foot the bill, and why the loans are so hard to see."
 ---
 
 The checkout button says "4 interest-free payments of $50." No interest, no fees if you pay on time, no hard credit pull. It sounds like a loophole in how lending is supposed to work. Lenders are not charities, so if the shopper is not paying for the credit, someone else is.
