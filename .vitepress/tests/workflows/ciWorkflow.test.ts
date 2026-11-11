@@ -75,4 +75,15 @@ describe("ci.yml main job", () => {
     expect(installIndex).toBeGreaterThan(-1);
     expect(buildIndex).toBeGreaterThan(installIndex);
   });
+
+  it("checks Prettier through the shared draft-skipping script without swallowing errors", () => {
+    const lintStep = readCiSteps().find((step) => step.name === "Lint");
+    expect(lintStep?.run).toContain("node scripts/prettier-skip-drafts.mjs");
+    const swallowing = readCiSteps().filter((step) =>
+      /\|\| true|2>\/dev\/null\s*\\?\s*$|>> \.prettierignore/m.test(
+        step.run ?? "",
+      ),
+    );
+    expect(swallowing.map((step) => step.name)).toEqual([]);
+  });
 });
