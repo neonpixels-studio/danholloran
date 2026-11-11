@@ -5,6 +5,7 @@ import { defineConfig, createMarkdownRenderer } from "vitepress";
 import type { UserConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
 import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
+import { POST_MARKDOWN_HEADERS } from "./theme/utils/postHeaders";
 import { generateFeed, generateTopicFeeds } from "./theme/utils/generateFeed";
 import { writeTopicFeeds } from "./theme/utils/writeTopicFeeds";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
@@ -91,6 +92,10 @@ export default defineConfig({
     },
     codeTransformers: [injectThemeBgTransformer],
     config: configureMarkdown,
+    // VitePress leaves header extraction off unless asked; page.headers feeds
+    // the post table of contents (PostTableOfContents.vue), which only lists h2s.
+    // Site-wide by design: VitePress has no per-page switch.
+    headers: POST_MARKDOWN_HEADERS,
     // Dev only (builds always cache). Lets refreshPostPagesInDev re-run
     // transformPageData after a post edit; see postPageData.ts.
     cache: false,

@@ -5,6 +5,7 @@ import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import PostTableOfContents from "@components/PostTableOfContents.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 import StaticImage from "@components/StaticImage.vue";
 import {
@@ -13,6 +14,7 @@ import {
   toFilterSlug,
   topicLabel,
 } from "@utils/archive";
+import type { PostHeader } from "@utils/postHeaders";
 import { formatPostDateFor } from "@utils/formatDate";
 import { zoomLabelFor } from "@utils/markdownZoomImages";
 
@@ -24,10 +26,13 @@ const {
   post,
   prevPost = null,
   nextPost = null,
+  headers = [],
 } = defineProps<{
   post: Post;
   prevPost?: Post | null;
   nextPost?: Post | null;
+  // The page's h2 headers VitePress extracted (page.headers); see markdown.headers in config.ts.
+  headers?: PostHeader[];
 }>();
 
 const lightbox = ref<{ src: string; alt: string } | null>(null);
@@ -174,6 +179,8 @@ function onArticleKeydown(event: KeyboardEvent) {
       />
     </div>
 
+    <PostTableOfContents :headers="headers" />
+
     <article
       class="post-body text-fg text-base leading-[1.85]"
       @click="onArticleClick"
@@ -188,7 +195,6 @@ function onArticleKeydown(event: KeyboardEvent) {
       class="border-line mt-14 flex gap-3.5 rounded border p-5"
       role="note"
       aria-label="Disclaimer"
-      data-om-id="fef10f19:123"
     >
       <svg
         width="18"
@@ -199,30 +205,19 @@ function onArticleKeydown(event: KeyboardEvent) {
         stroke-width="1.5"
         class="text-fg-subtle mt-0.5 shrink-0"
         aria-hidden="true"
-        data-om-id="fef10f19:124"
       >
-        <circle cx="9" cy="9" r="7.25" data-om-id="fef10f19:125"></circle>
-        <path
-          d="M9 5.5v4.5"
-          stroke-linecap="round"
-          data-om-id="fef10f19:126"
-        ></path>
+        <circle cx="9" cy="9" r="7.25"></circle>
+        <path d="M9 5.5v4.5" stroke-linecap="round"></path>
         <circle
           cx="9"
           cy="12.6"
           r="0.55"
           fill="currentColor"
           stroke="none"
-          data-om-id="fef10f19:127"
         ></circle>
       </svg>
-      <p
-        class="text-fg-muted m-0 font-mono text-[0.72rem] leading-[1.7]"
-        data-om-id="fef10f19:128"
-      >
-        <strong class="font-semibold" data-om-id="fef10f19:129"
-          >Disclaimer:</strong
-        >
+      <p class="text-fg-muted m-0 font-mono text-[0.72rem] leading-[1.7]">
+        <strong class="font-semibold">Disclaimer:</strong>
         This post is for educational and informational purposes only and is not
         financial, investment, or tax advice. Do your own research and consider
         consulting a licensed professional before making financial decisions.
