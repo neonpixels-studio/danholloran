@@ -34,6 +34,14 @@ export const POSTS_BASE = "/posts";
 // directly to skip that hop; POSTS_BASE stays slashless for building the
 // filtered/paginated child routes (/posts/topic/x), which are plain .html files.
 export const POSTS_INDEX = `${POSTS_BASE}/`;
+// Per-topic RSS feeds live outside /posts (`/topic/<slug>/feed.xml`), written
+// at build time by config.ts `buildEnd`; the archive head links to the same path.
+export function topicFeedHref(topicSlug: string): string {
+  return `/topic/${topicSlug}/feed.xml`;
+}
+export function topicFeedTitle(label: string): string {
+  return `Dan Holloran - ${topicLabel(label)}`;
+}
 const PAGE_SEGMENT = "page";
 const TOPIC_SEGMENT = "topic";
 const TAG_SEGMENT = "tag";

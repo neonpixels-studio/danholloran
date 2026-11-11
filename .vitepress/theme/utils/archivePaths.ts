@@ -25,7 +25,7 @@ export const POSTS_WATCH_GLOB = "./.vitepress/content/posts/*.md";
 
 type ParamsEntry = { params: Record<string, string> };
 
-interface FilterBucket {
+export interface FilterBucket {
   slug: string;
   label: string;
   count: number;
@@ -76,8 +76,11 @@ function addPostToBucket(
   bySlug.set(slug, bucket);
 }
 
-function topicBuckets(): FilterBucket[] {
-  const posts = loadPublishedPosts();
+// Takes the posts as a parameter so the per-topic feed generator can derive
+// its topics from the same single load it filters the feed items from.
+export function topicBuckets(
+  posts: PublishedPost[] = loadPublishedPosts(),
+): FilterBucket[] {
   return bucketsFromKeyed(posts, (post) => {
     const topic = normalizeFrontmatterTopic(post.topic);
     return topic ? [topic] : [];
