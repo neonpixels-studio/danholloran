@@ -1,5 +1,11 @@
-import { describe, it, expect } from "vitest";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { afterAll, beforeAll, describe, it, expect } from "vitest";
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import {
@@ -53,12 +59,15 @@ function buildRouteTable(posts: PublishedPost[]): RouteTable {
 const TABLE: RouteTable = {
   routes: new Set(["/posts", "/posts/real", "/posts/topic/ai"]),
   redirects: [
-    { from: "/old", to: "/posts/real" },
-    { from: "/blog/*", to: "/posts/:splat" },
-    { from: "/legacy/:name", to: "/posts/:name" },
-    { from: "/a.b", to: "/posts/real" },
-    { from: "/away", to: "https://example.com/" },
-    { from: "/loop", to: "/loop" },
+    { from: "/old", to: "/posts/real", status: 301 },
+    { from: "/blog/*", to: "/posts/:splat", status: 301 },
+    { from: "/legacy/:name", to: "/posts/:name", status: 301 },
+    { from: "/a.b", to: "/posts/real", status: 301 },
+    { from: "/away", to: "https://example.com/", status: 301 },
+    { from: "/loop", to: "/loop", status: 301 },
+    { from: "/typo/*", to: "/posts/:slpat", status: 301 },
+    { from: "/abs", to: "https://danholloran.me/posts/gone", status: 301 },
+    { from: "/gone/*", to: "/posts/real", status: 410 },
   ],
   publicDir: "/nonexistent/public",
   pageDir: "/nonexistent/pages",
@@ -131,28 +140,41 @@ describe("parseRedirectRules", () => {
   it("skips comments and blank lines and reads from/to", () => {
     const source = "# note\n\n/a /b 301!\r\n/c/* /d/:splat 301";
     expect(parseRedirectRules(source)).toEqual([
-      { from: "/a", to: "/b" },
-      { from: "/c/*", to: "/d/:splat" },
+      { from: "/a", to: "/b", status: 301 },
+      { from: "/c/*", to: "/d/:splat", status: 301 },
+    ]);
+  });
+
+  it("reads the status and skips query-condition tokens", () => {
+    expect(
+      parseRedirectRules("/s id=:id /b/:id 302\n/* /404.html 404!"),
+    ).toEqual([
+      { from: "/s", to: "/b/:id", status: 302 },
+      { from: "/*", to: "/404.html", status: 404 },
     ]);
   });
 });
 
 describe("isResolvableLink static targets", () => {
-  const root = mkdtempSync(resolve(tmpdir(), "internal-links-"));
-  const publicDir = resolve(root, "public");
-  const pageDir = resolve(root, "pages");
-  mkdirSync(resolve(pageDir, "section"), { recursive: true });
-  mkdirSync(publicDir);
-  writeFileSync(resolve(publicDir, "my doc.pdf"), "");
-  writeFileSync(resolve(pageDir, "about.md"), "");
-  writeFileSync(resolve(root, "outside.md"), "");
-  writeFileSync(resolve(pageDir, "section/index.md"), "");
-  const table: RouteTable = {
-    routes: new Set(),
-    redirects: [],
-    publicDir,
-    pageDir,
-  };
+  let root = "";
+  let table: RouteTable;
+
+  beforeAll(() => {
+    root = mkdtempSync(resolve(tmpdir(), "internal-links-"));
+    const publicDir = resolve(root, "public");
+    const pageDir = resolve(root, "pages");
+    mkdirSync(resolve(pageDir, "section"), { recursive: true });
+    mkdirSync(publicDir);
+    writeFileSync(resolve(publicDir, "my doc.pdf"), "");
+    writeFileSync(resolve(pageDir, "about.md"), "");
+    writeFileSync(resolve(root, "outside.md"), "");
+    writeFileSync(resolve(pageDir, "section/index.md"), "");
+    table = { routes: new Set(), redirects: [], publicDir, pageDir };
+  });
+
+  afterAll(() => {
+    rmSync(root, { recursive: true, force: true });
+  });
 
   it.each(["/my%20doc.pdf", "/about", "/section/"])("accepts %s", (href) => {
     expect(isResolvableLink(href, table)).toBe(true);
@@ -189,6 +211,9 @@ describe("isResolvableLink", () => {
     "/legacy/deleted",
     "/axb",
     "/loop",
+    "/typo/real",
+    "/abs",
+    "/gone/x",
   ])("rejects %s", (href) => {
     expect(isResolvableLink(href, TABLE)).toBe(false);
   });

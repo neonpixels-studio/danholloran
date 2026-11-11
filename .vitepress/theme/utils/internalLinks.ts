@@ -5,7 +5,7 @@ const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/;
 const MAX_REDIRECT_HOPS = 3;
 const EXTERNAL_TARGET_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
 const FENCE_RE = /^ {0,3}(`{3,}|~{3,})/;
-const INLINE_CODE_RE = /`[^`\n]*`/g;
+const INLINE_CODE_RE = /(`+)[^`]*?\1/g;
 const IMAGE_RE = /!\[[^\]]*\]\([^)]*\)/g;
 const MARKDOWN_LINK_RE =
   /\]\(\s*<?([^)\s>]+)>?(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g;
@@ -87,7 +87,12 @@ export function normalizeRoutePath(href: string): string {
 export interface RedirectRule {
   from: string;
   to: string;
+  status: number;
 }
+
+const DEFAULT_REDIRECT_STATUS = 301;
+const REDIRECT_STATUS_RE = /^(\d{3})!?$/;
+const FIRST_ERROR_STATUS = 400;
 
 // From/to columns of each rule in a Netlify _redirects file.
 export function parseRedirectRules(source: string): RedirectRule[] {
@@ -95,10 +100,20 @@ export function parseRedirectRules(source: string): RedirectRule[] {
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line !== "" && !line.startsWith("#"))
-    .map((line) => {
-      const [from, to] = line.split(/\s+/);
-      return { from, to: to ?? "" };
-    });
+    .map(parseRedirectRule);
+}
+
+// Netlify query-condition tokens (`id=:id`) sit between the source and target.
+function parseRedirectRule(line: string): RedirectRule {
+  const [from, ...rest] = line
+    .split(/\s+/)
+    .filter(
+      (token) =>
+        !token.includes("=") || token.startsWith("/") || token.includes("://"),
+    );
+  const [to = "", statusToken] = rest;
+  const status = Number(REDIRECT_STATUS_RE.exec(statusToken ?? "")?.[1]);
+  return { from, to, status: status || DEFAULT_REDIRECT_STATUS };
 }
 
 const REDIRECT_TOKEN_RE = /\*|:[A-Za-z_]+|[.+?^${}()|[\]\\]/g;
@@ -118,15 +133,31 @@ function redirectPatternToRegExp(pattern: string): RegExp {
   return new RegExp(`^${body}$`);
 }
 
-// The rule's target with placeholders filled in, or null if the path matches
-// no rule.
-function redirectTarget(path: string, rules: RedirectRule[]): string | null {
+function fillPlaceholders(
+  target: string,
+  groups: Record<string, string>,
+): string {
+  return target.replace(
+    /:([A-Za-z_]+)/g,
+    (placeholder, name) => groups[name] ?? placeholder,
+  );
+}
+
+// The first matching rule with its placeholders filled in, or null if the
+// path matches no rule.
+function matchRedirect(
+  path: string,
+  rules: RedirectRule[],
+): { target: string; status: number } | null {
   for (const rule of rules) {
     const match = redirectPatternToRegExp(rule.from).exec(path);
-    if (match) {
-      const groups = match.groups ?? {};
-      return rule.to.replace(/:([A-Za-z_]+)/g, (_, name) => groups[name] ?? "");
+    if (!match) {
+      continue;
     }
+    return {
+      target: fillPlaceholders(rule.to, match.groups ?? {}),
+      status: rule.status,
+    };
   }
   return null;
 }
@@ -176,10 +207,12 @@ function resolvesViaRedirect(
   table: RouteTable,
   hopsLeft: number,
 ): boolean {
-  const target = redirectTarget(path, table.redirects);
-  if (target === null || hopsLeft === 0) {
+  const redirect = matchRedirect(path, table.redirects);
+  // 4xx rules (e.g. a catch-all 404) serve an error, not a working page.
+  if (!redirect || hopsLeft === 0 || redirect.status >= FIRST_ERROR_STATUS) {
     return false;
   }
+  const target = redirect.target.replace(SITE_ORIGIN_RE, "") || "/";
   if (EXTERNAL_TARGET_RE.test(target)) {
     return true;
   }
