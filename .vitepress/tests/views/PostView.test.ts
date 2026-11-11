@@ -9,6 +9,7 @@ vi.mock("@data/resume.ts", () => ({
 import PostView from "@views/PostView.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import PostTableOfContents from "@components/PostTableOfContents.vue";
 import { toFilterSlug } from "@utils/archive";
 import { findPostNeighbors } from "@utils/postViews";
 import type { Post } from "@typedefs";
@@ -37,6 +38,16 @@ describe("PostView", () => {
       props: postProps(mockPosts[0], mockPosts),
     });
     expect(wrapper.html()).toMatchSnapshot();
+  });
+
+  it("passes the page headers to the table of contents", () => {
+    const headers = [{ level: 2, title: "Intro", link: "#intro" }];
+    const wrapper = shallowMount(PostView, {
+      props: { ...postProps(mockPosts[0], mockPosts), headers },
+    });
+    expect(wrapper.findComponent(PostTableOfContents).props("headers")).toEqual(
+      headers,
+    );
   });
 
   it("renders with prev and next navigation when post is mid-list", () => {
