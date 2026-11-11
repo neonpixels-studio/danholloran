@@ -1186,6 +1186,60 @@ describe("transformPageData – archive routes", () => {
     ).toBeDefined();
   });
 
+  function findTopicFeedLinks(pageData: any) {
+    return (pageData.frontmatter.head ?? []).filter(
+      (tag: any[]) =>
+        tag[0] === "link" &&
+        tag[1]?.rel === "alternate" &&
+        tag[1]?.type === "application/rss+xml",
+    );
+  }
+
+  it("advertises the topic feed on topic hub and paginated topic pages", () => {
+    const hub = transformArchivePage("posts/topic/[topic].md", {
+      topic: "ai",
+      topicLabel: "ai",
+      page: "1",
+    });
+    const paged = transformArchivePage("posts/topic/[topic]/page/[page].md", {
+      topic: "ai",
+      topicLabel: "ai",
+      page: "2",
+    });
+
+    for (const pageData of [hub, paged]) {
+      const links = findTopicFeedLinks(pageData);
+      expect(links).toHaveLength(1);
+      expect(links[0][1].href).toBe(`${SITE_URL}/topic/ai/feed.xml`);
+      expect(links[0][1].title).toBe("Dan Holloran - AI");
+    }
+  });
+
+  it("does not duplicate the topic feed link when transformed twice", () => {
+    const pageData = transformArchivePage("posts/topic/[topic].md", {
+      topic: "ai",
+      topicLabel: "ai",
+      page: "1",
+    });
+    transformPageData(pageData);
+
+    expect(findTopicFeedLinks(pageData)).toHaveLength(1);
+  });
+
+  it("adds no topic feed link to tag or unfiltered archive pages", () => {
+    const tagPage = transformArchivePage("posts/tag/[tag].md", {
+      tag: "vue",
+      tagLabel: "vue",
+      page: "1",
+    });
+    const allPage = transformArchivePage("posts/page/[page].md", {
+      page: "2",
+    });
+
+    expect(findTopicFeedLinks(tagPage)).toHaveLength(0);
+    expect(findTopicFeedLinks(allPage)).toHaveLength(0);
+  });
+
   it("keeps the topic hub page 1 indexable (no robots noindex)", () => {
     const pageData = transformArchivePage("posts/topic/[topic].md", {
       topic: "development",

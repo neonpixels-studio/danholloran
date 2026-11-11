@@ -1,6 +1,14 @@
 import { Feed } from "feed";
 import type { MarkdownRenderer } from "vitepress";
-import { loadDatedPosts } from "./loadPublishedPosts";
+import {
+  hasUsableDate,
+  loadDatedPosts,
+  loadPublishedPosts,
+  type PublishedPost,
+} from "./loadPublishedPosts";
+import { topicBuckets, type FilterBucket } from "./archivePaths";
+import { topicFeedHref, topicLabel, toFilterSlug } from "./archive";
+import { normalizeFrontmatterTopic } from "./frontmatter";
 import { normalizeTags } from "./normalizeTags";
 import { SITE_URL, SITE_DESCRIPTION } from "./constants";
 
@@ -112,28 +120,48 @@ function feedCategories(tags: unknown): { name: string }[] {
   return [...new Set(trimmedTags)].map((tag) => ({ name: tag }));
 }
 
-// The markdown renderer is injected (an external dependency, kept out of this
-// module so it stays testable in isolation). The build passes one created from
-// the resolved site config (see config.ts `buildEnd`), so feed bodies run
-// through the site's own markdown-it — themes, code transformers, and plugins
-// included. VitePress's page-level preprocessing (e.g. `<!--@include-->`) is
-// not replicated; no post relies on it.
-export function generateFeed(renderer: MarkdownRenderer): string {
+interface FeedChannel {
+  title: string;
+  description: string;
+  feedPath: string;
+}
+
+const SITE_CHANNEL: FeedChannel = {
+  title: "Dan Holloran",
+  description: SITE_DESCRIPTION,
+  feedPath: "/feed.xml",
+};
+
+function topicChannel(bucket: FilterBucket): FeedChannel {
+  const label = topicLabel(bucket.label);
+  return {
+    title: `Dan Holloran - ${label}`,
+    description: `Posts on ${label} from Dan Holloran.`,
+    feedPath: topicFeedHref(bucket.slug),
+  };
+}
+
+// The one feed builder, shared by the site-wide feed and every topic feed so
+// they filter, cap, and normalize items identically. `posts` must already be
+// newest-first and dated.
+function buildFeed(
+  renderer: MarkdownRenderer,
+  posts: PublishedPost[],
+  channel: FeedChannel,
+): string {
   const feed = new Feed({
-    title: "Dan Holloran",
-    description: SITE_DESCRIPTION,
+    title: channel.title,
+    description: channel.description,
     id: SITE_URL,
     link: SITE_URL,
     language: "en",
     favicon: `${SITE_URL}/favicon.ico`,
     copyright: `© ${new Date().getFullYear()} Dan Holloran`,
-    feedLinks: { rss: `${SITE_URL}/feed.xml` },
+    feedLinks: { rss: `${SITE_URL}${channel.feedPath}` },
     author: { name: "Dan Holloran", link: SITE_URL },
   });
 
-  // loadDatedPosts already excludes undated and bad-date posts (which the
-  // shared loader warned about), so no `Invalid Date` pubDate ever ships.
-  for (const post of loadDatedPosts().slice(0, FEED_MAX_ITEMS)) {
+  for (const post of posts.slice(0, FEED_MAX_ITEMS)) {
     const url = `${SITE_URL}/posts/${post.slug}`;
     const description = neutralizeCdata(post.description).trim();
     feed.addItem({
@@ -149,4 +177,41 @@ export function generateFeed(renderer: MarkdownRenderer): string {
   }
 
   return feed.rss2();
+}
+
+// The markdown renderer is injected (an external dependency, kept out of this
+// module so it stays testable in isolation). The build passes one created from
+// the resolved site config (see config.ts `buildEnd`), so feed bodies run
+// through the site's own markdown-it — themes, code transformers, and plugins
+// included. VitePress's page-level preprocessing (e.g. `<!--@include-->`) is
+// not replicated; no post relies on it.
+// loadDatedPosts already excludes undated and bad-date posts (which the
+// shared loader warned about), so no `Invalid Date` pubDate ever ships.
+export function generateFeed(renderer: MarkdownRenderer): string {
+  return buildFeed(renderer, loadDatedPosts(), SITE_CHANNEL);
+}
+
+export interface TopicFeed {
+  slug: string;
+  xml: string;
+}
+
+function isInTopic(post: PublishedPost, bucket: FilterBucket): boolean {
+  return toFilterSlug(normalizeFrontmatterTopic(post.topic)) === bucket.slug;
+}
+
+// One feed per topic archive (the same buckets that get a /posts/topic/<slug>
+// page, so every archive's advertised feed exists). A topic whose posts are all
+// undated still gets a valid, empty feed rather than a dead alternate link.
+export function generateTopicFeeds(renderer: MarkdownRenderer): TopicFeed[] {
+  const posts = loadPublishedPosts();
+  const datedPosts = posts.filter(hasUsableDate);
+  return topicBuckets(posts).map((bucket) => ({
+    slug: bucket.slug,
+    xml: buildFeed(
+      renderer,
+      datedPosts.filter((post) => isInTopic(post, bucket)),
+      topicChannel(bucket),
+    ),
+  }));
 }
