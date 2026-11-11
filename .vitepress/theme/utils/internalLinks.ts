@@ -1,7 +1,7 @@
 import { existsSync, statSync } from "node:fs";
-import { isAbsolute, relative, resolve } from "node:path";
+import { isAbsolute, relative, resolve, sep } from "node:path";
 
-const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/;
+const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/i;
 const MAX_REDIRECT_HOPS = 3;
 const EXTERNAL_TARGET_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
 const FENCE_RE = /^ {0,3}(`{3,}|~{3,})/;
@@ -168,7 +168,11 @@ function isFile(path: string): boolean {
 
 function isInside(directory: string, path: string): boolean {
   const relativePath = relative(directory, path);
-  return !relativePath.startsWith("..") && !isAbsolute(relativePath);
+  return (
+    relativePath !== ".." &&
+    !relativePath.startsWith(`..${sep}`) &&
+    !isAbsolute(relativePath)
+  );
 }
 
 function safeDecode(path: string): string | null {
