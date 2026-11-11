@@ -696,6 +696,31 @@ describe("generateTopicFeeds", () => {
     expect(xml).toContain(`${SITE_URL}/topic/obsidian/feed.xml`);
   });
 
+  it("links each topic feed to its archive and applies topic label overrides", () => {
+    mockPostFiles(["a.md"], [{ title: "A", date: "2024-01-01", topic: "ai" }]);
+
+    const xml = topicFeed(generateTopicFeeds(passthroughRenderer()), "ai");
+    const channel = parseFeedXml(xml).rss.channel;
+
+    expect(nodeText(channel.title)).toBe("Dan Holloran - AI");
+    expect(nodeText(channel.link)).toBe(`${SITE_URL}/posts/topic/ai`);
+  });
+
+  it("merges topics that slug to the same value into one feed", () => {
+    mockPostFiles(
+      ["a.md", "b.md"],
+      [
+        { title: "A", date: "2024-01-01", topic: "tailwind.css" },
+        { title: "B", date: "2024-01-02", topic: "tailwind-css" },
+      ],
+    );
+
+    const feeds = generateTopicFeeds(passthroughRenderer());
+
+    expect(feeds.map((feed) => feed.slug)).toEqual(["tailwind-css"]);
+    expect(itemTitles(feeds[0].xml)).toEqual(["B", "A"]);
+  });
+
   it("caps each topic feed at 30 items", () => {
     const total = 35;
     mockPostFiles(

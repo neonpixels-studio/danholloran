@@ -39,6 +39,9 @@ export const POSTS_INDEX = `${POSTS_BASE}/`;
 export function topicFeedHref(topicSlug: string): string {
   return `/topic/${topicSlug}/feed.xml`;
 }
+export function topicFeedTitle(label: string): string {
+  return `Dan Holloran - ${topicLabel(label)}`;
+}
 const PAGE_SEGMENT = "page";
 const TOPIC_SEGMENT = "topic";
 const TAG_SEGMENT = "tag";

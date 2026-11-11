@@ -18,6 +18,7 @@ import {
   archiveHref,
   toPageNumber,
   topicFeedHref,
+  topicFeedTitle,
   topicLabel,
 } from "./archive";
 
@@ -532,9 +533,6 @@ function appendTopicFeedLink(pageData: PageData): void {
   if (!pageData.filePath.startsWith("posts/topic/") || !topicSlug) {
     return;
   }
-  const label = topicLabel(
-    (pageData.params?.topicLabel ?? topicSlug) as string,
-  );
   pageData.frontmatter.head = [
     ...(pageData.frontmatter.head ?? []),
     [
@@ -542,7 +540,7 @@ function appendTopicFeedLink(pageData: PageData): void {
       {
         rel: "alternate",
         type: "application/rss+xml",
-        title: `Dan Holloran - ${label}`,
+        title: topicFeedTitle(pageData.params?.topicLabel ?? topicSlug),
         href: `${SITE_URL}${topicFeedHref(topicSlug as string)}`,
       },
     ],

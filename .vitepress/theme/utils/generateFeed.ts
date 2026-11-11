@@ -7,7 +7,13 @@ import {
   type PublishedPost,
 } from "./loadPublishedPosts";
 import { topicBuckets, type FilterBucket } from "./archivePaths";
-import { topicFeedHref, topicLabel, toFilterSlug } from "./archive";
+import {
+  archiveHref,
+  topicFeedHref,
+  topicFeedTitle,
+  topicLabel,
+  toFilterSlug,
+} from "./archive";
 import { normalizeFrontmatterTopic } from "./frontmatter";
 import { normalizeTags } from "./normalizeTags";
 import { SITE_URL, SITE_DESCRIPTION } from "./constants";
@@ -122,12 +128,14 @@ function feedCategories(tags: unknown): { name: string }[] {
 
 interface FeedChannel {
   title: string;
+  link: string;
   description: string;
   feedPath: string;
 }
 
 const SITE_CHANNEL: FeedChannel = {
   title: "Dan Holloran",
+  link: SITE_URL,
   description: SITE_DESCRIPTION,
   feedPath: "/feed.xml",
 };
@@ -135,7 +143,8 @@ const SITE_CHANNEL: FeedChannel = {
 function topicChannel(bucket: FilterBucket): FeedChannel {
   const label = topicLabel(bucket.label);
   return {
-    title: `Dan Holloran - ${label}`,
+    title: topicFeedTitle(bucket.label),
+    link: `${SITE_URL}${archiveHref(1, { topicSlug: bucket.slug })}`,
     description: `Posts on ${label} from Dan Holloran.`,
     feedPath: topicFeedHref(bucket.slug),
   };
@@ -152,8 +161,8 @@ function buildFeed(
   const feed = new Feed({
     title: channel.title,
     description: channel.description,
-    id: SITE_URL,
-    link: SITE_URL,
+    id: channel.link,
+    link: channel.link,
     language: "en",
     favicon: `${SITE_URL}/favicon.ico`,
     copyright: `© ${new Date().getFullYear()} Dan Holloran`,

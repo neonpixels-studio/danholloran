@@ -1,5 +1,5 @@
 import { mkdirSync, writeFileSync } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
 import { topicFeedHref } from "./archive";
 import type { TopicFeed } from "./generateFeed";
 
@@ -9,7 +9,7 @@ import type { TopicFeed } from "./generateFeed";
 export function writeTopicFeeds(outDir: string, feeds: TopicFeed[]): void {
   for (const feed of feeds) {
     const feedFile = join(outDir, topicFeedHref(feed.slug));
-    mkdirSync(join(feedFile, ".."), { recursive: true });
+    mkdirSync(dirname(feedFile), { recursive: true });
     writeFileSync(feedFile, feed.xml);
   }
 }
