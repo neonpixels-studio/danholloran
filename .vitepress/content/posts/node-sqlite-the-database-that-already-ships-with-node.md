@@ -1,11 +1,11 @@
 ---
-date: '2026-11-12T02:16:16.000-08:00'
-tags: ['node', 'javascript', 'tooling', 'node.js']
+date: "2026-11-12T02:16:16.000-08:00"
+tags: ["node", "javascript", "tooling", "node.js"]
 draft: false
 title: "node:sqlite: The Database That Already Ships With Node"
-image: '/images/posts/node-sqlite-the-database-that-already-ships-with-node.jpg'
-topic: 'development'
-description: "Node has a built-in SQLite module. Here's how node:sqlite works, where its synchronous API fits, and what changed in Node 26 before you reach for better-sqlite3."
+image: "/images/posts/node-sqlite-the-database-that-already-ships-with-node.jpg"
+topic: "development"
+description: "Node has a built-in SQLite module. Here's how node:sqlite works, where its synchronous API fits, and what changed in Node 26 before reaching for better-sqlite3."
 ---
 
 Every small Node project hits the same fork in the road. You need to persist something: a queue of jobs, a cache of API responses, the bookmarks for a CLI tool. A JSON file feels too fragile, Postgres feels like too much, and SQLite feels right until you remember it means a native addon, a `node-gyp` build, and a CI image that suddenly needs Python and a C++ toolchain.
@@ -17,9 +17,9 @@ That last part is no longer true. Node ships SQLite in the box as `node:sqlite`.
 There is no connection pool, no promise wrapper, and no ORM. You open a database, prepare statements, and run them:
 
 ```js
-import { DatabaseSync } from 'node:sqlite'
+import { DatabaseSync } from "node:sqlite";
 
-const db = new DatabaseSync('app.db', { timeout: 5000 })
+const db = new DatabaseSync("app.db", { timeout: 5000 });
 
 db.exec(`
   PRAGMA journal_mode = WAL;
@@ -29,21 +29,21 @@ db.exec(`
     title TEXT,
     created_at TEXT NOT NULL DEFAULT (datetime('now'))
   ) STRICT;
-`)
+`);
 
 const insert = db.prepare(
-  'INSERT INTO bookmarks (url, title) VALUES (:url, :title)'
-)
+  "INSERT INTO bookmarks (url, title) VALUES (:url, :title)",
+);
 
 const { changes, lastInsertRowid } = insert.run({
-  url: 'https://nodejs.org/api/sqlite.html',
-  title: 'node:sqlite docs',
-})
+  url: "https://nodejs.org/api/sqlite.html",
+  title: "node:sqlite docs",
+});
 
 const recent = db.prepare(
-  'SELECT id, url, title FROM bookmarks ORDER BY id DESC LIMIT ?'
-)
-console.log(recent.all(10))
+  "SELECT id, url, title FROM bookmarks ORDER BY id DESC LIMIT ?",
+);
+console.log(recent.all(10));
 ```
 
 A few things worth noticing. `run()` returns `changes` and `lastInsertRowid`, `get()` returns the first row, `all()` returns an array, and `iterate()` gives you an iterator for large result sets. Named parameters can be passed without their prefix (`url` instead of `:url`) because `allowBareNamedParameters` defaults to `true`. The `timeout` option (added in v24.0.0) sets SQLite's busy timeout, so a second process holding a write lock makes you wait instead of throwing `SQLITE_BUSY` immediately.
@@ -56,13 +56,13 @@ There is no `db.transaction()` helper like better-sqlite3 has, so you write the 
 
 ```js
 function importBookmarks(rows) {
-  db.exec('BEGIN')
+  db.exec("BEGIN");
   try {
-    for (const row of rows) insert.run(row)
-    db.exec('COMMIT')
+    for (const row of rows) insert.run(row);
+    db.exec("COMMIT");
   } catch (err) {
-    db.exec('ROLLBACK')
-    throw err
+    db.exec("ROLLBACK");
+    throw err;
   }
 }
 ```
@@ -72,14 +72,14 @@ If one row violates the `UNIQUE` constraint, the whole batch rolls back and you 
 The nicer addition is `createTagStore()`, available since v24.9.0. It gives you tagged template literals that are backed by an LRU cache of prepared statements (1,000 by default):
 
 ```js
-const sql = db.createTagStore()
+const sql = db.createTagStore();
 
-const url = 'https://nodejs.org/api/sqlite.html'
-const row = sql.get`SELECT * FROM bookmarks WHERE url = ${url}`
-const all = sql.all`SELECT * FROM bookmarks ORDER BY id`
+const url = "https://nodejs.org/api/sqlite.html";
+const row = sql.get`SELECT * FROM bookmarks WHERE url = ${url}`;
+const all = sql.all`SELECT * FROM bookmarks ORDER BY id`;
 ```
 
-Interpolated values are **bound as parameters**, not spliced into the SQL, so this is safe from injection. The catch: it only works with the tag. Write `` db.exec(`... ${url}`) `` with a plain template string and you are back to string concatenation.
+Interpolated values are **bound as parameters**, not spliced into the SQL, so this is safe from injection. The catch: it only works with the tag. Write ``db.exec(`... ${url}`)`` with a plain template string and you are back to string concatenation.
 
 ## What changed in Node 26, and the type gotchas
 
