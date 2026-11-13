@@ -1,10 +1,10 @@
 ---
-date: '2026-11-13T02:14:38.000-08:00'
-tags: ['ai', 'local-llms', 'llm', 'typescript', 'running-local-models']
+date: "2026-11-13T02:14:38.000-08:00"
+tags: ["ai", "local-llms", "llm", "typescript", "running-local-models"]
 draft: false
 title: "Ollama in Your Dev Loop: Swapping the Base URL Is the Easy Part"
-image: '/images/posts/ollama-in-your-dev-loop-swapping-the-base-url-is-the-easy-part.jpg'
-topic: 'ai'
+image: "/images/posts/ollama-in-your-dev-loop-swapping-the-base-url-is-the-easy-part.jpg"
+topic: "ai"
 description: "Ollama speaks the OpenAI API, so pointing your app at a local model takes one line. The context window, feature gaps, and schema quirks are what bite."
 ---
 
@@ -17,16 +17,16 @@ That one-line swap is real, and it is also where most people stop reading. The t
 Ollama's docs show the whole integration: point the client at `http://localhost:11434/v1/` and pass any string as the API key, because it is required by the SDK but ignored by the server. Do that through config rather than a code branch, so the same call site runs locally and in production:
 
 ```ts
-import OpenAI from 'openai'
+import OpenAI from "openai";
 
-const local = process.env.LLM_PROVIDER === 'ollama'
+const local = process.env.LLM_PROVIDER === "ollama";
 
 export const llm = new OpenAI({
-  baseURL: local ? 'http://localhost:11434/v1/' : undefined,
-  apiKey: local ? 'ollama' : process.env.OPENAI_API_KEY,
-})
+  baseURL: local ? "http://localhost:11434/v1/" : undefined,
+  apiKey: local ? "ollama" : process.env.OPENAI_API_KEY,
+});
 
-export const MODEL = local ? 'qwen3:8b' : process.env.LLM_MODEL!
+export const MODEL = local ? "qwen3:8b" : process.env.LLM_MODEL!;
 ```
 
 ```bash
@@ -71,26 +71,28 @@ None of these are dealbreakers, but each one is a bug waiting in code written ag
 Structured outputs work locally: pass a JSON schema through `response_format`, or through `format` on Ollama's native `/api/chat`. The [Ollama docs](https://docs.ollama.com/capabilities/structured-outputs) suggest also putting the schema in the prompt and lowering temperature to 0. Two caveats. Ollama's cloud does not support structured outputs at all, so a "local or cloud" switch can quietly lose them. And small models will produce valid JSON with wrong content, so parse with the same schema you sent:
 
 ```ts
-import { readFile } from 'node:fs/promises'
-import ollama from 'ollama'
-import * as z from 'zod'
+import { readFile } from "node:fs/promises";
+import ollama from "ollama";
+import * as z from "zod";
 
 const Ticket = z.object({
   title: z.string(),
-  priority: z.enum(['low', 'medium', 'high']),
+  priority: z.enum(["low", "medium", "high"]),
   labels: z.array(z.string()),
-})
+});
 
-const report = await readFile('bug-report.txt', 'utf8')
+const report = await readFile("bug-report.txt", "utf8");
 
 const res = await ollama.chat({
-  model: 'qwen3:8b',
-  messages: [{ role: 'user', content: `Triage this bug report as JSON: ${report}` }],
+  model: "qwen3:8b",
+  messages: [
+    { role: "user", content: `Triage this bug report as JSON: ${report}` },
+  ],
   format: z.toJSONSchema(Ticket),
   options: { temperature: 0, num_ctx: 16384 },
-})
+});
 
-const ticket = Ticket.parse(JSON.parse(res.message.content))
+const ticket = Ticket.parse(JSON.parse(res.message.content));
 ```
 
 The native client also lets you set `num_ctx` per call, which is a good reason to reach for it in scripts and evals even if your app uses the OpenAI SDK.
