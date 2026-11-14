@@ -1,10 +1,10 @@
 ---
-date: '2026-11-14T02:16:12.000-08:00'
-tags: ['finance', 'crypto', 'trading', 'regulation', 'perpetual-futures']
+date: "2026-11-14T02:16:12.000-08:00"
+tags: ["finance", "crypto", "trading", "regulation", "perpetual-futures"]
 draft: false
 title: "Perpetual Futures: How a Contract With No Expiry Stays Tied to Spot"
-image: '/images/posts/perpetual-futures-how-a-contract-with-no-expiry-stays-tied-to-spot.jpg'
-topic: 'finance'
+image: "/images/posts/perpetual-futures-how-a-contract-with-no-expiry-stays-tied-to-spot.jpg"
+topic: "finance"
 description: "Perps never expire, so what keeps their price near spot? A walkthrough of funding rates, mark prices, and the liquidation engine behind crypto's biggest market."
 ---
 
@@ -29,11 +29,11 @@ Funding rates look tiny because they're quoted per interval. Here is what one lo
 
 Say bitcoin's index price is $100,000, and you go long one BTC worth of perp exposure ($100,000 notional) on a venue that charges funding every eight hours. The rate sits at +0.01% per interval, a fairly ordinary level in a bullish market.
 
-| Period         | Funding paid by the long |
-| -------------- | ------------------------ |
-| One interval   | $100,000 × 0.01% = $10   |
-| One day (3×)   | $30                      |
-| One year       | about $10,950            |
+| Period       | Funding paid by the long |
+| ------------ | ------------------------ |
+| One interval | $100,000 × 0.01% = $10   |
+| One day (3×) | $30                      |
+| One year     | about $10,950            |
 
 That works out to roughly 11% a year, paid on the full notional, not on the margin you posted. If you used 10× leverage and posted $10,000, a year of steady funding at that rate would eat more than your entire deposit even if bitcoin's price never moved. Funding is a running cost, not a one-time fee, and in frothy markets rates can run several times higher than this example.
 
@@ -43,7 +43,7 @@ The flip side explains a popular market-neutral trade called **cash-and-carry**:
 
 Leverage means your margin is a thin cushion. With 10× leverage, a move of roughly 10% against you wipes out the posted margin, and in practice the exchange steps in a bit earlier, once your equity falls below the **maintenance margin**. Its liquidation engine then closes the position for you, using the mark price rather than the last trade so a single odd print can't trigger it.
 
-The system works in calm markets. The stress case is a fast move into thin order books. Forced selling from one wave of liquidations pushes price into the next wave's trigger levels, and the cascade feeds itself. On October 10–11, 2025, a tariff headline set off exactly that: by most counts, more than $19 billion in leveraged positions were force-closed within about a day, the largest single liquidation event on record. When liquidations can't be filled at a price that covers the losing traders' debts, some venues fall back on **auto-deleveraging (ADL)**, closing *profitable* positions on the other side to keep the exchange solvent. Several large exchanges did that during the October crash, which surprised traders who believed being on the winning side meant they were safe.
+The system works in calm markets. The stress case is a fast move into thin order books. Forced selling from one wave of liquidations pushes price into the next wave's trigger levels, and the cascade feeds itself. On October 10–11, 2025, a tariff headline set off exactly that: by most counts, more than $19 billion in leveraged positions were force-closed within about a day, the largest single liquidation event on record. When liquidations can't be filled at a price that covers the losing traders' debts, some venues fall back on **auto-deleveraging (ADL)**, closing _profitable_ positions on the other side to keep the exchange solvent. Several large exchanges did that during the October crash, which surprised traders who believed being on the winning side meant they were safe.
 
 ## Why this matters more in 2026
 
