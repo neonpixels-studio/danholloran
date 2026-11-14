@@ -1,10 +1,10 @@
 ---
-date: '2026-11-14T02:16:12.000-08:00'
-tags: ['ai', 'agents', 'security', 'typescript', 'human-in-the-loop']
+date: "2026-11-14T02:16:12.000-08:00"
+tags: ["ai", "agents", "security", "typescript", "human-in-the-loop"]
 draft: false
 title: "Human-in-the-Loop Approvals: Pausing the Agent Is the Easy Part"
-image: '/images/posts/human-in-the-loop-approvals-pausing-the-agent-is-the-easy-part.jpg'
-topic: 'ai'
+image: "/images/posts/human-in-the-loop-approvals-pausing-the-agent-is-the-easy-part.jpg"
+topic: "ai"
 description: "Agent SDKs make approval gates a one-line flag. What decides whether they protect you is the approval screen, the policy behind it, and what happens on resume."
 ---
 
@@ -17,34 +17,34 @@ It isn't. An approval prompt that shows "The agent wants to cancel an order. App
 Here's the OpenAI Agents SDK for TypeScript. Vercel's AI SDK has the same idea through a `needsApproval` option on tools, so the pattern carries over.
 
 ```ts
-import { Agent, run, tool } from '@openai/agents'
-import { z } from 'zod'
+import { Agent, run, tool } from "@openai/agents";
+import { z } from "zod";
 
 const cancelOrder = tool({
-  name: 'cancel_order',
-  description: 'Cancel a customer order.',
+  name: "cancel_order",
+  description: "Cancel a customer order.",
   parameters: z.object({ orderId: z.number() }),
   needsApproval: true,
   async execute({ orderId }) {
-    return `Cancelled order ${orderId}`
+    return `Cancelled order ${orderId}`;
   },
-})
+});
 
 const agent = new Agent({
-  name: 'Support agent',
-  instructions: 'Use cancel_order to handle cancellation requests.',
+  name: "Support agent",
+  instructions: "Use cancel_order to handle cancellation requests.",
   tools: [cancelOrder],
-})
+});
 
-let result = await run(agent, 'Cancel order 123.')
+let result = await run(agent, "Cancel order 123.");
 
 if (result.interruptions?.length) {
-  const state = result.state
+  const state = result.state;
   for (const interruption of result.interruptions) {
     // In a real app, this is where a person (or a policy) decides.
-    state.approve(interruption)
+    state.approve(interruption);
   }
-  result = await run(agent, state)
+  result = await run(agent, state);
 }
 ```
 
@@ -60,18 +60,21 @@ Render the actual tool name and the actual arguments, resolved into something a 
 
 ```ts
 type ApprovalCard = {
-  tool: string
-  args: Record<string, unknown>
-  impact: string // computed by your code, not the model
-}
+  tool: string;
+  args: Record<string, unknown>;
+  impact: string; // computed by your code, not the model
+};
 
-async function describeRefund(args: { orderId: number; amountCents: number }): Promise<ApprovalCard> {
-  const order = await db.orders.find(args.orderId)
+async function describeRefund(args: {
+  orderId: number;
+  amountCents: number;
+}): Promise<ApprovalCard> {
+  const order = await db.orders.find(args.orderId);
   return {
-    tool: 'refund_order',
+    tool: "refund_order",
     args,
     impact: `Refund $${(args.amountCents / 100).toFixed(2)} of $${(order.totalCents / 100).toFixed(2)} to ${order.customerEmail}`,
-  }
+  };
 }
 ```
 
