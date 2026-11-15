@@ -112,7 +112,7 @@ describe("extractInternalLinks", () => {
 });
 
 describe("extractInternalLinks edge cases", () => {
-  it("finds reference definitions and single-quoted titles", () => {
+  it("resolves reference-style links and single-quoted titles", () => {
     const markdown = "[a][ref]\n\n[ref]: /posts/ref\n[b](/posts/b 'Title')";
     expect(extractInternalLinks(markdown).map((link) => link.href)).toEqual([
       "/posts/ref",
@@ -133,6 +133,97 @@ describe("extractInternalLinks edge cases", () => {
   it("keeps a fence open past a shorter inner fence and honours tilde fences", () => {
     const markdown = "````md\n```\n[a](/x)\n````\n~~~\n[b](/y)\n~~~\n[c](/z)";
     expect(extractInternalLinks(markdown)).toEqual([{ line: 8, href: "/z" }]);
+  });
+});
+
+describe("extractInternalLinks token walking", () => {
+  it("ignores links in indented code blocks and in fences indented four spaces inside a list", () => {
+    const markdown =
+      "    [a](/posts/indented)\n\n- item\n\n    ```md\n    [b](/posts/nested)\n    ```\n\n[c](/posts/kept)";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 9, href: "/posts/kept" },
+    ]);
+  });
+
+  it("keeps a URL containing balanced parentheses whole", () => {
+    expect(extractInternalLinks("[a](/posts/foo_(bar))")).toEqual([
+      { line: 1, href: "/posts/foo_(bar)" },
+    ]);
+  });
+
+  it("reports the real line of a link inside a multi-line paragraph", () => {
+    const markdown = "first\nsecond [a](/posts/a)\nthird [b](/posts/b)";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/a" },
+      { line: 3, href: "/posts/b" },
+    ]);
+  });
+
+  it("finds hrefs in html blocks with their line and ignores html code samples", () => {
+    const markdown =
+      '<div>\n<a href="/posts/block">x</a>\n</div>\n\n`<a href="/posts/code">y</a>`';
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/block" },
+    ]);
+  });
+
+  it("finds autolinks and links inside blockquotes and lists", () => {
+    const markdown =
+      "> [a](/posts/a)\n\n- [b](/posts/b)\n\n<https://danholloran.me/posts/c>";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 1, href: "/posts/a" },
+      { line: 3, href: "/posts/b" },
+      { line: 5, href: "/posts/c" },
+    ]);
+  });
+});
+
+describe("extractInternalLinks table and spanning constructs", () => {
+  it("finds links inside table cells on the row's line", () => {
+    const markdown = "| a |\n|---|\n| [x](/posts/x) |\n| [y](/posts/y) |";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 3, href: "/posts/x" },
+      { line: 4, href: "/posts/y" },
+    ]);
+  });
+
+  it("keeps line numbers after a split inline html tag and a wrapped image alt", () => {
+    const markdown =
+      '<span\nclass="x">a</span> [a](/posts/a)\n![one\ntwo](/i.png) [b](/posts/b)';
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/a" },
+      { line: 4, href: "/posts/b" },
+    ]);
+  });
+
+  it("reports a reference link on its usage line and skips unused definitions", () => {
+    const markdown = "[a][ref]\n\n[ref]: /posts/ref\n[unused]: /posts/unused";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 1, href: "/posts/ref" },
+    ]);
+  });
+});
+
+describe("extractInternalLinks bare urls and encoding", () => {
+  it("finds bare same-site urls that the renderer linkifies", () => {
+    expect(
+      extractInternalLinks("see https://danholloran.me/posts/x now"),
+    ).toEqual([{ line: 1, href: "/posts/x" }]);
+  });
+
+  it("resolves a non-ASCII slug written as a markdown link", () => {
+    const table: RouteTable = { ...TABLE, routes: new Set(["/posts/café"]) };
+    const [link] = extractInternalLinks("[a](/posts/café)");
+    expect(isResolvableLink(link.href, table)).toBe(true);
+    expect(isResolvableLink("/posts/cafe", table)).toBe(false);
+  });
+});
+
+describe("extractInternalLinks inline html", () => {
+  it("reports an href on the second line of a split inline tag", () => {
+    expect(extractInternalLinks('text <a\nhref="/posts/x">x</a>')).toEqual([
+      { line: 2, href: "/posts/x" },
+    ]);
   });
 });
 

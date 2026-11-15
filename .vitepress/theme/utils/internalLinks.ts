@@ -1,15 +1,13 @@
+import MarkdownIt from "markdown-it";
 import { existsSync, statSync } from "node:fs";
 import { isAbsolute, relative, resolve, sep } from "node:path";
+
+type Token = ReturnType<MarkdownIt["parse"]>[number];
 
 const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/i;
 const MAX_REDIRECT_HOPS = 3;
 const EXTERNAL_TARGET_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
-const FENCE_RE = /^ {0,3}(`{3,}|~{3,})/;
-const INLINE_CODE_RE = /(`+)[^`]*?\1/g;
-const IMAGE_RE = /!\[[^\]]*\]\([^)]*\)/g;
-const MARKDOWN_LINK_RE =
-  /\]\(\s*<?([^)\s>]+)>?(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g;
-const REFERENCE_DEFINITION_RE = /^ {0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?/;
+const markdownParser = new MarkdownIt({ html: true, linkify: true });
 const HTML_HREF_RE = /\shref=["']([^"']+)["']/g;
 
 export interface InternalLink {
@@ -24,29 +22,6 @@ export interface RouteTable {
   pageDir: string;
 }
 
-// Blanks fenced code so example links inside code samples are never checked,
-// while keeping line numbers intact for error messages.
-function blankFencedCode(markdown: string): string[] {
-  let openFence: string | null = null;
-  return markdown.split(/\r?\n/).map((line) => {
-    const fence = FENCE_RE.exec(line)?.[1];
-    if (!openFence && fence) {
-      openFence = fence;
-      return "";
-    }
-    if (
-      openFence &&
-      fence &&
-      fence[0] === openFence[0] &&
-      fence.length >= openFence.length
-    ) {
-      openFence = null;
-      return "";
-    }
-    return openFence ? "" : line;
-  });
-}
-
 function normalizeInternalHref(raw: string): string | null {
   const href = raw.replace(SITE_ORIGIN_RE, "") || "/";
   if (!href.startsWith("/") || href.startsWith("//")) {
@@ -55,27 +30,77 @@ function normalizeInternalHref(raw: string): string | null {
   return href;
 }
 
-function hrefsInLine(line: string): string[] {
-  const text = line.replace(INLINE_CODE_RE, "").replace(IMAGE_RE, "");
-  const matches = [
-    ...text.matchAll(MARKDOWN_LINK_RE),
-    ...text.matchAll(HTML_HREF_RE),
-  ];
-  const definition = REFERENCE_DEFINITION_RE.exec(text)?.[1];
-  return [
-    ...matches.map((match) => match[1]),
-    ...(definition ? [definition] : []),
-  ];
+function lineCount(text: string): number {
+  return text.split("\n").length - 1;
 }
 
-// Root-relative and same-site absolute links in a post body. Images, fenced
-// code and inline code are ignored.
+function htmlHrefs(html: string, firstLine: number): InternalLink[] {
+  return [...html.matchAll(HTML_HREF_RE)].map((match) => ({
+    line: firstLine + lineCount(html.slice(0, match.index + 1)),
+    href: match[1],
+  }));
+}
+
+function hrefsInChild(child: Token, line: number): InternalLink[] {
+  if (child.type === "html_inline") {
+    return htmlHrefs(child.content, line);
+  }
+  const href = child.type === "link_open" ? child.attrGet("href") : null;
+  return href ? [{ line, href }] : [];
+}
+
+// Source lines a child token spans beyond the one it starts on.
+// @todo newlines inside wrapped code spans, link destinations, titles and
+// reference labels leave no
+// token, so links after them in the same paragraph report one line too early.
+function extraLines(child: Token): number {
+  if (child.type === "softbreak" || child.type === "hardbreak") {
+    return 1;
+  }
+  if (child.type === "html_inline") {
+    return lineCount(child.content);
+  }
+  return (child.children ?? []).reduce(
+    (total, nested) => total + extraLines(nested),
+    0,
+  );
+}
+
+function hrefsInInlineToken(inline: Token, firstLine: number): InternalLink[] {
+  let line = firstLine;
+  return (inline.children ?? []).flatMap((child) => {
+    const found = hrefsInChild(child, line);
+    line += extraLines(child);
+    return found;
+  });
+}
+
+function hrefsInToken(token: Token, firstLine: number): InternalLink[] {
+  if (token.type === "inline") {
+    return hrefsInInlineToken(token, firstLine);
+  }
+  return token.type === "html_block" ? htmlHrefs(token.content, firstLine) : [];
+}
+
+// Table cell tokens carry no source map, so they inherit the line of the
+// nearest preceding token that has one.
+function hrefsInTokens(tokens: Token[]): InternalLink[] {
+  let currentLine = 1;
+  return tokens.flatMap((token) => {
+    currentLine = token.map ? token.map[0] + 1 : currentLine;
+    return hrefsInToken(token, currentLine);
+  });
+}
+
+// Root-relative and same-site absolute links in a post body, found by walking
+// markdown-it tokens so images, fenced and indented code, and inline code are
+// never mistaken for links.
 export function extractInternalLinks(markdown: string): InternalLink[] {
-  return blankFencedCode(markdown).flatMap((line, index) =>
-    hrefsInLine(line).flatMap((raw) => {
+  return hrefsInTokens(markdownParser.parse(markdown, {})).flatMap(
+    ({ line, href: raw }) => {
       const href = normalizeInternalHref(raw);
-      return href ? [{ line: index + 1, href }] : [];
-    }),
+      return href ? [{ line, href }] : [];
+    },
   );
 }
 
@@ -200,8 +225,16 @@ function hasStaticTarget(path: string, table: RouteTable): boolean {
   );
 }
 
+// markdown-it percent-encodes non-ASCII link destinations, so a route is
+// matched in both its encoded and decoded form.
+function isKnownRoute(path: string, table: RouteTable): boolean {
+  return table.routes.has(path) || table.routes.has(safeDecode(path) ?? path);
+}
+
 function resolvesDirectly(path: string, table: RouteTable): boolean {
-  return path === "/" || table.routes.has(path) || hasStaticTarget(path, table);
+  return (
+    path === "/" || isKnownRoute(path, table) || hasStaticTarget(path, table)
+  );
 }
 
 // A redirect hit only counts when its target resolves too, so a retired

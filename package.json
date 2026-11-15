@@ -27,6 +27,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.16.0",
+    "@types/markdown-it": "^14.2.0",
     "@typescript-eslint/parser": "^8.72.1",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitest/ui": "^5.1.0",
@@ -50,6 +51,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "feed": "^6.0.0",
     "image-size": "^2.1.0",
+    "markdown-it": "^14.3.3",
     "minisearch": "^7.2.0",
     "plist": "^5.0.0",
     "sharp": "^0.35.5",
