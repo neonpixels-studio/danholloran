@@ -304,7 +304,7 @@ function onArticleKeydown(event: KeyboardEvent) {
 }
 
 .post-body h2 {
-  @apply mt-12 mb-4 font-mono text-[1.4rem] font-bold;
+  @apply mt-12 mb-4 scroll-mt-20 font-mono text-[1.4rem] font-bold;
   letter-spacing: -0.03em;
 }
 
