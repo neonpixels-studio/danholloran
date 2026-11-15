@@ -9,16 +9,34 @@ import { createRequire } from "node:module";
 import { dirname, join, relative, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
+import { parseFrontmatter } from "../.vitepress/theme/utils/frontmatter.ts";
 
 const POSTS_DIRECTORY = ".vitepress/content/posts";
 // Passing any --ignore-path replaces Prettier's defaults (.gitignore and
 // .prettierignore), so both are listed explicitly.
 const BASE_IGNORE_FILES = [".gitignore", ".prettierignore"];
 const DRAFT_IGNORE_FILE_PREFIX = ".prettierignore.drafts-";
-const DRAFT_PATTERN = /^draft: true/m;
 const DEFAULT_PRETTIER_ARGUMENTS = ["--check", "."];
 const PRETTIER_PACKAGE_JSON = "prettier/package.json";
 const PRETTIER_BIN_PATH = join("bin", "prettier.cjs");
+
+// Mirrors isPublished() in loadPublishedPosts.ts (any truthy `draft` is a
+// draft) on top of the site's own frontmatter parser. isPublished isn't
+// imported because its module graph uses extensionless imports that Node
+// can't resolve outside the bundler; a test pins the two together.
+// Throws on malformed frontmatter, like the build.
+function readFrontmatter(filePath) {
+  const raw = readFileSync(filePath, "utf8");
+  try {
+    return parseFrontmatter(raw).data;
+  } catch (error) {
+    throw new Error(`Malformed frontmatter in ${filePath}`, { cause: error });
+  }
+}
+
+function isDraftPost(filePath) {
+  return Boolean(readFrontmatter(filePath).draft);
+}
 
 // Throws on a missing or unreadable directory so CI fails loudly. An empty
 // result means no drafts, which is a normal success.
@@ -26,7 +44,7 @@ export function findDraftPosts(postsDirectory = POSTS_DIRECTORY) {
   return readdirSync(postsDirectory, { recursive: true })
     .filter((entry) => entry.endsWith(".md"))
     .map((entry) => join(postsDirectory, entry))
-    .filter((filePath) => DRAFT_PATTERN.test(readFileSync(filePath, "utf8")))
+    .filter(isDraftPost)
     .sort();
 }
 
