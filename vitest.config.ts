@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
@@ -30,5 +30,7 @@ export default defineConfig({
     environment: "happy-dom",
     env: { TZ: "UTC" },
     include: [".vitepress/tests/**/*.test.{js,ts}"],
+    // Needs a built site; run by `npm run test:dist` after the build.
+    exclude: [...configDefaults.exclude, ".vitepress/tests/dist/**"],
   },
 });
