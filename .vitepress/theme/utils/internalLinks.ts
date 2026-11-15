@@ -36,7 +36,7 @@ function lineCount(text: string): number {
 
 function htmlHrefs(html: string, firstLine: number): InternalLink[] {
   return [...html.matchAll(HTML_HREF_RE)].map((match) => ({
-    line: firstLine + lineCount(html.slice(0, match.index)),
+    line: firstLine + lineCount(html.slice(0, match.index + 1)),
     href: match[1],
   }));
 }
