@@ -15,6 +15,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:ci": "vitest run",
+    "test:dist": "vitest run --config vitest.dist.config.ts",
     "typecheck": "vue-tsc --noEmit",
     "lighthouse": "lhci autorun",
     "lint": "node scripts/prettier-skip-drafts.mjs --check . && eslint . && fallow audit",
