@@ -60,4 +60,11 @@ describe("post body styles", () => {
   it("distinguishes table headers from body cells", () => {
     expect(ruleBodyFor(css, ".post-body th")).toMatch(/\bfont-semibold\b/);
   });
+
+  it("keeps TOC-linked h2s clear of the fixed 60px nav", () => {
+    // scroll-mt-20 is 80px: the 60px nav plus breathing room.
+    expect(ruleBodyFor(css, ".post-body h2")).toMatch(
+      /\bscroll-mt-(?:1\d|[2-9]\d)\b/,
+    );
+  });
 });
