@@ -2,6 +2,9 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 
+const FIXED_NAV_HEIGHT_PX = 60;
+const TAILWIND_SPACING_PX = 4;
+
 const POST_VIEW_PATH = resolve(
   process.cwd(),
   ".vitepress/theme/views/PostView.vue",
@@ -62,9 +65,11 @@ describe("post body styles", () => {
   });
 
   it("keeps TOC-linked h2s clear of the fixed 60px nav", () => {
-    // scroll-mt-20 is 80px: the 60px nav plus breathing room.
-    expect(ruleBodyFor(css, ".post-body h2")).toMatch(
-      /\bscroll-mt-(?:1\d|[2-9]\d)\b/,
+    const scrollMargin = ruleBodyFor(css, ".post-body h2").match(
+      /\bscroll-mt-(\d+)\b/,
     );
+    expect(scrollMargin).not.toBeNull();
+    const scrollMarginPx = Number(scrollMargin?.[1]) * TAILWIND_SPACING_PX;
+    expect(scrollMarginPx).toBeGreaterThan(FIXED_NAV_HEIGHT_PX);
   });
 });
