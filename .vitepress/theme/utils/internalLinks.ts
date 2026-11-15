@@ -50,7 +50,8 @@ function hrefsInChild(child: Token, line: number): InternalLink[] {
 }
 
 // Source lines a child token spans beyond the one it starts on.
-// @todo newlines inside wrapped code spans and link destinations leave no
+// @todo newlines inside wrapped code spans, link destinations, titles and
+// reference labels leave no
 // token, so links after them in the same paragraph report one line too early.
 function extraLines(child: Token): number {
   if (child.type === "softbreak" || child.type === "hardbreak") {

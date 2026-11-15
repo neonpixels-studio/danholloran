@@ -219,6 +219,14 @@ describe("extractInternalLinks bare urls and encoding", () => {
   });
 });
 
+describe("extractInternalLinks inline html", () => {
+  it("reports an href on the second line of a split inline tag", () => {
+    expect(extractInternalLinks('text <a\nhref="/posts/x">x</a>')).toEqual([
+      { line: 2, href: "/posts/x" },
+    ]);
+  });
+});
+
 describe("parseRedirectRules", () => {
   it("skips comments and blank lines and reads from/to", () => {
     const source = "# note\n\n/a /b 301!\r\n/c/* /d/:splat 301";
