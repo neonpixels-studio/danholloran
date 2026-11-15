@@ -204,6 +204,21 @@ describe("extractInternalLinks table and spanning constructs", () => {
   });
 });
 
+describe("extractInternalLinks bare urls and encoding", () => {
+  it("finds bare same-site urls that the renderer linkifies", () => {
+    expect(
+      extractInternalLinks("see https://danholloran.me/posts/x now"),
+    ).toEqual([{ line: 1, href: "/posts/x" }]);
+  });
+
+  it("resolves a non-ASCII slug written as a markdown link", () => {
+    const table: RouteTable = { ...TABLE, routes: new Set(["/posts/café"]) };
+    const [link] = extractInternalLinks("[a](/posts/café)");
+    expect(isResolvableLink(link.href, table)).toBe(true);
+    expect(isResolvableLink("/posts/cafe", table)).toBe(false);
+  });
+});
+
 describe("parseRedirectRules", () => {
   it("skips comments and blank lines and reads from/to", () => {
     const source = "# note\n\n/a /b 301!\r\n/c/* /d/:splat 301";

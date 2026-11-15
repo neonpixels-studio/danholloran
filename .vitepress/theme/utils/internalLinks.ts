@@ -7,7 +7,7 @@ type Token = ReturnType<MarkdownIt["parse"]>[number];
 const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/i;
 const MAX_REDIRECT_HOPS = 3;
 const EXTERNAL_TARGET_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
-const markdownParser = new MarkdownIt({ html: true });
+const markdownParser = new MarkdownIt({ html: true, linkify: true });
 const HTML_HREF_RE = /\shref=["']([^"']+)["']/g;
 
 export interface InternalLink {
@@ -50,6 +50,8 @@ function hrefsInChild(child: Token, line: number): InternalLink[] {
 }
 
 // Source lines a child token spans beyond the one it starts on.
+// @todo newlines inside wrapped code spans and link destinations leave no
+// token, so links after them in the same paragraph report one line too early.
 function extraLines(child: Token): number {
   if (child.type === "softbreak" || child.type === "hardbreak") {
     return 1;
@@ -222,8 +224,16 @@ function hasStaticTarget(path: string, table: RouteTable): boolean {
   );
 }
 
+// markdown-it percent-encodes non-ASCII link destinations, so a route is
+// matched in both its encoded and decoded form.
+function isKnownRoute(path: string, table: RouteTable): boolean {
+  return table.routes.has(path) || table.routes.has(safeDecode(path) ?? path);
+}
+
 function resolvesDirectly(path: string, table: RouteTable): boolean {
-  return path === "/" || table.routes.has(path) || hasStaticTarget(path, table);
+  return (
+    path === "/" || isKnownRoute(path, table) || hasStaticTarget(path, table)
+  );
 }
 
 // A redirect hit only counts when its target resolves too, so a retired
