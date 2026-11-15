@@ -7,6 +7,7 @@ const CI_WORKFLOW_PATH = ".github/workflows/ci.yml";
 const CI_JOB_KEY = "ci";
 const INSTALL_COMMAND = "npm ci";
 const BUILD_COMMAND = "npm run build";
+const DIST_SMOKE_COMMAND = "npm run test:dist";
 
 type GatingFields = {
   if?: string;
@@ -74,6 +75,14 @@ describe("ci.yml main job", () => {
     const buildIndex = stepIndexRunning(steps, BUILD_COMMAND);
     expect(installIndex).toBeGreaterThan(-1);
     expect(buildIndex).toBeGreaterThan(installIndex);
+  });
+
+  it("smoke tests the build output after building, ungated", () => {
+    const steps = readCiSteps();
+    const buildIndex = stepIndexRunning(steps, BUILD_COMMAND);
+    const smokeIndex = stepIndexRunning(steps, DIST_SMOKE_COMMAND);
+    expect(smokeIndex).toBeGreaterThan(buildIndex);
+    expectUngated(findStepRunning(DIST_SMOKE_COMMAND));
   });
 
   it("checks Prettier through the shared draft-skipping script without swallowing errors", () => {
