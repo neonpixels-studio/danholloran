@@ -1,15 +1,13 @@
+import MarkdownIt from "markdown-it";
 import { existsSync, statSync } from "node:fs";
 import { isAbsolute, relative, resolve, sep } from "node:path";
+
+type Token = ReturnType<MarkdownIt["parse"]>[number];
 
 const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/i;
 const MAX_REDIRECT_HOPS = 3;
 const EXTERNAL_TARGET_RE = /^[a-z][a-z0-9+.-]*:\/\//i;
-const FENCE_RE = /^ {0,3}(`{3,}|~{3,})/;
-const INLINE_CODE_RE = /(`+)[^`]*?\1/g;
-const IMAGE_RE = /!\[[^\]]*\]\([^)]*\)/g;
-const MARKDOWN_LINK_RE =
-  /\]\(\s*<?([^)\s>]+)>?(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g;
-const REFERENCE_DEFINITION_RE = /^ {0,3}\[[^\]]+\]:\s*<?([^\s>]+)>?/;
+const markdownParser = new MarkdownIt({ html: true });
 const HTML_HREF_RE = /\shref=["']([^"']+)["']/g;
 
 export interface InternalLink {
@@ -24,29 +22,6 @@ export interface RouteTable {
   pageDir: string;
 }
 
-// Blanks fenced code so example links inside code samples are never checked,
-// while keeping line numbers intact for error messages.
-function blankFencedCode(markdown: string): string[] {
-  let openFence: string | null = null;
-  return markdown.split(/\r?\n/).map((line) => {
-    const fence = FENCE_RE.exec(line)?.[1];
-    if (!openFence && fence) {
-      openFence = fence;
-      return "";
-    }
-    if (
-      openFence &&
-      fence &&
-      fence[0] === openFence[0] &&
-      fence.length >= openFence.length
-    ) {
-      openFence = null;
-      return "";
-    }
-    return openFence ? "" : line;
-  });
-}
-
 function normalizeInternalHref(raw: string): string | null {
   const href = raw.replace(SITE_ORIGIN_RE, "") || "/";
   if (!href.startsWith("/") || href.startsWith("//")) {
@@ -55,28 +30,67 @@ function normalizeInternalHref(raw: string): string | null {
   return href;
 }
 
-function hrefsInLine(line: string): string[] {
-  const text = line.replace(INLINE_CODE_RE, "").replace(IMAGE_RE, "");
-  const matches = [
-    ...text.matchAll(MARKDOWN_LINK_RE),
-    ...text.matchAll(HTML_HREF_RE),
-  ];
-  const definition = REFERENCE_DEFINITION_RE.exec(text)?.[1];
-  return [
-    ...matches.map((match) => match[1]),
-    ...(definition ? [definition] : []),
-  ];
+function htmlHrefs(html: string): { href: string; lineOffset: number }[] {
+  return [...html.matchAll(HTML_HREF_RE)].map((match) => ({
+    href: match[1],
+    lineOffset: html.slice(0, match.index).split("\n").length - 1,
+  }));
 }
 
-// Root-relative and same-site absolute links in a post body. Images, fenced
-// code and inline code are ignored.
+function hrefsInInlineToken(
+  inline: Token,
+  firstLine: number,
+): { line: number; href: string }[] {
+  let line = firstLine;
+  const found: { line: number; href: string }[] = [];
+  for (const child of inline.children ?? []) {
+    if (child.type === "softbreak" || child.type === "hardbreak") {
+      line += 1;
+    }
+    const href = child.type === "link_open" ? child.attrGet("href") : null;
+    if (href) {
+      found.push({ line, href });
+    }
+    if (child.type === "html_inline") {
+      found.push(
+        ...htmlHrefs(child.content).map((html) => ({
+          line: line + html.lineOffset,
+          href: html.href,
+        })),
+      );
+    }
+  }
+  return found;
+}
+
+function hrefsInToken(token: Token): { line: number; href: string }[] {
+  if (!token.map) {
+    return [];
+  }
+  const firstLine = token.map[0] + 1;
+  if (token.type === "inline") {
+    return hrefsInInlineToken(token, firstLine);
+  }
+  if (token.type === "html_block") {
+    return htmlHrefs(token.content).map((html) => ({
+      line: firstLine + html.lineOffset,
+      href: html.href,
+    }));
+  }
+  return [];
+}
+
+// Root-relative and same-site absolute links in a post body, found by walking
+// markdown-it tokens so images, fenced and indented code, and inline code are
+// never mistaken for links.
 export function extractInternalLinks(markdown: string): InternalLink[] {
-  return blankFencedCode(markdown).flatMap((line, index) =>
-    hrefsInLine(line).flatMap((raw) => {
+  return markdownParser
+    .parse(markdown, {})
+    .flatMap(hrefsInToken)
+    .flatMap(({ line, href: raw }) => {
       const href = normalizeInternalHref(raw);
-      return href ? [{ line: index + 1, href }] : [];
-    }),
-  );
+      return href ? [{ line, href }] : [];
+    });
 }
 
 export function normalizeRoutePath(href: string): string {

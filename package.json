@@ -49,6 +49,7 @@
     "@tailwindcss/vite": "^4.3.5",
     "feed": "^6.0.0",
     "image-size": "^2.1.0",
+    "markdown-it": "^14.3.3",
     "minisearch": "^7.2.0",
     "plist": "^5.0.0",
     "sharp": "^0.35.5",

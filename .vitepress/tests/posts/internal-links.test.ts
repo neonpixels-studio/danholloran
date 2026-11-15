@@ -136,6 +136,48 @@ describe("extractInternalLinks edge cases", () => {
   });
 });
 
+describe("extractInternalLinks token walking", () => {
+  it("ignores links in indented code blocks and in fences indented four spaces inside a list", () => {
+    const markdown =
+      "    [a](/posts/indented)\n\n- item\n\n    ```md\n    [b](/posts/nested)\n    ```\n\n[c](/posts/kept)";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 9, href: "/posts/kept" },
+    ]);
+  });
+
+  it("keeps a URL containing balanced parentheses whole", () => {
+    expect(extractInternalLinks("[a](/posts/foo_(bar))")).toEqual([
+      { line: 1, href: "/posts/foo_(bar)" },
+    ]);
+  });
+
+  it("reports the real line of a link inside a multi-line paragraph", () => {
+    const markdown = "first\nsecond [a](/posts/a)\nthird [b](/posts/b)";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/a" },
+      { line: 3, href: "/posts/b" },
+    ]);
+  });
+
+  it("finds hrefs in html blocks with their line and ignores html code samples", () => {
+    const markdown =
+      '<div>\n<a href="/posts/block">x</a>\n</div>\n\n`<a href="/posts/code">y</a>`';
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/block" },
+    ]);
+  });
+
+  it("finds autolinks and links inside blockquotes and lists", () => {
+    const markdown =
+      "> [a](/posts/a)\n\n- [b](/posts/b)\n\n<https://danholloran.me/posts/c>";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 1, href: "/posts/a" },
+      { line: 3, href: "/posts/b" },
+      { line: 5, href: "/posts/c" },
+    ]);
+  });
+});
+
 describe("parseRedirectRules", () => {
   it("skips comments and blank lines and reads from/to", () => {
     const source = "# note\n\n/a /b 301!\r\n/c/* /d/:splat 301";
