@@ -112,7 +112,7 @@ describe("extractInternalLinks", () => {
 });
 
 describe("extractInternalLinks edge cases", () => {
-  it("finds reference definitions and single-quoted titles", () => {
+  it("resolves reference-style links and single-quoted titles", () => {
     const markdown = "[a][ref]\n\n[ref]: /posts/ref\n[b](/posts/b 'Title')";
     expect(extractInternalLinks(markdown).map((link) => link.href)).toEqual([
       "/posts/ref",
@@ -174,6 +174,32 @@ describe("extractInternalLinks token walking", () => {
       { line: 1, href: "/posts/a" },
       { line: 3, href: "/posts/b" },
       { line: 5, href: "/posts/c" },
+    ]);
+  });
+});
+
+describe("extractInternalLinks table and spanning constructs", () => {
+  it("finds links inside table cells on the row's line", () => {
+    const markdown = "| a |\n|---|\n| [x](/posts/x) |\n| [y](/posts/y) |";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 3, href: "/posts/x" },
+      { line: 4, href: "/posts/y" },
+    ]);
+  });
+
+  it("keeps line numbers after a split inline html tag and a wrapped image alt", () => {
+    const markdown =
+      '<span\nclass="x">a</span> [a](/posts/a)\n![one\ntwo](/i.png) [b](/posts/b)';
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/a" },
+      { line: 4, href: "/posts/b" },
+    ]);
+  });
+
+  it("reports a reference link on its usage line and skips unused definitions", () => {
+    const markdown = "[a][ref]\n\n[ref]: /posts/ref\n[unused]: /posts/unused";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 1, href: "/posts/ref" },
     ]);
   });
 });

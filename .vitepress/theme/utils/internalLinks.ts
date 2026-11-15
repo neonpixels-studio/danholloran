@@ -30,67 +30,75 @@ function normalizeInternalHref(raw: string): string | null {
   return href;
 }
 
-function htmlHrefs(html: string): { href: string; lineOffset: number }[] {
+function lineCount(text: string): number {
+  return text.split("\n").length - 1;
+}
+
+function htmlHrefs(html: string, firstLine: number): InternalLink[] {
   return [...html.matchAll(HTML_HREF_RE)].map((match) => ({
+    line: firstLine + lineCount(html.slice(0, match.index)),
     href: match[1],
-    lineOffset: html.slice(0, match.index).split("\n").length - 1,
   }));
 }
 
-function hrefsInInlineToken(
-  inline: Token,
-  firstLine: number,
-): { line: number; href: string }[] {
-  let line = firstLine;
-  const found: { line: number; href: string }[] = [];
-  for (const child of inline.children ?? []) {
-    if (child.type === "softbreak" || child.type === "hardbreak") {
-      line += 1;
-    }
-    const href = child.type === "link_open" ? child.attrGet("href") : null;
-    if (href) {
-      found.push({ line, href });
-    }
-    if (child.type === "html_inline") {
-      found.push(
-        ...htmlHrefs(child.content).map((html) => ({
-          line: line + html.lineOffset,
-          href: html.href,
-        })),
-      );
-    }
+function hrefsInChild(child: Token, line: number): InternalLink[] {
+  if (child.type === "html_inline") {
+    return htmlHrefs(child.content, line);
   }
-  return found;
+  const href = child.type === "link_open" ? child.attrGet("href") : null;
+  return href ? [{ line, href }] : [];
 }
 
-function hrefsInToken(token: Token): { line: number; href: string }[] {
-  if (!token.map) {
-    return [];
+// Source lines a child token spans beyond the one it starts on.
+function extraLines(child: Token): number {
+  if (child.type === "softbreak" || child.type === "hardbreak") {
+    return 1;
   }
-  const firstLine = token.map[0] + 1;
+  if (child.type === "html_inline") {
+    return lineCount(child.content);
+  }
+  return (child.children ?? []).reduce(
+    (total, nested) => total + extraLines(nested),
+    0,
+  );
+}
+
+function hrefsInInlineToken(inline: Token, firstLine: number): InternalLink[] {
+  let line = firstLine;
+  return (inline.children ?? []).flatMap((child) => {
+    const found = hrefsInChild(child, line);
+    line += extraLines(child);
+    return found;
+  });
+}
+
+function hrefsInToken(token: Token, firstLine: number): InternalLink[] {
   if (token.type === "inline") {
     return hrefsInInlineToken(token, firstLine);
   }
-  if (token.type === "html_block") {
-    return htmlHrefs(token.content).map((html) => ({
-      line: firstLine + html.lineOffset,
-      href: html.href,
-    }));
-  }
-  return [];
+  return token.type === "html_block" ? htmlHrefs(token.content, firstLine) : [];
+}
+
+// Table cell tokens carry no source map, so they inherit the line of the
+// nearest preceding token that has one.
+function hrefsInTokens(tokens: Token[]): InternalLink[] {
+  let currentLine = 1;
+  return tokens.flatMap((token) => {
+    currentLine = token.map ? token.map[0] + 1 : currentLine;
+    return hrefsInToken(token, currentLine);
+  });
 }
 
 // Root-relative and same-site absolute links in a post body, found by walking
 // markdown-it tokens so images, fenced and indented code, and inline code are
 // never mistaken for links.
 export function extractInternalLinks(markdown: string): InternalLink[] {
-  return markdownParser
-    .parse(markdown, {})
-    .flatMap(hrefsInToken)
-    .flatMap(({ line, href: raw }) => {
+  return hrefsInTokens(markdownParser.parse(markdown, {})).flatMap(
+    ({ line, href: raw }) => {
       const href = normalizeInternalHref(raw);
       return href ? [{ line, href }] : [];
-    });
+    },
+  );
 }
 
 export function normalizeRoutePath(href: string): string {
