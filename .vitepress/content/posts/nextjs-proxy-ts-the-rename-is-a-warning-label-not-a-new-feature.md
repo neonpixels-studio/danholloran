@@ -1,10 +1,10 @@
 ---
-date: '2026-11-16T02:14:34.000-08:00'
-tags: ['next.js', 'react', 'typescript', 'node']
+date: "2026-11-16T02:14:34.000-08:00"
+tags: ["next.js", "react", "typescript", "node"]
 draft: false
 title: "Next.js proxy.ts: The Rename Is a Warning Label, Not a New Feature"
-image: '/images/posts/nextjs-proxy-ts-the-rename-is-a-warning-label-not-a-new-feature.jpg'
-topic: 'development'
+image: "/images/posts/nextjs-proxy-ts-the-rename-is-a-warning-label-not-a-new-feature.jpg"
+topic: "development"
 description: "Next.js 16 renamed middleware.ts to proxy.ts and moved it to Node.js. The codemod is one line; the real change is what you should stop putting in that file."
 ---
 
@@ -26,20 +26,20 @@ The runtime change matters more. Middleware ran on the Edge runtime by default f
 
 ```ts
 // proxy.ts
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 // export const runtime = 'edge' // throws in Next.js 16
 
 export function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname === '/old-pricing') {
-    return NextResponse.redirect(new URL('/pricing', request.url))
+  if (request.nextUrl.pathname === "/old-pricing") {
+    return NextResponse.redirect(new URL("/pricing", request.url));
   }
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
-}
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+};
 ```
 
 On Node you get the full standard library and any npm package, not the Edge subset. That sounds like permission to do more. It is the opposite. The file is easier to misuse now, because the friction that used to stop you from opening a database connection in it is gone.
@@ -52,10 +52,10 @@ The most common misuse is the session check that guards the whole app:
 // proxy.ts: the pattern to move away from
 export async function proxy(request: NextRequest) {
   const session = await db.session.findUnique({
-    where: { token: request.cookies.get('session')?.value },
-  })
+    where: { token: request.cookies.get("session")?.value },
+  });
   if (!session) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 ```
@@ -68,29 +68,29 @@ The fix is the one the Next.js data security guide recommends: verify the sessio
 
 ```ts
 // app/lib/dal.ts
-import 'server-only'
-import { cache } from 'react'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { getSessionFromDb } from './sessions'
+import "server-only";
+import { cache } from "react";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getSessionFromDb } from "./sessions";
 
 export const verifySession = cache(async () => {
-  const token = (await cookies()).get('session')?.value
-  const session = token ? await getSessionFromDb(token) : null
-  if (!session) redirect('/login')
-  return session
-})
+  const token = (await cookies()).get("session")?.value;
+  const session = token ? await getSessionFromDb(token) : null;
+  if (!session) redirect("/login");
+  return session;
+});
 ```
 
 ```ts
 // app/actions.ts
-'use server'
-import { verifySession } from './lib/dal'
-import { db } from './lib/db'
+"use server";
+import { verifySession } from "./lib/dal";
+import { db } from "./lib/db";
 
 export async function deleteProject(id: string) {
-  const session = await verifySession()
-  await db.project.delete({ where: { id, ownerId: session.userId } })
+  const session = await verifySession();
+  await db.project.delete({ where: { id, ownerId: session.userId } });
 }
 ```
 
@@ -101,7 +101,7 @@ export async function deleteProject(id: string) {
 Proxy is still the right tool for decisions you can make from the request alone, before any rendering happens:
 
 - Redirects and rewrites based on path, locale, or a feature-flag cookie
-- An optimistic auth check: does a session cookie *exist*? If not, send the user to `/login` early. This is a UX shortcut, not a security boundary.
+- An optimistic auth check: does a session cookie _exist_? If not, send the user to `/login` early. This is a UX shortcut, not a security boundary.
 - Setting request or response headers, such as CORS, a request ID, or a security header
 - Fire-and-forget logging with `event.waitUntil()`, so analytics never delays the response
 
