@@ -6,7 +6,7 @@ Personal blog and portfolio for Dan Holloran — full-stack developer and photog
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) v24+ (use [nvm](https://github.com/nvm-sh/nvm): `nvm use`)
+- [Node.js](https://nodejs.org/) v26+ (use [nvm](https://github.com/nvm-sh/nvm): `nvm use`)
 - [npm](https://www.npmjs.com/) v10+
 
 ### Getting Started
