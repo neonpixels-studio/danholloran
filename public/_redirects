@@ -1,7 +1,24 @@
 https://danholloran.netlify.app/* https://danholloran.me/:splat 301!
 /blog/* /posts/:splat 301!
-# Retired the unmaintained Missing Content plugin showcase (raw WP shortcodes
-# that never rendered). Send its previously indexed URL to the blog index.
-/posts/missing-content /posts/ 301!
+
 # Post image variants moved out of /images; keeps pages cached before the move working.
 /images/posts/variants/* /image-variants/:splat 301!
+
+# Retired Posts
+/posts/missing-content /posts/ 301!
+/posts/installing-linters-atom /posts/ 301!
+/posts/installing-linters-sublime-text-3 /posts/ 301!
+/posts/vues-js-component-messaging-continued /posts/ 301!
+/posts/vues-js-component-messaging /posts/ 301!
+/posts/base-environment-setup /posts/ 301!
+/posts/laracon-online-2019-notes-and-thoughts /posts/ 301!
+/posts/linting-your-code-installing-the-linters /posts/ 301!
+/posts/new-plugin-wp-multi-file-uploader /posts/ 301!
+/posts/setup-ghost-pro-custom-domain-name /posts/ 301!
+/posts/st-louis-wordcamp-2015 /posts/ 301!
+/posts/st-louis-wordcamp-2016 /posts/ 301!
+/posts/visbug /posts/ 301!
+/posts/wp-better-attachments /posts/ 301!
+/posts/wp-better-attachments-released /posts/ 301!
+/posts/wp-github-recent-commit-widget /posts/ 301!
+/posts/wpba-thoughts-and-road-map /posts/ 301!
