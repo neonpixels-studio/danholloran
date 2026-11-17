@@ -22,3 +22,21 @@ https://danholloran.netlify.app/* https://danholloran.me/:splat 301!
 /posts/wp-better-attachments-released /posts/ 301!
 /posts/wp-github-recent-commit-widget /posts/ 301!
 /posts/wpba-thoughts-and-road-map /posts/ 301!
+/posts/check-out-down-them-all-extension-for-firefox /posts/ 301!
+/posts/if-youve-ever-wondered /posts/ 301!
+/posts/introducing-press-cli-a-configurable-wordpress-installer /posts/ 301!
+/posts/setting-up-a-jekyll-blog-part-1 /posts/ 301!
+/posts/setting-up-a-jekyll-blog-part-2 /posts/ 301!
+/posts/setting-up-a-jekyll-blog-part-3 /posts/ 301!
+/posts/setting-up-a-jekyll-blog-part-4 /posts/ 301!
+/posts/setting-up-a-jekyll-blog-part-5 /posts/ 301!
+/posts/sync-google-tasks-with-ifttt /posts/ 301!
+
+# Renamed Posts
+/posts/travel-alley-spring /posts/travel-alley-spring-missouri 301!
+/posts/travel-alley-spring-state-park /posts/travel-alley-spring-missouri 301!
+/posts/travel-grand-falls /posts/travel-grand-falls-plaza-missouri 301!
+/posts/travel-multnomah-falls-columbia-river-gorge-oregon /posts/travel-multnomah-falls 301!
+/posts/travel-rocky-falls-shut-in /posts/travel-rocky-falls 301!
+/posts/travel-saint-mary-s-glacier /posts/travel-st-mary-s-glacier 301!
+/posts/travel-salt-creek-waterfall /posts/travel-salt-creek-falls 301!
