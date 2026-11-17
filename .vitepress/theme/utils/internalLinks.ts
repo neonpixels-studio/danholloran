@@ -1,8 +1,6 @@
-import MarkdownIt from "markdown-it";
+import MarkdownIt, { type Token } from "markdown-it";
 import { existsSync, statSync } from "node:fs";
 import { isAbsolute, relative, resolve, sep } from "node:path";
-
-type Token = ReturnType<MarkdownIt["parse"]>[number];
 
 const SITE_ORIGIN_RE = /^https?:\/\/(?:www\.)?danholloran\.me(?=[/?#]|$)/i;
 const MAX_REDIRECT_HOPS = 3;
@@ -46,7 +44,7 @@ function hrefsInChild(child: Token, line: number): InternalLink[] {
     return htmlHrefs(child.content, line);
   }
   const href = child.type === "link_open" ? child.attrGet("href") : null;
-  return href ? [{ line, href }] : [];
+  return typeof href === "string" && href ? [{ line, href }] : [];
 }
 
 // Source lines a child token spans beyond the one it starts on.
