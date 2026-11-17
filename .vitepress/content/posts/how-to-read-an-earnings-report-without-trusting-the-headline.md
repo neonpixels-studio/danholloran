@@ -53,4 +53,4 @@ Skip the financial media summary and go to the source. The earnings press releas
 
 Read them in this order: the reconciliation table, then the cash flow statement, then the guidance. The headline last, if at all. By then you will already know what it left out.
 
-Sources: [Motley Fool on GAAP vs. non-GAAP](https://www.fool.com/investing/how-to-invest/stocks/gaap-vs-non-gaap/), [Perkins Coie on Regulation G disclosure practices](https://perkinscoie.com/public-company-handbook-chapter-5-finding-your-voice-disclosure-practices-non-gaap-financial), [IR Impact on post-earnings stock moves](https://www.ir-impact.com/2026/03/why-stocks-fall-after-earnings-the-hidden-power-of-tone-language-and-sentiment/)
+Sources: [Motley Fool on GAAP vs. non-GAAP](https://www.fool.com/investing/how-to-invest/stocks/gaap-vs-non-gaap/), [Ashurst Perkins Coie on Regulation G disclosure practices](https://www.ashurstperkinscoie.com/en/insights/the-public-company-handbook-seventh-edition/the-public-company-handbook---chapter-five/), [IR Impact on post-earnings stock moves](https://www.ir-impact.com/2026/03/why-stocks-fall-after-earnings-the-hidden-power-of-tone-language-and-sentiment/)
