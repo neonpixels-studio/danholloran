@@ -12,13 +12,10 @@ const POSTS_DIR = ".vitepress/content/posts";
 const HTML_EXTENSION = ".html";
 const POSTS_PATH_PREFIX = "posts/";
 const POST_URL_PREFIX = `${LIGHTHOUSE_ORIGIN}/${POSTS_PATH_PREFIX}`;
-const IMAGE_HEAVY_POST_SLUG = "wp-better-attachments";
 const CODE_HEAVY_POST_SLUG = "laravel-and-websockets";
-const MARKDOWN_IMAGE = /!\[[^\]]*\]\(/g;
 // Counts opening and closing fence lines, so two per code block.
 const CODE_FENCE = /^(```|~~~)/gm;
 const FENCES_PER_CODE_BLOCK = 2;
-const MIN_BODY_IMAGES = 3;
 const MIN_CODE_BLOCKS = 3;
 
 function readAuditedUrls(): string[] {
@@ -57,6 +54,7 @@ function countMatches(text: string, pattern: RegExp): number {
 }
 
 describe(".lighthouserc.json collect.url", () => {
+  // The blog index (a grid of post hero images) is the image-heavy audit target.
   it("audits the home page, the blog index and the resume page", () => {
     const urls = readAuditedUrls();
     expect(urls).toContain(`${LIGHTHOUSE_ORIGIN}/`);
@@ -64,9 +62,8 @@ describe(".lighthouserc.json collect.url", () => {
     expect(urls).toContain(pageUrl("resume"));
   });
 
-  it("audits an image-heavy and a code-heavy post page", () => {
+  it("audits a code-heavy post page", () => {
     const urls = readAuditedUrls();
-    expect(urls).toContain(postUrl(IMAGE_HEAVY_POST_SLUG));
     expect(urls).toContain(postUrl(CODE_HEAVY_POST_SLUG));
   });
 
@@ -97,14 +94,6 @@ describe(".lighthouserc.json collect.url", () => {
       const { data } = readPost(slug);
       expect(isPublished(data, slug)).toBe(true);
     });
-  });
-
-  it("keeps the image-heavy post image-heavy (hero plus in-body images)", () => {
-    const { data, content } = readPost(IMAGE_HEAVY_POST_SLUG);
-    expect(data.image).toBeTruthy();
-    expect(countMatches(content, MARKDOWN_IMAGE)).toBeGreaterThanOrEqual(
-      MIN_BODY_IMAGES,
-    );
   });
 
   it("keeps the code-heavy post code-heavy", () => {
