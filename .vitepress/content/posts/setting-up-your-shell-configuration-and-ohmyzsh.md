@@ -12,7 +12,7 @@ A while ago I wrote a post on [Setting Up Your Shell](/posts/setting-up-your-she
 
 ## .ZSHRC
 
-First up is the .zshrc if you have used Bash before you may be familiar with the .bashrc. This is the file where all of your configuration will be stored. I use mine primarily for aliases to make some common commands easier to type. To an alias basically looks like this `aliasname="command"` so a quick alias for [Behat](http://docs.behat.org/), a BDD testing framework, would look like this `alias behat="vendor/bin/behat"`. You can edit your .zshrc with your code editor. I personally use Sublime Text with an `st` command setup that makes opening files from the terminal easier. You can find more information about setting up the `st` command [here](https://www.sublimetext.com/docs/3/osx_command_line.html). Once you have made any edits you need to make sure to either open a new tab or run `source ~/.zshrc` in your current tab.
+First up is the .zshrc if you have used Bash before you may be familiar with the .bashrc. This is the file where all of your configuration will be stored. I use mine primarily for aliases to make some common commands easier to type. To an alias basically looks like this `aliasname="command"` so a quick alias for [Behat](http://docs.behat.org/), a BDD testing framework, would look like this `alias behat="vendor/bin/behat"`. You can edit your .zshrc with your code editor. I personally use VS Code with an `code` command setup that makes opening files from the terminal easier. You can find more information about setting up the `code` command [here](https://code.visualstudio.com/docs/configure/command-line). Once you have made any edits you need to make sure to either open a new tab or run `source ~/.zshrc` in your current tab.
 
 ## $PATH
 
