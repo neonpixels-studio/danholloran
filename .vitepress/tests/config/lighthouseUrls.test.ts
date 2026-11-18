@@ -125,8 +125,8 @@ const CATEGORY_MIN_SCORES: Record<string, number> = {
   "categories:best-practices": 0.95,
   "categories:seo": 0.85,
 };
-// Measured 345-375 KB on the audited pages (Nov 2026); leaves headroom for
-// normal growth while still catching an unoptimized image shipping.
+// Measured 345-375 KB on the audited pages (Nov 2026); the cap leaves headroom
+// for CI variance and catches large regressions (several unoptimized images).
 const MAX_BUDGET_BYTES = 600_000;
 
 // assertMatrix cannot be combined with top-level assertions, so the category
@@ -158,6 +158,14 @@ describe(".lighthouserc.json image and page weight budget", () => {
     expect(pattern.test(postUrl("some-other-post"))).toBe(false);
   });
 
+  it("matches exactly the index and code-heavy post in collect.url", () => {
+    const pattern = new RegExp(readImageBudget().matchingUrlPattern);
+    const budgetedUrls = readAuditedUrls().filter((url) => pattern.test(url));
+    expect([...budgetedUrls].sort()).toEqual(
+      [POST_URL_PREFIX, postUrl(CODE_HEAVY_POST_SLUG)].sort(),
+    );
+  });
+
   it("asserts page weight and image sizing as errors", () => {
     const { assertions } = readImageBudget();
     IMAGE_BUDGET_ASSERTIONS.forEach((auditId) => {
@@ -169,6 +177,19 @@ describe(".lighthouserc.json image and page weight budget", () => {
     const { assertions } = readImageBudget();
     expect(assertions["total-byte-weight"][1].maxNumericValue).toBe(
       MAX_BUDGET_BYTES,
+    );
+  });
+
+  it("aggregates so a single bad run cannot slip through", () => {
+    const { assertions } = readImageBudget();
+    expect(assertions["total-byte-weight"][1].aggregationMethod).toBe(
+      "median-run",
+    );
+    expect(assertions["unsized-images"][1].aggregationMethod).toBe(
+      "pessimistic",
+    );
+    expect(assertions["image-size-responsive"][1].aggregationMethod).toBe(
+      "pessimistic",
     );
   });
 
@@ -189,6 +210,7 @@ describe(".lighthouserc.json category thresholds", () => {
       const assertion = catchAll?.assertions[categoryId];
       expect(assertion?.[0], categoryId).toBe("error");
       expect(assertion?.[1].minScore, categoryId).toBe(minScore);
+      expect(assertion?.[1].aggregationMethod, categoryId).toBe("median-run");
     });
   });
 });
