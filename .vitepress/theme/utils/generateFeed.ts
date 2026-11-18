@@ -34,6 +34,12 @@ const CDATA_TERMINATOR_SAFE = "]]&gt;";
 // value, so returning an empty string is how a field is deliberately omitted.
 const OMIT_ELEMENT = "";
 
+// The channel <image> readers show as the feed logo. rss2() builds it from the
+// `image` option (it ignores `favicon`), so this must be an asset that exists
+// in public/. Square and within RSS 2.0's 144px maximum width; `feed` emits no
+// <width>/<height>, so strict readers assume the 88x31 default.
+const CHANNEL_IMAGE_URL = `${SITE_URL}/images/favicon-96x96.png`;
+
 // Each item embeds its full rendered body in <content:encoded>, so an unbounded
 // feed grows with the whole archive (301 posts ≈ 3.1 MB) — slow for subscribers
 // and large enough that feed-based cross-post importers time out or reject it.
@@ -164,7 +170,7 @@ function buildFeed(
     id: channel.link,
     link: channel.link,
     language: "en",
-    favicon: `${SITE_URL}/favicon.ico`,
+    image: CHANNEL_IMAGE_URL,
     copyright: `© ${new Date().getFullYear()} Dan Holloran`,
     feedLinks: { rss: `${SITE_URL}${channel.feedPath}` },
     author: { name: "Dan Holloran", link: SITE_URL },
