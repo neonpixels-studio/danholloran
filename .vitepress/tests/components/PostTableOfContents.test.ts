@@ -56,10 +56,12 @@ describe("PostTableOfContents", () => {
       template:
         "<div><PostTableOfContents v-bind='props' /><PostTableOfContents v-bind='props' /></div>",
     });
-    const [first, second] = wrapper
-      .findAll("nav")
-      .map((nav) => nav.attributes("aria-labelledby"));
-    expect(first).toBeTruthy();
-    expect(first).not.toBe(second);
+    const navs = wrapper.findAll("nav");
+    expect(navs).toHaveLength(2);
+    const labelIds = navs.map((nav) => nav.attributes("aria-labelledby"));
+    navs.forEach((nav, index) => {
+      expect(nav.find(`[id="${labelIds[index]}"]`).text()).toBe("On this page");
+    });
+    expect(labelIds[0]).not.toBe(labelIds[1]);
   });
 });
