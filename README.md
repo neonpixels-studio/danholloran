@@ -115,19 +115,24 @@ post look freshly edited.
 
 Add the trailer to any sweep commit that changes post files without changing
 their content: Prettier runs, frontmatter migrations, description trims,
-bulk renames. Put it on its own line at the end of the commit message,
-separated from the body by a blank line:
+bulk renames. Git only reads trailers from the last paragraph of the message,
+so keep it in the final block, with no blank line between it and any other
+trailers:
 
-```
+```text
 Trim post descriptions to 160 characters
 
 Skip-Modified: true
+Co-Authored-By: Name <name@example.com>
 ```
 
-Commits that touch more than 20 markdown files are skipped automatically, but
-rely on the trailer for smaller sweeps and for any sweep you want to be
-explicit about. Git 2.22 or newer is required for trailer parsing. The
-behavior is pinned by `.vitepress/tests/utils/gitLastModified.test.ts`.
+PRs are squash-merged, so the trailer must be in the final squash commit
+message, not just on a branch commit. Commits that touch more than 20 markdown
+files are skipped automatically, but rely on the trailer for smaller sweeps.
+If every commit for a file is skipped, its creation commit date is used
+instead. Trailer parsing needs Git 2.22 or newer; on older Git the trailer is
+silently ignored and only the 20-file threshold applies. The behavior is
+pinned by `.vitepress/tests/utils/gitLastModified.test.ts`.
 
 ### Available Commands
 
