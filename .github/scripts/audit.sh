@@ -18,11 +18,11 @@
 #
 # Entries are keyed "<GHSA-id>@<node_modules path>" so an exemption only covers
 # the exact install location it was justified for, not every copy of the
-# advisory anywhere in the tree. KNOWN LIMITATION: a package with multiple
-# advisories AND multiple install paths could still produce a pair that
-# doesn't really apply (npm audit's JSON doesn't cleanly separate that). Every
-# affected package here has exactly one install path today, except vite, whose
-# top-level pairing is explained in its entries below; re-verify if that changes.
+# advisory anywhere in the tree. KNOWN LIMITATION: this script pairs every
+# advisory on a package with every node in that package's `nodes`, regardless
+# of whether that node's installed version is inside the advisory's range, so a
+# package with multiple install paths can produce pairs that don't really apply
+# (see the top-level vite entry below). Re-verify entries when versions change.
 set -euo pipefail
 
 # High/critical advisories accepted because no patched version exists upstream.
@@ -33,8 +33,8 @@ ALLOWLISTED_ADVISORIES=(
   # `fs.existsSync()` existence check bypass on Windows. No fix in vitepress's
   # pinned vite range (vitepress 1.6.4 declares vite ^5.4.14; the patch ships in
   # 6.4.5, outside that range). The top-level vite is already overridden to
-  # 6.4.5, so this exemption covers ONLY vitepress's bundled 5.x copy. Same
-  # Windows-only dev-server exposure as above: this project's dev
+  # 6.4.5, so this exemption covers ONLY vitepress's bundled 5.x copy. Windows-only
+  # dev-server exposure: this project's dev
   # server never runs on Windows or faces untrusted clients (CI on Linux,
   # static deploys). Drop once vitepress bumps its bundled vite past 6.4.3.
   "GHSA-587h-7wmj-h5pm@node_modules/vitepress/node_modules/vite" # vite: launch-editor fs.existsSync bypass on Windows
