@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { xml2js, type ElementCompact } from "xml-js";
 import type { MarkdownRenderer } from "vitepress";
+import { join } from "path";
+import { fileURLToPath } from "url";
 
 vi.mock("fs", () => {
   const readdirSync = vi.fn();
@@ -25,6 +27,8 @@ import { mockPostFiles } from "../helpers/mockPostFiles";
 const mockReaddirSync = vi.mocked(readdirSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockParseFrontmatter = vi.mocked(parseFrontmatter);
+
+const PUBLIC_DIR = fileURLToPath(new URL("../../../public", import.meta.url));
 
 const XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>';
 
@@ -101,6 +105,20 @@ describe("generateFeed", () => {
 
     expect(xml.startsWith(XML_DECLARATION)).toBe(true);
     expect(() => parseFeedXml(xml)).not.toThrow();
+  });
+
+  it("ships a channel logo that points at an existing public asset", async () => {
+    const { existsSync } = await vi.importActual<typeof import("fs")>("fs");
+    mockReaddirSync.mockReturnValue([] as any);
+
+    const xml = generateFeed(passthroughRenderer());
+    const image = parseFeedXml(xml).rss.channel.image;
+
+    expect(image.url._text).toBe(`${SITE_URL}/images/favicon-96x96.png`);
+    expect(image.title._text).toBe("Dan Holloran");
+    expect(image.link._text).toBe(`${SITE_URL}/`);
+    const imagePath = new URL(image.url._text).pathname;
+    expect(existsSync(join(PUBLIC_DIR, imagePath))).toBe(true);
   });
 
   it("returns a valid feed with no items when there are no posts", async () => {
