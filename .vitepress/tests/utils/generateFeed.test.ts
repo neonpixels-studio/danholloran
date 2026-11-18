@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { xml2js, type ElementCompact } from "xml-js";
 import type { MarkdownRenderer } from "vitepress";
 import { join } from "path";
-import { fileURLToPath } from "url";
 
 vi.mock("fs", () => {
   const readdirSync = vi.fn();
@@ -28,7 +27,7 @@ const mockReaddirSync = vi.mocked(readdirSync);
 const mockReadFileSync = vi.mocked(readFileSync);
 const mockParseFrontmatter = vi.mocked(parseFrontmatter);
 
-const PUBLIC_DIR = fileURLToPath(new URL("../../../public", import.meta.url));
+const PUBLIC_DIR = join(__dirname, "..", "..", "..", "public");
 
 const XML_DECLARATION = '<?xml version="1.0" encoding="utf-8"?>';
 
