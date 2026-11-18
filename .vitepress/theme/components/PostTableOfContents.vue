@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, useId } from "vue";
 
 import { tocSections, type PostHeader } from "@utils/postHeaders";
 
@@ -7,17 +7,19 @@ const { headers = [] } = defineProps<{
   headers?: PostHeader[];
 }>();
 
+const labelId = useId();
 const sections = computed(() => tocSections(headers));
 </script>
 
 <template>
   <nav
     v-if="sections.length"
-    aria-label="Table of contents"
+    :aria-labelledby="labelId"
     class="border-line mb-12 rounded border p-5"
     data-testid="post-table-of-contents"
   >
     <p
+      :id="labelId"
       class="text-fg-subtle mb-3 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"
     >
       On this page

@@ -1,8 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`PostTableOfContents > renders a labelled nav of anchor links at the threshold 1`] = `
-"<nav aria-label="Table of contents" class="border-line mb-12 rounded border p-5" data-testid="post-table-of-contents">
-  <p class="text-fg-subtle mb-3 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"> On this page </p>
+"<nav aria-labelledby="v-0" class="border-line mb-12 rounded border p-5" data-testid="post-table-of-contents">
+  <p id="v-0" class="text-fg-subtle mb-3 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"> On this page </p>
   <ul class="m-0 flex list-none flex-col gap-2 p-0">
     <li><a href="#section-1" class="text-fg-muted hover:text-accent font-mono text-[0.8rem] leading-[1.5] no-underline transition-colors">Section 1</a></li>
     <li><a href="#section-2" class="text-fg-muted hover:text-accent font-mono text-[0.8rem] leading-[1.5] no-underline transition-colors">Section 2</a></li>
