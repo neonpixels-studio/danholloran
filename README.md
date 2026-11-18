@@ -127,10 +127,13 @@ Co-Authored-By: Name <name@example.com>
 ```
 
 PRs are squash-merged, so the trailer must be in the final squash commit
-message, not just on a branch commit. Commits that touch more than 20 markdown
+message, not just on a branch commit. GitHub's default squash message
+concatenates the branch commits, so edit it before merging and put
+`Skip-Modified: true` in the last paragraph, in the same block as any
+`Co-authored-by:` lines. Commits that touch more than 20 markdown
 files are skipped automatically, but rely on the trailer for smaller sweeps.
-If every commit for a file is skipped, its creation commit date is used
-instead. Trailer parsing needs Git 2.22 or newer; on older Git the trailer is
+If every commit for a file is skipped and the file has 50 or fewer commits,
+its creation commit date is used instead; otherwise no git date is returned. Trailer parsing needs Git 2.22 or newer; on older Git the trailer is
 silently ignored and only the 20-file threshold applies. The behavior is
 pinned by `.vitepress/tests/utils/gitLastModified.test.ts`.
 
