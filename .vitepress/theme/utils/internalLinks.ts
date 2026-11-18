@@ -39,6 +39,25 @@ function htmlHrefs(html: string, firstLine: number): InternalLink[] {
   }));
 }
 
+// markdown-it keeps no source position on inline tokens, so the inline parser
+// state is subclassed to remember where in the inline content each token
+// starts (a flushed text token ends there, and it never spans a newline).
+const tokenOffsets = new WeakMap<Token, number>();
+const BaseInlineState = markdownParser.inline.State;
+markdownParser.inline.State = class extends BaseInlineState {
+  push(...args: Parameters<InstanceType<typeof BaseInlineState>["push"]>) {
+    const token = super.push(...args);
+    tokenOffsets.set(token, this.pos);
+    return token;
+  }
+
+  pushPending() {
+    const token = super.pushPending();
+    tokenOffsets.set(token, this.pos);
+    return token;
+  }
+};
+
 function hrefsInChild(child: Token, line: number): InternalLink[] {
   if (child.type === "html_inline") {
     return htmlHrefs(child.content, line);
@@ -47,30 +66,28 @@ function hrefsInChild(child: Token, line: number): InternalLink[] {
   return typeof href === "string" && href ? [{ line, href }] : [];
 }
 
-// Source lines a child token spans beyond the one it starts on.
-// @todo newlines inside wrapped code spans, link destinations, titles and
-// reference labels leave no
-// token, so links after them in the same paragraph report one line too early.
-function extraLines(child: Token): number {
-  if (child.type === "softbreak" || child.type === "hardbreak") {
-    return 1;
+// Tokens created after parsing (linkify) have no offset; they sit on the same
+// line as the next token with one, since a text token never spans a newline.
+function childLines(inline: Token, firstLine: number): number[] {
+  const children = inline.children ?? [];
+  let nextLine = firstLine + lineCount(inline.content);
+  const lines = new Array<number>(children.length);
+  for (let index = children.length - 1; index >= 0; index--) {
+    const offset = tokenOffsets.get(children[index]);
+    nextLine =
+      offset === undefined
+        ? nextLine
+        : firstLine + lineCount(inline.content.slice(0, offset));
+    lines[index] = nextLine;
   }
-  if (child.type === "html_inline") {
-    return lineCount(child.content);
-  }
-  return (child.children ?? []).reduce(
-    (total, nested) => total + extraLines(nested),
-    0,
-  );
+  return lines;
 }
 
 function hrefsInInlineToken(inline: Token, firstLine: number): InternalLink[] {
-  let line = firstLine;
-  return (inline.children ?? []).flatMap((child) => {
-    const found = hrefsInChild(child, line);
-    line += extraLines(child);
-    return found;
-  });
+  const lines = childLines(inline, firstLine);
+  return (inline.children ?? []).flatMap((child, index) =>
+    hrefsInChild(child, lines[index]),
+  );
 }
 
 function hrefsInToken(token: Token, firstLine: number): InternalLink[] {
