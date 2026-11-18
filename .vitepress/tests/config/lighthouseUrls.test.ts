@@ -18,10 +18,14 @@ const CODE_FENCE = /^(```|~~~)/gm;
 const FENCES_PER_CODE_BLOCK = 2;
 const MIN_CODE_BLOCKS = 3;
 
-function readAuditedUrls(): string[] {
-  const config = JSON.parse(
+function readLighthouseConfig() {
+  return JSON.parse(
     readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
   );
+}
+
+function readAuditedUrls(): string[] {
+  const config = readLighthouseConfig();
   const urls = config?.ci?.collect?.url;
   expect(Array.isArray(urls), "ci.collect.url must be an array").toBe(true);
   return urls;
@@ -104,22 +108,44 @@ describe(".lighthouserc.json collect.url", () => {
   });
 });
 
+type AssertMatrixEntry = {
+  matchingUrlPattern: string;
+  assertions: Record<string, [string, Record<string, unknown>]>;
+};
+
+const CATCH_ALL_PATTERN = ".*";
 const IMAGE_BUDGET_ASSERTIONS = [
   "total-byte-weight",
   "unsized-images",
   "image-size-responsive",
 ];
+const CATEGORY_MIN_SCORES: Record<string, number> = {
+  "categories:performance": 0.85,
+  "categories:accessibility": 0.85,
+  "categories:best-practices": 0.95,
+  "categories:seo": 0.85,
+};
 // Measured 345-375 KB on the audited pages (Nov 2026); leaves headroom for
 // normal growth while still catching an unoptimized image shipping.
 const MAX_BUDGET_BYTES = 600_000;
 
-function readImageBudget() {
-  const config = JSON.parse(
-    readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
-  );
-  const matrix = config?.ci?.assert?.assertMatrix;
+// assertMatrix cannot be combined with top-level assertions, so the category
+// scores live in a catch-all entry next to the image budget entry.
+function readAssertMatrix(): AssertMatrixEntry[] {
+  const matrix = readLighthouseConfig()?.ci?.assert?.assertMatrix;
   expect(Array.isArray(matrix), "assertMatrix must be an array").toBe(true);
-  return matrix.find((entry) => entry.assertions["total-byte-weight"]);
+  return matrix;
+}
+
+function readImageBudget(): AssertMatrixEntry {
+  const entry = readAssertMatrix().find(
+    (candidate) => candidate.assertions?.["total-byte-weight"],
+  );
+  expect(
+    entry,
+    "an assertMatrix entry must budget total-byte-weight",
+  ).toBeDefined();
+  return entry as AssertMatrixEntry;
 }
 
 describe(".lighthouserc.json image and page weight budget", () => {
@@ -129,6 +155,7 @@ describe(".lighthouserc.json image and page weight budget", () => {
     expect(pattern.test(postUrl(CODE_HEAVY_POST_SLUG))).toBe(true);
     expect(pattern.test(`${LIGHTHOUSE_ORIGIN}/`)).toBe(false);
     expect(pattern.test(pageUrl("resume"))).toBe(false);
+    expect(pattern.test(postUrl("some-other-post"))).toBe(false);
   });
 
   it("asserts page weight and image sizing as errors", () => {
@@ -153,21 +180,15 @@ describe(".lighthouserc.json image and page weight budget", () => {
 });
 
 describe(".lighthouserc.json category thresholds", () => {
-  // assertMatrix cannot be combined with top-level assertions, so the
-  // category scores live in a catch-all matrix entry.
   it("keeps the category score assertions on every audited page", () => {
-    const config = JSON.parse(
-      readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
+    const catchAll = readAssertMatrix().find(
+      (entry) => entry.matchingUrlPattern === CATCH_ALL_PATTERN,
     );
-    const catchAll = config.ci.assert.assertMatrix.find(
-      (entry: { matchingUrlPattern: string }) =>
-        entry.matchingUrlPattern === ".*",
-    );
-    expect(Object.keys(catchAll.assertions).sort()).toEqual([
-      "categories:accessibility",
-      "categories:best-practices",
-      "categories:performance",
-      "categories:seo",
-    ]);
+    expect(catchAll, "a catch-all assertMatrix entry must exist").toBeDefined();
+    Object.entries(CATEGORY_MIN_SCORES).forEach(([categoryId, minScore]) => {
+      const assertion = catchAll?.assertions[categoryId];
+      expect(assertion?.[0], categoryId).toBe("error");
+      expect(assertion?.[1].minScore, categoryId).toBe(minScore);
+    });
   });
 });
