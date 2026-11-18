@@ -105,6 +105,30 @@ dev`/`preview` config-load time — nothing regenerates the PDF the way `npm
 run images` does for post images, so that would just break local dev the
 moment the resume data changes.
 
+### Sweep commits: the `Skip-Modified` trailer
+
+The sitemap `lastmod` date and the post "last modified" date come from git
+history (`gitLastModified` in `.vitepress/theme/utils/gitLastModified.ts`).
+A commit that carries the trailer `Skip-Modified: true` is ignored when
+picking a file's last-modified date, so mechanical changes don't make every
+post look freshly edited.
+
+Add the trailer to any sweep commit that changes post files without changing
+their content: Prettier runs, frontmatter migrations, description trims,
+bulk renames. Put it on its own line at the end of the commit message,
+separated from the body by a blank line:
+
+```
+Trim post descriptions to 160 characters
+
+Skip-Modified: true
+```
+
+Commits that touch more than 20 markdown files are skipped automatically, but
+rely on the trailer for smaller sweeps and for any sweep you want to be
+explicit about. Git 2.22 or newer is required for trailer parsing. The
+behavior is pinned by `.vitepress/tests/utils/gitLastModified.test.ts`.
+
 ### Available Commands
 
 | Command                    | Description                               |
