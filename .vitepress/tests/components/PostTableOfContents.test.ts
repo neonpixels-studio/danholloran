@@ -16,9 +16,11 @@ describe("PostTableOfContents", () => {
     const wrapper = mount(PostTableOfContents, {
       props: { headers: sections(TOC_MIN_SECTIONS) },
     });
-    expect(wrapper.find("nav").attributes("aria-label")).toBe(
-      "Table of contents",
-    );
+    const nav = wrapper.find("nav");
+    const labelId = nav.attributes("aria-labelledby");
+    expect(nav.attributes("aria-label")).toBeUndefined();
+    expect(labelId).toBeTruthy();
+    expect(wrapper.find(`[id="${labelId}"]`).text()).toBe("On this page");
     const links = wrapper.findAll("ul > li > a");
     expect(links).toHaveLength(TOC_MIN_SECTIONS);
     expect(links[0].attributes("href")).toBe("#section-1");
@@ -44,5 +46,20 @@ describe("PostTableOfContents", () => {
     });
     expect(wrapper.text()).not.toContain("Nested");
     expect(wrapper.findAll("li")).toHaveLength(TOC_MIN_SECTIONS);
+  });
+
+  it("gives each instance on a page a unique label id", () => {
+    const props = { headers: sections(TOC_MIN_SECTIONS) };
+    const wrapper = mount({
+      components: { PostTableOfContents },
+      setup: () => ({ props }),
+      template:
+        "<div><PostTableOfContents v-bind='props' /><PostTableOfContents v-bind='props' /></div>",
+    });
+    const [first, second] = wrapper
+      .findAll("nav")
+      .map((nav) => nav.attributes("aria-labelledby"));
+    expect(first).toBeTruthy();
+    expect(first).not.toBe(second);
   });
 });
