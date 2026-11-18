@@ -103,3 +103,71 @@ describe(".lighthouserc.json collect.url", () => {
     expect(codeBlocks).toBeGreaterThanOrEqual(MIN_CODE_BLOCKS);
   });
 });
+
+const IMAGE_BUDGET_ASSERTIONS = [
+  "total-byte-weight",
+  "unsized-images",
+  "image-size-responsive",
+];
+// Measured 345-375 KB on the audited pages (Nov 2026); leaves headroom for
+// normal growth while still catching an unoptimized image shipping.
+const MAX_BUDGET_BYTES = 600_000;
+
+function readImageBudget() {
+  const config = JSON.parse(
+    readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
+  );
+  const matrix = config?.ci?.assert?.assertMatrix;
+  expect(Array.isArray(matrix), "assertMatrix must be an array").toBe(true);
+  return matrix.find((entry) => entry.assertions["total-byte-weight"]);
+}
+
+describe(".lighthouserc.json image and page weight budget", () => {
+  it("applies to the blog index and the code-heavy post only", () => {
+    const pattern = new RegExp(readImageBudget().matchingUrlPattern);
+    expect(pattern.test(POST_URL_PREFIX)).toBe(true);
+    expect(pattern.test(postUrl(CODE_HEAVY_POST_SLUG))).toBe(true);
+    expect(pattern.test(`${LIGHTHOUSE_ORIGIN}/`)).toBe(false);
+    expect(pattern.test(pageUrl("resume"))).toBe(false);
+  });
+
+  it("asserts page weight and image sizing as errors", () => {
+    const { assertions } = readImageBudget();
+    IMAGE_BUDGET_ASSERTIONS.forEach((auditId) => {
+      expect(assertions[auditId]?.[0], auditId).toBe("error");
+    });
+  });
+
+  it("caps total byte weight at the budget", () => {
+    const { assertions } = readImageBudget();
+    expect(assertions["total-byte-weight"][1].maxNumericValue).toBe(
+      MAX_BUDGET_BYTES,
+    );
+  });
+
+  it("requires sized, responsive images", () => {
+    const { assertions } = readImageBudget();
+    expect(assertions["unsized-images"][1].minScore).toBe(1);
+    expect(assertions["image-size-responsive"][1].minScore).toBe(1);
+  });
+});
+
+describe(".lighthouserc.json category thresholds", () => {
+  // assertMatrix cannot be combined with top-level assertions, so the
+  // category scores live in a catch-all matrix entry.
+  it("keeps the category score assertions on every audited page", () => {
+    const config = JSON.parse(
+      readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
+    );
+    const catchAll = config.ci.assert.assertMatrix.find(
+      (entry: { matchingUrlPattern: string }) =>
+        entry.matchingUrlPattern === ".*",
+    );
+    expect(Object.keys(catchAll.assertions).sort()).toEqual([
+      "categories:accessibility",
+      "categories:best-practices",
+      "categories:performance",
+      "categories:seo",
+    ]);
+  });
+});
