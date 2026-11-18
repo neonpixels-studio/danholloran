@@ -18,10 +18,14 @@ const CODE_FENCE = /^(```|~~~)/gm;
 const FENCES_PER_CODE_BLOCK = 2;
 const MIN_CODE_BLOCKS = 3;
 
-function readAuditedUrls(): string[] {
-  const config = JSON.parse(
+function readLighthouseConfig() {
+  return JSON.parse(
     readFileSync(join(process.cwd(), LIGHTHOUSE_CONFIG_PATH), "utf8"),
   );
+}
+
+function readAuditedUrls(): string[] {
+  const config = readLighthouseConfig();
   const urls = config?.ci?.collect?.url;
   expect(Array.isArray(urls), "ci.collect.url must be an array").toBe(true);
   return urls;
@@ -101,5 +105,119 @@ describe(".lighthouserc.json collect.url", () => {
     const codeBlocks =
       countMatches(content, CODE_FENCE) / FENCES_PER_CODE_BLOCK;
     expect(codeBlocks).toBeGreaterThanOrEqual(MIN_CODE_BLOCKS);
+  });
+});
+
+type AssertMatrixEntry = {
+  matchingUrlPattern: string;
+  assertions: Record<string, [string, Record<string, unknown>]>;
+};
+
+const CATCH_ALL_PATTERN = ".*";
+const IMAGE_BUDGET_ASSERTIONS = [
+  "total-byte-weight",
+  "unsized-images",
+  "image-size-responsive",
+];
+const CATEGORY_MIN_SCORES: Record<string, number> = {
+  "categories:performance": 0.85,
+  "categories:accessibility": 0.85,
+  "categories:best-practices": 0.95,
+  "categories:seo": 0.85,
+};
+// Measured 345-375 KB on the audited pages (Nov 2026); the cap leaves headroom
+// for CI variance and catches large regressions (several unoptimized images).
+const MAX_BUDGET_BYTES = 600_000;
+
+// assertMatrix cannot be combined with top-level assertions, so the category
+// scores live in a catch-all entry next to the image budget entry.
+function readAssertMatrix(): AssertMatrixEntry[] {
+  const matrix = readLighthouseConfig()?.ci?.assert?.assertMatrix;
+  expect(Array.isArray(matrix), "assertMatrix must be an array").toBe(true);
+  return matrix;
+}
+
+function readImageBudget(): AssertMatrixEntry {
+  const entry = readAssertMatrix().find(
+    (candidate) => candidate.assertions?.["total-byte-weight"],
+  );
+  expect(
+    entry,
+    "an assertMatrix entry must budget total-byte-weight",
+  ).toBeDefined();
+  return entry as AssertMatrixEntry;
+}
+
+describe(".lighthouserc.json image and page weight budget", () => {
+  it("applies to the blog index and the code-heavy post only", () => {
+    const pattern = new RegExp(readImageBudget().matchingUrlPattern);
+    expect(pattern.test(POST_URL_PREFIX)).toBe(true);
+    expect(pattern.test(postUrl(CODE_HEAVY_POST_SLUG))).toBe(true);
+    expect(pattern.test(`${LIGHTHOUSE_ORIGIN}/`)).toBe(false);
+    expect(pattern.test(pageUrl("resume"))).toBe(false);
+    expect(pattern.test(postUrl("some-other-post"))).toBe(false);
+    expect(pattern.test(`${POST_URL_PREFIX}laravel-and-websocketsXhtml`)).toBe(
+      false,
+    );
+  });
+
+  it("matches exactly the index and code-heavy post in collect.url", () => {
+    const pattern = new RegExp(readImageBudget().matchingUrlPattern);
+    const budgetedUrls = readAuditedUrls().filter((url) => pattern.test(url));
+    expect(budgetedUrls.sort()).toEqual(
+      [POST_URL_PREFIX, postUrl(CODE_HEAVY_POST_SLUG)].sort(),
+    );
+  });
+
+  it("asserts page weight and image sizing as errors", () => {
+    const { assertions } = readImageBudget();
+    IMAGE_BUDGET_ASSERTIONS.forEach((auditId) => {
+      expect(assertions[auditId]?.[0], auditId).toBe("error");
+    });
+  });
+
+  it("caps total byte weight at the budget", () => {
+    const { assertions } = readImageBudget();
+    expect(assertions["total-byte-weight"][1].maxNumericValue).toBe(
+      MAX_BUDGET_BYTES,
+    );
+  });
+
+  it("uses median weight and worst-case image sizing across runs", () => {
+    const { assertions } = readImageBudget();
+    expect(assertions["total-byte-weight"][1].aggregationMethod).toBe(
+      "median-run",
+    );
+    expect(assertions["unsized-images"][1].aggregationMethod).toBe(
+      "pessimistic",
+    );
+    expect(assertions["image-size-responsive"][1].aggregationMethod).toBe(
+      "pessimistic",
+    );
+  });
+
+  it("requires sized, responsive images", () => {
+    const { assertions } = readImageBudget();
+    expect(assertions["unsized-images"][1].minScore).toBe(1);
+    expect(assertions["image-size-responsive"][1].minScore).toBe(1);
+  });
+});
+
+describe(".lighthouserc.json category thresholds", () => {
+  it("does not mix top-level assertions with assertMatrix", () => {
+    expect(readLighthouseConfig()?.ci?.assert?.assertions).toBeUndefined();
+  });
+
+  it("keeps the category score assertions on every audited page", () => {
+    const catchAll = readAssertMatrix().find(
+      (entry) => entry.matchingUrlPattern === CATCH_ALL_PATTERN,
+    );
+    expect(catchAll, "a catch-all assertMatrix entry must exist").toBeDefined();
+    Object.entries(CATEGORY_MIN_SCORES).forEach(([categoryId, minScore]) => {
+      const assertion = catchAll?.assertions[categoryId];
+      expect(assertion?.[0], categoryId).toBe("error");
+      expect(assertion?.[1].minScore, categoryId).toBe(minScore);
+      expect(assertion?.[1].aggregationMethod, categoryId).toBe("median-run");
+    });
   });
 });
