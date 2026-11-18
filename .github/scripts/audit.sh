@@ -18,36 +18,40 @@
 #
 # Entries are keyed "<GHSA-id>@<node_modules path>" so an exemption only covers
 # the exact install location it was justified for, not every copy of the
-# advisory anywhere in the tree. KNOWN LIMITATION: a package with multiple
-# advisories AND multiple install paths could still produce a pair that
-# doesn't really apply (npm audit's JSON doesn't cleanly separate that). Every
-# affected package here has exactly one install path today, so this doesn't
-# bite; re-verify if that changes.
+# advisory anywhere in the tree. KNOWN LIMITATION: this script pairs every
+# advisory on a package with every node in that package's `nodes`, regardless
+# of whether that node's installed version is inside the advisory's range, so a
+# package with multiple install paths can produce pairs that don't really apply
+# (see the top-level vite entry below). Re-verify entries when versions change.
 set -euo pipefail
 
 # High/critical advisories accepted because no patched version exists upstream.
 # Remove an entry the moment its package ships a fix.
 ALLOWLISTED_ADVISORIES=(
-  # vite <=6.4.2, specifically vitepress's own bundled copy at
-  # node_modules/vitepress/node_modules/vite (currently 5.4.21): `server.fs.deny`
-  # bypass on Windows alternate paths. No fix available — vitepress pins its own
-  # vite range. Windows-only dev-server bypass; this project's dev server never
-  # runs on Windows or is exposed to untrusted clients (CI runs on
-  # ubuntu-latest, deploys are static builds). Drop once vitepress bumps its
-  # bundled vite past the vulnerable range. Any OTHER vite copy (e.g. the
-  # top-level one used by vitest/@tailwindcss/vite) hitting this same GHSA id
-  # is intentionally NOT covered by this entry.
-  "GHSA-fx2h-pf6j-xcff@node_modules/vitepress/node_modules/vite" # vite: server.fs.deny bypass on Windows
   # vite 5.x, specifically vitepress's own bundled copy at
   # node_modules/vitepress/node_modules/vite (currently 5.4.21): launch-editor
   # `fs.existsSync()` existence check bypass on Windows. No fix in vitepress's
   # pinned vite range (vitepress 1.6.4 declares vite ^5.4.14; the patch ships in
-  # 6.4.5, outside that range). The top-level vite is already overridden to
-  # 6.4.5, so this exemption covers ONLY vitepress's bundled 5.x copy. Same
-  # Windows-only dev-server exposure as the fx2h entry above: this project's dev
-  # server never runs on Windows or faces untrusted clients (CI on Linux,
+  # 6.4.4, outside that range). The top-level vite is overridden to ^6.4.5, so
+  # this exemption covers ONLY vitepress's bundled 5.x copy. Windows-only
+  # dev-server exposure: this project's dev server never runs on Windows or faces untrusted clients (CI on Linux,
   # static deploys). Drop once vitepress bumps its bundled vite past 6.4.3.
   "GHSA-587h-7wmj-h5pm@node_modules/vitepress/node_modules/vite" # vite: launch-editor fs.existsSync bypass on Windows
+  # Same GHSA-587h advisory (affected range <=6.4.3), paired with the top-level
+  # node_modules/vite. That copy is 6.4.5, OUTSIDE the affected range, so this is
+  # not a real finding: npm audit reports one vulnerability object for the "vite"
+  # package listing both install paths in `nodes`, and this script pairs every
+  # advisory with every node (the KNOWN LIMITATION above). Only the nested 5.4.21
+  # copy is actually affected. Drop together with the vitepress entry above.
+  "GHSA-587h-7wmj-h5pm@node_modules/vite" # vite: false pairing, top-level 6.4.5 is patched
+  # picomatch <=4.0.7: ReDoS via single-branch repeated extglobs. No patched
+  # release exists (4.0.7 is the latest on npm), so an `overrides` bump cannot fix
+  # it. `npm ls picomatch` shows a single copy, pulled in only by build/test
+  # tooling (vite, fdir, tinyglobby, vitest, vue-tsc). It matches glob patterns
+  # authored in this repo, never user input, and nothing in the repo imports it
+  # directly. The deployed site is a static VitePress build with no server code
+  # that runs picomatch. Drop once picomatch ships >4.0.7 and bump via `overrides`.
+  "GHSA-fc5q-39xc-vjpf@node_modules/picomatch" # picomatch: ReDoS via repeated extglobs
 )
 
 report="$(npm audit --json || true)"
