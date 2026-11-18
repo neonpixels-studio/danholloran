@@ -32,10 +32,9 @@ ALLOWLISTED_ADVISORIES=(
   # node_modules/vitepress/node_modules/vite (currently 5.4.21): launch-editor
   # `fs.existsSync()` existence check bypass on Windows. No fix in vitepress's
   # pinned vite range (vitepress 1.6.4 declares vite ^5.4.14; the patch ships in
-  # 6.4.5, outside that range). The top-level vite is already overridden to
-  # 6.4.5, so this exemption covers ONLY vitepress's bundled 5.x copy. Windows-only
-  # dev-server exposure: this project's dev
-  # server never runs on Windows or faces untrusted clients (CI on Linux,
+  # 6.4.4, outside that range). The top-level vite is overridden to ^6.4.5, so
+  # this exemption covers ONLY vitepress's bundled 5.x copy. Windows-only
+  # dev-server exposure: this project's dev server never runs on Windows or faces untrusted clients (CI on Linux,
   # static deploys). Drop once vitepress bumps its bundled vite past 6.4.3.
   "GHSA-587h-7wmj-h5pm@node_modules/vitepress/node_modules/vite" # vite: launch-editor fs.existsSync bypass on Windows
   # Same GHSA-587h advisory (affected range <=6.4.3), paired with the top-level
