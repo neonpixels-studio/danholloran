@@ -196,6 +196,30 @@ describe("extractInternalLinks table and spanning constructs", () => {
     ]);
   });
 
+  it("keeps line numbers after a wrapped code span, link title and reference label", () => {
+    const markdown = [
+      "`wrapped\ncode` [a](/posts/a)",
+      '[b](/posts/b "multi\nline") [c](/posts/c)',
+      "[long\nlabel][ref] [d](/posts/d)",
+      "",
+      "[ref]: /posts/ref",
+    ].join("\n");
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/a" },
+      { line: 3, href: "/posts/b" },
+      { line: 4, href: "/posts/c" },
+      { line: 5, href: "/posts/ref" },
+      { line: 6, href: "/posts/d" },
+    ]);
+  });
+
+  it("reports a linkified url after a wrapped code span on its own line", () => {
+    const markdown = "`a\nb` see https://danholloran.me/posts/auto here";
+    expect(extractInternalLinks(markdown)).toEqual([
+      { line: 2, href: "/posts/auto" },
+    ]);
+  });
+
   it("reports a reference link on its usage line and skips unused definitions", () => {
     const markdown = "[a][ref]\n\n[ref]: /posts/ref\n[unused]: /posts/unused";
     expect(extractInternalLinks(markdown)).toEqual([
