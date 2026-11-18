@@ -156,12 +156,15 @@ describe(".lighthouserc.json image and page weight budget", () => {
     expect(pattern.test(`${LIGHTHOUSE_ORIGIN}/`)).toBe(false);
     expect(pattern.test(pageUrl("resume"))).toBe(false);
     expect(pattern.test(postUrl("some-other-post"))).toBe(false);
+    expect(pattern.test(`${POST_URL_PREFIX}laravel-and-websocketsXhtml`)).toBe(
+      false,
+    );
   });
 
   it("matches exactly the index and code-heavy post in collect.url", () => {
     const pattern = new RegExp(readImageBudget().matchingUrlPattern);
     const budgetedUrls = readAuditedUrls().filter((url) => pattern.test(url));
-    expect([...budgetedUrls].sort()).toEqual(
+    expect(budgetedUrls.sort()).toEqual(
       [POST_URL_PREFIX, postUrl(CODE_HEAVY_POST_SLUG)].sort(),
     );
   });
@@ -180,7 +183,7 @@ describe(".lighthouserc.json image and page weight budget", () => {
     );
   });
 
-  it("aggregates so a single bad run cannot slip through", () => {
+  it("uses median weight and worst-case image sizing across runs", () => {
     const { assertions } = readImageBudget();
     expect(assertions["total-byte-weight"][1].aggregationMethod).toBe(
       "median-run",
@@ -201,6 +204,10 @@ describe(".lighthouserc.json image and page weight budget", () => {
 });
 
 describe(".lighthouserc.json category thresholds", () => {
+  it("does not mix top-level assertions with assertMatrix", () => {
+    expect(readLighthouseConfig()?.ci?.assert?.assertions).toBeUndefined();
+  });
+
   it("keeps the category score assertions on every audited page", () => {
     const catchAll = readAssertMatrix().find(
       (entry) => entry.matchingUrlPattern === CATCH_ALL_PATTERN,
