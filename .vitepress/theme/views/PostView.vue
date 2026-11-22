@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { Post } from "@typedefs";
+import { Post, PostSeries } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import PostSeriesNav from "@components/PostSeriesNav.vue";
 import PostTableOfContents from "@components/PostTableOfContents.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 import StaticImage from "@components/StaticImage.vue";
@@ -26,11 +27,14 @@ const {
   post,
   prevPost = null,
   nextPost = null,
+  series = null,
   headers = [],
 } = defineProps<{
   post: Post;
   prevPost?: Post | null;
   nextPost?: Post | null;
+  // From findPostSeries at build time; null when the post isn't in a series.
+  series?: PostSeries | null;
   // The page's h2 headers VitePress extracted (page.headers); see markdown.headers in config.ts.
   headers?: PostHeader[];
 }>();
@@ -224,22 +228,26 @@ function onArticleKeydown(event: KeyboardEvent) {
       </p>
     </aside>
 
-    <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8">
-      <template v-for="tag in post.frontmatter.tags" :key="tag">
-        <a
-          v-if="hasFilterRoute(tag)"
-          :href="archiveHref(1, { tagSlug: toFilterSlug(tag) })"
-          class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"
-        >
-          #{{ tag }}
-        </a>
-        <span
-          v-else
-          class="text-fg-muted border-line rounded-xs border px-2.5 py-1 font-mono text-[0.7rem]"
-        >
-          #{{ tag }}
-        </span>
-      </template>
+    <div class="border-line mt-12 border-t pt-8">
+      <PostSeriesNav :series="series" />
+
+      <div class="flex flex-wrap gap-2">
+        <template v-for="tag in post.frontmatter.tags" :key="tag">
+          <a
+            v-if="hasFilterRoute(tag)"
+            :href="archiveHref(1, { tagSlug: toFilterSlug(tag) })"
+            class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"
+          >
+            #{{ tag }}
+          </a>
+          <span
+            v-else
+            class="text-fg-muted border-line rounded-xs border px-2.5 py-1 font-mono text-[0.7rem]"
+          >
+            #{{ tag }}
+          </span>
+        </template>
+      </div>
     </div>
 
     <!-- NEWSLETTER · terminal block -->

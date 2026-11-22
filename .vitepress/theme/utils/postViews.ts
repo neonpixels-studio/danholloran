@@ -4,6 +4,8 @@ import type {
   HomePosts,
   Post,
   PostNeighbors,
+  PostSeries,
+  PostSeriesPart,
 } from "@typedefs";
 import {
   ALL_TAG,
@@ -24,6 +26,9 @@ import {
 // Home shows one featured post plus eight recent ones.
 const HOME_POST_COUNT = 9;
 const NATIONAL_PARK_TAG = "national-park";
+// A one-part series box is noise, and its "Part 1 of 1" would disagree with a
+// post that calls itself a later part, so the nav waits for a second part.
+const MIN_SERIES_PARTS = 2;
 
 // `topic`/`tag` are filter *slugs* (matched against toFilterSlug of each
 // post's value), as passed through each archive route's params.
@@ -106,6 +111,37 @@ export function findPostNeighbors(
     post: posts[index],
     prevPost: posts[index + 1] ?? null,
     nextPost: posts[index - 1] ?? null,
+  };
+}
+
+function seriesSortKey(post: Post): number {
+  return post.frontmatter.series_part as number;
+}
+
+function toSeriesPart(post: Post): PostSeriesPart {
+  return { title: post.frontmatter.title, url: post.url };
+}
+
+// Null when the slug has no published post, the post isn't in a series, or the
+// series has fewer than MIN_SERIES_PARTS published parts, so PostView renders
+// no series nav.
+export function findPostSeries(posts: Post[], slug: string): PostSeries | null {
+  const post = posts.find((candidate) => candidate.frontmatter.slug === slug);
+  const name = post?.frontmatter.series;
+  if (!post || !name) {
+    return null;
+  }
+  const members = posts
+    .filter((candidate) => candidate.frontmatter.series === name)
+    .sort((left, right) => seriesSortKey(left) - seriesSortKey(right));
+  if (members.length < MIN_SERIES_PARTS) {
+    return null;
+  }
+  return {
+    name,
+    part: members.indexOf(post) + 1,
+    total: members.length,
+    parts: members.map(toSeriesPart),
   };
 }
 

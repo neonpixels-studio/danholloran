@@ -6,6 +6,7 @@ import { TOPIC_SECTIONS } from "../../theme/utils/generateLlmsTxt";
 import {
   KNOWN_TOPICS,
   validatePostFrontmatter,
+  validateSeriesConsistency,
 } from "../../theme/utils/validatePostFrontmatter";
 
 const POSTS_DIR = join(__dirname, "..", "..", "content", "posts");
@@ -32,8 +33,39 @@ describe("validatePostFrontmatter", () => {
         canonical: "other-post",
         travel_location: "zion national park",
         created_at: "2025-05-22T09:00:00.000-06:00",
+        series: "Lessons from an agent fleet",
+        series_part: 0,
       }),
     ).toEqual([]);
+  });
+
+  it.each([-1, 1.5, "2", null])("rejects the series_part %j", (series_part) => {
+    expect(
+      validatePostFrontmatter({
+        ...validFrontmatter,
+        series: "A series",
+        series_part,
+      }),
+    ).toEqual([expect.stringContaining('"series_part"')]);
+  });
+
+  it.each([{ series: "A series" }, { series_part: 1 }])(
+    "rejects half of a series pairing %j",
+    (seriesKeys) => {
+      expect(
+        validatePostFrontmatter({ ...validFrontmatter, ...seriesKeys }),
+      ).toEqual(['"series" and "series_part" must be set together']);
+    },
+  );
+
+  it("rejects an empty series name", () => {
+    expect(
+      validatePostFrontmatter({
+        ...validFrontmatter,
+        series: " ",
+        series_part: 1,
+      }),
+    ).toEqual([expect.stringContaining('"series"')]);
   });
 
   it("derives the topic set from the llms.txt sections", () => {
@@ -145,6 +177,46 @@ describe("validatePostFrontmatter", () => {
   });
 });
 
+describe("validateSeriesConsistency", () => {
+  function seriesPost(fileName: string, series: string, series_part: number) {
+    return { fileName, data: { ...validFrontmatter, series, series_part } };
+  }
+
+  it("accepts distinct parts across separate series", () => {
+    expect(
+      validateSeriesConsistency([
+        seriesPost("a.md", "Agent fleet", 0),
+        seriesPost("b.md", "Agent fleet", 1),
+        seriesPost("c.md", "Other", 0),
+        { fileName: "d.md", data: validFrontmatter },
+      ]),
+    ).toEqual([]);
+  });
+
+  it("rejects two posts sharing a part in one series", () => {
+    expect(
+      validateSeriesConsistency([
+        seriesPost("a.md", "Agent fleet", 1),
+        seriesPost("b.md", "Agent fleet", 1),
+      ]),
+    ).toEqual(["b.md and a.md share series part Agent fleet #1"]);
+  });
+
+  it.each(["Agent Fleet", "Agent fleet ", "Agent  fleet"])(
+    "rejects the near-duplicate series name %j",
+    (variant) => {
+      expect(
+        validateSeriesConsistency([
+          seriesPost("a.md", "Agent fleet", 0),
+          seriesPost("b.md", variant, 1),
+        ]),
+      ).toEqual([
+        `series names differ only by case or whitespace: "Agent fleet", ${JSON.stringify(variant)}`,
+      ]);
+    },
+  );
+});
+
 function parsePost(fileName: string): {
   fileName: string;
   data: Record<string, unknown>;
@@ -188,6 +260,10 @@ describe("post frontmatter schema", () => {
       .filter(({ data }) => !existsSync(join(PUBLIC_DIR, data.image as string)))
       .map(({ fileName, data }) => `${fileName}: ${data.image}`);
     expect(offenders).toEqual([]);
+  });
+
+  it("every series is consistent across its posts", () => {
+    expect(validateSeriesConsistency(parsedPosts)).toEqual([]);
   });
 
   it("every canonical points at an existing post", () => {

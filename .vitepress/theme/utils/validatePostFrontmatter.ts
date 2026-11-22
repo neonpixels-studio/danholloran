@@ -11,6 +11,7 @@ const OPTIONAL_STRING_KEYS = [
   "canonical",
   "travel_location",
   "created_at",
+  "series",
 ];
 
 export const ALLOWED_KEYS: string[] = [
@@ -18,6 +19,7 @@ export const ALLOWED_KEYS: string[] = [
   ...OPTIONAL_STRING_KEYS,
   "tags",
   "draft",
+  "series_part",
 ];
 
 function isNonEmptyString(value: unknown): value is string {
@@ -93,6 +95,28 @@ function draftProblems(data: Record<string, unknown>): string[] {
   return typeof data.draft === "boolean" ? [] : ['"draft" must be a boolean'];
 }
 
+function seriesPartProblems(data: Record<string, unknown>): string[] {
+  const { series_part: seriesPart } = data;
+  if (!("series_part" in data)) {
+    return [];
+  }
+  if (Number.isInteger(seriesPart) && (seriesPart as number) >= 0) {
+    return [];
+  }
+  return ['"series_part" must be a non-negative integer'];
+}
+
+// One key without the other is almost always a half-finished edit, and either
+// alone would silently leave the post out of its series nav.
+function seriesPairProblems(data: Record<string, unknown>): string[] {
+  const hasSeries = "series" in data;
+  const hasSeriesPart = "series_part" in data;
+  if (hasSeries === hasSeriesPart) {
+    return [];
+  }
+  return ['"series" and "series_part" must be set together'];
+}
+
 function unknownKeyProblems(data: Record<string, unknown>): string[] {
   return Object.keys(data)
     .filter((key) => !ALLOWED_KEYS.includes(key))
@@ -114,6 +138,61 @@ export function validatePostFrontmatter(
     ...topicProblems(data),
     ...tagsProblems(data),
     ...draftProblems(data),
+    ...seriesPartProblems(data),
+    ...seriesPairProblems(data),
     ...unknownKeyProblems(data),
   ];
+}
+
+export interface PostFrontmatterEntry {
+  fileName: string;
+  data: Record<string, unknown>;
+}
+
+// Series membership is an exact string match, so names that only differ by
+// case or whitespace would silently split one series into two.
+function seriesNameKey(name: string): string {
+  return name.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function seriesPosts(posts: PostFrontmatterEntry[]): PostFrontmatterEntry[] {
+  return posts.filter(({ data }) => typeof data.series === "string");
+}
+
+function duplicatePartProblems(posts: PostFrontmatterEntry[]): string[] {
+  const firstFileByPart = new Map<string, string>();
+  return seriesPosts(posts).flatMap(({ fileName, data }) => {
+    const part = `${data.series} #${data.series_part}`;
+    const firstFile = firstFileByPart.get(part);
+    if (!firstFile) {
+      firstFileByPart.set(part, fileName);
+      return [];
+    }
+    return [`${fileName} and ${firstFile} share series part ${part}`];
+  });
+}
+
+function seriesNameVariantProblems(posts: PostFrontmatterEntry[]): string[] {
+  const namesByKey = new Map<string, Set<string>>();
+  for (const { data } of seriesPosts(posts)) {
+    const name = data.series as string;
+    const key = seriesNameKey(name);
+    namesByKey.set(key, (namesByKey.get(key) ?? new Set()).add(name));
+  }
+  return [...namesByKey.values()]
+    .filter((names) => names.size > 1)
+    .map(
+      (names) =>
+        `series names differ only by case or whitespace: ${[...names].map((name) => JSON.stringify(name)).join(", ")}`,
+    );
+}
+
+/**
+ * Cross-post series problems; empty when consistent. Pass drafts too: two
+ * parts that collide only collide visibly once both go live.
+ */
+export function validateSeriesConsistency(
+  posts: PostFrontmatterEntry[],
+): string[] {
+  return [...duplicatePartProblems(posts), ...seriesNameVariantProblems(posts)];
 }
