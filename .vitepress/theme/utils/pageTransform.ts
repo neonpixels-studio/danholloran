@@ -351,8 +351,9 @@ function resolveCanonicalSlug(
 }
 
 // Throws unless the canonical target both exists and is published, naming the
-// specific reason (missing vs. draft) so the author isn't sent hunting for a
-// typo in a slug that's actually spelled correctly but just unpublished.
+// specific reason (missing vs. draft or scheduled) so the author isn't sent
+// hunting for a typo in a slug that's actually spelled correctly but just
+// unpublished.
 function assertCanonicalTargetIsPublished(
   targetData: Record<string, unknown> | null,
   slug: string,
@@ -365,7 +366,7 @@ function assertCanonicalTargetIsPublished(
   }
   if (!isPublished(targetData, canonicalSlug)) {
     throw new Error(
-      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post is a draft. Publish it, or remove the canonical override until it is.`,
+      `resolvePostCanonical: post "${slug}" declares canonical "${canonicalSlug}", but that post is a draft or scheduled for a later date. Publish it, or remove the canonical override until it is live.`,
     );
   }
 }

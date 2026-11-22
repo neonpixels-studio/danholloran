@@ -14,6 +14,7 @@ function buildPost(
   return {
     url: `/posts/post-${index}`,
     dateIsValid: true,
+    isScheduled: false,
     imageVersion: null,
     frontmatter: {
       title: `Post ${index}`,

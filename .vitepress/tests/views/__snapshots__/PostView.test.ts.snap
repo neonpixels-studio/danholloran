@@ -8,6 +8,7 @@ exports[`PostView > hides the finance disclaimer for non-finance posts 1`] = `
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <post-alert-message-stub></post-alert-message-stub>
+  <post-alert-message-stub message=""></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
@@ -44,6 +45,7 @@ exports[`PostView > renders correctly 1`] = `
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <post-alert-message-stub></post-alert-message-stub>
+  <post-alert-message-stub message=""></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
@@ -80,6 +82,7 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">Second Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The second post description.</p>
   <post-alert-message-stub></post-alert-message-stub>
+  <post-alert-message-stub message=""></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>
@@ -117,6 +120,7 @@ exports[`PostView > shows the finance disclaimer for finance posts 1`] = `
   <h1 class="mb-6 font-mono leading-[1.2] font-bold" style="letter-spacing: -0.04em;">First Post</h1>
   <p class="text-fg-muted border-accent mb-8 border-l-2 pl-5 text-[1.1rem] leading-[1.7]">The first post description.</p>
   <post-alert-message-stub></post-alert-message-stub>
+  <post-alert-message-stub message=""></post-alert-message-stub>
   <div class="border-line mb-12 flex items-center gap-4 border-t border-b py-5">
     <div class="bg-accent-dim border-accent h-10 w-10 shrink-0 overflow-hidden rounded-full border-2">
       <static-image-stub src="/images/photo.jpg" alt="Dan Holloran" class="h-full w-full object-cover" width="40" height="40"></static-image-stub>

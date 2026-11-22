@@ -28,9 +28,18 @@ jobs:
         with:
           persist-credentials: false
 
+      # The skip check imports the shared publish-date helper (a .ts file), which
+      # needs the repo's Node version; the runner default may not strip types.
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .nvmrc
+
       # Compares main to the last successful production deploy instead of a time
       # window, so a late cron start or an earlier failed deploy cannot strand a
-      # commit. Any lookup problem deploys rather than skips.
+      # commit. When main is unchanged it still deploys if a scheduled
+      # (future-dated) post came due since that deploy, or the post would never
+      # go live. Any lookup problem deploys rather than skips.
       - name: Skip when main is already deployed
         id: recent
         env:

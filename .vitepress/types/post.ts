@@ -20,6 +20,9 @@ export interface Post {
   // Decided once at load time by resolvePublishedDate; render surfaces read it
   // via formatPostDateFor instead of re-deriving validity from the raw date.
   dateIsValid: boolean;
+  // True when the post's date is after the build time. Production builds drop
+  // these posts entirely; elsewhere PostView shows a "Scheduled for" notice.
+  isScheduled: boolean;
   // The ?v= token for the cover image's responsive variants, or null when it
   // has none; resolved at load time by imageVersionFor so the browser never
   // needs the fingerprint manifest. Passed to ResponsiveImage as `version`.

@@ -7,6 +7,7 @@ import {
   normalizeFrontmatterTopic,
 } from "../../theme/utils/frontmatter.ts";
 import { formatPostDate } from "../../theme/utils/formatDate.ts";
+import { isPublished } from "../../theme/utils/loadPublishedPosts.ts";
 import { POSTS_GLOB, resolvePublishedDate, toSlug } from "./transformPosts.ts";
 
 declare const data: PostSearchItem[];
@@ -22,7 +23,7 @@ export { data };
 export function transformSearchData(raw: ContentData[]): PostSearchItem[] {
   return (
     raw
-      .filter(({ frontmatter }) => !frontmatter.draft)
+      .filter(({ frontmatter, url }) => isPublished(frontmatter, url))
       // Decorate each post with its resolved publish date before sorting, so
       // resolvePublishedDate (and its warn on a bad date) runs once per post
       // rather than once per comparison — same shape as transformPosts.

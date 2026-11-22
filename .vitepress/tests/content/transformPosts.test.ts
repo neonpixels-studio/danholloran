@@ -33,6 +33,7 @@ function makeRawPost(overrides: Record<string, unknown> = {}): ContentData {
 describe("transformPosts", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("targets every markdown file in the posts content folder", () => {
@@ -152,6 +153,38 @@ describe("transformPosts", () => {
     });
 
     expect(transformPosts([draftPost])).toHaveLength(0);
+  });
+
+  it("drops a scheduled post on a production build", () => {
+    vi.stubEnv("CONTEXT", "production");
+    const scheduledPost = makeRawPost({
+      frontmatter: {
+        ...makeRawPost().frontmatter,
+        date: "2999-01-01T00:00:00.000Z",
+      },
+    });
+
+    expect(transformPosts([scheduledPost])).toHaveLength(0);
+  });
+
+  it("keeps a scheduled post outside production and flags it as scheduled", () => {
+    vi.stubEnv("CONTEXT", "deploy-preview");
+    const scheduledPost = makeRawPost({
+      frontmatter: {
+        ...makeRawPost().frontmatter,
+        date: "2999-01-01T00:00:00.000Z",
+      },
+    });
+
+    const [post] = transformPosts([scheduledPost]);
+
+    expect(post.isScheduled).toBe(true);
+  });
+
+  it("does not flag a past-dated post as scheduled", () => {
+    const [post] = transformPosts([makeRawPost()]);
+
+    expect(post.isScheduled).toBe(false);
   });
 
   it("derives the slug from a url that already omits the content-folder prefix", () => {

@@ -135,6 +135,15 @@ describe("daily-production-deploy skip check", () => {
     );
   });
 
+  it("sets up the repo's Node version before the skip check imports TypeScript", () => {
+    const setupIndex = workflow.indexOf("node-version-file: .nvmrc");
+    const skipIndex = workflow.indexOf(
+      "- name: Skip when main is already deployed",
+    );
+    expect(setupIndex).toBeGreaterThan(-1);
+    expect(setupIndex).toBeLessThan(skipIndex);
+  });
+
   it("always deploys on manual dispatch", () => {
     const skipStep = workflow
       .split("- name: Skip when main is already deployed")[1]

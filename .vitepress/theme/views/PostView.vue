@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { Post } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
@@ -36,6 +36,13 @@ const {
 }>();
 
 const lightbox = ref<{ src: string; alt: string } | null>(null);
+
+// Production builds drop scheduled posts, so this only shows on previews and in
+// dev, where PR preview links need them to render. PostAlertMessage renders
+// nothing for an empty message.
+const scheduledNotice = computed(() =>
+  post.isScheduled ? `Scheduled for ${formatPostDateFor(post, "long")}` : "",
+);
 
 function openLightbox(src: string, alt: string) {
   lightbox.value = { src, alt };
@@ -137,6 +144,8 @@ function onArticleKeydown(event: KeyboardEvent) {
     </p>
 
     <PostAlertMessage :message="post.frontmatter.alert_message" />
+
+    <PostAlertMessage :message="scheduledNotice" />
 
     <div
       class="border-line mb-12 flex items-center gap-4 border-t border-b py-5"
