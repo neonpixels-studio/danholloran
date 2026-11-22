@@ -98,6 +98,29 @@ describe("PostView", () => {
     );
   });
 
+  it("shows a scheduled notice with the publish date on a scheduled post", () => {
+    const scheduledPost = { ...mockPosts[0], isScheduled: true };
+    const wrapper = shallowMount(PostView, {
+      props: postProps(scheduledPost, [scheduledPost]),
+    });
+    const banners = wrapper.findAllComponents(PostAlertMessage);
+    expect(banners.map((banner) => banner.props("message"))).toContain(
+      "Scheduled for January 1, 2025",
+    );
+  });
+
+  it("shows no scheduled notice on a published post", () => {
+    const wrapper = shallowMount(PostView, {
+      props: postProps(mockPosts[0], mockPosts),
+    });
+    const messages = wrapper
+      .findAllComponents(PostAlertMessage)
+      .map((banner) => banner.props("message"));
+    expect(messages.some((message) => message?.startsWith("Scheduled"))).toBe(
+      false,
+    );
+  });
+
   it("passes the build-time series to the series nav", () => {
     const series = {
       name: "A series",

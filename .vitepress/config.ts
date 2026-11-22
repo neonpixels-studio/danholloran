@@ -10,6 +10,7 @@ import { generateFeed, generateTopicFeeds } from "./theme/utils/generateFeed";
 import { writeTopicFeeds } from "./theme/utils/writeTopicFeeds";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
 import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
+import { findUnpublishedPostLeaks } from "./theme/utils/distArtifacts";
 import { parse as parsePlist } from "plist";
 import { transformSitemapItems } from "./theme/utils/sitemap";
 import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
@@ -147,6 +148,16 @@ export default defineConfig({
     );
     writeTopicFeeds(siteConfig.outDir, generateTopicFeeds(feedRenderer));
     writeFileSync(join(siteConfig.outDir, "llms.txt"), generateLlmsTxt());
+
+    // Runs after the sitemap (written before buildEnd) and the feeds above, so
+    // a draft or a production-scheduled post that shipped anywhere fails the
+    // build instead of going live early.
+    const leaks = findUnpublishedPostLeaks(siteConfig.outDir);
+    if (leaks.length > 0) {
+      throw new Error(
+        `Unpublished posts leaked into the build output:\n${leaks.join("\n")}`,
+      );
+    }
 
     // Give the client-rendered 404 a static, no-JS recovery block so agents and
     // scripts that read raw HTML still get real links back into the site.

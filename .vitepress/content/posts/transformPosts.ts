@@ -8,6 +8,11 @@ import {
   readManifest,
   type ImageVariantManifest,
 } from "../../theme/utils/imageVariantManifest.ts";
+import { isPublished } from "../../theme/utils/loadPublishedPosts.ts";
+import {
+  buildTime,
+  isScheduledAfter,
+} from "../../theme/utils/publishSchedule.ts";
 
 // Used by the posts list loader (postPageData.ts). Post bodies are not loaded
 // here: posts/[slug].paths.ts injects each body into its own page. Editing
@@ -84,7 +89,7 @@ export function transformPosts(raw: ContentData[]): Post[] {
   // resolvePublishedDate (and its warn on a bad date) runs once per post
   // rather than once per comparison.
   return raw
-    .filter(({ frontmatter }) => !frontmatter.draft)
+    .filter(({ frontmatter, url }) => isPublished(frontmatter, url))
     .map((post) => ({
       post,
       published: resolvePublishedDate(post),
@@ -103,6 +108,8 @@ export function transformPosts(raw: ContentData[]): Post[] {
         ...post,
         url: `/posts/${slug}`,
         dateIsValid: published.isValid,
+        // Only ever true outside production, where scheduled posts render.
+        isScheduled: isScheduledAfter(post.frontmatter.date, buildTime()),
         imageVersion: resolveImageVersion(post.frontmatter.image, fingerprints),
         frontmatter: {
           // vitepress types raw frontmatter as `Record<string, any>`, so TS

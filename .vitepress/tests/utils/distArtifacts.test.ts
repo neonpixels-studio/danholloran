@@ -5,6 +5,7 @@ import { dirname, join } from "path";
 import {
   expectedDistChecks,
   findDistProblems,
+  findUnpublishedPostLeaks,
   NOT_FOUND_RECOVERY_LABEL,
   requireNonEmpty,
   requireText,
@@ -209,5 +210,61 @@ describe("findDistProblems", () => {
     expect(findDistProblems(outDir, FIXTURE_CHECKS)).toEqual([
       `404.html does not contain ${NOT_FOUND_RECOVERY_LABEL}`,
     ]);
+  });
+});
+
+describe("findUnpublishedPostLeaks", () => {
+  const SCHEDULED = "scheduled-post";
+  const SITE = "https://danholloran.me";
+
+  function writeCleanDist(): void {
+    writeDistFile("posts/published-post.html", "<html></html>");
+    writeDistFile(
+      "sitemap.xml",
+      `<urlset><url><loc>${SITE}/posts/published-post</loc></url></urlset>`,
+    );
+    writeDistFile(
+      "feed.xml",
+      `<rss><item><link>${SITE}/posts/published-post</link></item></rss>`,
+    );
+    writeDistFile(FIXTURE_TOPIC_FEED, "<rss></rss>");
+    writeDistFile("llms.txt", `- [Published](${SITE}/posts/published-post)`);
+  }
+
+  it("reports nothing when no unpublished post shipped", () => {
+    writeCleanDist();
+    expect(findUnpublishedPostLeaks(outDir, [SCHEDULED])).toEqual([]);
+  });
+
+  it("reports a built page for an unpublished post, since its URL must 404", () => {
+    writeCleanDist();
+    writeDistFile(`posts/${SCHEDULED}.html`, "<html></html>");
+    expect(findUnpublishedPostLeaks(outDir, [SCHEDULED])).toEqual([
+      `posts/${SCHEDULED}.html was built for unpublished post "${SCHEDULED}"`,
+    ]);
+  });
+
+  it.each(["sitemap.xml", "feed.xml", "llms.txt", FIXTURE_TOPIC_FEED])(
+    "reports an unpublished post linked from %s",
+    (file) => {
+      writeCleanDist();
+      writeDistFile(file, `<loc>${SITE}/posts/${SCHEDULED}</loc>`);
+      expect(findUnpublishedPostLeaks(outDir, [SCHEDULED])).toEqual([
+        `${file} links unpublished post "${SCHEDULED}"`,
+      ]);
+    },
+  );
+
+  it("does not flag a published post whose slug only starts with the unpublished one", () => {
+    writeCleanDist();
+    writeDistFile(
+      "sitemap.xml",
+      `<loc>${SITE}/posts/${SCHEDULED}-part-two</loc>`,
+    );
+    expect(findUnpublishedPostLeaks(outDir, [SCHEDULED])).toEqual([]);
+  });
+
+  it("reports nothing for the real posts when no build output exists", () => {
+    expect(findUnpublishedPostLeaks(outDir)).toEqual([]);
   });
 });

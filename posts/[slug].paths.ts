@@ -35,11 +35,12 @@ export default {
         .readdirSync(POSTS_DIR)
         .filter((file) => path.extname(file) === MARKDOWN_EXTENSION)
         .map(readPostFile)
-        // Primary gate keeping drafts out of the build: a draft generates no
-        // route at all. Filter on the shared draft policy so drafts are
-        // dropped here exactly as they are in the content loaders and the SEO
-        // transform (pageTransform.ts keeps a matching guard as
-        // defense-in-depth for any draft reached another way).
+        // Primary gate keeping drafts, and scheduled posts on production
+        // builds, out of the build: they generate no route at all, so the URL
+        // 404s. Filter on the shared publish policy so they are dropped here
+        // exactly as they are in the content loaders and the SEO transform
+        // (pageTransform.ts keeps a matching guard as defense-in-depth for
+        // any unpublished post reached another way).
         .filter((post) => isPublished(post.data, `${post.slug}.md`))
         // `content` (the body, frontmatter stripped) replaces the
         // <!-- @content --> marker in [slug].md, so each post page compiles

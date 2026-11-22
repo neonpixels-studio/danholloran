@@ -93,6 +93,7 @@ export const mockPosts: Post[] = [
   {
     url: "/posts/first-post",
     dateIsValid: true,
+    isScheduled: false,
     imageVersion: null,
     frontmatter: {
       title: "First Post",
@@ -109,6 +110,7 @@ export const mockPosts: Post[] = [
   {
     url: "/posts/second-post",
     dateIsValid: true,
+    isScheduled: false,
     imageVersion: null,
     frontmatter: {
       title: "Second Post",

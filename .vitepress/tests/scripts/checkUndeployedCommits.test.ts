@@ -2,12 +2,13 @@ import { describe, it, expect, vi } from "vitest";
 import {
   LastDeployLookupError,
   decideDeploy,
-  fetchLastDeployedSha,
-  findLastDeployedSha,
+  fetchLastDeploy,
+  findLastDeploy,
+  findPostsDueSince,
   isMainModule,
   main,
 } from "../../../scripts/check-undeployed-commits.mjs";
-import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -15,13 +16,25 @@ const SITE_ID = "site-1";
 const TOKEN = "token-abc";
 const LIVE_SHA = "aaa111";
 const NEW_SHA = "bbb222";
+const DEPLOYED_AT = "2026-11-21T06:00:00.000Z";
+const NOW = Date.parse("2026-11-22T06:00:00.000Z");
 
 function deploy(
   state: string,
   commitRef: string | null,
   context = "production",
+  createdAt = DEPLOYED_AT,
 ) {
-  return { state, commit_ref: commitRef, context };
+  return { state, commit_ref: commitRef, context, created_at: createdAt };
+}
+
+function postsDirectoryWith(posts: Record<string, string>): string {
+  const directory = join(mkdtempSync(join(tmpdir(), "posts-")), "posts");
+  mkdirSync(directory);
+  for (const [file, frontmatter] of Object.entries(posts)) {
+    writeFileSync(join(directory, file), `---\n${frontmatter}\n---\nbody\n`);
+  }
+  return directory;
 }
 
 function jsonResponse(body: unknown, status = 200) {
@@ -32,14 +45,17 @@ function jsonResponse(body: unknown, status = 200) {
   } as unknown as Response;
 }
 
-describe("findLastDeployedSha", () => {
+describe("findLastDeploy", () => {
   it("returns the newest ready production deploy, skipping failures", () => {
     const deploys = [
       deploy("error", "ccc333"),
       deploy("ready", LIVE_SHA),
       deploy("ready", "old000"),
     ];
-    expect(findLastDeployedSha(deploys)).toBe(LIVE_SHA);
+    expect(findLastDeploy(deploys)).toEqual({
+      sha: LIVE_SHA,
+      createdAt: DEPLOYED_AT,
+    });
   });
 
   it("ignores non-production and commit-less deploys", () => {
@@ -47,25 +63,25 @@ describe("findLastDeployedSha", () => {
       deploy("ready", "preview1", "deploy-preview"),
       deploy("ready", null),
     ];
-    expect(findLastDeployedSha(deploys)).toBeNull();
+    expect(findLastDeploy(deploys)).toBeNull();
   });
 
   it("returns null for an empty list", () => {
-    expect(findLastDeployedSha([])).toBeNull();
+    expect(findLastDeploy([])).toBeNull();
   });
 });
 
-describe("fetchLastDeployedSha", () => {
+describe("fetchLastDeploy", () => {
   it("requests production deploys for the site with the bearer token", async () => {
     const fetchImpl = vi.fn(async () =>
       jsonResponse([deploy("ready", LIVE_SHA)]),
     );
-    const sha = await fetchLastDeployedSha({
+    const lastDeploy = await fetchLastDeploy({
       siteId: SITE_ID,
       token: TOKEN,
       fetchImpl,
     });
-    expect(sha).toBe(LIVE_SHA);
+    expect(lastDeploy?.sha).toBe(LIVE_SHA);
     const [url, options] = fetchImpl.mock.calls[0] as unknown as [
       string,
       { headers: Record<string, string> },
@@ -77,20 +93,57 @@ describe("fetchLastDeployedSha", () => {
   it("throws a lookup error on auth failure", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({}, 401));
     await expect(
-      fetchLastDeployedSha({ siteId: SITE_ID, token: TOKEN, fetchImpl }),
+      fetchLastDeploy({ siteId: SITE_ID, token: TOKEN, fetchImpl }),
     ).rejects.toThrow(LastDeployLookupError);
   });
 
   it("throws a lookup error on other HTTP failures", async () => {
     const fetchImpl = vi.fn(async () => jsonResponse({}, 500));
     await expect(
-      fetchLastDeployedSha({ siteId: SITE_ID, token: TOKEN, fetchImpl }),
+      fetchLastDeploy({ siteId: SITE_ID, token: TOKEN, fetchImpl }),
     ).rejects.toThrow("HTTP 500");
+  });
+});
+
+describe("findPostsDueSince", () => {
+  const since = Date.parse(DEPLOYED_AT);
+
+  it("lists a non-draft post dated between the last deploy and now", () => {
+    const postsDirectory = postsDirectoryWith({
+      "due.md": 'draft: false\ndate: "2026-11-21T09:00:00.000-08:00"',
+      "old.md": 'draft: false\ndate: "2026-01-01T09:00:00.000-08:00"',
+      "later.md": 'draft: false\ndate: "2026-12-25T09:00:00.000-08:00"',
+    });
+    expect(findPostsDueSince({ since, now: NOW, postsDirectory })).toEqual([
+      "due.md",
+    ]);
+  });
+
+  it("reads a date-only value as midnight Pacific", () => {
+    // 2026-11-22 starts at 08:00 UTC, two hours after NOW.
+    const postsDirectory = postsDirectoryWith({
+      "tomorrow.md": "draft: false\ndate: 2026-11-22",
+      "today.md": "draft: false\ndate: '2026-11-21'",
+    });
+    expect(findPostsDueSince({ since, now: NOW, postsDirectory })).toEqual([
+      "today.md",
+    ]);
+  });
+
+  it("ignores drafts and undated posts", () => {
+    const postsDirectory = postsDirectoryWith({
+      "draft.md": 'draft: true\ndate: "2026-11-21T09:00:00.000-08:00"',
+      "undated.md": "draft: false\ntitle: Undated",
+    });
+    expect(findPostsDueSince({ since, now: NOW, postsDirectory })).toEqual([]);
   });
 });
 
 describe("decideDeploy", () => {
   const log = vi.fn();
+  const quietPostsDirectory = postsDirectoryWith({
+    "published.md": 'draft: false\ndate: "2026-01-01T09:00:00.000-08:00"',
+  });
   const decide = (
     fetchImpl: typeof fetch,
     overrides: Record<string, unknown> = {},
@@ -101,8 +154,38 @@ describe("decideDeploy", () => {
       currentSha: NEW_SHA,
       fetchImpl,
       log,
+      now: NOW,
+      postsDirectory: quietPostsDirectory,
       ...overrides,
     });
+
+  it("deploys an unchanged main when a scheduled post came due since the last deploy", async () => {
+    const fetchImpl = vi.fn(async () =>
+      jsonResponse([deploy("ready", NEW_SHA)]),
+    );
+    const postsDirectory = postsDirectoryWith({
+      "scheduled.md": 'draft: false\ndate: "2026-11-21T09:00:00.000-08:00"',
+    });
+    expect(await decide(fetchImpl, { postsDirectory })).toEqual({
+      deploy: true,
+    });
+  });
+
+  it("deploys an unchanged main when the last deploy time is unreadable", async () => {
+    const fetchImpl = vi.fn(async () =>
+      jsonResponse([deploy("ready", NEW_SHA, "production", "not-a-date")]),
+    );
+    expect(await decide(fetchImpl)).toEqual({ deploy: true });
+  });
+
+  it("deploys an unchanged main when the posts can't be read", async () => {
+    const fetchImpl = vi.fn(async () =>
+      jsonResponse([deploy("ready", NEW_SHA)]),
+    );
+    expect(
+      await decide(fetchImpl, { postsDirectory: "/nonexistent/posts" }),
+    ).toEqual({ deploy: true });
+  });
 
   it("skips when main is already the live commit", async () => {
     const fetchImpl = vi.fn(async () =>

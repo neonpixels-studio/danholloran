@@ -227,6 +227,30 @@ describe("transformSearchData", () => {
   });
 });
 
+describe("transformSearchData publish filtering", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("drops a draft post", () => {
+    expect(transformSearchData([makeRawPost({ draft: true })])).toEqual([]);
+  });
+
+  it("drops a scheduled post on a production build", () => {
+    vi.stubEnv("CONTEXT", "production");
+    const scheduled = makeRawPost({ date: "2999-01-01T00:00:00.000Z" });
+
+    expect(transformSearchData([scheduled])).toEqual([]);
+  });
+
+  it("keeps a scheduled post outside production", () => {
+    vi.stubEnv("CONTEXT", "deploy-preview");
+    const scheduled = makeRawPost({ date: "2999-01-01T00:00:00.000Z" });
+
+    expect(transformSearchData([scheduled])).toHaveLength(1);
+  });
+});
+
 describe("transformSearchData date handling", () => {
   afterEach(() => {
     vi.restoreAllMocks();
