@@ -105,13 +105,16 @@ function readPermissionsPolicy(): string[] {
 
 function readHeaderValue(name: string): string {
   const prefix = `${name}:`;
-  const line = readFileSync(HEADERS_PATH, "utf8")
+  const matches = readFileSync(HEADERS_PATH, "utf8")
     .split("\n")
-    .find((candidate) => candidate.trim().startsWith(prefix));
-  if (!line) {
-    throw new Error(`${name} header not found in _headers`);
+    .map((candidate) => candidate.trim())
+    .filter((candidate) => candidate.startsWith(prefix));
+  if (matches.length !== 1) {
+    throw new Error(
+      `Expected exactly one ${name} header in _headers, found ${matches.length}`,
+    );
   }
-  return line.trim().slice(prefix.length).trim();
+  return matches[0].slice(prefix.length).trim();
 }
 
 function readConnectSrc(): string[] {
