@@ -50,6 +50,7 @@ describe("useAnalyticsConsent", () => {
     delete (window as unknown as Record<string, unknown>)[GA_DISABLE_FLAG];
     document.cookie = `_ga=; expires=${new Date(0).toUTCString()}; path=/`;
     vi.restoreAllMocks();
+    vi.useRealTimers();
   });
 
   it("does not load gtag and shows the banner when no choice is stored", () => {
@@ -238,12 +239,12 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("stores the choice for 180 days", () => {
-    const before = Date.now();
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
     initAnalyticsConsent();
     useAnalyticsConsent().accept();
 
-    const expiresAt = storedConsent()!.expiresAt;
-    expect(expiresAt).toBeGreaterThanOrEqual(before + CONSENT_LIFETIME_MS);
+    expect(storedConsent()!.expiresAt).toBe(Date.now() + CONSENT_LIFETIME_MS);
     expect(CONSENT_LIFETIME_MS).toBe(180 * 24 * 60 * 60 * 1000);
   });
 
@@ -288,16 +289,15 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("migrates a granted value from the old key and loads gtag", () => {
-    const before = Date.now();
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
     localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "granted");
     initAnalyticsConsent();
 
     expect(gaScript()).not.toBeNull();
     expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
     expect(storedConsent()?.choice).toBe("granted");
-    expect(storedConsent()!.expiresAt).toBeGreaterThanOrEqual(
-      before + CONSENT_LIFETIME_MS,
-    );
+    expect(storedConsent()!.expiresAt).toBe(Date.now() + CONSENT_LIFETIME_MS);
   });
 
   it("migrates a denied value from the old key without showing the banner", () => {
@@ -325,5 +325,50 @@ describe("useAnalyticsConsent", () => {
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
+  });
+
+  it("honours a choice that has one second left", () => {
+    localStorage.setItem(
+      CONSENT_STORAGE_KEY,
+      serializeConsent("granted", Date.now() - CONSENT_LIFETIME_MS + 1000),
+    );
+    initAnalyticsConsent();
+
+    expect(gaScript()).not.toBeNull();
+  });
+
+  it("treats a choice expiring exactly now as expired", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
+    localStorage.setItem(
+      CONSENT_STORAGE_KEY,
+      serializeConsent("granted", Date.now() - CONSENT_LIFETIME_MS),
+    );
+    initAnalyticsConsent();
+
+    expect(gaScript()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+  });
+
+  it("treats an expiry beyond 180 days as no choice", () => {
+    localStorage.setItem(
+      CONSENT_STORAGE_KEY,
+      serializeConsent("granted", Date.now() + 1000),
+    );
+    initAnalyticsConsent();
+
+    expect(gaScript()).toBeNull();
+  });
+
+  it("keeps the old key when the new one cannot be written", () => {
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "denied");
+    vi.spyOn(localStorage, "setItem").mockImplementation(() => {
+      throw new Error("quota");
+    });
+    initAnalyticsConsent();
+
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBe("denied");
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
   });
 });

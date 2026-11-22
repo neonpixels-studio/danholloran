@@ -49,17 +49,21 @@ export function hasBrowserOptOut(
   );
 }
 
-function parseStoredConsent(raw: string | null, now: number): ConsentState {
-  if (raw === null) {
-    return "unset";
-  }
+function isStoredConsent(value: unknown, now: number): value is StoredConsent {
+  const candidate = value as Partial<StoredConsent> | null;
+  return (
+    isChoice(candidate?.choice ?? null) &&
+    typeof candidate?.expiresAt === "number" &&
+    candidate.expiresAt > now &&
+    // A clock jump must not turn expiry off.
+    candidate.expiresAt <= now + CONSENT_LIFETIME_MS
+  );
+}
+
+function parseStoredConsent(raw: string, now: number): ConsentState {
   try {
-    const parsed = JSON.parse(raw) as Partial<StoredConsent> | null;
-    const isValid =
-      isChoice(parsed?.choice ?? null) &&
-      typeof parsed?.expiresAt === "number" &&
-      parsed.expiresAt > now;
-    return isValid ? (parsed!.choice as ConsentChoice) : "unset";
+    const parsed: unknown = JSON.parse(raw);
+    return isStoredConsent(parsed, now) ? parsed.choice : "unset";
   } catch {
     return "unset";
   }
@@ -77,11 +81,13 @@ export function serializeConsent(
   return JSON.stringify(stored);
 }
 
-function persistConsent(choice: ConsentChoice): void {
+function persistConsent(choice: ConsentChoice): boolean {
   try {
     localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent(choice));
+    return true;
   } catch {
     // Storage blocked: the choice still applies for this page view.
+    return false;
   }
 }
 
@@ -91,11 +97,14 @@ function migrateLegacyConsent(): ConsentState {
   if (legacy === null) {
     return "unset";
   }
-  localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
   if (!isChoice(legacy)) {
+    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
     return "unset";
   }
-  persistConsent(legacy);
+  // Only drop the old key once the new one is safely written.
+  if (persistConsent(legacy)) {
+    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
+  }
   return legacy;
 }
 
@@ -105,6 +114,7 @@ export function readConsent(now: number = Date.now()): ConsentState {
     if (stored === null) {
       return migrateLegacyConsent();
     }
+    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
     return parseStoredConsent(stored, now);
   } catch {
     return "unset";
