@@ -1,0 +1,12 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`PostSeriesNav > labels the nav with the post's place in the series 1`] = `
+"<nav aria-labelledby="v-0" class="border-line mb-4 rounded border p-5" data-testid="post-series-nav">
+  <p id="v-0" class="text-fg-subtle mb-3 font-mono text-[0.65rem] font-semibold tracking-[0.08em] uppercase"> Part 2 of 3 · <span class="text-fg">Lessons from an agent fleet</span></p>
+  <ol class="m-0 flex list-none flex-col gap-2 p-0">
+    <li class="flex gap-2 font-mono text-[0.8rem] leading-normal"><span class="text-fg-subtle shrink-0">1.</span><a href="/posts/intro" class="text-fg-muted hover:text-accent no-underline transition-colors">Intro</a></li>
+    <li class="flex gap-2 font-mono text-[0.8rem] leading-normal"><span class="text-fg-subtle shrink-0">2.</span><span aria-current="page" class="text-accent font-semibold">Tests pass is a claim</span></li>
+    <li class="flex gap-2 font-mono text-[0.8rem] leading-normal"><span class="text-fg-subtle shrink-0">3.</span><a href="/posts/flake-or-failure" class="text-fg-muted hover:text-accent no-underline transition-colors">Flake or failure</a></li>
+  </ol>
+</nav>"
+`;

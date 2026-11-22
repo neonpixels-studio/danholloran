@@ -24,7 +24,10 @@ exports[`PostView > hides the finance disclaimer for non-finance posts 1`] = `
   <post-table-of-contents-stub headers=""></post-table-of-contents-stub>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <!--v-if-->
-  <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts/tag/javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div><!-- NEWSLETTER · terminal block -->
+  <div class="border-line mt-12 border-t pt-8">
+    <post-series-nav-stub></post-series-nav-stub>
+    <div class="flex flex-wrap gap-2"><a href="/posts/tag/javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div>
+  </div><!-- NEWSLETTER · terminal block -->
   <newsletter-terminal-stub></newsletter-terminal-stub>
   <nav aria-label="Post navigation" class="border-line mt-16 grid grid-cols-2 gap-4 border-t pt-8 max-md:grid-cols-1"><a href="/posts/second-post" class="border-line hover:border-accent rounded border p-5 no-underline transition-colors">
       <div class="text-fg-subtle mb-1.5 font-mono text-[0.65rem] tracking-[0.08em] uppercase"> ← Previous </div>
@@ -61,7 +64,10 @@ exports[`PostView > renders correctly 1`] = `
   <post-table-of-contents-stub headers=""></post-table-of-contents-stub>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <!--v-if-->
-  <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts/tag/javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div><!-- NEWSLETTER · terminal block -->
+  <div class="border-line mt-12 border-t pt-8">
+    <post-series-nav-stub></post-series-nav-stub>
+    <div class="flex flex-wrap gap-2"><a href="/posts/tag/javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div>
+  </div><!-- NEWSLETTER · terminal block -->
   <newsletter-terminal-stub></newsletter-terminal-stub>
   <nav aria-label="Post navigation" class="border-line mt-16 grid grid-cols-2 gap-4 border-t pt-8 max-md:grid-cols-1"><a href="/posts/second-post" class="border-line hover:border-accent rounded border p-5 no-underline transition-colors">
       <div class="text-fg-subtle mb-1.5 font-mono text-[0.65rem] tracking-[0.08em] uppercase"> ← Previous </div>
@@ -98,7 +104,10 @@ exports[`PostView > renders with prev and next navigation when post is mid-list 
   <post-table-of-contents-stub headers=""></post-table-of-contents-stub>
   <article class="post-body text-fg text-base leading-[1.85]"></article><!-- DISCLAIMER -->
   <!--v-if-->
-  <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts/tag/career" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #career</a></div><!-- NEWSLETTER · terminal block -->
+  <div class="border-line mt-12 border-t pt-8">
+    <post-series-nav-stub></post-series-nav-stub>
+    <div class="flex flex-wrap gap-2"><a href="/posts/tag/career" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #career</a></div>
+  </div><!-- NEWSLETTER · terminal block -->
   <newsletter-terminal-stub></newsletter-terminal-stub>
   <nav aria-label="Post navigation" class="border-line mt-16 grid grid-cols-2 gap-4 border-t pt-8 max-md:grid-cols-1"><a href="/posts/third" class="border-line hover:border-accent rounded border p-5 no-underline transition-colors">
       <div class="text-fg-subtle mb-1.5 font-mono text-[0.65rem] tracking-[0.08em] uppercase"> ← Previous </div>
@@ -142,7 +151,10 @@ exports[`PostView > shows the finance disclaimer for finance posts 1`] = `
     </svg>
     <p class="text-fg-muted m-0 font-mono text-[0.72rem] leading-[1.7]"><strong class="font-semibold">Disclaimer:</strong> This post is for educational and informational purposes only and is not financial, investment, or tax advice. Do your own research and consider consulting a licensed professional before making financial decisions. </p>
   </aside>
-  <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8"><a href="/posts/tag/javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div><!-- NEWSLETTER · terminal block -->
+  <div class="border-line mt-12 border-t pt-8">
+    <post-series-nav-stub></post-series-nav-stub>
+    <div class="flex flex-wrap gap-2"><a href="/posts/tag/javascript" class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"> #javascript</a></div>
+  </div><!-- NEWSLETTER · terminal block -->
   <newsletter-terminal-stub></newsletter-terminal-stub>
   <nav aria-label="Post navigation" class="border-line mt-16 grid grid-cols-2 gap-4 border-t pt-8 max-md:grid-cols-1">
     <div></div>

@@ -4,6 +4,7 @@ import {
   buildArchiveView,
   buildHomePosts,
   findPostNeighbors,
+  findPostSeries,
 } from "@utils/postViews";
 import { FIRST_PAGE_SIZE, REST_PAGE_SIZE } from "@utils/archive";
 
@@ -146,5 +147,53 @@ describe("buildHomePosts", () => {
     ];
 
     expect(buildHomePosts(posts).nationalParkCount).toBe(2);
+  });
+});
+
+describe("findPostSeries", () => {
+  const series = "Agent fleet";
+  // Newest-first like the real list, and out of series order on purpose.
+  const posts = [
+    buildPost(0, { series, series_part: 4 }),
+    buildPost(1),
+    buildPost(2, { series, series_part: 0 }),
+    buildPost(3, { series: "Other series", series_part: 1 }),
+    buildPost(4, { series, series_part: 3 }),
+  ];
+
+  it("orders the published parts by series_part", () => {
+    const found = findPostSeries(posts, "post-4");
+
+    expect(found?.name).toBe(series);
+    expect(found?.parts).toEqual([
+      { title: "Post 2", url: "/posts/post-2" },
+      { title: "Post 4", url: "/posts/post-4" },
+      { title: "Post 0", url: "/posts/post-0" },
+    ]);
+  });
+
+  it("numbers the post by its position among published parts", () => {
+    expect(findPostSeries(posts, "post-2")).toMatchObject({
+      part: 1,
+      total: 3,
+    });
+    expect(findPostSeries(posts, "post-0")).toMatchObject({
+      part: 3,
+      total: 3,
+    });
+  });
+
+  it("returns null until the series has a second published part", () => {
+    const onePart = [buildPost(0, { series: "Solo", series_part: 3 })];
+
+    expect(findPostSeries(onePart, "post-0")).toBeNull();
+  });
+
+  it("returns null for a post outside any series", () => {
+    expect(findPostSeries(posts, "post-1")).toBeNull();
+  });
+
+  it("returns null for a slug with no published post", () => {
+    expect(findPostSeries(posts, "missing")).toBeNull();
   });
 });

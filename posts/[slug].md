@@ -16,7 +16,7 @@ const { params, page } = useData()
   compiled as a Vue expression. postBody in the frontmatter above is what
   markdownZoomImages.ts gates on to make in-body images zoom controls.
 -->
-<PostView v-bind="params.postNeighbors" :headers="page.headers">
+<PostView v-bind="params.postNeighbors" :series="params.postSeries" :headers="page.headers">
 <div v-pre>
 
 <!-- @content -->

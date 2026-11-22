@@ -8,6 +8,7 @@ import {
   buildArchiveView,
   buildHomePosts,
   findPostNeighbors,
+  findPostSeries,
 } from "../../theme/utils/postViews";
 import { POSTS_GLOB, transformPosts } from "./transformPosts";
 
@@ -92,10 +93,10 @@ export async function attachPostPageData(pageData: PageData): Promise<void> {
   }
   if (filePath === POST_FILE) {
     const params = pageParams(pageData);
-    params.postNeighbors = findPostNeighbors(
-      await loadPosts(),
-      String(params.slug),
-    );
+    const posts = await loadPosts();
+    const slug = String(params.slug);
+    params.postNeighbors = findPostNeighbors(posts, slug);
+    params.postSeries = findPostSeries(posts, slug);
     return;
   }
   if (filePath === HOME_FILE) {

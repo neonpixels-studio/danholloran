@@ -12,6 +12,12 @@ export interface PostMeta {
   // Optional notice shown as a banner above the post body (e.g. a project is
   // no longer maintained).
   alert_message?: string;
+  // A post opts into a series with both keys: `series` is the series' display
+  // name (shared verbatim by every part) and `series_part` its sort key within
+  // the series. The displayed "Part N" is the post's position among published
+  // parts, not this raw value, so parts can go live out of order.
+  series?: string;
+  series_part?: number;
 }
 
 export interface Post {
@@ -49,6 +55,23 @@ export interface PostNeighbors {
   post: Post;
   prevPost: Post | null;
   nextPost: Post | null;
+}
+
+// One linkable part in a post's series, slimmed down from Post so a series
+// page doesn't ship every part's full metadata.
+export interface PostSeriesPart {
+  title: string;
+  url: string;
+}
+
+// The series a post belongs to, built at build time by findPostSeries. `part`
+// is the post's 1-based position in `parts` and `total` counts published parts
+// only, so both can shift as drafts in the series go live.
+export interface PostSeries {
+  name: string;
+  part: number;
+  total: number;
+  parts: PostSeriesPart[];
 }
 
 export interface HomePosts {
