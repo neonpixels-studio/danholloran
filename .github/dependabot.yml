@@ -1,4 +1,7 @@
 version: 2
+# Do not set target-branch on any entry. Without it, updates go to the default
+# branch (main) and Dependabot security update PRs stay enabled; those only run
+# on the default branch when no target-branch is set (see farflung#479).
 updates:
   - package-ecosystem: "npm"
     directory: "/"
@@ -49,6 +52,9 @@ updates:
     assignees:
       - "grimicorn"
     groups:
-      github-actions:
-        patterns:
-          - "*"
+      # Keep the SHA-pinned workflow actions current in a single PR. Majors
+      # arrive as their own PRs.
+      actions:
+        update-types:
+          - "minor"
+          - "patch"
