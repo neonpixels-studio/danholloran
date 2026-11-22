@@ -74,7 +74,7 @@ function groupFor(
   groups: Record<string, DependabotGroup>,
 ): string | undefined {
   return Object.keys(groups).find((groupName) =>
-    (groups[groupName].patterns ?? []).some((pattern) =>
+    (groups[groupName].patterns ?? ["*"]).some((pattern) =>
       matchesPattern(packageName, pattern),
     ),
   );
@@ -149,6 +149,7 @@ describe("dependabot.yml groups", () => {
 
     expect(Object.keys(groups)).toEqual(["actions"]);
     expect(groups.actions["update-types"]).toEqual(["minor", "patch"]);
+    expect(groups.actions.patterns ?? ["*"]).toEqual(["*"]);
   });
 
   it("does not set target-branch on any update", () => {
