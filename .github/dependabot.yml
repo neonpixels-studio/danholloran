@@ -1,4 +1,7 @@
 version: 2
+# Do not set target-branch on any entry. Security updates always target the
+# default branch, and when target-branch is set this file's groups, labels, and
+# assignees stop applying to them (see neonpixels-studio/farflung#479).
 updates:
   - package-ecosystem: "npm"
     directory: "/"
@@ -49,6 +52,9 @@ updates:
     assignees:
       - "grimicorn"
     groups:
-      github-actions:
-        patterns:
-          - "*"
+      # Keep the SHA-pinned workflow actions current in a single PR. Majors
+      # arrive as their own PRs.
+      actions:
+        update-types:
+          - "minor"
+          - "patch"
