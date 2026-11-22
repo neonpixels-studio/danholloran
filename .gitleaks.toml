@@ -4,12 +4,19 @@
 useDefault = true
 
 [[allowlists]]
-description = "reCAPTCHA site key in the contact form"
+description = "Historical reCAPTCHA site key in the removed Jigsaw contact form"
 # data-sitekey is the public half of a reCAPTCHA key pair. It is rendered into
 # the page HTML for every visitor by design; only the secret key is private.
+# Matching the attribute (not the whole file) keeps any other value at this
+# path scanned.
 targetRules = ["generic-api-key"]
+condition = "AND"
 paths = [
   '''(^|/)source/_partials/contact-form\.blade\.php$''',
+]
+regexTarget = "line"
+regexes = [
+  '''data-sitekey=''',
 ]
 
 [[allowlists]]
