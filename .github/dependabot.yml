@@ -1,7 +1,7 @@
 version: 2
-# Do not set target-branch on any entry. Without it, updates go to the default
-# branch (main) and Dependabot security update PRs stay enabled; those only run
-# on the default branch when no target-branch is set (see farflung#479).
+# Do not set target-branch on any entry. Security updates always target the
+# default branch, and when target-branch is set this file's groups, labels, and
+# assignees stop applying to them (see neonpixels-studio/farflung#479).
 updates:
   - package-ecosystem: "npm"
     directory: "/"

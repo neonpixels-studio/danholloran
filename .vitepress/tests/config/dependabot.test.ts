@@ -12,12 +12,13 @@ const VALID_UPDATE_TYPES = ["major", "minor", "patch"];
 const CATCH_ALL_GROUP = "npm-minor-patch";
 
 type DependabotGroup = {
-  patterns: string[];
+  patterns?: string[];
   "update-types"?: string[];
 };
 
 type DependabotUpdate = {
   "package-ecosystem": string;
+  "target-branch"?: string;
   groups?: Record<string, DependabotGroup>;
 };
 
@@ -73,7 +74,7 @@ function groupFor(
   groups: Record<string, DependabotGroup>,
 ): string | undefined {
   return Object.keys(groups).find((groupName) =>
-    groups[groupName].patterns.some((pattern) =>
+    (groups[groupName].patterns ?? []).some((pattern) =>
       matchesPattern(packageName, pattern),
     ),
   );
@@ -143,9 +144,23 @@ describe("dependabot.yml groups", () => {
     }
   });
 
-  it("groups all github-actions updates together", () => {
+  it("groups github-actions minor and patch updates under the actions group", () => {
     const groups = readUpdate("github-actions").groups ?? {};
 
-    expect(groups["github-actions"]?.patterns).toEqual(["*"]);
+    expect(Object.keys(groups)).toEqual(["actions"]);
+    expect(groups.actions["update-types"]).toEqual(["minor", "patch"]);
+  });
+
+  it("does not set target-branch on any update", () => {
+    const config = parse(
+      readFromRoot(".github/dependabot.yml"),
+    ) as DependabotConfig;
+
+    for (const update of config.updates) {
+      expect(
+        update["target-branch"],
+        update["package-ecosystem"],
+      ).toBeUndefined();
+    }
   });
 });
