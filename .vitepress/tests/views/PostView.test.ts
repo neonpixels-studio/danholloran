@@ -9,6 +9,7 @@ vi.mock("@data/resume.ts", () => ({
 import PostView from "@views/PostView.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import PostSeriesNav from "@components/PostSeriesNav.vue";
 import PostTableOfContents from "@components/PostTableOfContents.vue";
 import { toFilterSlug } from "@utils/archive";
 import { findPostNeighbors } from "@utils/postViews";
@@ -94,6 +95,21 @@ describe("PostView", () => {
     });
     expect(wrapper.findComponent(PostAlertMessage).props("message")).toBe(
       undefined,
+    );
+  });
+
+  it("passes the build-time series to the series nav", () => {
+    const series = {
+      name: "A series",
+      part: 1,
+      total: 1,
+      parts: [{ title: "First", url: "/posts/first-post" }],
+    };
+    const wrapper = shallowMount(PostView, {
+      props: { ...postProps(mockPosts[0], mockPosts), series },
+    });
+    expect(wrapper.findComponent(PostSeriesNav).props("series")).toEqual(
+      series,
     );
   });
 

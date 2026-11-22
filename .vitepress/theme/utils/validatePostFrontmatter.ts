@@ -11,6 +11,7 @@ const OPTIONAL_STRING_KEYS = [
   "canonical",
   "travel_location",
   "created_at",
+  "series",
 ];
 
 export const ALLOWED_KEYS: string[] = [
@@ -18,6 +19,7 @@ export const ALLOWED_KEYS: string[] = [
   ...OPTIONAL_STRING_KEYS,
   "tags",
   "draft",
+  "series_part",
 ];
 
 function isNonEmptyString(value: unknown): value is string {
@@ -93,6 +95,26 @@ function draftProblems(data: Record<string, unknown>): string[] {
   return typeof data.draft === "boolean" ? [] : ['"draft" must be a boolean'];
 }
 
+function seriesPartProblems(data: Record<string, unknown>): string[] {
+  const { series_part: seriesPart } = data;
+  if (!("series_part" in data)) {
+    return [];
+  }
+  if (Number.isInteger(seriesPart) && (seriesPart as number) >= 0) {
+    return [];
+  }
+  return ['"series_part" must be a non-negative integer'];
+}
+
+// One key without the other is almost always a half-finished edit, and either
+// alone would silently leave the post out of its series nav.
+function seriesPairProblems(data: Record<string, unknown>): string[] {
+  if ("series" in data === "series_part" in data) {
+    return [];
+  }
+  return ['"series" and "series_part" must be set together'];
+}
+
 function unknownKeyProblems(data: Record<string, unknown>): string[] {
   return Object.keys(data)
     .filter((key) => !ALLOWED_KEYS.includes(key))
@@ -114,6 +136,8 @@ export function validatePostFrontmatter(
     ...topicProblems(data),
     ...tagsProblems(data),
     ...draftProblems(data),
+    ...seriesPartProblems(data),
+    ...seriesPairProblems(data),
     ...unknownKeyProblems(data),
   ];
 }

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { Post } from "@typedefs";
+import { Post, PostSeries } from "@typedefs";
 import resume from "@data/resume.ts";
 import NewsletterTerminal from "@components/NewsletterTerminal.vue";
 import PostAlertMessage from "@components/PostAlertMessage.vue";
 import PostLightbox from "@components/PostLightbox.vue";
+import PostSeriesNav from "@components/PostSeriesNav.vue";
 import PostTableOfContents from "@components/PostTableOfContents.vue";
 import ResponsiveImage from "@components/ResponsiveImage.vue";
 import StaticImage from "@components/StaticImage.vue";
@@ -26,11 +27,14 @@ const {
   post,
   prevPost = null,
   nextPost = null,
+  series = null,
   headers = [],
 } = defineProps<{
   post: Post;
   prevPost?: Post | null;
   nextPost?: Post | null;
+  // From findPostSeries at build time; null when the post isn't in a series.
+  series?: PostSeries | null;
   // The page's h2 headers VitePress extracted (page.headers); see markdown.headers in config.ts.
   headers?: PostHeader[];
 }>();
@@ -178,6 +182,8 @@ function onArticleKeydown(event: KeyboardEvent) {
         @keydown.space.prevent="openHeroLightbox"
       />
     </div>
+
+    <PostSeriesNav :series="series" />
 
     <PostTableOfContents :headers="headers" />
 

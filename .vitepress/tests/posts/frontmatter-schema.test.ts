@@ -32,8 +32,39 @@ describe("validatePostFrontmatter", () => {
         canonical: "other-post",
         travel_location: "zion national park",
         created_at: "2025-05-22T09:00:00.000-06:00",
+        series: "Lessons from an agent fleet",
+        series_part: 0,
       }),
     ).toEqual([]);
+  });
+
+  it.each([-1, 1.5, "2", null])("rejects the series_part %j", (series_part) => {
+    expect(
+      validatePostFrontmatter({
+        ...validFrontmatter,
+        series: "A series",
+        series_part,
+      }),
+    ).toEqual([expect.stringContaining('"series_part"')]);
+  });
+
+  it.each([{ series: "A series" }, { series_part: 1 }])(
+    "rejects half of a series pairing %j",
+    (seriesKeys) => {
+      expect(
+        validatePostFrontmatter({ ...validFrontmatter, ...seriesKeys }),
+      ).toEqual(['"series" and "series_part" must be set together']);
+    },
+  );
+
+  it("rejects an empty series name", () => {
+    expect(
+      validatePostFrontmatter({
+        ...validFrontmatter,
+        series: " ",
+        series_part: 1,
+      }),
+    ).toEqual([expect.stringContaining('"series"')]);
   });
 
   it("derives the topic set from the llms.txt sections", () => {
@@ -187,6 +218,20 @@ describe("post frontmatter schema", () => {
       .filter(({ data }) => typeof data.image === "string")
       .filter(({ data }) => !existsSync(join(PUBLIC_DIR, data.image as string)))
       .map(({ fileName, data }) => `${fileName}: ${data.image}`);
+    expect(offenders).toEqual([]);
+  });
+
+  // Drafts included: two parts sharing a number collide once both go live.
+  it("every series gives each part a unique series_part", () => {
+    const seen = new Map<string, string>();
+    const offenders = parsedPosts
+      .filter(({ data }) => typeof data.series === "string")
+      .flatMap(({ fileName, data }) => {
+        const key = `${data.series} #${data.series_part}`;
+        const firstFile = seen.get(key);
+        seen.set(key, firstFile ?? fileName);
+        return firstFile ? [`${fileName} and ${firstFile}: ${key}`] : [];
+      });
     expect(offenders).toEqual([]);
   });
 

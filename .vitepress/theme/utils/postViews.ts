@@ -4,6 +4,8 @@ import type {
   HomePosts,
   Post,
   PostNeighbors,
+  PostSeries,
+  PostSeriesPart,
 } from "@typedefs";
 import {
   ALL_TAG,
@@ -106,6 +108,33 @@ export function findPostNeighbors(
     post: posts[index],
     prevPost: posts[index + 1] ?? null,
     nextPost: posts[index - 1] ?? null,
+  };
+}
+
+function seriesSortKey(post: Post): number {
+  return post.frontmatter.series_part as number;
+}
+
+function toSeriesPart(post: Post): PostSeriesPart {
+  return { title: post.frontmatter.title, url: post.url };
+}
+
+// Null when the slug has no published post or the post isn't in a series, so
+// PostView renders no series nav.
+export function findPostSeries(posts: Post[], slug: string): PostSeries | null {
+  const post = posts.find((candidate) => candidate.frontmatter.slug === slug);
+  const name = post?.frontmatter.series;
+  if (!post || !name) {
+    return null;
+  }
+  const members = posts
+    .filter((candidate) => candidate.frontmatter.series === name)
+    .sort((left, right) => seriesSortKey(left) - seriesSortKey(right));
+  return {
+    name,
+    part: members.indexOf(post) + 1,
+    total: members.length,
+    parts: members.map(toSeriesPart),
   };
 }
 

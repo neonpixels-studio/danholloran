@@ -111,6 +111,28 @@ describe("postPageData", () => {
     );
   });
 
+  it("gives a post page its series", async () => {
+    const seriesPosts = mockPosts.map((post) => ({
+      ...post,
+      frontmatter: { ...post.frontmatter, series: "A series", series_part: 1 },
+    }));
+    loaderMock.load.mockResolvedValue(seriesPosts);
+    const { attachPostPageData } = await importModule();
+    const pageData = buildPageData("posts/[slug].md", { slug: "second-post" });
+    await attachPostPageData(pageData);
+
+    expect(pageData.params?.postSeries.name).toBe("A series");
+    expect(pageData.params?.postSeries.total).toBe(mockPosts.length);
+  });
+
+  it("gives a post page outside a series a null series", async () => {
+    const { attachPostPageData } = await importModule();
+    const pageData = buildPageData("posts/[slug].md", { slug: "second-post" });
+    await attachPostPageData(pageData);
+
+    expect(pageData.params?.postSeries).toBeNull();
+  });
+
   it("gives the home page its latest posts", async () => {
     const { attachPostPageData } = await importModule();
     const pageData = buildPageData("index.md");
