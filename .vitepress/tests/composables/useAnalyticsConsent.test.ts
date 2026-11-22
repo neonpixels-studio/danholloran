@@ -333,14 +333,14 @@ describe("useAnalyticsConsent", () => {
     expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
   });
 
-  it("migrates the old key when the new key is expired", () => {
+  it("does not resurrect an old key when the new key is expired", () => {
     freezeTime();
     storeConsent("granted", Date.now() - CONSENT_LIFETIME_MS - 1000);
     localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "denied");
     initAnalyticsConsent();
 
-    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
-    expect(storedConsent()?.choice).toBe("denied");
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+    expect(storedConsent()).toBeNull();
     expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
   });
 
@@ -367,16 +367,18 @@ describe("useAnalyticsConsent", () => {
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
   });
 
-  it("keeps the old key when the new one cannot be written", () => {
-    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "denied");
+  it("applies a legacy grant for this page view only when storage is full", () => {
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "granted");
     vi.spyOn(localStorage, "setItem").mockImplementation(() => {
       throw new Error("quota");
     });
     initAnalyticsConsent();
 
-    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBe("denied");
-    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
+    expect(gaScript()).not.toBeNull();
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
+    expect(storedConsent()).toBeNull();
   });
 });

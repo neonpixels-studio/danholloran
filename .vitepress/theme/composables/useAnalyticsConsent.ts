@@ -81,13 +81,11 @@ export function serializeConsent(
   return JSON.stringify(stored);
 }
 
-function persistConsent(choice: ConsentChoice): boolean {
+function persistConsent(choice: ConsentChoice): void {
   try {
     localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent(choice));
-    return true;
   } catch {
     // Storage blocked: the choice still applies for this page view.
-    return false;
   }
 }
 
@@ -97,14 +95,11 @@ function migrateLegacyConsent(): ConsentState {
   if (legacy === null) {
     return "unset";
   }
+  localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
   if (!isChoice(legacy)) {
-    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
     return "unset";
   }
-  // Only drop the old key once the new one is safely written.
-  if (persistConsent(legacy)) {
-    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
-  }
+  persistConsent(legacy);
   return legacy;
 }
 
@@ -114,11 +109,12 @@ export function readConsent(now: number = Date.now()): ConsentState {
     if (stored === null) {
       return migrateLegacyConsent();
     }
+    // The new key means migration already happened; a leftover old key is older.
+    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
     const parsed = parseStoredConsent(stored, now);
     if (parsed === "unset") {
-      return migrateLegacyConsent();
+      localStorage.removeItem(CONSENT_STORAGE_KEY);
     }
-    localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
     return parsed;
   } catch {
     return "unset";
