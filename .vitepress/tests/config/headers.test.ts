@@ -103,6 +103,17 @@ function readPermissionsPolicy(): string[] {
     .map((part) => part.trim());
 }
 
+function readHeaderValue(name: string): string {
+  const prefix = `${name}:`;
+  const line = readFileSync(HEADERS_PATH, "utf8")
+    .split("\n")
+    .find((candidate) => candidate.trim().startsWith(prefix));
+  if (!line) {
+    throw new Error(`${name} header not found in _headers`);
+  }
+  return line.trim().slice(prefix.length).trim();
+}
+
 function readConnectSrc(): string[] {
   return readDirective("connect-src");
 }
@@ -185,6 +196,22 @@ describe("public/_headers legacy-plugin and injection restrictions", () => {
         expect(markup).not.toMatch(DYNAMIC_ACTION_RE);
       },
     );
+  });
+});
+
+describe("public/_headers framing and transport security", () => {
+  it("sends a two-year HSTS max-age and keeps preload", () => {
+    expect(readHeaderValue("Strict-Transport-Security")).toBe(
+      "max-age=63072000; includeSubDomains; preload",
+    );
+  });
+
+  it("denies framing with X-Frame-Options", () => {
+    expect(readHeaderValue("X-Frame-Options")).toBe("DENY");
+  });
+
+  it("denies framing with CSP frame-ancestors 'none'", () => {
+    expect(readDirective("frame-ancestors")).toEqual(["'none'"]);
   });
 });
 
