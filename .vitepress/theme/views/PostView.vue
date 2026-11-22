@@ -183,8 +183,6 @@ function onArticleKeydown(event: KeyboardEvent) {
       />
     </div>
 
-    <PostSeriesNav :series="series" />
-
     <PostTableOfContents :headers="headers" />
 
     <article
@@ -230,22 +228,26 @@ function onArticleKeydown(event: KeyboardEvent) {
       </p>
     </aside>
 
-    <div class="border-line mt-12 flex flex-wrap gap-2 border-t pt-8">
-      <template v-for="tag in post.frontmatter.tags" :key="tag">
-        <a
-          v-if="hasFilterRoute(tag)"
-          :href="archiveHref(1, { tagSlug: toFilterSlug(tag) })"
-          class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"
-        >
-          #{{ tag }}
-        </a>
-        <span
-          v-else
-          class="text-fg-muted border-line rounded-xs border px-2.5 py-1 font-mono text-[0.7rem]"
-        >
-          #{{ tag }}
-        </span>
-      </template>
+    <div class="border-line mt-12 border-t pt-8">
+      <PostSeriesNav :series="series" />
+
+      <div class="flex flex-wrap gap-2">
+        <template v-for="tag in post.frontmatter.tags" :key="tag">
+          <a
+            v-if="hasFilterRoute(tag)"
+            :href="archiveHref(1, { tagSlug: toFilterSlug(tag) })"
+            class="text-fg-muted border-line tag-hover rounded-xs border px-2.5 py-1 font-mono text-[0.7rem] no-underline transition-colors"
+          >
+            #{{ tag }}
+          </a>
+          <span
+            v-else
+            class="text-fg-muted border-line rounded-xs border px-2.5 py-1 font-mono text-[0.7rem]"
+          >
+            #{{ tag }}
+          </span>
+        </template>
+      </div>
     </div>
 
     <!-- NEWSLETTER · terminal block -->

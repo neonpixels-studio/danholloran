@@ -17,7 +17,7 @@ function isCurrentPart(index: number): boolean {
   <nav
     v-if="series"
     :aria-labelledby="labelId"
-    class="border-line mb-12 rounded border p-5"
+    class="border-line mb-4 rounded border p-5"
     data-testid="post-series-nav"
   >
     <p
