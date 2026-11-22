@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
+  CONSENT_LIFETIME_MS,
   CONSENT_STORAGE_KEY,
+  LEGACY_CONSENT_STORAGE_KEY,
+  serializeConsent,
   hasBrowserOptOut,
   initAnalyticsConsent,
   resetAnalyticsConsentState,
@@ -22,6 +25,11 @@ function gaScript(): HTMLScriptElement | null {
 
 function gaDisabledFlag(): unknown {
   return (window as unknown as Record<string, unknown>)[GA_DISABLE_FLAG];
+}
+
+function storedConsent(): { choice: string; expiresAt: number } | null {
+  const raw = localStorage.getItem(CONSENT_STORAGE_KEY);
+  return raw === null ? null : JSON.parse(raw);
 }
 
 function stubDoNotTrack(value: string | null): void {
@@ -53,14 +61,14 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("does not load gtag when consent was denied", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "denied");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("denied"));
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
     expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
   });
 
-  it("ignores unrecognised stored values", () => {
+  it("treats a malformed stored value as no choice", () => {
     localStorage.setItem(CONSENT_STORAGE_KEY, "yes please");
     initAnalyticsConsent();
 
@@ -69,7 +77,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("loads gtag on init when consent was previously granted", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
     initAnalyticsConsent();
 
     expect(gaScript()?.src).toContain(GA_SCRIPT_URL);
@@ -85,7 +93,10 @@ describe("useAnalyticsConsent", () => {
     useAnalyticsConsent().accept();
 
     expect(gaScript()).not.toBeNull();
-    expect(localStorage.getItem(CONSENT_STORAGE_KEY)).toBe("granted");
+    expect(storedConsent()).toEqual({
+      choice: "granted",
+      expiresAt: expect.any(Number),
+    });
     expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
   });
 
@@ -94,11 +105,11 @@ describe("useAnalyticsConsent", () => {
     useAnalyticsConsent().decline();
 
     expect(gaScript()).toBeNull();
-    expect(localStorage.getItem(CONSENT_STORAGE_KEY)).toBe("denied");
+    expect(storedConsent()?.choice).toBe("denied");
   });
 
   it("does not add the script twice", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
     initAnalyticsConsent();
     useAnalyticsConsent().accept();
 
@@ -109,7 +120,7 @@ describe("useAnalyticsConsent", () => {
 
   it("never loads gtag with Do Not Track on, even with stored consent", () => {
     stubDoNotTrack("1");
-    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
@@ -122,7 +133,7 @@ describe("useAnalyticsConsent", () => {
       doNotTrack: null,
       globalPrivacyControl: true,
     });
-    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
     initAnalyticsConsent();
     vi.unstubAllGlobals();
 
@@ -155,7 +166,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("disables an already-loaded GA when consent is withdrawn", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
     initAnalyticsConsent();
     document.cookie = `_ga=abc; path=/; domain=${location.hostname}`;
     const gtag = vi.fn();
@@ -171,7 +182,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("re-enables a loaded GA when consent is granted again", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "granted");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
     initAnalyticsConsent();
     const gtag = vi.fn();
     (window as unknown as { gtag: typeof gtag }).gtag = gtag;
@@ -224,5 +235,95 @@ describe("useAnalyticsConsent", () => {
   it("hasBrowserOptOut is false when no signal is present", () => {
     stubDoNotTrack(null);
     expect(hasBrowserOptOut()).toBe(false);
+  });
+
+  it("stores the choice for 180 days", () => {
+    const before = Date.now();
+    initAnalyticsConsent();
+    useAnalyticsConsent().accept();
+
+    const expiresAt = storedConsent()!.expiresAt;
+    expect(expiresAt).toBeGreaterThanOrEqual(before + CONSENT_LIFETIME_MS);
+    expect(CONSENT_LIFETIME_MS).toBe(180 * 24 * 60 * 60 * 1000);
+  });
+
+  it("asks again and does not load gtag when a granted choice has expired", () => {
+    localStorage.setItem(
+      CONSENT_STORAGE_KEY,
+      serializeConsent("granted", Date.now() - CONSENT_LIFETIME_MS - 1000),
+    );
+    initAnalyticsConsent();
+
+    expect(gaScript()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+  });
+
+  it("asks again when a denied choice has expired", () => {
+    localStorage.setItem(
+      CONSENT_STORAGE_KEY,
+      serializeConsent("denied", Date.now() - CONSENT_LIFETIME_MS - 1000),
+    );
+    initAnalyticsConsent();
+
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+  });
+
+  it.each([
+    ["wrong shape", JSON.stringify({ choice: "granted" })],
+    [
+      "unknown choice",
+      JSON.stringify({ choice: "maybe", expiresAt: Date.now() + 1e9 }),
+    ],
+    [
+      "non-numeric expiry",
+      JSON.stringify({ choice: "granted", expiresAt: "soon" }),
+    ],
+    ["null", "null"],
+  ])("treats a %s stored value as no choice", (_label, raw) => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, raw);
+    initAnalyticsConsent();
+
+    expect(gaScript()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+  });
+
+  it("migrates a granted value from the old key and loads gtag", () => {
+    const before = Date.now();
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "granted");
+    initAnalyticsConsent();
+
+    expect(gaScript()).not.toBeNull();
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
+    expect(storedConsent()?.choice).toBe("granted");
+    expect(storedConsent()!.expiresAt).toBeGreaterThanOrEqual(
+      before + CONSENT_LIFETIME_MS,
+    );
+  });
+
+  it("migrates a denied value from the old key without showing the banner", () => {
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "denied");
+    initAnalyticsConsent();
+
+    expect(gaScript()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
+    expect(storedConsent()?.choice).toBe("denied");
+  });
+
+  it("removes an unrecognised old-key value and treats it as no choice", () => {
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "yes please");
+    initAnalyticsConsent();
+
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
+    expect(storedConsent()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
+  });
+
+  it("prefers the new key over a leftover old key", () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("denied"));
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "granted");
+    initAnalyticsConsent();
+
+    expect(gaScript()).toBeNull();
   });
 });

@@ -3,6 +3,7 @@ import { mount, flushPromises } from "@vue/test-utils";
 import AnalyticsConsentBanner from "@components/AnalyticsConsentBanner.vue";
 import {
   CONSENT_STORAGE_KEY,
+  serializeConsent,
   resetAnalyticsConsentState,
 } from "@composables/useAnalyticsConsent";
 import { GA_SCRIPT_ELEMENT_ID } from "../../theme/utils/googleAnalytics";
@@ -58,12 +59,14 @@ describe("AnalyticsConsentBanner", () => {
       .trigger("click");
 
     expect(document.getElementById(GA_SCRIPT_ELEMENT_ID)).toBeNull();
-    expect(localStorage.getItem(CONSENT_STORAGE_KEY)).toBe("denied");
+    expect(JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!).choice).toBe(
+      "denied",
+    );
     expect(wrapper.find("section").exists()).toBe(false);
   });
 
   it("renders nothing when a choice is already stored", async () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, "denied");
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("denied"));
     const wrapper = mount(AnalyticsConsentBanner);
     await flushPromises();
 

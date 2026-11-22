@@ -8,13 +8,22 @@ import {
 export type ConsentChoice = "granted" | "denied";
 type ConsentState = ConsentChoice | "unset";
 
-export const CONSENT_STORAGE_KEY = "analytics-consent";
+export const CONSENT_STORAGE_KEY = "danholloran:analytics-consent";
+export const LEGACY_CONSENT_STORAGE_KEY = "analytics-consent";
+export const CONSENT_LIFETIME_DAYS = 180;
+const MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+export const CONSENT_LIFETIME_MS = CONSENT_LIFETIME_DAYS * MILLISECONDS_PER_DAY;
 // Legacy value sent by older Firefox.
 const DO_NOT_TRACK_ENABLED = ["1", "yes"];
 
 // navigator.globalPrivacyControl is not in lib.dom yet.
 type PrivacySignals = Navigator & { globalPrivacyControl?: boolean };
 type PrivacySignalWindow = Window & { doNotTrack?: string };
+
+interface StoredConsent {
+  choice: ConsentChoice;
+  expiresAt: number;
+}
 
 const state = ref<ConsentState>("unset");
 const bannerVisible = ref(false);
@@ -40,20 +49,65 @@ export function hasBrowserOptOut(
   );
 }
 
-export function readConsent(): ConsentState {
+function parseStoredConsent(raw: string | null, now: number): ConsentState {
+  if (raw === null) {
+    return "unset";
+  }
   try {
-    const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
-    return isChoice(stored) ? stored : "unset";
+    const parsed = JSON.parse(raw) as Partial<StoredConsent> | null;
+    const isValid =
+      isChoice(parsed?.choice ?? null) &&
+      typeof parsed?.expiresAt === "number" &&
+      parsed.expiresAt > now;
+    return isValid ? (parsed!.choice as ConsentChoice) : "unset";
   } catch {
     return "unset";
   }
 }
 
+/** Serialized value stored under CONSENT_STORAGE_KEY. */
+export function serializeConsent(
+  choice: ConsentChoice,
+  now: number = Date.now(),
+): string {
+  const stored: StoredConsent = {
+    choice,
+    expiresAt: now + CONSENT_LIFETIME_MS,
+  };
+  return JSON.stringify(stored);
+}
+
 function persistConsent(choice: ConsentChoice): void {
   try {
-    localStorage.setItem(CONSENT_STORAGE_KEY, choice);
+    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent(choice));
   } catch {
     // Storage blocked: the choice still applies for this page view.
+  }
+}
+
+/** Moves a bare value from the old key to the new shape, restarting the 180 days. */
+function migrateLegacyConsent(): ConsentState {
+  const legacy = localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY);
+  if (legacy === null) {
+    return "unset";
+  }
+  localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
+  if (!isChoice(legacy)) {
+    return "unset";
+  }
+  persistConsent(legacy);
+  return legacy;
+}
+
+export function readConsent(now: number = Date.now()): ConsentState {
+  try {
+    const stored = localStorage.getItem(CONSENT_STORAGE_KEY);
+    if (stored === null) {
+      return migrateLegacyConsent();
+    }
+    return parseStoredConsent(stored, now);
+  } catch {
+    return "unset";
   }
 }
 
