@@ -112,9 +112,15 @@ describe("postPageData", () => {
   });
 
   it("gives a post page its series", async () => {
-    const seriesPosts = mockPosts.map((post) => ({
+    // Reverse of the newest-first list, so the series order can't fall out of
+    // the input order by accident.
+    const seriesPosts = mockPosts.map((post, index) => ({
       ...post,
-      frontmatter: { ...post.frontmatter, series: "A series", series_part: 1 },
+      frontmatter: {
+        ...post.frontmatter,
+        series: "A series",
+        series_part: mockPosts.length - index,
+      },
     }));
     loaderMock.load.mockResolvedValue(seriesPosts);
     const { attachPostPageData } = await importModule();
@@ -122,6 +128,7 @@ describe("postPageData", () => {
     await attachPostPageData(pageData);
 
     expect(pageData.params?.postSeries.name).toBe("A series");
+    expect(pageData.params?.postSeries.part).toBe(1);
     expect(pageData.params?.postSeries.total).toBe(mockPosts.length);
   });
 

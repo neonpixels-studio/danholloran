@@ -6,6 +6,7 @@ import { TOPIC_SECTIONS } from "../../theme/utils/generateLlmsTxt";
 import {
   KNOWN_TOPICS,
   validatePostFrontmatter,
+  validateSeriesConsistency,
 } from "../../theme/utils/validatePostFrontmatter";
 
 const POSTS_DIR = join(__dirname, "..", "..", "content", "posts");
@@ -176,6 +177,46 @@ describe("validatePostFrontmatter", () => {
   });
 });
 
+describe("validateSeriesConsistency", () => {
+  function seriesPost(fileName: string, series: string, series_part: number) {
+    return { fileName, data: { ...validFrontmatter, series, series_part } };
+  }
+
+  it("accepts distinct parts across separate series", () => {
+    expect(
+      validateSeriesConsistency([
+        seriesPost("a.md", "Agent fleet", 0),
+        seriesPost("b.md", "Agent fleet", 1),
+        seriesPost("c.md", "Other", 0),
+        { fileName: "d.md", data: validFrontmatter },
+      ]),
+    ).toEqual([]);
+  });
+
+  it("rejects two posts sharing a part in one series", () => {
+    expect(
+      validateSeriesConsistency([
+        seriesPost("a.md", "Agent fleet", 1),
+        seriesPost("b.md", "Agent fleet", 1),
+      ]),
+    ).toEqual(["b.md and a.md share series part Agent fleet #1"]);
+  });
+
+  it.each(["Agent Fleet", "Agent fleet ", "Agent  fleet"])(
+    "rejects the near-duplicate series name %j",
+    (variant) => {
+      expect(
+        validateSeriesConsistency([
+          seriesPost("a.md", "Agent fleet", 0),
+          seriesPost("b.md", variant, 1),
+        ]),
+      ).toEqual([
+        `series names differ only by case or whitespace: "Agent fleet", ${JSON.stringify(variant)}`,
+      ]);
+    },
+  );
+});
+
 function parsePost(fileName: string): {
   fileName: string;
   data: Record<string, unknown>;
@@ -221,18 +262,8 @@ describe("post frontmatter schema", () => {
     expect(offenders).toEqual([]);
   });
 
-  // Drafts included: two parts sharing a number collide once both go live.
-  it("every series gives each part a unique series_part", () => {
-    const seen = new Map<string, string>();
-    const offenders = parsedPosts
-      .filter(({ data }) => typeof data.series === "string")
-      .flatMap(({ fileName, data }) => {
-        const key = `${data.series} #${data.series_part}`;
-        const firstFile = seen.get(key);
-        seen.set(key, firstFile ?? fileName);
-        return firstFile ? [`${fileName} and ${firstFile}: ${key}`] : [];
-      });
-    expect(offenders).toEqual([]);
+  it("every series is consistent across its posts", () => {
+    expect(validateSeriesConsistency(parsedPosts)).toEqual([]);
   });
 
   it("every canonical points at an existing post", () => {

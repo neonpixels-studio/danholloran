@@ -182,6 +182,12 @@ describe("findPostSeries", () => {
     });
   });
 
+  it("returns null until the series has a second published part", () => {
+    const onePart = [buildPost(0, { series: "Solo", series_part: 3 })];
+
+    expect(findPostSeries(onePart, "post-0")).toBeNull();
+  });
+
   it("returns null for a post outside any series", () => {
     expect(findPostSeries(posts, "post-1")).toBeNull();
   });
