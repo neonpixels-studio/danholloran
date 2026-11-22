@@ -8,6 +8,7 @@ Personal blog and portfolio for Dan Holloran — full-stack developer and photog
 
 - [Node.js](https://nodejs.org/) v26+ (use [nvm](https://github.com/nvm-sh/nvm): `nvm use`)
 - [npm](https://www.npmjs.com/) v11+
+- [gitleaks](https://github.com/gitleaks/gitleaks#installing) (optional, `brew install gitleaks`): the pre-commit hook scans staged changes for secrets and skips with a warning when it is missing. CI always scans pull requests and pushes to `main`.
 
 ### Getting Started
 
