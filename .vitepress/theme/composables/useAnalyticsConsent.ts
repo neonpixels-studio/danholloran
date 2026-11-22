@@ -114,8 +114,12 @@ export function readConsent(now: number = Date.now()): ConsentState {
     if (stored === null) {
       return migrateLegacyConsent();
     }
+    const parsed = parseStoredConsent(stored, now);
+    if (parsed === "unset") {
+      return migrateLegacyConsent();
+    }
     localStorage.removeItem(LEGACY_CONSENT_STORAGE_KEY);
-    return parseStoredConsent(stored, now);
+    return parsed;
   } catch {
     return "unset";
   }

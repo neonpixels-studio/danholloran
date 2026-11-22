@@ -32,6 +32,17 @@ function storedConsent(): { choice: string; expiresAt: number } | null {
   return raw === null ? null : JSON.parse(raw);
 }
 
+const FROZEN_NOW = new Date("2026-01-01T00:00:00Z");
+
+function freezeTime(): void {
+  vi.useFakeTimers();
+  vi.setSystemTime(FROZEN_NOW);
+}
+
+function storeConsent(choice: "granted" | "denied", now?: number): void {
+  localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent(choice, now));
+}
+
 function stubDoNotTrack(value: string | null): void {
   vi.spyOn(navigator, "doNotTrack", "get").mockReturnValue(value);
 }
@@ -62,7 +73,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("does not load gtag when consent was denied", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("denied"));
+    storeConsent("denied");
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
@@ -78,7 +89,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("loads gtag on init when consent was previously granted", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
+    storeConsent("granted");
     initAnalyticsConsent();
 
     expect(gaScript()?.src).toContain(GA_SCRIPT_URL);
@@ -110,7 +121,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("does not add the script twice", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
+    storeConsent("granted");
     initAnalyticsConsent();
     useAnalyticsConsent().accept();
 
@@ -121,7 +132,7 @@ describe("useAnalyticsConsent", () => {
 
   it("never loads gtag with Do Not Track on, even with stored consent", () => {
     stubDoNotTrack("1");
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
+    storeConsent("granted");
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
@@ -134,7 +145,7 @@ describe("useAnalyticsConsent", () => {
       doNotTrack: null,
       globalPrivacyControl: true,
     });
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
+    storeConsent("granted");
     initAnalyticsConsent();
     vi.unstubAllGlobals();
 
@@ -167,7 +178,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("disables an already-loaded GA when consent is withdrawn", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
+    storeConsent("granted");
     initAnalyticsConsent();
     document.cookie = `_ga=abc; path=/; domain=${location.hostname}`;
     const gtag = vi.fn();
@@ -183,7 +194,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("re-enables a loaded GA when consent is granted again", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("granted"));
+    storeConsent("granted");
     initAnalyticsConsent();
     const gtag = vi.fn();
     (window as unknown as { gtag: typeof gtag }).gtag = gtag;
@@ -239,8 +250,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("stores the choice for 180 days", () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
+    freezeTime();
     initAnalyticsConsent();
     useAnalyticsConsent().accept();
 
@@ -249,10 +259,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("asks again and does not load gtag when a granted choice has expired", () => {
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      serializeConsent("granted", Date.now() - CONSENT_LIFETIME_MS - 1000),
-    );
+    storeConsent("granted", Date.now() - CONSENT_LIFETIME_MS - 1000);
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
@@ -260,10 +267,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("asks again when a denied choice has expired", () => {
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      serializeConsent("denied", Date.now() - CONSENT_LIFETIME_MS - 1000),
-    );
+    storeConsent("denied", Date.now() - CONSENT_LIFETIME_MS - 1000);
     initAnalyticsConsent();
 
     expect(useAnalyticsConsent().bannerVisible.value).toBe(true);
@@ -289,8 +293,7 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("migrates a granted value from the old key and loads gtag", () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
+    freezeTime();
     localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "granted");
     initAnalyticsConsent();
 
@@ -320,31 +323,38 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("prefers the new key over a leftover old key", () => {
-    localStorage.setItem(CONSENT_STORAGE_KEY, serializeConsent("denied"));
+    storeConsent("denied");
     localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "granted");
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
+    expect(storedConsent()?.choice).toBe("denied");
+    expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
+  });
+
+  it("migrates the old key when the new key is expired", () => {
+    freezeTime();
+    storeConsent("granted", Date.now() - CONSENT_LIFETIME_MS - 1000);
+    localStorage.setItem(LEGACY_CONSENT_STORAGE_KEY, "denied");
+    initAnalyticsConsent();
+
+    expect(useAnalyticsConsent().bannerVisible.value).toBe(false);
+    expect(storedConsent()?.choice).toBe("denied");
     expect(localStorage.getItem(LEGACY_CONSENT_STORAGE_KEY)).toBeNull();
   });
 
   it("honours a choice that has one second left", () => {
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      serializeConsent("granted", Date.now() - CONSENT_LIFETIME_MS + 1000),
-    );
+    freezeTime();
+    storeConsent("granted", Date.now() - CONSENT_LIFETIME_MS + 1000);
     initAnalyticsConsent();
 
     expect(gaScript()).not.toBeNull();
   });
 
   it("treats a choice expiring exactly now as expired", () => {
-    vi.useFakeTimers();
-    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"));
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      serializeConsent("granted", Date.now() - CONSENT_LIFETIME_MS),
-    );
+    freezeTime();
+    storeConsent("granted", Date.now() - CONSENT_LIFETIME_MS);
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
@@ -352,10 +362,8 @@ describe("useAnalyticsConsent", () => {
   });
 
   it("treats an expiry beyond 180 days as no choice", () => {
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      serializeConsent("granted", Date.now() + 1000),
-    );
+    freezeTime();
+    storeConsent("granted", Date.now() + 1000);
     initAnalyticsConsent();
 
     expect(gaScript()).toBeNull();
