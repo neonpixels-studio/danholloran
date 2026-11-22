@@ -1,0 +1,22 @@
+# Gitleaks configuration. Extends the bundled default ruleset.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "reCAPTCHA site key in the contact form"
+# data-sitekey is the public half of a reCAPTCHA key pair. It is rendered into
+# the page HTML for every visitor by design; only the secret key is private.
+targetRules = ["generic-api-key"]
+paths = [
+  '''(^|/)source/_partials/contact-form\.blade\.php$''',
+]
+
+[[allowlists]]
+description = "Image variants manifest"
+# Maps image filenames to content hashes. The values are file digests, not
+# credentials, so the generic-api-key entropy heuristic false-positives on them.
+targetRules = ["generic-api-key"]
+paths = [
+  '''(^|/)\.vitepress/data/imageVariantsManifest\.json$''',
+]
