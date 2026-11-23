@@ -24,7 +24,7 @@ const convertible = computed(() => isStaticImageConvertible(src));
   <picture v-if="convertible">
     <source :srcset="staticImageFormatSrc(src, 'avif')" type="image/avif" />
     <source :srcset="staticImageFormatSrc(src, 'webp')" type="image/webp" />
-    <img :src="src" v-bind="$attrs" />
+    <img :src="src" alt="" v-bind="$attrs" />
   </picture>
-  <img v-else :src="src" v-bind="$attrs" />
+  <img v-else :src="src" alt="" v-bind="$attrs" />
 </template>

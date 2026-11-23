@@ -35,6 +35,9 @@ onUnmounted(() => {
   <Teleport to="body">
     <Transition name="lightbox">
       <!-- Intentionally always dark, independent of the active theme. -->
+      <!-- Backdrop click is a pointer shortcut only: Escape (document listener)
+        and the Close button cover keyboard users. -->
+      <!-- eslint-disable-next-line vuejs-accessibility/click-events-have-key-events, vuejs-accessibility/no-static-element-interactions -->
       <div
         v-if="isOpen"
         ref="dialog"

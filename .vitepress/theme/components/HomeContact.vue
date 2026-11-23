@@ -75,13 +75,18 @@ const formError = computed(() => status.value === "error");
           <input type="hidden" name="form-name" value="contact_form" />
           <!-- Netlify spam honeypot: hidden from humans and assistive tech; a filled value flags the submission as a bot -->
           <p class="hidden" aria-hidden="true">
-            <label>
+            <label for="contact-bot-field">
               Don't fill this out if you're human:
-              <input name="bot-field" tabindex="-1" autocomplete="off" />
+              <input
+                id="contact-bot-field"
+                name="bot-field"
+                tabindex="-1"
+                autocomplete="off"
+              />
             </label>
           </p>
           <div class="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
-            <label class="flex flex-col gap-2">
+            <label for="contact-name" class="flex flex-col gap-2">
               <span
                 class="text-fg-subtle flex items-center justify-between font-mono text-[0.62rem] tracking-widest uppercase"
               >
@@ -89,6 +94,7 @@ const formError = computed(() => status.value === "error");
                 <span class="text-accent">*</span>
               </span>
               <input
+                id="contact-name"
                 v-model="formName"
                 type="text"
                 name="name"
@@ -98,7 +104,7 @@ const formError = computed(() => status.value === "error");
                 class="contact-input text-fg border-line placeholder:text-fg-subtle focus:border-accent border-0 border-b bg-transparent px-0 py-2.5 font-mono text-[0.9rem] transition-colors duration-200 outline-none placeholder:font-mono"
               />
             </label>
-            <label class="flex flex-col gap-2">
+            <label for="contact-email" class="flex flex-col gap-2">
               <span
                 class="text-fg-subtle flex items-center justify-between font-mono text-[0.62rem] tracking-widest uppercase"
               >
@@ -106,6 +112,7 @@ const formError = computed(() => status.value === "error");
                 <span class="text-accent">*</span>
               </span>
               <input
+                id="contact-email"
                 v-model="formEmail"
                 type="email"
                 name="email"
@@ -116,7 +123,7 @@ const formError = computed(() => status.value === "error");
               />
             </label>
           </div>
-          <label class="flex flex-col gap-2">
+          <label for="contact-message" class="flex flex-col gap-2">
             <span
               class="text-fg-subtle flex items-center justify-between font-mono text-[0.62rem] tracking-widest uppercase"
             >
@@ -124,6 +131,7 @@ const formError = computed(() => status.value === "error");
               <span class="text-accent">*</span>
             </span>
             <textarea
+              id="contact-message"
               v-model="formMessage"
               name="message"
               required

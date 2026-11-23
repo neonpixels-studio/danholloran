@@ -95,4 +95,21 @@ describe("ResponsiveImage", () => {
       "/images/posts/some-post.jpg",
     );
   });
+
+  it("defaults alt to empty (decorative) when none is passed, in both branches", () => {
+    const withSources = mount(ResponsiveImage, {
+      props: {
+        src: "/images/posts/some-post.jpg",
+        variant: "thumb",
+        sizes: "100vw",
+        version: VERSION,
+      },
+    });
+    const withoutSources = mount(ResponsiveImage, {
+      props: { src: "/images/logo.svg", variant: "thumb", sizes: "100vw" },
+    });
+
+    expect(withSources.find("img").attributes("alt")).toBe("");
+    expect(withoutSources.find("img").attributes("alt")).toBe("");
+  });
 });

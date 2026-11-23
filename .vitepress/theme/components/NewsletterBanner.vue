@@ -75,17 +75,19 @@ const message = computed(() => {
           novalidate
           @submit.prevent="subscribe"
         >
-          <label for="email_address" class="sr-only">Email Address</label>
-          <input
-            id="email_address"
-            v-model="email"
-            type="email"
-            name="email_address"
-            autocomplete="email"
-            placeholder="you@domain.com"
-            :disabled="status === 'loading'"
-            class="text-fg border-line focus:border-accent h-11 min-w-0 flex-1 rounded-xs border bg-transparent px-3.5 font-mono text-[0.85rem] transition-colors outline-none"
-          />
+          <label for="email_address" class="flex min-w-0 flex-1">
+            <span class="sr-only">Email Address</span>
+            <input
+              id="email_address"
+              v-model="email"
+              type="email"
+              name="email_address"
+              autocomplete="email"
+              placeholder="you@domain.com"
+              :disabled="status === 'loading'"
+              class="text-fg border-line focus:border-accent h-11 min-w-0 flex-1 rounded-xs border bg-transparent px-3.5 font-mono text-[0.85rem] transition-colors outline-none"
+            />
+          </label>
           <button
             v-if="!isSubscribedAddress"
             type="submit"

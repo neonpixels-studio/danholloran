@@ -194,6 +194,9 @@ function onArticleKeydown(event: KeyboardEvent) {
 
     <PostTableOfContents :headers="headers" />
 
+    <!-- Delegated handlers for zoomable images inside rendered markdown; the
+      images themselves are the focusable, interactive elements. -->
+    <!-- eslint-disable-next-line vuejs-accessibility/no-static-element-interactions -->
     <article
       class="post-body text-fg text-base leading-[1.85]"
       @click="onArticleClick"

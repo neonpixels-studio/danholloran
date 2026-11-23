@@ -46,10 +46,10 @@ const sources = computed(() =>
   <picture v-if="sources">
     <source :srcset="sources.avifSrcset" type="image/avif" :sizes="sizes" />
     <source :srcset="sources.webpSrcset" type="image/webp" :sizes="sizes" />
-    <img :src="sources.fallbackSrc" v-bind="$attrs" />
+    <img :src="sources.fallbackSrc" alt="" v-bind="$attrs" />
   </picture>
   <!-- No generated variants for this src (see isVariantEligible) — render
        the original image directly rather than a <picture> pointing at urls
        nobody produced. -->
-  <img v-else :src="src" v-bind="$attrs" />
+  <img v-else :src="src" alt="" v-bind="$attrs" />
 </template>

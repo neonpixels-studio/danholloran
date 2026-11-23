@@ -18,8 +18,8 @@ const { email, status, errorMessage, isSubscribedAddress, subscribe } =
         <div id="nl-term-heading" class="nl-term-comment">
           # new posts on code, craft &amp; travel — no noise, no schedule
         </div>
-        <label for="email_address" class="sr-only">Email address</label>
-        <div class="nl-term-cmd">
+        <label for="email_address" class="nl-term-cmd">
+          <span class="sr-only">Email address</span>
           <span class="nl-term-prompt">$</span>
           <span class="nl-term-flag">subscribe</span>
           <input
@@ -31,7 +31,7 @@ const { email, status, errorMessage, isSubscribedAddress, subscribe } =
             placeholder="you@domain.com"
             :disabled="status === 'loading'"
           />
-        </div>
+        </label>
         <div class="nl-term-foot">
           <button
             v-if="!isSubscribedAddress"
