@@ -41,4 +41,12 @@ describe("StaticImage", () => {
     expect(wrapper.find("picture").exists()).toBe(false);
     expect(wrapper.find("img").attributes("src")).toBe("/images/logo.svg");
   });
+
+  it("defaults alt to empty (decorative) when none is passed, in both branches", () => {
+    const converted = mount(StaticImage, { props: { src: "/images/a.png" } });
+    const plain = mount(StaticImage, { props: { src: "/images/logo.svg" } });
+
+    expect(converted.find("img").attributes("alt")).toBe("");
+    expect(plain.find("img").attributes("alt")).toBe("");
+  });
 });

@@ -40,9 +40,13 @@ const socialIcons: SocialIcon[] = [
 </script>
 
 <template>
+  <!-- eslint-disable-next-line vuejs-accessibility/no-redundant-roles -->
   <ul role="list" class="contents">
+    <!-- The explicit roles restore list semantics that `display: contents` strips
+    in some browsers, hence the redundant-role disables here. -->
     <!-- `contents` on the list and items keeps each link a direct flex child of
     the parent, so the surrounding layout (gap, alignment) is unchanged. -->
+    <!-- eslint-disable-next-line vuejs-accessibility/no-redundant-roles -->
     <li
       v-for="social in socialIcons"
       :key="social.label"

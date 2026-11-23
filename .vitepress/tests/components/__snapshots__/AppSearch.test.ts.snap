@@ -36,6 +36,6 @@ exports[`AppSearch > renders correctly 1`] = `
       </div>
     </div>
   </div>
-  <div class="no-print bg-fg/20 fixed inset-0 z-80 transition-[opacity,visibility] duration-300 visible opacity-100"></div>
+  <div class="no-print bg-fg/20 fixed inset-0 z-80 transition-[opacity,visibility] duration-300 visible opacity-100" aria-hidden="true"></div>
 </teleport-stub>"
 `;

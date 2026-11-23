@@ -515,6 +515,7 @@ onUnmounted(() => {
     <div
       class="no-print bg-fg/20 fixed inset-0 z-80 transition-[opacity,visibility] duration-300"
       :class="isSearchOpen ? 'visible opacity-100' : 'invisible opacity-0'"
+      aria-hidden="true"
       @click="close"
     ></div>
   </Teleport>
