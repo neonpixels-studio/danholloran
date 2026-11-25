@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { describe, it, expect } from "vitest";
+import { SENTRY_DSN } from "@utils/errorReporting";
 
 const HEADERS_PATH = resolve(process.cwd(), "public/_headers");
 const CSP_HEADER_NAME = "Content-Security-Policy:";
@@ -33,6 +34,7 @@ const ANALYTICS_CONNECT_SOURCES = [
   "https://www.google-analytics.com",
   "https://www.googletagmanager.com",
 ];
+const SENTRY_CONNECT_SRC = new URL(SENTRY_DSN).origin;
 const EXPECTED_DIRECTIVES = [
   "default-src",
   "script-src",
@@ -135,6 +137,10 @@ describe("public/_headers connect-src", () => {
     ANALYTICS_CONNECT_SOURCES.forEach((source) => {
       expect(sources).toContain(source);
     });
+  });
+
+  it("allows the Sentry ingest origin so error reports are not CSP-blocked", () => {
+    expect(readConnectSrc()).toContain(SENTRY_CONNECT_SRC);
   });
 
   it("declares all expected CSP directives", () => {

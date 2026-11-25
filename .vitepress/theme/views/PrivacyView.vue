@@ -66,6 +66,22 @@ const { canChoose, reopen: reopenAnalyticsConsent } = useAnalyticsConsent();
       </p>
     </section>
 
+    <section class="mb-8" aria-labelledby="privacy-errors">
+      <h2 id="privacy-errors" class="text-fg mb-3 text-xl font-semibold">
+        Error reports
+      </h2>
+      <p class="text-fg-muted leading-relaxed">
+        If a script on this site crashes in your browser, the error is reported
+        to Sentry (sentry.io) so it can be fixed. A report holds the error
+        message, the stack trace, the page address, and your browser and
+        operating system. Passwords, tokens, email addresses, and query strings
+        are removed before it leaves your browser. The report carries no account
+        or user identifier and sets no cookies; like any request to a server, it
+        does reach Sentry from your IP address. Nothing is sent unless an error
+        happens, and this does not depend on your analytics choice.
+      </p>
+    </section>
+
     <section class="mb-8" aria-labelledby="privacy-newsletter">
       <h2 id="privacy-newsletter" class="text-fg mb-3 text-xl font-semibold">
         Newsletter

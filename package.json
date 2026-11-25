@@ -48,6 +48,9 @@
     "xml-js": "^1.6.11"
   },
   "dependencies": {
+    "@neon-pixels/sentry": "^0.4.0",
+    "@sentry/vite-plugin": "^11.18.0",
+    "@sentry/vue": "^11.18.0",
     "@tailwindcss/vite": "^4.3.5",
     "feed": "^6.0.0",
     "image-size": "^2.1.0",

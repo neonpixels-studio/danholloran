@@ -13,6 +13,8 @@ import { describe, it, expect } from "vitest";
 // Paths resolve from `process.cwd()` (the repo root vitest runs in), matching
 // generateFeed.ts and sitemap.ts.
 const BUILD_TIME_DEPENDENCIES = [
+  "@neon-pixels/sentry",
+  "@sentry/vite-plugin",
   "@tailwindcss/vite",
   "feed",
   "minisearch",
