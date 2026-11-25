@@ -105,6 +105,18 @@ describe("initErrorReporting", () => {
     await waitForBeforeSend("component exploded");
   });
 
+  it("reports component errors when started after the app has mounted", async () => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    const app = createApp({ render: () => h("div") });
+    app.mount(document.createElement("div"));
+    startReporting(app);
+    const lateError = new Error("late component error");
+    expect(() => app.config.errorHandler?.(lateError, null, "test")).toThrow(
+      "late component error",
+    );
+    await waitForBeforeSend("late component error");
+  });
+
   it("passes an unhandled promise rejection through beforeSend", async () => {
     startReporting();
     dispatchUnhandledRejection(new Error("rejected promise"));

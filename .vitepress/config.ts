@@ -117,6 +117,8 @@ export default defineConfig({
   vite: {
     build: { cssMinify: "esbuild" },
     define: {
+      // Strips the SDK's debug-only code and console warnings from the bundle.
+      __SENTRY_DEBUG__: false,
       "import.meta.env.VITE_SENTRY_ENVIRONMENT":
         JSON.stringify(sentryEnvironment),
     },

@@ -140,7 +140,7 @@ pinned by `.vitepress/tests/utils/gitLastModified.test.ts`.
 
 ### Error reporting
 
-Production builds report browser errors to [Sentry](https://sentry.io) with `@sentry/vue`, filtered and scrubbed by `@neon-pixels/sentry`. Errors only: no tracing, Session Replay, or session tracking, and no user info or cookies, so it does not depend on analytics consent. The SDK is a separate chunk loaded after the page has finished loading (`startErrorReporting.ts`), so it is not in the entry bundle and a failed load never breaks a page. The DSN is a public constant in `.vitepress/theme/utils/errorReporting.ts`, the Sentry ingest origin is allowed in `connect-src` in `public/_headers`, and the privacy page describes what is sent.
+Production builds report browser errors to [Sentry](https://sentry.io) with `@sentry/vue`, filtered and scrubbed by `@neon-pixels/sentry`. Errors only: no tracing, Session Replay, or session tracking, and no user info or cookies, so it does not depend on analytics consent. The SDK is a separate chunk loaded after the page has finished loading (`startErrorReporting.ts`), so it is not in the entry bundle and a failed load never breaks a page (errors thrown before it loads are not reported). The DSN is a public constant in `.vitepress/theme/utils/errorReporting.ts`, the Sentry ingest origin is allowed in `connect-src` in `public/_headers`, and the privacy page describes what is sent.
 
 The Sentry environment comes from Netlify's `CONTEXT`, read at build time, so deploy previews report as `preview` and local builds as `development`.
 

@@ -94,20 +94,24 @@ describe("sourceMapPlugins", () => {
 });
 
 describe("removeSourceMaps", () => {
-  it("deletes every .map file, nested ones included, and nothing else", () => {
+  it("deletes every bundle map, nested ones included, and nothing else", () => {
     const directory = makeOutput([
       "assets/app.js",
       "assets/app.js.map",
       "assets/chunks/theme.js.map",
+      "assets/style.css.map",
+      "data/places.map",
       "index.html",
     ]);
     expect(removeSourceMaps(directory)).toEqual([
       join("assets", "app.js.map"),
       join("assets", "chunks", "theme.js.map"),
+      join("assets", "style.css.map"),
     ]);
     expect(findSourceMaps(directory)).toEqual([]);
     expect(listFiles(directory)).toEqual([
       join("assets", "app.js"),
+      join("data", "places.map"),
       "index.html",
     ]);
   });
