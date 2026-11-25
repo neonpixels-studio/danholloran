@@ -18,6 +18,7 @@ vi.mock("@neon-pixels/sentry", async (importOriginal) => {
   };
 });
 
+import { SITE_URL } from "@utils/constants";
 import { SENTRY_DSN, initErrorReporting } from "@utils/errorReporting";
 
 // Network stub: nothing leaves the test, every send reports success.
@@ -59,6 +60,7 @@ async function waitForBeforeSend(message: string) {
 afterEach(async () => {
   await close();
   scrubEventSpy.mockClear();
+  allowUrlsForSpy.mockClear();
   vi.restoreAllMocks();
 });
 
@@ -68,7 +70,7 @@ describe("initErrorReporting", () => {
     const options = getClient()?.getOptions();
     expect(options?.dsn).toBe(SENTRY_DSN);
     expect(options?.environment).toBe("preview");
-    expect(allowUrlsForSpy).toHaveBeenCalledWith(["https://danholloran.me"]);
+    expect(allowUrlsForSpy).toHaveBeenCalledWith([SITE_URL]);
     expect(options?.ignoreErrors?.length).toBeGreaterThan(0);
     expect(options?.denyUrls?.length).toBeGreaterThan(0);
   });

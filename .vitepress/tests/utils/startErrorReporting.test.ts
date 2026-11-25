@@ -22,6 +22,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  vi.unstubAllGlobals();
   vi.unstubAllEnvs();
   vi.restoreAllMocks();
 });
@@ -38,7 +39,7 @@ describe("startErrorReporting", () => {
   it("waits for the load event while the page is still loading", async () => {
     setReadyState("loading");
     const started = startErrorReporting(app);
-    await Promise.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 10));
     expect(initErrorReporting).not.toHaveBeenCalled();
     window.dispatchEvent(new Event("load"));
     await started;
@@ -51,8 +52,6 @@ describe("startErrorReporting", () => {
       runIdleCallback = callback;
     });
     vi.stubGlobal("requestIdleCallback", requestIdleCallback);
-    window.requestIdleCallback =
-      requestIdleCallback as unknown as typeof window.requestIdleCallback;
     const started = startErrorReporting(app);
     await Promise.resolve();
     expect(requestIdleCallback).toHaveBeenCalledWith(expect.any(Function), {
@@ -62,7 +61,6 @@ describe("startErrorReporting", () => {
     runIdleCallback();
     await started;
     expect(initErrorReporting).toHaveBeenCalledOnce();
-    Reflect.deleteProperty(window, "requestIdleCallback");
   });
 
   it("does nothing outside a production build", async () => {
