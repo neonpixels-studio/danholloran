@@ -4,6 +4,7 @@ import { join } from "path";
 import { defineConfig, createMarkdownRenderer } from "vitepress";
 import type { UserConfig } from "vitepress";
 import tailwindcss from "@tailwindcss/vite";
+import { resolveSentryEnvironment } from "@neon-pixels/sentry";
 import { SITE_URL, SITE_DESCRIPTION } from "./theme/utils/constants";
 import { POST_MARKDOWN_HEADERS } from "./theme/utils/postHeaders";
 import { generateFeed, generateTopicFeeds } from "./theme/utils/generateFeed";
@@ -29,6 +30,12 @@ import {
   assertIconsStylesheetEmpty,
   removeIconsStylesheetLink,
 } from "./theme/utils/iconsStylesheet";
+import {
+  UPLOAD_SKIPPED_MESSAGE,
+  isSourceMapUploadConfigured,
+  removeSourceMaps,
+  sourceMapPlugins,
+} from "./theme/utils/sourceMaps";
 
 // The Shiki TextMate themes live under public/ so they double as the
 // downloadable Grimicorn port; this blog highlights its own code with them.
@@ -75,6 +82,12 @@ assertImageVariantsUpToDate();
 // resumePdfManifest.test.ts against the real committed files, which
 // `npm run test:ci` runs in CI.
 
+// Netlify's CONTEXT only exists at build time, so the name is baked into the
+// bundle: deploy previews report as "preview", never "production".
+const sentryEnvironment = resolveSentryEnvironment({
+  netlifyContext: process.env.CONTEXT,
+});
+
 export default defineConfig({
   title: "Dan Holloran",
   description: SITE_DESCRIPTION,
@@ -103,7 +116,12 @@ export default defineConfig({
   },
   vite: {
     build: { cssMinify: "esbuild" },
+    define: {
+      "import.meta.env.VITE_SENTRY_ENVIRONMENT":
+        JSON.stringify(sentryEnvironment),
+    },
     plugins: [
+      ...sourceMapPlugins(process.env),
       tailwindcss() as unknown as VitePluginOption,
       refreshPostPagesInDev() as unknown as VitePluginOption,
     ],
@@ -133,6 +151,12 @@ export default defineConfig({
   transformHead: ({ assets }) => buildFontPreloadHeadEntries(assets),
   transformHtml: (html) => removeIconsStylesheetLink(html),
   async buildEnd(siteConfig) {
+    // After the bundle, which is when the source map upload (if any) ran.
+    removeSourceMaps(siteConfig.outDir);
+    if (!isSourceMapUploadConfigured(process.env)) {
+      console.log(UPLOAD_SKIPPED_MESSAGE);
+    }
+
     assertIconsStylesheetEmpty(
       readFileSync(join(siteConfig.outDir, ICONS_STYLESHEET_FILE), "utf-8"),
     );

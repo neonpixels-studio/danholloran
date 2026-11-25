@@ -33,6 +33,7 @@ const ANALYTICS_CONNECT_SOURCES = [
   "https://www.google-analytics.com",
   "https://www.googletagmanager.com",
 ];
+const SENTRY_CONNECT_SRC = "https://o4511543514497024.ingest.us.sentry.io";
 const EXPECTED_DIRECTIVES = [
   "default-src",
   "script-src",
@@ -135,6 +136,10 @@ describe("public/_headers connect-src", () => {
     ANALYTICS_CONNECT_SOURCES.forEach((source) => {
       expect(sources).toContain(source);
     });
+  });
+
+  it("allows the Sentry ingest origin so error reports are not CSP-blocked", () => {
+    expect(readConnectSrc()).toContain(SENTRY_CONNECT_SRC);
   });
 
   it("declares all expected CSP directives", () => {
