@@ -16,3 +16,9 @@ _claude-todo.md
 _claude-output.md
 link-rot-report.md
 .prettierignore.drafts-*
+
+# Local env (dotenvx). The encrypted .env* files ARE committed; the private
+# keys and any local-only plaintext overrides are NOT.
+.env.keys
+.env.local
+.env.*.local
