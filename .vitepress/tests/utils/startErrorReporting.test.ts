@@ -45,6 +45,26 @@ describe("startErrorReporting", () => {
     expect(initErrorReporting).toHaveBeenCalledOnce();
   });
 
+  it("waits for the browser to be idle when it can", async () => {
+    let runIdleCallback = () => {};
+    const requestIdleCallback = vi.fn((callback: () => void) => {
+      runIdleCallback = callback;
+    });
+    vi.stubGlobal("requestIdleCallback", requestIdleCallback);
+    window.requestIdleCallback =
+      requestIdleCallback as unknown as typeof window.requestIdleCallback;
+    const started = startErrorReporting(app);
+    await Promise.resolve();
+    expect(requestIdleCallback).toHaveBeenCalledWith(expect.any(Function), {
+      timeout: 5000,
+    });
+    expect(initErrorReporting).not.toHaveBeenCalled();
+    runIdleCallback();
+    await started;
+    expect(initErrorReporting).toHaveBeenCalledOnce();
+    Reflect.deleteProperty(window, "requestIdleCallback");
+  });
+
   it("does nothing outside a production build", async () => {
     vi.stubEnv("PROD", false);
     await startErrorReporting(app);

@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import type { UserConfig } from "vitepress";
 
-// Only the maps Vite emits for bundles, so a .map file published on purpose
-// from public/ is left alone.
+// Only the maps Vite emits for bundles, so an unrelated .map file (a data file
+// in public/, say) is left alone.
 const SOURCE_MAP_SUFFIXES = [".js.map", ".css.map"];
 export const SENTRY_UPLOAD_VARIABLES = [
   "SENTRY_AUTH_TOKEN",

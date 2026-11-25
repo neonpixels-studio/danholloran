@@ -7,7 +7,14 @@ import {
 } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+const sentryVitePlugin = vi.hoisted(() =>
+  vi.fn(() => ({ name: "sentry-vite-plugin" })),
+);
+
+vi.mock("@sentry/vite-plugin", () => ({ sentryVitePlugin }));
+
 import {
   findSourceMaps,
   isSourceMapUploadConfigured,
@@ -69,10 +76,33 @@ describe("sourceMapPlugins", () => {
     ]);
   });
 
-  it("adds the Sentry upload with all three variables", () => {
+  it("adds the Sentry upload, configured from the three variables", () => {
     const names = sourceMapPlugins(FULL_ENV).map((plugin) => plugin.name);
-    expect(names).toContain("hidden-source-maps");
-    expect(names.length).toBeGreaterThan(1);
+    expect(names).toEqual(["hidden-source-maps", "sentry-vite-plugin"]);
+    expect(sentryVitePlugin).toHaveBeenCalledWith(
+      expect.objectContaining({
+        authToken: "token",
+        org: "org",
+        project: "project",
+        release: { create: false, finalize: false, inject: false },
+      }),
+    );
+  });
+
+  it("never builds the upload without all three variables", () => {
+    sentryVitePlugin.mockClear();
+    sourceMapPlugins({ ...FULL_ENV, SENTRY_ORG: undefined });
+    expect(sentryVitePlugin).not.toHaveBeenCalled();
+  });
+
+  it("keeps every plugin off the server-render build", () => {
+    sourceMapPlugins(FULL_ENV).forEach((plugin) => {
+      const apply = plugin.apply as (
+        _config: object,
+        _env: { command: string; isSsrBuild: boolean },
+      ) => boolean;
+      expect(apply({}, { command: "build", isSsrBuild: true })).toBe(false);
+    });
   });
 
   it("applies to the client build only", () => {
