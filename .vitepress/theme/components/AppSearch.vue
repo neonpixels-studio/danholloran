@@ -377,13 +377,12 @@ onUnmounted(() => {
       aria-modal="true"
       aria-label="Site search"
       :aria-hidden="!isSearchOpen"
-      class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-300"
+      class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b shadow-[0_12px_40px_rgba(17,17,16,0.06)] backdrop-blur-md transition-[transform,opacity,visibility] duration-300"
       :class="
         isSearchOpen
           ? 'visible translate-y-0 opacity-100'
           : 'invisible -translate-y-[120%] opacity-0'
       "
-      style="box-shadow: 0 12px 40px rgba(17, 17, 16, 0.06)"
     >
       <div class="mx-auto max-w-[1100px] px-8 py-5 max-md:px-4">
         <div class="border-line flex items-center gap-4 border-b pb-3">
@@ -423,7 +422,6 @@ onUnmounted(() => {
             autocomplete="off"
             spellcheck="false"
             class="text-fg placeholder:text-fg-subtle min-w-0 flex-1 border-0 bg-transparent font-mono text-[1rem] outline-0"
-            style="font-family: var(--font-mono)"
           />
           <kbd
             class="text-fg-subtle border-line rounded-[2px] border px-1.5 py-0.5 font-mono text-[0.62rem] tracking-[0.05em] max-md:hidden"
@@ -449,8 +447,8 @@ onUnmounted(() => {
             no results for "{{ query }}"
           </div>
           <div
-            v-show="isListboxExpanded"
             :id="LISTBOX_ID"
+            :class="{ hidden: !isListboxExpanded }"
             role="listbox"
             aria-label="Search results"
           >

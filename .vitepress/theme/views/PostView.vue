@@ -135,8 +135,7 @@ function onArticleKeydown(event: KeyboardEvent) {
     </div>
 
     <h1
-      class="mb-6 font-mono leading-[1.2] font-bold"
-      style="font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.04em"
+      class="text-fluid-post-title tracking-tighter-2 mb-6 font-mono leading-[1.2] font-bold"
     >
       {{ post.frontmatter.title }}
     </h1>

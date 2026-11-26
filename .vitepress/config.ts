@@ -15,7 +15,9 @@ import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
 import { findUnpublishedPostLeaks } from "./theme/utils/distArtifacts";
 import { parse as parsePlist } from "plist";
 import { transformSitemapItems } from "./theme/utils/sitemap";
-import { injectThemeBgTransformer } from "./theme/utils/codeTransformers";
+import { styleToClassTransformer } from "./theme/utils/codeTransformers";
+import { themeStylesheetPlugin } from "./theme/utils/themeStylesheet";
+import type { ShikiThemeSource } from "./theme/utils/shikiStyleClasses";
 import { configureMarkdown } from "./theme/utils/configureMarkdown";
 import { transformPageData } from "./theme/utils/pageTransform";
 import {
@@ -96,6 +98,10 @@ export default defineConfig({
   // the pre-paint dark-mode script that prevents a flash of the wrong theme
   // (#399). Full rationale next to STORAGE_KEY in useAppearance.ts.
   appearance: true,
+  // VitePress wraps page content in a div with style="position: relative" by
+  // default; a class keeps the page free of inline style attributes (the
+  // hashed CSP cannot cover them). `relative` is generated from other templates.
+  contentProps: { class: "relative" },
   sitemap: {
     hostname: SITE_URL,
     transformItems: transformSitemapItems,
@@ -105,7 +111,7 @@ export default defineConfig({
       light: lightTheme as any,
       dark: darkTheme as any,
     },
-    codeTransformers: [injectThemeBgTransformer],
+    codeTransformers: [styleToClassTransformer],
     config: configureMarkdown,
     // VitePress leaves header extraction off unless asked; page.headers feeds
     // the post table of contents (PostTableOfContents.vue), which only lists h2s.
@@ -127,6 +133,10 @@ export default defineConfig({
       ...sourceMapPlugins(process.env),
       tailwindcss() as unknown as VitePluginOption,
       refreshPostPagesInDev() as unknown as VitePluginOption,
+      themeStylesheetPlugin({
+        light: lightTheme as unknown as ShikiThemeSource,
+        dark: darkTheme as unknown as ShikiThemeSource,
+      }) as unknown as VitePluginOption,
     ],
     resolve: {
       alias: {

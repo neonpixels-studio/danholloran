@@ -40,7 +40,7 @@ describe("report-only policy appended to the real _headers", () => {
     writeFileSync(join(outDir, "_headers"), SOURCE_HEADERS);
     writeFileSync(
       join(outDir, "index.html"),
-      '<html><head><style>a{}</style></head><body><script>1</script><p style="color:red">x</p></body></html>',
+      '<html><head><style>a{}</style></head><body><script>1</script><p class="x">x</p></body></html>',
     );
     vi.spyOn(console, "log").mockImplementation(() => {});
   });

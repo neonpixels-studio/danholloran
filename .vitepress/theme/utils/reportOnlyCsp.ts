@@ -105,6 +105,17 @@ export function formatUnhashable(unhashable: UnhashableFile[]): string {
   ].join("\n");
 }
 
+// A new inline style attribute (or event handler, or javascript: URL) would
+// make the hashed policy report on every page view, so it fails the build.
+export function assertNothingUnhashable(unhashable: UnhashableFile[]) {
+  if (unhashable.length === 0) {
+    return;
+  }
+  throw new Error(
+    `${formatUnhashable(unhashable)}\n  Move the markup into CSS (a class, or a generated stylesheet); the hashed policy cannot cover it.`,
+  );
+}
+
 // Appends to the _headers file Vite copied from public/, so the enforced
 // policy and every other rule stay as they are.
 export async function writeReportOnlyPolicy(
@@ -117,6 +128,7 @@ export async function writeReportOnlyPolicy(
     reportOnly: true,
     append: true,
   });
+  assertNothingUnhashable(result.unhashable);
   console.log(formatUnhashable(result.unhashable));
   return result;
 }

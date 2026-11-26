@@ -12,7 +12,7 @@ defineEmits<{ "update:modelValue": ["dark" | "light"] }>();
       :aria-pressed="modelValue === 'dark'"
       @click="$emit('update:modelValue', 'dark')"
     >
-      <span class="gc-swatch-dot" style="background: #83afe5"></span>
+      <span class="gc-swatch-dot hex-bg-83afe5"></span>
       Dark
     </button>
     <button
@@ -22,7 +22,7 @@ defineEmits<{ "update:modelValue": ["dark" | "light"] }>();
       :aria-pressed="modelValue === 'light'"
       @click="$emit('update:modelValue', 'light')"
     >
-      <span class="gc-swatch-dot" style="background: #4a80c8"></span>
+      <span class="gc-swatch-dot hex-bg-4a80c8"></span>
       Light
     </button>
   </div>

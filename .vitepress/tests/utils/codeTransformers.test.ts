@@ -1,41 +1,86 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
-import { injectThemeBgTransformer } from "../../theme/utils/codeTransformers";
+import { styleToClassTransformer } from "../../theme/utils/codeTransformers";
 
-const CSS_VARS = "--shiki-light-bg:#FDFDFD;--shiki-dark-bg:#3C4C55;";
+type TestNode = { properties: { style?: unknown; class?: string | string[] } };
 
-function makeNode(style?: string | unknown): {
-  properties: { style?: string | unknown };
-} {
-  return { properties: { style } };
+function makeNode(properties: TestNode["properties"]): TestNode {
+  return { properties };
 }
 
-describe("injectThemeBgTransformer", () => {
+describe("styleToClassTransformer", () => {
   it("has the correct name", () => {
-    expect(injectThemeBgTransformer.name).toBe("inject-theme-bg");
+    expect(styleToClassTransformer.name).toBe("style-to-class");
   });
 
-  it("sets theme CSS vars when style is undefined", () => {
-    const node = makeNode(undefined);
-    injectThemeBgTransformer.pre(node);
-    expect(node.properties.style).toBe(CSS_VARS);
+  it("turns a token span's style into classes and removes the style", () => {
+    const node = makeNode({
+      style: "--shiki-light:#4475B7;--shiki-dark:#99BDEA;",
+    });
+
+    styleToClassTransformer.span(node);
+
+    expect(node.properties.class).toEqual([
+      "shk-light-4475b7",
+      "shk-dark-99bdea",
+    ]);
+    expect(node.properties).not.toHaveProperty("style");
   });
 
-  it("sets theme CSS vars when style is an empty string", () => {
-    const node = makeNode("");
-    injectThemeBgTransformer.pre(node);
-    expect(node.properties.style).toBe(CSS_VARS);
+  it("keeps the classes already on the node (string or array)", () => {
+    const pre = makeNode({
+      class: "shiki vp-code",
+      style: "--shiki-light-bg:#FDFDFD",
+    });
+    const line = makeNode({
+      class: ["line"],
+      style: "--shiki-dark-font-style:italic",
+    });
+
+    styleToClassTransformer.pre(pre);
+    styleToClassTransformer.line(line);
+
+    expect(pre.properties.class).toEqual([
+      "shiki",
+      "vp-code",
+      "shk-light-bg-fdfdfd",
+    ]);
+    expect(line.properties.class).toEqual([
+      "line",
+      "shk-dark-font-style-italic",
+    ]);
   });
 
-  it("prepends CSS vars and preserves existing style string", () => {
-    const existing = "color:red;";
-    const node = makeNode(existing);
-    injectThemeBgTransformer.pre(node);
-    expect(node.properties.style).toBe(`${CSS_VARS}${existing}`);
+  it("leaves nodes without a style string alone", () => {
+    const missing = makeNode({ class: "line" });
+    const notAString = makeNode({ style: 42 });
+
+    styleToClassTransformer.code(missing);
+    styleToClassTransformer.code(notAString);
+
+    expect(missing.properties).toEqual({ class: "line" });
+    expect(notAString.properties).toEqual({ style: 42 });
   });
 
-  it("ignores non-string existing styles and treats them as empty", () => {
-    const node = makeNode(42);
-    injectThemeBgTransformer.pre(node);
-    expect(node.properties.style).toBe(CSS_VARS);
+  it("fails loudly on a declaration it has no class for", () => {
+    const node = makeNode({ style: "color:red;" });
+
+    expect(() => styleToClassTransformer.span(node)).toThrow(
+      /Unexpected inline style "color: red"/,
+    );
+  });
+});
+
+describe("code block backgrounds", () => {
+  it("come from the .shiki rule in style.css", () => {
+    const css = readFileSync(
+      resolve(process.cwd(), ".vitepress/theme/style.css"),
+      "utf8",
+    );
+    const rule = css.match(/\.shiki\s*\{([^}]*)\}/)?.[1] ?? "";
+
+    expect(rule).toContain("--shiki-light-bg: #fdfdfd");
+    expect(rule).toContain("--shiki-dark-bg: #3c4c55");
   });
 });

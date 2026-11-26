@@ -9,9 +9,13 @@ import {
   NEON_PALETTE_HREF,
   NEON_ZIP_HREF,
 } from "@data/grimicornNeonTheme";
+import { colorClass } from "@utils/themeColorClasses";
 import { GRIMICORN_TOOL_ICON_PATHS } from "@data/grimicornToolIcons";
 
 useRevealAnimations();
+
+// Pink, yellow, green: the first three rainbow stops, as the window dots.
+const TITLEBAR_DOT_COLORS = NEON_RAINBOW.slice(0, 3);
 
 const THEME_SLUG = "grimicorn-neon";
 const {
@@ -23,17 +27,14 @@ const {
   copyLabel,
 } = useGrimicornToolDownloads(THEME_SLUG, NEON_TOOLS);
 
-// Reuses the palette's own pink stop for the failure color, matching the
-// "Pink = error" convention already used across this theme's status dots and
-// diff markers (see the `.n-dot`/`.gc-dline.del` usages below).
-const COPY_FAILED_COLOR = NEON_RAINBOW[0];
-
-// The rainbow stops, looped back to the first so the pan animation is seamless.
-const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW[0]].join(", ")})`;
+// The rainbow gradient (.hex-rainbow-gradient) and the copy-failed color
+// (.hex-copy-failed, the palette's pink stop, matching "Pink = error" across
+// this theme's status dots and diff markers) are generated from the palette
+// data; see themeStylesheet.ts.
 </script>
 
 <template>
-  <div class="n-scope" :style="{ '--n-copy-failed': COPY_FAILED_COLOR }">
+  <div class="n-scope hex-copy-failed">
     <!-- HERO -->
     <section
       class="n-hero relative overflow-hidden px-8 pt-32 pb-20 max-md:px-4"
@@ -44,34 +45,23 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
       >
         <div>
           <div
-            class="reveal mb-7 flex items-center gap-3 font-mono text-[0.68rem] tracking-[0.1em] uppercase"
-            style="color: #a7a39c"
+            class="reveal hex-text-a7a39c mb-7 flex items-center gap-3 font-mono text-[0.68rem] tracking-[0.1em] uppercase"
           >
             <span class="n-rave-dot"></span>
             rave mode: always on
           </div>
           <h1
-            class="reveal n-rainbow mb-4 font-mono leading-[0.92] font-bold"
-            :style="{
-              backgroundImage: rainbowGradient,
-              fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-              letterSpacing: 'var(--tracking-tightest)',
-            }"
+            class="reveal n-rainbow hex-rainbow-gradient text-fluid-neon-title tracking-tightest mb-4 font-mono leading-[0.92] font-bold"
           >
             Grimicorn Neon
           </h1>
           <p
-            class="reveal mb-6 font-mono text-[0.9rem]"
-            style="
-              color: #22d3ee;
-              text-shadow: 0 0 18px rgba(34, 211, 238, 0.5);
-            "
+            class="reveal hex-text-22d3ee mb-6 font-mono text-[0.9rem] [text-shadow:0_0_18px_rgba(34,211,238,0.5)]"
           >
             // the grim reaper × unicorn, plugged into the mains
           </p>
           <p
-            class="reveal mb-8 max-w-[520px] text-[1.02rem] leading-[1.75]"
-            style="color: #a7a39c"
+            class="reveal hex-text-a7a39c mb-8 max-w-[520px] text-[1.02rem] leading-[1.75]"
           >
             Same hue roles as
             <a class="n-link" href="/themes/grimicorn">calm Grimicorn</a>,
@@ -84,8 +74,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
           <div class="reveal flex flex-wrap items-center gap-3">
             <a
               href="#neon-tools"
-              class="n-btn n-btn-rainbow"
-              :style="{ backgroundImage: rainbowGradient }"
+              class="n-btn n-btn-rainbow hex-rainbow-gradient"
             >
               grab the theme ↓
             </a>
@@ -98,21 +87,22 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
         <!-- live editor preview -->
         <div class="reveal-right">
           <div
-            class="mb-3 font-mono text-[0.62rem] tracking-[0.1em] uppercase"
-            style="color: #75726b"
+            class="hex-text-75726b mb-3 font-mono text-[0.62rem] tracking-[0.1em] uppercase"
           >
             VS Code · syntax
           </div>
           <div class="n-win">
             <div class="n-titlebar">
-              <span class="n-dot" style="background: #ff2d9b"></span>
-              <span class="n-dot" style="background: #facc15"></span>
-              <span class="n-dot" style="background: #a3e635"></span>
               <span
-                style="margin-left: 0.6rem; color: #a7a39c; font-size: 11.5px"
+                v-for="dotColor in TITLEBAR_DOT_COLORS"
+                :key="dotColor"
+                class="n-dot"
+                :class="colorClass('bg', dotColor)"
+              ></span>
+              <span class="hex-text-a7a39c ml-[0.6rem] text-[11.5px]"
                 >theme.ts</span
               >
-              <span style="margin-left: auto; color: #75726b; font-size: 11.5px"
+              <span class="hex-text-75726b ml-auto text-[11.5px]"
                 >Grimicorn Neon</span
               >
             </div>
@@ -207,27 +197,23 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
     <!-- PALETTE -->
     <section
       id="neon-palette"
-      class="border-t px-8 py-20 max-md:px-4"
-      style="border-color: #1c1c20"
+      class="hex-border-1c1c20 border-t px-8 py-20 max-md:px-4"
     >
       <div class="mx-auto max-w-[1180px]">
         <div class="mb-10">
           <div
-            class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
-            style="color: #a7a39c"
+            class="reveal hex-text-a7a39c mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
           >
             <span class="n-bar"></span>
             the palette
           </div>
           <h2
-            class="reveal mb-2 font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 3vw, 2.2rem); color: #e7e5e4"
+            class="reveal text-fluid-section hex-text-e7e5e4 mb-2 font-mono leading-none font-bold"
           >
             Eight hues, fully charged
           </h2>
           <p
-            class="reveal max-w-[460px] font-mono text-[0.72rem] leading-[1.7]"
-            style="color: #a7a39c"
+            class="reveal hex-text-a7a39c max-w-[460px] font-mono text-[0.72rem] leading-[1.7]"
           >
             Click any swatch to copy its hex.
           </p>
@@ -238,31 +224,27 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             v-for="(hue, index) in NEON_HUES"
             :key="hue.role"
             class="n-swatch group flex flex-col rounded-[6px] border p-4 text-left"
-            :style="{ borderColor: '#1c1c20' }"
+            :class="colorClass('border', '#1c1c20')"
             @click="copyHex(hue.hex, index)"
           >
             <span
               class="n-chip mb-3 h-12 w-full rounded-[4px]"
-              :style="{
-                background: hue.hex,
-                boxShadow: `0 0 22px ${hue.hex}66`,
-              }"
+              :class="[colorClass('bg', hue.hex), colorClass('glow', hue.hex)]"
             ></span>
-            <span
-              class="font-mono text-[0.82rem] font-bold"
-              style="color: #e7e5e4"
-              >{{ hue.role }}</span
-            >
+            <span class="hex-text-e7e5e4 font-mono text-[0.82rem] font-bold">{{
+              hue.role
+            }}</span>
             <span
               class="copy-hex font-mono text-[0.62rem]"
-              :class="{ 'copy-failed-flash': isCopyFailed(index) }"
-              :style="{ color: hue.hex }"
+              :class="[
+                colorClass('text', hue.hex),
+                { 'copy-failed-flash': isCopyFailed(index) },
+              ]"
             >
               {{ copyLabel(index, hue.hex) }}
             </span>
             <span
-              class="mt-1 font-mono text-[0.58rem] leading-[1.5]"
-              style="color: #75726b"
+              class="hex-text-75726b mt-1 font-mono text-[0.58rem] leading-[1.5]"
               >{{ hue.usage }}</span
             >
           </button>
@@ -270,14 +252,13 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
 
         <!-- background scale -->
         <div
-          class="reveal mt-8 flex overflow-hidden rounded-[6px] border"
-          style="border-color: #1c1c20"
+          class="reveal hex-border-1c1c20 mt-8 flex overflow-hidden rounded-[6px] border"
         >
           <div
             v-for="bg in NEON_BG"
             :key="bg"
-            class="flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]"
-            :style="{ background: bg, color: '#75726b' }"
+            class="hex-text-75726b flex h-12 flex-1 items-center justify-center font-mono text-[0.55rem]"
+            :class="colorClass('bg', bg)"
           >
             {{ bg }}
           </div>
@@ -286,22 +267,17 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
     </section>
 
     <!-- PREVIEW -->
-    <section
-      class="border-t px-8 py-20 max-md:px-4"
-      style="border-color: #1c1c20"
-    >
+    <section class="hex-border-1c1c20 border-t px-8 py-20 max-md:px-4">
       <div class="mx-auto max-w-[1180px]">
         <div class="mb-10">
           <div
-            class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
-            style="color: #a7a39c"
+            class="reveal hex-text-a7a39c mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
           >
             <span class="n-bar"></span>
             see it glow
           </div>
           <h2
-            class="reveal mb-2 font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 3vw, 2.2rem); color: #e7e5e4"
+            class="reveal text-fluid-section hex-text-e7e5e4 mb-2 font-mono leading-none font-bold"
           >
             Across the stack
           </h2>
@@ -313,22 +289,19 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             <!-- terminal -->
             <div>
               <div
-                class="mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
-                style="color: #75726b"
+                class="hex-text-75726b mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
               >
                 terminal · ANSI palette
               </div>
               <div class="n-win">
                 <div class="n-titlebar">
-                  <span class="n-dot" style="background: #ff2d9b"></span>
-                  <span class="n-dot" style="background: #facc15"></span>
-                  <span class="n-dot" style="background: #a3e635"></span>
                   <span
-                    style="
-                      margin-left: 0.6rem;
-                      color: #a7a39c;
-                      font-size: 11.5px;
-                    "
+                    v-for="dotColor in TITLEBAR_DOT_COLORS"
+                    :key="dotColor"
+                    class="n-dot"
+                    :class="colorClass('bg', dotColor)"
+                  ></span>
+                  <span class="hex-text-a7a39c ml-[0.6rem] text-[11.5px]"
                     >grimicorn — zsh — 96×24</span
                   >
                 </div>
@@ -342,7 +315,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
                     On branch <span class="info">main</span> · up to date with
                     <span class="path">origin/main</span>
                   </div>
-                  <div style="height: 0.5rem"></div>
+                  <div class="h-2"></div>
                   <div class="mut">Changes to be committed:</div>
                   <div>
                     &nbsp;&nbsp;<span class="ok">new file: src/neon.ts</span>
@@ -353,7 +326,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
                   <div>
                     &nbsp;&nbsp;<span class="del">deleted: calm.css</span>
                   </div>
-                  <div style="height: 0.5rem"></div>
+                  <div class="h-2"></div>
                   <div>
                     <span class="u">grimicorn</span><span class="at">@</span
                     ><span class="path">dev</span>
@@ -377,22 +350,19 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             <!-- git diff (Git Tower) -->
             <div>
               <div
-                class="mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
-                style="color: #75726b"
+                class="hex-text-75726b mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
               >
                 git diff · Git Tower
               </div>
               <div class="n-win">
                 <div class="n-titlebar">
-                  <span class="n-dot" style="background: #ff2d9b"></span>
-                  <span class="n-dot" style="background: #facc15"></span>
-                  <span class="n-dot" style="background: #a3e635"></span>
                   <span
-                    style="
-                      margin-left: 0.6rem;
-                      color: #a7a39c;
-                      font-size: 11.5px;
-                    "
+                    v-for="dotColor in TITLEBAR_DOT_COLORS"
+                    :key="dotColor"
+                    class="n-dot"
+                    :class="colorClass('bg', dotColor)"
+                  ></span>
+                  <span class="hex-text-a7a39c ml-[0.6rem] text-[11.5px]"
                     >theme.ts — Tower</span
                   >
                 </div>
@@ -457,18 +427,19 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
           <!-- markdown -->
           <div>
             <div
-              class="mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
-              style="color: #75726b"
+              class="hex-text-75726b mb-2.5 font-mono text-[0.6rem] tracking-[0.1em] uppercase"
             >
               markdown · heading waterfall
             </div>
             <div class="n-win">
               <div class="n-titlebar">
-                <span class="n-dot" style="background: #ff2d9b"></span>
-                <span class="n-dot" style="background: #facc15"></span>
-                <span class="n-dot" style="background: #a3e635"></span>
                 <span
-                  style="margin-left: 0.6rem; color: #a7a39c; font-size: 11.5px"
+                  v-for="dotColor in TITLEBAR_DOT_COLORS"
+                  :key="dotColor"
+                  class="n-dot"
+                  :class="colorClass('bg', dotColor)"
+                ></span>
+                <span class="hex-text-a7a39c ml-[0.6rem] text-[11.5px]"
                   >notes.md — Obsidian</span
                 >
               </div>
@@ -502,28 +473,24 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
     <!-- TOOLS / DOWNLOADS -->
     <section
       id="neon-tools"
-      class="border-t px-8 py-20 max-md:px-4"
-      style="border-color: #1c1c20"
+      class="hex-border-1c1c20 border-t px-8 py-20 max-md:px-4"
     >
       <div class="mx-auto max-w-[1180px]">
         <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div
-              class="reveal mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
-              style="color: #a7a39c"
+              class="reveal hex-text-a7a39c mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-[0.1em] uppercase"
             >
               <span class="n-bar"></span>
               get the theme
             </div>
             <h2
-              class="reveal mb-2 font-mono leading-none font-bold"
-              style="font-size: clamp(1.6rem, 3vw, 2.2rem); color: #e7e5e4"
+              class="reveal text-fluid-section hex-text-e7e5e4 mb-2 font-mono leading-none font-bold"
             >
               Fifteen ports
             </h2>
             <p
-              class="reveal max-w-[480px] font-mono text-[0.72rem] leading-[1.7]"
-              style="color: #a7a39c"
+              class="reveal hex-text-a7a39c max-w-[480px] font-mono text-[0.72rem] leading-[1.7]"
             >
               Dark-only, one neon file each. Grab one, or take the whole set.
             </p>
@@ -541,8 +508,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             <a
               :href="NEON_ZIP_HREF"
               download
-              class="n-btn n-btn-rainbow"
-              :style="{ backgroundImage: rainbowGradient }"
+              class="n-btn n-btn-rainbow hex-rainbow-gradient"
               @click="
                 trackDownload('bundle', { asset: 'grimicorn-neon-themes.zip' })
               "
@@ -559,7 +525,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             v-for="tool in sortedTools"
             :key="tool.name"
             class="n-card group flex flex-col border-t-2 pt-5"
-            :style="{ borderColor: tool.featured ? '#a855f7' : '#1c1c20' }"
+            :class="colorClass('border', tool.featured ? '#a855f7' : '#1c1c20')"
           >
             <div class="mb-2 flex items-start gap-3">
               <span class="n-icon mt-0.5 shrink-0">
@@ -578,8 +544,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
               <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
                   <span
-                    class="font-mono text-[0.92rem] font-bold"
-                    style="color: #e7e5e4"
+                    class="hex-text-e7e5e4 font-mono text-[0.92rem] font-bold"
                     >{{ tool.name }}</span
                   >
                   <span v-if="tool.featured" class="n-badge">featured</span>
@@ -587,8 +552,7 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
               </div>
             </div>
             <p
-              class="mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]"
-              style="color: #a7a39c"
+              class="hex-text-a7a39c mb-4 min-h-[2.5rem] font-mono text-[0.66rem] leading-[1.6]"
             >
               {{ tool.desc }}
             </p>
@@ -621,14 +585,12 @@ const rainbowGradient = `linear-gradient(90deg, ${[...NEON_RAINBOW, NEON_RAINBOW
             </div>
             <details class="mt-auto">
               <summary
-                class="n-summary cursor-pointer font-mono text-[0.6rem]"
-                style="color: #75726b"
+                class="n-summary hex-text-75726b cursor-pointer font-mono text-[0.6rem]"
               >
                 <span class="n-chevron inline-block">▸</span> install
               </summary>
               <p
-                class="mt-2 font-mono text-[0.62rem] leading-[1.7]"
-                style="color: #a7a39c"
+                class="hex-text-a7a39c mt-2 font-mono text-[0.62rem] leading-[1.7]"
                 v-html="tool.install"
               ></p>
               <a

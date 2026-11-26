@@ -3,6 +3,7 @@ import AppLayout from "./AppLayout.vue";
 import NotFoundView from "@views/NotFoundView.vue";
 import { startErrorReporting } from "@utils/startErrorReporting";
 import "./style.css";
+import "virtual:theme-classes.css";
 
 export default {
   Layout: AppLayout,

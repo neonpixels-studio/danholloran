@@ -57,11 +57,7 @@ const statesVisitedLength = computed(() => 50 - statesToVisit.length);
             on the road
           </div>
           <h2
-            class="reveal in mb-2 font-mono leading-none font-bold"
-            style="
-              font-size: clamp(1.6rem, 3vw, 2.2rem);
-              letter-spacing: var(--tracking-tightest);
-            "
+            class="reveal in text-fluid-section tracking-tightest mb-2 font-mono leading-none font-bold"
           >
             Where I've Been
           </h2>
@@ -145,8 +141,7 @@ const statesVisitedLength = computed(() => 50 - statesToVisit.length);
       >
         <div class="border-accent border-t-2 pt-4">
           <div
-            class="tracking-tightest font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
+            class="tracking-tightest text-fluid-stat font-mono leading-none font-bold"
           >
             {{ statesVisitedLength
             }}<span class="text-fg-subtle ml-1 text-[0.85rem] font-medium"
@@ -161,8 +156,7 @@ const statesVisitedLength = computed(() => 50 - statesToVisit.length);
         </div>
         <div class="border-line border-t-2 pt-4">
           <div
-            class="tracking-tightest font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
+            class="tracking-tightest text-fluid-stat font-mono leading-none font-bold"
           >
             60k<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
           </div>
@@ -174,8 +168,7 @@ const statesVisitedLength = computed(() => 50 - statesToVisit.length);
         </div>
         <div class="border-line border-t-2 pt-4">
           <div
-            class="tracking-tightest font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
+            class="tracking-tightest text-fluid-stat font-mono leading-none font-bold"
           >
             {{ nationalParkCount
             }}<span class="text-accent ml-0.5 text-[1.1rem]">+</span>
@@ -188,8 +181,7 @@ const statesVisitedLength = computed(() => 50 - statesToVisit.length);
         </div>
         <div class="border-line border-t-2 pt-4">
           <div
-            class="tracking-tightest font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
+            class="tracking-tightest text-fluid-stat font-mono leading-none font-bold"
           >
             3<span class="text-accent ml-0.5 text-[1.1rem]">×</span>
           </div>
@@ -201,8 +193,7 @@ const statesVisitedLength = computed(() => 50 - statesToVisit.length);
         </div>
         <div class="border-line border-t-2 pt-4">
           <div
-            class="tracking-tightest font-mono leading-none font-bold"
-            style="font-size: clamp(1.6rem, 2.4vw, 2rem)"
+            class="tracking-tightest text-fluid-stat font-mono leading-none font-bold"
           >
             {{ yearsOnRoad
             }}<span class="text-accent ml-0.5 text-[1.1rem]">+</span>

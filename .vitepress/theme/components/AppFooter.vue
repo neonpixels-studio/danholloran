@@ -21,9 +21,12 @@ const footerLocations = FORCED_FOOTER_LOCATION
 const canRotate = footerLocations.length > 1;
 
 const locationIndex = ref(0);
-const maxLocationWidth =
-  Math.max(...footerLocations.map((l) => `${l.city}, ${l.state}`.length)) +
-  "ch";
+const maxLocationLength = Math.max(
+  ...footerLocations.map((l) => `${l.city}, ${l.state}`.length),
+);
+// min-w-ch-N classes are generated for 1..40 (see style.css); a longer
+// location would silently lose its minimum width.
+const locationWidthClass = `min-w-ch-${maxLocationLength}`;
 
 let interval: ReturnType<typeof setInterval> | undefined;
 // Assigned in onMounted before applyMotionPreference is ever called; declared
@@ -95,10 +98,7 @@ onUnmounted(() => {
         />
       </svg>
       in
-      <span
-        class="inline-block text-left"
-        :style="{ minWidth: maxLocationWidth }"
-      >
+      <span class="inline-block text-left" :class="locationWidthClass">
         <Transition name="location-fade" mode="out-in">
           <span :key="locationIndex">
             {{ footerLocations[locationIndex].city }},

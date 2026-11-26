@@ -12,6 +12,7 @@ import {
   topicLabel,
 } from "@utils/archive";
 import { formatPostDateFor } from "@utils/formatDate";
+import { staggerDelayClass } from "@utils/staggerDelay";
 
 // The archive is driven entirely by route params, not client state: each
 // paginated / filtered page is a real, statically generated route (see
@@ -203,15 +204,13 @@ onUnmounted(() => {
     </div>
     <h1
       v-if="pageHeading"
-      class="mb-4 font-mono leading-[1.1] font-bold"
-      style="font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.04em"
+      class="text-fluid-page-title tracking-tighter-2 mb-4 font-mono leading-[1.1] font-bold"
     >
       {{ pageHeading }}
     </h1>
     <h1
       v-else
-      class="mb-4 font-mono leading-[1.1] font-bold"
-      style="font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.04em"
+      class="text-fluid-page-title tracking-tighter-2 mb-4 font-mono leading-[1.1] font-bold"
     >
       Thoughts on code,<br />craft &amp; exploration.
     </h1>
@@ -280,16 +279,14 @@ onUnmounted(() => {
 
   <div
     v-else
-    class="mx-auto grid max-w-275 gap-6 px-8"
-    style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))"
+    class="mx-auto grid max-w-275 grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 px-8"
   >
     <a
       v-for="(post, i) in pagePosts"
       :key="post.frontmatter.slug"
       :href="post.url"
       class="fade-in border-line text-fg bg-bg hover:border-accent flex flex-col overflow-hidden rounded border no-underline transition-[border-color,transform] hover:-translate-y-0.5"
-      :class="cardClass(i)"
-      :style="`transition-delay:${i * 60}ms`"
+      :class="[cardClass(i), staggerDelayClass(i)]"
     >
       <div
         class="aspect-video shrink-0 overflow-hidden bg-[#e8e6e1]"

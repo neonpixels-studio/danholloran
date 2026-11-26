@@ -42,11 +42,7 @@ onUnmounted(() => window.removeEventListener("scroll", onScroll));
           {{ CURRENT_LOCATION }}
         </div>
         <h1
-          class="reveal in mb-8 font-mono leading-[0.95] font-bold"
-          style="
-            font-size: clamp(3rem, 6vw, 5rem);
-            letter-spacing: var(--tracking-tightest);
-          "
+          class="reveal in text-fluid-hero tracking-tightest mb-8 font-mono leading-[0.95] font-bold"
         >
           {{ resume.shortFirstName }}<br /><span
             class="text-outline inline-block"
