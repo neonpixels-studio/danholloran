@@ -20,11 +20,7 @@ const recentPosts = computed(() => posts.slice(1));
       <div class="accent-line mb-6"></div>
       <div class="mb-10 flex flex-wrap items-baseline justify-between gap-4">
         <h2
-          class="reveal font-mono font-bold"
-          style="
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            letter-spacing: var(--tracking-tightest);
-          "
+          class="reveal text-fluid-section tracking-tightest font-mono font-bold"
         >
           Latest Posts
         </h2>
@@ -66,8 +62,7 @@ const recentPosts = computed(() => posts.slice(1));
       </a>
 
       <div
-        class="stagger grid gap-4"
-        style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))"
+        class="stagger grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-4"
       >
         <a
           v-for="post in recentPosts"

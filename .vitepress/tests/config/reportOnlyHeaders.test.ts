@@ -40,7 +40,7 @@ describe("report-only policy appended to the real _headers", () => {
     writeFileSync(join(outDir, "_headers"), SOURCE_HEADERS);
     writeFileSync(
       join(outDir, "index.html"),
-      '<html><head><style>a{}</style></head><body><script>1</script><p style="color:red">x</p></body></html>',
+      '<html><head><style>a{}</style></head><body><script>1</script><p class="x">x</p></body></html>',
     );
     vi.spyOn(console, "log").mockImplementation(() => {});
   });
@@ -58,6 +58,17 @@ describe("report-only policy appended to the real _headers", () => {
     expect(headerLines(built, REPORT_ONLY_HEADER)).toHaveLength(1);
     expect(pathBlockOf(built, REPORT_ONLY_HEADER)).toBe("/*");
     expect(built).toContain(cspReportEndpoint("production"));
+  });
+
+  it("fails the build when a page carries an inline style attribute", async () => {
+    writeFileSync(
+      join(outDir, "styled.html"),
+      '<html><body><p style="color:red">x</p></body></html>',
+    );
+
+    await expect(writeReportOnlyPolicy(outDir, "production")).rejects.toThrow(
+      /styled\.html/,
+    );
   });
 
   it("hashes inline code and allows exactly the sources the enforced policy does", async () => {

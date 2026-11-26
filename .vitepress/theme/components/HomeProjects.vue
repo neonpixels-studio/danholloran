@@ -9,11 +9,7 @@ import StaticImage from "@components/StaticImage.vue";
       <div class="accent-line mb-6"></div>
       <div class="mb-10 flex flex-wrap items-baseline justify-between gap-4">
         <h2
-          class="reveal font-mono font-bold"
-          style="
-            font-size: clamp(1.6rem, 3vw, 2.2rem);
-            letter-spacing: var(--tracking-tightest);
-          "
+          class="reveal text-fluid-section tracking-tightest font-mono font-bold"
         >
           Selected Work
         </h2>

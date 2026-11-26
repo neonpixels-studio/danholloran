@@ -69,6 +69,52 @@
   --tracking-tighter-2: -0.04em;
 }
 
+/* Fluid font sizes shared by headings. Letter spacing stays on the element
+   (tracking-tightest and friends). */
+@utility text-fluid-stat {
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+}
+@utility text-fluid-section {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+@utility text-fluid-post-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+@utility text-fluid-page-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+@utility text-fluid-resume-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+}
+@utility text-fluid-theme-title {
+  font-size: clamp(2.8rem, 5.5vw, 4.6rem);
+}
+@utility text-fluid-neon-title {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+}
+@utility text-fluid-hero {
+  font-size: clamp(3rem, 6vw, 5rem);
+}
+@utility text-fluid-not-found-code {
+  font-size: clamp(6rem, 18vw, 11rem);
+}
+@utility text-fluid-not-found-title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+/* Minimum width in characters, for the footer's rotating location. Steps are
+   enumerated so the classes exist at build time. */
+@utility min-w-ch-* {
+  min-width: calc(--value(integer) * 1ch);
+}
+@source inline("min-w-ch-{1..40}");
+
+/* Code block themes: the light and dark page backgrounds of Grimicorn. */
+.shiki {
+  --shiki-light-bg: #fdfdfd;
+  --shiki-dark-bg: #3c4c55;
+}
+
 html {
   scroll-behavior: smooth;
   color-scheme: light;
@@ -264,6 +310,49 @@ html.dark img[src*="topography"] {
 .fade-in.visible {
   opacity: 1;
   transform: none;
+}
+
+/* Transition delays for .reveal / .fade-in / .stagger children. Plain rules,
+   not utilities: the transition shorthand on those classes is unlayered and
+   would reset a layered delay. One class per step, shared by every page. */
+.td-0 {
+  transition-delay: 0ms;
+}
+.td-60 {
+  transition-delay: 60ms;
+}
+.td-120 {
+  transition-delay: 120ms;
+}
+.td-180 {
+  transition-delay: 180ms;
+}
+.td-200 {
+  transition-delay: 200ms;
+}
+.td-240 {
+  transition-delay: 240ms;
+}
+.td-280 {
+  transition-delay: 280ms;
+}
+.td-300 {
+  transition-delay: 300ms;
+}
+.td-360 {
+  transition-delay: 360ms;
+}
+.td-420 {
+  transition-delay: 420ms;
+}
+.td-440 {
+  transition-delay: 440ms;
+}
+.td-480 {
+  transition-delay: 480ms;
+}
+.td-540 {
+  transition-delay: 540ms;
 }
 
 @keyframes pulse-dot {

@@ -47,11 +47,7 @@ const experience: TimelineEntry[] = [
       >
         <div class="reveal-left">
           <h2
-            class="mb-6 font-mono leading-none font-bold"
-            style="
-              font-size: clamp(1.6rem, 3vw, 2.2rem);
-              letter-spacing: var(--tracking-tightest);
-            "
+            class="text-fluid-section tracking-tightest mb-6 font-mono leading-none font-bold"
           >
             Professional<br />History
           </h2>

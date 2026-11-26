@@ -4,6 +4,8 @@ import { useRevealAnimations } from "@composables/useRevealAnimations";
 import { useGrimicornToolDownloads } from "@composables/useGrimicornToolDownloads";
 import GrimicornPreviewToggle from "@components/GrimicornPreviewToggle.vue";
 import GrimicornWindowTitlebar from "@components/GrimicornWindowTitlebar.vue";
+import { colorClass } from "@utils/themeColorClasses";
+import { BG_SCALE_LABEL_COLORS } from "@data/themeColors";
 import {
   HUES,
   BG_DARK,
@@ -56,14 +58,15 @@ const swatches = computed(() =>
 
 const bgScale = computed(() => (isLight.value ? BG_LIGHT : BG_DARK));
 
+const LIGHTER_DARK_STEP_START = 2;
+
 function bgLabelColor(index: number): string {
-  if (index < 3 && isLight.value) {
-    return "#3C4C55";
+  if (isLight.value) {
+    return BG_SCALE_LABEL_COLORS.light;
   }
-  if (index >= 2 && !isLight.value) {
-    return "#E5E5E5";
-  }
-  return isLight.value ? "#3C4C55" : "#BFBFBF";
+  return index >= LIGHTER_DARK_STEP_START
+    ? BG_SCALE_LABEL_COLORS.darkOnLighterSteps
+    : BG_SCALE_LABEL_COLORS.dark;
 }
 </script>
 
@@ -84,11 +87,7 @@ function bgLabelColor(index: number): string {
             grim reaper × unicorn
           </div>
           <h1
-            class="reveal mb-3 font-mono leading-[0.95] font-bold"
-            style="
-              font-size: clamp(2.8rem, 5.5vw, 4.6rem);
-              letter-spacing: var(--tracking-tightest);
-            "
+            class="reveal text-fluid-theme-title tracking-tightest mb-3 font-mono leading-[0.95] font-bold"
           >
             Grimi<span class="text-outline inline-block">corn</span>
           </h1>
@@ -140,11 +139,9 @@ function bgLabelColor(index: number): string {
           </div>
           <div class="gc-win">
             <GrimicornWindowTitlebar>
-              <span class="gc-tab" style="margin-left: 0.6rem">theme.ts</span>
+              <span class="gc-tab ml-[0.6rem]">theme.ts</span>
               <span class="gc-tab-dim">palette.ts</span>
-              <span class="gc-chrome-label" style="margin-left: auto"
-                >Grimicorn</span
-              >
+              <span class="gc-chrome-label ml-auto">Grimicorn</span>
             </GrimicornWindowTitlebar>
             <div class="gc-code">
               <div class="gc-line">
@@ -254,11 +251,7 @@ function bgLabelColor(index: number): string {
               the color story
             </div>
             <h2
-              class="mb-5 font-mono leading-[0.95] font-bold"
-              style="
-                font-size: clamp(1.6rem, 3vw, 2.2rem);
-                letter-spacing: var(--tracking-tightest);
-              "
+              class="text-fluid-section tracking-tightest mb-5 font-mono leading-[0.95] font-bold"
             >
               Eight hues,<br />one feeling
             </h2>
@@ -269,17 +262,13 @@ function bgLabelColor(index: number): string {
             </p>
             <p class="text-fg-muted mb-6 text-[0.92rem] leading-[1.75]">
               Accents follow a strict hierarchy —
-              <span class="font-mono text-[0.85rem]" style="color: #83afe5"
-                >blue</span
-              >
+              <span class="hex-text-83afe5 font-mono text-[0.85rem]">blue</span>
               →
-              <span class="font-mono text-[0.85rem]" style="color: #9a93e1"
+              <span class="hex-text-9a93e1 font-mono text-[0.85rem]"
                 >purple</span
               >
               →
-              <span class="font-mono text-[0.85rem]" style="color: #80c1ca"
-                >teal</span
-              >
+              <span class="hex-text-80c1ca font-mono text-[0.85rem]">teal</span>
               — and the semantic roles never drift: green is success, salmon is
               error, yellow is a type or a warning.
             </p>
@@ -325,7 +314,7 @@ function bgLabelColor(index: number): string {
               >
                 <span
                   class="block h-14"
-                  :style="{ background: swatch.hex }"
+                  :class="colorClass('bg', swatch.hex)"
                 ></span>
                 <span class="block px-3 py-2.5">
                   <span class="flex items-center justify-between">
@@ -360,18 +349,18 @@ function bgLabelColor(index: number): string {
               >
                 background scale
               </div>
-              <div class="gc-win" style="box-shadow: none">
-                <div class="flex" style="height: 64px">
+              <div class="gc-win gc-win-flat">
+                <div class="flex h-16">
                   <span
                     v-for="(color, index) in bgScale"
                     :key="`${color}-${index}`"
                     class="group relative flex-1"
-                    :style="{ background: color }"
+                    :class="colorClass('bg', color)"
                     :title="color"
                   >
                     <span
                       class="absolute bottom-1 left-1.5 font-mono text-[0.5rem] tracking-[0.04em]"
-                      :style="{ color: bgLabelColor(index) }"
+                      :class="colorClass('text', bgLabelColor(index))"
                       >{{ color }}</span
                     >
                   </span>
@@ -398,11 +387,7 @@ function bgLabelColor(index: number): string {
               see it in action
             </div>
             <h2
-              class="reveal mb-2 font-mono leading-none font-bold"
-              style="
-                font-size: clamp(1.6rem, 3vw, 2.2rem);
-                letter-spacing: var(--tracking-tightest);
-              "
+              class="reveal text-fluid-section tracking-tightest mb-2 font-mono leading-none font-bold"
             >
               Across the stack
             </h2>
@@ -428,7 +413,7 @@ function bgLabelColor(index: number): string {
               </div>
               <div class="gc-win">
                 <GrimicornWindowTitlebar>
-                  <span class="gc-chrome-label" style="margin-left: 0.6rem"
+                  <span class="gc-chrome-label ml-[0.6rem]"
                     >grimicorn — zsh — 96×24</span
                   >
                 </GrimicornWindowTitlebar>
@@ -442,7 +427,7 @@ function bgLabelColor(index: number): string {
                     On branch <span class="info">main</span> · up to date with
                     <span class="path">origin/main</span>
                   </div>
-                  <div style="height: 0.5rem"></div>
+                  <div class="h-2"></div>
                   <div class="mut">Changes to be committed:</div>
                   <div>
                     &nbsp;&nbsp;<span class="ok">new file: src/palette.ts</span>
@@ -453,7 +438,7 @@ function bgLabelColor(index: number): string {
                   <div>
                     &nbsp;&nbsp;<span class="del">deleted: src/legacy.css</span>
                   </div>
-                  <div style="height: 0.5rem"></div>
+                  <div class="h-2"></div>
                   <div>
                     <span class="u">grimicorn</span><span class="at">@</span
                     ><span class="path">dev</span>
@@ -483,7 +468,7 @@ function bgLabelColor(index: number): string {
               </div>
               <div class="gc-win">
                 <GrimicornWindowTitlebar>
-                  <span class="gc-chrome-label" style="margin-left: 0.6rem"
+                  <span class="gc-chrome-label ml-[0.6rem]"
                     >theme.ts — Tower</span
                   >
                 </GrimicornWindowTitlebar>
@@ -554,7 +539,7 @@ function bgLabelColor(index: number): string {
             </div>
             <div class="gc-win">
               <GrimicornWindowTitlebar>
-                <span class="gc-chrome-label" style="margin-left: 0.6rem"
+                <span class="gc-chrome-label ml-[0.6rem]"
                   >notes.md — Obsidian</span
                 >
               </GrimicornWindowTitlebar>
@@ -598,11 +583,7 @@ function bgLabelColor(index: number): string {
               get the theme
             </div>
             <h2
-              class="reveal mb-2 font-mono leading-none font-bold"
-              style="
-                font-size: clamp(1.6rem, 3vw, 2.2rem);
-                letter-spacing: var(--tracking-tightest);
-              "
+              class="reveal text-fluid-section tracking-tightest mb-2 font-mono leading-none font-bold"
             >
               Fifteen ports
             </h2>
@@ -841,6 +822,9 @@ function bgLabelColor(index: number): string {
   transition:
     background 0.4s ease,
     border-color 0.4s ease;
+}
+.gc-win.gc-win-flat {
+  box-shadow: none;
 }
 .gc-tab {
   padding: 0.2rem 0.7rem;

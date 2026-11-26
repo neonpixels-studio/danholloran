@@ -69,13 +69,12 @@ onUnmounted(() => {
       aria-modal="true"
       aria-label="Mobile navigation"
       :aria-hidden="!isMobileMenuOpen"
-      class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b backdrop-blur-md transition-[transform,opacity,visibility] duration-200 md:hidden"
+      class="no-print bg-bg/97 border-line fixed inset-x-0 top-[60px] z-90 border-b shadow-[0_8px_24px_rgba(0,0,0,0.04)] backdrop-blur-md transition-[transform,opacity,visibility] duration-200 md:hidden"
       :class="
         isMobileMenuOpen
           ? 'visible translate-y-0 opacity-100'
           : 'invisible -translate-y-2 opacity-0'
       "
-      style="box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04)"
     >
       <div class="flex flex-col px-4 py-3">
         <button

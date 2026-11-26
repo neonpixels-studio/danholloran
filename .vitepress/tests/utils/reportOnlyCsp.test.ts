@@ -61,17 +61,35 @@ describe("writeReportOnlyPolicy", () => {
     });
   });
 
-  it("prints unhashable files without throwing", async () => {
+  it("fails the build with the grouped list when markup is unhashable", async () => {
     writeHeadersFileMock.mockResolvedValue({
       path: "dist/_headers",
       scriptHashes: [],
       styleHashes: [],
-      unhashable: [{ file: "a.html", attributes: ["<div style>"] }],
+      unhashable: [
+        { file: "a.html", attributes: ["<div style>"] },
+        { file: "b.html", attributes: ["<div style>", "<pre style>"] },
+      ],
+    });
+
+    await expect(writeReportOnlyPolicy("dist", "production")).rejects.toThrow(
+      /2 file\(s\) have inline markup[\s\S]*1 file\(s\): <pre style>[\s\S]*b\.html/,
+    );
+  });
+
+  it("reports a clean build when nothing is unhashable", async () => {
+    writeHeadersFileMock.mockResolvedValue({
+      path: "dist/_headers",
+      scriptHashes: [],
+      styleHashes: [],
+      unhashable: [],
     });
 
     await writeReportOnlyPolicy("dist", "production");
 
-    expect(console.log).toHaveBeenCalledWith(expect.stringContaining("a.html"));
+    expect(console.log).toHaveBeenCalledWith(
+      "Report-only CSP: no unhashable inline markup.",
+    );
   });
 });
 

@@ -76,19 +76,10 @@ useRevealAnimations();
           </div>
           <div>
             <h1
-              class="mb-2 font-mono leading-none font-bold"
-              style="
-                font-size: clamp(2.2rem, 5vw, 3.4rem);
-                letter-spacing: -0.05em;
-              "
+              class="text-fluid-resume-title tracking-tightest mb-2 font-mono leading-none font-bold"
             >
               {{ resume.firstName }}
-              <span
-                style="
-                  -webkit-text-stroke: 2px var(--color-accent);
-                  color: transparent;
-                "
-              >
+              <span class="text-outline">
                 {{ resume.lastName }}
               </span>
             </h1>

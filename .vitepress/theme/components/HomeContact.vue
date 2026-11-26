@@ -31,11 +31,7 @@ const formError = computed(() => status.value === "error");
             say hello
           </div>
           <h2
-            class="mb-4 font-mono leading-[0.95] font-bold"
-            style="
-              font-size: clamp(1.6rem, 3vw, 2.2rem);
-              letter-spacing: var(--tracking-tightest);
-            "
+            class="text-fluid-section tracking-tightest mb-4 font-mono leading-[0.95] font-bold"
           >
             Get in<br />Touch
           </h2>

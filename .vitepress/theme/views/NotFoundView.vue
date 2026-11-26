@@ -22,10 +22,7 @@ const route = useRoute();
       </div>
 
       <!-- Mountain illustration -->
-      <div
-        class="reveal mountain-float mb-6 flex justify-center"
-        style="transition-delay: 60ms"
-      >
+      <div class="reveal mountain-float td-60 mb-6 flex justify-center">
         <svg
           width="180"
           height="100"
@@ -89,32 +86,21 @@ const route = useRoute();
 
       <!-- Big 404 -->
       <h1
-        class="reveal glitch mb-6 font-mono leading-none font-bold select-none"
-        style="
-          font-size: clamp(6rem, 18vw, 11rem);
-          letter-spacing: -0.06em;
-          transition-delay: 120ms;
-        "
+        class="reveal glitch td-120 text-fluid-not-found-code mb-6 font-mono leading-none font-bold tracking-[-0.06em] select-none"
       >
         <span class="text-outline">404</span>
       </h1>
 
       <!-- Headline -->
       <h2
-        class="reveal mb-5 font-mono leading-[1.15] font-bold"
-        style="
-          font-size: clamp(1.4rem, 3vw, 2rem);
-          letter-spacing: -0.03em;
-          transition-delay: 200ms;
-        "
+        class="reveal td-200 text-fluid-not-found-title mb-5 font-mono leading-[1.15] font-bold tracking-[-0.03em]"
       >
         You wandered<br />off the map.
       </h2>
 
       <!-- Body -->
       <p
-        class="reveal text-fg-muted mx-auto mb-10 max-w-110 text-[0.95rem] leading-[1.75]"
-        style="transition-delay: 280ms"
+        class="reveal td-280 text-fg-muted mx-auto mb-10 max-w-110 text-[0.95rem] leading-[1.75]"
       >
         The page you're looking for either moved, got renamed, or was a typo in
         someone's browser bar. No big deal — pick a trail below and you'll be
@@ -122,10 +108,7 @@ const route = useRoute();
       </p>
 
       <!-- Actions -->
-      <div
-        class="reveal mb-14 flex flex-wrap justify-center gap-3"
-        style="transition-delay: 360ms"
-      >
+      <div class="reveal td-360 mb-14 flex flex-wrap justify-center gap-3">
         <a
           href="/"
           class="bg-accent border-accent inline-flex items-center gap-2 rounded-xs border-2 px-5 py-3 font-mono text-[0.78rem] tracking-[0.02em] text-white no-underline transition-all hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(173,70,255,0.25)]"
@@ -177,7 +160,7 @@ const route = useRoute();
       </div>
 
       <!-- Quick links grid -->
-      <div class="reveal" style="transition-delay: 440ms">
+      <div class="reveal td-440">
         <div
           class="text-fg-subtle mb-4 font-mono text-[0.65rem] tracking-widest uppercase"
         >
@@ -253,8 +236,7 @@ const route = useRoute();
 
       <!-- Tech footer trace -->
       <div
-        class="reveal text-fg-subtle -tracking-tighter-2 mt-16 font-mono text-[0.62rem]"
-        style="transition-delay: 540ms"
+        class="reveal td-540 text-fg-subtle -tracking-tighter-2 mt-16 font-mono text-[0.62rem]"
       >
         <span class="text-accent">$</span> curl
         <span id="requested-path" class="text-fg-muted mr-1">

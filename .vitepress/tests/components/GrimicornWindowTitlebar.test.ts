@@ -27,12 +27,17 @@ describe("GrimicornWindowTitlebar", () => {
     expect(children[DOT_COUNT]?.tagName).toBe("EM");
   });
 
-  it("colors the dots in traffic-light order", () => {
+  it("colors the dots in traffic-light order with classes, not style", () => {
     const wrapper = mount(GrimicornWindowTitlebar);
-    const backgrounds = wrapper
-      .findAll(".gc-dot")
-      .map((dot) => (dot.element as HTMLElement).style.background);
+    const dots = wrapper.findAll(".gc-dot");
 
-    expect(backgrounds).toEqual(["#dd9787", "#dada93", "#a9ce93"]);
+    expect(
+      dots.map((dot) =>
+        dot.classes().find((name) => name.startsWith("hex-bg-")),
+      ),
+    ).toEqual(["hex-bg-dd9787", "hex-bg-dada93", "hex-bg-a9ce93"]);
+    expect(dots.every((dot) => dot.attributes("style") === undefined)).toBe(
+      true,
+    );
   });
 });

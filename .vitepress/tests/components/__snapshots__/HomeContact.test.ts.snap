@@ -7,7 +7,7 @@ exports[`HomeContact > renders correctly 1`] = `
     <div class="grid grid-cols-[320px_1fr] items-start gap-16 max-lg:grid-cols-1 max-lg:gap-10">
       <div class="reveal-left in">
         <div class="text-fg-subtle mb-3 flex items-center gap-3 font-mono text-[0.65rem] tracking-widest uppercase"><span class="bg-accent inline-block h-px w-6"></span> say hello </div>
-        <h2 class="mb-4 font-mono leading-[0.95] font-bold" style="letter-spacing: var(--tracking-tightest);"> Get in<br>Touch </h2>
+        <h2 class="text-fluid-section tracking-tightest mb-4 font-mono leading-[0.95] font-bold"> Get in<br>Touch </h2>
         <p class="text-fg-muted mb-6 font-mono text-[0.78rem] leading-[1.7]"> Have a project, a question, or just want to swap notes on Vue, photography, or travel? Drop a message — I read everything. </p>
         <div class="text-fg-subtle font-mono text-[0.7rem] leading-[1.85]">
           <div><span class="text-fg-subtle">↳</span> avg. response · <span class="text-fg">24–48h</span></div>

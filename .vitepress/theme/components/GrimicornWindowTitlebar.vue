@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const TRAFFIC_LIGHT_COLORS = ["#dd9787", "#dada93", "#a9ce93"] as const;
+import { TRAFFIC_LIGHT_COLORS } from "@data/themeColors";
+import { colorClass } from "@utils/themeColorClasses";
 </script>
 
 <template>
@@ -8,7 +9,7 @@ const TRAFFIC_LIGHT_COLORS = ["#dd9787", "#dada93", "#a9ce93"] as const;
       v-for="color in TRAFFIC_LIGHT_COLORS"
       :key="color"
       class="gc-dot"
-      :style="{ background: color }"
+      :class="colorClass('bg', color)"
     ></span>
     <slot />
   </div>
