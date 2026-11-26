@@ -17,10 +17,10 @@ function isAssignmentLine(line: string) {
   return trimmed !== "" && !trimmed.startsWith("#");
 }
 
-function parseAssignment(line: string): Assignment {
+function parseAssignment(line: string, index: number): Assignment {
   const match = line.match(ASSIGNMENT_PATTERN);
   if (!match) {
-    throw new Error(`Unrecognized line in env file: ${line.split("=")[0]}`);
+    throw new Error(`Unrecognized env file line ${index + 1}`);
   }
   return { name: match[1], value: match[2] };
 }
@@ -28,8 +28,9 @@ function parseAssignment(line: string): Assignment {
 function readAssignments(path: string): Assignment[] {
   return readFileSync(path, "utf8")
     .split("\n")
-    .filter(isAssignmentLine)
-    .map(parseAssignment);
+    .map((line, index) => ({ line, index }))
+    .filter(({ line }) => isAssignmentLine(line))
+    .map(({ line, index }) => parseAssignment(line, index));
 }
 
 function unquote(value: string) {
