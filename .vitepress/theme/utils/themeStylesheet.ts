@@ -1,5 +1,5 @@
 import { buildColorClassesCss } from "./themeColorClasses";
-import { buildShikiClassCss, type ShikiThemeSource } from "./shikiStyleClasses";
+import { buildShikiClassCss, type ShikiThemePair } from "./shikiStyleClasses";
 import { NEON_RAINBOW } from "../../data/grimicornNeonTheme";
 import {
   NEON_COPY_FAILED_COLOR,
@@ -9,10 +9,7 @@ import {
 export const THEME_STYLESHEET_MODULE = "virtual:theme-classes.css";
 const RESOLVED_MODULE_ID = `\0${THEME_STYLESHEET_MODULE}`;
 
-export function buildThemeStylesheet(shikiThemes: {
-  light: ShikiThemeSource;
-  dark: ShikiThemeSource;
-}): string {
+export function buildThemeStylesheet(shikiThemes: ShikiThemePair): string {
   return [
     "/* Generated from the theme data; see themeStylesheet.ts. */",
     buildShikiClassCss(shikiThemes),
@@ -26,10 +23,7 @@ export function buildThemeStylesheet(shikiThemes: {
 
 // Serves the stylesheet as a virtual CSS module so code highlighting colors
 // and theme swatches ship as classes rather than style attributes.
-export function themeStylesheetPlugin(shikiThemes: {
-  light: ShikiThemeSource;
-  dark: ShikiThemeSource;
-}) {
+export function themeStylesheetPlugin(shikiThemes: ShikiThemePair) {
   return {
     name: "theme-stylesheet",
     resolveId(id: string) {

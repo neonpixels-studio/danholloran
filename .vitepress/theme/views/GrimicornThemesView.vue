@@ -5,6 +5,7 @@ import { useGrimicornToolDownloads } from "@composables/useGrimicornToolDownload
 import GrimicornPreviewToggle from "@components/GrimicornPreviewToggle.vue";
 import GrimicornWindowTitlebar from "@components/GrimicornWindowTitlebar.vue";
 import { colorClass } from "@utils/themeColorClasses";
+import { BG_SCALE_LABEL_COLORS } from "@data/themeColors";
 import {
   HUES,
   BG_DARK,
@@ -57,14 +58,15 @@ const swatches = computed(() =>
 
 const bgScale = computed(() => (isLight.value ? BG_LIGHT : BG_DARK));
 
+const LIGHTER_DARK_STEP_START = 2;
+
 function bgLabelColor(index: number): string {
-  if (index < 3 && isLight.value) {
-    return "#3C4C55";
+  if (isLight.value) {
+    return BG_SCALE_LABEL_COLORS.light;
   }
-  if (index >= 2 && !isLight.value) {
-    return "#E5E5E5";
-  }
-  return isLight.value ? "#3C4C55" : "#BFBFBF";
+  return index >= LIGHTER_DARK_STEP_START
+    ? BG_SCALE_LABEL_COLORS.darkOnLighterSteps
+    : BG_SCALE_LABEL_COLORS.dark;
 }
 </script>
 

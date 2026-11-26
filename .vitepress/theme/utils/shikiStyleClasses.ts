@@ -1,3 +1,4 @@
+export type ShikiVariant = "light" | "dark";
 export type Declaration = [property: string, value: string];
 
 const SHIKI_VARIABLE =
@@ -11,6 +12,9 @@ export function declarationsFromStyle(style: string): Declaration[] {
     .filter(Boolean)
     .map((declaration) => {
       const separator = declaration.indexOf(":");
+      if (separator === -1) {
+        throw new Error(`Malformed inline style declaration "${declaration}"`);
+      }
       return [
         declaration.slice(0, separator).trim(),
         declaration.slice(separator + 1).trim(),
@@ -55,7 +59,7 @@ export interface ShikiThemeSource {
 }
 
 function themeDeclarations(
-  variant: "light" | "dark",
+  variant: ShikiVariant,
   theme: ShikiThemeSource,
 ): Declaration[] {
   const declarations: Declaration[] = [];
@@ -74,14 +78,13 @@ function themeDeclarations(
 }
 
 // Shiki merges underline + strikethrough into one declaration.
-function combinedDecoration(variant: "light" | "dark"): Declaration {
+function combinedDecoration(variant: ShikiVariant): Declaration {
   return [`--shiki-${variant}-text-decoration`, "underline line-through"];
 }
 
-export function buildShikiClassCss(themes: {
-  light: ShikiThemeSource;
-  dark: ShikiThemeSource;
-}): string {
+export type ShikiThemePair = Record<ShikiVariant, ShikiThemeSource>;
+
+export function buildShikiClassCss(themes: ShikiThemePair): string {
   const declarations = [
     ...themeDeclarations("light", themes.light),
     ...themeDeclarations("dark", themes.dark),

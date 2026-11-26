@@ -15,6 +15,12 @@ describe("declarationsFromStyle", () => {
     ]);
   });
 
+  it("rejects a declaration with no colon", () => {
+    expect(() => declarationsFromStyle("--shiki-light")).toThrow(
+      /Malformed inline style declaration "--shiki-light"/,
+    );
+  });
+
   it("returns nothing for an empty style", () => {
     expect(declarationsFromStyle("")).toEqual([]);
   });
