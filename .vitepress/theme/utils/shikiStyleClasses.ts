@@ -58,28 +58,56 @@ export interface ShikiThemeSource {
   settings: ThemeSetting[];
 }
 
+function foregroundDeclarations(
+  variant: ShikiVariant,
+  settings: ThemeSetting["settings"],
+): Declaration[] {
+  if (!settings?.foreground) {
+    return [];
+  }
+  return [[`--shiki-${variant}`, settings.foreground]];
+}
+
+function fontStyleDeclarations(
+  variant: ShikiVariant,
+  settings: ThemeSetting["settings"],
+): Declaration[] {
+  return (settings?.fontStyle ?? "")
+    .split(/\s+/)
+    .map((token) => FONT_STYLE_DECLARATIONS[token])
+    .filter((declaration): declaration is Declaration => Boolean(declaration))
+    .map(([property, value]) => [`--shiki-${variant}-${property}`, value]);
+}
+
 function themeDeclarations(
   variant: ShikiVariant,
   theme: ShikiThemeSource,
 ): Declaration[] {
-  const declarations: Declaration[] = [];
-  for (const { settings } of theme.settings) {
-    if (settings?.foreground) {
-      declarations.push([`--shiki-${variant}`, settings.foreground]);
-    }
-    for (const token of (settings?.fontStyle ?? "").split(/\s+/)) {
-      const known = FONT_STYLE_DECLARATIONS[token];
-      if (known) {
-        declarations.push([`--shiki-${variant}-${known[0]}`, known[1]]);
-      }
-    }
-  }
-  return declarations;
+  return theme.settings.flatMap(({ settings }) => [
+    ...foregroundDeclarations(variant, settings),
+    ...fontStyleDeclarations(variant, settings),
+  ]);
 }
 
 // Shiki merges underline + strikethrough into one declaration.
 function combinedDecoration(variant: ShikiVariant): Declaration {
   return [`--shiki-${variant}-text-decoration`, "underline line-through"];
+}
+
+// When the two themes disagree on a token, Shiki fills the missing side with
+// `inherit` for every variable.
+const INHERITABLE_VARIABLE_SUFFIXES = [
+  "",
+  "-font-style",
+  "-font-weight",
+  "-text-decoration",
+];
+
+function inheritDeclarations(variant: ShikiVariant): Declaration[] {
+  return INHERITABLE_VARIABLE_SUFFIXES.map((suffix) => [
+    `--shiki-${variant}${suffix}`,
+    "inherit",
+  ]);
 }
 
 export type ShikiThemePair = Record<ShikiVariant, ShikiThemeSource>;
@@ -90,6 +118,8 @@ export function buildShikiClassCss(themes: ShikiThemePair): string {
     ...themeDeclarations("dark", themes.dark),
     combinedDecoration("light"),
     combinedDecoration("dark"),
+    ...inheritDeclarations("light"),
+    ...inheritDeclarations("dark"),
   ];
   const rules = new Map(
     declarations.map((declaration) => [

@@ -28,6 +28,19 @@ describe("styleToClassTransformer", () => {
     expect(node.properties).not.toHaveProperty("style");
   });
 
+  it("handles the inherit values Shiki writes when themes disagree", () => {
+    const node = makeNode({
+      style: "--shiki-light:#4475B7;--shiki-dark-font-style:inherit",
+    });
+
+    styleToClassTransformer.span(node);
+
+    expect(node.properties.class).toEqual([
+      "shk-light-4475b7",
+      "shk-dark-font-style-inherit",
+    ]);
+  });
+
   it("keeps the classes already on the node (string or array)", () => {
     const pre = makeNode({
       class: "shiki vp-code",

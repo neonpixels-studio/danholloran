@@ -616,7 +616,7 @@ const {
   filter: saturate(1.2);
 }
 
-/* Wins over the swatch's inline hue color, like the Grimicorn view's flash. */
+/* Wins over the swatch's .hex-text-* hue class, like the Grimicorn view's flash. */
 .copy-failed-flash {
   color: var(--n-copy-failed) !important;
 }

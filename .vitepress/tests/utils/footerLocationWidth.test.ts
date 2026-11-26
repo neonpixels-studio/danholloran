@@ -24,6 +24,10 @@ describe("footerLocationWidthClass", () => {
     );
   });
 
+  it("fails loudly when there is no location", () => {
+    expect(() => footerLocationWidthClass([])).toThrow(/at least one location/);
+  });
+
   it("covers every location the footer can show today", () => {
     const locations = FORCED_FOOTER_LOCATION
       ? [FORCED_FOOTER_LOCATION]

@@ -76,6 +76,18 @@ describe("buildShikiClassCss", () => {
     );
   });
 
+  it("defines rules for the inherit values Shiki fills in when themes disagree", () => {
+    const css = buildShikiClassCss(themes);
+
+    expect(css).toContain(
+      ".shk-dark-font-style-inherit { --shiki-dark-font-style: inherit; }",
+    );
+    expect(css).toContain(".shk-light-inherit { --shiki-light: inherit; }");
+    expect(css).toContain(
+      ".shk-dark-text-decoration-inherit { --shiki-dark-text-decoration: inherit; }",
+    );
+  });
+
   it("defines each class once", () => {
     const css = buildShikiClassCss({
       light: { settings: [{ settings: { foreground: "#AAAAAA" } }] },

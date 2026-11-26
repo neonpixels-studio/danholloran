@@ -12,6 +12,9 @@ export const MAX_FOOTER_LOCATION_CH = 40;
 export function footerLocationWidthClass(
   locations: readonly FooterLocation[],
 ): string {
+  if (locations.length === 0) {
+    throw new Error("footerLocationWidthClass needs at least one location");
+  }
   const longest = Math.max(
     ...locations.map(
       (location) => `${location.city}, ${location.state}`.length,
