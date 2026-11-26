@@ -30,7 +30,6 @@ describe("shikiDeclarationClass", () => {
   it.each([
     ["--shiki-light", "#4475B7", "shk-light-4475b7"],
     ["--shiki-dark", "#E5E5E5BB", "shk-dark-e5e5e5bb"],
-    ["--shiki-dark-bg", "#3C4C55", "shk-dark-bg-3c4c55"],
     ["--shiki-light-font-style", "italic", "shk-light-font-style-italic"],
     [
       "--shiki-dark-text-decoration",

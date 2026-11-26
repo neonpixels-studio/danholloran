@@ -13,7 +13,7 @@ function classesOf(value: ClassValue): string[] {
   if (Array.isArray(value)) {
     return value;
   }
-  return value ? value.split(" ") : [];
+  return value ? value.split(/\s+/).filter(Boolean) : [];
 }
 
 // A hashed CSP cannot cover inline style attributes, so every Shiki

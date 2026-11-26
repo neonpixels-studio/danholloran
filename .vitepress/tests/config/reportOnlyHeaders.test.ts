@@ -60,6 +60,17 @@ describe("report-only policy appended to the real _headers", () => {
     expect(built).toContain(cspReportEndpoint("production"));
   });
 
+  it("fails the build when a page carries an inline style attribute", async () => {
+    writeFileSync(
+      join(outDir, "styled.html"),
+      '<html><body><p style="color:red">x</p></body></html>',
+    );
+
+    await expect(writeReportOnlyPolicy(outDir, "production")).rejects.toThrow(
+      /styled\.html/,
+    );
+  });
+
   it("hashes inline code and allows exactly the sources the enforced policy does", async () => {
     await writeReportOnlyPolicy(outDir, "production");
 

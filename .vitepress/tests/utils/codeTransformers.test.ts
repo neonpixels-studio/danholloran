@@ -43,8 +43,8 @@ describe("styleToClassTransformer", () => {
 
   it("keeps the classes already on the node (string or array)", () => {
     const pre = makeNode({
-      class: "shiki vp-code",
-      style: "--shiki-light-bg:#FDFDFD",
+      class: "shiki  vp-code ",
+      style: "--shiki-light-font-weight:bold",
     });
     const line = makeNode({
       class: ["line"],
@@ -57,7 +57,7 @@ describe("styleToClassTransformer", () => {
     expect(pre.properties.class).toEqual([
       "shiki",
       "vp-code",
-      "shk-light-bg-fdfdfd",
+      "shk-light-font-weight-bold",
     ]);
     expect(line.properties.class).toEqual([
       "line",
@@ -74,6 +74,14 @@ describe("styleToClassTransformer", () => {
 
     expect(missing.properties).toEqual({ class: "line" });
     expect(notAString.properties).toEqual({ style: 42 });
+  });
+
+  it("fails loudly on a background variable, which style.css owns", () => {
+    const node = makeNode({ style: "--shiki-light-bg:#FDFDFD" });
+
+    expect(() => styleToClassTransformer.pre(node)).toThrow(
+      /Unexpected inline style "--shiki-light-bg: #FDFDFD"/,
+    );
   });
 
   it("fails loudly on a declaration it has no class for", () => {

@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import { FORCED_FOOTER_LOCATION } from "@data/footerLocation";
 import { PAST_LOCATIONS } from "@data/resume";
@@ -26,6 +28,15 @@ describe("footerLocationWidthClass", () => {
 
   it("fails loudly when there is no location", () => {
     expect(() => footerLocationWidthClass([])).toThrow(/at least one location/);
+  });
+
+  it("matches the range style.css generates classes for", () => {
+    const css = readFileSync(
+      resolve(process.cwd(), ".vitepress/theme/style.css"),
+      "utf8",
+    );
+
+    expect(css).toContain(`min-w-ch-{1..${MAX_FOOTER_LOCATION_CH}}`);
   });
 
   it("covers every location the footer can show today", () => {

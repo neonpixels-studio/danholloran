@@ -2,7 +2,7 @@ export type ShikiVariant = "light" | "dark";
 export type Declaration = [property: string, value: string];
 
 const SHIKI_VARIABLE =
-  /^--shiki-(light|dark)(-bg|-font-style|-font-weight|-text-decoration)?$/;
+  /^--shiki-(light|dark)(-font-style|-font-weight|-text-decoration)?$/;
 
 // Shiki writes style as `--shiki-light:#aaa;--shiki-dark:#bbb;`.
 export function declarationsFromStyle(style: string): Declaration[] {
