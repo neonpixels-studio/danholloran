@@ -10,6 +10,7 @@ import { POST_MARKDOWN_HEADERS } from "./theme/utils/postHeaders";
 import { generateFeed, generateTopicFeeds } from "./theme/utils/generateFeed";
 import { writeTopicFeeds } from "./theme/utils/writeTopicFeeds";
 import { generateLlmsTxt } from "./theme/utils/generateLlmsTxt";
+import { writeReportOnlyPolicy } from "./theme/utils/reportOnlyCsp";
 import { injectNotFoundRecovery } from "./theme/utils/notFoundRecovery";
 import { findUnpublishedPostLeaks } from "./theme/utils/distArtifacts";
 import { parse as parsePlist } from "plist";
@@ -196,6 +197,9 @@ export default defineConfig({
       );
     }
     writeFileSync(notFoundPath, withRecovery);
+
+    // Last, so it hashes the final HTML (including the 404 block above).
+    await writeReportOnlyPolicy(siteConfig.outDir, process.env.CONTEXT);
   },
   cleanUrls: true,
   // Static assets under public/ are served as-is; keep their markdown

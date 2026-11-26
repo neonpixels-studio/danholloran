@@ -164,6 +164,12 @@ Builds always generate hidden source maps. They are uploaded to Sentry only when
 
 Without them the build still succeeds, uploads nothing, and logs `Source map upload skipped`. Either way every `.map` file is removed from the published output (checked by `npm run test:dist`).
 
+### Content-Security-Policy rollout (report-only)
+
+The enforced policy in `public/_headers` still allows `'unsafe-inline'` for scripts and styles, and it has not changed. Next to it, every build appends a hashed `Content-Security-Policy-Report-Only` policy (`@neon-pixels/security`'s `writeHeadersFile`, run last in `buildEnd`) that allows the same sources with SHA-256 hashes in place of `'unsafe-inline'`. It blocks nothing. Browsers send its violations to this site's Sentry project through the security endpoint in `.vitepress/theme/utils/reportOnlyCsp.ts` (a public value, like the DSN), tagged with `sentry_environment` `production`, `preview`, or `development` from Netlify's `CONTEXT`. Find them in Sentry as CSP issues, filtered by that environment.
+
+The build also prints every page with inline `style` attributes, event handlers, or `javascript:` URLs, which no hash can cover, grouped by the markup that produces them. Those must move into CSS before the policy can be enforced; the build does not fail on them. Once the reports are clean, a follow-up drops `reportOnly` and removes the old policy from `public/_headers`.
+
 ### Available Commands
 
 | Command                    | Description                               |
