@@ -7,20 +7,37 @@ const ENV_EXAMPLE_PATH = resolve(process.cwd(), ".env.example");
 const ENV_PRODUCTION_PATH = resolve(process.cwd(), ".env.production");
 const PUBLIC_KEY_NAME = "DOTENV_PUBLIC_KEY_PRODUCTION";
 const ENCRYPTED_VALUE_PATTERN = /^encrypted:/;
-const ASSIGNMENT_PATTERN = /^([A-Z][A-Z0-9_]*)=(.*)$/;
+const ASSIGNMENT_PATTERN =
+  /^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_.]*)\s*=\s*(.*?)\s*$/;
 
 type Assignment = { name: string; value: string };
+
+function isAssignmentLine(line: string) {
+  const trimmed = line.trim();
+  return trimmed !== "" && !trimmed.startsWith("#");
+}
+
+function parseAssignment(line: string): Assignment {
+  const match = line.match(ASSIGNMENT_PATTERN);
+  if (!match) {
+    throw new Error(`Unrecognized line in env file: ${line.split("=")[0]}`);
+  }
+  return { name: match[1], value: match[2] };
+}
 
 function readAssignments(path: string): Assignment[] {
   return readFileSync(path, "utf8")
     .split("\n")
-    .map((line) => line.match(ASSIGNMENT_PATTERN))
-    .filter((match): match is RegExpMatchArray => match !== null)
-    .map((match) => ({ name: match[1], value: match[2] }));
+    .filter(isAssignmentLine)
+    .map(parseAssignment);
 }
 
 function unquote(value: string) {
-  return value.replace(/^"(.*)"$/, "$1");
+  return value.replace(/^(["'])(.*)\1$/, "$2");
+}
+
+function readNames(path: string) {
+  return readAssignments(path).map((assignment) => assignment.name);
 }
 
 function secretAssignments() {
@@ -31,9 +48,7 @@ function secretAssignments() {
 
 describe("env files", () => {
   it("declares the same variable names in .env.example and .env.production", () => {
-    const exampleNames = readAssignments(ENV_EXAMPLE_PATH)
-      .map((assignment) => assignment.name)
-      .sort();
+    const exampleNames = readNames(ENV_EXAMPLE_PATH).sort();
     const productionNames = secretAssignments()
       .map((assignment) => assignment.name)
       .sort();
@@ -57,9 +72,6 @@ describe("env files", () => {
   });
 
   it("includes the dotenvx public key in .env.production", () => {
-    const names = readAssignments(ENV_PRODUCTION_PATH).map(
-      (assignment) => assignment.name,
-    );
-    expect(names).toContain(PUBLIC_KEY_NAME);
+    expect(readNames(ENV_PRODUCTION_PATH)).toContain(PUBLIC_KEY_NAME);
   });
 });
