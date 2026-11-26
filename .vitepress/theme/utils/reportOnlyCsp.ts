@@ -6,7 +6,8 @@ import { resolveSentryEnvironment } from "@neon-pixels/sentry";
 import { SENTRY_DSN } from "./errorReporting";
 
 // Derived from the DSN (a public value) so a rotated key or moved project
-// cannot leave reports going to a dead endpoint.
+// cannot leave reports going to a dead endpoint. Assumes a sentry.io style
+// DSN (no path prefix before the project id).
 const SENTRY_DSN_URL = new URL(SENTRY_DSN);
 export const CSP_REPORT_ENDPOINT = `${SENTRY_DSN_URL.origin}/api/${SENTRY_DSN_URL.pathname.slice(1)}/security/?sentry_key=${SENTRY_DSN_URL.username}`;
 
@@ -74,7 +75,7 @@ function groupByExtraAttributes(
     const extras = attributes.filter(
       (attribute) => !shared.includes(attribute),
     );
-    const key = JSON.stringify(extras);
+    const key = JSON.stringify([...extras].sort());
     groups.set(key, [...(groups.get(key) ?? []), file]);
   }
   return groups;

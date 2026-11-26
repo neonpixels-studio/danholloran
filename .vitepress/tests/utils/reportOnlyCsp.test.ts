@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { SENTRY_DSN } from "@utils/errorReporting";
 import { writeHeadersFile } from "@neon-pixels/security/netlify";
 import {
   CSP_REPORT_ENDPOINT,
@@ -27,10 +26,9 @@ describe("cspReportEndpoint", () => {
     );
   });
 
-  it("targets the security endpoint of the DSN's project and key", () => {
-    const dsn = new URL(SENTRY_DSN);
-    expect(CSP_REPORT_ENDPOINT).toBe(
-      `${dsn.origin}/api/${dsn.pathname.slice(1)}/security/?sentry_key=${dsn.username}`,
+  it("targets the security endpoint of this site's Sentry project", () => {
+    expect(CSP_REPORT_ENDPOINT).toMatch(
+      /^https:\/\/o4511543514497024\.ingest\.us\.sentry\.io\/api\/4512493571735552\/security\/\?sentry_key=[0-9a-f]+$/,
     );
   });
 });
@@ -96,6 +94,22 @@ describe("formatUnhashable", () => {
     );
     expect(output).toContain("    a.html");
     expect(output).toContain("1 file(s): no further markup");
+  });
+
+  it("groups files with the same extras regardless of attribute order", () => {
+    const output = formatUnhashable([
+      {
+        file: "a.html",
+        attributes: ["<div style>", "<pre style>", "<p style>"],
+      },
+      {
+        file: "b.html",
+        attributes: ["<div style>", "<p style>", "<pre style>"],
+      },
+      { file: "c.html", attributes: ["<div style>"] },
+    ]);
+
+    expect(output).toContain("2 file(s): <p style>, <pre style>");
   });
 
   it("prints attributes with no known source bare", () => {

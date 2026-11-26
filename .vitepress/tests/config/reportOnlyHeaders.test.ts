@@ -73,6 +73,6 @@ describe("report-only policy appended to the real _headers", () => {
     const allowedOrigins = originsOf(enforced);
     const reportedOrigins = originsOf(reportOnly.split("report-uri")[0]);
     expect(allowedOrigins.length).toBeGreaterThan(0);
-    expect(reportedOrigins.toSorted()).toEqual(allowedOrigins.toSorted());
+    expect([...reportedOrigins].sort()).toEqual([...allowedOrigins].sort());
   });
 });
