@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { SENTRY_DSN } from "@utils/errorReporting";
 import { writeHeadersFile } from "@neon-pixels/security/netlify";
 import {
@@ -39,6 +39,10 @@ describe("writeReportOnlyPolicy", () => {
   beforeEach(() => {
     writeHeadersFileMock.mockReset();
     vi.spyOn(console, "log").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("appends a report-only policy to the existing _headers file", async () => {

@@ -68,19 +68,23 @@ function groupByExtraAttributes(
   unhashable: UnhashableFile[],
   shared: string[],
 ): Map<string, string[]> {
+  // Keyed by JSON so an attribute label containing any character stays intact.
   const groups = new Map<string, string[]>();
   for (const { file, attributes } of unhashable) {
     const extras = attributes.filter(
       (attribute) => !shared.includes(attribute),
     );
-    const key = extras.join("|");
+    const key = JSON.stringify(extras);
     groups.set(key, [...(groups.get(key) ?? []), file]);
   }
   return groups;
 }
 
 function formatGroup(key: string, files: string[]): string[] {
-  const label = key ? describeAttributes(key.split("|")) : "no further markup";
+  const extras: string[] = JSON.parse(key);
+  const label = extras.length
+    ? describeAttributes(extras)
+    : "no further markup";
   return [
     `  ${files.length} file(s): ${label}`,
     ...files.map((file) => `    ${file}`),
