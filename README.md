@@ -37,6 +37,14 @@ Personal blog and portfolio for Dan Holloran — full-stack developer and photog
    npm run dev
    ```
 
+### Environment variables (dotenvx)
+
+Production build secrets (the Sentry source map upload token first) live in `.env.production`, committed encrypted with [dotenvx](https://dotenvx.com). Netlify holds one value, `DOTENV_PRIVATE_KEY_PRODUCTION`, and the Production deploy context builds with `npm run build:production`, which decrypts the file with `dotenvx run --strict`. `--strict` fails the build when the key is missing instead of building without the values. Deploy Previews, branch deploys, CI, the dependency audit, and Lighthouse use the plain `npm run build` and never need the key.
+
+- **Add or change a value:** `npx dotenvx set KEY value -f .env.production`, which encrypts it. Add the name to `.env.example` with a comment saying what it is and where the value comes from; a test fails if the two files declare different names or if any value is not encrypted. The pre-commit hook runs `npx dotenvx ext precommit`, which refuses a commit that stages plaintext in a tracked `.env*` file.
+- **Where the private key lives:** in the gitignored `.env.keys` on the maintainer's machine and in the Netlify environment as `DOTENV_PRIVATE_KEY_PRODUCTION` (Production context only). It is never committed.
+- **Rotate the key:** dotenvx 2 has no rotate command, and `encrypt` reuses the key pair it finds. With the old key in `.env.keys`, run `npx dotenvx decrypt -f .env.production`, delete the `DOTENV_PUBLIC_KEY_PRODUCTION` line from `.env.production` and the old entry from `.env.keys`, then `npx dotenvx encrypt -f .env.production`, which generates a new pair. Confirm with `npx dotenvx keypair -f .env.production` that the public key changed. Commit the re-encrypted file (never the decrypted one), then update `DOTENV_PRIVATE_KEY_PRODUCTION` in Netlify before the next production deploy. Rotating does not change the underlying secrets, so also revoke any credential that was exposed.
+
 ### Responsive post images
 
 Post cover images under `public/images/posts/` (`.jpg`/`.jpeg`/`.png`, directly
@@ -162,6 +170,7 @@ Without them the build still succeeds, uploads nothing, and logs `Source map upl
 | -------------------------- | ----------------------------------------- |
 | `npm run dev`              | Start the development server              |
 | `npm run build`            | Build for production                      |
+| `npm run build:production` | Build with `.env.production` decrypted    |
 | `npm run images`           | Generate responsive post images           |
 | `npm run resume:pdf:check` | Verify the resume PDF matches resume.ts   |
 | `npm run resume:pdf:sync`  | Record the resume PDF as freshly exported |

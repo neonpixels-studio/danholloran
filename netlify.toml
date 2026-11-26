@@ -4,6 +4,12 @@
   ignore = "bash netlify-ignore.sh"
 
 [context.production]
+  # Same as [build], but the final step decrypts .env.production with
+  # DOTENV_PRIVATE_KEY_PRODUCTION (Netlify env, Production context only). Deploy
+  # Previews and branch deploys keep the plain [build] command, so they never
+  # need the key and never see production values. --strict fails the build if
+  # the key is missing rather than building without the values.
+  command = "npm run test:ci && npm run build:production"
   # Overrides the build-level netlify-ignore.sh for production only, so deploy
   # previews keep its draft/variant skips. Netlify cancels the build when this
   # exits 0 and builds when it exits 1. Production deploys only via the build

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run resume:pdf:check && vitepress build",
+    "build:production": "dotenvx run --strict -f .env.production -- npm run build",
     "preview": "vitepress preview",
     "dev": "npm run images && vitepress dev",
     "grimicorn:zips": "node .vitepress/scripts/buildGrimicornZips.ts",
@@ -25,6 +26,7 @@
   "author": "Dan Holloran",
   "license": "MIT",
   "devDependencies": {
+    "@dotenvx/dotenvx": "^2.38.2",
     "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.16.1",
     "@typescript-eslint/parser": "^8.73.0",
