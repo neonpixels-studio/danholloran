@@ -3,20 +3,18 @@ import { resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import { resolveSiteData } from "vitepress";
 import { STORAGE_KEY } from "../../theme/composables/useAppearance";
+import { APPEARANCE_OPTIONS } from "../../theme/utils/appearanceOptions";
 
 const CONFIG_PATH = resolve(process.cwd(), ".vitepress/config.ts");
 const DEFINE_CONFIG_CALL = "defineConfig(";
 const APPEARANCE_KEY_RE = /^\s*appearance\s*:/gm;
-// Matches only a top-level `appearance: { disableTransition: false },` property (2-space indent, per
-// this repo's prettier config). The indent alone already rejects a commented-
-// out `// appearance: true,` line, since `//` sits where `appearance:` must
-// start; slicing the source to start at defineConfig(...) below additionally
-// rejects a same-named key on some unrelated object above it in the file.
-const TOP_LEVEL_APPEARANCE_RE =
-  /^ {2}appearance:\s*\{\s*disableTransition:\s*false,?\s*\},?\s*$/m;
-// What config.ts passes to VitePress; useDark would otherwise append a
-// runtime <style> element (style-src-elem violation under the hashed CSP).
-const APPEARANCE_OPTIONS = { disableTransition: false };
+// Matches only a top-level `appearance: APPEARANCE_OPTIONS,` property (2-space
+// indent, per this repo's prettier config). The indent alone already rejects a
+// commented-out `// appearance: APPEARANCE_OPTIONS,` line, since `//` sits
+// where `appearance:` must start; slicing the source to start at
+// defineConfig(...) below additionally rejects a same-named key on some
+// unrelated object above it in the file.
+const TOP_LEVEL_APPEARANCE_RE = /^ {2}appearance:\s*APPEARANCE_OPTIONS,?\s*$/m;
 
 // Not imported directly: config.ts asserts committed post-build image
 // variants are current as a module-load side effect (see
@@ -34,7 +32,7 @@ function readSourceFromDefineConfig(): string {
 
 describe("VitePress appearance config", () => {
   // Regression test for #399 (flash of incorrect theme on load/navigation).
-  it("explicitly enables VitePress's blocking dark-mode script", () => {
+  it("keeps VitePress's blocking dark-mode script", () => {
     const configSource = readSourceFromDefineConfig();
 
     expect(configSource).toMatch(TOP_LEVEL_APPEARANCE_RE);
@@ -45,7 +43,7 @@ describe("VitePress appearance config", () => {
   });
 
   // Behavioral half of the same contract: asks VitePress's own public
-  // resolveSiteData() what the appearance options actually generates, then
+  // resolveSiteData() what the appearance options actually generate, then
   // asserts the emitted `#check-dark-mode` <head> script reads STORAGE_KEY.
   // If a VitePress upgrade ever renames its internal appearance key, this
   // fails instead of silently reintroducing the flash.
@@ -73,6 +71,6 @@ describe("VitePress appearance config", () => {
       head: [],
     });
 
-    expect(siteData.appearance).toMatchObject({ disableTransition: false });
+    expect(siteData.appearance).toEqual({ disableTransition: false });
   });
 });

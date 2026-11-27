@@ -24,6 +24,7 @@ import {
   attachPostPageData,
   refreshPostPagesInDev,
 } from "./content/posts/postPageData";
+import { APPEARANCE_OPTIONS } from "./theme/utils/appearanceOptions";
 import { buildThemeSanitizeScript } from "./theme/utils/themeStorageSanitizer";
 import { buildThemeColorHeadEntries } from "./theme/utils/themeColor";
 import { buildFontPreloadHeadEntries } from "./theme/utils/fonts";
@@ -94,13 +95,10 @@ const sentryEnvironment = resolveSentryEnvironment({
 export default defineConfig({
   title: "Dan Holloran",
   description: SITE_DESCRIPTION,
-  // Explicit even though it's VitePress's own default: this is what generates
-  // the pre-paint dark-mode script that prevents a flash of the wrong theme
-  // (#399). Full rationale next to STORAGE_KEY in useAppearance.ts.
-  // disableTransition: false stops VitePress's useDark (vueuse) from injecting a
-  // runtime <style> element that suppresses transitions while it flips the
-  // `dark` class; the hashed CSP cannot cover an element created at runtime.
-  appearance: { disableTransition: false },
+  // The object form still generates the pre-paint dark-mode script that
+  // prevents a flash of the wrong theme (#399); rationale next to STORAGE_KEY in
+  // useAppearance.ts. The options themselves are explained in appearanceOptions.ts.
+  appearance: APPEARANCE_OPTIONS,
   // VitePress wraps page content in a div with style="position: relative" by
   // default; a class keeps the page free of inline style attributes (the
   // hashed CSP cannot cover them). `relative` is generated from other templates.
