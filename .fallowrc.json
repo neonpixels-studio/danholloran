@@ -8,7 +8,7 @@
   "health": {
     "ignore": ["*.test.*"]
   },
-  "ignoreDependencies": ["vue"],
+  "ignoreDependencies": ["vue", "@vueuse/core"],
   "ignorePatterns": ["**/*.data.ts", "**/*.paths.ts", "public/**"],
   "ignoreExports": [
     { "file": ".vitepress/types/search.ts", "exports": ["PostSearchItem"] },
