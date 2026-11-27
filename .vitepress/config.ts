@@ -97,7 +97,10 @@ export default defineConfig({
   // Explicit even though it's VitePress's own default: this is what generates
   // the pre-paint dark-mode script that prevents a flash of the wrong theme
   // (#399). Full rationale next to STORAGE_KEY in useAppearance.ts.
-  appearance: true,
+  // disableTransition: false stops VitePress's useDark (vueuse) from injecting a
+  // runtime <style> element that suppresses transitions while it flips the
+  // `dark` class; the hashed CSP cannot cover an element created at runtime.
+  appearance: { disableTransition: false },
   // VitePress wraps page content in a div with style="position: relative" by
   // default; a class keeps the page free of inline style attributes (the
   // hashed CSP cannot cover them). `relative` is generated from other templates.
