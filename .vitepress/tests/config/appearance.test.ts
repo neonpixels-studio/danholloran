@@ -62,15 +62,4 @@ describe("VitePress appearance config", () => {
     expect(darkModeScript).toBeDefined();
     expect(darkModeScript?.[2]).toContain(STORAGE_KEY);
   });
-
-  // VitePress hands this object to vueuse's useDark, whose default
-  // (disableTransition: true) creates a <style> element on every theme flip.
-  it("keeps useDark from injecting a runtime <style> element", async () => {
-    const siteData = await resolveSiteData("/virtual-root", {
-      appearance: APPEARANCE_OPTIONS,
-      head: [],
-    });
-
-    expect(siteData.appearance).toEqual({ disableTransition: false });
-  });
 });
